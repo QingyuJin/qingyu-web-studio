@@ -1,5 +1,6 @@
 import { Routes, Route, Link } from "react-router-dom"
 import CafeDemo from "./CafeDemo"
+import PortfolioDemo from "./PortfolioDemo"
 const services = [
   {
     title: "一頁式形象網站",
@@ -23,8 +24,8 @@ const works = [
   {
     title: "個人接案履歷網站",
     tag: "Portfolio",
-    desc: "展示服務項目、價格方案、接案流程與聯絡方式。",
-    link: "/",
+    desc: "適合學生、設計師、攝影師與求職者，用來展示作品、技能與經歷。",
+    link: "/portfolio-demo",
   },
   {
     title: "咖啡店一頁式網站",
@@ -63,6 +64,7 @@ function App() {
     <Routes>
       <Route path="/" element={<HomePage />} />
       <Route path="/cafe-demo" element={<CafeDemo />} />
+      <Route path="/portfolio-demo" element={<PortfolioDemo />} />
     </Routes>
   )
 }
