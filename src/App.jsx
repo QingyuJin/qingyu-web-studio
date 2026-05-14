@@ -1,6 +1,7 @@
 import { Routes, Route, Link } from "react-router-dom"
 import CafeDemo from "./CafeDemo"
 import PortfolioDemo from "./PortfolioDemo"
+import EventDemo from "./EventDemo"
 const services = [
   {
     title: "一頁式形象網站",
@@ -36,8 +37,8 @@ const works = [
   {
     title: "活動宣傳頁",
     tag: "Event Page",
-    desc: "活動介紹、流程、講者資訊、報名連結與手機版排版。",
-    link: "#",
+    desc: "適合社團招生、講座、營隊與校園活動，用來展示活動資訊、流程與報名連結。",
+    link: "/event-demo",
   },
 ]
 
@@ -65,6 +66,7 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/cafe-demo" element={<CafeDemo />} />
       <Route path="/portfolio-demo" element={<PortfolioDemo />} />
+      <Route path="/event-demo" element={<EventDemo />} />
     </Routes>
   )
 }
@@ -96,7 +98,7 @@ function HomePage() {
               </p>
 
               <h1 className="text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-                製作乾淨、清楚、手機版友善的網站。
+                我協助學生、小型店家與個人品牌，製作乾淨、清楚、手機版友善的網站。
               </h1>
 
               <p className="mt-6 max-w-2xl text-lg leading-8 text-stone-600">
@@ -204,7 +206,7 @@ function HomePage() {
                 </div>
               ))}
             </div>
-          </section>
+          </section>import EventDemo from "./EventDemo"
 
           <section id="prices" className="mx-auto max-w-6xl px-5 py-16">
             <div className="mb-10">
