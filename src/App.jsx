@@ -87,6 +87,39 @@ const deliverables = [
   "簡易修改與交付說明",
 ]
 
+const growthSetups = [
+  {
+    title: "基本 SEO Meta",
+    desc: "協助設定網站標題、描述、關鍵頁面文字，讓搜尋引擎更容易理解網站內容。",
+    tag: "Search",
+  },
+  {
+    title: "社群分享 OGP",
+    desc: "設定網站被分享到 LINE、Facebook、Threads 時顯示的標題、描述與預覽圖方向。",
+    tag: "Share",
+  },
+  {
+    title: "Google Search Console",
+    desc: "可協助提供搜尋收錄設定建議，讓網站有機會被 Google 正確索引。",
+    tag: "Index",
+  },
+  {
+    title: "Google Analytics",
+    desc: "可依需求協助加入流量追蹤，了解訪客來源、瀏覽行為與常被點擊的頁面。",
+    tag: "Track",
+  },
+  {
+    title: "LINE / IG / Email CTA",
+    desc: "把訪客導向最重要的聯絡入口，讓網站不只是展示，而是能促成聯絡。",
+    tag: "Contact",
+  },
+  {
+    title: "Google Map / 商家連結",
+    desc: "適合店家與工作室，把 Google 商家、地圖、社群連結集中整理。",
+    tag: "Local",
+  },
+]
+
 const techStack = [
   {
     name: "React",
@@ -253,6 +286,9 @@ function HomePage() {
             </a>
             <a href="#deliverables" className="hover:text-white">
               交付
+            </a>
+            <a href="#growth" className="hover:text-white">
+              曝光
             </a>
             <a href="#tech" className="hover:text-white">
               技術
@@ -450,6 +486,8 @@ function HomePage() {
         </div>
       </section>
 
+      <GrowthSetupSection />
+
       <ModuleSystemSection />
 
       <section id="tech" className="relative mx-auto max-w-7xl px-5 py-20">
@@ -643,6 +681,60 @@ function ProjectConsole() {
         </div>
       </div>
     </div>
+  )
+}
+
+function GrowthSetupSection() {
+  return (
+    <section id="growth" className="relative mx-auto max-w-7xl px-5 py-20">
+      <div className="relative overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#11141d] p-8 shadow-2xl shadow-black/40 md:p-12">
+        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[90px]" />
+        <div className="pointer-events-none absolute right-[-80px] bottom-[-80px] h-80 w-80 rounded-full bg-cyan-400/20 blur-[100px]" />
+
+        <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+              Basic Growth Setup
+            </p>
+
+            <h2 className="mt-4 max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+              網站不是保證帶流量，而是把流量接住。
+            </h2>
+
+            <p className="mt-6 max-w-xl leading-8 text-white/60">
+              我不會承諾 SEO 排名或保證客人變多，但可以協助網站做好基本曝光、
+              社群分享、搜尋收錄與追蹤準備。對小型店家來說，網站通常是承接
+              IG、LINE、Google 商家與朋友轉發流量的正式入口。
+            </p>
+
+            <div className="mt-8 rounded-[2rem] border border-cyan-300/20 bg-cyan-300/10 p-6">
+              <p className="text-sm font-semibold text-cyan-200">
+                比較正確的期待
+              </p>
+              <p className="mt-3 leading-8 text-white/65">
+                網站本身不會自動帶來大量流量；它的價值是讓已經點進來的人，
+                更快看懂服務、價格、作品、地點與聯絡方式，進而提高詢問與預約機率。
+              </p>
+            </div>
+          </div>
+
+          <div className="grid gap-4 sm:grid-cols-2">
+            {growthSetups.map((item) => (
+              <SpotlightCard
+                key={item.title}
+                className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition hover:-translate-y-1"
+              >
+                <div className="mb-5 inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-200">
+                  {item.tag}
+                </div>
+                <h3 className="text-2xl font-semibold">{item.title}</h3>
+                <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+              </SpotlightCard>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
