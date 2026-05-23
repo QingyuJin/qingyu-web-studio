@@ -2,6 +2,7 @@ import { Routes, Route, Link } from "react-router-dom"
 import CafeDemo from "./CafeDemo"
 import PortfolioDemo from "./PortfolioDemo"
 import EventDemo from "./EventDemo"
+import ServiceDemo from "./ServiceDemo"
 
 const services = [
   {
@@ -38,7 +39,7 @@ const works = [
     desc: "適合小型餐飲品牌，包含品牌介紹、菜單、環境照、營業資訊與預約按鈕。",
     link: "/cafe-demo",
     accent: "from-amber-900 to-orange-500",
-    previewTitle: "Qing Coffee",
+    previewTitle: "Wuchiu Coffee",
     previewSubtitle: "Menu · Space · Visit",
   },
   {
@@ -49,6 +50,15 @@ const works = [
     accent: "from-slate-950 to-cyan-600",
     previewTitle: "Campus Workshop",
     previewSubtitle: "Schedule · Info · Sign Up",
+  },
+  {
+    title: "科技服務中心網站",
+    tag: "Service Website",
+    desc: "適合顧問服務、數位工作室、SaaS 工具與小型團隊，用來展示服務內容、流程與聯絡入口。",
+    link: "/service-demo",
+    accent: "from-cyan-500 to-violet-600",
+    previewTitle: "Service Center",
+    previewSubtitle: "Services · Process · Contact",
   },
 ]
 
@@ -100,6 +110,7 @@ function App() {
       <Route path="/cafe-demo" element={<CafeDemo />} />
       <Route path="/portfolio-demo" element={<PortfolioDemo />} />
       <Route path="/event-demo" element={<EventDemo />} />
+      <Route path="/service-demo" element={<ServiceDemo />} />
     </Routes>
   )
 }
@@ -114,10 +125,19 @@ function HomePage() {
           </a>
 
           <nav className="hidden items-center gap-6 text-sm text-stone-600 md:flex">
-            <a href="#services" className="hover:text-stone-950">服務</a>
-            <a href="#works" className="hover:text-stone-950">作品</a>
-            <a href="#prices" className="hover:text-stone-950">價格</a>
-            <a href="#contact" className="rounded-full bg-stone-950 px-4 py-2 text-white hover:bg-stone-800">
+            <a href="#services" className="hover:text-stone-950">
+              服務
+            </a>
+            <a href="#works" className="hover:text-stone-950">
+              作品
+            </a>
+            <a href="#prices" className="hover:text-stone-950">
+              價格
+            </a>
+            <a
+              href="#contact"
+              className="rounded-full bg-stone-950 px-4 py-2 text-white hover:bg-stone-800"
+            >
               聯絡我
             </a>
           </nav>
@@ -127,7 +147,7 @@ function HomePage() {
       <section className="mx-auto grid max-w-6xl gap-12 px-5 pb-16 pt-16 md:grid-cols-[1.05fr_0.95fr] md:items-center md:pb-24 md:pt-24">
         <div>
           <div className="mb-5 inline-flex rounded-full border border-stone-300 bg-white/60 px-4 py-2 text-sm text-stone-600 shadow-sm">
-            資訊工程學系學生｜網頁設計與前端切版接案
+            資訊工程背景｜小型網站設計與前端製作
           </div>
 
           <h1 className="max-w-3xl text-5xl font-semibold leading-[1.08] tracking-tight md:text-7xl">
@@ -155,7 +175,7 @@ function HomePage() {
           </div>
 
           <div className="mt-10 grid max-w-xl grid-cols-3 gap-3 text-sm">
-            <Stat number="3+" label="Demo 作品" />
+            <Stat number="4+" label="Demo 作品" />
             <Stat number="RWD" label="手機版支援" />
             <Stat number="Vercel" label="協助上線" />
           </div>
@@ -187,6 +207,7 @@ function HomePage() {
                       <p className="mt-5 text-xl font-semibold">{work.previewTitle}</p>
                       <p className="mt-1 text-sm text-white/70">{work.previewSubtitle}</p>
                     </div>
+
                     <div className="mt-3 flex items-center justify-between">
                       <p className="text-sm text-white/75">{work.title}</p>
                       <span className="text-sm text-white/50 transition group-hover:translate-x-1 group-hover:text-white">
@@ -264,7 +285,7 @@ function HomePage() {
           </p>
         </div>
 
-        <div className="grid gap-6 md:grid-cols-3">
+        <div className="grid gap-6 md:grid-cols-2">
           {works.map((item) => (
             <Link
               key={item.title}
@@ -272,12 +293,12 @@ function HomePage() {
               className="group overflow-hidden rounded-[2rem] border border-stone-200 bg-white/80 shadow-sm transition hover:-translate-y-1 hover:shadow-lg"
             >
               <div className="p-4">
-                <div className={`h-56 rounded-[1.5rem] bg-gradient-to-br ${item.accent} p-5 text-white`}>
+                <div className={`h-64 rounded-[1.5rem] bg-gradient-to-br ${item.accent} p-6 text-white`}>
                   <p className="text-xs uppercase tracking-[0.25em] text-white/60">
                     {item.tag}
                   </p>
-                  <div className="mt-16">
-                    <p className="text-2xl font-semibold">{item.previewTitle}</p>
+                  <div className="mt-24">
+                    <p className="text-3xl font-semibold">{item.previewTitle}</p>
                     <p className="mt-2 text-sm text-white/70">{item.previewSubtitle}</p>
                   </div>
                 </div>
