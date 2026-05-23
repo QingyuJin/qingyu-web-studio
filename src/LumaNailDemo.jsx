@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 
 const services = [
@@ -168,11 +169,41 @@ const faqs = [
   },
 ]
 
+const conversionItems = [
+  {
+    title: "LINE 預約",
+    desc: "讓客人點擊後直接進入最主要的預約入口。",
+  },
+  {
+    title: "IG 作品集",
+    desc: "把網站訪客導回社群，讓客人查看更多近期作品。",
+  },
+  {
+    title: "Google Map",
+    desc: "讓客人快速確認位置、交通與附近地標。",
+  },
+  {
+    title: "Email / 合作",
+    desc: "適合品牌合作、攝影合作或其他非預約需求。",
+  },
+]
+
 const caseNotes = [
   "把 IG 上分散的價格、作品、預約流程、地址與注意事項集中整理。",
   "讓新客人不用反覆私訊詢問基本問題，可以直接理解服務並預約。",
   "同樣架構可延伸為美睫、美容、霧眉、攝影、健身教練與個人工作室網站。",
 ]
+
+const bookingMessage = `你好，我想預約 Luma Nail Studio 的美甲服務。
+
+想做的項目：設計款美甲
+想做的風格：裸色 / 法式 / 珍珠細節
+是否需要卸甲：需要
+希望日期與時段：6/10 下午或 6/12 晚上
+預算範圍：約 NT$1,500 左右
+目前甲況：原本有凝膠，想重新設計
+
+我可以再傳參考圖給你，謝謝。`
 
 function LumaNailDemo() {
   return (
@@ -519,6 +550,10 @@ function LumaNailDemo() {
         </div>
       </section>
 
+      <ReservationMessageSection />
+
+      <ConversionSection />
+
       <section className="mx-auto max-w-7xl px-5 py-20">
         <div className="rounded-[2.4rem] bg-white p-8 shadow-sm md:p-12">
           <div className="grid gap-10 md:grid-cols-[0.8fr_1.2fr]">
@@ -683,6 +718,124 @@ function LumaNailDemo() {
         </a>
       </div>
     </main>
+  )
+}
+
+function ReservationMessageSection() {
+  const [copied, setCopied] = useState(false)
+
+  async function copyMessage() {
+    try {
+      await navigator.clipboard.writeText(bookingMessage)
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 1500)
+    } catch {
+      setCopied(false)
+    }
+  }
+
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-20">
+      <div className="grid gap-6 md:grid-cols-[0.85fr_1.15fr]">
+        <div className="rounded-[2.4rem] border border-[#eadbd4] bg-white/75 p-8 shadow-sm md:p-10">
+          <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#b58a79]">
+            Message Template
+          </p>
+          <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
+            客人不知道怎麼問，就直接給他範例。
+          </h2>
+          <p className="mt-6 leading-8 text-[#6d574f]">
+            預約制工作室常遇到的問題是：客人只傳「請問還有空嗎？」，
+            但沒有款式、時間、預算、是否卸甲等資訊。把範例訊息放在網站上，
+            可以讓客人一次提供比較完整的資訊。
+          </p>
+
+          <div className="mt-8 grid gap-3">
+            <InfoLine label="減少來回詢問" value="讓客人一次提供基本資料" />
+            <InfoLine label="提高估價效率" value="設計款、卸甲、時段更清楚" />
+            <InfoLine label="提升預約轉換" value="客人知道下一步該怎麼做" />
+          </div>
+        </div>
+
+        <div className="overflow-hidden rounded-[2.4rem] bg-[#2d2723] text-white shadow-xl">
+          <div className="flex items-center justify-between gap-4 border-b border-white/10 p-5">
+            <div>
+              <p className="text-sm text-[#e9c7ba]">可複製預約訊息</p>
+              <p className="mt-1 font-semibold">LINE / IG Booking Message</p>
+            </div>
+
+            <button
+              type="button"
+              onClick={copyMessage}
+              className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#2d2723] transition hover:bg-[#fff7f3]"
+            >
+              {copied ? "已複製" : "複製"}
+            </button>
+          </div>
+
+          <pre className="whitespace-pre-wrap p-6 text-sm leading-8 text-white/75">
+            {bookingMessage}
+          </pre>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ConversionSection() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-20">
+      <div className="rounded-[2.4rem] bg-white p-8 shadow-sm md:p-12">
+        <div className="mb-10 grid gap-6 md:grid-cols-[0.85fr_1.15fr] md:items-end">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.32em] text-[#b58a79]">
+              Conversion
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-5xl">
+              網站的重點不是只被看到，而是讓客人完成下一步。
+            </h2>
+          </div>
+          <p className="max-w-xl leading-8 text-[#6d574f]">
+            對小型工作室來說，網站通常承接 IG、LINE、Google 商家或朋友轉發進來的流量。
+            重要的是讓訪客快速找到作品、價格、位置和預約入口。
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-4">
+          {conversionItems.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-[2rem] bg-[#fbf5f1] p-6 transition hover:-translate-y-1"
+            >
+              <div className="mb-8 flex h-11 w-11 items-center justify-center rounded-full bg-[#2d2723] text-sm font-semibold text-white">
+                ↗
+              </div>
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-[#6d574f]">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 rounded-[2rem] bg-[#2d2723] p-6 text-white">
+          <p className="text-sm font-semibold text-[#e9c7ba]">
+            真實接案時可以進一步做
+          </p>
+          <p className="mt-3 leading-8 text-white/70">
+            可依需求協助設定 LINE、IG、Email、Google Map、表單等主要按鈕，
+            並提供基本點擊追蹤建議。這不是保證流量暴增，而是讓已經進來的訪客更容易完成詢問或預約。
+          </p>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function InfoLine({ label, value }) {
+  return (
+    <div className="rounded-2xl bg-[#fbf5f1] p-4">
+      <p className="text-sm font-semibold text-[#b58a79]">{label}</p>
+      <p className="mt-1 text-sm leading-6 text-[#6d574f]">{value}</p>
+    </div>
   )
 }
 
