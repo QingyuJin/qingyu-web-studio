@@ -466,27 +466,28 @@ function HomePage() {
               }`}
             >
               <div
-                className={`h-72 rounded-[1.5rem] bg-gradient-to-br ${item.color} p-6`}
+                className={`flex min-h-[430px] flex-col justify-between rounded-[1.5rem] bg-gradient-to-br ${item.color} p-6 sm:min-h-[360px] md:h-72 md:min-h-0`}
               >
                 <p className="text-safe text-xs uppercase tracking-[0.18em] text-white/60 md:tracking-[0.28em]">
                   {item.subtitle}
                 </p>
 
-                <div className="mt-24">
+                <div>
                   {index === 0 && (
                     <span className="mb-4 inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white">
                       Main Case
                     </span>
                   )}
-                  <h3 className="text-safe text-3xl font-semibold">
+
+                  <h3 className="text-safe text-[2.65rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-3xl sm:leading-tight">
                     {item.title}
                   </h3>
 
-                  <div className="mt-4 flex flex-wrap gap-2">
+                  <div className="mt-5 flex flex-wrap gap-2">
                     {item.tags.map((tag) => (
                       <span
                         key={tag}
-                        className="rounded-full bg-white/15 px-3 py-1 text-xs text-white/80"
+                        className="rounded-full bg-white/15 px-3 py-1 text-xs leading-5 text-white/80"
                       >
                         {tag}
                       </span>
