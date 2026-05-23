@@ -120,6 +120,39 @@ const growthSetups = [
   },
 ]
 
+const launchKit = [
+  {
+    title: "手機版檢查",
+    desc: "確認標題、段落、圖片、按鈕與聯絡入口在手機上是否好讀、好點、不卡住。",
+    items: ["標題層級", "按鈕大小", "圖片裁切", "手機閱讀順序"],
+  },
+  {
+    title: "聯絡入口檢查",
+    desc: "確認網站能不能把訪客導向真正重要的下一步，例如 LINE、IG、Email、Map 或表單。",
+    items: ["LINE", "Instagram", "Email", "Google Map"],
+  },
+  {
+    title: "分享與搜尋基礎",
+    desc: "整理網站標題、描述、社群分享預覽與 canonical URL，讓網站更像正式上線頁面。",
+    items: ["Title", "Description", "OGP", "Canonical"],
+  },
+  {
+    title: "流量追蹤建議",
+    desc: "可依需求提供 GA4 事件追蹤方向，例如 LINE、IG、表單、Email、Map 點擊。",
+    items: ["LINE click", "IG click", "Form click", "Map click"],
+  },
+  {
+    title: "Google 商家 / 地圖整理",
+    desc: "適合店家與工作室，把 Google 商家、地圖、營業資訊與網站連結關係整理清楚。",
+    items: ["Google Map", "Business Profile", "營業時間", "地址"],
+  },
+  {
+    title: "交付說明",
+    desc: "提供網站連結、原始碼、部署方式與後續修改方式，避免客戶拿到網站後不知道怎麼維護。",
+    items: ["網站連結", "GitHub", "Vercel", "修改說明"],
+  },
+]
+
 const techStack = [
   {
     name: "React",
@@ -289,6 +322,9 @@ function HomePage() {
             </a>
             <a href="#growth" className="hover:text-white">
               曝光
+            </a>
+            <a href="#launch" className="hover:text-white">
+              上線
             </a>
             <a href="#tech" className="hover:text-white">
               技術
@@ -487,6 +523,8 @@ function HomePage() {
       </section>
 
       <GrowthSetupSection />
+
+      <LaunchKitSection />
 
       <ModuleSystemSection />
 
@@ -732,6 +770,64 @@ function GrowthSetupSection() {
               </SpotlightCard>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LaunchKitSection() {
+  return (
+    <section id="launch" className="relative mx-auto max-w-7xl px-5 py-20">
+      <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
+        <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+              Launch Kit
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+              網站上線前，不只是看起來完成而已。
+            </h2>
+          </div>
+
+          <p className="max-w-xl leading-8 text-black/60">
+            真實客戶在意的是網站能不能在手機上使用、能不能聯絡、能不能分享、
+            能不能被 Google 理解、上線後拿到什麼。Launch Kit 是我交付前會協助檢查的基本項目。
+          </p>
+        </div>
+
+        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+          {launchKit.map((item) => (
+            <div
+              key={item.title}
+              className="rounded-[2rem] border border-black/10 bg-black/[0.03] p-6 transition hover:-translate-y-1 hover:bg-black/[0.06]"
+            >
+              <h3 className="text-2xl font-semibold">{item.title}</h3>
+              <p className="mt-4 leading-7 text-black/60">{item.desc}</p>
+
+              <div className="mt-6 flex flex-wrap gap-2">
+                {item.items.map((tag) => (
+                  <span
+                    key={tag}
+                    className="rounded-full bg-black px-3 py-1 text-xs font-medium text-white"
+                  >
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-8 rounded-[2rem] bg-[#08090d] p-6 text-white">
+          <p className="text-sm font-semibold text-cyan-300">
+            交付時的正確期待
+          </p>
+          <p className="mt-3 leading-8 text-white/65">
+            我可以協助做好基本設定與交付檢查，但不承諾 SEO 排名、廣告成效或保證客源。
+            對小型網站來說，真正重要的是讓已經從 IG、LINE、Google 商家或朋友轉發進來的人，
+            能快速理解服務並完成聯絡。
+          </p>
         </div>
       </div>
     </section>
