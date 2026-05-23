@@ -375,16 +375,16 @@ function HomePage() {
 
       <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-20 pt-14 md:grid-cols-[1.02fr_0.98fr] md:items-center md:gap-14 md:pb-32 md:pt-28">
         <div>
-          <div className="mb-5 inline-flex max-w-full rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:text-sm">
+          <div className="text-safe mb-5 inline-flex max-w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:rounded-full sm:text-sm">
             資訊工程學生｜前端網站製作・RWD・部署上線
           </div>
 
-          <h1 className="max-w-4xl text-[2.65rem] font-semibold leading-[1.12] tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
+          <h1 className="text-safe mobile-soft-title max-w-4xl text-[2.35rem] font-semibold tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
             <span className="block">把零散資訊，</span>
             <span className="block">整理成能上線的網站。</span>
           </h1>
 
-          <p className="mt-6 max-w-2xl text-base leading-8 text-white/60 sm:text-lg sm:leading-9">
+          <p className="text-safe mt-6 max-w-2xl text-base leading-8 text-white/60 sm:text-lg sm:leading-9">
             我協助學生、小型店家與個人品牌整理網站內容，製作手機版友善的前端頁面，
             並協助表單、社群連結、Vercel 部署與基本 SEO 設定。
           </p>
@@ -438,8 +438,12 @@ function HomePage() {
               className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
             >
               <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+              <h3 className="text-safe mt-5 text-xl font-semibold">
+                {item.title}
+              </h3>
+              <p className="text-safe mt-4 leading-7 text-white/55">
+                {item.desc}
+              </p>
             </SpotlightCard>
           ))}
         </div>
@@ -464,7 +468,7 @@ function HomePage() {
               <div
                 className={`h-72 rounded-[1.5rem] bg-gradient-to-br ${item.color} p-6`}
               >
-                <p className="text-xs uppercase tracking-[0.28em] text-white/60">
+                <p className="text-safe text-xs uppercase tracking-[0.18em] text-white/60 md:tracking-[0.28em]">
                   {item.subtitle}
                 </p>
 
@@ -474,7 +478,9 @@ function HomePage() {
                       Main Case
                     </span>
                   )}
-                  <h3 className="text-3xl font-semibold">{item.title}</h3>
+                  <h3 className="text-safe text-3xl font-semibold">
+                    {item.title}
+                  </h3>
 
                   <div className="mt-4 flex flex-wrap gap-2">
                     {item.tags.map((tag) => (
@@ -491,10 +497,16 @@ function HomePage() {
 
               <div className="p-4">
                 <p className="text-sm font-semibold text-cyan-300">需求問題</p>
-                <p className="mt-2 leading-7 text-white/55">{item.problem}</p>
+                <p className="text-safe mt-2 leading-7 text-white/55">
+                  {item.problem}
+                </p>
 
-                <p className="mt-5 text-sm font-semibold text-cyan-300">網站解法</p>
-                <p className="mt-2 leading-7 text-white/65">{item.solution}</p>
+                <p className="mt-5 text-sm font-semibold text-cyan-300">
+                  網站解法
+                </p>
+                <p className="text-safe mt-2 leading-7 text-white/65">
+                  {item.solution}
+                </p>
 
                 <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
                   查看案例
@@ -514,8 +526,8 @@ function HomePage() {
               to={item.link}
               className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:-translate-y-1 hover:bg-white/[0.08] hover:text-white"
             >
-              <p className="text-lg font-semibold">{item.title}</p>
-              <p className="mt-2 leading-7">{item.desc}</p>
+              <p className="text-safe text-lg font-semibold">{item.title}</p>
+              <p className="text-safe mt-2 leading-7">{item.desc}</p>
               <p className="mt-4 text-cyan-300">查看補充案例 →</p>
             </SpotlightLink>
           ))}
@@ -526,13 +538,13 @@ function HomePage() {
         <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
           <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
                 Deliverables
               </p>
-              <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+              <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
                 交付的不是一張圖，而是一個可上線的前端網站。
               </h2>
-              <p className="mt-6 leading-8 text-black/60">
+              <p className="text-safe mt-6 leading-8 text-black/60">
                 客戶最在意的通常不是你用了什麼特效，而是網站能不能放資訊、
                 能不能在手機上看、能不能被分享、能不能部署、後續能不能修改。
               </p>
@@ -542,7 +554,7 @@ function HomePage() {
               {deliverables.map((item) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm font-medium transition hover:-translate-y-1 hover:bg-black/[0.06]"
+                  className="text-safe rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm font-medium transition hover:-translate-y-1 hover:bg-black/[0.06]"
                 >
                   {item}
                 </div>
@@ -572,10 +584,12 @@ function HomePage() {
                 key={item.name}
                 className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
               >
-                <h3 className="text-2xl font-semibold text-cyan-300">
+                <h3 className="text-safe text-2xl font-semibold text-cyan-300">
                   {item.name}
                 </h3>
-                <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+                <p className="text-safe mt-4 leading-7 text-white/55">
+                  {item.desc}
+                </p>
               </SpotlightCard>
             ))}
           </div>
@@ -601,17 +615,23 @@ function HomePage() {
               className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
             >
               <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="mt-5 text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+              <h3 className="text-safe mt-5 text-2xl font-semibold">
+                {item.title}
+              </h3>
+              <p className="text-safe mt-4 leading-7 text-white/55">
+                {item.desc}
+              </p>
             </SpotlightCard>
           ))}
         </div>
 
         <div className="mt-6 rounded-[2rem] border border-cyan-300/20 bg-cyan-300/10 p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div>
-              <h3 className="text-2xl font-semibold">需求還不清楚也可以先討論。</h3>
-              <p className="mt-2 leading-7 text-white/60">
+            <div className="min-w-0">
+              <h3 className="text-safe text-2xl font-semibold">
+                需求還不清楚也可以先討論。
+              </h3>
+              <p className="text-safe mt-2 leading-7 text-white/60">
                 可以先看需求確認表，整理網站用途、內容、功能、風格與預算。
               </p>
             </div>
@@ -639,11 +659,13 @@ function HomePage() {
               key={item.title}
               className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur"
             >
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-              <p className="mt-5 text-3xl font-semibold text-cyan-300">
+              <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
+              <p className="text-safe mt-5 text-3xl font-semibold text-cyan-300">
                 {item.price}
               </p>
-              <p className="mt-5 leading-8 text-white/55">{item.desc}</p>
+              <p className="text-safe mt-5 leading-8 text-white/55">
+                {item.desc}
+              </p>
             </SpotlightCard>
           ))}
         </div>
@@ -652,20 +674,20 @@ function HomePage() {
       <section id="contact" className="relative mx-auto max-w-7xl px-5 py-20 pb-28">
         <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
           <div className="grid gap-10 md:grid-cols-[1fr_0.9fr] md:items-end">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
+            <div className="min-w-0">
+              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
                 Contact
               </p>
-              <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
+              <h2 className="text-safe mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
                 有網站需求，可以先把想法傳給我。
               </h2>
-              <p className="mt-6 max-w-2xl leading-8 text-black/65">
+              <p className="text-safe mt-6 max-w-2xl leading-8 text-black/65">
                 不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、
                 需要放什麼內容、預算和希望完成時間，我會協助整理成可評估的範圍。
               </p>
             </div>
 
-            <div className="grid gap-3">
+            <div className="grid min-w-0 gap-3">
               <ContactCard
                 label="Email"
                 value="a0988874324@gmail.com"
@@ -698,16 +720,16 @@ function QuickStartSection() {
   return (
     <section className="relative mx-auto max-w-7xl px-5 py-12 md:py-20">
       <div className="rounded-[2.4rem] border border-cyan-300/20 bg-cyan-300/10 p-6 backdrop-blur md:p-8">
-        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+        <div className="mb-8 flex min-w-0 flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="min-w-0">
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
               Quick Start
             </p>
-            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
+            <h2 className="text-safe mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
               不知道怎麼開始？先照這三步。
             </h2>
           </div>
-          <p className="max-w-md leading-8 text-white/55">
+          <p className="text-safe max-w-md leading-8 text-white/55">
             讓第一次來的客戶不用自己猜流程，直接知道該看案例、整理需求、再聯絡討論。
           </p>
         </div>
@@ -721,9 +743,13 @@ function QuickStartSection() {
               className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 transition hover:-translate-y-1 hover:bg-white/[0.1]"
             >
               <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="mt-4 text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
-              <p className="mt-5 text-sm font-semibold text-cyan-300">
+              <h3 className="text-safe mt-4 text-2xl font-semibold">
+                {item.title}
+              </h3>
+              <p className="text-safe mt-4 leading-7 text-white/55">
+                {item.desc}
+              </p>
+              <p className="text-safe mt-5 text-sm font-semibold text-cyan-300">
                 {item.cta} →
               </p>
             </SpotlightLink>
@@ -755,7 +781,7 @@ function MobileBottomCTA() {
 
 function ProjectConsole() {
   return (
-    <div className="relative">
+    <div className="relative min-w-0">
       <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl md:rounded-[2.4rem] md:p-4">
         <div className="rounded-[1.6rem] bg-[#11141d] p-4 md:rounded-[1.9rem] md:p-5">
           <div className="mb-4 flex items-center justify-between md:mb-5">
@@ -771,10 +797,10 @@ function ProjectConsole() {
 
           <div className="rounded-[1.3rem] border border-cyan-300/20 bg-cyan-300/10 p-4 md:rounded-[1.5rem] md:p-5">
             <p className="text-xs text-cyan-200 md:text-sm">目前定位</p>
-            <h2 className="mt-2 text-2xl font-semibold md:mt-3 md:text-3xl">
+            <h2 className="text-safe mt-2 text-2xl font-semibold md:mt-3 md:text-3xl">
               Frontend Website Build
             </h2>
-            <p className="mt-2 text-sm leading-7 text-white/60 md:mt-3 md:text-base">
+            <p className="text-safe mt-2 text-sm leading-7 text-white/60 md:mt-3 md:text-base">
               RWD、前端頁面、部署、表單與社群連結整合。
             </p>
           </div>
@@ -788,18 +814,22 @@ function ProjectConsole() {
                   index === 1 ? "md:ml-8" : ""
                 }`}
               >
-                <div className={`rounded-[1.1rem] bg-gradient-to-br ${item.color} p-4 md:rounded-[1.25rem] md:p-5`}>
-                  <p className="text-[10px] uppercase tracking-[0.22em] text-white/60 md:text-xs">
+                <div
+                  className={`rounded-[1.1rem] bg-gradient-to-br ${item.color} p-4 md:rounded-[1.25rem] md:p-5`}
+                >
+                  <p className="text-safe text-[10px] uppercase tracking-[0.18em] text-white/60 md:text-xs md:tracking-[0.25em]">
                     {item.subtitle}
                   </p>
-                  <div className="mt-7 flex items-end justify-between gap-4 md:mt-10">
-                    <div>
-                      <p className="text-xl font-semibold md:text-2xl">{item.title}</p>
-                      <p className="mt-1 text-xs text-white/70 md:text-sm">
+                  <div className="mt-7 flex min-w-0 items-end justify-between gap-4 md:mt-10">
+                    <div className="min-w-0">
+                      <p className="text-safe text-xl font-semibold md:text-2xl">
+                        {item.title}
+                      </p>
+                      <p className="text-safe mt-1 text-xs leading-5 text-white/70 md:text-sm">
                         {item.tags.join(" · ")}
                       </p>
                     </div>
-                    <span className="text-white/60 transition group-hover:translate-x-1 group-hover:text-white">
+                    <span className="shrink-0 text-white/60 transition group-hover:translate-x-1 group-hover:text-white">
                       →
                     </span>
                   </div>
@@ -821,33 +851,33 @@ function GrowthSetupSection() {
         <div className="pointer-events-none absolute right-[-80px] bottom-[-80px] h-80 w-80 rounded-full bg-cyan-400/20 blur-[100px]" />
 
         <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+          <div className="min-w-0">
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
               Basic Growth Setup
             </p>
 
-            <h2 className="mt-4 max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+            <h2 className="text-safe mt-4 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
               網站不是保證帶流量，而是把流量接住。
             </h2>
 
-            <p className="mt-6 max-w-xl leading-8 text-white/60">
+            <p className="text-safe mt-6 max-w-xl leading-8 text-white/60">
               我不會承諾 SEO 排名或保證客人變多，但可以協助網站做好基本曝光、
               社群分享、搜尋收錄與追蹤準備。對小型店家來說，網站通常是承接
               IG、LINE、Google 商家與朋友轉發流量的正式入口。
             </p>
 
             <div className="mt-8 rounded-[2rem] border border-cyan-300/20 bg-cyan-300/10 p-6">
-              <p className="text-sm font-semibold text-cyan-200">
+              <p className="text-safe text-sm font-semibold text-cyan-200">
                 比較正確的期待
               </p>
-              <p className="mt-3 leading-8 text-white/65">
+              <p className="text-safe mt-3 leading-8 text-white/65">
                 網站本身不會自動帶來大量流量；它的價值是讓已經點進來的人，
                 更快看懂服務、價格、作品、地點與聯絡方式，進而提高詢問與預約機率。
               </p>
             </div>
           </div>
 
-          <div className="grid gap-4 sm:grid-cols-2">
+          <div className="grid min-w-0 gap-4 sm:grid-cols-2">
             {growthSetups.map((item) => (
               <SpotlightCard
                 key={item.title}
@@ -856,8 +886,12 @@ function GrowthSetupSection() {
                 <div className="mb-5 inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-200">
                   {item.tag}
                 </div>
-                <h3 className="text-2xl font-semibold">{item.title}</h3>
-                <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+                <h3 className="text-safe text-2xl font-semibold">
+                  {item.title}
+                </h3>
+                <p className="text-safe mt-4 leading-7 text-white/55">
+                  {item.desc}
+                </p>
               </SpotlightCard>
             ))}
           </div>
@@ -872,16 +906,16 @@ function LaunchKitSection() {
     <section id="launch" className="relative mx-auto max-w-7xl px-5 py-20">
       <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
         <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+          <div className="min-w-0">
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
               Launch Kit
             </p>
-            <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
               網站上線前，不只是看起來完成而已。
             </h2>
           </div>
 
-          <p className="max-w-xl leading-8 text-black/60">
+          <p className="text-safe max-w-xl leading-8 text-black/60">
             真實客戶在意的是網站能不能在手機上使用、能不能聯絡、能不能分享、
             能不能被 Google 理解、上線後拿到什麼。Launch Kit 是我交付前會協助檢查的基本項目。
           </p>
@@ -893,8 +927,12 @@ function LaunchKitSection() {
               key={item.title}
               className="rounded-[2rem] border border-black/10 bg-black/[0.03] p-6 transition hover:-translate-y-1 hover:bg-black/[0.06]"
             >
-              <h3 className="text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-black/60">{item.desc}</p>
+              <h3 className="text-safe text-2xl font-semibold">
+                {item.title}
+              </h3>
+              <p className="text-safe mt-4 leading-7 text-black/60">
+                {item.desc}
+              </p>
 
               <div className="mt-6 flex flex-wrap gap-2">
                 {item.items.map((tag) => (
@@ -911,10 +949,10 @@ function LaunchKitSection() {
         </div>
 
         <div className="mt-8 rounded-[2rem] bg-[#08090d] p-6 text-white">
-          <p className="text-sm font-semibold text-cyan-300">
+          <p className="text-safe text-sm font-semibold text-cyan-300">
             交付時的正確期待
           </p>
-          <p className="mt-3 leading-8 text-white/65">
+          <p className="text-safe mt-3 leading-8 text-white/65">
             我可以協助做好基本設定與交付檢查，但不承諾 SEO 排名、廣告成效或保證客源。
             對小型網站來說，真正重要的是讓已經從 IG、LINE、Google 商家或朋友轉發進來的人，
             能快速理解服務並完成聯絡。
@@ -934,16 +972,16 @@ function ModuleSystemSection() {
         <div className="pointer-events-none absolute bottom-[-120px] left-[35%] h-80 w-80 rounded-full bg-amber-300/10 blur-[110px]" />
 
         <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+          <div className="min-w-0">
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
               Modular Website System
             </p>
 
-            <h2 className="mt-4 max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+            <h2 className="text-safe mt-4 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
               依需求組合模組，不是每個網站都套同一個模板。
             </h2>
 
-            <p className="mt-6 max-w-xl leading-8 text-white/60">
+            <p className="text-safe mt-6 max-w-xl leading-8 text-white/60">
               每個客戶需要的內容不同。我會依照網站目的、產業類型、資料完整度與預算，
               選擇必要模組，避免網站看起來很多東西但沒有重點。
             </p>
@@ -965,9 +1003,13 @@ function ModuleSystemSection() {
                   +
                 </div>
 
-                <div>
-                  <h3 className="text-2xl font-semibold">{item.title}</h3>
-                  <p className="mt-2 text-sm leading-6 opacity-75">{item.desc}</p>
+                <div className="min-w-0">
+                  <h3 className="text-safe text-2xl font-semibold">
+                    {item.title}
+                  </h3>
+                  <p className="text-safe mt-2 text-sm leading-6 opacity-75">
+                    {item.desc}
+                  </p>
                 </div>
               </SpotlightCard>
             ))}
@@ -981,7 +1023,7 @@ function ModuleSystemSection() {
 function ScopeCard({ title, items, positive = false }) {
   return (
     <SpotlightCard className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur">
-      <h3 className="text-2xl font-semibold">{title}</h3>
+      <h3 className="text-safe text-2xl font-semibold">{title}</h3>
       <div className="mt-5 grid gap-3">
         {items.map((item) => (
           <div key={item} className="flex gap-3 leading-7 text-white/60">
@@ -990,7 +1032,7 @@ function ScopeCard({ title, items, positive = false }) {
                 positive ? "bg-cyan-300" : "bg-amber-300"
               }`}
             />
-            <span>{item}</span>
+            <span className="text-safe">{item}</span>
           </div>
         ))}
       </div>
@@ -1002,23 +1044,23 @@ function InfoPill({ number, text }) {
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
       <p className="text-2xl font-semibold text-cyan-300">{number}</p>
-      <p className="mt-2 text-sm text-white/55">{text}</p>
+      <p className="text-safe mt-2 text-sm text-white/55">{text}</p>
     </div>
   )
 }
 
 function SectionHeading({ eyebrow, title, desc }) {
   return (
-    <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+    <div className="mb-10 flex min-w-0 flex-col justify-between gap-5 md:mb-12 md:flex-row md:items-end">
+      <div className="min-w-0">
+        <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
           {eyebrow}
         </p>
-        <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
+        <h2 className="text-safe mt-4 max-w-4xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
           {title}
         </h2>
       </div>
-      <p className="max-w-md leading-8 text-white/55">{desc}</p>
+      <p className="text-safe max-w-md leading-8 text-white/55">{desc}</p>
     </div>
   )
 }
@@ -1203,8 +1245,8 @@ function RippleLink({ to, href, className = "", children }) {
 function Stat({ number, label }) {
   return (
     <div className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:-translate-y-1 hover:bg-white/10">
-      <p className="text-2xl font-semibold text-cyan-300">{number}</p>
-      <p className="mt-2 text-xs text-white/45">{label}</p>
+      <p className="text-safe text-2xl font-semibold text-cyan-300">{number}</p>
+      <p className="text-safe mt-2 text-xs text-white/45">{label}</p>
     </div>
   )
 }
@@ -1212,8 +1254,8 @@ function Stat({ number, label }) {
 function ContactCard({ label, value, href }) {
   const content = (
     <>
-      <p className="text-sm text-black/50">{label}</p>
-      <p className="mt-2 font-semibold">{value}</p>
+      <p className="text-safe text-sm text-black/50">{label}</p>
+      <p className="text-safe mt-2 font-semibold">{value}</p>
     </>
   )
 
