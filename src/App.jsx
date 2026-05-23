@@ -284,6 +284,27 @@ const scopeItems = {
   ],
 }
 
+const quickStart = [
+  {
+    title: "先看主打案例",
+    desc: "從 Luma Nail Studio 了解預約制工作室網站可以怎麼整理服務、價格、作品與預約流程。",
+    link: "/luma-nail",
+    cta: "查看 Luma 案例",
+  },
+  {
+    title: "整理網站需求",
+    desc: "不知道怎麼開始也沒關係，可以先用需求表整理網站用途、內容、功能、預算與時程。",
+    link: "/brief",
+    cta: "填寫需求方向",
+  },
+  {
+    title: "傳給我初步討論",
+    desc: "把目前想法、參考風格、現有素材和預算範圍傳給我，我會先判斷是否適合小型網站範圍。",
+    link: "#contact",
+    cta: "聯絡我",
+  },
+]
+
 function App() {
   return (
     <Routes>
@@ -300,7 +321,7 @@ function App() {
 
 function HomePage() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#08090d] text-white">
+    <main className="min-h-screen overflow-hidden bg-[#08090d] pb-20 text-white md:pb-0">
       <PointerEffects />
       <BackgroundGlow />
 
@@ -309,6 +330,13 @@ function HomePage() {
           <a href="#" className="font-semibold tracking-tight">
             Qingyu Web Studio
           </a>
+
+          <Link
+            to="/brief"
+            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-cyan-200 md:hidden"
+          >
+            需求表
+          </Link>
 
           <nav className="hidden items-center gap-7 text-sm text-white/55 md:flex">
             <a href="#problems" className="hover:text-white">
@@ -345,7 +373,7 @@ function HomePage() {
         </div>
       </header>
 
-      <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-16 md:grid-cols-[1.02fr_0.98fr] md:items-center md:pb-32 md:pt-28">
+      <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-20 pt-14 md:grid-cols-[1.02fr_0.98fr] md:items-center md:gap-14 md:pb-32 md:pt-28">
         <div>
           <div className="mb-5 inline-flex max-w-full rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:text-sm">
             資訊工程學生｜前端網站製作・RWD・部署上線
@@ -361,7 +389,7 @@ function HomePage() {
             並協助表單、社群連結、Vercel 部署與基本 SEO 設定。
           </p>
 
-          <div className="mt-10 flex flex-wrap gap-3">
+          <div className="mt-9 flex flex-wrap gap-3">
             <RippleLink
               href="#cases"
               className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
@@ -384,7 +412,7 @@ function HomePage() {
             </RippleLink>
           </div>
 
-          <div className="mt-12 grid max-w-2xl grid-cols-3 gap-3">
+          <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3 md:mt-12">
             <Stat number="RWD" label="手機版優先" />
             <Stat number="GitHub" label="原始碼管理" />
             <Stat number="Vercel" label="部署上線" />
@@ -393,6 +421,8 @@ function HomePage() {
 
         <ProjectConsole />
       </section>
+
+      <QuickStartSection />
 
       <section id="problems" className="relative mx-auto max-w-7xl px-5 py-20">
         <SectionHeading
@@ -523,7 +553,9 @@ function HomePage() {
       </section>
 
       <GrowthSetupSection />
+
       <LaunchKitSection />
+
       <ModuleSystemSection />
 
       <section id="tech" className="relative mx-auto max-w-7xl px-5 py-20">
@@ -656,53 +688,114 @@ function HomePage() {
           </div>
         </div>
       </section>
+
+      <MobileBottomCTA />
     </main>
+  )
+}
+
+function QuickStartSection() {
+  return (
+    <section className="relative mx-auto max-w-7xl px-5 py-12 md:py-20">
+      <div className="rounded-[2.4rem] border border-cyan-300/20 bg-cyan-300/10 p-6 backdrop-blur md:p-8">
+        <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+              Quick Start
+            </p>
+            <h2 className="mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
+              不知道怎麼開始？先照這三步。
+            </h2>
+          </div>
+          <p className="max-w-md leading-8 text-white/55">
+            讓第一次來的客戶不用自己猜流程，直接知道該看案例、整理需求、再聯絡討論。
+          </p>
+        </div>
+
+        <div className="grid gap-4 md:grid-cols-3">
+          {quickStart.map((item, index) => (
+            <SpotlightLink
+              key={item.title}
+              to={item.link.startsWith("/") ? item.link : undefined}
+              href={item.link.startsWith("#") ? item.link : undefined}
+              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 transition hover:-translate-y-1 hover:bg-white/[0.1]"
+            >
+              <p className="text-sm text-cyan-300">0{index + 1}</p>
+              <h3 className="mt-4 text-2xl font-semibold">{item.title}</h3>
+              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+              <p className="mt-5 text-sm font-semibold text-cyan-300">
+                {item.cta} →
+              </p>
+            </SpotlightLink>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function MobileBottomCTA() {
+  return (
+    <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 rounded-[1.6rem] border border-white/10 bg-[#08090d]/85 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl md:hidden">
+      <Link
+        to="/luma-nail"
+        className="flex items-center justify-center rounded-full bg-white px-4 py-3 text-sm font-semibold text-black"
+      >
+        看案例
+      </Link>
+      <Link
+        to="/brief"
+        className="flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
+      >
+        填需求
+      </Link>
+    </div>
   )
 }
 
 function ProjectConsole() {
   return (
     <div className="relative">
-      <div className="rounded-[2.4rem] border border-white/10 bg-white/10 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
-        <div className="rounded-[1.9rem] bg-[#11141d] p-5">
-          <div className="mb-5 flex items-center justify-between">
+      <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl md:rounded-[2.4rem] md:p-4">
+        <div className="rounded-[1.6rem] bg-[#11141d] p-4 md:rounded-[1.9rem] md:p-5">
+          <div className="mb-4 flex items-center justify-between md:mb-5">
             <div className="flex gap-2">
-              <span className="h-3 w-3 rounded-full bg-red-400" />
-              <span className="h-3 w-3 rounded-full bg-yellow-400" />
-              <span className="h-3 w-3 rounded-full bg-green-400" />
+              <span className="h-2.5 w-2.5 rounded-full bg-red-400 md:h-3 md:w-3" />
+              <span className="h-2.5 w-2.5 rounded-full bg-yellow-400 md:h-3 md:w-3" />
+              <span className="h-2.5 w-2.5 rounded-full bg-green-400 md:h-3 md:w-3" />
             </div>
-            <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/60">
+            <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] text-white/60 md:text-xs">
               Project Scope
             </span>
           </div>
 
-          <div className="rounded-[1.5rem] border border-cyan-300/20 bg-cyan-300/10 p-5">
-            <p className="text-sm text-cyan-200">目前定位</p>
-            <h2 className="mt-3 text-3xl font-semibold">
+          <div className="rounded-[1.3rem] border border-cyan-300/20 bg-cyan-300/10 p-4 md:rounded-[1.5rem] md:p-5">
+            <p className="text-xs text-cyan-200 md:text-sm">目前定位</p>
+            <h2 className="mt-2 text-2xl font-semibold md:mt-3 md:text-3xl">
               Frontend Website Build
             </h2>
-            <p className="mt-3 leading-7 text-white/60">
+            <p className="mt-2 text-sm leading-7 text-white/60 md:mt-3 md:text-base">
               RWD、前端頁面、部署、表單與社群連結整合。
             </p>
           </div>
 
-          <div className="mt-4 grid gap-4">
+          <div className="mt-4 grid gap-3 md:gap-4">
             {primaryCases.map((item, index) => (
               <SpotlightLink
                 key={item.title}
                 to={item.link}
-                className={`group rounded-[1.6rem] border border-white/10 bg-white/5 p-3 transition hover:-translate-y-1 hover:bg-white/10 ${
+                className={`group rounded-[1.4rem] border border-white/10 bg-white/5 p-2.5 transition hover:-translate-y-1 hover:bg-white/10 md:rounded-[1.6rem] md:p-3 ${
                   index === 1 ? "md:ml-8" : ""
                 }`}
               >
-                <div className={`rounded-[1.25rem] bg-gradient-to-br ${item.color} p-5`}>
-                  <p className="text-xs uppercase tracking-[0.25em] text-white/60">
+                <div className={`rounded-[1.1rem] bg-gradient-to-br ${item.color} p-4 md:rounded-[1.25rem] md:p-5`}>
+                  <p className="text-[10px] uppercase tracking-[0.22em] text-white/60 md:text-xs">
                     {item.subtitle}
                   </p>
-                  <div className="mt-10 flex items-end justify-between gap-4">
+                  <div className="mt-7 flex items-end justify-between gap-4 md:mt-10">
                     <div>
-                      <p className="text-2xl font-semibold">{item.title}</p>
-                      <p className="mt-1 text-sm text-white/70">
+                      <p className="text-xl font-semibold md:text-2xl">{item.title}</p>
+                      <p className="mt-1 text-xs text-white/70 md:text-sm">
                         {item.tags.join(" · ")}
                       </p>
                     </div>
