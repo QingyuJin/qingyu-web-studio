@@ -4,8 +4,17 @@ import PortfolioDemo from "./PortfolioDemo"
 import EventDemo from "./EventDemo"
 import ServiceDemo from "./ServiceDemo"
 import BriefPage from "./BriefPage"
+import LumaNailDemo from "./LumaNailDemo"
 
 const featuredWorks = [
+  {
+    title: "美甲工作室形象頁",
+    subtitle: "Beauty Studio Landing Page",
+    desc: "適合美甲、美睫、美容、霧眉、攝影與其他預約制個人工作室。重點是展示服務、價格、作品風格、預約流程與聯絡方式。",
+    link: "/luma-nail",
+    color: "from-[#f4c7b8] via-[#b58a79] to-[#2f2723]",
+    tags: ["服務價格", "作品展示", "預約流程", "FAQ"],
+  },
   {
     title: "服務型網站",
     subtitle: "Service Website",
@@ -13,14 +22,6 @@ const featuredWorks = [
     link: "/service-demo",
     color: "from-cyan-400 via-blue-500 to-violet-600",
     tags: ["服務介紹", "方案比較", "需求確認", "CTA"],
-  },
-  {
-    title: "小型店家形象頁",
-    subtitle: "Local Brand Landing Page",
-    desc: "適合咖啡店、甜點店、美甲工作室、攝影工作室與個人品牌。集中呈現品牌、服務、價格、地點與預約入口。",
-    link: "/cafe-demo",
-    color: "from-amber-300 via-orange-500 to-stone-900",
-    tags: ["品牌介紹", "菜單 / 服務", "地圖", "預約"],
   },
   {
     title: "個人作品集網站",
@@ -107,6 +108,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<HomePage />} />
+      <Route path="/luma-nail" element={<LumaNailDemo />} />
       <Route path="/service-demo" element={<ServiceDemo />} />
       <Route path="/cafe-demo" element={<CafeDemo />} />
       <Route path="/portfolio-demo" element={<PortfolioDemo />} />
@@ -213,7 +215,9 @@ function HomePage() {
               to={work.link}
               className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.1]"
             >
-              <div className={`h-72 rounded-[1.5rem] bg-gradient-to-br ${work.color} p-6`}>
+              <div
+                className={`h-72 rounded-[1.5rem] bg-gradient-to-br ${work.color} p-6`}
+              >
                 <p className="text-xs uppercase tracking-[0.28em] text-white/60">
                   {work.subtitle}
                 </p>
@@ -237,17 +241,28 @@ function HomePage() {
                 <p className="leading-8 text-white/60">{work.desc}</p>
                 <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
                   查看案例
-                  <span className="ml-2 transition group-hover:translate-x-1">→</span>
+                  <span className="ml-2 transition group-hover:translate-x-1">
+                    →
+                  </span>
                 </div>
               </div>
             </Link>
           ))}
         </div>
 
-        <div className="mt-6 rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55">
-          活動頁案例仍保留作為補充作品：
-          <Link to="/event-demo" className="ml-2 text-cyan-300 hover:underline">
-            查看活動宣傳頁 →
+        <div className="mt-6 grid gap-4 md:grid-cols-2">
+          <Link
+            to="/cafe-demo"
+            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:bg-white/[0.08] hover:text-white"
+          >
+            補充案例：咖啡店一頁式網站 →
+          </Link>
+
+          <Link
+            to="/event-demo"
+            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:bg-white/[0.08] hover:text-white"
+          >
+            補充案例：活動宣傳頁 →
           </Link>
         </div>
       </section>
@@ -443,7 +458,9 @@ function ShowcaseWall() {
                   index === 1 ? "md:ml-8" : ""
                 }`}
               >
-                <div className={`rounded-[1.25rem] bg-gradient-to-br ${work.color} p-5`}>
+                <div
+                  className={`rounded-[1.25rem] bg-gradient-to-br ${work.color} p-5`}
+                >
                   <p className="text-xs uppercase tracking-[0.25em] text-white/60">
                     {work.subtitle}
                   </p>
