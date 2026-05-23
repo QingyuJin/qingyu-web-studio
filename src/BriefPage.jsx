@@ -1,122 +1,169 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
 const websiteTypes = [
   {
+    id: "studio",
     title: "預約制工作室",
     examples: "美甲 / 美睫 / 美容 / 霧眉 / 攝影 / 健身教練",
-    needs: ["服務價格", "作品展示", "預約流程", "LINE / IG", "Google Map", "FAQ"],
+    defaultFeatures: ["作品展示", "服務價格", "LINE / IG", "Google Map", "FAQ"],
+    recommended: "一頁式工作室網站",
   },
   {
+    id: "portfolio",
     title: "個人作品集 / 履歷網站",
     examples: "學生 / 求職者 / 創作者 / 設計師 / 攝影師",
-    needs: ["個人介紹", "技能", "作品案例", "經歷", "聯絡方式", "履歷連結"],
+    defaultFeatures: ["個人介紹", "作品展示", "經歷整理", "Email", "履歷連結"],
+    recommended: "個人作品集網站",
   },
   {
+    id: "service",
     title: "服務型網站",
     examples: "顧問 / 課程品牌 / 自由工作者 / 小型團隊",
-    needs: ["服務內容", "方案比較", "合作流程", "案例說明", "需求表", "CTA"],
+    defaultFeatures: ["服務介紹", "方案比較", "合作流程", "需求表", "CTA"],
+    recommended: "服務介紹網站",
   },
   {
+    id: "event",
     title: "活動 / 報名頁",
     examples: "社團活動 / 講座 / 工作坊 / 營隊 / 比賽",
-    needs: ["活動資訊", "時間地點", "流程", "報名連結", "注意事項", "FAQ"],
+    defaultFeatures: ["活動資訊", "流程時間", "報名連結", "注意事項", "FAQ"],
+    recommended: "活動報名頁",
+  },
+  {
+    id: "repair",
+    title: "舊網站修改",
+    examples: "手機版跑版 / 文字圖片更新 / 連結修改 / 部署問題",
+    defaultFeatures: ["RWD 修正", "內容更新", "連結檢查", "部署檢查"],
+    recommended: "網站修改 / 優化",
   },
 ]
 
-const questionGroups = [
-  {
-    title: "網站目標",
-    desc: "先確認網站存在的目的，避免只是做出漂亮但沒有方向的頁面。",
-    questions: [
-      "這個網站主要要給誰看？",
-      "希望訪客看完後做什麼？例如：私訊、預約、報名、看作品、了解服務。",
-      "目前最大的問題是什麼？資訊太散、手機版不好看、客人一直問重複問題，還是沒有正式入口？",
-    ],
-  },
-  {
-    title: "內容與素材",
-    desc: "小型網站最常卡在資料不完整，所以要先確認文字、圖片與連結有哪些。",
-    questions: [
-      "目前是否已有 Logo、品牌色、照片、文案、菜單、價格表或作品圖？",
-      "圖片是你提供，還是需要先用示意圖 / 免費素材做概念版？",
-      "是否需要我協助整理文案順序與網站區塊？",
-    ],
-  },
-  {
-    title: "功能與連結",
-    desc: "先確認必要功能，避免一開始就把範圍拉得太大。",
-    questions: [
-      "需要放 LINE、Instagram、Email、Google Map、Google Form 或預約連結嗎？",
-      "需要一頁式網站即可，還是需要多頁網站？",
-      "是否需要基本 SEO meta、社群分享預覽 OGP、Google Analytics 或 Search Console 設定建議？",
-    ],
-  },
-  {
-    title: "設計方向",
-    desc: "設計不是只問喜歡什麼顏色，而是要確認產業、風格與客戶期待。",
-    questions: [
-      "希望網站感覺是簡約、溫柔、專業、科技、高級、可愛，還是生活感？",
-      "有沒有喜歡的參考網站或 IG 頁面？",
-      "有沒有不喜歡的風格？例如太花、太暗、太像模板、太像 AI 生成。",
-    ],
-  },
-  {
-    title: "時程與預算",
-    desc: "先講清楚時程與預算，後面比較不容易誤會。",
-    questions: [
-      "希望什麼時候完成初版？什麼時候正式上線？",
-      "預算大概落在哪個範圍？",
-      "上線後是否需要協助修改文字、圖片或連結？",
-    ],
-  },
-]
-
-const assetsChecklist = [
-  "Logo 或品牌名稱",
-  "品牌色 / 喜歡的色系",
-  "店家或個人照片",
-  "作品照 / 商品照 / 活動照",
-  "服務項目與價格",
-  "營業時間 / 地點 / 注意事項",
-  "LINE / IG / Email / Google Map",
-  "參考網站或喜歡的風格",
+const goals = [
+  "讓客人私訊 / 預約",
+  "展示作品與經歷",
+  "說明服務與價格",
+  "活動報名",
+  "改善手機版",
+  "建立正式形象",
+  "整理 IG / LINE 上分散資訊",
+  "上線後方便分享",
 ]
 
 const featureOptions = [
   "一頁式網站",
-  "個人作品集",
-  "服務介紹區",
-  "價格 / 方案表",
+  "多區塊首頁",
   "作品展示",
-  "FAQ 常見問題",
+  "服務價格",
+  "方案比較",
+  "FAQ",
+  "預約流程",
+  "LINE / IG",
+  "Email",
   "Google Map",
-  "LINE / IG / Email 按鈕",
   "Google Form / 報名連結",
   "基本 SEO meta",
   "社群分享 OGP",
+  "GA4 點擊追蹤建議",
+  "Google 商家 / 地圖連結整理",
   "Vercel 部署",
+  "舊網站 RWD 修正",
 ]
 
-const packageLevels = [
+const assetLevels = [
   {
-    title: "Basic",
-    price: "NT$2,000–4,000",
-    fit: "學生作品集、簡單個人頁、活動介紹頁",
-    items: ["單頁架構", "RWD 排版", "基本聯絡按鈕", "Vercel 部署"],
+    id: "idea",
+    title: "只有想法",
+    desc: "還沒有照片、文案、價格表，只有大概方向。",
+    score: 25,
+    advice: "需要先整理內容架構與文案方向，適合先做概念版。",
   },
   {
-    title: "Standard",
-    price: "NT$5,000–8,000",
-    fit: "小店形象頁、工作室預約頁、服務介紹頁",
-    items: ["完整一頁式網站", "服務 / 價格 / FAQ", "LINE / IG / Map", "基本 SEO / OGP"],
+    id: "social",
+    title: "有 IG / 照片",
+    desc: "有社群、照片或作品，但文字與網站架構還沒整理。",
+    score: 55,
+    advice: "可以開始規劃網站，還需要補服務內容、價格、FAQ 與聯絡資訊。",
   },
   {
-    title: "Adjust",
-    price: "NT$500–1,000 / 小時",
-    fit: "舊網站修改、手機版調整、文案圖片更新",
-    items: ["版面調整", "RWD 修正", "連結更新", "小功能修改"],
+    id: "ready",
+    title: "素材大致完整",
+    desc: "已有照片、價格、文字、社群連結、參考風格。",
+    score: 85,
+    advice: "很適合進入製作，可以較快完成初版。",
   },
+  {
+    id: "oldsite",
+    title: "已有舊網站",
+    desc: "已有網站，需要修改、RWD、更新內容或部署檢查。",
+    score: 70,
+    advice: "適合先檢查現有網站問題，再決定是局部修改或重做。",
+  },
+]
+
+const budgetOptions = [
+  {
+    id: "low",
+    title: "NT$2,000–4,000",
+    desc: "適合學生作品集、簡單個人頁、活動介紹頁。",
+    package: "Basic",
+  },
+  {
+    id: "standard",
+    title: "NT$5,000–8,000",
+    desc: "適合小型店家、工作室、服務介紹、預約制網站。",
+    package: "Standard",
+  },
+  {
+    id: "higher",
+    title: "NT$8,000 以上",
+    desc: "適合內容較完整、區塊較多、需要較多客製調整的網站。",
+    package: "Custom",
+  },
+  {
+    id: "discuss",
+    title: "先討論",
+    desc: "還不確定預算，需要先確認範圍。",
+    package: "Discuss",
+  },
+]
+
+const timelineOptions = [
+  {
+    id: "urgent",
+    title: "1 週內",
+    desc: "比較趕，適合內容已完整、範圍很小的案子。",
+    risk: "時程較急，需先確認素材是否完整。",
+  },
+  {
+    id: "two-weeks",
+    title: "2 週內",
+    desc: "小型一頁式網站比較合理的節奏。",
+    risk: "適合大多數小型網站。",
+  },
+  {
+    id: "month",
+    title: "1 個月內",
+    desc: "可以比較完整整理內容、修改與測試。",
+    risk: "適合內容較多或需要多次討論。",
+  },
+  {
+    id: "flexible",
+    title: "不急",
+    desc: "可慢慢整理資料與需求。",
+    risk: "適合還在釐清方向的需求。",
+  },
+]
+
+const styleOptions = [
+  "簡約乾淨",
+  "溫柔質感",
+  "專業可信",
+  "科技感",
+  "生活感",
+  "高級精品",
+  "可愛活潑",
+  "像真實店家，不要 AI 模板感",
 ]
 
 const scopeCanDo = [
@@ -141,399 +188,193 @@ const scopeNotMain = [
   "高階品牌識別全套設計",
 ]
 
-const process = [
-  {
-    title: "填寫需求",
-    desc: "先用下面格式整理網站用途、內容、功能、預算與時程。",
-  },
-  {
-    title: "初步評估",
-    desc: "我會判斷是否適合小型網站範圍，並確認頁面內容與交付項目。",
-  },
-  {
-    title: "製作初版",
-    desc: "完成主要版面、RWD 手機版、按鈕連結與基本內容排版。",
-  },
-  {
-    title: "修改上線",
-    desc: "依回饋調整文字、圖片與區塊，確認後部署上線並交付連結。",
-  },
-]
-
-const shortTemplate = `網站用途：
-網站類型：
-主要給誰看：
-希望訪客做什麼：
-需要放的內容：
-目前有的素材：
-需要的功能：
-參考風格：
-預算範圍：
-希望完成時間：
-聯絡方式：`
-
-const fullTemplate = `【網站需求整理】
-
-1. 網站用途
-例如：工作室預約頁 / 個人作品集 / 活動報名頁 / 服務介紹頁
-
-2. 主要對象
-例如：新客戶 / 學校老師 / 求職公司 / 活動參加者 / 小店客人
-
-3. 希望訪客完成的動作
-例如：私訊 LINE、追蹤 IG、填表單、預約、查看作品、了解價格
-
-4. 需要放的內容
-例如：關於我、服務項目、價格、作品照、FAQ、地點、營業時間、注意事項
-
-5. 目前已有素材
-Logo：
-照片：
-文字內容：
-價格表：
-社群連結：
-Google Map：
-參考網站：
-
-6. 需要的功能
-LINE / IG / Email：
-Google Map：
-Google Form：
-基本 SEO：
-社群分享預覽：
-流量追蹤建議：
-
-7. 風格方向
-喜歡的風格：
-不喜歡的風格：
-品牌色或參考色：
-
-8. 預算與時程
-預算範圍：
-希望初版時間：
-希望上線時間：
-
-9. 補充說明
-`
-
 function BriefPage() {
-  return (
-    <main className="min-h-screen overflow-hidden bg-[#08090d] text-white">
-      <BackgroundGlow />
-
-      <div className="relative mx-auto max-w-7xl px-5 pt-6">
-        <Link
-          to="/"
-          className="inline-flex rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-medium text-white/80 backdrop-blur transition hover:border-white/40 hover:text-white"
-        >
-          ← 回到首頁
-        </Link>
-      </div>
-
-      <section className="relative mx-auto grid max-w-7xl gap-12 px-5 pb-20 pt-16 md:grid-cols-[1.02fr_0.98fr] md:items-center md:pb-28 md:pt-24">
-        <div>
-          <div className="mb-6 inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-100">
-            Website Brief / 接案需求整理
-          </div>
-
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-tight md:text-7xl">
-            先把需求整理清楚，再開始做網站。
-          </h1>
-
-          <p className="mt-7 max-w-2xl text-lg leading-9 text-white/60">
-            這份需求表是用來確認網站目的、內容素材、功能範圍、預算與時程。
-            你不需要一開始就準備得很完整，但資料越清楚，越容易評估能不能做、多久完成、以及大概費用。
-          </p>
-
-          <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href="#copy"
-              className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
-            >
-              直接複製需求格式
-            </a>
-            <a
-              href="#scope"
-              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
-            >
-              查看服務範圍
-            </a>
-          </div>
-
-          <div className="mt-12 grid max-w-2xl grid-cols-3 gap-3">
-            <Stat number="Purpose" label="網站目的" />
-            <Stat number="Content" label="內容素材" />
-            <Stat number="Scope" label="功能範圍" />
-          </div>
-        </div>
-
-        <div className="relative">
-          <div className="rounded-[2.4rem] border border-white/10 bg-white/10 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
-            <div className="rounded-[1.9rem] bg-[#11141d] p-6">
-              <p className="text-sm text-cyan-200">Brief Checklist</p>
-              <h2 className="mt-4 text-3xl font-semibold">
-                最常需要先確認的 5 件事
-              </h2>
-
-              <div className="mt-6 space-y-3">
-                {[
-                  "網站要給誰看？",
-                  "希望訪客做什麼？",
-                  "目前有什麼素材？",
-                  "需要哪些功能與連結？",
-                  "預算與時程大概多少？",
-                ].map((item, index) => (
-                  <div
-                    key={item}
-                    className="flex items-center gap-4 rounded-2xl border border-white/10 bg-white/5 p-4"
-                  >
-                    <span className="flex h-9 w-9 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-sm font-semibold text-black">
-                      {index + 1}
-                    </span>
-                    <span className="text-white/75">{item}</span>
-                  </div>
-                ))}
-              </div>
-
-              <div className="mt-6 rounded-2xl border border-cyan-300/20 bg-cyan-300/10 p-5">
-                <p className="text-sm font-semibold text-cyan-200">
-                  重點
-                </p>
-                <p className="mt-2 leading-7 text-white/65">
-                  需求表不是考試，不用一次寫完。它只是幫我們把網站範圍變清楚，避免做到一半才發現方向不同。
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-7xl px-5 py-16">
-        <SectionHeading
-          eyebrow="Website Type"
-          title="先確認你要的是哪一種網站。"
-          desc="不同類型的網站，重點不同。預約制工作室需要預約流程，作品集需要整理能力，服務型網站需要說清楚方案。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-2">
-          {websiteTypes.map((type) => (
-            <Card key={type.title}>
-              <h3 className="text-2xl font-semibold">{type.title}</h3>
-              <p className="mt-3 leading-7 text-white/55">{type.examples}</p>
-
-              <div className="mt-5 flex flex-wrap gap-2">
-                {type.needs.map((item) => (
-                  <span
-                    key={item}
-                    className="rounded-full bg-cyan-300/10 px-3 py-1 text-xs font-medium text-cyan-100"
-                  >
-                    {item}
-                  </span>
-                ))}
-              </div>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-7xl px-5 py-16">
-        <SectionHeading
-          eyebrow="Questions"
-          title="需求確認問題"
-          desc="這些問題來自實際接案最常卡住的地方：目的不清楚、素材不足、功能想太多、預算時程沒有先講。"
-        />
-
-        <div className="space-y-5">
-          {questionGroups.map((group, index) => (
-            <Card key={group.title}>
-              <div className="grid gap-6 md:grid-cols-[0.32fr_0.68fr]">
-                <div>
-                  <p className="text-sm text-cyan-300">0{index + 1}</p>
-                  <h3 className="mt-3 text-2xl font-semibold">{group.title}</h3>
-                  <p className="mt-4 leading-7 text-white/50">{group.desc}</p>
-                </div>
-
-                <div className="grid gap-3">
-                  {group.questions.map((question) => (
-                    <div
-                      key={question}
-                      className="rounded-2xl border border-white/10 bg-white/5 p-4 leading-7 text-white/70"
-                    >
-                      {question}
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-7xl px-5 py-16">
-        <div className="rounded-[2.8rem] bg-white p-8 text-black md:p-12">
-          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
-                Materials
-              </p>
-              <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
-                先看看你手上有哪些素材。
-              </h2>
-              <p className="mt-6 leading-8 text-black/60">
-                沒有全部資料也可以開始討論，但如果有照片、價格表、社群連結和參考風格，會更容易評估網站架構。
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              {assetsChecklist.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm font-medium"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-7xl px-5 py-16">
-        <SectionHeading
-          eyebrow="Features"
-          title="可以先勾選需要的功能。"
-          desc="小型網站不是功能越多越好，應該先保留真正會幫助訪客理解與聯絡你的功能。"
-        />
-
-        <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
-          {featureOptions.map((item) => (
-            <div
-              key={item}
-              className="rounded-2xl border border-white/10 bg-white/[0.06] p-5 text-white/70"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="scope" className="relative mx-auto max-w-7xl px-5 py-16">
-        <SectionHeading
-          eyebrow="Scope"
-          title="先把服務範圍說清楚。"
-          desc="這樣可以避免一開始只是做一頁式網站，後面卻變成大型系統、金流、會員、後台管理。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-2">
-          <ScopeCard title="目前適合承接" items={scopeCanDo} positive />
-          <ScopeCard title="目前不主打 / 不亂承諾" items={scopeNotMain} />
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-7xl px-5 py-16">
-        <SectionHeading
-          eyebrow="Budget"
-          title="預算可以先用範圍討論。"
-          desc="實際價格會依內容完整度、區塊數量、修改次數、功能與時程調整。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-3">
-          {packageLevels.map((item) => (
-            <Card key={item.title}>
-              <p className="text-sm font-semibold text-cyan-300">{item.title}</p>
-              <h3 className="mt-3 text-3xl font-semibold">{item.price}</h3>
-              <p className="mt-4 leading-7 text-white/55">{item.fit}</p>
-
-              <div className="mt-6 grid gap-3">
-                {item.items.map((detail) => (
-                  <div key={detail} className="flex gap-3 text-white/65">
-                    <span className="mt-2 h-2 w-2 rounded-full bg-cyan-300" />
-                    <span>{detail}</span>
-                  </div>
-                ))}
-              </div>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-7xl px-5 py-16">
-        <SectionHeading
-          eyebrow="Process"
-          title="接案流程"
-          desc="先整理需求，再評估範圍，最後才進入製作。這樣比較不會浪費雙方時間。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-4">
-          {process.map((item, index) => (
-            <Card key={item.title}>
-              <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="mt-4 text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
-            </Card>
-          ))}
-        </div>
-      </section>
-
-      <section id="copy" className="relative mx-auto max-w-7xl px-5 py-16 pb-28">
-        <SectionHeading
-          eyebrow="Copy Template"
-          title="可以直接複製下面格式傳給我。"
-          desc="你可以先填簡短版。如果需求比較多，再用完整版本補充。"
-        />
-
-        <div className="grid gap-6 lg:grid-cols-2">
-          <CopyBox title="簡短版需求格式" text={shortTemplate} />
-          <CopyBox title="完整需求格式" text={fullTemplate} />
-        </div>
-
-        <div className="mt-8 overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
-          <div className="grid gap-8 md:grid-cols-[1fr_0.85fr] md:items-end">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
-                Next Step
-              </p>
-              <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
-                需求還不完整也可以先討論。
-              </h2>
-              <p className="mt-6 max-w-2xl leading-8 text-black/65">
-                可以先傳網站用途、參考風格、預算和希望完成時間。我會先幫你判斷是不是適合小型網站範圍。
-              </p>
-            </div>
-
-            <div className="grid gap-3">
-              <a
-                href="mailto:a0988874324@gmail.com"
-                className="rounded-3xl bg-white/75 p-5 transition hover:bg-white"
-              >
-                <p className="text-sm text-black/50">Email</p>
-                <p className="mt-2 font-semibold">a0988874324@gmail.com</p>
-              </a>
-              <div className="rounded-3xl bg-white/50 p-5">
-                <p className="text-sm text-black/50">LINE</p>
-                <p className="mt-2 font-semibold">mulavuc</p>
-              </div>
-              <Link
-                to="/luma-nail"
-                className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
-              >
-                <p className="text-sm text-white/50">Main Case</p>
-                <p className="mt-2 font-semibold">查看 Luma 主打案例 →</p>
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
-    </main>
-  )
-}
-
-function CopyBox({ title, text }) {
+  const [websiteType, setWebsiteType] = useState("studio")
+  const [selectedGoals, setSelectedGoals] = useState([
+    "讓客人私訊 / 預約",
+    "整理 IG / LINE 上分散資訊",
+  ])
+  const [selectedFeatures, setSelectedFeatures] = useState([
+    "作品展示",
+    "服務價格",
+    "LINE / IG",
+    "Google Map",
+    "FAQ",
+  ])
+  const [assetLevel, setAssetLevel] = useState("social")
+  const [budget, setBudget] = useState("standard")
+  const [timeline, setTimeline] = useState("two-weeks")
+  const [styles, setStyles] = useState(["簡約乾淨", "像真實店家，不要 AI 模板感"])
+  const [businessName, setBusinessName] = useState("")
+  const [contact, setContact] = useState("")
+  const [reference, setReference] = useState("")
+  const [notes, setNotes] = useState("")
   const [copied, setCopied] = useState(false)
 
-  async function handleCopy() {
+  const currentType = websiteTypes.find((item) => item.id === websiteType)
+  const currentAsset = assetLevels.find((item) => item.id === assetLevel)
+  const currentBudget = budgetOptions.find((item) => item.id === budget)
+  const currentTimeline = timelineOptions.find((item) => item.id === timeline)
+
+  const analysis = useMemo(() => {
+    const featureCount = selectedFeatures.length
+    const goalCount = selectedGoals.length
+    const styleCount = styles.length
+
+    let complexityScore = 20 + featureCount * 4 + goalCount * 3
+
+    if (selectedFeatures.includes("GA4 點擊追蹤建議")) complexityScore += 8
+    if (selectedFeatures.includes("Google 商家 / 地圖連結整理")) complexityScore += 6
+    if (selectedFeatures.includes("舊網站 RWD 修正")) complexityScore += 8
+    if (websiteType === "repair") complexityScore += 5
+    if (timeline === "urgent") complexityScore += 8
+
+    complexityScore = Math.min(complexityScore, 100)
+
+    const textFilled = [businessName, contact, reference, notes].filter(
+      (item) => item.trim().length > 0
+    ).length
+
+    let completenessScore = currentAsset.score + textFilled * 4 + styleCount * 2
+    completenessScore = Math.min(completenessScore, 100)
+
+    const complexityLabel =
+      complexityScore >= 75
+        ? "偏高"
+        : complexityScore >= 48
+          ? "標準"
+          : "簡單"
+
+    const completenessLabel =
+      completenessScore >= 80
+        ? "高"
+        : completenessScore >= 55
+          ? "中"
+          : "低"
+
+    let suggestedPackage = currentBudget.package
+
+    if (complexityScore >= 75 && budget === "low") {
+      suggestedPackage = "建議提高預算或縮小範圍"
+    } else if (websiteType === "repair") {
+      suggestedPackage = "Adjust"
+    } else if (complexityScore < 45 && budget !== "higher") {
+      suggestedPackage = "Basic / Standard"
+    }
+
+    const missing = []
+
+    if (!businessName.trim()) missing.push("店名 / 個人名稱")
+    if (!contact.trim()) missing.push("主要聯絡方式")
+    if (!reference.trim()) missing.push("參考網站或喜歡的風格")
+    if (assetLevel === "idea") {
+      missing.push("照片 / 作品圖 / 價格表 / 服務內容")
+    }
+    if (!selectedFeatures.includes("LINE / IG") && !selectedFeatures.includes("Email")) {
+      missing.push("至少一個主要聯絡入口")
+    }
+
+    return {
+      complexityScore,
+      complexityLabel,
+      completenessScore,
+      completenessLabel,
+      suggestedPackage,
+      missing,
+    }
+  }, [
+    selectedFeatures,
+    selectedGoals,
+    styles,
+    currentAsset,
+    currentBudget,
+    websiteType,
+    timeline,
+    budget,
+    businessName,
+    contact,
+    reference,
+    notes,
+    assetLevel,
+  ])
+
+  const summaryText = useMemo(() => {
+    return `【網站需求摘要】
+
+店名 / 個人名稱：
+${businessName || "尚未填寫"}
+
+聯絡方式：
+${contact || "尚未填寫"}
+
+網站類型：
+${currentType.title}
+
+主要用途：
+${selectedGoals.length ? selectedGoals.join("、") : "尚未選擇"}
+
+需要功能：
+${selectedFeatures.length ? selectedFeatures.join("、") : "尚未選擇"}
+
+素材狀態：
+${currentAsset.title}
+${currentAsset.desc}
+
+風格方向：
+${styles.length ? styles.join("、") : "尚未選擇"}
+
+參考網站 / 參考風格：
+${reference || "尚未填寫"}
+
+預算範圍：
+${currentBudget.title}
+
+希望完成時間：
+${currentTimeline.title}
+
+系統初步判斷：
+資料完整度：${analysis.completenessLabel}（${analysis.completenessScore}/100）
+需求複雜度：${analysis.complexityLabel}（${analysis.complexityScore}/100）
+建議方案：${analysis.suggestedPackage}
+
+下一步建議補充：
+${analysis.missing.length ? analysis.missing.map((item) => `- ${item}`).join("\n") : "- 目前資料已足夠進行初步評估"}
+
+補充說明：
+${notes || "無"}`
+  }, [
+    businessName,
+    contact,
+    currentType,
+    selectedGoals,
+    selectedFeatures,
+    currentAsset,
+    styles,
+    reference,
+    currentBudget,
+    currentTimeline,
+    analysis,
+    notes,
+  ])
+
+  function toggleArray(value, list, setList) {
+    if (list.includes(value)) {
+      setList(list.filter((item) => item !== value))
+    } else {
+      setList([...list, value])
+    }
+  }
+
+  function handleTypeChange(type) {
+    setWebsiteType(type.id)
+
+    const merged = Array.from(new Set([...selectedFeatures, ...type.defaultFeatures]))
+    setSelectedFeatures(merged)
+  }
+
+  async function copySummary() {
     try {
-      await navigator.clipboard.writeText(text)
+      await navigator.clipboard.writeText(summaryText)
       setCopied(true)
       window.setTimeout(() => setCopied(false), 1500)
     } catch {
@@ -541,71 +382,531 @@ function CopyBox({ title, text }) {
     }
   }
 
+  const mailHref = `mailto:a0988874324@gmail.com?subject=${encodeURIComponent(
+    "網站需求初步評估"
+  )}&body=${encodeURIComponent(summaryText)}`
+
   return (
-    <div className="overflow-hidden rounded-[2.4rem] border border-white/10 bg-white/[0.06] backdrop-blur">
-      <div className="flex items-center justify-between gap-4 border-b border-white/10 p-5">
-        <h3 className="text-xl font-semibold">{title}</h3>
-        <button
-          type="button"
-          onClick={handleCopy}
-          className="rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-black transition hover:bg-cyan-200"
+    <main className="min-h-screen overflow-hidden bg-[#08090d] pb-20 text-white">
+      <BackgroundGlow />
+
+      <div className="relative mx-auto flex max-w-7xl items-center justify-between px-5 pt-6">
+        <Link
+          to="/"
+          className="inline-flex rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-medium text-white/80 backdrop-blur transition hover:border-white/40 hover:text-white"
         >
-          {copied ? "已複製" : "複製"}
-        </button>
+          ← 回到首頁
+        </Link>
+
+        <a
+          href="#summary"
+          className="rounded-full bg-cyan-300 px-5 py-2 text-sm font-semibold text-black md:hidden"
+        >
+          看摘要
+        </a>
       </div>
 
-      <pre className="max-h-[560px] overflow-auto whitespace-pre-wrap p-6 text-sm leading-7 text-white/70">
-        {text}
-      </pre>
+      <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.02fr_0.98fr] md:items-center md:pb-24 md:pt-20">
+        <div>
+          <div className="mb-5 inline-flex max-w-full rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:text-sm">
+            Interactive Website Brief / 互動式需求整理器
+          </div>
+
+          <h1 className="max-w-4xl text-[2.65rem] font-semibold leading-[1.12] tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
+            <span className="block">不知道怎麼說需求？</span>
+            <span className="block">先讓表單幫你整理。</span>
+          </h1>
+
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/60 sm:text-lg sm:leading-9">
+            勾選網站類型、功能、素材狀態、預算與時程後，系統會自動產生一份需求摘要。
+            你可以直接複製傳給我，方便我初步評估範圍與報價。
+          </p>
+
+          <div className="mt-8 rounded-[2rem] border border-amber-300/20 bg-amber-300/10 p-5">
+            <p className="text-sm font-semibold text-amber-200">
+              隱私提醒
+            </p>
+            <p className="mt-2 leading-7 text-white/65">
+              這一版沒有後端，不會自動儲存你的資料。你填的內容只會在瀏覽器裡整理，
+              需要你按「複製需求摘要」或「Email 傳給我」才會送出。
+            </p>
+          </div>
+        </div>
+
+        <AnalysisPanel analysis={analysis} />
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <SectionHeading
+          eyebrow="Step 01"
+          title="你想做哪一種網站？"
+          desc="真實接案一開始要先確認網站類型，因為預約制工作室、作品集、活動頁和舊網站修改，重點完全不同。"
+        />
+
+        <div className="grid gap-4 md:grid-cols-5">
+          {websiteTypes.map((type) => (
+            <button
+              key={type.id}
+              type="button"
+              onClick={() => handleTypeChange(type)}
+              className={`rounded-[2rem] border p-5 text-left transition hover:-translate-y-1 ${
+                websiteType === type.id
+                  ? "border-cyan-300 bg-cyan-300 text-black"
+                  : "border-white/10 bg-white/[0.06] text-white hover:bg-white/[0.1]"
+              }`}
+            >
+              <h3 className="text-xl font-semibold">{type.title}</h3>
+              <p
+                className={`mt-3 text-sm leading-7 ${
+                  websiteType === type.id ? "text-black/65" : "text-white/55"
+                }`}
+              >
+                {type.examples}
+              </p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <SectionHeading
+          eyebrow="Step 02"
+          title="網站主要要達成什麼？"
+          desc="不要只說想做網站，要先確認它要幫你完成什麼事情。"
+        />
+
+        <CheckGrid
+          options={goals}
+          selected={selectedGoals}
+          onToggle={(value) => toggleArray(value, selectedGoals, setSelectedGoals)}
+        />
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <SectionHeading
+          eyebrow="Step 03"
+          title="需要哪些功能或內容？"
+          desc="小型網站不是功能越多越好，應該先選真正能幫訪客理解、聯絡或預約的功能。"
+        />
+
+        <CheckGrid
+          options={featureOptions}
+          selected={selectedFeatures}
+          onToggle={(value) =>
+            toggleArray(value, selectedFeatures, setSelectedFeatures)
+          }
+        />
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <SectionHeading
+          eyebrow="Step 04"
+          title="目前素材準備到什麼程度？"
+          desc="資料越完整，越容易估價與製作。這不是要你一次準備完，而是先知道還缺什麼。"
+        />
+
+        <div className="grid gap-4 md:grid-cols-4">
+          {assetLevels.map((item) => (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => setAssetLevel(item.id)}
+              className={`rounded-[2rem] border p-6 text-left transition hover:-translate-y-1 ${
+                assetLevel === item.id
+                  ? "border-cyan-300 bg-cyan-300 text-black"
+                  : "border-white/10 bg-white/[0.06] text-white hover:bg-white/[0.1]"
+              }`}
+            >
+              <h3 className="text-xl font-semibold">{item.title}</h3>
+              <p
+                className={`mt-3 text-sm leading-7 ${
+                  assetLevel === item.id ? "text-black/65" : "text-white/55"
+                }`}
+              >
+                {item.desc}
+              </p>
+            </button>
+          ))}
+        </div>
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <div className="grid gap-6 md:grid-cols-2">
+          <div>
+            <SectionHeading
+              eyebrow="Step 05"
+              title="預算範圍"
+              desc="先用範圍討論即可，實際價格仍會依內容、功能、修改次數與時程調整。"
+            />
+
+            <div className="grid gap-4">
+              {budgetOptions.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setBudget(item.id)}
+                  className={`rounded-[2rem] border p-5 text-left transition hover:-translate-y-1 ${
+                    budget === item.id
+                      ? "border-cyan-300 bg-cyan-300 text-black"
+                      : "border-white/10 bg-white/[0.06] text-white hover:bg-white/[0.1]"
+                  }`}
+                >
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p
+                    className={`mt-2 text-sm leading-7 ${
+                      budget === item.id ? "text-black/65" : "text-white/55"
+                    }`}
+                  >
+                    {item.desc}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div>
+            <SectionHeading
+              eyebrow="Step 06"
+              title="希望完成時間"
+              desc="越趕越需要素材完整、範圍清楚；如果需求還不清楚，建議不要排太緊。"
+            />
+
+            <div className="grid gap-4">
+              {timelineOptions.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setTimeline(item.id)}
+                  className={`rounded-[2rem] border p-5 text-left transition hover:-translate-y-1 ${
+                    timeline === item.id
+                      ? "border-cyan-300 bg-cyan-300 text-black"
+                      : "border-white/10 bg-white/[0.06] text-white hover:bg-white/[0.1]"
+                  }`}
+                >
+                  <h3 className="text-xl font-semibold">{item.title}</h3>
+                  <p
+                    className={`mt-2 text-sm leading-7 ${
+                      timeline === item.id ? "text-black/65" : "text-white/55"
+                    }`}
+                  >
+                    {item.desc}
+                  </p>
+                </button>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <SectionHeading
+          eyebrow="Step 07"
+          title="希望網站是什麼風格？"
+          desc="這可以幫我判斷要走工作室質感、工程可信、生活品牌、還是作品集風格。"
+        />
+
+        <CheckGrid
+          options={styleOptions}
+          selected={styles}
+          onToggle={(value) => toggleArray(value, styles, setStyles)}
+        />
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-10">
+        <SectionHeading
+          eyebrow="Step 08"
+          title="補充基本資料"
+          desc="這些資料會被整理到摘要中，方便我初步評估。"
+        />
+
+        <div className="grid gap-4 md:grid-cols-2">
+          <InputCard
+            label="店名 / 個人名稱"
+            placeholder="例如：Luma Nail Studio / 王小明作品集"
+            value={businessName}
+            onChange={setBusinessName}
+          />
+          <InputCard
+            label="主要聯絡方式"
+            placeholder="例如：LINE ID、Email、IG 帳號"
+            value={contact}
+            onChange={setContact}
+          />
+          <InputCard
+            label="參考網站 / 參考風格"
+            placeholder="可以貼網址，或描述喜歡的風格"
+            value={reference}
+            onChange={setReference}
+          />
+          <TextAreaCard
+            label="補充說明"
+            placeholder="例如：目前只有 IG、想先做一頁式、希望手機版好看、之後可能加表單..."
+            value={notes}
+            onChange={setNotes}
+          />
+        </div>
+      </section>
+
+      <section id="summary" className="relative mx-auto max-w-7xl px-5 py-16">
+        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <AnalysisPanel analysis={analysis} compact />
+
+            <div className="mt-6 rounded-[2.4rem] bg-white p-8 text-black shadow-2xl shadow-black/30">
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+                Scope
+              </p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-tight">
+                先確認目前適合做什麼。
+              </h2>
+
+              <div className="mt-6 grid gap-5">
+                <ScopeList title="目前適合承接" items={scopeCanDo} />
+                <ScopeList title="目前不主打 / 不亂承諾" items={scopeNotMain} muted />
+              </div>
+            </div>
+          </div>
+
+          <div className="overflow-hidden rounded-[2.4rem] border border-white/10 bg-white/[0.06] backdrop-blur">
+            <div className="flex flex-col gap-4 border-b border-white/10 p-5 sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <p className="text-sm text-cyan-300">Generated Brief</p>
+                <h2 className="mt-1 text-2xl font-semibold">自動產生需求摘要</h2>
+              </div>
+
+              <div className="flex gap-2">
+                <button
+                  type="button"
+                  onClick={copySummary}
+                  className="rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-black transition hover:bg-cyan-200"
+                >
+                  {copied ? "已複製" : "複製摘要"}
+                </button>
+
+                <a
+                  href={mailHref}
+                  className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white transition hover:border-white/40"
+                >
+                  Email
+                </a>
+              </div>
+            </div>
+
+            <pre className="max-h-[760px] overflow-auto whitespace-pre-wrap p-6 text-sm leading-8 text-white/72">
+              {summaryText}
+            </pre>
+          </div>
+        </div>
+      </section>
+
+      <section className="relative mx-auto max-w-7xl px-5 py-16 pb-28">
+        <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
+          <div className="grid gap-8 md:grid-cols-[1fr_0.85fr] md:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
+                Next Step
+              </p>
+              <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
+                複製摘要後傳給我，就能開始初步評估。
+              </h2>
+              <p className="mt-6 max-w-2xl leading-8 text-black/65">
+                這份摘要可以幫我更快了解你的網站用途、功能、素材完整度、預算與時程。
+                不需要一次填得完美，先有方向就可以討論。
+              </p>
+            </div>
+
+            <div className="grid gap-3">
+              <button
+                type="button"
+                onClick={copySummary}
+                className="rounded-3xl bg-black p-5 text-left text-white transition hover:bg-stone-800"
+              >
+                <p className="text-sm text-white/50">Copy Brief</p>
+                <p className="mt-2 font-semibold">
+                  {copied ? "已複製需求摘要" : "複製需求摘要"}
+                </p>
+              </button>
+
+              <a
+                href={mailHref}
+                className="rounded-3xl bg-white/70 p-5 text-black transition hover:bg-white"
+              >
+                <p className="text-sm text-black/50">Email</p>
+                <p className="mt-2 font-semibold">用 Email 傳給我</p>
+              </a>
+
+              <Link
+                to="/luma-nail"
+                className="rounded-3xl bg-white/50 p-5 text-black transition hover:bg-white/80"
+              >
+                <p className="text-sm text-black/50">Main Case</p>
+                <p className="mt-2 font-semibold">查看 Luma 主打案例 →</p>
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <MobileSummaryCTA />
+    </main>
+  )
+}
+
+function AnalysisPanel({ analysis, compact = false }) {
+  return (
+    <div
+      className={`rounded-[2.4rem] border border-white/10 bg-white/10 p-5 shadow-2xl shadow-black/30 backdrop-blur-xl ${
+        compact ? "" : "md:p-6"
+      }`}
+    >
+      <p className="text-sm text-cyan-200">Live Estimate</p>
+      <h2 className="mt-3 text-3xl font-semibold">初步需求判斷</h2>
+
+      <div className="mt-6 grid gap-4">
+        <Meter
+          label="資料完整度"
+          value={analysis.completenessScore}
+          text={analysis.completenessLabel}
+        />
+        <Meter
+          label="需求複雜度"
+          value={analysis.complexityScore}
+          text={analysis.complexityLabel}
+        />
+      </div>
+
+      <div className="mt-6 rounded-[1.6rem] border border-cyan-300/20 bg-cyan-300/10 p-5">
+        <p className="text-sm font-semibold text-cyan-200">建議方案</p>
+        <p className="mt-2 text-2xl font-semibold">{analysis.suggestedPackage}</p>
+      </div>
+
+      <div className="mt-4 rounded-[1.6rem] border border-white/10 bg-white/5 p-5">
+        <p className="text-sm font-semibold text-white/75">下一步要補充</p>
+        <div className="mt-3 grid gap-2">
+          {analysis.missing.length ? (
+            analysis.missing.map((item) => (
+              <div key={item} className="flex gap-3 text-sm leading-6 text-white/60">
+                <span className="mt-2 h-2 w-2 rounded-full bg-amber-300" />
+                <span>{item}</span>
+              </div>
+            ))
+          ) : (
+            <p className="text-sm text-white/60">目前資料已足夠進行初步評估。</p>
+          )}
+        </div>
+      </div>
     </div>
   )
 }
 
-function ScopeCard({ title, items, positive = false }) {
+function Meter({ label, value, text }) {
   return (
-    <Card>
-      <h3 className="text-2xl font-semibold">{title}</h3>
-      <div className="mt-5 grid gap-3">
+    <div>
+      <div className="mb-2 flex items-center justify-between text-sm">
+        <span className="text-white/60">{label}</span>
+        <span className="font-semibold text-cyan-300">
+          {text} / {value}
+        </span>
+      </div>
+      <div className="h-3 overflow-hidden rounded-full bg-white/10">
+        <div
+          className="h-full rounded-full bg-cyan-300 transition-all duration-300"
+          style={{ width: `${value}%` }}
+        />
+      </div>
+    </div>
+  )
+}
+
+function CheckGrid({ options, selected, onToggle }) {
+  return (
+    <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-4">
+      {options.map((item) => {
+        const active = selected.includes(item)
+
+        return (
+          <button
+            key={item}
+            type="button"
+            onClick={() => onToggle(item)}
+            className={`rounded-2xl border p-4 text-left text-sm leading-6 transition hover:-translate-y-1 ${
+              active
+                ? "border-cyan-300 bg-cyan-300 text-black"
+                : "border-white/10 bg-white/[0.06] text-white/70 hover:bg-white/[0.1]"
+            }`}
+          >
+            <span
+              className={`mb-3 flex h-5 w-5 items-center justify-center rounded-full border text-xs ${
+                active ? "border-black bg-black text-white" : "border-white/30"
+              }`}
+            >
+              {active ? "✓" : ""}
+            </span>
+            {item}
+          </button>
+        )
+      })}
+    </div>
+  )
+}
+
+function InputCard({ label, placeholder, value, onChange }) {
+  return (
+    <label className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-5">
+      <span className="text-sm font-semibold text-cyan-300">{label}</span>
+      <input
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        className="mt-4 w-full rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none placeholder:text-white/30 focus:border-cyan-300"
+      />
+    </label>
+  )
+}
+
+function TextAreaCard({ label, placeholder, value, onChange }) {
+  return (
+    <label className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-5">
+      <span className="text-sm font-semibold text-cyan-300">{label}</span>
+      <textarea
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
+        rows={5}
+        className="mt-4 w-full resize-none rounded-2xl border border-white/10 bg-black/20 px-4 py-3 text-white outline-none placeholder:text-white/30 focus:border-cyan-300"
+      />
+    </label>
+  )
+}
+
+function ScopeList({ title, items, muted = false }) {
+  return (
+    <div>
+      <h3 className="text-xl font-semibold">{title}</h3>
+      <div className="mt-4 grid gap-2">
         {items.map((item) => (
-          <div key={item} className="flex gap-3 leading-7 text-white/65">
+          <div key={item} className="flex gap-3 text-sm leading-6 text-black/65">
             <span
               className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
-                positive ? "bg-cyan-300" : "bg-amber-300"
+                muted ? "bg-amber-500" : "bg-cyan-500"
               }`}
             />
             <span>{item}</span>
           </div>
         ))}
       </div>
-    </Card>
-  )
-}
-
-function Card({ children }) {
-  return (
-    <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.09]">
-      {children}
-    </div>
-  )
-}
-
-function Stat({ number, label }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-      <p className="text-xl font-semibold text-cyan-300">{number}</p>
-      <p className="mt-2 text-xs text-white/45">{label}</p>
     </div>
   )
 }
 
 function SectionHeading({ eyebrow, title, desc }) {
   return (
-    <div className="mb-12 flex flex-col justify-between gap-5 md:flex-row md:items-end">
+    <div className="mb-8 flex flex-col justify-between gap-5 md:mb-12 md:flex-row md:items-end">
       <div>
         <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
           {eyebrow}
         </p>
-        <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-tight md:text-6xl">
+        <h2 className="mt-4 max-w-4xl text-3xl font-semibold tracking-tight md:text-5xl">
           {title}
         </h2>
       </div>
@@ -620,6 +921,25 @@ function BackgroundGlow() {
       <div className="absolute left-[-160px] top-[-120px] h-[520px] w-[520px] rounded-full bg-cyan-500/10 blur-[130px]" />
       <div className="absolute right-[-220px] top-[280px] h-[560px] w-[560px] rounded-full bg-amber-400/10 blur-[150px]" />
       <div className="absolute bottom-[-220px] left-[30%] h-[520px] w-[520px] rounded-full bg-violet-500/10 blur-[140px]" />
+    </div>
+  )
+}
+
+function MobileSummaryCTA() {
+  return (
+    <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 rounded-[1.6rem] border border-white/10 bg-[#08090d]/85 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl md:hidden">
+      <a
+        href="#summary"
+        className="flex items-center justify-center rounded-full bg-white px-4 py-3 text-sm font-semibold text-black"
+      >
+        看摘要
+      </a>
+      <Link
+        to="/luma-nail"
+        className="flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
+      >
+        看案例
+      </Link>
     </div>
   )
 }
