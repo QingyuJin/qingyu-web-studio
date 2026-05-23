@@ -345,20 +345,20 @@ function HomePage() {
         </div>
       </header>
 
-      <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-20 md:grid-cols-[1.02fr_0.98fr] md:items-center md:pb-32 md:pt-28">
+      <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-16 md:grid-cols-[1.02fr_0.98fr] md:items-center md:pb-32 md:pt-28">
         <div>
-          <div className="mb-6 inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100 backdrop-blur">
+          <div className="mb-5 inline-flex max-w-full rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:text-sm">
             資訊工程學生｜前端網站製作・RWD・部署上線
           </div>
 
-          <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-tight md:text-7xl">
-            協助小型需求，把零散資訊整理成能上線、能聯絡、能維護的網站。
+          <h1 className="max-w-4xl text-[2.65rem] font-semibold leading-[1.12] tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
+            <span className="block">把零散資訊，</span>
+            <span className="block">整理成能上線的網站。</span>
           </h1>
 
-          <p className="mt-7 max-w-2xl text-lg leading-9 text-white/60">
-            我主打簡易前端網站製作，不把自己包裝成大型設計公司。
-            服務包含網站架構整理、React 前端頁面、手機版 RWD、表單與社群連結整合、
-            GitHub / Vercel 部署，以及基本 SEO / 網域設定建議。
+          <p className="mt-6 max-w-2xl text-base leading-8 text-white/60 sm:text-lg sm:leading-9">
+            我協助學生、小型店家與個人品牌整理網站內容，製作手機版友善的前端頁面，
+            並協助表單、社群連結、Vercel 部署與基本 SEO 設定。
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
@@ -523,9 +523,7 @@ function HomePage() {
       </section>
 
       <GrowthSetupSection />
-
       <LaunchKitSection />
-
       <ModuleSystemSection />
 
       <section id="tech" className="relative mx-auto max-w-7xl px-5 py-20">
