@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react"
 import { Routes, Route, Link } from "react-router-dom"
 import CafeDemo from "./CafeDemo"
 import PortfolioDemo from "./PortfolioDemo"
@@ -6,103 +7,216 @@ import ServiceDemo from "./ServiceDemo"
 import BriefPage from "./BriefPage"
 import LumaNailDemo from "./LumaNailDemo"
 
-const featuredWorks = [
+const primaryCases = [
   {
-    title: "美甲工作室形象頁",
-    subtitle: "Beauty Studio Landing Page",
-    desc: "適合美甲、美睫、美容、霧眉、攝影與其他預約制個人工作室。重點是展示服務、價格、作品風格、預約流程與聯絡方式。",
+    title: "預約制工作室網站",
+    subtitle: "Beauty / Local Studio",
+    problem: "客人常在 IG 私訊詢問價格、作品、地址、預約流程，資訊分散在貼文和限動裡。",
+    solution:
+      "把服務價格、作品展示、預約流程、FAQ、LINE / IG / Google Map 整理成一頁式網站。",
     link: "/luma-nail",
     color: "from-[#f4c7b8] via-[#b58a79] to-[#2f2723]",
-    tags: ["服務價格", "作品展示", "預約流程", "FAQ"],
+    tags: ["服務價格", "作品展示", "預約流程", "LINE / IG"],
   },
   {
     title: "服務型網站",
-    subtitle: "Service Website",
-    desc: "適合顧問服務、數位工作室、SaaS 工具與小型團隊。重點是把服務內容、流程、方案與聯絡方式整理清楚。",
+    subtitle: "Service / Consultant",
+    problem: "客戶不知道你提供哪些服務、方案差異在哪、怎麼聯絡，也不清楚合作流程。",
+    solution:
+      "整理服務模組、方案比較、製作流程、需求確認表與聯絡 CTA，讓訪客快速理解服務。",
     link: "/service-demo",
     color: "from-cyan-400 via-blue-500 to-violet-600",
-    tags: ["服務介紹", "方案比較", "需求確認", "CTA"],
+    tags: ["服務介紹", "方案比較", "需求表", "CTA"],
   },
   {
     title: "個人作品集網站",
-    subtitle: "Personal Portfolio",
-    desc: "適合學生、求職者、設計師、攝影師與創作者。協助整理個人介紹、作品案例、經歷與聯絡方式。",
+    subtitle: "Portfolio / Resume",
+    problem: "作品散落在雲端、IG、簡報或 PDF 裡，對方很難快速看懂你的能力與經歷。",
+    solution:
+      "整理個人介紹、技能、作品案例、經歷與聯絡方式，做成可放履歷或社群的作品集網站。",
     link: "/portfolio-demo",
     color: "from-stone-200 via-stone-500 to-stone-950",
     tags: ["作品展示", "經歷整理", "技能", "聯絡"],
   },
 ]
 
-const serviceCards = [
+const secondaryWorks = [
   {
-    title: "網站架構整理",
-    desc: "先協助釐清網站用途、目標對象、必要內容與訪客該完成的行動。",
+    title: "咖啡店一頁式網站",
+    desc: "餐飲、小店與生活風格品牌的補充案例。",
+    link: "/cafe-demo",
   },
   {
-    title: "前端頁面製作",
-    desc: "使用 React、Tailwind CSS 製作乾淨、可維護、手機版友善的頁面。",
+    title: "活動宣傳頁",
+    desc: "社團活動、講座、營隊、工作坊與報名頁補充案例。",
+    link: "/event-demo",
+  },
+]
+
+const clientProblems = [
+  {
+    title: "只有 IG，資訊很散",
+    desc: "服務、價格、地址、預約流程都在不同貼文裡，客人要自己翻資料。",
   },
   {
-    title: "內容模組組合",
-    desc: "依需求組合 Hero、服務項目、作品展示、FAQ、地圖、表單與 CTA。",
+    title: "AI 生得出畫面，但不知道怎麼上線",
+    desc: "常卡在路由、RWD、部署、表單、社群連結、後續修改與檔案管理。",
   },
   {
-    title: "部署與交付",
-    desc: "協助部署上線，提供公開網址與簡單交付說明。",
+    title: "手機版不好讀",
+    desc: "很多客戶其實都從手機點進來，手機版排版比桌機版更重要。",
+  },
+  {
+    title: "需求還不清楚",
+    desc: "不知道要放哪些內容、哪些功能必要、哪些只是增加成本。",
+  },
+]
+
+const deliverables = [
+  "React / Vite 前端頁面",
+  "RWD 手機版排版",
+  "Vercel 部署上線",
+  "GitHub 原始碼管理",
+  "LINE / IG / Email 連結",
+  "Google Map 整合",
+  "Google Form / 報名連結",
+  "基本 SEO meta",
+  "社群分享 OGP 設定建議",
+  "自訂網域設定協助",
+  "Google Search Console 設定建議",
+  "簡易修改與交付說明",
+]
+
+const techStack = [
+  {
+    name: "React",
+    desc: "前端頁面與元件化結構。",
+  },
+  {
+    name: "Vite",
+    desc: "輕量快速的前端開發環境。",
+  },
+  {
+    name: "Tailwind CSS",
+    desc: "RWD 排版與介面樣式。",
+  },
+  {
+    name: "Git / GitHub",
+    desc: "版本管理與程式碼交付。",
+  },
+  {
+    name: "Vercel",
+    desc: "網站部署與公開網址。",
+  },
+  {
+    name: "Forms / Map / Social",
+    desc: "表單、地圖、社群與聯絡入口整合。",
   },
 ]
 
 const modules = [
-  "首頁主視覺",
-  "服務項目",
-  "作品展示",
-  "價格方案",
-  "菜單 / 商品",
-  "活動流程",
-  "FAQ",
-  "Google Map",
-  "LINE / IG / Email",
-  "報名 / 預約連結",
-  "案例說明",
-  "聯絡 CTA",
+  {
+    title: "Hero 主視覺",
+    desc: "第一眼說清楚你是誰、提供什麼、訪客下一步要做什麼。",
+    className:
+      "md:col-span-3 md:row-span-2 bg-gradient-to-br from-cyan-300 via-blue-500 to-violet-700 text-white",
+  },
+  {
+    title: "服務項目",
+    desc: "整理服務內容與適合對象。",
+    className: "md:col-span-3 bg-white/10 text-white",
+  },
+  {
+    title: "價格 / 方案",
+    desc: "讓預算範圍更清楚。",
+    className: "md:col-span-2 bg-white text-black",
+  },
+  {
+    title: "作品 / 案例",
+    desc: "用過往範例建立信任。",
+    className:
+      "md:col-span-2 bg-gradient-to-br from-[#f4c7b8] to-[#b58a79] text-[#2f2723]",
+  },
+  {
+    title: "FAQ",
+    desc: "減少重複私訊。",
+    className: "md:col-span-2 bg-white/10 text-white",
+  },
+  {
+    title: "Google Map",
+    desc: "店家與工作室常用。",
+    className:
+      "md:col-span-2 bg-gradient-to-br from-emerald-300 to-cyan-400 text-[#0f172a]",
+  },
+  {
+    title: "LINE / IG / Email",
+    desc: "把聯絡入口放在最容易點的位置。",
+    className:
+      "md:col-span-4 bg-gradient-to-br from-stone-100 to-stone-300 text-black",
+  },
+  {
+    title: "表單 / 預約",
+    desc: "適合活動、課程、諮詢與預約制服務。",
+    className:
+      "md:col-span-2 bg-gradient-to-br from-violet-400 to-fuchsia-500 text-white",
+  },
 ]
 
 const process = [
   {
     title: "釐清目標",
-    desc: "確認網站要給誰看、要達成什麼目的、需要引導訪客做什麼。",
+    desc: "確認網站要給誰看、希望訪客完成什麼行動、目前資料完整度如何。",
   },
   {
     title: "整理內容",
-    desc: "將服務、作品、價格、地點、聯絡方式與素材整理成可用的網站架構。",
+    desc: "把服務、作品、價格、地點、聯絡方式、參考風格整理成網站架構。",
   },
   {
-    title: "設計版面",
-    desc: "依照網站類型規劃視覺風格、區塊順序、資訊層級與行動版排版。",
+    title: "製作前端",
+    desc: "依需求製作 React 頁面、RWD 排版、按鈕、區塊與基本互動。",
   },
   {
-    title: "製作上線",
-    desc: "完成前端頁面、RWD 調整、部署上線與交付連結。",
+    title: "部署交付",
+    desc: "協助部署到 Vercel，提供公開網址、原始碼與簡易修改說明。",
   },
 ]
 
-const prices = [
+const pricing = [
   {
-    title: "基本單頁網站",
-    price: "NT$3,000 起",
-    desc: "適合個人履歷、簡單作品集、活動介紹頁。",
+    title: "學生 / 個人作品集",
+    price: "NT$2,000–4,000",
+    desc: "適合履歷網站、作品集展示、簡單個人介紹頁。",
   },
   {
-    title: "標準形象頁",
+    title: "一頁式形象網站",
     price: "NT$5,000–8,000",
-    desc: "適合小店形象頁、個人品牌頁、服務介紹頁。",
+    desc: "適合小店、工作室、個人品牌、服務介紹與預約入口。",
   },
   {
     title: "網站修改 / 優化",
     price: "NT$500–1,000 / 小時",
-    desc: "適合舊網站排版調整、手機版修正、圖片文字更新。",
+    desc: "適合舊網站排版、RWD、文案圖片更新、按鈕與連結調整。",
   },
 ]
+
+const scopeItems = {
+  canDo: [
+    "一頁式網站",
+    "RWD 手機版",
+    "前端切版",
+    "Vercel 部署",
+    "表單 / 地圖 / 社群連結",
+    "基本 SEO / OGP 設定",
+  ],
+  notMain: [
+    "大型後台系統",
+    "會員與金流",
+    "完整 CMS",
+    "大型電商",
+    "高階品牌識別設計",
+    "保證 SEO 排名",
+  ],
+}
 
 function App() {
   return (
@@ -110,8 +224,8 @@ function App() {
       <Route path="/" element={<HomePage />} />
       <Route path="/luma-nail" element={<LumaNailDemo />} />
       <Route path="/service-demo" element={<ServiceDemo />} />
-      <Route path="/cafe-demo" element={<CafeDemo />} />
       <Route path="/portfolio-demo" element={<PortfolioDemo />} />
+      <Route path="/cafe-demo" element={<CafeDemo />} />
       <Route path="/event-demo" element={<EventDemo />} />
       <Route path="/brief" element={<BriefPage />} />
     </Routes>
@@ -121,6 +235,7 @@ function App() {
 function HomePage() {
   return (
     <main className="min-h-screen overflow-hidden bg-[#08090d] text-white">
+      <PointerEffects />
       <BackgroundGlow />
 
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#08090d]/80 backdrop-blur-xl">
@@ -130,14 +245,17 @@ function HomePage() {
           </a>
 
           <nav className="hidden items-center gap-7 text-sm text-white/55 md:flex">
-            <a href="#works" className="hover:text-white">
-              作品
+            <a href="#problems" className="hover:text-white">
+              問題
             </a>
-            <a href="#services" className="hover:text-white">
-              服務
+            <a href="#cases" className="hover:text-white">
+              案例
             </a>
-            <a href="#process" className="hover:text-white">
-              流程
+            <a href="#deliverables" className="hover:text-white">
+              交付
+            </a>
+            <a href="#tech" className="hover:text-white">
+              技術
             </a>
             <a href="#pricing" className="hover:text-white">
               價格
@@ -145,87 +263,119 @@ function HomePage() {
             <Link to="/brief" className="hover:text-white">
               需求表
             </Link>
-            <a
+            <RippleLink
               href="#contact"
               className="rounded-full bg-white px-4 py-2 font-medium text-black hover:bg-cyan-200"
             >
               聯絡我
-            </a>
+            </RippleLink>
           </nav>
         </div>
       </header>
 
       <section className="relative mx-auto grid max-w-7xl gap-14 px-5 pb-24 pt-20 md:grid-cols-[1.02fr_0.98fr] md:items-center md:pb-32 md:pt-28">
         <div>
-          <div className="mb-6 inline-flex rounded-full border border-white/10 bg-white/5 px-4 py-2 text-sm text-white/65 backdrop-blur">
-            資訊工程背景・前端頁面製作・小型網站設計
+          <div className="mb-6 inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm text-cyan-100 backdrop-blur">
+            資訊工程學生｜前端網站製作・RWD・部署上線
           </div>
 
           <h1 className="max-w-4xl text-5xl font-semibold leading-[1.02] tracking-tight md:text-7xl">
-            把想法、服務與作品，整理成一個真正能上線的網站。
+            協助小型需求，把零散資訊整理成能上線、能聯絡、能維護的網站。
           </h1>
 
           <p className="mt-7 max-w-2xl text-lg leading-9 text-white/60">
-            我專注製作小型網站：個人作品集、一頁式形象頁、服務型網站與活動頁。
-            從內容架構、RWD 前端製作到部署上線，協助你把零散資訊變成清楚可用的網站。
+            我主打簡易前端網站製作，不把自己包裝成大型設計公司。
+            服務包含網站架構整理、React 前端頁面、手機版 RWD、表單與社群連結整合、
+            GitHub / Vercel 部署，以及基本 SEO / 網域設定建議。
           </p>
 
           <div className="mt-10 flex flex-wrap gap-3">
-            <a
-              href="#works"
+            <RippleLink
+              href="#cases"
               className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
             >
-              查看主打案例
-            </a>
-            <Link
+              查看需求案例
+            </RippleLink>
+
+            <RippleLink
+              to="/luma-nail"
+              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
+            >
+              看主打案例
+            </RippleLink>
+
+            <RippleLink
               to="/brief"
               className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
             >
-              查看需求表
-            </Link>
-            <a
-              href="#contact"
-              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
-            >
-              聯絡討論
-            </a>
+              先整理需求
+            </RippleLink>
           </div>
 
           <div className="mt-12 grid max-w-2xl grid-cols-3 gap-3">
-            <Stat number="3" label="主打案例" />
-            <Stat number="RWD" label="手機版支援" />
-            <Stat number="Launch" label="協助部署" />
+            <Stat number="RWD" label="手機版優先" />
+            <Stat number="GitHub" label="原始碼管理" />
+            <Stat number="Vercel" label="部署上線" />
           </div>
         </div>
 
-        <ShowcaseWall />
+        <ProjectConsole />
       </section>
 
-      <section id="works" className="relative mx-auto max-w-7xl px-5 py-20">
+      <section id="problems" className="relative mx-auto max-w-7xl px-5 py-20">
         <SectionHeading
-          eyebrow="Selected Works"
-          title="主打三種最容易成交的網站方向。"
-          desc="不再用一堆普通 Demo 填版面，而是把作品整理成可延伸的案例方向。"
+          eyebrow="Client Problems"
+          title="我不是只做漂亮畫面，而是先處理客戶真正卡住的地方。"
+          desc="很多小型網站的問題不是沒有工具，而是需求不清楚、內容散亂、手機版不好讀、也不知道怎麼部署。"
+        />
+
+        <div className="grid gap-5 md:grid-cols-4">
+          {clientProblems.map((item, index) => (
+            <SpotlightCard
+              key={item.title}
+              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+            >
+              <p className="text-sm text-cyan-300">0{index + 1}</p>
+              <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>
+              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+            </SpotlightCard>
+          ))}
+        </div>
+      </section>
+
+      <section id="cases" className="relative mx-auto max-w-7xl px-5 py-20">
+        <SectionHeading
+          eyebrow="Scenario Cases"
+          title="作品不只展示畫面，而是對應真實需求情境。"
+          desc="目前只主打最容易轉成小型接案的三種方向，其他 Demo 降為補充案例。"
         />
 
         <div className="grid gap-6 md:grid-cols-3">
-          {featuredWorks.map((work) => (
-            <Link
-              key={work.title}
-              to={work.link}
-              className="group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.1]"
+          {primaryCases.map((item, index) => (
+            <SpotlightLink
+              key={item.title}
+              to={item.link}
+              className={`group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition duration-300 hover:-translate-y-2 hover:bg-white/[0.1] ${
+                index === 0 ? "ring-1 ring-cyan-300/30" : ""
+              }`}
             >
               <div
-                className={`h-72 rounded-[1.5rem] bg-gradient-to-br ${work.color} p-6`}
+                className={`h-72 rounded-[1.5rem] bg-gradient-to-br ${item.color} p-6`}
               >
                 <p className="text-xs uppercase tracking-[0.28em] text-white/60">
-                  {work.subtitle}
+                  {item.subtitle}
                 </p>
 
-                <div className="mt-28">
-                  <h3 className="text-3xl font-semibold">{work.title}</h3>
+                <div className="mt-24">
+                  {index === 0 && (
+                    <span className="mb-4 inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white">
+                      Main Case
+                    </span>
+                  )}
+                  <h3 className="text-3xl font-semibold">{item.title}</h3>
+
                   <div className="mt-4 flex flex-wrap gap-2">
-                    {work.tags.map((tag) => (
+                    {item.tags.map((tag) => (
                       <span
                         key={tag}
                         className="rounded-full bg-white/15 px-3 py-1 text-xs text-white/80"
@@ -238,7 +388,12 @@ function HomePage() {
               </div>
 
               <div className="p-4">
-                <p className="leading-8 text-white/60">{work.desc}</p>
+                <p className="text-sm font-semibold text-cyan-300">需求問題</p>
+                <p className="mt-2 leading-7 text-white/55">{item.problem}</p>
+
+                <p className="mt-5 text-sm font-semibold text-cyan-300">網站解法</p>
+                <p className="mt-2 leading-7 text-white/65">{item.solution}</p>
+
                 <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
                   查看案例
                   <span className="ml-2 transition group-hover:translate-x-1">
@@ -246,69 +401,46 @@ function HomePage() {
                   </span>
                 </div>
               </div>
-            </Link>
+            </SpotlightLink>
           ))}
         </div>
 
         <div className="mt-6 grid gap-4 md:grid-cols-2">
-          <Link
-            to="/cafe-demo"
-            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:bg-white/[0.08] hover:text-white"
-          >
-            補充案例：咖啡店一頁式網站 →
-          </Link>
-
-          <Link
-            to="/event-demo"
-            className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:bg-white/[0.08] hover:text-white"
-          >
-            補充案例：活動宣傳頁 →
-          </Link>
-        </div>
-      </section>
-
-      <section id="services" className="relative mx-auto max-w-7xl px-5 py-20">
-        <SectionHeading
-          eyebrow="Services"
-          title="我不是只做畫面，而是協助你整理網站內容。"
-          desc="小型網站最常失敗的原因不是技術太難，而是資訊散亂、重點不清楚、手機版不好讀。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-4">
-          {serviceCards.map((item, index) => (
-            <div
+          {secondaryWorks.map((item) => (
+            <SpotlightLink
               key={item.title}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+              to={item.link}
+              className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:-translate-y-1 hover:bg-white/[0.08] hover:text-white"
             >
-              <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="mt-5 text-xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
-            </div>
+              <p className="text-lg font-semibold">{item.title}</p>
+              <p className="mt-2 leading-7">{item.desc}</p>
+              <p className="mt-4 text-cyan-300">查看補充案例 →</p>
+            </SpotlightLink>
           ))}
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-7xl px-5 py-20">
-        <div className="rounded-[2.5rem] bg-white p-8 text-black md:p-12">
-          <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr] md:items-start">
+      <section id="deliverables" className="relative mx-auto max-w-7xl px-5 py-20">
+        <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
+          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
-                Flexible System
+                Deliverables
               </p>
-              <h2 className="mt-4 text-4xl font-semibold tracking-tight md:text-6xl">
-                網站不是套固定模板，而是依需求組合模組。
+              <h2 className="mt-4 text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+                交付的不是一張圖，而是一個可上線的前端網站。
               </h2>
               <p className="mt-6 leading-8 text-black/60">
-                不同客戶需要的內容不同。我會依照網站目的、產業類型與資料完整度，
-                組合適合的頁面區塊，避免做出看起來漂亮但不好用的網站。
+                客戶最在意的通常不是你用了什麼特效，而是網站能不能放資訊、
+                能不能在手機上看、能不能被分享、能不能部署、後續能不能修改。
               </p>
             </div>
 
             <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-              {modules.map((item) => (
+              {deliverables.map((item) => (
                 <div
                   key={item}
-                  className="rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm font-medium"
+                  className="rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm font-medium transition hover:-translate-y-1 hover:bg-black/[0.06]"
                 >
                   {item}
                 </div>
@@ -318,41 +450,72 @@ function HomePage() {
         </div>
       </section>
 
+      <ModuleSystemSection />
+
+      <section id="tech" className="relative mx-auto max-w-7xl px-5 py-20">
+        <SectionHeading
+          eyebrow="Tech & Scope"
+          title="用工程背景補足小型網站最常缺的交付能力。"
+          desc="不亂承諾大型系統，先把小型網站的前端、RWD、部署與基本整合做好。"
+        />
+
+        <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
+          <div className="grid gap-5 md:grid-cols-2">
+            {techStack.map((item) => (
+              <SpotlightCard
+                key={item.name}
+                className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+              >
+                <h3 className="text-2xl font-semibold text-cyan-300">
+                  {item.name}
+                </h3>
+                <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
+              </SpotlightCard>
+            ))}
+          </div>
+
+          <div className="grid gap-5">
+            <ScopeCard title="目前適合承接" items={scopeItems.canDo} positive />
+            <ScopeCard title="目前不亂承諾" items={scopeItems.notMain} />
+          </div>
+        </div>
+      </section>
+
       <section id="process" className="relative mx-auto max-w-7xl px-5 py-20">
         <SectionHeading
           eyebrow="Process"
-          title="從需求到網站，不是直接開始亂做。"
-          desc="先釐清目標與內容，再進入版面與前端製作，能減少修改成本，也讓網站更有方向。"
+          title="先整理需求，再開始製作，避免做出看起來有東西但不能用的網站。"
+          desc="流程會先聚焦目的、內容與範圍，再進入前端製作與部署。"
         />
 
         <div className="grid gap-5 md:grid-cols-4">
           {process.map((item, index) => (
-            <div
+            <SpotlightCard
               key={item.title}
               className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
             >
               <p className="text-sm text-cyan-300">0{index + 1}</p>
               <h3 className="mt-5 text-2xl font-semibold">{item.title}</h3>
               <p className="mt-4 leading-7 text-white/55">{item.desc}</p>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
 
         <div className="mt-6 rounded-[2rem] border border-cyan-300/20 bg-cyan-300/10 p-6">
           <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
             <div>
-              <h3 className="text-2xl font-semibold">還不知道怎麼整理需求？</h3>
+              <h3 className="text-2xl font-semibold">需求還不清楚也可以先討論。</h3>
               <p className="mt-2 leading-7 text-white/60">
-                可以先看需求確認表，整理網站用途、內容、風格、功能與預算。
+                可以先看需求確認表，整理網站用途、內容、功能、風格與預算。
               </p>
             </div>
 
-            <Link
+            <RippleLink
               to="/brief"
               className="inline-flex w-fit rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-200"
             >
               查看需求表 →
-            </Link>
+            </RippleLink>
           </div>
         </div>
       </section>
@@ -361,12 +524,12 @@ function HomePage() {
         <SectionHeading
           eyebrow="Pricing"
           title="先從小型需求開始，報價依範圍調整。"
-          desc="目前主打小型網站與前端頁面製作，避免一開始接超出範圍的大型系統。"
+          desc="目前主打小型網站與前端頁面製作，避免一開始接超出能力範圍的大型系統。"
         />
 
         <div className="grid gap-5 md:grid-cols-3">
-          {prices.map((item) => (
-            <div
+          {pricing.map((item) => (
+            <SpotlightCard
               key={item.title}
               className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur"
             >
@@ -375,13 +538,13 @@ function HomePage() {
                 {item.price}
               </p>
               <p className="mt-5 leading-8 text-white/55">{item.desc}</p>
-            </div>
+            </SpotlightCard>
           ))}
         </div>
       </section>
 
       <section id="contact" className="relative mx-auto max-w-7xl px-5 py-20 pb-28">
-        <div className="overflow-hidden rounded-[2.5rem] bg-cyan-300 p-8 text-black md:p-12">
+        <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
           <div className="grid gap-10 md:grid-cols-[1fr_0.9fr] md:items-end">
             <div>
               <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
@@ -391,8 +554,8 @@ function HomePage() {
                 有網站需求，可以先把想法傳給我。
               </h2>
               <p className="mt-6 max-w-2xl leading-8 text-black/65">
-                你不需要一開始就準備好完整規格。可以先告訴我網站用途、
-                參考風格、需要放什麼內容，我會協助整理成可報價的範圍。
+                不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、
+                需要放什麼內容、預算和希望完成時間，我會協助整理成可評估的範圍。
               </p>
             </div>
 
@@ -408,13 +571,13 @@ function HomePage() {
                 value="qingyu.jin"
                 href="https://www.instagram.com/qingyu.jin"
               />
-              <Link
+              <RippleLink
                 to="/brief"
                 className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
               >
                 <p className="text-sm text-white/50">Website Brief</p>
                 <p className="mt-2 font-semibold">查看需求確認表 →</p>
-              </Link>
+              </RippleLink>
             </div>
           </div>
         </div>
@@ -423,17 +586,7 @@ function HomePage() {
   )
 }
 
-function BackgroundGlow() {
-  return (
-    <div className="pointer-events-none fixed inset-0">
-      <div className="absolute left-[-160px] top-[-120px] h-[520px] w-[520px] rounded-full bg-cyan-500/10 blur-[130px]" />
-      <div className="absolute right-[-220px] top-[280px] h-[560px] w-[560px] rounded-full bg-amber-400/10 blur-[150px]" />
-      <div className="absolute bottom-[-220px] left-[30%] h-[520px] w-[520px] rounded-full bg-violet-500/10 blur-[140px]" />
-    </div>
-  )
-}
-
-function ShowcaseWall() {
+function ProjectConsole() {
   return (
     <div className="relative">
       <div className="rounded-[2.4rem] border border-white/10 bg-white/10 p-4 shadow-2xl shadow-black/40 backdrop-blur-xl">
@@ -445,30 +598,38 @@ function ShowcaseWall() {
               <span className="h-3 w-3 rounded-full bg-green-400" />
             </div>
             <span className="rounded-full bg-white/10 px-3 py-1 text-xs text-white/60">
-              Live Preview
+              Project Scope
             </span>
           </div>
 
-          <div className="grid gap-4">
-            {featuredWorks.map((work, index) => (
-              <Link
-                key={work.title}
-                to={work.link}
+          <div className="rounded-[1.5rem] border border-cyan-300/20 bg-cyan-300/10 p-5">
+            <p className="text-sm text-cyan-200">目前定位</p>
+            <h2 className="mt-3 text-3xl font-semibold">
+              Frontend Website Build
+            </h2>
+            <p className="mt-3 leading-7 text-white/60">
+              RWD、前端頁面、部署、表單與社群連結整合。
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-4">
+            {primaryCases.map((item, index) => (
+              <SpotlightLink
+                key={item.title}
+                to={item.link}
                 className={`group rounded-[1.6rem] border border-white/10 bg-white/5 p-3 transition hover:-translate-y-1 hover:bg-white/10 ${
                   index === 1 ? "md:ml-8" : ""
                 }`}
               >
-                <div
-                  className={`rounded-[1.25rem] bg-gradient-to-br ${work.color} p-5`}
-                >
+                <div className={`rounded-[1.25rem] bg-gradient-to-br ${item.color} p-5`}>
                   <p className="text-xs uppercase tracking-[0.25em] text-white/60">
-                    {work.subtitle}
+                    {item.subtitle}
                   </p>
-                  <div className="mt-12 flex items-end justify-between gap-4">
+                  <div className="mt-10 flex items-end justify-between gap-4">
                     <div>
-                      <p className="text-2xl font-semibold">{work.title}</p>
+                      <p className="text-2xl font-semibold">{item.title}</p>
                       <p className="mt-1 text-sm text-white/70">
-                        {work.tags.join(" · ")}
+                        {item.tags.join(" · ")}
                       </p>
                     </div>
                     <span className="text-white/60 transition group-hover:translate-x-1 group-hover:text-white">
@@ -476,18 +637,93 @@ function ShowcaseWall() {
                     </span>
                   </div>
                 </div>
-              </Link>
+              </SpotlightLink>
             ))}
-
-            <Link
-              to="/event-demo"
-              className="rounded-[1.6rem] border border-white/10 bg-white/5 p-4 text-white/55 transition hover:bg-white/10 hover:text-white"
-            >
-              補充案例：活動宣傳頁 →
-            </Link>
           </div>
         </div>
       </div>
+    </div>
+  )
+}
+
+function ModuleSystemSection() {
+  return (
+    <section id="modules" className="relative mx-auto max-w-7xl px-5 py-20">
+      <div className="relative overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#11141d] p-6 shadow-2xl shadow-black/40 md:p-10">
+        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/20 blur-[90px]" />
+        <div className="pointer-events-none absolute right-[-80px] top-20 h-72 w-72 rounded-full bg-violet-500/20 blur-[100px]" />
+        <div className="pointer-events-none absolute bottom-[-120px] left-[35%] h-80 w-80 rounded-full bg-amber-300/10 blur-[110px]" />
+
+        <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+              Modular Website System
+            </p>
+
+            <h2 className="mt-4 max-w-xl text-4xl font-semibold leading-tight tracking-tight md:text-6xl">
+              依需求組合模組，不是每個網站都套同一個模板。
+            </h2>
+
+            <p className="mt-6 max-w-xl leading-8 text-white/60">
+              每個客戶需要的內容不同。我會依照網站目的、產業類型、資料完整度與預算，
+              選擇必要模組，避免網站看起來很多東西但沒有重點。
+            </p>
+
+            <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
+              <InfoPill number="01" text="先確認網站目的，不急著做畫面。" />
+              <InfoPill number="02" text="選擇必要區塊，避免資訊過多。" />
+              <InfoPill number="03" text="完成 RWD，讓手機版也能清楚操作。" />
+            </div>
+          </div>
+
+          <div className="grid auto-rows-[150px] gap-4 md:grid-cols-6">
+            {modules.map((item) => (
+              <SpotlightCard
+                key={item.title}
+                className={`flex flex-col justify-between rounded-[2rem] p-5 shadow-lg transition duration-300 hover:-translate-y-1 ${item.className}`}
+              >
+                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-sm font-semibold">
+                  +
+                </div>
+
+                <div>
+                  <h3 className="text-2xl font-semibold">{item.title}</h3>
+                  <p className="mt-2 text-sm leading-6 opacity-75">{item.desc}</p>
+                </div>
+              </SpotlightCard>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ScopeCard({ title, items, positive = false }) {
+  return (
+    <SpotlightCard className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur">
+      <h3 className="text-2xl font-semibold">{title}</h3>
+      <div className="mt-5 grid gap-3">
+        {items.map((item) => (
+          <div key={item} className="flex gap-3 leading-7 text-white/60">
+            <span
+              className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
+                positive ? "bg-cyan-300" : "bg-amber-300"
+              }`}
+            />
+            <span>{item}</span>
+          </div>
+        ))}
+      </div>
+    </SpotlightCard>
+  )
+}
+
+function InfoPill({ number, text }) {
+  return (
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
+      <p className="text-2xl font-semibold text-cyan-300">{number}</p>
+      <p className="mt-2 text-sm text-white/55">{text}</p>
     </div>
   )
 }
@@ -508,9 +744,186 @@ function SectionHeading({ eyebrow, title, desc }) {
   )
 }
 
+function PointerEffects() {
+  const [mouse, setMouse] = useState({ x: -999, y: -999, visible: false })
+  const [bursts, setBursts] = useState([])
+
+  useEffect(() => {
+    function handlePointerMove(event) {
+      if (event.pointerType !== "mouse") return
+      setMouse({ x: event.clientX, y: event.clientY, visible: true })
+    }
+
+    function handlePointerLeave() {
+      setMouse((current) => ({ ...current, visible: false }))
+    }
+
+    function handlePointerDown(event) {
+      const id = `${Date.now()}-${Math.random()}`
+      const isTouch = event.pointerType !== "mouse"
+
+      setBursts((current) => [
+        ...current,
+        {
+          id,
+          x: event.clientX,
+          y: event.clientY,
+          touch: isTouch,
+        },
+      ])
+
+      window.setTimeout(() => {
+        setBursts((current) => current.filter((item) => item.id !== id))
+      }, 900)
+    }
+
+    window.addEventListener("pointermove", handlePointerMove)
+    window.addEventListener("pointerleave", handlePointerLeave)
+    window.addEventListener("pointerdown", handlePointerDown)
+
+    return () => {
+      window.removeEventListener("pointermove", handlePointerMove)
+      window.removeEventListener("pointerleave", handlePointerLeave)
+      window.removeEventListener("pointerdown", handlePointerDown)
+    }
+  }, [])
+
+  return (
+    <>
+      <div
+        className={`pointer-events-none fixed z-[60] hidden h-64 w-64 -translate-x-1/2 -translate-y-1/2 rounded-full bg-cyan-300/10 blur-3xl transition-opacity duration-300 md:block ${
+          mouse.visible ? "opacity-100" : "opacity-0"
+        }`}
+        style={{ left: mouse.x, top: mouse.y }}
+      />
+
+      <div className="pointer-events-none fixed inset-0 z-[70]">
+        {bursts.map((burst) => (
+          <div
+            key={burst.id}
+            className={`tap-burst ${burst.touch ? "touch" : "mouse"}`}
+            style={{ left: burst.x, top: burst.y }}
+          >
+            <span className="tap-ring" />
+            <span className="tap-ring tap-ring-delay" />
+            <span className="tap-dot" />
+          </div>
+        ))}
+      </div>
+    </>
+  )
+}
+
+function BackgroundGlow() {
+  return (
+    <div className="pointer-events-none fixed inset-0">
+      <div className="absolute left-[-160px] top-[-120px] h-[520px] w-[520px] rounded-full bg-cyan-500/10 blur-[130px]" />
+      <div className="absolute right-[-220px] top-[280px] h-[560px] w-[560px] rounded-full bg-amber-400/10 blur-[150px]" />
+      <div className="absolute bottom-[-220px] left-[30%] h-[520px] w-[520px] rounded-full bg-violet-500/10 blur-[140px]" />
+    </div>
+  )
+}
+
+function SpotlightCard({ className = "", children }) {
+  function handleMouseMove(event) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty("--x", `${event.clientX - rect.left}px`)
+    event.currentTarget.style.setProperty("--y", `${event.clientY - rect.top}px`)
+  }
+
+  return (
+    <div onMouseMove={handleMouseMove} className={`spotlight-card ${className}`}>
+      {children}
+    </div>
+  )
+}
+
+function SpotlightLink({ to, href, className = "", children }) {
+  function handleMouseMove(event) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    event.currentTarget.style.setProperty("--x", `${event.clientX - rect.left}px`)
+    event.currentTarget.style.setProperty("--y", `${event.clientY - rect.top}px`)
+  }
+
+  if (to) {
+    return (
+      <Link onMouseMove={handleMouseMove} to={to} className={`spotlight-card ${className}`}>
+        {children}
+      </Link>
+    )
+  }
+
+  return (
+    <a onMouseMove={handleMouseMove} href={href} className={`spotlight-card ${className}`}>
+      {children}
+    </a>
+  )
+}
+
+function RippleLink({ to, href, className = "", children }) {
+  const [ripples, setRipples] = useState([])
+
+  function handlePointerDown(event) {
+    const rect = event.currentTarget.getBoundingClientRect()
+    const size = Math.max(rect.width, rect.height) * 1.4
+    const newRipple = {
+      id: Date.now(),
+      x: event.clientX - rect.left,
+      y: event.clientY - rect.top,
+      size,
+    }
+
+    setRipples((current) => [...current, newRipple])
+
+    window.setTimeout(() => {
+      setRipples((current) => current.filter((ripple) => ripple.id !== newRipple.id))
+    }, 650)
+  }
+
+  const content = (
+    <>
+      <span className="relative z-10">{children}</span>
+      {ripples.map((ripple) => (
+        <span
+          key={ripple.id}
+          className="ripple-effect"
+          style={{
+            left: ripple.x,
+            top: ripple.y,
+            width: ripple.size,
+            height: ripple.size,
+          }}
+        />
+      ))}
+    </>
+  )
+
+  if (to) {
+    return (
+      <Link
+        to={to}
+        onPointerDown={handlePointerDown}
+        className={`relative isolate overflow-hidden active:scale-[0.98] ${className}`}
+      >
+        {content}
+      </Link>
+    )
+  }
+
+  return (
+    <a
+      href={href}
+      onPointerDown={handlePointerDown}
+      className={`relative isolate overflow-hidden active:scale-[0.98] ${className}`}
+    >
+      {content}
+    </a>
+  )
+}
+
 function Stat({ number, label }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
+    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:-translate-y-1 hover:bg-white/10">
       <p className="text-2xl font-semibold text-cyan-300">{number}</p>
       <p className="mt-2 text-xs text-white/45">{label}</p>
     </div>
@@ -531,7 +944,7 @@ function ContactCard({ label, value, href }) {
         href={href}
         target={href.startsWith("http") ? "_blank" : undefined}
         rel={href.startsWith("http") ? "noreferrer" : undefined}
-        className="rounded-3xl bg-white/70 p-5 transition hover:bg-white"
+        className="rounded-3xl bg-white/70 p-5 transition hover:-translate-y-1 hover:bg-white"
       >
         {content}
       </a>
