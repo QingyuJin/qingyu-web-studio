@@ -7,243 +7,101 @@ import ServiceDemo from "./ServiceDemo"
 import BriefPage from "./BriefPage"
 import LumaNailDemo from "./LumaNailDemo"
 
-const primaryCases = [
+const workDemos = [
   {
-    title: "預約制工作室網站",
-    subtitle: "Beauty / Local Studio",
-    problem: "客人常在 IG 私訊詢問價格、作品、地址、預約流程，資訊分散在貼文和限動裡。",
-    solution:
-      "把服務價格、作品展示、預約流程、FAQ、LINE / IG / Google Map 整理成一頁式網站。",
+    title: "Luma Nail Studio",
+    category: "預約制工作室網站",
+    desc: "概念案例。示範如何把服務、價格、作品、預約流程、FAQ、LINE / IG / Google Map 整理成一頁式網站。",
+    fit: "美甲 / 美睫 / 美容 / 霧眉 / 攝影 / 健身教練",
     link: "/luma-nail",
     color: "from-[#f4c7b8] via-[#b58a79] to-[#2f2723]",
-    tags: ["服務價格", "作品展示", "預約流程", "LINE / IG"],
+    tags: ["主打 Demo", "預約制", "手機版", "案例說明"],
   },
   {
-    title: "服務型網站",
-    subtitle: "Service / Consultant",
-    problem: "客戶不知道你提供哪些服務、方案差異在哪、怎麼聯絡，也不清楚合作流程。",
-    solution:
-      "整理服務模組、方案比較、製作流程、需求確認表與聯絡 CTA，讓訪客快速理解服務。",
+    title: "Service Demo",
+    category: "服務型網站",
+    desc: "適合顧問、課程品牌、自由工作者或小型團隊。重點是服務介紹、方案比較、流程與 CTA。",
+    fit: "顧問 / 課程 / 自由工作者 / 小型團隊",
     link: "/service-demo",
     color: "from-cyan-400 via-blue-500 to-violet-600",
-    tags: ["服務介紹", "方案比較", "需求表", "CTA"],
+    tags: ["服務介紹", "方案比較", "CTA"],
   },
   {
-    title: "個人作品集網站",
-    subtitle: "Portfolio / Resume",
-    problem: "作品散落在雲端、IG、簡報或 PDF 裡，對方很難快速看懂你的能力與經歷。",
-    solution:
-      "整理個人介紹、技能、作品案例、經歷與聯絡方式，做成可放履歷或社群的作品集網站。",
+    title: "Portfolio Demo",
+    category: "個人作品集網站",
+    desc: "適合學生、求職者、創作者或設計師。整理個人介紹、技能、經歷與作品案例。",
+    fit: "學生 / 求職 / 創作者 / 設計師",
     link: "/portfolio-demo",
     color: "from-stone-200 via-stone-500 to-stone-950",
-    tags: ["作品展示", "經歷整理", "技能", "聯絡"],
+    tags: ["作品集", "履歷", "個人品牌"],
   },
-]
-
-const secondaryWorks = [
   {
-    title: "咖啡店一頁式網站",
-    desc: "餐飲、小店與生活風格品牌的補充案例。",
+    title: "Cafe Demo",
+    category: "咖啡店一頁式網站",
+    desc: "適合小型餐飲、咖啡廳與生活風格品牌。展示品牌氛圍、菜單、地點與營業資訊。",
+    fit: "咖啡廳 / 小餐飲 / 生活品牌",
     link: "/cafe-demo",
+    color: "from-amber-200 via-orange-300 to-stone-900",
+    tags: ["餐飲", "菜單", "地點"],
   },
   {
-    title: "活動宣傳頁",
-    desc: "社團活動、講座、營隊、工作坊與報名頁補充案例。",
+    title: "Event Demo",
+    category: "活動宣傳頁",
+    desc: "適合講座、社團活動、營隊、工作坊與報名頁。重點是活動資訊、流程、報名入口與 FAQ。",
+    fit: "講座 / 社團 / 工作坊 / 活動報名",
     link: "/event-demo",
+    color: "from-violet-400 via-fuchsia-500 to-rose-500",
+    tags: ["活動", "報名", "FAQ"],
+  },
+  {
+    title: "Brief Builder",
+    category: "互動式需求整理器",
+    desc: "接案前的需求整理工具。讓客戶勾選網站類型、功能、素材、預算與時程，產生需求摘要。",
+    fit: "需求釐清 / 初步估價 / 接案前討論",
+    link: "/brief",
+    color: "from-emerald-300 via-cyan-300 to-blue-500",
+    tags: ["需求表", "互動工具", "摘要產生"],
   },
 ]
 
-const clientProblems = [
+const servicePoints = [
   {
-    title: "只有 IG，資訊很散",
-    desc: "服務、價格、地址、預約流程都在不同貼文裡，客人要自己翻資料。",
+    title: "我先幫你整理內容",
+    desc: "很多小型網站不是缺技術，而是服務、價格、作品、地點、預約流程都散在 IG、LINE 或貼文裡。",
   },
   {
-    title: "AI 生得出畫面，但不知道怎麼上線",
-    desc: "常卡在路由、RWD、部署、表單、社群連結、後續修改與檔案管理。",
+    title: "我做手機版友善的頁面",
+    desc: "真實客戶通常從手機點進來，所以我會優先確認標題、按鈕、段落、圖片與聯絡入口在手機上是否好讀好點。",
   },
   {
-    title: "手機版不好讀",
-    desc: "很多客戶其實都從手機點進來，手機版排版比桌機版更重要。",
-  },
-  {
-    title: "需求還不清楚",
-    desc: "不知道要放哪些內容、哪些功能必要、哪些只是增加成本。",
+    title: "我協助部署和基本設定",
+    desc: "包含 GitHub、Vercel、LINE / IG / Email / Google Map 連結、OGP 分享預覽與基本 SEO meta。",
   },
 ]
 
-const deliverables = [
-  "React / Vite 前端頁面",
-  "RWD 手機版排版",
-  "Vercel 部署上線",
-  "GitHub 原始碼管理",
-  "LINE / IG / Email 連結",
-  "Google Map 整合",
-  "Google Form / 報名連結",
-  "基本 SEO meta",
-  "社群分享 OGP 設定建議",
-  "自訂網域設定協助",
-  "Google Search Console 設定建議",
-  "簡易修改與交付說明",
-]
-
-const growthSetups = [
-  {
-    title: "基本 SEO Meta",
-    desc: "協助設定網站標題、描述、關鍵頁面文字，讓搜尋引擎更容易理解網站內容。",
-    tag: "Search",
-  },
-  {
-    title: "社群分享 OGP",
-    desc: "設定網站被分享到 LINE、Facebook、Threads 時顯示的標題、描述與預覽圖方向。",
-    tag: "Share",
-  },
-  {
-    title: "Google Search Console",
-    desc: "可協助提供搜尋收錄設定建議，讓網站有機會被 Google 正確索引。",
-    tag: "Index",
-  },
-  {
-    title: "Google Analytics",
-    desc: "可依需求協助加入流量追蹤，了解訪客來源、瀏覽行為與常被點擊的頁面。",
-    tag: "Track",
-  },
-  {
-    title: "LINE / IG / Email CTA",
-    desc: "把訪客導向最重要的聯絡入口，讓網站不只是展示，而是能促成聯絡。",
-    tag: "Contact",
-  },
-  {
-    title: "Google Map / 商家連結",
-    desc: "適合店家與工作室，把 Google 商家、地圖、社群連結集中整理。",
-    tag: "Local",
-  },
-]
-
-const launchKit = [
-  {
-    title: "手機版檢查",
-    desc: "確認標題、段落、圖片、按鈕與聯絡入口在手機上是否好讀、好點、不卡住。",
-    items: ["標題層級", "按鈕大小", "圖片裁切", "手機閱讀順序"],
-  },
-  {
-    title: "聯絡入口檢查",
-    desc: "確認網站能不能把訪客導向真正重要的下一步，例如 LINE、IG、Email、Map 或表單。",
-    items: ["LINE", "Instagram", "Email", "Google Map"],
-  },
-  {
-    title: "分享與搜尋基礎",
-    desc: "整理網站標題、描述、社群分享預覽與 canonical URL，讓網站更像正式上線頁面。",
-    items: ["Title", "Description", "OGP", "Canonical"],
-  },
-  {
-    title: "流量追蹤建議",
-    desc: "可依需求提供 GA4 事件追蹤方向，例如 LINE、IG、表單、Email、Map 點擊。",
-    items: ["LINE click", "IG click", "Form click", "Map click"],
-  },
-  {
-    title: "Google 商家 / 地圖整理",
-    desc: "適合店家與工作室，把 Google 商家、地圖、營業資訊與網站連結關係整理清楚。",
-    items: ["Google Map", "Business Profile", "營業時間", "地址"],
-  },
-  {
-    title: "交付說明",
-    desc: "提供網站連結、原始碼、部署方式與後續修改方式，避免客戶拿到網站後不知道怎麼維護。",
-    items: ["網站連結", "GitHub", "Vercel", "修改說明"],
-  },
-]
-
-const techStack = [
-  {
-    name: "React",
-    desc: "前端頁面與元件化結構。",
-  },
-  {
-    name: "Vite",
-    desc: "輕量快速的前端開發環境。",
-  },
-  {
-    name: "Tailwind CSS",
-    desc: "RWD 排版與介面樣式。",
-  },
-  {
-    name: "Git / GitHub",
-    desc: "版本管理與程式碼交付。",
-  },
-  {
-    name: "Vercel",
-    desc: "網站部署與公開網址。",
-  },
-  {
-    name: "Forms / Map / Social",
-    desc: "表單、地圖、社群與聯絡入口整合。",
-  },
-]
-
-const modules = [
-  {
-    title: "Hero 主視覺",
-    desc: "第一眼說清楚你是誰、提供什麼、訪客下一步要做什麼。",
-    className:
-      "md:col-span-3 md:row-span-2 bg-gradient-to-br from-cyan-300 via-blue-500 to-violet-700 text-white",
-  },
-  {
-    title: "服務項目",
-    desc: "整理服務內容與適合對象。",
-    className: "md:col-span-3 bg-white/10 text-white",
-  },
-  {
-    title: "價格 / 方案",
-    desc: "讓預算範圍更清楚。",
-    className: "md:col-span-2 bg-white text-black",
-  },
-  {
-    title: "作品 / 案例",
-    desc: "用過往範例建立信任。",
-    className:
-      "md:col-span-2 bg-gradient-to-br from-[#f4c7b8] to-[#b58a79] text-[#2f2723]",
-  },
-  {
-    title: "FAQ",
-    desc: "減少重複私訊。",
-    className: "md:col-span-2 bg-white/10 text-white",
-  },
-  {
-    title: "Google Map",
-    desc: "店家與工作室常用。",
-    className:
-      "md:col-span-2 bg-gradient-to-br from-emerald-300 to-cyan-400 text-[#0f172a]",
-  },
-  {
-    title: "LINE / IG / Email",
-    desc: "把聯絡入口放在最容易點的位置。",
-    className:
-      "md:col-span-4 bg-gradient-to-br from-stone-100 to-stone-300 text-black",
-  },
-  {
-    title: "表單 / 預約",
-    desc: "適合活動、課程、諮詢與預約制服務。",
-    className:
-      "md:col-span-2 bg-gradient-to-br from-violet-400 to-fuchsia-500 text-white",
-  },
+const proofPoints = [
+  "不是主打大型後台、會員、金流或完整電商",
+  "目前從一頁式網站、作品集、活動頁、小型服務頁開始",
+  "AI 工具可以輔助產出，但我會負責改版面、修手機版、整理內容與部署",
+  "每個 Demo 都會盡量補上適合對象、內容結構與使用情境",
 ]
 
 const process = [
   {
-    title: "釐清目標",
-    desc: "確認網站要給誰看、希望訪客完成什麼行動、目前資料完整度如何。",
+    title: "看作品",
+    desc: "先看 Demo 是否接近你想要的網站類型。",
   },
   {
-    title: "整理內容",
-    desc: "把服務、作品、價格、地點、聯絡方式、參考風格整理成網站架構。",
+    title: "整理需求",
+    desc: "用需求整理器勾選網站用途、功能、素材、預算與時程。",
   },
   {
-    title: "製作前端",
-    desc: "依需求製作 React 頁面、RWD 排版、按鈕、區塊與基本互動。",
+    title: "確認範圍",
+    desc: "我會先判斷是否適合小型網站，再討論價格與交付內容。",
   },
   {
-    title: "部署交付",
-    desc: "協助部署到 Vercel，提供公開網址、原始碼與簡易修改說明。",
+    title: "製作上線",
+    desc: "完成前端頁面、RWD、連結整合、部署與簡易交付說明。",
   },
 ]
 
@@ -254,55 +112,28 @@ const pricing = [
     desc: "適合履歷網站、作品集展示、簡單個人介紹頁。",
   },
   {
-    title: "一頁式形象網站",
-    price: "NT$5,000–8,000",
-    desc: "適合小店、工作室、個人品牌、服務介紹與預約入口。",
+    title: "一頁式小型網站",
+    price: "NT$3,000–8,000",
+    desc: "適合工作室、小店、個人品牌、服務介紹與預約入口。",
   },
   {
     title: "網站修改 / 優化",
     price: "NT$500–1,000 / 小時",
-    desc: "適合舊網站排版、RWD、文案圖片更新、按鈕與連結調整。",
+    desc: "適合舊網站手機版、排版、文字圖片、按鈕與連結調整。",
   },
 ]
 
-const scopeItems = {
-  canDo: [
-    "一頁式網站",
-    "RWD 手機版",
-    "前端切版",
-    "Vercel 部署",
-    "表單 / 地圖 / 社群連結",
-    "基本 SEO / OGP 設定",
-  ],
-  notMain: [
-    "大型後台系統",
-    "會員與金流",
-    "完整 CMS",
-    "大型電商",
-    "高階品牌識別設計",
-    "保證 SEO 排名",
-  ],
-}
-
-const quickStart = [
-  {
-    title: "先看主打案例",
-    desc: "從 Luma Nail Studio 了解預約制工作室網站可以怎麼整理服務、價格、作品與預約流程。",
-    link: "/luma-nail",
-    cta: "查看 Luma 案例",
-  },
-  {
-    title: "整理網站需求",
-    desc: "不知道怎麼開始也沒關係，可以先用需求表整理網站用途、內容、功能、預算與時程。",
-    link: "/brief",
-    cta: "填寫需求方向",
-  },
-  {
-    title: "傳給我初步討論",
-    desc: "把目前想法、參考風格、現有素材和預算範圍傳給我，我會先判斷是否適合小型網站範圍。",
-    link: "#contact",
-    cta: "聯絡我",
-  },
+const deliveryItems = [
+  "React / Vite 前端頁面",
+  "RWD 手機版排版",
+  "Vercel 部署上線",
+  "GitHub 原始碼管理",
+  "LINE / IG / Email 連結",
+  "Google Map 整合",
+  "Google Form / 報名連結",
+  "基本 SEO meta",
+  "社群分享 OGP 設定",
+  "簡易修改與交付說明",
 ]
 
 function App() {
@@ -327,35 +158,37 @@ function HomePage() {
 
       <header className="sticky top-0 z-50 border-b border-white/10 bg-[#08090d]/80 backdrop-blur-xl">
         <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
-          <a href="#" className="font-semibold tracking-tight">
+          <a href="#" className="text-safe font-semibold tracking-tight">
             Qingyu Web Studio
           </a>
 
-          <Link
-            to="/brief"
-            className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-cyan-200 md:hidden"
-          >
-            需求表
-          </Link>
+          <div className="flex items-center gap-2 md:hidden">
+            <a
+              href="#works"
+              className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-xs font-semibold text-white transition hover:border-white/40"
+            >
+              作品
+            </a>
+            <Link
+              to="/brief"
+              className="rounded-full bg-white px-4 py-2 text-xs font-semibold text-black transition hover:bg-cyan-200"
+            >
+              需求表
+            </Link>
+          </div>
 
           <nav className="hidden items-center gap-7 text-sm text-white/55 md:flex">
-            <a href="#problems" className="hover:text-white">
-              問題
+            <a href="#works" className="hover:text-white">
+              作品
             </a>
-            <a href="#cases" className="hover:text-white">
-              案例
+            <a href="#luma" className="hover:text-white">
+              主打案例
             </a>
-            <a href="#deliverables" className="hover:text-white">
-              交付
+            <a href="#service" className="hover:text-white">
+              服務
             </a>
-            <a href="#growth" className="hover:text-white">
-              曝光
-            </a>
-            <a href="#launch" className="hover:text-white">
-              上線
-            </a>
-            <a href="#tech" className="hover:text-white">
-              技術
+            <a href="#process" className="hover:text-white">
+              流程
             </a>
             <a href="#pricing" className="hover:text-white">
               價格
@@ -373,28 +206,38 @@ function HomePage() {
         </div>
       </header>
 
-      <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-20 pt-14 md:grid-cols-[1.02fr_0.98fr] md:items-center md:gap-14 md:pb-32 md:pt-28">
+      <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-14 md:pb-24 md:pt-24">
         <div>
           <div className="text-safe mb-5 inline-flex max-w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:rounded-full sm:text-sm">
-            資訊工程學生｜前端網站製作・RWD・部署上線
+            學生接案｜小型網站・RWD・部署上線
           </div>
 
           <h1 className="text-safe mobile-soft-title max-w-4xl text-[2.35rem] font-semibold tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
-            <span className="block">把零散資訊，</span>
-            <span className="block">整理成能上線的網站。</span>
+            <span className="block">我協助小型需求，</span>
+            <span className="block">做成手機好讀的網站。</span>
           </h1>
 
-          <p className="text-safe mt-6 max-w-2xl text-base leading-8 text-white/60 sm:text-lg sm:leading-9">
-            我協助學生、小型店家與個人品牌整理網站內容，製作手機版友善的前端頁面，
-            並協助表單、社群連結、Vercel 部署與基本 SEO 設定。
+          <p className="text-safe mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg sm:leading-9">
+            我是資訊工程學生，目前從小型網站開始接案。主要協助學生、小型店家、工作室與個人品牌，
+            把 IG、LINE、Google Map、價格、作品與表單整理成可以上線、可以聯絡、手機版好讀的網站。
           </p>
+
+          <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5">
+            <p className="text-safe text-sm font-semibold text-cyan-300">
+              目前定位
+            </p>
+            <p className="text-safe mt-3 leading-7 text-white/58">
+              我不把自己包裝成大型設計公司，也不主打大型後台或完整電商。
+              目前更適合一頁式網站、作品集、活動頁、服務介紹頁、舊網站手機版調整這類小型需求。
+            </p>
+          </div>
 
           <div className="mt-9 flex flex-wrap gap-3">
             <RippleLink
-              href="#cases"
+              href="#works"
               className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
             >
-              查看需求案例
+              直接看作品
             </RippleLink>
 
             <RippleLink
@@ -408,379 +251,36 @@ function HomePage() {
               to="/brief"
               className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
             >
-              先整理需求
-            </RippleLink>
-          </div>
-
-          <div className="mt-10 grid max-w-2xl grid-cols-3 gap-3 md:mt-12">
-            <Stat number="RWD" label="手機版優先" />
-            <Stat number="GitHub" label="原始碼管理" />
-            <Stat number="Vercel" label="部署上線" />
-          </div>
-        </div>
-
-        <ProjectConsole />
-      </section>
-
-      <QuickStartSection />
-
-      <section id="problems" className="relative mx-auto max-w-7xl px-5 py-20">
-        <SectionHeading
-          eyebrow="Client Problems"
-          title="我不是只做漂亮畫面，而是先處理客戶真正卡住的地方。"
-          desc="很多小型網站的問題不是沒有工具，而是需求不清楚、內容散亂、手機版不好讀、也不知道怎麼部署。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-4">
-          {clientProblems.map((item, index) => (
-            <SpotlightCard
-              key={item.title}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
-            >
-              <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="text-safe mt-5 text-xl font-semibold">
-                {item.title}
-              </h3>
-              <p className="text-safe mt-4 leading-7 text-white/55">
-                {item.desc}
-              </p>
-            </SpotlightCard>
-          ))}
-        </div>
-      </section>
-
-      <section id="cases" className="relative mx-auto max-w-7xl px-5 py-20">
-        <SectionHeading
-          eyebrow="Scenario Cases"
-          title="作品不只展示畫面，而是對應真實需求情境。"
-          desc="目前只主打最容易轉成小型接案的三種方向，其他 Demo 降為補充案例。"
-        />
-
-        <div className="grid gap-6 md:grid-cols-3">
-          {primaryCases.map((item, index) => (
-            <SpotlightLink
-              key={item.title}
-              to={item.link}
-              className={`group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition duration-300 hover:-translate-y-2 hover:bg-white/[0.1] ${
-                index === 0 ? "ring-1 ring-cyan-300/30" : ""
-              }`}
-            >
-              <div
-                className={`flex min-h-[430px] flex-col justify-between rounded-[1.5rem] bg-gradient-to-br ${item.color} p-6 sm:min-h-[360px] md:h-72 md:min-h-0`}
-              >
-                <p className="text-safe text-xs uppercase tracking-[0.18em] text-white/60 md:tracking-[0.28em]">
-                  {item.subtitle}
-                </p>
-
-                <div>
-                  {index === 0 && (
-                    <span className="mb-4 inline-flex rounded-full bg-white/20 px-3 py-1 text-xs font-medium text-white">
-                      Main Case
-                    </span>
-                  )}
-
-                  <h3 className="text-safe text-[2.65rem] font-semibold leading-[1.08] tracking-[-0.04em] sm:text-3xl sm:leading-tight">
-                    {item.title}
-                  </h3>
-
-                  <div className="mt-5 flex flex-wrap gap-2">
-                    {item.tags.map((tag) => (
-                      <span
-                        key={tag}
-                        className="rounded-full bg-white/15 px-3 py-1 text-xs leading-5 text-white/80"
-                      >
-                        {tag}
-                      </span>
-                    ))}
-                  </div>
-                </div>
-              </div>
-
-              <div className="p-4">
-                <p className="text-sm font-semibold text-cyan-300">需求問題</p>
-                <p className="text-safe mt-2 leading-7 text-white/55">
-                  {item.problem}
-                </p>
-
-                <p className="mt-5 text-sm font-semibold text-cyan-300">
-                  網站解法
-                </p>
-                <p className="text-safe mt-2 leading-7 text-white/65">
-                  {item.solution}
-                </p>
-
-                <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
-                  查看案例
-                  <span className="ml-2 transition group-hover:translate-x-1">
-                    →
-                  </span>
-                </div>
-              </div>
-            </SpotlightLink>
-          ))}
-        </div>
-
-        <div className="mt-6 grid gap-4 md:grid-cols-2">
-          {secondaryWorks.map((item) => (
-            <SpotlightLink
-              key={item.title}
-              to={item.link}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.04] p-6 text-white/55 transition hover:-translate-y-1 hover:bg-white/[0.08] hover:text-white"
-            >
-              <p className="text-safe text-lg font-semibold">{item.title}</p>
-              <p className="text-safe mt-2 leading-7">{item.desc}</p>
-              <p className="mt-4 text-cyan-300">查看補充案例 →</p>
-            </SpotlightLink>
-          ))}
-        </div>
-      </section>
-
-      <section id="deliverables" className="relative mx-auto max-w-7xl px-5 py-20">
-        <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
-          <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
-            <div>
-              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
-                Deliverables
-              </p>
-              <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
-                交付的不是一張圖，而是一個可上線的前端網站。
-              </h2>
-              <p className="text-safe mt-6 leading-8 text-black/60">
-                客戶最在意的通常不是你用了什麼特效，而是網站能不能放資訊、
-                能不能在手機上看、能不能被分享、能不能部署、後續能不能修改。
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
-              {deliverables.map((item) => (
-                <div
-                  key={item}
-                  className="text-safe rounded-2xl border border-black/10 bg-black/[0.03] p-4 text-sm font-medium transition hover:-translate-y-1 hover:bg-black/[0.06]"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <GrowthSetupSection />
-
-      <LaunchKitSection />
-
-      <ModuleSystemSection />
-
-      <section id="tech" className="relative mx-auto max-w-7xl px-5 py-20">
-        <SectionHeading
-          eyebrow="Tech & Scope"
-          title="用工程背景補足小型網站最常缺的交付能力。"
-          desc="不亂承諾大型系統，先把小型網站的前端、RWD、部署與基本整合做好。"
-        />
-
-        <div className="grid gap-6 lg:grid-cols-[1fr_0.9fr]">
-          <div className="grid gap-5 md:grid-cols-2">
-            {techStack.map((item) => (
-              <SpotlightCard
-                key={item.name}
-                className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
-              >
-                <h3 className="text-safe text-2xl font-semibold text-cyan-300">
-                  {item.name}
-                </h3>
-                <p className="text-safe mt-4 leading-7 text-white/55">
-                  {item.desc}
-                </p>
-              </SpotlightCard>
-            ))}
-          </div>
-
-          <div className="grid gap-5">
-            <ScopeCard title="目前適合承接" items={scopeItems.canDo} positive />
-            <ScopeCard title="目前不亂承諾" items={scopeItems.notMain} />
-          </div>
-        </div>
-      </section>
-
-      <section id="process" className="relative mx-auto max-w-7xl px-5 py-20">
-        <SectionHeading
-          eyebrow="Process"
-          title="先整理需求，再開始製作，避免做出看起來有東西但不能用的網站。"
-          desc="流程會先聚焦目的、內容與範圍，再進入前端製作與部署。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-4">
-          {process.map((item, index) => (
-            <SpotlightCard
-              key={item.title}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
-            >
-              <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="text-safe mt-5 text-2xl font-semibold">
-                {item.title}
-              </h3>
-              <p className="text-safe mt-4 leading-7 text-white/55">
-                {item.desc}
-              </p>
-            </SpotlightCard>
-          ))}
-        </div>
-
-        <div className="mt-6 rounded-[2rem] border border-cyan-300/20 bg-cyan-300/10 p-6">
-          <div className="flex flex-col gap-4 md:flex-row md:items-center md:justify-between">
-            <div className="min-w-0">
-              <h3 className="text-safe text-2xl font-semibold">
-                需求還不清楚也可以先討論。
-              </h3>
-              <p className="text-safe mt-2 leading-7 text-white/60">
-                可以先看需求確認表，整理網站用途、內容、功能、風格與預算。
-              </p>
-            </div>
-
-            <RippleLink
-              to="/brief"
-              className="inline-flex w-fit rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-200"
-            >
-              查看需求表 →
+              整理需求
             </RippleLink>
           </div>
         </div>
+
+        <HeroPreview />
       </section>
 
-      <section id="pricing" className="relative mx-auto max-w-7xl px-5 py-20">
-        <SectionHeading
-          eyebrow="Pricing"
-          title="先從小型需求開始，報價依範圍調整。"
-          desc="目前主打小型網站與前端頁面製作，避免一開始接超出能力範圍的大型系統。"
-        />
+      <WorkGallerySection />
 
-        <div className="grid gap-5 md:grid-cols-3">
-          {pricing.map((item) => (
-            <SpotlightCard
-              key={item.title}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur"
-            >
-              <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
-              <p className="text-safe mt-5 text-3xl font-semibold text-cyan-300">
-                {item.price}
-              </p>
-              <p className="text-safe mt-5 leading-8 text-white/55">
-                {item.desc}
-              </p>
-            </SpotlightCard>
-          ))}
-        </div>
-      </section>
+      <LumaFeatureSection />
 
-      <section id="contact" className="relative mx-auto max-w-7xl px-5 py-20 pb-28">
-        <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
-          <div className="grid gap-10 md:grid-cols-[1fr_0.9fr] md:items-end">
-            <div className="min-w-0">
-              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
-                Contact
-              </p>
-              <h2 className="text-safe mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
-                有網站需求，可以先把想法傳給我。
-              </h2>
-              <p className="text-safe mt-6 max-w-2xl leading-8 text-black/65">
-                不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、
-                需要放什麼內容、預算和希望完成時間，我會協助整理成可評估的範圍。
-              </p>
-            </div>
+      <ServiceSection />
 
-            <div className="grid min-w-0 gap-3">
-              <ContactCard
-                label="Email"
-                value="a0988874324@gmail.com"
-                href="mailto:a0988874324@gmail.com"
-              />
-              <ContactCard label="LINE" value="mulavuc" />
-              <ContactCard
-                label="Instagram"
-                value="qingyu.jin"
-                href="https://www.instagram.com/qingyu.jin"
-              />
-              <RippleLink
-                to="/brief"
-                className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
-              >
-                <p className="text-sm text-white/50">Website Brief</p>
-                <p className="mt-2 font-semibold">查看需求確認表 →</p>
-              </RippleLink>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ProofSection />
+
+      <ProcessSection />
+
+      <DeliverySection />
+
+      <PricingSection />
+
+      <ContactSection />
 
       <MobileBottomCTA />
     </main>
   )
 }
 
-function QuickStartSection() {
-  return (
-    <section className="relative mx-auto max-w-7xl px-5 py-12 md:py-20">
-      <div className="rounded-[2.4rem] border border-cyan-300/20 bg-cyan-300/10 p-6 backdrop-blur md:p-8">
-        <div className="mb-8 flex min-w-0 flex-col gap-4 md:flex-row md:items-end md:justify-between">
-          <div className="min-w-0">
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-              Quick Start
-            </p>
-            <h2 className="text-safe mt-3 text-3xl font-semibold tracking-tight md:text-5xl">
-              不知道怎麼開始？先照這三步。
-            </h2>
-          </div>
-          <p className="text-safe max-w-md leading-8 text-white/55">
-            讓第一次來的客戶不用自己猜流程，直接知道該看案例、整理需求、再聯絡討論。
-          </p>
-        </div>
-
-        <div className="grid gap-4 md:grid-cols-3">
-          {quickStart.map((item, index) => (
-            <SpotlightLink
-              key={item.title}
-              to={item.link.startsWith("/") ? item.link : undefined}
-              href={item.link.startsWith("#") ? item.link : undefined}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 transition hover:-translate-y-1 hover:bg-white/[0.1]"
-            >
-              <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <h3 className="text-safe mt-4 text-2xl font-semibold">
-                {item.title}
-              </h3>
-              <p className="text-safe mt-4 leading-7 text-white/55">
-                {item.desc}
-              </p>
-              <p className="text-safe mt-5 text-sm font-semibold text-cyan-300">
-                {item.cta} →
-              </p>
-            </SpotlightLink>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function MobileBottomCTA() {
-  return (
-    <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 rounded-[1.6rem] border border-white/10 bg-[#08090d]/85 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl md:hidden">
-      <Link
-        to="/luma-nail"
-        className="flex items-center justify-center rounded-full bg-white px-4 py-3 text-sm font-semibold text-black"
-      >
-        看案例
-      </Link>
-      <Link
-        to="/brief"
-        className="flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
-      >
-        填需求
-      </Link>
-    </div>
-  )
-}
-
-function ProjectConsole() {
+function HeroPreview() {
   return (
     <div className="relative min-w-0">
       <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl md:rounded-[2.4rem] md:p-4">
@@ -792,22 +292,22 @@ function ProjectConsole() {
               <span className="h-2.5 w-2.5 rounded-full bg-green-400 md:h-3 md:w-3" />
             </div>
             <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] text-white/60 md:text-xs">
-              Project Scope
+              Demo Preview
             </span>
           </div>
 
           <div className="rounded-[1.3rem] border border-cyan-300/20 bg-cyan-300/10 p-4 md:rounded-[1.5rem] md:p-5">
-            <p className="text-xs text-cyan-200 md:text-sm">目前定位</p>
+            <p className="text-xs text-cyan-200 md:text-sm">可以直接打開的作品</p>
             <h2 className="text-safe mt-2 text-2xl font-semibold md:mt-3 md:text-3xl">
-              Frontend Website Build
+              Work Demo Collection
             </h2>
             <p className="text-safe mt-2 text-sm leading-7 text-white/60 md:mt-3 md:text-base">
-              RWD、前端頁面、部署、表單與社群連結整合。
+              每個 Demo 都有不同情境：工作室、作品集、服務頁、活動頁。
             </p>
           </div>
 
           <div className="mt-4 grid gap-3 md:gap-4">
-            {primaryCases.map((item, index) => (
+            {workDemos.slice(0, 3).map((item, index) => (
               <SpotlightLink
                 key={item.title}
                 to={item.link}
@@ -819,15 +319,15 @@ function ProjectConsole() {
                   className={`rounded-[1.1rem] bg-gradient-to-br ${item.color} p-4 md:rounded-[1.25rem] md:p-5`}
                 >
                   <p className="text-safe text-[10px] uppercase tracking-[0.18em] text-white/60 md:text-xs md:tracking-[0.25em]">
-                    {item.subtitle}
+                    {item.category}
                   </p>
                   <div className="mt-7 flex min-w-0 items-end justify-between gap-4 md:mt-10">
                     <div className="min-w-0">
                       <p className="text-safe text-xl font-semibold md:text-2xl">
                         {item.title}
                       </p>
-                      <p className="text-safe mt-1 text-xs leading-5 text-white/70 md:text-sm">
-                        {item.tags.join(" · ")}
+                      <p className="text-safe mt-1 text-xs leading-5 text-white/72 md:text-sm">
+                        {item.tags.slice(0, 3).join(" · ")}
                       </p>
                     </div>
                     <span className="shrink-0 text-white/60 transition group-hover:translate-x-1 group-hover:text-white">
@@ -844,175 +344,212 @@ function ProjectConsole() {
   )
 }
 
-function GrowthSetupSection() {
+function WorkGallerySection() {
   return (
-    <section id="growth" className="relative mx-auto max-w-7xl px-5 py-20">
-      <div className="relative overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#11141d] p-8 shadow-2xl shadow-black/40 md:p-12">
-        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-emerald-400/20 blur-[90px]" />
-        <div className="pointer-events-none absolute right-[-80px] bottom-[-80px] h-80 w-80 rounded-full bg-cyan-400/20 blur-[100px]" />
+    <section id="works" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <SectionHeading
+        eyebrow="Work Gallery"
+        title="可以直接點開看的作品 Demo"
+        desc="這些是概念 Demo 與練習案例，不假裝是真實客戶案。每個作品都可以直接打開查看頁面結構與手機版。"
+      />
 
-        <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div className="min-w-0">
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-              Basic Growth Setup
-            </p>
-
-            <h2 className="text-safe mt-4 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
-              網站不是保證帶流量，而是把流量接住。
-            </h2>
-
-            <p className="text-safe mt-6 max-w-xl leading-8 text-white/60">
-              我不會承諾 SEO 排名或保證客人變多，但可以協助網站做好基本曝光、
-              社群分享、搜尋收錄與追蹤準備。對小型店家來說，網站通常是承接
-              IG、LINE、Google 商家與朋友轉發流量的正式入口。
-            </p>
-
-            <div className="mt-8 rounded-[2rem] border border-cyan-300/20 bg-cyan-300/10 p-6">
-              <p className="text-safe text-sm font-semibold text-cyan-200">
-                比較正確的期待
-              </p>
-              <p className="text-safe mt-3 leading-8 text-white/65">
-                網站本身不會自動帶來大量流量；它的價值是讓已經點進來的人，
-                更快看懂服務、價格、作品、地點與聯絡方式，進而提高詢問與預約機率。
-              </p>
-            </div>
-          </div>
-
-          <div className="grid min-w-0 gap-4 sm:grid-cols-2">
-            {growthSetups.map((item) => (
-              <SpotlightCard
-                key={item.title}
-                className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition hover:-translate-y-1"
-              >
-                <div className="mb-5 inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-xs font-semibold text-cyan-200">
-                  {item.tag}
-                </div>
-                <h3 className="text-safe text-2xl font-semibold">
-                  {item.title}
-                </h3>
-                <p className="text-safe mt-4 leading-7 text-white/55">
-                  {item.desc}
-                </p>
-              </SpotlightCard>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
-
-function LaunchKitSection() {
-  return (
-    <section id="launch" className="relative mx-auto max-w-7xl px-5 py-20">
-      <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
-        <div className="mb-12 grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-end">
-          <div className="min-w-0">
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
-              Launch Kit
-            </p>
-            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
-              網站上線前，不只是看起來完成而已。
-            </h2>
-          </div>
-
-          <p className="text-safe max-w-xl leading-8 text-black/60">
-            真實客戶在意的是網站能不能在手機上使用、能不能聯絡、能不能分享、
-            能不能被 Google 理解、上線後拿到什麼。Launch Kit 是我交付前會協助檢查的基本項目。
-          </p>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-          {launchKit.map((item) => (
+      <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
+        {workDemos.map((work, index) => (
+          <SpotlightLink
+            key={work.title}
+            to={work.link}
+            className={`group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.1] ${
+              index === 0 ? "ring-1 ring-cyan-300/40" : ""
+            }`}
+          >
             <div
-              key={item.title}
-              className="rounded-[2rem] border border-black/10 bg-black/[0.03] p-6 transition hover:-translate-y-1 hover:bg-black/[0.06]"
+              className={`flex min-h-[260px] flex-col justify-between rounded-[1.5rem] bg-gradient-to-br ${work.color} p-6`}
             >
-              <h3 className="text-safe text-2xl font-semibold">
-                {item.title}
-              </h3>
-              <p className="text-safe mt-4 leading-7 text-black/60">
-                {item.desc}
-              </p>
+              <div className="flex items-start justify-between gap-3">
+                <p className="text-safe text-xs uppercase tracking-[0.18em] text-white/65">
+                  {work.category}
+                </p>
+                <span className="shrink-0 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white">
+                  Demo
+                </span>
+              </div>
 
-              <div className="mt-6 flex flex-wrap gap-2">
-                {item.items.map((tag) => (
-                  <span
-                    key={tag}
-                    className="rounded-full bg-black px-3 py-1 text-xs font-medium text-white"
-                  >
-                    {tag}
-                  </span>
-                ))}
+              <div>
+                <h3 className="text-safe text-4xl font-semibold leading-tight tracking-[-0.04em] text-white">
+                  {work.title}
+                </h3>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {work.tags.map((tag) => (
+                    <span
+                      key={tag}
+                      className="rounded-full bg-white/15 px-3 py-1 text-xs leading-5 text-white/85"
+                    >
+                      {tag}
+                    </span>
+                  ))}
+                </div>
               </div>
             </div>
-          ))}
-        </div>
 
-        <div className="mt-8 rounded-[2rem] bg-[#08090d] p-6 text-white">
-          <p className="text-safe text-sm font-semibold text-cyan-300">
-            交付時的正確期待
-          </p>
-          <p className="text-safe mt-3 leading-8 text-white/65">
-            我可以協助做好基本設定與交付檢查，但不承諾 SEO 排名、廣告成效或保證客源。
-            對小型網站來說，真正重要的是讓已經從 IG、LINE、Google 商家或朋友轉發進來的人，
-            能快速理解服務並完成聯絡。
-          </p>
+            <div className="p-4">
+              <p className="text-safe text-sm font-semibold text-cyan-300">
+                適合類型
+              </p>
+              <p className="text-safe mt-2 leading-7 text-white/60">
+                {work.fit}
+              </p>
+
+              <p className="text-safe mt-5 leading-7 text-white/65">
+                {work.desc}
+              </p>
+
+              <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
+                打開作品
+                <span className="ml-2 transition group-hover:translate-x-1">
+                  →
+                </span>
+              </div>
+            </div>
+          </SpotlightLink>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function LumaFeatureSection() {
+  return (
+    <section id="luma" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <div className="overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#12151d] p-6 shadow-2xl shadow-black/40 md:p-10">
+        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div className="min-w-0">
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+              Main Case Study
+            </p>
+            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
+              Luma 不只是展示頁，而是預約制工作室的內容整理練習。
+            </h2>
+            <p className="text-safe mt-6 leading-8 text-white/60">
+              這個案例不是假裝真實客戶，而是我用來展示「如果一間工作室只有 IG、作品照、價格和預約流程，
+              可以怎麼被整理成一個手機版好讀的一頁式網站」。
+            </p>
+
+            <div className="mt-8 grid gap-3">
+              {[
+                "把服務、價格、作品、FAQ、預約流程整理成一頁式結構",
+                "把 LINE / IG / Google Map 放到容易點擊的位置",
+                "用手機版優先的方式安排標題、段落、按鈕與區塊順序",
+              ].map((item) => (
+                <div key={item} className="flex gap-3 rounded-2xl bg-white/5 p-4">
+                  <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-300" />
+                  <p className="text-safe leading-7 text-white/65">{item}</p>
+                </div>
+              ))}
+            </div>
+
+            <div className="mt-8 flex flex-wrap gap-3">
+              <RippleLink
+                to="/luma-nail"
+                className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-200"
+              >
+                看完整 Case Study
+              </RippleLink>
+              <RippleLink
+                to="/brief"
+                className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white hover:border-white/40"
+              >
+                用需求表整理你的網站
+              </RippleLink>
+            </div>
+          </div>
+
+          <SpotlightLink
+            to="/luma-nail"
+            className="group rounded-[2.2rem] border border-white/10 bg-white/[0.06] p-4 transition hover:-translate-y-2 hover:bg-white/[0.1]"
+          >
+            <div className="flex min-h-[520px] flex-col justify-between rounded-[1.8rem] bg-gradient-to-br from-[#f4c7b8] via-[#b58a79] to-[#2f2723] p-7">
+              <div>
+                <p className="text-safe text-xs uppercase tracking-[0.24em] text-white/65">
+                  Concept Case / Local Studio
+                </p>
+                <div className="mt-6 inline-flex rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white">
+                  Main Demo
+                </div>
+              </div>
+
+              <div>
+                <h3 className="text-safe text-5xl font-semibold leading-tight tracking-[-0.05em] text-white">
+                  Luma Nail Studio
+                </h3>
+                <p className="text-safe mt-5 max-w-sm leading-7 text-white/70">
+                  預約制工作室網站概念案例。主打服務、作品、預約與聯絡入口整理。
+                </p>
+                <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
+                  打開案例
+                  <span className="ml-2 transition group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
+              </div>
+            </div>
+          </SpotlightLink>
         </div>
       </div>
     </section>
   )
 }
 
-function ModuleSystemSection() {
+function ServiceSection() {
   return (
-    <section id="modules" className="relative mx-auto max-w-7xl px-5 py-20">
-      <div className="relative overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#11141d] p-6 shadow-2xl shadow-black/40 md:p-10">
-        <div className="pointer-events-none absolute -left-24 -top-24 h-72 w-72 rounded-full bg-cyan-400/20 blur-[90px]" />
-        <div className="pointer-events-none absolute right-[-80px] top-20 h-72 w-72 rounded-full bg-violet-500/20 blur-[100px]" />
-        <div className="pointer-events-none absolute bottom-[-120px] left-[35%] h-80 w-80 rounded-full bg-amber-300/10 blur-[110px]" />
+    <section id="service" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <SectionHeading
+        eyebrow="What I Actually Do"
+        title="我真正能協助的，不只是生出一個漂亮畫面。"
+        desc="AI 工具可以加速產出，但小型客戶真正需要的是有人幫忙整理內容、修手機版、處理連結與上線。"
+      />
 
-        <div className="relative grid gap-10 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-          <div className="min-w-0">
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-              Modular Website System
+      <div className="grid gap-5 md:grid-cols-3">
+        {servicePoints.map((item, index) => (
+          <SpotlightCard
+            key={item.title}
+            className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+          >
+            <p className="text-sm text-cyan-300">0{index + 1}</p>
+            <h3 className="text-safe mt-5 text-2xl font-semibold">{item.title}</h3>
+            <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
+          </SpotlightCard>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ProofSection() {
+  return (
+    <section className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
+        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+          <div>
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+              Honest Scope
             </p>
-
-            <h2 className="text-safe mt-4 max-w-xl text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
-              依需求組合模組，不是每個網站都套同一個模板。
+            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
+              我不會把學生副業包裝成大型公司。
             </h2>
-
-            <p className="text-safe mt-6 max-w-xl leading-8 text-white/60">
-              每個客戶需要的內容不同。我會依照網站目的、產業類型、資料完整度與預算，
-              選擇必要模組，避免網站看起來很多東西但沒有重點。
+            <p className="text-safe mt-6 leading-8 text-black/60">
+              目前我的定位是從小型網站開始，練習真實需求、切版、RWD、部署和溝通流程。
+              這樣比較誠實，也比較符合我現在能穩定交付的範圍。
             </p>
-
-            <div className="mt-8 grid gap-3 sm:grid-cols-3 lg:grid-cols-1">
-              <InfoPill number="01" text="先確認網站目的，不急著做畫面。" />
-              <InfoPill number="02" text="選擇必要區塊，避免資訊過多。" />
-              <InfoPill number="03" text="完成 RWD，讓手機版也能清楚操作。" />
-            </div>
           </div>
 
-          <div className="grid auto-rows-[150px] gap-4 md:grid-cols-6">
-            {modules.map((item) => (
-              <SpotlightCard
-                key={item.title}
-                className={`flex flex-col justify-between rounded-[2rem] p-5 shadow-lg transition duration-300 hover:-translate-y-1 ${item.className}`}
+          <div className="grid gap-3">
+            {proofPoints.map((item) => (
+              <div
+                key={item}
+                className="rounded-2xl border border-black/10 bg-black/[0.03] p-4"
               >
-                <div className="flex h-10 w-10 items-center justify-center rounded-full bg-white/20 text-sm font-semibold">
-                  +
-                </div>
-
-                <div className="min-w-0">
-                  <h3 className="text-safe text-2xl font-semibold">
-                    {item.title}
-                  </h3>
-                  <p className="text-safe mt-2 text-sm leading-6 opacity-75">
-                    {item.desc}
-                  </p>
-                </div>
-              </SpotlightCard>
+                <p className="text-safe leading-7 text-black/70">{item}</p>
+              </div>
             ))}
           </div>
         </div>
@@ -1021,31 +558,150 @@ function ModuleSystemSection() {
   )
 }
 
-function ScopeCard({ title, items, positive = false }) {
+function ProcessSection() {
   return (
-    <SpotlightCard className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur">
-      <h3 className="text-safe text-2xl font-semibold">{title}</h3>
-      <div className="mt-5 grid gap-3">
-        {items.map((item) => (
-          <div key={item} className="flex gap-3 leading-7 text-white/60">
-            <span
-              className={`mt-2 h-2 w-2 shrink-0 rounded-full ${
-                positive ? "bg-cyan-300" : "bg-amber-300"
-              }`}
-            />
-            <span className="text-safe">{item}</span>
-          </div>
+    <section id="process" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <SectionHeading
+        eyebrow="Process"
+        title="流程簡單一點，客戶比較知道下一步。"
+        desc="不要一開始就談很大的系統，先確認網站目的、內容、範圍和預算。"
+      />
+
+      <div className="grid gap-5 md:grid-cols-4">
+        {process.map((item, index) => (
+          <SpotlightCard
+            key={item.title}
+            className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
+          >
+            <p className="text-sm text-cyan-300">0{index + 1}</p>
+            <h3 className="text-safe mt-5 text-2xl font-semibold">{item.title}</h3>
+            <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
+          </SpotlightCard>
         ))}
       </div>
-    </SpotlightCard>
+    </section>
   )
 }
 
-function InfoPill({ number, text }) {
+function DeliverySection() {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-      <p className="text-2xl font-semibold text-cyan-300">{number}</p>
-      <p className="text-safe mt-2 text-sm text-white/55">{text}</p>
+    <section className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <div className="rounded-[2.8rem] border border-white/10 bg-[#11141d] p-8 shadow-2xl shadow-black/40 md:p-12">
+        <div className="grid gap-10 lg:grid-cols-[0.82fr_1.18fr]">
+          <div>
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+              Delivery
+            </p>
+            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
+              交付重點是能看、能點、能分享、能上線。
+            </h2>
+            <p className="text-safe mt-6 leading-8 text-white/60">
+              小型網站最重要的不是功能堆很多，而是資訊清楚、手機版能用、聯絡入口明顯、部署後能分享。
+            </p>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 md:grid-cols-3">
+            {deliveryItems.map((item) => (
+              <div
+                key={item}
+                className="text-safe rounded-2xl border border-white/10 bg-white/[0.06] p-4 text-sm font-medium text-white/70"
+              >
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function PricingSection() {
+  return (
+    <section id="pricing" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
+      <SectionHeading
+        eyebrow="Pricing"
+        title="先從小型需求開始，報價依範圍調整。"
+        desc="第一批案子我會以累積真實作品、流程經驗和客戶回饋為主，不會亂接超出能力的大型系統。"
+      />
+
+      <div className="grid gap-5 md:grid-cols-3">
+        {pricing.map((item) => (
+          <SpotlightCard
+            key={item.title}
+            className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur"
+          >
+            <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
+            <p className="text-safe mt-5 text-3xl font-semibold text-cyan-300">
+              {item.price}
+            </p>
+            <p className="text-safe mt-5 leading-8 text-white/58">{item.desc}</p>
+          </SpotlightCard>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function ContactSection() {
+  return (
+    <section id="contact" className="relative mx-auto max-w-7xl px-5 py-16 pb-28 md:py-20">
+      <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
+        <div className="grid gap-10 md:grid-cols-[1fr_0.9fr] md:items-end">
+          <div className="min-w-0">
+            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
+              Contact
+            </p>
+            <h2 className="text-safe mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
+              有小型網站需求，可以先把想法傳給我。
+            </h2>
+            <p className="text-safe mt-6 max-w-2xl leading-8 text-black/65">
+              不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、目前有什麼素材、
+              預算和希望完成時間，我會先判斷是否適合小型網站範圍。
+            </p>
+          </div>
+
+          <div className="grid min-w-0 gap-3">
+            <ContactCard
+              label="Email"
+              value="a0988874324@gmail.com"
+              href="mailto:a0988874324@gmail.com"
+            />
+            <ContactCard label="LINE" value="mulavuc" />
+            <ContactCard
+              label="Instagram"
+              value="qingyu.jin"
+              href="https://www.instagram.com/qingyu.jin"
+            />
+            <RippleLink
+              to="/brief"
+              className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
+            >
+              <p className="text-sm text-white/50">Website Brief</p>
+              <p className="mt-2 font-semibold">先整理需求 →</p>
+            </RippleLink>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function MobileBottomCTA() {
+  return (
+    <div className="fixed bottom-4 left-4 right-4 z-50 grid grid-cols-2 gap-3 rounded-[1.6rem] border border-white/10 bg-[#08090d]/85 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl md:hidden">
+      <a
+        href="#works"
+        className="flex items-center justify-center rounded-full bg-white px-4 py-3 text-sm font-semibold text-black"
+      >
+        看作品
+      </a>
+      <Link
+        to="/brief"
+        className="flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
+      >
+        填需求
+      </Link>
     </div>
   )
 }
@@ -1240,15 +896,6 @@ function RippleLink({ to, href, className = "", children }) {
     >
       {content}
     </a>
-  )
-}
-
-function Stat({ number, label }) {
-  return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur transition hover:-translate-y-1 hover:bg-white/10">
-      <p className="text-safe text-2xl font-semibold text-cyan-300">{number}</p>
-      <p className="text-safe mt-2 text-xs text-white/45">{label}</p>
-    </div>
   )
 }
 
