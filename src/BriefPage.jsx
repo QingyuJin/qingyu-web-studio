@@ -201,7 +201,7 @@ function BriefPage() {
         setBrief({ ...initialBrief, ...JSON.parse(savedBrief) })
       }
     } catch {
-      // ignore localStorage errors
+      // ignore
     }
   }, [])
 
@@ -271,8 +271,10 @@ function BriefPage() {
   function resetBrief() {
     const confirmed = window.confirm("確定要清空目前填寫的內容嗎？")
     if (!confirmed) return
+
     setBrief(initialBrief)
     setStepIndex(0)
+
     try {
       localStorage.removeItem("qingyu-brief")
     } catch {
@@ -291,19 +293,19 @@ function BriefPage() {
   }
 
   return (
-    <main className="min-h-screen overflow-hidden bg-[#08090d] text-white">
+    <main className="min-h-screen w-full overflow-x-hidden bg-[#08090d] text-white">
       <Background />
 
-      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#08090d]/85 backdrop-blur-xl">
-        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+      <header className="sticky top-0 z-50 w-full max-w-full border-b border-white/10 bg-[#08090d]/85 backdrop-blur-xl">
+        <div className="mx-auto flex w-full max-w-7xl items-center justify-between gap-3 px-4 py-4 sm:px-5">
           <Link
             to="/"
-            className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+            className="min-w-0 shrink rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
           >
             ← 回首頁
           </Link>
 
-          <div className="flex items-center gap-2">
+          <div className="flex shrink-0 items-center gap-2">
             <span className="hidden rounded-full bg-white/5 px-4 py-2 text-xs text-white/50 sm:inline-flex">
               {saved ? "已暫存" : "自動暫存"}
             </span>
@@ -318,12 +320,12 @@ function BriefPage() {
         </div>
       </header>
 
-      <section className="relative mx-auto grid max-w-7xl gap-8 px-5 pb-20 pt-10 lg:grid-cols-[0.72fr_0.28fr] lg:gap-6 lg:pt-14">
+      <section className="relative mx-auto grid w-full max-w-7xl grid-cols-1 gap-6 px-4 pb-20 pt-8 sm:px-5 lg:grid-cols-[minmax(0,0.72fr)_minmax(280px,0.28fr)] lg:gap-6 lg:pt-14">
         <div className="min-w-0">
-          <div className="mb-6 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-xl">
-            <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div className="mb-6 w-full overflow-hidden rounded-[1.8rem] border border-white/10 bg-white/[0.06] p-5 backdrop-blur-xl sm:rounded-[2rem]">
+            <div className="flex min-w-0 flex-col gap-4 md:flex-row md:items-end md:justify-between">
               <div className="min-w-0">
-                <p className="text-safe text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+                <p className="text-safe text-xs font-semibold uppercase tracking-[0.2em] text-cyan-300 sm:text-sm sm:tracking-[0.28em]">
                   Website Brief Builder
                 </p>
                 <h1 className="text-safe mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-5xl">
@@ -334,7 +336,7 @@ function BriefPage() {
                 </p>
               </div>
 
-              <div className="shrink-0 rounded-3xl bg-cyan-300 p-5 text-black">
+              <div className="w-full shrink-0 rounded-3xl bg-cyan-300 p-5 text-black sm:w-auto">
                 <p className="text-sm font-semibold text-black/55">完成進度</p>
                 <p className="mt-1 text-4xl font-semibold">{progress}%</p>
               </div>
@@ -347,7 +349,7 @@ function BriefPage() {
               />
             </div>
 
-            <div className="mt-5 flex gap-2 overflow-x-auto pb-1">
+            <div className="mt-5 flex max-w-full gap-2 overflow-x-auto pb-2 [-webkit-overflow-scrolling:touch]">
               {steps.map((step, index) => (
                 <button
                   key={step.key}
@@ -367,7 +369,7 @@ function BriefPage() {
             </div>
           </div>
 
-          <div className="rounded-[2.4rem] border border-white/10 bg-[#11141d]/90 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl md:p-8">
+          <div className="w-full overflow-hidden rounded-[2rem] border border-white/10 bg-[#11141d]/90 p-5 shadow-2xl shadow-black/40 backdrop-blur-xl sm:rounded-[2.4rem] md:p-8">
             <p className="text-sm font-semibold text-cyan-300">
               STEP {stepIndex + 1} / {steps.length}
             </p>
@@ -378,9 +380,12 @@ function BriefPage() {
               {activeStep.desc}
             </p>
 
-            <div className="mt-8">
+            <div className="mt-8 min-w-0">
               {activeStep.key === "type" && (
-                <TypeStep value={brief.type} onChange={(value) => updateField("type", value)} />
+                <TypeStep
+                  value={brief.type}
+                  onChange={(value) => updateField("type", value)}
+                />
               )}
 
               {activeStep.key === "goal" && (
@@ -408,7 +413,10 @@ function BriefPage() {
               )}
 
               {activeStep.key === "style" && (
-                <StyleStep value={brief.style} onChange={(value) => updateField("style", value)} />
+                <StyleStep
+                  value={brief.style}
+                  onChange={(value) => updateField("style", value)}
+                />
               )}
 
               {activeStep.key === "budget" && (
@@ -425,17 +433,17 @@ function BriefPage() {
               )}
             </div>
 
-            <div className="mt-10 flex flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
+            <div className="mt-10 flex min-w-0 flex-col gap-3 border-t border-white/10 pt-6 sm:flex-row sm:items-center sm:justify-between">
               <button
                 type="button"
                 onClick={goPrev}
                 disabled={stepIndex === 0}
-                className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40 disabled:cursor-not-allowed disabled:opacity-30"
+                className="w-full rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40 disabled:cursor-not-allowed disabled:opacity-30 sm:w-auto"
               >
                 上一步
               </button>
 
-              <div className="flex flex-col gap-3 sm:flex-row">
+              <div className="grid w-full grid-cols-1 gap-3 sm:w-auto sm:grid-cols-2">
                 <button
                   type="button"
                   onClick={copySummary}
@@ -465,7 +473,7 @@ function BriefPage() {
           </div>
         </div>
 
-        <aside className="lg:sticky lg:top-24 lg:self-start">
+        <aside className="min-w-0 lg:sticky lg:top-24 lg:self-start">
           <SummaryPanel
             brief={brief}
             selectedType={selectedType}
@@ -484,20 +492,20 @@ function BriefPage() {
 
 function TypeStep({ value, onChange }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid min-w-0 gap-4 md:grid-cols-2">
       {siteTypes.map((item) => (
         <button
           key={item.id}
           type="button"
           onClick={() => onChange(item.id)}
-          className={`group rounded-[2rem] border p-5 text-left transition hover:-translate-y-1 ${
+          className={`group min-w-0 rounded-[1.6rem] border p-5 text-left transition hover:-translate-y-1 sm:rounded-[2rem] ${
             value === item.id
               ? "border-cyan-300 bg-cyan-300 text-black shadow-2xl shadow-cyan-300/15"
               : "border-white/10 bg-white/[0.06] text-white hover:border-white/30 hover:bg-white/[0.09]"
           }`}
         >
-          <div className="flex items-start justify-between gap-4">
-            <div>
+          <div className="flex min-w-0 items-start justify-between gap-4">
+            <div className="min-w-0">
               <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
               <p
                 className={`text-safe mt-3 leading-7 ${
@@ -517,7 +525,7 @@ function TypeStep({ value, onChange }) {
           </div>
 
           <div
-            className={`mt-5 rounded-2xl p-4 text-sm leading-7 ${
+            className={`text-safe mt-5 rounded-2xl p-4 text-sm leading-7 ${
               value === item.id ? "bg-black/8 text-black/65" : "bg-white/5 text-white/45"
             }`}
           >
@@ -531,7 +539,7 @@ function TypeStep({ value, onChange }) {
 
 function MultiChoiceStep({ options, selected, onToggle }) {
   return (
-    <div className="grid gap-3 sm:grid-cols-2">
+    <div className="grid min-w-0 gap-3 sm:grid-cols-2">
       {options.map((option) => {
         const active = selected.includes(option)
 
@@ -540,7 +548,7 @@ function MultiChoiceStep({ options, selected, onToggle }) {
             key={option}
             type="button"
             onClick={() => onToggle(option)}
-            className={`flex items-start gap-3 rounded-2xl border p-4 text-left transition hover:-translate-y-0.5 ${
+            className={`flex min-w-0 items-start gap-3 rounded-2xl border p-4 text-left transition hover:-translate-y-0.5 ${
               active
                 ? "border-cyan-300 bg-cyan-300 text-black"
                 : "border-white/10 bg-white/[0.06] text-white hover:border-white/30"
@@ -553,7 +561,11 @@ function MultiChoiceStep({ options, selected, onToggle }) {
             >
               {active ? "✓" : ""}
             </span>
-            <span className={`leading-7 ${active ? "text-black/75" : "text-white/62"}`}>
+            <span
+              className={`text-safe min-w-0 leading-7 ${
+                active ? "text-black/75" : "text-white/62"
+              }`}
+            >
               {option}
             </span>
           </button>
@@ -565,22 +577,26 @@ function MultiChoiceStep({ options, selected, onToggle }) {
 
 function StyleStep({ value, onChange }) {
   return (
-    <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid min-w-0 gap-4 md:grid-cols-2">
       {styleOptions.map((item) => (
         <button
           key={item.id}
           type="button"
           onClick={() => onChange(item.id)}
-          className={`rounded-[2rem] border p-5 text-left transition hover:-translate-y-1 ${
+          className={`min-w-0 rounded-[1.6rem] border p-5 text-left transition hover:-translate-y-1 sm:rounded-[2rem] ${
             value === item.id
               ? "border-cyan-300 bg-cyan-300 text-black"
               : "border-white/10 bg-white/[0.06] text-white hover:border-white/30 hover:bg-white/[0.09]"
           }`}
         >
-          <div className="flex items-start justify-between gap-4">
-            <div>
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-              <p className={`mt-3 leading-7 ${value === item.id ? "text-black/65" : "text-white/58"}`}>
+          <div className="flex min-w-0 items-start justify-between gap-4">
+            <div className="min-w-0">
+              <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
+              <p
+                className={`text-safe mt-3 leading-7 ${
+                  value === item.id ? "text-black/65" : "text-white/58"
+                }`}
+              >
                 {item.desc}
               </p>
             </div>
@@ -600,9 +616,9 @@ function StyleStep({ value, onChange }) {
 
 function BudgetStep({ budget, timeline, onBudget, onTimeline }) {
   return (
-    <div className="grid gap-6">
-      <div>
-        <h3 className="text-xl font-semibold">預算範圍</h3>
+    <div className="grid min-w-0 gap-6">
+      <div className="min-w-0">
+        <h3 className="text-safe text-xl font-semibold">預算範圍</h3>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {budgetOptions.map((item) => (
             <OptionButton key={item} active={budget === item} onClick={() => onBudget(item)}>
@@ -612,8 +628,8 @@ function BudgetStep({ budget, timeline, onBudget, onTimeline }) {
         </div>
       </div>
 
-      <div>
-        <h3 className="text-xl font-semibold">希望完成時間</h3>
+      <div className="min-w-0">
+        <h3 className="text-safe text-xl font-semibold">希望完成時間</h3>
         <div className="mt-4 grid gap-3 sm:grid-cols-2">
           {timelineOptions.map((item) => (
             <OptionButton key={item} active={timeline === item} onClick={() => onTimeline(item)}>
@@ -631,7 +647,7 @@ function OptionButton({ active, onClick, children }) {
     <button
       type="button"
       onClick={onClick}
-      className={`rounded-2xl border p-4 text-left font-semibold transition hover:-translate-y-0.5 ${
+      className={`text-safe min-w-0 rounded-2xl border p-4 text-left font-semibold transition hover:-translate-y-0.5 ${
         active
           ? "border-cyan-300 bg-cyan-300 text-black"
           : "border-white/10 bg-white/[0.06] text-white/62 hover:border-white/30 hover:text-white"
@@ -644,8 +660,8 @@ function OptionButton({ active, onClick, children }) {
 
 function ContactStep({ brief, updateField }) {
   return (
-    <div className="grid gap-5">
-      <div className="grid gap-4 md:grid-cols-2">
+    <div className="grid min-w-0 gap-5">
+      <div className="grid min-w-0 gap-4 md:grid-cols-2">
         <InputBox
           label="你的稱呼 / 名字"
           value={brief.name}
@@ -668,14 +684,14 @@ function ContactStep({ brief, updateField }) {
         onChange={(value) => updateField("reference", value)}
       />
 
-      <label className="block">
+      <label className="block min-w-0">
         <span className="text-sm font-semibold text-white/60">補充說明</span>
         <textarea
           value={brief.note}
           onChange={(event) => updateField("note", event.target.value)}
           placeholder="例如：目前只有 IG、想放價格表、希望手機版好看、想要兩週內完成……"
           rows={7}
-          className="mt-3 w-full resize-none rounded-[1.5rem] border border-white/10 bg-white/[0.06] px-5 py-4 leading-8 text-white outline-none transition placeholder:text-white/25 focus:border-cyan-300/60 focus:bg-white/[0.08]"
+          className="mt-3 w-full max-w-full resize-none rounded-[1.5rem] border border-white/10 bg-white/[0.06] px-5 py-4 leading-8 text-white outline-none transition placeholder:text-white/25 focus:border-cyan-300/60 focus:bg-white/[0.08]"
         />
       </label>
     </div>
@@ -684,13 +700,13 @@ function ContactStep({ brief, updateField }) {
 
 function InputBox({ label, value, placeholder, onChange }) {
   return (
-    <label className="block">
+    <label className="block min-w-0">
       <span className="text-sm font-semibold text-white/60">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="mt-3 w-full rounded-[1.3rem] border border-white/10 bg-white/[0.06] px-5 py-4 text-white outline-none transition placeholder:text-white/25 focus:border-cyan-300/60 focus:bg-white/[0.08]"
+        className="mt-3 w-full max-w-full rounded-[1.3rem] border border-white/10 bg-white/[0.06] px-5 py-4 text-white outline-none transition placeholder:text-white/25 focus:border-cyan-300/60 focus:bg-white/[0.08]"
       />
     </label>
   )
@@ -707,27 +723,33 @@ function SummaryPanel({
   mailHref,
 }) {
   return (
-    <div className="rounded-[2.2rem] border border-white/10 bg-white/[0.06] p-5 shadow-2xl shadow-black/35 backdrop-blur-xl">
-      <div className="rounded-[1.7rem] bg-cyan-300 p-5 text-black">
+    <div className="w-full min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 shadow-2xl shadow-black/35 backdrop-blur-xl sm:rounded-[2.2rem] sm:p-5">
+      <div className="rounded-[1.5rem] bg-cyan-300 p-5 text-black sm:rounded-[1.7rem]">
         <p className="text-sm font-semibold text-black/55">系統初步判斷</p>
-        <h3 className="mt-2 text-3xl font-semibold tracking-[-0.03em]">
+        <h3 className="text-safe mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
           {estimate.title}
         </h3>
-        <p className="mt-3 leading-7 text-black/65">{estimate.desc}</p>
+        <p className="text-safe mt-3 leading-7 text-black/65">{estimate.desc}</p>
       </div>
 
-      <div className="mt-5 grid gap-3">
+      <div className="mt-5 grid min-w-0 gap-3">
         <MiniRow label="網站類型" value={selectedType?.title || "尚未選擇"} />
-        <MiniRow label="主要目的" value={brief.goals.length ? `${brief.goals.length} 項` : "尚未選擇"} />
-        <MiniRow label="需要功能" value={brief.features.length ? `${brief.features.length} 項` : "尚未選擇"} />
+        <MiniRow
+          label="主要目的"
+          value={brief.goals.length ? `${brief.goals.length} 項` : "尚未選擇"}
+        />
+        <MiniRow
+          label="需要功能"
+          value={brief.features.length ? `${brief.features.length} 項` : "尚未選擇"}
+        />
         <MiniRow label="風格" value={selectedStyle?.title || "尚未選擇"} />
         <MiniRow label="預算" value={brief.budget || "尚未選擇"} />
         <MiniRow label="時程" value={brief.timeline || "尚未選擇"} />
       </div>
 
-      <div className="mt-5 rounded-[1.6rem] border border-white/10 bg-black/25 p-4">
+      <div className="mt-5 min-w-0 overflow-hidden rounded-[1.6rem] border border-white/10 bg-black/25 p-4">
         <p className="text-sm font-semibold text-white/45">需求摘要預覽</p>
-        <pre className="mt-3 max-h-[340px] whitespace-pre-wrap break-words text-sm leading-7 text-white/68">
+        <pre className="mt-3 max-h-[300px] max-w-full overflow-y-auto whitespace-pre-wrap break-all text-sm leading-7 text-white/68">
           {summaryText}
         </pre>
       </div>
@@ -748,9 +770,9 @@ function SummaryPanel({
           用 Email 傳送
         </a>
 
-        <div className="rounded-[1.5rem] bg-white/5 p-4">
+        <div className="min-w-0 rounded-[1.5rem] bg-white/5 p-4">
           <p className="text-sm font-semibold text-white/45">也可以私訊</p>
-          <p className="mt-2 text-sm leading-7 text-white/65">
+          <p className="text-safe mt-2 text-sm leading-7 text-white/65">
             LINE：{lineId}
             <br />
             IG：{instagram}
@@ -763,9 +785,11 @@ function SummaryPanel({
 
 function MiniRow({ label, value }) {
   return (
-    <div className="flex items-start justify-between gap-4 rounded-2xl bg-white/5 p-4">
-      <span className="text-sm text-white/40">{label}</span>
-      <span className="text-right text-sm font-semibold text-white/75">{value}</span>
+    <div className="flex min-w-0 items-start justify-between gap-4 rounded-2xl bg-white/5 p-4">
+      <span className="shrink-0 text-sm text-white/40">{label}</span>
+      <span className="text-safe min-w-0 text-right text-sm font-semibold text-white/75">
+        {value}
+      </span>
     </div>
   )
 }
@@ -802,7 +826,7 @@ function getEstimate(brief) {
   if (score <= 12) {
     return {
       title: "標準一頁式網站",
-      desc: "需求已經有一定內容，適合做成完整一頁式網站，包含區塊規劃、RWD 和部署。",
+      desc: "需求已有一定內容，適合做成完整一頁式網站，包含區塊規劃、RWD 和部署。",
     }
   }
 
@@ -866,10 +890,10 @@ function formatList(list) {
 
 function Background() {
   return (
-    <div className="pointer-events-none fixed inset-0 -z-10 bg-[#08090d]">
-      <div className="absolute left-[-180px] top-[-180px] h-[520px] w-[520px] rounded-full bg-cyan-400/10 blur-[140px]" />
-      <div className="absolute right-[-220px] top-[180px] h-[620px] w-[620px] rounded-full bg-violet-500/10 blur-[160px]" />
-      <div className="absolute bottom-[-260px] left-[20%] h-[620px] w-[620px] rounded-full bg-amber-300/8 blur-[170px]" />
+    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#08090d]">
+      <div className="absolute left-[-220px] top-[-200px] h-[420px] w-[420px] rounded-full bg-cyan-400/10 blur-[120px] sm:h-[520px] sm:w-[520px]" />
+      <div className="absolute right-[-260px] top-[180px] h-[480px] w-[480px] rounded-full bg-violet-500/10 blur-[150px] sm:h-[620px] sm:w-[620px]" />
+      <div className="absolute bottom-[-260px] left-[10%] h-[480px] w-[480px] rounded-full bg-amber-300/8 blur-[160px] sm:h-[620px] sm:w-[620px]" />
       <div className="absolute inset-0 bg-[linear-gradient(rgba(255,255,255,0.025)_1px,transparent_1px),linear-gradient(90deg,rgba(255,255,255,0.025)_1px,transparent_1px)] bg-[size:72px_72px]" />
     </div>
   )
