@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Routes, Route, Link } from "react-router-dom"
 import CafeDemo from "./CafeDemo"
 import PortfolioDemo from "./PortfolioDemo"
@@ -11,6 +11,7 @@ const workDemos = [
   {
     title: "Luma Nail Studio",
     category: "預約制工作室",
+    type: "studio",
     desc: "把服務、價格、作品、預約流程與聯絡入口整理成一頁式網站。",
     fit: "美甲 / 美睫 / 美容 / 攝影",
     link: "/luma-nail",
@@ -20,6 +21,7 @@ const workDemos = [
   {
     title: "Service Demo",
     category: "服務型網站",
+    type: "service",
     desc: "適合顧問、課程品牌、自由工作者，重點是服務介紹與方案比較。",
     fit: "顧問 / 課程 / 自由工作者",
     link: "/service-demo",
@@ -29,6 +31,7 @@ const workDemos = [
   {
     title: "Portfolio Demo",
     category: "個人作品集",
+    type: "portfolio",
     desc: "整理個人介紹、技能、作品、經歷與聯絡方式。",
     fit: "學生 / 求職 / 創作者",
     link: "/portfolio-demo",
@@ -38,6 +41,7 @@ const workDemos = [
   {
     title: "Cafe Demo",
     category: "小店形象網站",
+    type: "shop",
     desc: "展示品牌氛圍、菜單、地點、營業資訊與社群入口。",
     fit: "咖啡廳 / 小餐飲 / 小店",
     link: "/cafe-demo",
@@ -47,6 +51,7 @@ const workDemos = [
   {
     title: "Event Demo",
     category: "活動宣傳頁",
+    type: "event",
     desc: "整理活動資訊、流程、報名入口、注意事項與 FAQ。",
     fit: "講座 / 社團 / 工作坊",
     link: "/event-demo",
@@ -56,12 +61,23 @@ const workDemos = [
   {
     title: "Brief Builder",
     category: "互動需求整理器",
+    type: "tool",
     desc: "讓客戶先整理網站類型、功能、素材、預算與時程。",
     fit: "需求釐清 / 初步評估",
     link: "/brief",
     color: "from-emerald-300 via-cyan-300 to-blue-500",
     tags: ["需求表", "摘要", "估價前"],
   },
+]
+
+const filters = [
+  { id: "all", label: "全部" },
+  { id: "studio", label: "工作室" },
+  { id: "service", label: "服務型" },
+  { id: "portfolio", label: "作品集" },
+  { id: "shop", label: "小店" },
+  { id: "event", label: "活動" },
+  { id: "tool", label: "工具" },
 ]
 
 const servicePoints = [
@@ -142,6 +158,25 @@ const deliveryItems = [
   },
 ]
 
+const heroStatus = [
+  {
+    label: "目前可接",
+    value: "一頁式網站 / 作品集 / 工作室網站",
+  },
+  {
+    label: "交付內容",
+    value: "RWD / Vercel 部署 / OGP / 表單連結",
+  },
+  {
+    label: "主打案例",
+    value: "Luma Nail Studio Case Study",
+  },
+  {
+    label: "適合對象",
+    value: "學生 / 小店 / 工作室 / 個人品牌",
+  },
+]
+
 function App() {
   return (
     <Routes>
@@ -213,57 +248,61 @@ function HomePage() {
       </header>
 
       <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1.05fr_0.95fr] md:items-center md:gap-14 md:pb-24 md:pt-24">
-        <div>
-          <div className="text-safe mb-5 inline-flex max-w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:rounded-full sm:text-sm">
-            學生接案｜小型網站・RWD・部署上線
-          </div>
+        <Reveal>
+          <div>
+            <div className="text-safe mb-5 inline-flex max-w-full rounded-2xl border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs leading-5 text-cyan-100 backdrop-blur sm:rounded-full sm:text-sm">
+              學生接案｜小型網站・RWD・部署上線
+            </div>
 
-          <h1 className="text-safe mobile-soft-title max-w-4xl text-[2.35rem] font-semibold tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
-            <span className="block">我協助小型需求，</span>
-            <span className="block">做成手機好讀的網站。</span>
-          </h1>
+            <h1 className="text-safe mobile-soft-title max-w-4xl text-[2.35rem] font-semibold tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
+              <span className="block">我協助小型需求，</span>
+              <span className="block">做成手機好讀的網站。</span>
+            </h1>
 
-          <p className="text-safe mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg sm:leading-9">
-            我是資訊工程學生，目前從小型網站開始接案。主要協助學生、小型店家、
-            工作室與個人品牌，把 IG、LINE、Google Map、價格、作品與表單整理成可以上線、
-            可以聯絡、手機版好讀的網站。
-          </p>
-
-          <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5">
-            <p className="text-safe text-sm font-semibold text-cyan-300">
-              目前定位
+            <p className="text-safe mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg sm:leading-9">
+              我是資訊工程學生，目前從小型網站開始接案。主要協助學生、小型店家、
+              工作室與個人品牌，把 IG、LINE、Google Map、價格、作品與表單整理成可以上線、
+              可以聯絡、手機版好讀的網站。
             </p>
-            <p className="text-safe mt-3 leading-7 text-white/58">
-              不主打大型後台、會員、金流或完整電商。比較適合一頁式網站、
-              作品集、活動頁、服務介紹頁、舊網站手機版調整這類小型需求。
-            </p>
+
+            <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5">
+              <p className="text-safe text-sm font-semibold text-cyan-300">
+                目前定位
+              </p>
+              <p className="text-safe mt-3 leading-7 text-white/58">
+                不主打大型後台、會員、金流或完整電商。比較適合一頁式網站、
+                作品集、活動頁、服務介紹頁、舊網站手機版調整這類小型需求。
+              </p>
+            </div>
+
+            <div className="mt-9 flex flex-wrap gap-3">
+              <a
+                href="#works"
+                className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
+              >
+                直接看作品
+              </a>
+
+              <Link
+                to="/luma-nail"
+                className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
+              >
+                看主打案例
+              </Link>
+
+              <Link
+                to="/brief"
+                className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
+              >
+                整理需求
+              </Link>
+            </div>
           </div>
+        </Reveal>
 
-          <div className="mt-9 flex flex-wrap gap-3">
-            <a
-              href="#works"
-              className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
-            >
-              直接看作品
-            </a>
-
-            <Link
-              to="/luma-nail"
-              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
-            >
-              看主打案例
-            </Link>
-
-            <Link
-              to="/brief"
-              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white transition hover:border-white/40"
-            >
-              整理需求
-            </Link>
-          </div>
-        </div>
-
-        <HeroPreview />
+        <Reveal delay={120}>
+          <HeroPreview />
+        </Reveal>
       </section>
 
       <WorkGallerySection />
@@ -281,6 +320,16 @@ function HomePage() {
 }
 
 function HeroPreview() {
+  const [active, setActive] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setActive((current) => (current + 1) % heroStatus.length)
+    }, 2600)
+
+    return () => window.clearInterval(timer)
+  }, [])
+
   return (
     <div className="relative min-w-0">
       <div className="rounded-[2rem] border border-white/10 bg-white/10 p-3 shadow-2xl shadow-black/40 backdrop-blur-xl md:rounded-[2.4rem] md:p-4">
@@ -297,13 +346,27 @@ function HeroPreview() {
           </div>
 
           <div className="rounded-[1.3rem] border border-cyan-300/20 bg-cyan-300/10 p-4 md:rounded-[1.5rem] md:p-5">
-            <p className="text-xs text-cyan-200 md:text-sm">可以直接打開的作品</p>
-            <h2 className="text-safe mt-2 text-2xl font-semibold md:mt-3 md:text-3xl">
-              Work Demo Collection
-            </h2>
-            <p className="text-safe mt-2 text-sm leading-7 text-white/60 md:mt-3 md:text-base">
-              工作室、服務頁、作品集、活動頁與需求整理器。
+            <p className="text-xs text-cyan-200 md:text-sm">
+              {heroStatus[active].label}
             </p>
+            <h2 className="text-safe mt-2 text-2xl font-semibold md:mt-3 md:text-3xl">
+              {heroStatus[active].value}
+            </h2>
+            <div className="mt-4 flex gap-2">
+              {heroStatus.map((item, index) => (
+                <button
+                  key={item.label}
+                  type="button"
+                  aria-label={`切換到 ${item.label}`}
+                  onClick={() => setActive(index)}
+                  className={`h-2 rounded-full transition-all ${
+                    active === index
+                      ? "w-8 bg-cyan-300"
+                      : "w-2 bg-white/20 hover:bg-white/40"
+                  }`}
+                />
+              ))}
+            </div>
           </div>
 
           <div className="mt-4 grid gap-3 md:gap-4">
@@ -345,150 +408,309 @@ function HeroPreview() {
 }
 
 function WorkGallerySection() {
+  const [activeFilter, setActiveFilter] = useState("all")
+
+  const visibleWorks = useMemo(() => {
+    if (activeFilter === "all") return workDemos
+    return workDemos.filter((work) => work.type === activeFilter)
+  }, [activeFilter])
+
   return (
     <section id="works" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <SectionHeading
-        eyebrow="Work Gallery"
-        title="可以直接點開看的作品 Demo"
-        desc="以下是概念 Demo 與練習案例，不假裝是真實客戶案。每個作品都可以直接打開查看頁面結構與手機版。"
-      />
+      <Reveal>
+        <SectionHeading
+          eyebrow="Work Gallery"
+          title="可以互動篩選的作品 Demo"
+          desc="以下是概念 Demo 與練習案例，不假裝是真實客戶案。你可以依照自己的需求類型先看最接近的作品。"
+        />
+      </Reveal>
+
+      <Reveal delay={80}>
+        <div className="mb-8 flex gap-2 overflow-x-auto pb-2">
+          {filters.map((filter) => (
+            <button
+              key={filter.id}
+              type="button"
+              onClick={() => setActiveFilter(filter.id)}
+              className={`shrink-0 rounded-full px-4 py-2 text-sm font-semibold transition ${
+                activeFilter === filter.id
+                  ? "bg-cyan-300 text-black"
+                  : "border border-white/10 bg-white/[0.06] text-white/60 hover:border-white/30 hover:text-white"
+              }`}
+            >
+              {filter.label}
+            </button>
+          ))}
+        </div>
+      </Reveal>
 
       <div className="grid gap-5 md:grid-cols-2 xl:grid-cols-3">
-        {workDemos.map((work, index) => (
-          <Link
-            key={work.title}
-            to={work.link}
-            className={`group overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.1] ${
-              index === 0 ? "ring-1 ring-cyan-300/40" : ""
-            }`}
-          >
-            <div
-              className={`flex min-h-[230px] flex-col justify-between rounded-[1.5rem] bg-gradient-to-br ${work.color} p-6`}
+        {visibleWorks.map((work, index) => (
+          <Reveal key={work.title} delay={index * 70}>
+            <Link
+              to={work.link}
+              className={`group block overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 backdrop-blur transition hover:-translate-y-2 hover:bg-white/[0.1] ${
+                work.type === "studio" ? "ring-1 ring-cyan-300/40" : ""
+              }`}
             >
-              <div className="flex items-start justify-between gap-3">
-                <p className="text-safe text-xs uppercase tracking-[0.18em] text-white/65">
-                  {work.category}
-                </p>
-                <span className="shrink-0 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white">
-                  Demo
-                </span>
-              </div>
+              <div
+                className={`relative min-h-[250px] overflow-hidden rounded-[1.5rem] bg-gradient-to-br ${work.color} p-6`}
+              >
+                <div className="absolute inset-0 bg-[radial-gradient(circle_at_20%_20%,rgba(255,255,255,0.22),transparent_32%),radial-gradient(circle_at_80%_60%,rgba(255,255,255,0.12),transparent_30%)]" />
 
-              <div>
-                <h3 className="text-safe text-4xl font-semibold leading-tight tracking-[-0.04em] text-white">
-                  {work.title}
-                </h3>
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {work.tags.map((tag) => (
-                    <span
-                      key={tag}
-                      className="rounded-full bg-white/15 px-3 py-1 text-xs leading-5 text-white/85"
-                    >
-                      {tag}
-                    </span>
-                  ))}
+                <div className="relative flex items-start justify-between gap-3">
+                  <p className="text-safe text-xs uppercase tracking-[0.18em] text-white/70">
+                    {work.category}
+                  </p>
+                  <span className="shrink-0 rounded-full bg-white/20 px-3 py-1 text-xs font-semibold text-white">
+                    Demo
+                  </span>
+                </div>
+
+                <div className="relative mt-7">
+                  <WorkPreview type={work.type} />
+                </div>
+
+                <div className="relative mt-7">
+                  <h3 className="text-safe text-3xl font-semibold leading-tight tracking-[-0.04em] text-white">
+                    {work.title}
+                  </h3>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {work.tags.map((tag) => (
+                      <span
+                        key={tag}
+                        className="rounded-full bg-white/15 px-3 py-1 text-xs leading-5 text-white/85"
+                      >
+                        {tag}
+                      </span>
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
 
-            <div className="p-4">
-              <p className="text-safe text-sm font-semibold text-cyan-300">
-                適合：{work.fit}
-              </p>
-              <p className="text-safe mt-4 leading-7 text-white/65">{work.desc}</p>
+              <div className="p-4">
+                <p className="text-safe text-sm font-semibold text-cyan-300">
+                  適合：{work.fit}
+                </p>
+                <p className="text-safe mt-4 leading-7 text-white/65">{work.desc}</p>
 
-              <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
-                打開作品
-                <span className="ml-2 transition group-hover:translate-x-1">
-                  →
-                </span>
+                <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
+                  打開作品
+                  <span className="ml-2 transition group-hover:translate-x-1">
+                    →
+                  </span>
+                </div>
               </div>
-            </div>
-          </Link>
+            </Link>
+          </Reveal>
         ))}
       </div>
     </section>
   )
 }
 
+function WorkPreview({ type }) {
+  if (type === "studio") {
+    return (
+      <div className="grid gap-3">
+        <div className="rounded-2xl bg-white/22 p-4 backdrop-blur">
+          <div className="h-3 w-24 rounded-full bg-white/70" />
+          <div className="mt-3 grid grid-cols-3 gap-2">
+            <div className="h-14 rounded-xl bg-white/45" />
+            <div className="h-14 rounded-xl bg-white/25" />
+            <div className="h-14 rounded-xl bg-white/35" />
+          </div>
+        </div>
+        <div className="flex gap-2">
+          <div className="h-8 flex-1 rounded-full bg-white text-xs font-semibold text-black grid place-items-center">
+            LINE
+          </div>
+          <div className="h-8 flex-1 rounded-full bg-white/20 text-xs font-semibold text-white grid place-items-center">
+            IG
+          </div>
+        </div>
+      </div>
+    )
+  }
+
+  if (type === "service") {
+    return (
+      <div className="grid gap-3">
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-2xl bg-white p-3 text-black">
+            <div className="h-2 w-10 rounded-full bg-black/20" />
+            <div className="mt-6 text-xs font-bold">Basic</div>
+          </div>
+          <div className="rounded-2xl bg-black/30 p-3 text-white ring-1 ring-white/30">
+            <div className="h-2 w-10 rounded-full bg-white/40" />
+            <div className="mt-6 text-xs font-bold">Pro</div>
+          </div>
+          <div className="rounded-2xl bg-white/20 p-3 text-white">
+            <div className="h-2 w-10 rounded-full bg-white/40" />
+            <div className="mt-6 text-xs font-bold">Custom</div>
+          </div>
+        </div>
+        <div className="h-2 rounded-full bg-white/20">
+          <div className="h-2 w-2/3 rounded-full bg-white/80" />
+        </div>
+      </div>
+    )
+  }
+
+  if (type === "portfolio") {
+    return (
+      <div className="rounded-2xl bg-white/18 p-4 backdrop-blur">
+        <div className="flex items-center gap-3">
+          <div className="h-12 w-12 rounded-2xl bg-white/70" />
+          <div className="flex-1">
+            <div className="h-3 w-24 rounded-full bg-white/70" />
+            <div className="mt-2 h-2 w-32 rounded-full bg-white/35" />
+          </div>
+        </div>
+        <div className="mt-4 grid gap-2">
+          <div className="h-8 rounded-xl bg-white/25" />
+          <div className="h-8 rounded-xl bg-white/15" />
+        </div>
+      </div>
+    )
+  }
+
+  if (type === "shop") {
+    return (
+      <div className="grid gap-3">
+        <div className="rounded-2xl bg-white/70 p-4 text-black">
+          <div className="flex justify-between text-xs font-semibold">
+            <span>Latte</span>
+            <span>$120</span>
+          </div>
+          <div className="mt-3 flex justify-between text-xs font-semibold">
+            <span>Toast</span>
+            <span>$90</span>
+          </div>
+        </div>
+        <div className="rounded-2xl bg-black/25 p-3 text-xs font-semibold text-white">
+          Map · Open 10:00 - 18:00
+        </div>
+      </div>
+    )
+  }
+
+  if (type === "event") {
+    return (
+      <div className="rounded-2xl bg-white/18 p-4">
+        <div className="grid gap-3">
+          {["13:00 入場", "14:00 主講", "16:00 交流"].map((item) => (
+            <div key={item} className="flex items-center gap-3">
+              <div className="h-3 w-3 rounded-full bg-white" />
+              <div className="h-7 flex-1 rounded-xl bg-white/25 px-3 text-xs font-semibold text-white grid items-center">
+                {item}
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  return (
+    <div className="rounded-2xl bg-white/18 p-4">
+      <div className="grid gap-2">
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 rounded-md bg-white" />
+          <div className="h-3 flex-1 rounded-full bg-white/45" />
+        </div>
+        <div className="flex items-center gap-2">
+          <div className="h-5 w-5 rounded-md border border-white/50" />
+          <div className="h-3 flex-1 rounded-full bg-white/30" />
+        </div>
+        <div className="mt-3 rounded-xl bg-white/20 p-3 text-xs font-semibold text-white">
+          自動產生需求摘要
+        </div>
+      </div>
+    </div>
+  )
+}
+
 function LumaFeatureSection() {
   return (
     <section id="main-case" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <div className="overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#12151d] p-6 shadow-2xl shadow-black/40 md:p-10">
-        <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div className="min-w-0">
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-              Main Case Study
-            </p>
-            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
-              Luma 是預約制工作室網站的內容整理練習。
-            </h2>
-            <p className="text-safe mt-6 leading-8 text-white/60">
-              這個案例不是假裝真實客戶，而是展示一間工作室如果只有 IG、作品照、價格與私訊預約，
-              可以如何被整理成手機版好讀的一頁式網站。
-            </p>
+      <Reveal>
+        <div className="overflow-hidden rounded-[2.8rem] border border-white/10 bg-[#12151d] p-6 shadow-2xl shadow-black/40 md:p-10">
+          <div className="grid gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+            <div className="min-w-0">
+              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+                Main Case Study
+              </p>
+              <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
+                Luma 是預約制工作室網站的內容整理練習。
+              </h2>
+              <p className="text-safe mt-6 leading-8 text-white/60">
+                這個案例不是假裝真實客戶，而是展示一間工作室如果只有 IG、作品照、價格與私訊預約，
+                可以如何被整理成手機版好讀的一頁式網站。
+              </p>
 
-            <div className="mt-8 grid gap-3">
-              {[
-                "整理服務、價格、作品、FAQ、預約流程",
-                "把 LINE / IG / Google Map 放在明顯位置",
-                "用手機閱讀順序安排區塊，不只追求畫面好看",
-              ].map((item) => (
-                <div key={item} className="flex gap-3 rounded-2xl bg-white/5 p-4">
-                  <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-300" />
-                  <p className="text-safe leading-7 text-white/65">{item}</p>
+              <div className="mt-8 grid gap-3">
+                {[
+                  "整理服務、價格、作品、FAQ、預約流程",
+                  "把 LINE / IG / Google Map 放在明顯位置",
+                  "用手機閱讀順序安排區塊，不只追求畫面好看",
+                ].map((item) => (
+                  <div key={item} className="flex gap-3 rounded-2xl bg-white/5 p-4">
+                    <span className="mt-2 h-2 w-2 shrink-0 rounded-full bg-cyan-300" />
+                    <p className="text-safe leading-7 text-white/65">{item}</p>
+                  </div>
+                ))}
+              </div>
+
+              <div className="mt-8 flex flex-wrap gap-3">
+                <Link
+                  to="/luma-nail"
+                  className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-200"
+                >
+                  看完整案例
+                </Link>
+                <Link
+                  to="/brief"
+                  className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white hover:border-white/40"
+                >
+                  整理你的需求
+                </Link>
+              </div>
+            </div>
+
+            <Link
+              to="/luma-nail"
+              className="group rounded-[2.2rem] border border-white/10 bg-white/[0.06] p-4 transition hover:-translate-y-2 hover:bg-white/[0.1]"
+            >
+              <div className="flex min-h-[520px] flex-col justify-between rounded-[1.8rem] bg-gradient-to-br from-[#f4c7b8] via-[#b58a79] to-[#2f2723] p-7">
+                <div>
+                  <p className="text-safe text-xs uppercase tracking-[0.24em] text-white/65">
+                    Concept Case / Local Studio
+                  </p>
+                  <div className="mt-6 inline-flex rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white">
+                    Main Demo
+                  </div>
                 </div>
-              ))}
-            </div>
 
-            <div className="mt-8 flex flex-wrap gap-3">
-              <Link
-                to="/luma-nail"
-                className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black hover:bg-cyan-200"
-              >
-                看完整案例
-              </Link>
-              <Link
-                to="/brief"
-                className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white hover:border-white/40"
-              >
-                整理你的需求
-              </Link>
-            </div>
+                <div>
+                  <h3 className="text-safe text-5xl font-semibold leading-tight tracking-[-0.05em] text-white">
+                    Luma Nail Studio
+                  </h3>
+                  <p className="text-safe mt-5 max-w-sm leading-7 text-white/70">
+                    預約制工作室網站概念案例，主打服務、作品、預約與聯絡入口整理。
+                  </p>
+                  <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
+                    打開案例
+                    <span className="ml-2 transition group-hover:translate-x-1">
+                      →
+                    </span>
+                  </div>
+                </div>
+              </div>
+            </Link>
           </div>
-
-          <Link
-            to="/luma-nail"
-            className="group rounded-[2.2rem] border border-white/10 bg-white/[0.06] p-4 transition hover:-translate-y-2 hover:bg-white/[0.1]"
-          >
-            <div className="flex min-h-[520px] flex-col justify-between rounded-[1.8rem] bg-gradient-to-br from-[#f4c7b8] via-[#b58a79] to-[#2f2723] p-7">
-              <div>
-                <p className="text-safe text-xs uppercase tracking-[0.24em] text-white/65">
-                  Concept Case / Local Studio
-                </p>
-                <div className="mt-6 inline-flex rounded-full bg-white/20 px-4 py-2 text-sm font-semibold text-white">
-                  Main Demo
-                </div>
-              </div>
-
-              <div>
-                <h3 className="text-safe text-5xl font-semibold leading-tight tracking-[-0.05em] text-white">
-                  Luma Nail Studio
-                </h3>
-                <p className="text-safe mt-5 max-w-sm leading-7 text-white/70">
-                  預約制工作室網站概念案例，主打服務、作品、預約與聯絡入口整理。
-                </p>
-                <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
-                  打開案例
-                  <span className="ml-2 transition group-hover:translate-x-1">
-                    →
-                  </span>
-                </div>
-              </div>
-            </div>
-          </Link>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
@@ -496,22 +718,23 @@ function LumaFeatureSection() {
 function ServiceSection() {
   return (
     <section id="service" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <SectionHeading
-        eyebrow="What I Actually Do"
-        title="我真正協助的是整理、切版、手機版和上線。"
-        desc="不是只生一張漂亮圖，而是讓小型網站能被理解、能被點擊、能被分享、能被修改。"
-      />
+      <Reveal>
+        <SectionHeading
+          eyebrow="What I Actually Do"
+          title="我真正協助的是整理、切版、手機版和上線。"
+          desc="不是只生一張漂亮圖，而是讓小型網站能被理解、能被點擊、能被分享、能被修改。"
+        />
+      </Reveal>
 
       <div className="grid gap-5 md:grid-cols-3">
         {servicePoints.map((item, index) => (
-          <div
-            key={item.title}
-            className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
-          >
-            <p className="text-sm text-cyan-300">0{index + 1}</p>
-            <h3 className="text-safe mt-5 text-2xl font-semibold">{item.title}</h3>
-            <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
-          </div>
+          <Reveal key={item.title} delay={index * 80}>
+            <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.08]">
+              <p className="text-sm text-cyan-300">0{index + 1}</p>
+              <h3 className="text-safe mt-5 text-2xl font-semibold">{item.title}</h3>
+              <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -521,32 +744,34 @@ function ServiceSection() {
 function ProofSection() {
   return (
     <section className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
-        <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
-          <div>
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
-              Honest Scope
-            </p>
-            <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
-              我不把學生副業包裝成大型公司。
-            </h2>
-            <p className="text-safe mt-6 leading-8 text-black/60">
-              目前從小型網站開始累積作品、流程與實戰經驗。範圍講清楚，對雙方都比較安全。
-            </p>
-          </div>
+      <Reveal>
+        <div className="rounded-[2.8rem] bg-white p-8 text-black shadow-2xl shadow-black/30 md:p-12">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+            <div>
+              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+                Honest Scope
+              </p>
+              <h2 className="text-safe mt-4 text-3xl font-semibold leading-tight tracking-tight sm:text-4xl md:text-6xl">
+                我不把學生副業包裝成大型公司。
+              </h2>
+              <p className="text-safe mt-6 leading-8 text-black/60">
+                目前從小型網站開始累積作品、流程與實戰經驗。範圍講清楚，對雙方都比較安全。
+              </p>
+            </div>
 
-          <div className="grid gap-3">
-            {proofPoints.map((item) => (
-              <div
-                key={item}
-                className="rounded-2xl border border-black/10 bg-black/[0.03] p-4"
-              >
-                <p className="text-safe leading-7 text-black/70">{item}</p>
-              </div>
-            ))}
+            <div className="grid gap-3">
+              {proofPoints.map((item) => (
+                <div
+                  key={item}
+                  className="rounded-2xl border border-black/10 bg-black/[0.03] p-4"
+                >
+                  <p className="text-safe leading-7 text-black/70">{item}</p>
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
@@ -554,24 +779,32 @@ function ProofSection() {
 function ProcessSection() {
   return (
     <section id="process" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <SectionHeading
-        eyebrow="Process"
-        title="流程簡單一點，客戶比較知道下一步。"
-        desc="先看作品，再整理需求，確認範圍後才開始製作。"
-      />
+      <Reveal>
+        <SectionHeading
+          eyebrow="Process"
+          title="流程簡單一點，客戶比較知道下一步。"
+          desc="先看作品，再整理需求，確認範圍後才開始製作。"
+        />
+      </Reveal>
 
-      <div className="grid gap-5 md:grid-cols-4">
-        {process.map((item, index) => (
-          <div
-            key={item.title}
-            className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur"
-          >
-            <p className="text-sm text-cyan-300">0{index + 1}</p>
-            <h3 className="text-safe mt-5 text-2xl font-semibold">{item.title}</h3>
-            <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
-          </div>
-        ))}
-      </div>
+      <Reveal delay={80}>
+        <div className="relative grid gap-5 md:grid-cols-4">
+          <div className="pointer-events-none absolute left-6 top-10 hidden h-px w-[calc(100%-3rem)] bg-white/10 md:block" />
+
+          {process.map((item, index) => (
+            <div
+              key={item.title}
+              className="relative rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.08]"
+            >
+              <div className="mb-5 flex h-11 w-11 items-center justify-center rounded-full bg-cyan-300 text-sm font-bold text-black">
+                0{index + 1}
+              </div>
+              <h3 className="text-safe text-2xl font-semibold">{item.title}</h3>
+              <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
+            </div>
+          ))}
+        </div>
+      </Reveal>
     </section>
   )
 }
@@ -579,27 +812,29 @@ function ProcessSection() {
 function DeliverySection() {
   return (
     <section className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <div className="rounded-[2.8rem] border border-white/10 bg-[#11141d] p-8 shadow-2xl shadow-black/40 md:p-12">
-        <SectionHeading
-          eyebrow="Delivery"
-          title="交付重點是能看、能點、能分享、能上線。"
-          desc="小型網站不需要把功能堆滿，而是要把最重要的資訊與聯絡入口做好。"
-        />
+      <Reveal>
+        <div className="rounded-[2.8rem] border border-white/10 bg-[#11141d] p-8 shadow-2xl shadow-black/40 md:p-12">
+          <SectionHeading
+            eyebrow="Delivery"
+            title="交付重點是能看、能點、能分享、能上線。"
+            desc="小型網站不需要把功能堆滿，而是要把最重要的資訊與聯絡入口做好。"
+          />
 
-        <div className="grid gap-5 md:grid-cols-4">
-          {deliveryItems.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6"
-            >
-              <h3 className="text-safe text-xl font-semibold text-cyan-300">
-                {item.title}
-              </h3>
-              <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
-            </div>
-          ))}
+          <div className="grid gap-5 md:grid-cols-4">
+            {deliveryItems.map((item) => (
+              <div
+                key={item.title}
+                className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6 transition hover:-translate-y-1 hover:bg-white/[0.08]"
+              >
+                <h3 className="text-safe text-xl font-semibold text-cyan-300">
+                  {item.title}
+                </h3>
+                <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
+              </div>
+            ))}
+          </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
@@ -607,24 +842,25 @@ function DeliverySection() {
 function PricingSection() {
   return (
     <section id="pricing" className="relative mx-auto max-w-7xl px-5 py-16 md:py-20">
-      <SectionHeading
-        eyebrow="Pricing"
-        title="先從小型需求開始，報價依範圍調整。"
-        desc="第一批案子我會以累積真實作品、流程經驗和客戶回饋為主，不亂接超出能力的大型系統。"
-      />
+      <Reveal>
+        <SectionHeading
+          eyebrow="Pricing"
+          title="先從小型需求開始，報價依範圍調整。"
+          desc="第一批案子我會以累積真實作品、流程經驗和客戶回饋為主，不亂接超出能力的大型系統。"
+        />
+      </Reveal>
 
       <div className="grid gap-5 md:grid-cols-3">
-        {pricing.map((item) => (
-          <div
-            key={item.title}
-            className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur"
-          >
-            <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
-            <p className="text-safe mt-5 text-3xl font-semibold text-cyan-300">
-              {item.price}
-            </p>
-            <p className="text-safe mt-5 leading-8 text-white/58">{item.desc}</p>
-          </div>
+        {pricing.map((item, index) => (
+          <Reveal key={item.title} delay={index * 80}>
+            <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-7 backdrop-blur transition hover:-translate-y-1 hover:bg-white/[0.08]">
+              <h3 className="text-safe text-xl font-semibold">{item.title}</h3>
+              <p className="text-safe mt-5 text-3xl font-semibold text-cyan-300">
+                {item.price}
+              </p>
+              <p className="text-safe mt-5 leading-8 text-white/58">{item.desc}</p>
+            </div>
+          </Reveal>
         ))}
       </div>
     </section>
@@ -634,43 +870,45 @@ function PricingSection() {
 function ContactSection() {
   return (
     <section id="contact" className="relative mx-auto max-w-7xl px-5 py-16 pb-28 md:py-20">
-      <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
-        <div className="grid gap-10 md:grid-cols-[1fr_0.9fr] md:items-end">
-          <div className="min-w-0">
-            <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
-              Contact
-            </p>
-            <h2 className="text-safe mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
-              有小型網站需求，可以先把想法傳給我。
-            </h2>
-            <p className="text-safe mt-6 max-w-2xl leading-8 text-black/65">
-              不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、
-              目前素材、預算和希望完成時間，我會先判斷是否適合小型網站範圍。
-            </p>
-          </div>
+      <Reveal>
+        <div className="overflow-hidden rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
+          <div className="grid gap-10 md:grid-cols-[1fr_0.9fr] md:items-end">
+            <div className="min-w-0">
+              <p className="text-safe mobile-soft-eyebrow text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
+                Contact
+              </p>
+              <h2 className="text-safe mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
+                有小型網站需求，可以先把想法傳給我。
+              </h2>
+              <p className="text-safe mt-6 max-w-2xl leading-8 text-black/65">
+                不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、
+                目前素材、預算和希望完成時間，我會先判斷是否適合小型網站範圍。
+              </p>
+            </div>
 
-          <div className="grid min-w-0 gap-3">
-            <ContactCard
-              label="Email"
-              value="a0988874324@gmail.com"
-              href="mailto:a0988874324@gmail.com"
-            />
-            <ContactCard label="LINE" value="mulavuc" />
-            <ContactCard
-              label="Instagram"
-              value="qingyu.jin"
-              href="https://www.instagram.com/qingyu.jin"
-            />
-            <Link
-              to="/brief"
-              className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
-            >
-              <p className="text-sm text-white/50">Website Brief</p>
-              <p className="mt-2 font-semibold">先整理需求 →</p>
-            </Link>
+            <div className="grid min-w-0 gap-3">
+              <ContactCard
+                label="Email"
+                value="a0988874324@gmail.com"
+                href="mailto:a0988874324@gmail.com"
+              />
+              <ContactCard label="LINE" value="mulavuc" />
+              <ContactCard
+                label="Instagram"
+                value="qingyu.jin"
+                href="https://www.instagram.com/qingyu.jin"
+              />
+              <Link
+                to="/brief"
+                className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
+              >
+                <p className="text-sm text-white/50">Website Brief</p>
+                <p className="mt-2 font-semibold">先整理需求 →</p>
+              </Link>
+            </div>
           </div>
         </div>
-      </div>
+      </Reveal>
     </section>
   )
 }
@@ -680,7 +918,7 @@ function MobileBottomCTA() {
     <div className="fixed bottom-4 left-4 right-4 z-50 rounded-[1.6rem] border border-white/10 bg-[#08090d]/88 p-2 shadow-2xl shadow-black/40 backdrop-blur-xl md:hidden">
       <Link
         to="/brief"
-        className="flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
+        className="breathing-cta flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
       >
         填需求表，取得初步評估
       </Link>
@@ -700,6 +938,47 @@ function SectionHeading({ eyebrow, title, desc }) {
         </h2>
       </div>
       <p className="text-safe max-w-md leading-8 text-white/55">{desc}</p>
+    </div>
+  )
+}
+
+function Reveal({ children, delay = 0 }) {
+  const ref = useRef(null)
+  const [visible, setVisible] = useState(false)
+
+  useEffect(() => {
+    const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)")
+
+    if (reduceMotion.matches) {
+      setVisible(true)
+      return
+    }
+
+    const node = ref.current
+    if (!node) return
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setVisible(true)
+          observer.unobserve(entry.target)
+        }
+      },
+      { threshold: 0.16 }
+    )
+
+    observer.observe(node)
+
+    return () => observer.disconnect()
+  }, [])
+
+  return (
+    <div
+      ref={ref}
+      className={`reveal-block ${visible ? "is-visible" : ""}`}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
     </div>
   )
 }
