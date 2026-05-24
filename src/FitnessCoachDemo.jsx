@@ -13,7 +13,7 @@ const profileStats = [
 const painPoints = [
   {
     title: "學員私訊資訊太少",
-    desc: "很多人只問「我想變壯，怎麼收費？」但沒有目標、年資、傷病史、頻率與飲食資訊。",
+    desc: "很多人只問「我想變壯，怎麼收費？」但沒有目標、年資、傷病史、訓練頻率與飲食資訊。",
   },
   {
     title: "教練重複回答一樣問題",
@@ -29,6 +29,21 @@ const painPoints = [
   },
 ]
 
+const storyCards = [
+  {
+    title: "12+ years under the bar",
+    desc: "從很早就開始訓練，累積力量舉、多功能訓練、肌肥大規劃與健身房現場觀察。",
+  },
+  {
+    title: "630kg total strength base",
+    desc: "深蹲 240kg、臥推 140kg、傳統硬舉 250kg，不是只做健身主題，而是有真實力量背景。",
+  },
+  {
+    title: "Built through recovery",
+    desc: "曾經歷腳踝、肩膀與旋轉肌問題，讓訓練思維更重視負荷管理、動作品質與長期回歸。",
+  },
+]
+
 const principles = [
   {
     title: "力量不是每天硬幹",
@@ -40,7 +55,7 @@ const principles = [
   },
   {
     title: "傷後回歸要更理解身體",
-    desc: "曾經歷腳踝、肩膀與旋轉肌問題後，更重視負荷管理、動作控制與可持續的訓練安排。",
+    desc: "受傷回歸不是急著加重量，而是重新理解關節、肌肉、控制、恢復與訓練節奏。",
   },
 ]
 
@@ -302,6 +317,7 @@ function FitnessCoachDemo() {
       </section>
 
       <ProblemSection />
+      <StorySection />
       <PrinciplesSection />
       <ProgramsSection />
 
@@ -358,7 +374,7 @@ function FitnessCoachDemo() {
 
               <Link
                 to="/"
-                className="rounded-3xl border border-white/10 bg-white/7 p-5 text-white transition hover:bg-white/10"
+                className="rounded-3xl border border-white/10 bg-white/[0.07] p-5 text-white transition hover:bg-white/10"
               >
                 <p className="text-sm text-white/50">Back Home</p>
                 <p className="mt-2 font-black">回作品集首頁 →</p>
@@ -486,6 +502,40 @@ function ProblemSection() {
             <p className="mt-4 break-words leading-8 text-white/72">{item.desc}</p>
           </div>
         ))}
+      </div>
+    </section>
+  )
+}
+
+function StorySection() {
+  return (
+    <section className="mx-auto max-w-7xl px-4 py-16 sm:px-5">
+      <div className="relative overflow-hidden rounded-[2.5rem] border border-white/10 bg-[#0b111b] p-7 shadow-[0_0_55px_rgba(0,0,0,0.24)] sm:rounded-[2.8rem] md:p-12">
+        <div className="absolute right-[-140px] top-[-140px] h-[320px] w-[320px] rounded-full bg-sky-200/14 blur-[95px]" />
+        <div className="absolute left-[-100px] bottom-[-100px] h-[260px] w-[260px] rounded-full bg-red-500/20 blur-[90px]" />
+
+        <div className="relative grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)]">
+          <div className="min-w-0">
+            <p className="break-words text-sm font-black uppercase tracking-[0.22em] text-red-100">
+              Built from the platform
+            </p>
+            <h2 className="mt-4 break-words text-4xl font-black tracking-[-0.05em] md:text-6xl">
+              這不是憑空想像的健身網站。
+            </h2>
+            <p className="mt-6 break-words leading-8 text-white/76">
+              這個 Demo 來自長期力量訓練、受傷回歸、健身房現場觀察，以及教練與學員之間真實的溝通問題。
+            </p>
+          </div>
+
+          <div className="grid min-w-0 gap-4">
+            {storyCards.map((item) => (
+              <div key={item.title} className="min-w-0 rounded-[1.8rem] border border-white/10 bg-white/[0.06] p-5">
+                <h3 className="break-words text-2xl font-black text-white">{item.title}</h3>
+                <p className="mt-3 break-words leading-8 text-white/72">{item.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   )
