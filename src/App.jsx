@@ -6,6 +6,8 @@ import EventDemo from "./EventDemo"
 import ServiceDemo from "./ServiceDemo"
 import BriefPage from "./BriefPage"
 import LumaNailDemo from "./LumaNailDemo"
+import FitnessCoachDemo from "./FitnessCoachDemo"
+
 
 const workDemos = [
   {
@@ -17,6 +19,16 @@ const workDemos = [
     link: "/luma-nail",
     color: "from-[#f4c7b8] via-[#b58a79] to-[#2f2723]",
     tags: ["主打案例", "手機版", "預約"],
+  },
+  {
+    title: "QG Strength Lab",
+    category: "健身教練接案工具",
+    type: "fitness",
+    desc: "力量訓練教練頁、學員初步評估器與 PR Tracker 概念工具。",
+    fit: "健身教練 / 力量舉 / 私教 / 健身工作室",
+    link: "/fitness-coach",
+    color: "from-[#d7ff67] via-cyan-400 to-[#11161c]",
+    tags: ["力量訓練", "學員評估", "PR Tracker"],
   },
   {
     title: "Service Demo",
@@ -78,6 +90,7 @@ const filters = [
   { id: "shop", label: "小店" },
   { id: "event", label: "活動" },
   { id: "tool", label: "工具" },
+  { id: "fitness", label: "健身" },
 ]
 
 const servicePoints = [
@@ -187,6 +200,7 @@ function App() {
       <Route path="/cafe-demo" element={<CafeDemo />} />
       <Route path="/event-demo" element={<EventDemo />} />
       <Route path="/brief" element={<BriefPage />} />
+      <Route path="/fitness-coach" element={<FitnessCoachDemo />} />
     </Routes>
   )
 }
@@ -510,6 +524,34 @@ function WorkGallerySection() {
 }
 
 function WorkPreview({ type }) {
+  if (type === "fitness") {
+    return (
+      <div className="grid gap-3">
+        <div className="rounded-2xl bg-black/30 p-4 text-white backdrop-blur">
+          <div className="flex items-end justify-between">
+            <div>
+              <div className="text-xs text-white/45">TOTAL</div>
+              <div className="mt-1 text-3xl font-bold">630kg</div>
+            </div>
+            <div className="rounded-full bg-[#d7ff67] px-3 py-1 text-xs font-bold text-black">
+              QG
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-2">
+          <div className="rounded-xl bg-white/20 p-3 text-center text-xs font-semibold text-white">
+            SQ 240
+          </div>
+          <div className="rounded-xl bg-white/20 p-3 text-center text-xs font-semibold text-white">
+            BP 140
+          </div>
+          <div className="rounded-xl bg-white/20 p-3 text-center text-xs font-semibold text-white">
+            DL 250
+          </div>
+        </div>
+      </div>
+    )
+  }
   if (type === "studio") {
     return (
       <div className="grid gap-3">
