@@ -1,342 +1,267 @@
 import { Link } from "react-router-dom"
 
-const menuItems = [
+const problems = [
+  "菜單、營業時間、地點、社群貼文分散在不同地方。",
+  "客人常問今天有沒有開、怎麼去、菜單在哪裡。",
+  "小店需要一個比社群更穩定、方便分享的入口。",
+  "手機訪客通常只想快速找到菜單、地點和營業資訊。",
+]
+
+const menu = [
   {
-    name: "晨霧拿鐵",
-    price: "NT$130",
-    desc: "使用中深焙濃縮與鮮奶，口感溫和順口，適合第一次來店的客人。",
+    name: "House Latte",
+    price: "NT$120",
+    desc: "柔和奶香與中焙咖啡。",
   },
   {
-    name: "單品手沖",
-    price: "NT$180",
-    desc: "依每日豆單提供不同產區選擇，風味以乾淨、明亮、層次感為主。",
+    name: "Amber Toast",
+    price: "NT$160",
+    desc: "蜂蜜奶油厚片與季節水果。",
   },
   {
-    name: "黑糖肉桂拿鐵",
-    price: "NT$150",
-    desc: "黑糖香氣搭配肉桂尾韻，適合喜歡甜感與香氣層次的客人。",
-  },
-  {
-    name: "焦糖布丁",
-    price: "NT$95",
-    desc: "每日限量手作，口感綿密，搭配微苦焦糖醬。",
-  },
-  {
-    name: "檸檬磅蛋糕",
-    price: "NT$110",
-    desc: "帶有清爽檸檬香氣，適合搭配手沖或美式咖啡。",
-  },
-  {
-    name: "季節甜點",
-    price: "NT$120 起",
-    desc: "依季節水果與當日備料製作，每週不定期更換。",
+    name: "Daily Dessert",
+    price: "NT$140",
+    desc: "每日手作甜點，依現場供應。",
   },
 ]
 
-const features = [
+const sections = [
   {
-    title: "安靜座位",
-    desc: "適合閱讀、工作、簡單會議與午後休息。",
+    title: "品牌氛圍",
+    desc: "用照片、色彩與一句定位讓訪客快速感受到店的個性。",
   },
   {
-    title: "手沖咖啡",
-    desc: "每日提供不同產區豆單，風味乾淨清楚。",
+    title: "菜單精簡",
+    desc: "先放主打品項與價格，完整菜單可再用連結或圖片補充。",
   },
   {
-    title: "手作甜點",
-    desc: "店內每日少量製作，適合搭配咖啡享用。",
+    title: "營業資訊",
+    desc: "營業時間、地址、Google Map、社群連結要放在好找的位置。",
+  },
+  {
+    title: "到店 CTA",
+    desc: "小店網站最重要的是讓訪客知道今天能不能去、怎麼去、要看哪個社群。",
+  },
+]
+
+const beforeAfter = [
+  {
+    before: "客人要從 IG 貼文找菜單，再去 Google Map 找地址。",
+    after: "網站集中放菜單、營業時間、地圖、社群和主打品項。",
+  },
+  {
+    before: "社群貼文有氛圍，但新客不一定找得到基本資訊。",
+    after: "首頁先說品牌、主打、位置和營業狀態，降低查找成本。",
+  },
+  {
+    before: "每次更新菜單都只發限動，過幾天就找不到。",
+    after: "網站保留穩定資訊，社群負責即時活動與新品更新。",
   },
 ]
 
 const faqs = [
   {
-    q: "可以訂位嗎？",
-    a: "平日可透過 LINE 預約座位，假日依現場狀況安排。",
+    q: "小店真的需要網站嗎？",
+    a: "不一定每間都需要，但如果常被問菜單、地址、營業時間，網站可以當作穩定入口。",
   },
   {
-    q: "可以帶筆電工作嗎？",
-    a: "可以，店內提供部分插座座位，尖峰時段建議提前詢問。",
+    q: "網站會取代 IG 嗎？",
+    a: "不會。IG 適合更新日常與新品，網站適合放固定資訊、菜單、地圖與聯絡方式。",
   },
   {
-    q: "甜點每天都有一樣嗎？",
-    a: "甜點會依當日備料與季節調整，實際品項可參考 IG 限動。",
+    q: "可以串 Google Map 嗎？",
+    a: "可以。小店網站很適合把 Google Map、營業時間和社群連結放在明顯位置。",
   },
 ]
 
 function CafeDemo() {
   return (
-    <main className="min-h-screen bg-[#f6efe4] text-stone-950">
-      <div className="mx-auto max-w-6xl px-5 pt-6">
-        <Link
-          to="/"
-          className="inline-flex items-center rounded-full border border-stone-300 bg-white/60 px-5 py-2 text-sm font-medium text-stone-700 shadow-sm hover:border-stone-950"
-        >
-          ← 回到作品集
-        </Link>
-      </div>
+    <main className="min-h-screen overflow-hidden bg-[#2a1d14] text-[#fff7ed]">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#2a1d14]/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <Link
+            to="/"
+            className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+          >
+            ← 回首頁
+          </Link>
 
-      <section className="mx-auto grid max-w-6xl gap-12 px-5 pb-16 pt-16 md:grid-cols-[1.05fr_0.95fr] md:items-center md:pb-24 md:pt-24">
+          <Link
+            to="/brief"
+            className="rounded-full bg-[#f5c16c] px-4 py-2 text-sm font-semibold text-[#2a1d14] transition hover:bg-[#ffd98f]"
+          >
+            整理需求
+          </Link>
+        </div>
+      </header>
+
+      <section className="mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1fr_0.9fr] md:items-center md:pb-24 md:pt-24">
         <div>
-          <p className="mb-5 text-sm font-semibold uppercase tracking-[0.28em] text-amber-900">
-            Wuchiu Coffee
+          <p className="inline-flex rounded-full border border-[#f5c16c]/30 bg-[#f5c16c]/10 px-4 py-2 text-xs font-semibold text-[#f5c16c]">
+            Concept Case Study / 小店形象網站
           </p>
 
-          <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-            巷弄裡的一杯咖啡，留給慢下來的人。
+          <h1 className="mt-6 max-w-4xl text-[3rem] font-semibold leading-[1.03] tracking-[-0.06em] sm:text-6xl md:text-7xl">
+            Amber Cafe
           </h1>
 
-          <p className="mt-7 max-w-xl text-lg leading-9 text-stone-650">
-            霧丘咖啡是一間位於台南巷弄中的小型咖啡店，提供手沖咖啡、
-            義式飲品與每日手作甜點。網站設計重點放在品牌印象、菜單資訊、
-            營業時間與預約動線，讓顧客能快速了解並聯絡店家。
+          <p className="mt-6 max-w-2xl text-lg leading-9 text-white/65">
+            這是一個咖啡小店概念案例，展示如何把品牌氛圍、菜單、營業時間、地圖與社群入口整理成手機好讀的一頁式網站。
           </p>
 
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-8 flex flex-wrap gap-3">
             <a
               href="#menu"
-              className="rounded-full bg-stone-950 px-6 py-3 text-sm font-medium text-white transition hover:bg-stone-800"
+              className="rounded-full bg-[#f5c16c] px-6 py-3 text-sm font-semibold text-[#2a1d14] transition hover:bg-[#ffd98f]"
             >
-              查看菜單
+              看菜單區塊
             </a>
             <a
-              href="#visit"
-              className="rounded-full border border-stone-400 bg-white/40 px-6 py-3 text-sm font-medium transition hover:border-stone-950"
+              href="#case"
+              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
             >
-              查看營業資訊
+              看案例分析
             </a>
           </div>
-
-          <div className="mt-10 grid max-w-lg grid-cols-3 gap-3 text-sm">
-            <InfoMini number="10:00" label="開始營業" />
-            <InfoMini number="6+" label="人氣品項" />
-            <InfoMini number="RWD" label="手機版支援" />
-          </div>
         </div>
 
-        <div className="relative">
-          <div className="absolute -left-6 -top-6 h-32 w-32 rounded-full bg-amber-200/70 blur-3xl" />
-          <div className="absolute -bottom-8 -right-8 h-40 w-40 rounded-full bg-orange-200/60 blur-3xl" />
-
-          <div className="relative overflow-hidden rounded-[2.2rem] bg-stone-900 p-3 shadow-2xl shadow-stone-400/30">
-            <img
-              src="https://images.unsplash.com/photo-1495474472287-4d71bcdd2085?auto=format&fit=crop&w=1400&q=85"
-              alt="霧丘咖啡店形象照"
-              className="h-[520px] w-full rounded-[1.8rem] object-cover"
-            />
-            <div className="absolute bottom-6 left-6 right-6 rounded-3xl bg-white/85 p-5 shadow-lg backdrop-blur">
-              <p className="text-sm font-medium text-stone-500">今日推薦</p>
-              <div className="mt-2 flex items-end justify-between gap-4">
-                <div>
-                  <p className="text-2xl font-semibold">晨霧拿鐵</p>
-                  <p className="mt-1 text-sm text-stone-600">
-                    溫和奶香與中深焙尾韻
-                  </p>
-                </div>
-                <p className="text-xl font-semibold">NT$130</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-5 py-14">
-        <div className="grid gap-5 md:grid-cols-3">
-          {features.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[2rem] border border-stone-200 bg-white/75 p-7 shadow-sm"
-            >
-              <h3 className="text-2xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-8 text-stone-600">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid gap-8 md:grid-cols-[0.85fr_1.15fr] md:items-center">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-amber-900">
-              About
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-              讓顧客在進店前，就先感受到品牌氛圍。
-            </h2>
-            <p className="mt-6 leading-9 text-stone-600">
-              這個一頁式網站適合小型餐飲店、甜點店、早午餐店或個人工作室。
-              頁面會把品牌介紹、服務內容、商品資訊、店內環境與聯絡方式整理在同一頁，
-              讓顧客不需要滑很多社群貼文，也能快速找到想知道的資訊。
-            </p>
-          </div>
-
-          <div className="grid gap-4 sm:grid-cols-2">
-            <img
-              src="https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?auto=format&fit=crop&w=1200&q=85"
-              alt="咖啡店內部座位"
-              className="h-72 w-full rounded-[2rem] object-cover shadow-sm"
-            />
-            <img
-              src="https://images.unsplash.com/photo-1514432324607-a09d9b4aefdd?auto=format&fit=crop&w=1200&q=85"
-              alt="咖啡沖煮過程"
-              className="h-72 w-full rounded-[2rem] object-cover shadow-sm sm:mt-10"
-            />
-          </div>
-        </div>
-      </section>
-
-      <section id="menu" className="mx-auto max-w-6xl px-5 py-16">
-        <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-          <div>
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-amber-900">
-              Menu
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-              人氣品項
-            </h2>
-          </div>
-          <p className="max-w-md leading-8 text-stone-600">
-            菜單區塊可以依客戶需求放價格、品項說明、分類與季節限定內容。
-          </p>
-        </div>
-
-        <div className="grid gap-5 md:grid-cols-2">
-          {menuItems.map((item) => (
-            <div
-              key={item.name}
-              className="rounded-[2rem] border border-stone-200 bg-white/80 p-6 shadow-sm"
-            >
-              <div className="flex items-start justify-between gap-5">
-                <h3 className="text-2xl font-semibold">{item.name}</h3>
-                <p className="shrink-0 font-semibold text-amber-900">{item.price}</p>
-              </div>
-              <p className="mt-4 leading-8 text-stone-600">{item.desc}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-5 py-16">
-        <div className="rounded-[2.2rem] bg-stone-950 p-8 text-white md:p-12">
-          <div className="grid gap-10 md:grid-cols-[0.95fr_1.05fr] md:items-start">
+        <div className="rounded-[2.6rem] border border-white/10 bg-white/10 p-4 shadow-2xl shadow-black/30">
+          <div className="flex min-h-[540px] flex-col justify-between rounded-[2rem] bg-gradient-to-br from-amber-200 via-orange-300 to-stone-900 p-7 text-[#2a1d14]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-stone-400">
-                Website Goal
+              <p className="text-xs uppercase tracking-[0.28em] text-black/45">
+                Cafe / Local Shop
               </p>
-              <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-                這個網站解決什麼問題？
+              <div className="mt-6 inline-flex rounded-full bg-white/60 px-4 py-2 text-sm font-semibold">
+                Small Shop Demo
+              </div>
+            </div>
+
+            <div>
+              <h2 className="text-5xl font-semibold leading-tight tracking-[-0.05em]">
+                Coffee, menu, map — clear.
               </h2>
-              <p className="mt-6 leading-8 text-stone-300">
-                很多小店只使用社群平台，顧客需要自己翻貼文找菜單、價格、
-                營業時間與地址。這類一頁式網站可以把常用資訊集中整理，
-                讓顧客快速完成「了解 → 查看菜單 → 找到地點 → 聯絡預約」。
+              <p className="mt-5 max-w-sm leading-7 text-black/65">
+                菜單、營業時間、Google Map 與社群連結集中整理。
               </p>
-            </div>
 
-            <div className="grid gap-4">
-              <Goal text="清楚呈現品牌與店內氛圍" />
-              <Goal text="整理菜單、價格與人氣品項" />
-              <Goal text="放置營業時間、地址與 Google Map" />
-              <Goal text="整合 LINE / IG / 預約按鈕" />
-              <Goal text="支援手機版瀏覽，適合社群導流" />
+              <div className="mt-6 rounded-3xl bg-white/70 p-5">
+                <div className="flex justify-between font-semibold">
+                  <span>House Latte</span>
+                  <span>NT$120</span>
+                </div>
+                <div className="mt-3 flex justify-between font-semibold">
+                  <span>Daily Dessert</span>
+                  <span>NT$140</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="visit" className="mx-auto max-w-6xl px-5 py-16">
-        <div className="grid gap-6 md:grid-cols-[0.9fr_1.1fr]">
-          <div className="rounded-[2rem] border border-stone-200 bg-white/80 p-8 shadow-sm">
-            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-amber-900">
-              Visit
-            </p>
-            <h2 className="mt-3 text-4xl font-semibold tracking-tight">
-              營業資訊
-            </h2>
+      <SectionIntro
+        id="case"
+        eyebrow="Case Background"
+        title="小店網站的重點，是讓客人快速找到基本資訊。"
+        desc="小店不一定需要複雜網站，但需要一個比社群更穩定、容易分享的資訊入口。"
+      />
 
-            <div className="mt-8 space-y-4">
-              <VisitInfo label="地址" value="台南市中西區霧丘街 18 號" />
-              <VisitInfo label="營業時間" value="週一至週日 10:00–19:00" />
-              <VisitInfo label="預約方式" value="LINE：@wuchiucoffee" />
-              <VisitInfo label="適合需求" value="閱讀、工作、朋友聚會、午後甜點" />
-            </div>
-
-            <div className="mt-8 flex flex-wrap gap-3">
-              <a
-                href="https://www.google.com/maps"
-                target="_blank"
-                rel="noreferrer"
-                className="rounded-full bg-stone-950 px-6 py-3 text-sm font-medium text-white hover:bg-stone-800"
-              >
-                查看 Google Map
-              </a>
-              <a
-                href="#"
-                className="rounded-full border border-stone-300 px-6 py-3 text-sm font-medium hover:border-stone-950"
-              >
-                LINE 預約
-              </a>
-            </div>
-          </div>
-
-          <div className="overflow-hidden rounded-[2rem] bg-stone-200 shadow-sm">
-            <img
-              src="https://images.unsplash.com/photo-1554118811-1e0d58224f24?auto=format&fit=crop&w=1400&q=85"
-              alt="咖啡店外觀與座位"
-              className="h-full min-h-[420px] w-full object-cover"
-            />
-          </div>
+      <section className="mx-auto max-w-7xl px-5 pb-16">
+        <div className="grid gap-4 md:grid-cols-4">
+          {problems.map((item, index) => (
+            <Card key={item}>
+              <p className="text-sm font-semibold text-[#f5c16c]">0{index + 1}</p>
+              <p className="mt-5 leading-8 text-white/65">{item}</p>
+            </Card>
+          ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16">
-        <div className="mb-10">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-amber-900">
-            FAQ
-          </p>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-            常見問題
-          </h2>
-        </div>
+      <section id="menu" className="mx-auto max-w-7xl px-5 py-16">
+        <SectionHeader
+          eyebrow="Menu"
+          title="菜單先放主打，不要讓手機使用者找太久。"
+          desc="小店網站不用一次放完整菜單，先展示主打品項、價格與特色就能降低詢問成本。"
+        />
 
         <div className="grid gap-5 md:grid-cols-3">
-          {faqs.map((item) => (
-            <div
-              key={item.q}
-              className="rounded-[2rem] border border-stone-200 bg-white/80 p-7 shadow-sm"
-            >
-              <h3 className="text-xl font-semibold">{item.q}</h3>
-              <p className="mt-4 leading-8 text-stone-600">{item.a}</p>
+          {menu.map((item) => (
+            <div key={item.name} className="rounded-[2rem] bg-[#fff7ed] p-7 text-[#2a1d14]">
+              <p className="text-sm font-semibold text-black/45">Signature</p>
+              <h3 className="mt-4 text-3xl font-semibold">{item.name}</h3>
+              <p className="mt-4 text-2xl font-semibold text-[#9a5b24]">{item.price}</p>
+              <p className="mt-4 leading-7 text-black/60">{item.desc}</p>
             </div>
           ))}
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-5 py-16 pb-24">
-        <div className="rounded-[2.2rem] bg-amber-900 p-8 text-white md:p-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-amber-200">
-            Call To Action
-          </p>
-          <h2 className="mt-3 text-4xl font-semibold tracking-tight md:text-5xl">
-            想讓小店有一個清楚正式的介紹頁？
-          </h2>
-          <p className="mt-6 max-w-2xl leading-8 text-amber-50/90">
-            這類網站適合放在 Instagram 個人檔案、LINE 官方帳號、自 Google 商家頁面導流，
-            讓顧客可以快速了解服務、價格、地點與預約方式。
-          </p>
+      <section className="mx-auto max-w-7xl px-5 py-16">
+        <div className="rounded-[2.8rem] bg-[#fff7ed] p-8 text-[#2a1d14] md:p-12">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+                Structure
+              </p>
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                小店網站應該短、溫暖、好查。
+              </h2>
+              <p className="mt-6 leading-8 text-black/60">
+                對咖啡店來說，網站的任務不是取代社群，而是把固定資訊放穩。
+              </p>
+            </div>
 
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link
-              to="/"
-              className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-amber-950 hover:bg-amber-50"
-            >
-              回到接案首頁
-            </Link>
-            <a
-              href="mailto:a0988874324@gmail.com"
-              className="rounded-full border border-white/40 px-6 py-3 text-sm font-semibold text-white hover:border-white"
-            >
-              聯絡製作網站
-            </a>
+            <div className="grid gap-4 md:grid-cols-2">
+              {sections.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="rounded-[2rem] border border-black/10 bg-black/[0.03] p-6"
+                >
+                  <p className="text-sm font-semibold text-[#9a5b24]">0{index + 1}</p>
+                  <h3 className="mt-4 text-2xl font-semibold">{item.title}</h3>
+                  <p className="mt-3 leading-7 text-black/60">{item.desc}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <BeforeAfter />
+      <Faq />
+
+      <section className="mx-auto max-w-7xl px-5 py-16 pb-28">
+        <div className="rounded-[2.8rem] bg-[#f5c16c] p-8 text-[#2a1d14] md:p-12">
+          <div className="grid gap-8 md:grid-cols-[1fr_0.85fr] md:items-end">
+            <div>
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+                Next
+              </p>
+              <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                小店資訊分散，也可以先整理成網站。
+              </h2>
+              <p className="mt-6 max-w-2xl leading-8 text-black/65">
+                先整理菜單、照片、營業時間、地址、社群與地圖連結，再規劃一頁式網站。
+              </p>
+            </div>
+
+            <div className="grid gap-3">
+              <Link
+                to="/brief"
+                className="rounded-3xl bg-[#2a1d14] p-5 text-white transition hover:bg-black"
+              >
+                <p className="text-sm text-white/50">Website Brief</p>
+                <p className="mt-2 font-semibold">填需求整理器 →</p>
+              </Link>
+
+              <Link
+                to="/"
+                className="rounded-3xl bg-white/60 p-5 text-[#2a1d14] transition hover:bg-white"
+              >
+                <p className="text-sm text-black/45">Back Home</p>
+                <p className="mt-2 font-semibold">回作品集首頁 →</p>
+              </Link>
+            </div>
           </div>
         </div>
       </section>
@@ -344,28 +269,94 @@ function CafeDemo() {
   )
 }
 
-function InfoMini({ number, label }) {
+function BeforeAfter() {
   return (
-    <div className="rounded-2xl border border-stone-200 bg-white/70 p-4 shadow-sm">
-      <p className="font-semibold">{number}</p>
-      <p className="mt-1 text-xs text-stone-500">{label}</p>
+    <section className="mx-auto max-w-7xl px-5 py-16">
+      <SectionHeader
+        eyebrow="Before / After"
+        title="把社群上的固定資訊整理成穩定入口。"
+        desc="社群適合更新日常，網站適合放固定資訊。"
+      />
+
+      <div className="grid gap-5">
+        {beforeAfter.map((item, index) => (
+          <div
+            key={item.before}
+            className="grid gap-4 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 md:grid-cols-2"
+          >
+            <div className="rounded-[1.5rem] bg-white/[0.06] p-5">
+              <p className="text-sm font-semibold text-white/45">
+                Before 0{index + 1}
+              </p>
+              <p className="mt-3 leading-8 text-white/65">{item.before}</p>
+            </div>
+            <div className="rounded-[1.5rem] bg-[#fff7ed] p-5 text-[#2a1d14]">
+              <p className="text-sm font-semibold text-black/45">
+                After 0{index + 1}
+              </p>
+              <p className="mt-3 leading-8 text-black/70">{item.after}</p>
+            </div>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function Faq() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16">
+      <div className="rounded-[2.8rem] bg-[#fff7ed] p-8 text-[#2a1d14] md:p-12">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+              FAQ
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+              小店網站常見問題
+            </h2>
+          </div>
+
+          <div className="grid gap-4">
+            {faqs.map((item) => (
+              <div key={item.q} className="rounded-[1.8rem] bg-[#2a1d14]/5 p-6">
+                <h3 className="text-xl font-semibold">{item.q}</h3>
+                <p className="mt-3 leading-8 text-black/65">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SectionIntro({ id, eyebrow, title, desc }) {
+  return (
+    <section id={id} className="mx-auto max-w-7xl px-5 py-16">
+      <SectionHeader eyebrow={eyebrow} title={title} desc={desc} />
+    </section>
+  )
+}
+
+function SectionHeader({ eyebrow, title, desc }) {
+  return (
+    <div className="mb-10">
+      <p className="text-sm font-semibold uppercase tracking-[0.28em] text-[#f5c16c]">
+        {eyebrow}
+      </p>
+      <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+        {title}
+      </h2>
+      {desc && <p className="mt-5 max-w-2xl leading-8 text-white/62">{desc}</p>}
     </div>
   )
 }
 
-function Goal({ text }) {
+function Card({ children }) {
   return (
-    <div className="rounded-2xl bg-white/10 p-5 text-stone-200">
-      {text}
-    </div>
-  )
-}
-
-function VisitInfo({ label, value }) {
-  return (
-    <div className="rounded-2xl bg-stone-100 p-5">
-      <p className="text-sm text-stone-500">{label}</p>
-      <p className="mt-2 font-medium">{value}</p>
+    <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6">
+      {children}
     </div>
   )
 }

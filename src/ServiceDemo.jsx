@@ -1,319 +1,270 @@
 import { Link } from "react-router-dom"
 
-const services = [
+const painPoints = [
+  "服務內容很多，但客戶不知道哪個方案適合自己。",
+  "價格、流程、交付內容散在聊天紀錄或貼文裡。",
+  "第一次接觸的客戶需要快速理解你是不是可信。",
+  "需要把詢問導向表單或私訊，減少來回溝通成本。",
+]
+
+const packages = [
   {
-    title: "網站健檢",
-    desc: "檢查首頁資訊、手機版排版、CTA 動線、載入速度與聯絡入口是否清楚。",
-    tag: "Audit",
+    title: "Starter",
+    price: "NT$3,000 起",
+    desc: "適合單一服務介紹頁、個人顧問、家教或簡單課程頁。",
+    items: ["一頁式架構", "服務介紹", "聯絡 CTA"],
   },
   {
-    title: "服務頁製作",
-    desc: "為顧問、工作室、課程品牌、小型團隊製作清楚的服務介紹頁。",
-    tag: "Website",
+    title: "Standard",
+    price: "NT$6,000 起",
+    desc: "適合需要方案比較、流程說明與 FAQ 的小型服務業。",
+    items: ["方案比較", "合作流程", "FAQ", "表單連結"],
+    featured: true,
   },
   {
-    title: "表單與聯絡整合",
-    desc: "整合 Google Form、LINE、Email、IG、預約連結與外部平台。",
-    tag: "Contact",
-  },
-  {
-    title: "上線與維護",
-    desc: "協助網站部署、內容更新、版面調整與基礎維護。",
-    tag: "Launch",
+    title: "Custom",
+    price: "依需求評估",
+    desc: "適合內容較多、需要多頁結構或較多客製區塊的需求。",
+    items: ["多頁規劃", "內容整理", "客製區塊"],
   },
 ]
 
-const industries = [
-  "顧問服務",
-  "課程品牌",
-  "SaaS 工具",
-  "數位工作室",
-  "設計工作室",
-  "行銷服務",
-  "自由工作者",
-  "小型團隊",
-]
-
-const auditItems = [
-  "首頁是否能在 5 秒內說清楚你提供什麼服務",
-  "手機版是否好閱讀，按鈕是否容易點擊",
-  "服務項目、價格或合作方式是否清楚",
-  "是否有明確的聯絡方式或預約入口",
-  "社群、表單、Email、LINE 是否整合完整",
-  "網站是否適合放在 IG、名片、履歷或廣告連結中",
-]
-
-const plans = [
+const serviceBlocks = [
   {
-    name: "Basic",
-    price: "單頁服務介紹",
-    desc: "適合個人品牌、自由工作者或剛開始整理服務內容的人。",
-    items: ["首頁 Hero", "服務項目", "聯絡方式", "RWD 手機版", "協助部署上線"],
+    title: "服務定位",
+    desc: "用一句話說清楚你提供什麼、適合誰、能解決什麼問題。",
   },
   {
-    name: "Growth",
-    price: "完整服務頁",
-    desc: "適合有多個服務、需要流程說明與常見問題的小型團隊。",
-    items: ["服務模組", "製作流程", "FAQ", "表單 / LINE 整合", "基礎 SEO 結構"],
+    title: "方案比較",
+    desc: "把不同價格和內容差異整理清楚，避免客戶只問『多少錢』。",
   },
   {
-    name: "Custom",
-    price: "客製網站架構",
-    desc: "適合需要更完整內容架構、案例展示或特殊版面設計的服務型品牌。",
-    items: ["多區塊頁面", "案例展示", "進階 CTA", "內容架構規劃", "客製視覺風格"],
+    title: "合作流程",
+    desc: "讓第一次合作的人知道從諮詢、確認、製作到交付會怎麼進行。",
+  },
+  {
+    title: "需求表 CTA",
+    desc: "把有興趣的客戶導向需求表或聯絡入口，提升有效詢問。",
   },
 ]
 
-const deliverables = [
-  "網站公開連結",
-  "RWD 手機版頁面",
-  "首頁與服務區塊",
-  "聯絡 / 表單 / LINE 按鈕",
-  "部署上線協助",
-  "網站原始碼",
-  "簡易修改說明",
-  "基礎內容架構建議",
-]
-
-const steps = [
+const beforeAfter = [
   {
-    title: "填寫需求",
-    desc: "確認網站用途、目標客戶、參考風格與需要放的內容。",
+    before: "客戶只看到社群貼文，不確定你到底提供哪些服務。",
+    after: "網站第一屏直接說明服務定位、適合對象與主要 CTA。",
   },
   {
-    title: "整理架構",
-    desc: "將服務內容、流程、聯絡方式與 CTA 整理成清楚的網站區塊。",
+    before: "每次都要重複解釋方案內容、價格和流程。",
+    after: "用方案卡與流程區整理資訊，讓客戶先自行理解。",
   },
   {
-    title: "製作初版",
-    desc: "完成首頁視覺、主要區塊與手機版排版。",
-  },
-  {
-    title: "修改調整",
-    desc: "依照回饋調整文字、圖片、間距、顏色與聯絡資訊。",
-  },
-  {
-    title: "部署上線",
-    desc: "協助網站上線，提供公開連結與基本交付說明。",
+    before: "私訊來了很多，但有效需求不清楚。",
+    after: "用需求表先收集預算、時程、素材與功能，降低溝通成本。",
   },
 ]
 
-const briefQuestions = [
-  "你想做什麼類型的網站？",
-  "目前有沒有舊網站或社群頁？",
-  "主要想給誰看？",
-  "需要放哪些服務或產品？",
-  "有沒有參考網站或喜歡的風格？",
-  "需要 LINE、表單、Email 或預約連結嗎？",
-  "希望什麼時候完成？",
-  "預算大概落在哪裡？",
+const workflow = [
+  "初步諮詢",
+  "整理需求",
+  "確認方案",
+  "製作頁面",
+  "測試修正",
+  "部署交付",
 ]
 
 const faqs = [
   {
-    q: "這種網站適合誰？",
-    a: "適合顧問服務、課程品牌、數位工作室、自由工作者、小型團隊、SaaS 工具或需要清楚介紹服務的單位。",
+    q: "這是真實客戶案例嗎？",
+    a: "不是。這是概念案例，用來展示服務型網站可以怎麼整理方案、流程、FAQ 與 CTA。",
   },
   {
-    q: "可以改成我的品牌嗎？",
-    a: "可以。內容、顏色、服務項目、區塊順序、聯絡方式與按鈕都能依照實際需求調整。",
+    q: "適合哪些人？",
+    a: "顧問、家教、課程老師、健身教練、接案者、小型團隊、自由工作者都可以參考這種結構。",
   },
   {
-    q: "需要後台嗎？",
-    a: "如果只是形象頁、服務介紹與聯絡入口，不一定需要後台。若需要文章管理、大量內容更新或會員功能，會另外評估。",
+    q: "重點是設計還是轉換？",
+    a: "兩者都重要，但服務型網站最重要的是讓訪客快速理解服務內容、方案差異與下一步行動。",
   },
 ]
 
 function ServiceDemo() {
   return (
-    <main className="min-h-screen overflow-hidden bg-[#050816] text-white">
-      <div className="pointer-events-none fixed inset-0">
-        <div className="absolute left-[-10%] top-[-10%] h-[420px] w-[420px] rounded-full bg-cyan-500/20 blur-[120px]" />
-        <div className="absolute right-[-10%] top-[25%] h-[420px] w-[420px] rounded-full bg-violet-500/20 blur-[120px]" />
-        <div className="absolute bottom-[-10%] left-[30%] h-[360px] w-[360px] rounded-full bg-blue-500/10 blur-[120px]" />
-      </div>
+    <main className="min-h-screen overflow-hidden bg-[#07111f] text-white">
+      <header className="sticky top-0 z-50 border-b border-white/10 bg-[#07111f]/85 backdrop-blur-xl">
+        <div className="mx-auto flex max-w-7xl items-center justify-between px-5 py-4">
+          <Link
+            to="/"
+            className="rounded-full border border-white/15 bg-white/5 px-4 py-2 text-sm font-semibold text-white/80 transition hover:border-white/40 hover:text-white"
+          >
+            ← 回首頁
+          </Link>
 
-      <div className="relative mx-auto max-w-6xl px-5 pt-6">
-        <Link
-          to="/"
-          className="inline-flex rounded-full border border-white/15 bg-white/5 px-5 py-2 text-sm font-medium text-white/80 backdrop-blur hover:border-white/40"
-        >
-          ← 回到作品集
-        </Link>
-      </div>
-
-      <section className="relative mx-auto grid max-w-6xl gap-12 px-5 pb-20 pt-16 md:grid-cols-[1.05fr_0.95fr] md:items-center md:pb-28 md:pt-24">
-        <div>
-          <div className="mb-6 inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-sm font-medium text-cyan-200">
-            Digital Service Center
-          </div>
-
-          <h1 className="text-5xl font-semibold leading-[1.05] tracking-tight md:text-7xl">
-            把服務內容整理成清楚、可信、容易成交的網站。
-          </h1>
-
-          <p className="mt-7 max-w-xl text-lg leading-9 text-slate-300">
-            這是一個科技服務中心網站案例，適合顧問服務、SaaS 工具、
-            數位工作室、課程品牌與小型團隊。網站重點放在服務介紹、
-            流程說明、信任感建立、需求確認與聯絡轉換。
-          </p>
-
-          <div className="mt-9 flex flex-wrap gap-3">
-            <a
-              href="#services"
-              className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-slate-950 hover:bg-cyan-200"
-            >
-              查看服務模組
-            </a>
-            <a
-              href="#brief"
-              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-medium text-white hover:border-white/40"
-            >
-              查看需求表
-            </a>
-          </div>
-
-          <div className="mt-10 grid max-w-xl grid-cols-3 gap-3">
-            <Stat value="RWD" label="手機版支援" />
-            <Stat value="8+" label="內容區塊" />
-            <Stat value="CTA" label="聯絡轉換" />
-          </div>
+          <Link
+            to="/brief"
+            className="rounded-full bg-cyan-300 px-4 py-2 text-sm font-semibold text-black transition hover:bg-cyan-200"
+          >
+            整理需求
+          </Link>
         </div>
+      </header>
+
+      <section className="relative mx-auto grid max-w-7xl gap-10 px-5 pb-16 pt-14 md:grid-cols-[1fr_0.9fr] md:items-center md:pb-24 md:pt-24">
+        <Background />
 
         <div className="relative">
-          <div className="rounded-[2.2rem] border border-white/10 bg-white/10 p-4 shadow-2xl shadow-cyan-950/40 backdrop-blur-xl">
-            <div className="rounded-[1.8rem] bg-[#0b1022] p-5">
-              <div className="mb-5 flex items-center justify-between">
-                <div className="flex gap-2">
-                  <span className="h-3 w-3 rounded-full bg-red-400" />
-                  <span className="h-3 w-3 rounded-full bg-yellow-400" />
-                  <span className="h-3 w-3 rounded-full bg-green-400" />
+          <p className="inline-flex rounded-full border border-cyan-300/20 bg-cyan-300/10 px-4 py-2 text-xs font-semibold text-cyan-200">
+            Concept Case Study / 服務型網站
+          </p>
+
+          <h1 className="mt-6 max-w-4xl text-[3rem] font-semibold leading-[1.03] tracking-[-0.06em] sm:text-6xl md:text-7xl">
+            ClearPath Studio
+          </h1>
+
+          <p className="mt-6 max-w-2xl text-lg leading-9 text-white/62">
+            這是一個服務型網站概念案例，適合顧問、課程老師、自由工作者或小型團隊。
+            重點不是做很多特效，而是把服務、方案、流程與需求入口整理得清楚可信。
+          </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <a
+              href="#case"
+              className="rounded-full bg-cyan-300 px-6 py-3 text-sm font-semibold text-black transition hover:bg-cyan-200"
+            >
+              看案例分析
+            </a>
+            <a
+              href="#packages"
+              className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-white transition hover:border-white/40"
+            >
+              看方案區塊
+            </a>
+          </div>
+        </div>
+
+        <div className="relative rounded-[2.6rem] border border-white/10 bg-white/10 p-4 shadow-2xl shadow-black/40 backdrop-blur">
+          <div className="rounded-[2rem] bg-gradient-to-br from-cyan-400 via-blue-500 to-violet-700 p-7">
+            <div className="flex min-h-[540px] flex-col justify-between rounded-[1.6rem] bg-black/20 p-6 backdrop-blur">
+              <div>
+                <p className="text-xs uppercase tracking-[0.28em] text-white/60">
+                  Service / Consultant
+                </p>
+                <div className="mt-6 inline-flex rounded-full bg-white/20 px-4 py-2 text-sm font-semibold">
+                  Service Website Demo
                 </div>
-                <span className="rounded-full bg-emerald-400/10 px-3 py-1 text-xs text-emerald-300">
-                  Online
-                </span>
               </div>
 
-              <div className="rounded-3xl border border-white/10 bg-gradient-to-br from-cyan-300/20 to-violet-400/20 p-6">
-                <p className="text-sm text-slate-300">Service Dashboard</p>
-                <h2 className="mt-4 text-3xl font-semibold">
-                  Website Support Hub
+              <div>
+                <h2 className="text-5xl font-semibold leading-tight tracking-[-0.05em]">
+                  Turn services into clear choices.
                 </h2>
-                <p className="mt-4 leading-7 text-slate-300">
-                  集中展示服務項目、流程、方案、FAQ 與聯絡入口。
+                <p className="mt-5 max-w-sm leading-7 text-white/70">
+                  服務介紹、方案比較、合作流程與需求表 CTA 集中整理。
                 </p>
-              </div>
 
-              <div className="mt-4 grid gap-4 md:grid-cols-2">
-                <Panel title="需求整理" value="01" />
-                <Panel title="版面設計" value="02" />
-                <Panel title="RWD 調整" value="03" />
-                <Panel title="部署上線" value="04" />
-              </div>
-
-              <div className="mt-4 rounded-3xl border border-white/10 bg-white/5 p-5">
-                <p className="text-sm text-slate-400">Current Status</p>
-                <div className="mt-4 h-3 overflow-hidden rounded-full bg-white/10">
-                  <div className="h-full w-[78%] rounded-full bg-cyan-300" />
+                <div className="mt-6 grid gap-3">
+                  {["方案比較", "合作流程", "FAQ", "需求表"].map((item) => (
+                    <div key={item} className="rounded-2xl bg-white/15 p-4">
+                      <p className="text-sm font-semibold">{item}</p>
+                    </div>
+                  ))}
                 </div>
-                <p className="mt-3 text-sm text-slate-300">
-                  78% of content structure completed
-                </p>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      <section id="services" className="relative mx-auto max-w-6xl px-5 py-16">
-        <SectionTitle
-          eyebrow="Services"
-          title="服務模組"
-          desc="適合將服務內容整理成清楚的網站架構，讓訪客能快速理解你提供什麼、適合誰、如何聯絡。"
-        />
+      <SectionIntro
+        id="case"
+        eyebrow="Case Background"
+        title="服務型網站最怕講很多，但客戶還是不知道下一步。"
+        desc="這個案例的核心是把服務內容從聊天、貼文、簡報中整理成網站可以理解的順序。"
+      />
 
-        <div className="grid gap-5 md:grid-cols-4">
-          {services.map((item) => (
-            <div
-              key={item.title}
-              className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur transition hover:-translate-y-1 hover:bg-white/10"
-            >
-              <p className="mb-5 inline-flex rounded-full bg-cyan-300/10 px-3 py-1 text-xs font-medium text-cyan-200">
-                {item.tag}
-              </p>
-              <h3 className="text-xl font-semibold">{item.title}</h3>
-              <p className="mt-4 leading-7 text-slate-300">{item.desc}</p>
-            </div>
+      <section className="mx-auto max-w-7xl px-5 pb-16">
+        <div className="grid gap-4 md:grid-cols-4">
+          {painPoints.map((item, index) => (
+            <Card key={item}>
+              <p className="text-sm font-semibold text-cyan-300">0{index + 1}</p>
+              <p className="mt-5 leading-8 text-white/62">{item}</p>
+            </Card>
           ))}
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-5 py-16">
-        <SectionTitle
-          eyebrow="Industries"
-          title="適合的產業與對象"
-          desc="這種服務型網站可以依照產業調整內容與視覺，不只適合科技公司，也適合個人服務與小型團隊。"
-        />
-
-        <div className="grid gap-4 sm:grid-cols-2 md:grid-cols-4">
-          {industries.map((item) => (
-            <div
-              key={item}
-              className="rounded-3xl border border-white/10 bg-white/5 p-5 text-center text-slate-200 backdrop-blur"
-            >
-              {item}
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-6xl px-5 py-16">
-        <div className="rounded-[2.2rem] border border-white/10 bg-white/5 p-8 backdrop-blur md:p-12">
-          <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
+      <section className="mx-auto max-w-7xl px-5 py-16">
+        <div className="rounded-[2.8rem] bg-white p-8 text-black md:p-12">
+          <div className="grid gap-10 lg:grid-cols-[0.85fr_1.15fr]">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-                Website Audit
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+                Information Architecture
               </p>
-              <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
-                網站健檢清單
+              <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                服務頁要先建立理解，再引導詢問。
               </h2>
-              <p className="mt-6 leading-8 text-slate-300">
-                這個區塊展示網站可以協助客戶檢查哪些問題。
-                對服務型品牌來說，網站不只是漂亮，更重要的是讓訪客快速理解、信任並聯絡你。
+              <p className="mt-6 leading-8 text-black/60">
+                不是一開始就丟價格，而是先說清楚服務定位、適合對象、方案差異與合作流程。
               </p>
             </div>
 
-            <div className="grid gap-3">
-              {auditItems.map((item) => (
-                <CheckItem key={item} text={item} />
+            <div className="grid gap-4 md:grid-cols-2">
+              {serviceBlocks.map((item, index) => (
+                <div
+                  key={item.title}
+                  className="rounded-[2rem] border border-black/10 bg-black/[0.03] p-6"
+                >
+                  <p className="text-sm font-semibold text-blue-600">0{index + 1}</p>
+                  <h3 className="mt-4 text-2xl font-semibold">{item.title}</h3>
+                  <p className="mt-3 leading-7 text-black/60">{item.desc}</p>
+                </div>
               ))}
             </div>
           </div>
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-5 py-16">
-        <SectionTitle
-          eyebrow="Plans"
-          title="服務方案示意"
-          desc="這裡可以讓客戶理解不同製作範圍的差異，也能降低一直重複解釋報價內容的時間。"
+      <section id="packages" className="mx-auto max-w-7xl px-5 py-16">
+        <SectionHeader
+          eyebrow="Packages"
+          title="用方案卡讓客戶先理解差異。"
+          desc="方案不是為了讓價格變複雜，而是減少每次都從頭解釋。"
         />
 
         <div className="grid gap-5 md:grid-cols-3">
-          {plans.map((plan) => (
+          {packages.map((item) => (
             <div
-              key={plan.name}
-              className="rounded-[2rem] border border-white/10 bg-white/5 p-7 backdrop-blur transition hover:-translate-y-1 hover:bg-white/10"
+              key={item.title}
+              className={`rounded-[2rem] border p-7 ${
+                item.featured
+                  ? "border-cyan-300 bg-cyan-300 text-black"
+                  : "border-white/10 bg-white/[0.06] text-white"
+              }`}
             >
-              <p className="text-sm font-medium text-cyan-300">{plan.name}</p>
-              <h3 className="mt-3 text-2xl font-semibold">{plan.price}</h3>
-              <p className="mt-4 leading-7 text-slate-300">{plan.desc}</p>
+              <p
+                className={`text-sm font-semibold ${
+                  item.featured ? "text-black/55" : "text-cyan-300"
+                }`}
+              >
+                {item.title}
+              </p>
+              <h3 className="mt-4 text-3xl font-semibold">{item.price}</h3>
+              <p
+                className={`mt-4 leading-7 ${
+                  item.featured ? "text-black/65" : "text-white/58"
+                }`}
+              >
+                {item.desc}
+              </p>
 
-              <div className="mt-6 space-y-3">
-                {plan.items.map((item) => (
-                  <div key={item} className="flex gap-3 text-sm text-slate-300">
-                    <span className="mt-1 h-2 w-2 rounded-full bg-cyan-300" />
-                    <span>{item}</span>
+              <div className="mt-6 grid gap-2">
+                {item.items.map((line) => (
+                  <div key={line} className="flex gap-3 text-sm">
+                    <span
+                      className={`mt-1.5 h-2 w-2 rounded-full ${
+                        item.featured ? "bg-black" : "bg-cyan-300"
+                      }`}
+                    />
+                    <span>{line}</span>
                   </div>
                 ))}
               </div>
@@ -322,136 +273,42 @@ function ServiceDemo() {
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-5 py-16">
-        <div className="rounded-[2.2rem] bg-cyan-300 p-8 text-slate-950 md:p-12">
-          <div className="grid gap-10 md:grid-cols-[0.85fr_1.15fr]">
+      <BeforeAfter />
+      <Workflow />
+      <Faq />
+
+      <section className="mx-auto max-w-7xl px-5 py-16 pb-28">
+        <div className="rounded-[2.8rem] bg-cyan-300 p-8 text-black md:p-12">
+          <div className="grid gap-8 md:grid-cols-[1fr_0.85fr] md:items-end">
             <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-700">
-                Deliverables
+              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/55">
+                Next
               </p>
-              <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
-                交付內容
+              <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+                服務內容很多，也可以先整理成網站需求。
               </h2>
-              <p className="mt-6 leading-8 text-slate-700">
-                服務型網站可以清楚列出交付項目，讓客戶知道合作後會拿到什麼，
-                也能讓接案範圍更明確。
-              </p>
-            </div>
-
-            <div className="grid gap-3 sm:grid-cols-2">
-              {deliverables.map((item) => (
-                <div
-                  key={item}
-                  className="rounded-2xl bg-white/60 p-5 font-medium"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-6xl px-5 py-16">
-        <SectionTitle
-          eyebrow="Process"
-          title="製作流程"
-          desc="把合作流程整理清楚，可以讓客戶知道每一步會發生什麼，也能減少溝通落差。"
-        />
-
-        <div className="grid gap-4 md:grid-cols-5">
-          {steps.map((step, index) => (
-            <div
-              key={step.title}
-              className="rounded-[2rem] border border-white/10 bg-white/5 p-6 backdrop-blur"
-            >
-              <p className="text-sm text-cyan-300">0{index + 1}</p>
-              <p className="mt-4 text-lg font-semibold">{step.title}</p>
-              <p className="mt-3 text-sm leading-7 text-slate-300">
-                {step.desc}
-              </p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="brief" className="relative mx-auto max-w-6xl px-5 py-16">
-        <div className="rounded-[2.2rem] border border-white/10 bg-white/5 p-8 backdrop-blur md:p-12">
-          <div className="grid gap-10 md:grid-cols-[0.9fr_1.1fr]">
-            <div>
-              <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-                Brief
-              </p>
-              <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
-                需求確認表
-              </h2>
-              <p className="mt-6 leading-8 text-slate-300">
-                在正式報價前，先確認網站用途、內容、功能與時程。
-                這可以避免需求模糊，也能讓製作範圍更清楚。
+              <p className="mt-6 max-w-2xl leading-8 text-black/65">
+                先整理服務、方案、素材、預算與時程，我再判斷適合一頁式網站還是多頁結構。
               </p>
             </div>
 
             <div className="grid gap-3">
-              {briefQuestions.map((item, index) => (
-                <div
-                  key={item}
-                  className="rounded-2xl border border-white/10 bg-white/5 p-5"
-                >
-                  <p className="text-sm text-cyan-300">Q{index + 1}</p>
-                  <p className="mt-2 text-slate-200">{item}</p>
-                </div>
-              ))}
+              <Link
+                to="/brief"
+                className="rounded-3xl bg-black p-5 text-white transition hover:bg-stone-800"
+              >
+                <p className="text-sm text-white/50">Website Brief</p>
+                <p className="mt-2 font-semibold">填需求整理器 →</p>
+              </Link>
+
+              <Link
+                to="/"
+                className="rounded-3xl bg-white/60 p-5 text-black transition hover:bg-white"
+              >
+                <p className="text-sm text-black/50">Back Home</p>
+                <p className="mt-2 font-semibold">回作品集首頁 →</p>
+              </Link>
             </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="relative mx-auto max-w-6xl px-5 py-16">
-        <SectionTitle
-          eyebrow="FAQ"
-          title="常見問題"
-          desc="FAQ 可以減少重複溝通，也能讓客戶在聯絡前先理解合作範圍。"
-        />
-
-        <div className="grid gap-5 md:grid-cols-3">
-          {faqs.map((item) => (
-            <div
-              key={item.q}
-              className="rounded-[2rem] border border-white/10 bg-white/5 p-7 backdrop-blur"
-            >
-              <h3 className="text-xl font-semibold">{item.q}</h3>
-              <p className="mt-4 leading-8 text-slate-300">{item.a}</p>
-            </div>
-          ))}
-        </div>
-      </section>
-
-      <section id="contact" className="relative mx-auto max-w-6xl px-5 py-16 pb-24">
-        <div className="rounded-[2.2rem] bg-cyan-300 p-8 text-slate-950 md:p-12">
-          <p className="text-sm font-semibold uppercase tracking-[0.28em] text-slate-700">
-            Contact
-          </p>
-          <h2 className="mt-3 text-4xl font-semibold md:text-5xl">
-            想做一個更正式的服務入口？
-          </h2>
-          <p className="mt-6 max-w-2xl leading-8 text-slate-700">
-            這類網站適合顧問服務、數位工作室、課程品牌、SaaS 工具、
-            自由工作者與小型團隊，能協助把服務內容整理成清楚的網站。
-          </p>
-
-          <div className="mt-9 flex flex-wrap gap-3">
-            <Link
-              to="/"
-              className="rounded-full bg-slate-950 px-6 py-3 text-sm font-semibold text-white hover:bg-slate-800"
-            >
-              回到接案首頁
-            </Link>
-            <a
-              href="mailto:a0988874324@gmail.com"
-              className="rounded-full border border-slate-950/20 px-6 py-3 text-sm font-semibold hover:border-slate-950"
-            >
-              聯絡製作網站
-            </a>
           </div>
         </div>
       </section>
@@ -459,45 +316,129 @@ function ServiceDemo() {
   )
 }
 
-function SectionTitle({ eyebrow, title, desc }) {
+function BeforeAfter() {
   return (
-    <div className="mb-10 flex flex-col justify-between gap-4 md:flex-row md:items-end">
-      <div>
-        <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
-          {eyebrow}
-        </p>
-        <h2 className="mt-3 text-4xl font-semibold md:text-5xl">{title}</h2>
+    <section className="mx-auto max-w-7xl px-5 py-16">
+      <SectionHeader
+        eyebrow="Before / After"
+        title="把模糊服務變成可判斷的選項。"
+        desc="服務型網站的價值，是讓客戶不用私訊十次才知道適不適合。"
+      />
+
+      <div className="grid gap-5">
+        {beforeAfter.map((item, index) => (
+          <div
+            key={item.before}
+            className="grid gap-4 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5 md:grid-cols-2"
+          >
+            <div className="rounded-[1.5rem] bg-white/[0.06] p-5">
+              <p className="text-sm font-semibold text-white/45">
+                Before 0{index + 1}
+              </p>
+              <p className="mt-3 leading-8 text-white/60">{item.before}</p>
+            </div>
+            <div className="rounded-[1.5rem] bg-cyan-300 p-5 text-black">
+              <p className="text-sm font-semibold text-black/45">
+                After 0{index + 1}
+              </p>
+              <p className="mt-3 leading-8 text-black/70">{item.after}</p>
+            </div>
+          </div>
+        ))}
       </div>
-      <p className="max-w-md leading-8 text-slate-300">{desc}</p>
+    </section>
+  )
+}
+
+function Workflow() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16">
+      <div className="rounded-[2.8rem] border border-white/10 bg-white/[0.06] p-8 md:p-12">
+        <SectionHeader
+          eyebrow="Workflow"
+          title="流程清楚，客戶比較敢開始。"
+          desc="很多人不是不想合作，而是不知道合作會怎麼進行。"
+        />
+
+        <div className="grid gap-4 md:grid-cols-6">
+          {workflow.map((item, index) => (
+            <div key={item} className="rounded-[1.6rem] bg-white/[0.06] p-5">
+              <p className="text-sm font-semibold text-cyan-300">0{index + 1}</p>
+              <p className="mt-6 text-xl font-semibold">{item}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function Faq() {
+  return (
+    <section className="mx-auto max-w-7xl px-5 py-16">
+      <div className="rounded-[2.8rem] bg-white p-8 text-black md:p-12">
+        <div className="grid gap-10 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-sm font-semibold uppercase tracking-[0.28em] text-black/45">
+              FAQ
+            </p>
+            <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+              先回答常見疑問。
+            </h2>
+          </div>
+
+          <div className="grid gap-4">
+            {faqs.map((item) => (
+              <div
+                key={item.q}
+                className="rounded-[1.8rem] border border-black/10 bg-black/[0.03] p-6"
+              >
+                <h3 className="text-xl font-semibold">{item.q}</h3>
+                <p className="mt-3 leading-8 text-black/65">{item.a}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SectionIntro({ id, eyebrow, title, desc }) {
+  return (
+    <section id={id} className="mx-auto max-w-7xl px-5 py-16">
+      <SectionHeader eyebrow={eyebrow} title={title} desc={desc} />
+    </section>
+  )
+}
+
+function SectionHeader({ eyebrow, title, desc }) {
+  return (
+    <div className="mb-10">
+      <p className="text-sm font-semibold uppercase tracking-[0.28em] text-cyan-300">
+        {eyebrow}
+      </p>
+      <h2 className="mt-4 max-w-4xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
+        {title}
+      </h2>
+      {desc && <p className="mt-5 max-w-2xl leading-8 text-white/58">{desc}</p>}
     </div>
   )
 }
 
-function Stat({ value, label }) {
+function Card({ children }) {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5 backdrop-blur">
-      <p className="text-2xl font-semibold text-cyan-200">{value}</p>
-      <p className="mt-2 text-xs text-slate-400">{label}</p>
+    <div className="rounded-[2rem] border border-white/10 bg-white/[0.06] p-6">
+      {children}
     </div>
   )
 }
 
-function Panel({ title, value }) {
+function Background() {
   return (
-    <div className="rounded-3xl border border-white/10 bg-white/5 p-5">
-      <p className="text-2xl font-semibold text-cyan-200">{value}</p>
-      <p className="mt-2 text-sm text-slate-300">{title}</p>
-    </div>
-  )
-}
-
-function CheckItem({ text }) {
-  return (
-    <div className="flex gap-4 rounded-2xl bg-white/10 p-5 text-slate-200">
-      <span className="mt-1 flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-cyan-300 text-xs font-bold text-slate-950">
-        ✓
-      </span>
-      <span className="leading-7">{text}</span>
+    <div className="pointer-events-none absolute inset-0 -z-10">
+      <div className="absolute left-[-180px] top-[-120px] h-[460px] w-[460px] rounded-full bg-cyan-400/10 blur-[120px]" />
+      <div className="absolute bottom-[-180px] right-[-160px] h-[500px] w-[500px] rounded-full bg-violet-500/10 blur-[130px]" />
     </div>
   )
 }
