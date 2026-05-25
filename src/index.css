@@ -4,6 +4,11 @@ html {
   scroll-behavior: smooth;
 }
 
+/* 讓錨點導航不被 sticky header 遮住 */
+:target {
+  scroll-margin-top: 80px;
+}
+
 body {
   margin: 0;
   min-width: 320px;

@@ -124,8 +124,7 @@ function PortfolioDemo() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-9 text-black/62">
-            這是一個個人作品集概念案例，展示學生或求職者如何把專案、技能、履歷與聯絡方式整理成清楚的網站。
-            重點不是炫技，而是讓對方快速看懂你的能力。
+            個人作品集概念案例——展示學生或求職者如何把散落各處的專案、技能與履歷，整理成讓對方三秒看懂你能力的網站。不是炫技，是降低對方理解你的成本。
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -178,8 +177,8 @@ function PortfolioDemo() {
       <SectionIntro
         id="case"
         eyebrow="Case Background"
-        title="作品集不是把作品堆上去，而是幫對方快速判斷你能不能做事。"
-        desc="學生與求職者常有很多資料，但缺少一個清楚、可分享、手機也好讀的入口。"
+        title="作品集不是把東西堆上去，而是幫對方快速判斷你能不能做事。"
+        desc="學生和求職者通常有很多資料，但缺少一個可以分享、手機也好讀的入口。"
       />
 
       <section className="mx-auto max-w-7xl px-5 pb-16">
@@ -201,10 +200,10 @@ function PortfolioDemo() {
                 Structure
               </p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-                作品集的順序，要照對方理解你的方式安排。
+                作品集的順序，要照對方理解你的方式走。
               </h2>
               <p className="mt-6 leading-8 text-white/60">
-                不是先塞滿技能，而是先讓對方知道你是誰、做過什麼、能力在哪、怎麼聯絡你。
+                先讓對方知道你是誰、做過什麼、擅長哪些，再給聯絡方式——不是先塞一堆技術名詞。
               </p>
             </div>
 
@@ -227,8 +226,8 @@ function PortfolioDemo() {
       <section id="projects" className="mx-auto max-w-7xl px-5 py-16">
         <SectionHeader
           eyebrow="Projects"
-          title="專案卡片要寫出你做了什麼。"
-          desc="只放作品名稱不夠，最好補上角色、技術與成果。"
+          title="每個專案都要讓人看出你做了什麼、負責哪些。"
+          desc="只放作品名稱不夠——補上你的角色、技術選擇和實際成果，才能讓對方判斷你的能力。"
         />
 
         <div className="grid gap-5 md:grid-cols-3">
@@ -262,10 +261,10 @@ function PortfolioDemo() {
                 Next
               </p>
               <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-                需要作品集，也可以先整理資料。
+                要做作品集，先把手上有的整理出來。
               </h2>
               <p className="mt-6 max-w-2xl leading-8 text-white/60">
-                先整理你有的作品、履歷、技能、GitHub 與想呈現的方向，再規劃網站結構。
+                先整理你做過的專案、用過的技術、GitHub 連結和想呈現的方向，再來規劃網站架構。不用全部都準備好才來找我。
               </p>
             </div>
 
@@ -299,8 +298,8 @@ function Skills() {
       <div className="rounded-[2.8rem] bg-white p-8 shadow-2xl shadow-black/5 md:p-12">
         <SectionHeader
           eyebrow="Skills"
-          title="技能不要只是列名詞，要讓人看出方向。"
-          desc="技能可以依照語言、前端、工具、部署、實作經驗分類。"
+          title="技能列表要有方向感，不只是一堆名詞。"
+          desc="依語言、框架、工具、部署分類，讓對方一眼看出你的技術輪廓。"
         />
 
         <div className="flex flex-wrap gap-3">

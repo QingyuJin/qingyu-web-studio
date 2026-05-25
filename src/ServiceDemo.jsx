@@ -121,8 +121,7 @@ function ServiceDemo() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-9 text-white/62">
-            這是一個服務型網站概念案例，適合顧問、課程老師、自由工作者或小型團隊。
-            重點不是做很多特效，而是把服務、方案、流程與需求入口整理得清楚可信。
+            服務型網站概念案例——適合顧問、課程老師、自由工作者或小型團隊。重點不是做特效，而是把服務、方案、合作流程與詢問入口整理得讓客戶一進來就知道下一步。
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -177,8 +176,8 @@ function ServiceDemo() {
       <SectionIntro
         id="case"
         eyebrow="Case Background"
-        title="服務型網站最怕講很多，但客戶還是不知道下一步。"
-        desc="這個案例的核心是把服務內容從聊天、貼文、簡報中整理成網站可以理解的順序。"
+        title="服務型網站最怕講很多，客戶還是不知道下一步在哪。"
+        desc="把服務從聊天紀錄、貼文和簡報整理成網站，不只是排版好看，而是讓訪客更快做出決定。"
       />
 
       <section className="mx-auto max-w-7xl px-5 pb-16">

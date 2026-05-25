@@ -329,10 +329,10 @@ function BriefPage() {
                   Website Brief Builder
                 </p>
                 <h1 className="text-safe mt-3 text-3xl font-semibold tracking-[-0.04em] sm:text-5xl">
-                  先把網站需求整理清楚。
+                  不用懂規格，先把想法整理清楚。
                 </h1>
                 <p className="text-safe mt-4 max-w-2xl leading-8 text-white/58">
-                  不用一開始就懂網站規格。照步驟選完後，系統會幫你整理一份可以直接傳給我的需求摘要。
+                  照步驟選完後，系統會自動整理一份需求摘要，你可以直接複製傳給我，或用 Email 寄出。全程不用填一堆空格。
                 </p>
               </div>
 
@@ -725,7 +725,7 @@ function SummaryPanel({
   return (
     <div className="w-full min-w-0 overflow-hidden rounded-[2rem] border border-white/10 bg-white/[0.06] p-4 shadow-2xl shadow-black/35 backdrop-blur-xl sm:rounded-[2.2rem] sm:p-5">
       <div className="rounded-[1.5rem] bg-cyan-300 p-5 text-black sm:rounded-[1.7rem]">
-        <p className="text-sm font-semibold text-black/55">系統初步判斷</p>
+        <p className="text-sm font-semibold text-black/55">根據你的選擇，初步判斷</p>
         <h3 className="text-safe mt-2 text-2xl font-semibold tracking-[-0.03em] sm:text-3xl">
           {estimate.title}
         </h3>
@@ -771,11 +771,11 @@ function SummaryPanel({
         </a>
 
         <div className="min-w-0 rounded-[1.5rem] bg-white/5 p-4">
-          <p className="text-sm font-semibold text-white/45">也可以私訊</p>
+          <p className="text-sm font-semibold text-white/45">或直接私訊我</p>
           <p className="text-safe mt-2 text-sm leading-7 text-white/65">
-            LINE：{lineId}
+            LINE：{lineId}（點 ID 複製）
             <br />
-            IG：{instagram}
+            IG：@{instagram}
           </p>
         </div>
       </div>
@@ -880,7 +880,7 @@ ${line}
 系統初步判斷：${estimate.title}
 ${estimate.desc}
 
-我想請你先幫我判斷這個需求適不適合做成小型網站，並給我初步建議。`
+我想請你先幫我判斷這個需求適不適合，並給我初步建議。`
 }
 
 function formatList(list) {

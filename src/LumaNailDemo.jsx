@@ -143,15 +143,13 @@ function LumaNailDemo() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-9 text-[#2b211e]/65">
-            這是一個概念案例，不是真實客戶案。目的是展示：如果一間預約制工作室目前只有 IG、
-            價格表、作品照和私訊預約，可以怎麼整理成手機版好讀、可上線、可聯絡的一頁式網站。
+            概念案例——如果一間預約制美甲工作室目前只有 IG、價格表、作品照和私訊預約，可以怎麼整理成手機好讀、可上線、客人一進來就知道怎麼預約的一頁式網站。
           </p>
 
           <div className="mt-8 rounded-[2rem] border border-[#2b211e]/10 bg-white/60 p-5">
-            <p className="text-sm font-semibold text-[#8f6f63]">這個案例想證明</p>
+            <p className="text-sm font-semibold text-[#8f6f63]">這個案例想展示的</p>
             <p className="mt-3 leading-8 text-[#2b211e]/68">
-              我不是只做一張漂亮頁面，而是能把小型店家常見的資訊整理成網站結構：
-              服務、價格、作品、預約流程、FAQ、LINE / IG / Map。
+              不只是做一張漂亮頁面，而是把店家最常被問的東西整理成清楚的網站結構：服務與價格、作品展示、預約流程、FAQ、LINE / IG / Map 入口。
             </p>
           </div>
 
@@ -207,8 +205,8 @@ function LumaNailDemo() {
       <section id="case" className="mx-auto max-w-7xl px-5 py-16">
         <SectionIntro
           eyebrow="Case Background"
-          title="預約制工作室常見的問題，不是沒有內容，而是內容太分散。"
-          desc="Luma 這個案例把社群上零散的資訊重新排列，讓第一次來的客人能快速理解服務與預約方式。"
+          title="預約制工作室的問題通常不是沒內容，而是內容太分散。"
+          desc="社群上的資訊很豐富，但第一次來的客人常常找不到價格、不知道怎麼預約——網站可以把這些整理好。"
         />
 
         <div className="grid gap-4 md:grid-cols-4">

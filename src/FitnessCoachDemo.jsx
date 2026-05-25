@@ -270,8 +270,7 @@ function FitnessCoachDemo() {
           </h1>
 
           <p className="mt-6 max-w-2xl break-words text-base leading-8 text-white/82 sm:text-lg sm:leading-9">
-            力量不是硬撐，是可追蹤、可調整、可長期進步的系統。
-            這個概念案結合教練接案頁、學員初步評估與三項力量追蹤工具。
+            力量不是硬撐，是可追蹤、可調整、可長期進步的系統。這個概念案結合教練接案頁、學員初步評估工具與三項力量追蹤器——展示健身教練網站可以不只是一頁靜態介紹。
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-2 md:max-w-2xl">

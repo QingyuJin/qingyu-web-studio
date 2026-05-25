@@ -106,7 +106,7 @@ function CafeDemo() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-9 text-white/65">
-            這是一個咖啡小店概念案例，展示如何把品牌氛圍、菜單、營業時間、地圖與社群入口整理成手機好讀的一頁式網站。
+            咖啡小店概念案例——展示如何把品牌氛圍、菜單、營業時間、Google Map 與社群連結，整理成一頁手機好讀、客人直接能找到的網站。
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -162,8 +162,8 @@ function CafeDemo() {
       <SectionIntro
         id="case"
         eyebrow="Case Background"
-        title="小店網站的重點，是讓客人快速找到基本資訊。"
-        desc="小店不一定需要複雜網站，但需要一個比社群更穩定、容易分享的資訊入口。"
+        title="小店不需要複雜網站，但需要一個比社群更穩定的入口。"
+        desc="客人常問的那些問題——菜單在哪、幾點開、怎麼去——一個好的網站可以幫你回答完。"
       />
 
       <section className="mx-auto max-w-7xl px-5 pb-16">
@@ -180,8 +180,8 @@ function CafeDemo() {
       <section id="menu" className="mx-auto max-w-7xl px-5 py-16">
         <SectionHeader
           eyebrow="Menu"
-          title="菜單先放主打，不要讓手機使用者找太久。"
-          desc="小店網站不用一次放完整菜單，先展示主打品項、價格與特色就能降低詢問成本。"
+          title="菜單放主打就夠，不用全部列完。"
+          desc="手機使用者通常只想快速看到有什麼、多少錢，精簡反而更好點擊。"
         />
 
         <div className="grid gap-5 md:grid-cols-3">
@@ -204,10 +204,10 @@ function CafeDemo() {
                 Structure
               </p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-                小店網站應該短、溫暖、好查。
+                小店網站要短、溫暖、好查。
               </h2>
               <p className="mt-6 leading-8 text-black/60">
-                對咖啡店來說，網站的任務不是取代社群，而是把固定資訊放穩。
+                不是取代社群，而是把固定資訊放穩，讓客人不用每次都問你。
               </p>
             </div>
 
@@ -238,10 +238,10 @@ function CafeDemo() {
                 Next
               </p>
               <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-                小店資訊分散，也可以先整理成網站。
+                你的小店，也可以有一個清楚的入口。
               </h2>
               <p className="mt-6 max-w-2xl leading-8 text-black/65">
-                先整理菜單、照片、營業時間、地址、社群與地圖連結，再規劃一頁式網站。
+                先整理菜單、照片、營業時間、地址和社群連結，再來規劃版面。不用準備完整，先把現有的東西傳給我看。
               </p>
             </div>
 

@@ -111,7 +111,7 @@ function EventDemo() {
           </h1>
 
           <p className="mt-6 max-w-2xl text-lg leading-9 text-white/62">
-            這是一個活動頁概念案例，展示如何把活動主題、時間、地點、流程、報名連結與 FAQ 整理成手機好讀的宣傳頁。
+            活動頁概念案例——展示如何把活動主題、時間、地點、流程、報名連結與 FAQ，整理成手機好讀、報名阻力低的宣傳頁。
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -165,8 +165,8 @@ function EventDemo() {
       <SectionIntro
         id="case"
         eyebrow="Case Background"
-        title="活動頁不是把海報放上去，而是讓人快速完成報名判斷。"
-        desc="活動資訊如果只靠圖片，手機上通常不好讀。網站可以把重點拆開，讓參加者更快理解。"
+        title="活動頁不是把海報放上去，而是讓人三秒決定要不要報名。"
+        desc="資訊只靠圖片，手機上不好讀。把重點拆開，參加者才能快速判斷活動適不適合自己。"
       />
 
       <section className="mx-auto max-w-7xl px-5 pb-16">
@@ -206,10 +206,10 @@ function EventDemo() {
                 Structure
               </p>
               <h2 className="mt-4 text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-                活動頁的重點，是降低報名阻力。
+                活動頁的目的，是降低報名阻力。
               </h2>
               <p className="mt-6 leading-8 text-black/60">
-                參加者需要快速知道活動適不適合、什麼時候、在哪裡、怎麼報名。
+                參加者需要快速知道：這個活動適合我嗎？什麼時候？在哪？怎麼報名？
               </p>
             </div>
 
@@ -240,10 +240,10 @@ function EventDemo() {
                 Next
               </p>
               <h2 className="mt-4 max-w-3xl text-4xl font-semibold tracking-[-0.04em] md:text-6xl">
-                有活動要宣傳，也可以先整理需求。
+                有活動要辦，先把資訊整理出來。
               </h2>
               <p className="mt-6 max-w-2xl leading-8 text-black/65">
-                先整理活動主題、時間、地點、報名表、素材與時程，再規劃活動頁。
+                先整理活動主題、時間地點、目標對象、報名表連結和注意事項，再來規劃活動頁。不用一次準備完整。
               </p>
             </div>
 
