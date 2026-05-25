@@ -269,23 +269,20 @@ function HomePage() {
             </div>
 
             <h1 className="text-safe mobile-soft-title max-w-4xl text-[2.35rem] font-semibold tracking-[-0.04em] sm:text-5xl sm:leading-[1.08] md:text-7xl md:leading-[1.02]">
-              <span className="block">我協助小型需求，</span>
-              <span className="block">做成手機好讀的網站。</span>
+              <span className="block">把你散落各處的資訊，</span>
+              <span className="block text-cyan-300">做成一個真正的網站。</span>
             </h1>
 
             <p className="text-safe mt-6 max-w-2xl text-base leading-8 text-white/62 sm:text-lg sm:leading-9">
-              我是資訊工程學生，目前從小型網站開始接案。主要協助學生、小型店家、
-              工作室與個人品牌，把 IG、LINE、Google Map、價格、作品與表單整理成可以上線、
-              可以聯絡、手機版好讀的網站。
+              我是資訊工程學生，協助學生、小型店家、工作室與個人品牌，把 IG、LINE、Google Map、價格表、作品與表單，整理成手機好讀、可以分享、可以被搜尋到的網站。
             </p>
 
             <div className="mt-8 rounded-[2rem] border border-white/10 bg-white/[0.06] p-5">
               <p className="text-safe text-sm font-semibold text-cyan-300">
-                目前定位
+                擅長範圍
               </p>
               <p className="text-safe mt-3 leading-7 text-white/58">
-                不主打大型後台、會員、金流或完整電商。比較適合一頁式網站、
-                作品集、活動頁、服務介紹頁、舊網站手機版調整這類小型需求。
+                一頁式官網、作品集、活動頁、服務介紹頁、舊網站手機版優化——不接大型後台或金流系統，把資源留在真正做得好的地方。
               </p>
             </div>
 
@@ -481,6 +478,12 @@ function WorkGallerySection() {
                   </span>
                 </div>
 
+                <div className="relative mt-auto flex min-h-[160px] flex-col justify-end">
+                  <p className="text-safe text-xl font-semibold">{work.title}</p>
+                  <p className="text-safe mt-1 text-xs leading-5 text-white/72">{work.tags.join(" · ")}</p>
+                </div>
+              </div>
+
                 <div className="relative mt-7">
                   <WorkPreview type={work.type} />
                 </div>
@@ -500,19 +503,20 @@ function WorkGallerySection() {
                     ))}
                   </div>
                 </div>
-              </div>
 
               <div className="p-4">
                 <p className="text-safe text-sm font-semibold text-cyan-300">
                   適合：{work.fit}
                 </p>
-                <p className="text-safe mt-4 leading-7 text-white/65">{work.desc}</p>
+                <p className="text-safe mt-3 leading-7 text-white/65">{work.desc}</p>
 
-                <div className="mt-6 inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black">
-                  打開作品
-                  <span className="ml-2 transition group-hover:translate-x-1">
-                    →
-                  </span>
+                <div className="mt-5 flex items-center gap-2">
+                  <div className="inline-flex items-center rounded-full bg-white px-5 py-2 text-sm font-semibold text-black transition group-hover:bg-cyan-300">
+                    打開作品
+                    <span className="ml-2 transition group-hover:translate-x-1">
+                      →
+                    </span>
+                  </div>
                 </div>
               </div>
             </Link>
@@ -797,7 +801,7 @@ function ProofSection() {
                 我不把學生副業包裝成大型公司。
               </h2>
               <p className="text-safe mt-6 leading-8 text-black/60">
-                目前從小型網站開始累積作品、流程與實戰經驗。範圍講清楚，對雙方都比較安全。
+                誠實標示範圍，對雙方都安全。目前專注在小型網站，把每一個案子做好，再慢慢累積能力邊界。
               </p>
             </div>
 
@@ -831,7 +835,7 @@ function ProcessSection() {
 
       <Reveal delay={80}>
         <div className="relative grid gap-5 md:grid-cols-4">
-          <div className="pointer-events-none absolute left-6 top-10 hidden h-px w-[calc(100%-3rem)] bg-white/10 md:block" />
+          <div className="pointer-events-none absolute left-[2.75rem] top-[1.375rem] hidden h-px w-[calc(100%-5.5rem)] border-t border-dashed border-white/20 md:block" />
 
           {process.map((item, index) => (
             <div
@@ -871,7 +875,7 @@ function DeliverySection() {
                 <h3 className="text-safe text-xl font-semibold text-cyan-300">
                   {item.title}
                 </h3>
-                <p className="text-safe mt-4 leading-7 text-white/58">{item.desc}</p>
+                <p className="text-safe mt-4 leading-7 text-white/60">{item.desc}</p>
               </div>
             ))}
           </div>
@@ -887,8 +891,8 @@ function PricingSection() {
       <Reveal>
         <SectionHeading
           eyebrow="Pricing"
-          title="先從小型需求開始，報價依範圍調整。"
-          desc="第一批案子我會以累積真實作品、流程經驗和客戶回饋為主，不亂接超出能力的大型系統。"
+          title="報價透明，不偷加隱藏費用。"
+          desc="先從小型需求開始，依實際範圍調整。第一批案子以累積真實作品與流程經驗為主。"
         />
       </Reveal>
 
@@ -920,21 +924,16 @@ function ContactSection() {
                 Contact
               </p>
               <h2 className="text-safe mt-4 max-w-3xl text-4xl font-semibold tracking-tight md:text-6xl">
-                有小型網站需求，可以先把想法傳給我。
+                有網站需求，把想法傳給我就好。
               </h2>
               <p className="text-safe mt-6 max-w-2xl leading-8 text-black/65">
-                不需要一開始就準備完整規格。可以先告訴我網站用途、參考風格、
-                目前素材、預算和希望完成時間，我會先判斷是否適合小型網站範圍。
+                不需要準備完整規格。說說網站用途、喜歡的風格、手上有的素材、預算和希望完成的時間，我先判斷是否在範圍內。
               </p>
             </div>
 
             <div className="grid min-w-0 gap-3">
-              <ContactCard
-                label="Email"
-                value="a0988874324@gmail.com"
-                href="mailto:a0988874324@gmail.com"
-              />
-              <ContactCard label="LINE" value="mulavuc" />
+              <ContactCard label="Email" value="a0988874324@gmail.com" href="mailto:a0988874324@gmail.com" />
+              <ContactCard label="LINE ID（點擊複製）" value="mulavuc" copyable />
               <ContactCard
                 label="Instagram"
                 value="qingyu.jin"
@@ -962,7 +961,7 @@ function MobileBottomCTA() {
         to="/brief"
         className="breathing-cta flex items-center justify-center rounded-full bg-cyan-300 px-4 py-3 text-sm font-semibold text-black"
       >
-        填需求表，取得初步評估
+        先整理需求，取得初步評估 →
       </Link>
     </div>
   )
@@ -1095,13 +1094,34 @@ function BackgroundGlow() {
   )
 }
 
-function ContactCard({ label, value, href }) {
+function ContactCard({ label, value, href, copyable }) {
+  const [copied, setCopied] = useState(false)
+
+  function handleCopy() {
+    navigator.clipboard.writeText(value).then(() => {
+      setCopied(true)
+      window.setTimeout(() => setCopied(false), 2000)
+    })
+  }
+
   const content = (
     <>
       <p className="text-safe text-sm text-black/50">{label}</p>
-      <p className="text-safe mt-2 font-semibold">{value}</p>
+      <p className="text-safe mt-2 font-semibold">{copied ? "已複製！" : value}</p>
     </>
   )
+
+  if (copyable) {
+    return (
+      <button
+        type="button"
+        onClick={handleCopy}
+        className="rounded-3xl bg-white/70 p-5 text-left transition hover:-translate-y-1 hover:bg-white"
+      >
+        {content}
+      </button>
+    )
+  }
 
   if (href) {
     return (
