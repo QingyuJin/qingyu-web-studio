@@ -7,9 +7,20 @@ import ServiceDemo from "./ServiceDemo"
 import BriefPage from "./BriefPage"
 import LumaNailDemo from "./LumaNailDemo"
 import FitnessCoachDemo from "./FitnessCoachDemo"
+import ContractorSystemDemo from "./ContractorSystemDemo"
 
 
 const workDemos = [
+  {
+    title: "BuildFlow Contractor System",
+    category: "工程行輕量系統 MVP",
+    type: "system",
+    desc: "工程行發包、追加減項、廠商查詢與 LINE Bot 流程概念系統。",
+    fit: "工程行 / 室內裝修 / 師傅團隊 / 小型內部工具",
+    link: "/contractor-system",
+    color: "from-[#10235c] via-blue-500 to-amber-400",
+    tags: ["LINE Bot", "發包管理", "追加減項"],
+  },
   {
     title: "Luma Nail Studio",
     category: "預約制工作室",
@@ -91,6 +102,7 @@ const filters = [
   { id: "event", label: "活動" },
   { id: "tool", label: "工具" },
   { id: "fitness", label: "健身" },
+  { id: "system", label: "系統" },
 ]
 
 const servicePoints = [
@@ -201,6 +213,7 @@ function App() {
       <Route path="/event-demo" element={<EventDemo />} />
       <Route path="/brief" element={<BriefPage />} />
       <Route path="/fitness-coach" element={<FitnessCoachDemo />} />
+      <Route path="/contractor-system" element={<ContractorSystemDemo />} />
     </Routes>
   )
 }
