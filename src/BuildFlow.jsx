@@ -1,15 +1,44 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
-const STORAGE_KEY = "buildflow_v1_2_data"
+const STORAGE_KEY = "buildflow_v1_3_data"
+const SESSION_KEY = "buildflow_v1_3_session"
 const today = new Date().toISOString().slice(0, 10)
 
 const demoData = {
   users: [
-    { id: "u-admin", name: "管理者", role: "admin", phone: "09xx-000-000" },
-    { id: "u-aming", name: "阿明師傅", role: "worker", phone: "09xx-123-456" },
-    { id: "u-along", name: "阿龍師傅", role: "worker", phone: "09xx-456-789" },
-    { id: "u-ming", name: "小明水電", role: "worker", phone: "09xx-888-666" },
+    {
+      id: "u-admin",
+      username: "admin",
+      password: "admin123",
+      name: "管理者",
+      role: "admin",
+      phone: "09xx-000-000",
+    },
+    {
+      id: "u-aming",
+      username: "aming",
+      password: "1234",
+      name: "阿明師傅",
+      role: "worker",
+      phone: "09xx-123-456",
+    },
+    {
+      id: "u-along",
+      username: "along",
+      password: "1234",
+      name: "阿龍師傅",
+      role: "worker",
+      phone: "09xx-456-789",
+    },
+    {
+      id: "u-ming",
+      username: "ming",
+      password: "1234",
+      name: "小明水電",
+      role: "worker",
+      phone: "09xx-888-666",
+    },
   ],
 
   projects: [
@@ -242,9 +271,8 @@ const changeStatuses = [
 
 function BuildFlow() {
   const [data, setData] = useState(loadInitialData)
-  const [viewRole, setViewRole] = useState("admin")
-  const [activeWorkerId, setActiveWorkerId] = useState("u-aming")
-  const [activeTab, setActiveTab] = useState("dashboard")
+  const [session, setSession] = useState(loadInitialSession)
+  const [activeTab, setActiveTab] = useState(session?.role === "worker" ? "worker" : "dashboard")
   const [activeProjectId, setActiveProjectId] = useState("")
   const [savedAt, setSavedAt] = useState("")
 
@@ -255,8 +283,17 @@ function BuildFlow() {
     setSavedAt(new Date().toLocaleTimeString("zh-TW", { hour12: false }))
   }, [data])
 
-  const currentWorker = users.find((user) => user.id === activeWorkerId)
-  const tabs = viewRole === "admin" ? adminTabs : workerTabs
+  useEffect(() => {
+    if (session) {
+      localStorage.setItem(SESSION_KEY, JSON.stringify(session))
+    } else {
+      localStorage.removeItem(SESSION_KEY)
+    }
+  }, [session])
+
+  const isAdmin = session?.role === "admin"
+  const isWorker = session?.role === "worker"
+  const tabs = isAdmin ? adminTabs : workerTabs
   const activeProject = projects.find((project) => project.id === activeProjectId)
 
   const metrics = useMemo(() => {
@@ -271,15 +308,48 @@ function BuildFlow() {
     }
   }, [projects, changeOrders, tasks, vendors])
 
-  const workerTasks = tasks.filter((task) => task.workerId === activeWorkerId)
+  const workerTasks = tasks.filter((task) => task.workerId === session?.id)
 
-  function switchRole(role) {
-    setViewRole(role)
+  function handleLogin(username, password) {
+    const user = users.find(
+      (item) =>
+        item.username.toLowerCase() === username.trim().toLowerCase() &&
+        item.password === password
+    )
+
+    if (!user) {
+      return {
+        ok: false,
+        message: "帳號或密碼錯誤",
+      }
+    }
+
+    const nextSession = {
+      id: user.id,
+      username: user.username,
+      name: user.name,
+      role: user.role,
+      phone: user.phone,
+      loginAt: new Date().toISOString(),
+    }
+
+    setSession(nextSession)
     setActiveProjectId("")
-    setActiveTab(role === "admin" ? "dashboard" : "worker")
+    setActiveTab(user.role === "admin" ? "dashboard" : "worker")
+
+    return {
+      ok: true,
+    }
+  }
+
+  function handleLogout() {
+    setSession(null)
+    setActiveProjectId("")
+    setActiveTab("dashboard")
   }
 
   function openProjectDetail(projectId) {
+    if (!isAdmin) return
     setActiveProjectId(projectId)
     setActiveTab("projectDetail")
   }
@@ -295,7 +365,7 @@ function BuildFlow() {
 
     localStorage.removeItem(STORAGE_KEY)
     setActiveProjectId("")
-    setActiveTab("dashboard")
+    setActiveTab(isAdmin ? "dashboard" : "worker")
     setData(cloneDemoData())
   }
 
@@ -311,7 +381,7 @@ function BuildFlow() {
       type: textValue(form, "type"),
       budget: numberValue(form, "budget"),
       status: "估價中",
-      manager: "管理者",
+      manager: session?.name || "管理者",
       startDate: textValue(form, "startDate") || today,
       dueDate: textValue(form, "dueDate") || today,
       note: textValue(form, "note"),
@@ -338,13 +408,15 @@ function BuildFlow() {
     const note = window.prompt("備註", project.note)
     if (note === null) return
 
+    const nextName = name.trim() || project.name
+
     setData((current) => ({
       ...current,
       projects: current.projects.map((item) =>
         item.id === project.id
           ? {
               ...item,
-              name: name.trim() || item.name,
+              name: nextName,
               client: client.trim() || item.client,
               budget: Number(budgetInput) || 0,
               note,
@@ -352,24 +424,16 @@ function BuildFlow() {
           : item
       ),
       subcontracts: current.subcontracts.map((item) =>
-        item.projectId === project.id
-          ? { ...item, projectName: name.trim() || project.name }
-          : item
+        item.projectId === project.id ? { ...item, projectName: nextName } : item
       ),
       bids: current.bids.map((item) =>
-        item.projectId === project.id
-          ? { ...item, projectName: name.trim() || project.name }
-          : item
+        item.projectId === project.id ? { ...item, projectName: nextName } : item
       ),
       changeOrders: current.changeOrders.map((item) =>
-        item.projectId === project.id
-          ? { ...item, projectName: name.trim() || project.name }
-          : item
+        item.projectId === project.id ? { ...item, projectName: nextName } : item
       ),
       tasks: current.tasks.map((item) =>
-        item.projectId === project.id
-          ? { ...item, projectName: name.trim() || project.name }
-          : item
+        item.projectId === project.id ? { ...item, projectName: nextName } : item
       ),
     }))
   }
@@ -467,28 +531,28 @@ function BuildFlow() {
     const note = window.prompt("備註", subcontract.note)
     if (note === null) return
 
+    const nextItem = item.trim() || subcontract.item
+
     setData((current) => ({
       ...current,
       subcontracts: current.subcontracts.map((target) =>
         target.id === subcontract.id
           ? {
               ...target,
-              item: item.trim() || target.item,
+              item: nextItem,
               price: Number(priceInput) || 0,
               note,
             }
           : target
       ),
       bids: current.bids.map((bid) =>
-        bid.subcontractId === subcontract.id
-          ? { ...bid, item: item.trim() || subcontract.item }
-          : bid
+        bid.subcontractId === subcontract.id ? { ...bid, item: nextItem } : bid
       ),
       tasks: current.tasks.map((task) =>
         task.subcontractId === subcontract.id
           ? {
               ...task,
-              title: `完成：${item.trim() || subcontract.item}`,
+              title: `完成：${nextItem}`,
               note,
             }
           : task
@@ -749,6 +813,10 @@ function BuildFlow() {
 請業主確認後，我們再安排後續施工。`
   }
 
+  if (!session) {
+    return <BuildFlowLogin onLogin={handleLogin} />
+  }
+
   return (
     <main className="min-h-screen bg-slate-100 text-slate-950">
       <header className="border-b border-slate-200 bg-white">
@@ -759,57 +827,28 @@ function BuildFlow() {
             </Link>
             <h1 className="mt-2 text-2xl font-black">BuildFlow</h1>
             <p className="text-sm text-slate-500">
-              工程行發包、批價與追加減項管理系統 v1.2
+              工程行發包、批價與追加減項管理系統 v1.3
             </p>
             <p className="mt-1 text-xs text-slate-400">
-              本機資料保存中｜最後保存：{savedAt || "尚未保存"}
+              登入身份：{session.name}｜{session.role === "admin" ? "管理者" : "使用者"}｜最後保存：{savedAt || "尚未保存"}
             </p>
           </div>
 
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => switchRole("admin")}
-              className={`rounded-xl px-4 py-2 text-sm font-black ${
-                viewRole === "admin"
-                  ? "bg-slate-950 text-white"
-                  : "bg-slate-100 text-slate-600"
-              }`}
-            >
-              管理者視角
-            </button>
-
-            <button
-              onClick={() => switchRole("worker")}
-              className={`rounded-xl px-4 py-2 text-sm font-black ${
-                viewRole === "worker"
-                  ? "bg-slate-950 text-white"
-                  : "bg-slate-100 text-slate-600"
-              }`}
-            >
-              使用者視角
-            </button>
-
-            {viewRole === "worker" && (
-              <select
-                value={activeWorkerId}
-                onChange={(event) => setActiveWorkerId(event.target.value)}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold"
+            {isAdmin && (
+              <button
+                onClick={resetDemoData}
+                className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-600"
               >
-                {users
-                  .filter((user) => user.role === "worker")
-                  .map((user) => (
-                    <option key={user.id} value={user.id}>
-                      {user.name}
-                    </option>
-                  ))}
-              </select>
+                重置 Demo
+              </button>
             )}
 
             <button
-              onClick={resetDemoData}
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-600"
+              onClick={handleLogout}
+              className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-black text-white"
             >
-              重置 Demo
+              登出
             </button>
           </div>
         </div>
@@ -837,7 +876,7 @@ function BuildFlow() {
               </button>
             ))}
 
-            {activeTab === "projectDetail" && (
+            {activeTab === "projectDetail" && isAdmin && (
               <button className="rounded-xl bg-slate-950 px-4 py-3 text-left text-sm font-bold text-white">
                 案件詳情
               </button>
@@ -846,17 +885,17 @@ function BuildFlow() {
 
           <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
             <p className="font-black text-slate-950">目前身份</p>
-            <p className="mt-1">
-              {viewRole === "admin" ? "管理者" : currentWorker?.name}
-            </p>
+            <p className="mt-1">{session.name}</p>
             <p className="mt-3 text-xs text-slate-400">
-              管理者可看金額與所有資料；使用者只看自己的任務與回報。
+              {isAdmin
+                ? "管理者可看金額、批價、追加減項與所有任務。"
+                : "使用者只看自己的任務與回報，不顯示金額與批價。"}
             </p>
           </div>
         </aside>
 
         <section className="min-w-0">
-          {activeTab === "dashboard" && (
+          {activeTab === "dashboard" && isAdmin && (
             <Dashboard
               metrics={metrics}
               projects={projects}
@@ -866,7 +905,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "projects" && (
+          {activeTab === "projects" && isAdmin && (
             <ProjectsPanel
               projects={projects}
               addProject={addProject}
@@ -877,7 +916,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "projectDetail" && (
+          {activeTab === "projectDetail" && isAdmin && (
             <ProjectDetailPanel
               project={activeProject}
               subcontracts={subcontracts}
@@ -894,7 +933,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "subcontracts" && (
+          {activeTab === "subcontracts" && isAdmin && (
             <SubcontractsPanel
               projects={projects}
               users={users}
@@ -907,7 +946,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "bids" && (
+          {activeTab === "bids" && isAdmin && (
             <BidsPanel
               bids={bids}
               subcontracts={subcontracts}
@@ -917,7 +956,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "changes" && (
+          {activeTab === "changes" && isAdmin && (
             <ChangeOrdersPanel
               projects={projects}
               changeOrders={changeOrders}
@@ -929,7 +968,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "vendors" && (
+          {activeTab === "vendors" && isAdmin && (
             <VendorsPanel
               vendors={vendors}
               addVendor={addVendor}
@@ -938,7 +977,7 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "tasks" && (
+          {activeTab === "tasks" && isAdmin && (
             <TasksPanel
               tasks={tasks}
               toggleTaskComplete={toggleTaskComplete}
@@ -947,9 +986,9 @@ function BuildFlow() {
             />
           )}
 
-          {activeTab === "worker" && (
+          {activeTab === "worker" && isWorker && (
             <WorkerPanel
-              worker={currentWorker}
+              worker={session}
               tasks={workerTasks}
               toggleTaskComplete={toggleTaskComplete}
               updateTaskReport={updateTaskReport}
@@ -957,11 +996,140 @@ function BuildFlow() {
           )}
 
           {activeTab === "linebot" && (
-            <LineBotPanel vendors={vendors} changeOrders={changeOrders} tasks={tasks} />
+            <LineBotPanel
+              vendors={vendors}
+              changeOrders={isAdmin ? changeOrders : []}
+              tasks={isAdmin ? tasks : workerTasks}
+              session={session}
+            />
           )}
         </section>
       </section>
     </main>
+  )
+}
+
+function BuildFlowLogin({ onLogin }) {
+  const [username, setUsername] = useState("admin")
+  const [password, setPassword] = useState("admin123")
+  const [error, setError] = useState("")
+
+  function handleSubmit(event) {
+    event.preventDefault()
+    const result = onLogin(username, password)
+
+    if (!result.ok) {
+      setError(result.message)
+      return
+    }
+
+    setError("")
+  }
+
+  function fillDemo(nextUsername, nextPassword) {
+    setUsername(nextUsername)
+    setPassword(nextPassword)
+    setError("")
+  }
+
+  return (
+    <main className="min-h-screen bg-slate-100 text-slate-950">
+      <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-12 lg:grid-cols-[1fr_420px]">
+        <div>
+          <Link to="/admin" className="text-sm font-bold text-slate-500">
+            ← 回管理入口
+          </Link>
+
+          <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">
+            BuildFlow Login
+          </p>
+
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">
+            工程行發包與追加減項管理系統
+          </h1>
+
+          <p className="mt-5 max-w-2xl leading-8 text-slate-600">
+            這版加入角色登入。管理者可以查看案件、發包、批價與追加減項；
+            使用者登入後只會看到自己負責的任務與回報。
+          </p>
+
+          <div className="mt-8 grid gap-3 md:grid-cols-2">
+            <DemoAccount
+              title="管理者"
+              account="admin / admin123"
+              onClick={() => fillDemo("admin", "admin123")}
+            />
+            <DemoAccount
+              title="阿明師傅"
+              account="aming / 1234"
+              onClick={() => fillDemo("aming", "1234")}
+            />
+            <DemoAccount
+              title="阿龍師傅"
+              account="along / 1234"
+              onClick={() => fillDemo("along", "1234")}
+            />
+            <DemoAccount
+              title="小明水電"
+              account="ming / 1234"
+              onClick={() => fillDemo("ming", "1234")}
+            />
+          </div>
+        </div>
+
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+        >
+          <h2 className="text-2xl font-black">登入 BuildFlow</h2>
+          <p className="mt-2 text-sm leading-6 text-slate-500">
+            目前是假登入，之後可替換成 Supabase Auth。
+          </p>
+
+          <label className="mt-6 grid gap-2">
+            <span className="text-sm font-bold text-slate-600">帳號</span>
+            <input
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+            />
+          </label>
+
+          <label className="mt-4 grid gap-2">
+            <span className="text-sm font-bold text-slate-600">密碼</span>
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+            />
+          </label>
+
+          {error && (
+            <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
+              {error}
+            </p>
+          )}
+
+          <button className="mt-6 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+            登入
+          </button>
+        </form>
+      </section>
+    </main>
+  )
+}
+
+function DemoAccount({ title, account, onClick }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className="rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm"
+    >
+      <p className="font-black">{title}</p>
+      <p className="mt-1 text-sm text-slate-500">{account}</p>
+    </button>
   )
 }
 
@@ -970,10 +1138,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }
 
   return (
     <div className="grid gap-5">
-      <SectionTitle
-        title="管理者總覽"
-        desc="查看案件、追加減項、待完成任務與工程風險。"
-      />
+      <SectionTitle title="管理者總覽" desc="查看案件、追加減項、待完成任務與工程風險。" />
 
       <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-7">
         <Metric label="總案件" value={metrics.projectCount} />
@@ -1870,35 +2035,53 @@ function TaskList({
   )
 }
 
-function LineBotPanel({ vendors, changeOrders, tasks }) {
+function LineBotPanel({ vendors, changeOrders, tasks, session }) {
   const firstVendor = vendors[0]
   const firstChange = changeOrders[0]
   const firstTask = tasks.find((task) => task.status !== "已完成") || tasks[0]
 
-  const examples = [
-    {
-      user: "查案件 屏東住宅",
-      bot: "屏東住宅防水工程｜狀態：施工中｜待確認追加：浴室牆面追加防水。",
-    },
-    {
-      user: "查廠商 阿明",
-      bot: firstVendor
-        ? `${firstVendor.name}｜${firstVendor.trade}｜${firstVendor.phone}｜${firstVendor.area}`
-        : "目前沒有廠商資料。",
-    },
-    {
-      user: "新增追加 浴室牆面防水 12000",
-      bot: firstChange
-        ? `已建立追加項目：${firstChange.item}｜NT$${formatMoney(firstChange.amount)}。是否產生給業主的確認文字？`
-        : "目前沒有追加減項資料。",
-    },
-    {
-      user: "今日任務",
-      bot: firstTask
-        ? `你今天的任務：${firstTask.title}｜案件：${firstTask.projectName}。`
-        : "目前沒有待完成任務。",
-    },
-  ]
+  const examples =
+    session?.role === "admin"
+      ? [
+          {
+            user: "查案件 屏東住宅",
+            bot: "屏東住宅防水工程｜狀態：施工中｜待確認追加：浴室牆面追加防水。",
+          },
+          {
+            user: "查廠商 阿明",
+            bot: firstVendor
+              ? `${firstVendor.name}｜${firstVendor.trade}｜${firstVendor.phone}｜${firstVendor.area}`
+              : "目前沒有廠商資料。",
+          },
+          {
+            user: "新增追加 浴室牆面防水 12000",
+            bot: firstChange
+              ? `已建立追加項目：${firstChange.item}｜NT$${formatMoney(firstChange.amount)}。是否產生給業主的確認文字？`
+              : "目前沒有追加減項資料。",
+          },
+          {
+            user: "今日任務",
+            bot: firstTask
+              ? `今日待處理任務：${firstTask.title}｜負責人：${firstTask.workerName}`
+              : "目前沒有待完成任務。",
+          },
+        ]
+      : [
+          {
+            user: "今日任務",
+            bot: firstTask
+              ? `${session.name} 今天的任務：${firstTask.title}｜案件：${firstTask.projectName}`
+              : "你目前沒有待完成任務。",
+          },
+          {
+            user: "回報 已完成第一道防水",
+            bot: "已收到回報，管理者會在任務頁看到你的備註。",
+          },
+          {
+            user: "標記完成",
+            bot: "任務已標記完成。",
+          },
+        ]
 
   return (
     <div className="grid gap-5">
@@ -1911,7 +2094,10 @@ function LineBotPanel({ vendors, changeOrders, tasks }) {
         <Card>
           <h3 className="text-xl font-black">可支援指令</h3>
           <div className="mt-4 grid gap-3">
-            {["查案件", "查廠商", "新增追加", "今日任務", "產生確認文字", "提醒收款"].map((item) => (
+            {(session?.role === "admin"
+              ? ["查案件", "查廠商", "新增追加", "今日任務", "產生確認文字", "提醒收款"]
+              : ["今日任務", "回報進度", "標記完成", "查備註"]
+            ).map((item) => (
               <div key={item} className="rounded-xl bg-slate-50 p-4 font-bold">
                 {item}
               </div>
@@ -2059,6 +2245,20 @@ function loadInitialData() {
     }
   } catch {
     return cloneDemoData()
+  }
+}
+
+function loadInitialSession() {
+  try {
+    const raw = localStorage.getItem(SESSION_KEY)
+    if (!raw) return null
+
+    const parsed = JSON.parse(raw)
+    if (!parsed?.id || !parsed?.role) return null
+
+    return parsed
+  } catch {
+    return null
   }
 }
 
