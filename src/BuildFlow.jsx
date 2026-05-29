@@ -1,7 +1,7 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
-const STORAGE_KEY = "buildflow_v1_1_data"
+const STORAGE_KEY = "buildflow_v1_2_data"
 const today = new Date().toISOString().slice(0, 10)
 
 const demoData = {
@@ -96,6 +96,17 @@ const demoData = {
       amount: 32000,
       selected: false,
       note: "價格較低，但時間較晚。",
+    },
+    {
+      id: "b-003",
+      projectId: "p-002",
+      subcontractId: "s-002",
+      projectName: "高雄店面整修",
+      item: "展示牆與燈槽",
+      vendor: "阿龍木作",
+      amount: 78000,
+      selected: true,
+      note: "能配合店面工期。",
     },
   ],
 
@@ -234,6 +245,7 @@ function BuildFlow() {
   const [viewRole, setViewRole] = useState("admin")
   const [activeWorkerId, setActiveWorkerId] = useState("u-aming")
   const [activeTab, setActiveTab] = useState("dashboard")
+  const [activeProjectId, setActiveProjectId] = useState("")
   const [savedAt, setSavedAt] = useState("")
 
   const { users, projects, subcontracts, bids, changeOrders, vendors, tasks } = data
@@ -245,6 +257,7 @@ function BuildFlow() {
 
   const currentWorker = users.find((user) => user.id === activeWorkerId)
   const tabs = viewRole === "admin" ? adminTabs : workerTabs
+  const activeProject = projects.find((project) => project.id === activeProjectId)
 
   const metrics = useMemo(() => {
     return {
@@ -262,7 +275,18 @@ function BuildFlow() {
 
   function switchRole(role) {
     setViewRole(role)
+    setActiveProjectId("")
     setActiveTab(role === "admin" ? "dashboard" : "worker")
+  }
+
+  function openProjectDetail(projectId) {
+    setActiveProjectId(projectId)
+    setActiveTab("projectDetail")
+  }
+
+  function closeProjectDetail() {
+    setActiveProjectId("")
+    setActiveTab("projects")
   }
 
   function resetDemoData() {
@@ -270,6 +294,8 @@ function BuildFlow() {
     if (!confirmed) return
 
     localStorage.removeItem(STORAGE_KEY)
+    setActiveProjectId("")
+    setActiveTab("dashboard")
     setData(cloneDemoData())
   }
 
@@ -325,6 +351,26 @@ function BuildFlow() {
             }
           : item
       ),
+      subcontracts: current.subcontracts.map((item) =>
+        item.projectId === project.id
+          ? { ...item, projectName: name.trim() || project.name }
+          : item
+      ),
+      bids: current.bids.map((item) =>
+        item.projectId === project.id
+          ? { ...item, projectName: name.trim() || project.name }
+          : item
+      ),
+      changeOrders: current.changeOrders.map((item) =>
+        item.projectId === project.id
+          ? { ...item, projectName: name.trim() || project.name }
+          : item
+      ),
+      tasks: current.tasks.map((item) =>
+        item.projectId === project.id
+          ? { ...item, projectName: name.trim() || project.name }
+          : item
+      ),
     }))
   }
 
@@ -350,6 +396,11 @@ function BuildFlow() {
       changeOrders: current.changeOrders.filter((item) => item.projectId !== projectId),
       tasks: current.tasks.filter((item) => item.projectId !== projectId),
     }))
+
+    if (activeProjectId === projectId) {
+      setActiveProjectId("")
+      setActiveTab("projects")
+    }
   }
 
   function updateProjectStatus(projectId, status) {
@@ -427,6 +478,11 @@ function BuildFlow() {
               note,
             }
           : target
+      ),
+      bids: current.bids.map((bid) =>
+        bid.subcontractId === subcontract.id
+          ? { ...bid, item: item.trim() || subcontract.item }
+          : bid
       ),
       tasks: current.tasks.map((task) =>
         task.subcontractId === subcontract.id
@@ -703,7 +759,7 @@ function BuildFlow() {
             </Link>
             <h1 className="mt-2 text-2xl font-black">BuildFlow</h1>
             <p className="text-sm text-slate-500">
-              工程行發包、批價與追加減項管理系統 v1.1
+              工程行發包、批價與追加減項管理系統 v1.2
             </p>
             <p className="mt-1 text-xs text-slate-400">
               本機資料保存中｜最後保存：{savedAt || "尚未保存"}
@@ -767,7 +823,10 @@ function BuildFlow() {
             {tabs.map((tab) => (
               <button
                 key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
+                onClick={() => {
+                  setActiveProjectId("")
+                  setActiveTab(tab.id)
+                }}
                 className={`rounded-xl px-4 py-3 text-left text-sm font-bold ${
                   activeTab === tab.id
                     ? "bg-slate-950 text-white"
@@ -777,6 +836,12 @@ function BuildFlow() {
                 {tab.label}
               </button>
             ))}
+
+            {activeTab === "projectDetail" && (
+              <button className="rounded-xl bg-slate-950 px-4 py-3 text-left text-sm font-bold text-white">
+                案件詳情
+              </button>
+            )}
           </nav>
 
           <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
@@ -797,6 +862,7 @@ function BuildFlow() {
               projects={projects}
               changeOrders={changeOrders}
               tasks={tasks}
+              openProjectDetail={openProjectDetail}
             />
           )}
 
@@ -807,6 +873,24 @@ function BuildFlow() {
               editProject={editProject}
               deleteProject={deleteProject}
               updateProjectStatus={updateProjectStatus}
+              openProjectDetail={openProjectDetail}
+            />
+          )}
+
+          {activeTab === "projectDetail" && (
+            <ProjectDetailPanel
+              project={activeProject}
+              subcontracts={subcontracts}
+              bids={bids}
+              changeOrders={changeOrders}
+              tasks={tasks}
+              updateProjectStatus={updateProjectStatus}
+              updateSubcontractStatus={updateSubcontractStatus}
+              updateChangeStatus={updateChangeStatus}
+              toggleTaskComplete={toggleTaskComplete}
+              updateTaskReport={updateTaskReport}
+              generateConfirmText={generateConfirmText}
+              onBack={closeProjectDetail}
             />
           )}
 
@@ -819,6 +903,7 @@ function BuildFlow() {
               editSubcontract={editSubcontract}
               deleteSubcontract={deleteSubcontract}
               updateSubcontractStatus={updateSubcontractStatus}
+              openProjectDetail={openProjectDetail}
             />
           )}
 
@@ -880,7 +965,7 @@ function BuildFlow() {
   )
 }
 
-function Dashboard({ metrics, projects, changeOrders, tasks }) {
+function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }) {
   const redChanges = changeOrders.filter((item) => !item.confirmedByClient)
 
   return (
@@ -906,14 +991,19 @@ function Dashboard({ metrics, projects, changeOrders, tasks }) {
           <div className="mt-4 grid gap-3">
             {projects.map((project) => (
               <div key={project.id} className="rounded-xl bg-slate-50 p-4">
-                <div className="flex flex-col gap-2 md:flex-row md:items-center md:justify-between">
+                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="font-black">{project.name}</p>
                     <p className="mt-1 text-sm text-slate-500">
                       {project.client}｜{project.type}
                     </p>
                   </div>
-                  <Status>{project.status}</Status>
+                  <div className="flex flex-wrap gap-2">
+                    <Status>{project.status}</Status>
+                    <SmallButton onClick={() => openProjectDetail(project.id)}>
+                      查看案件
+                    </SmallButton>
+                  </div>
                 </div>
               </div>
             ))}
@@ -950,12 +1040,260 @@ function Dashboard({ metrics, projects, changeOrders, tasks }) {
   )
 }
 
+function ProjectDetailPanel({
+  project,
+  subcontracts,
+  bids,
+  changeOrders,
+  tasks,
+  updateProjectStatus,
+  updateSubcontractStatus,
+  updateChangeStatus,
+  toggleTaskComplete,
+  updateTaskReport,
+  generateConfirmText,
+  onBack,
+}) {
+  const [copiedId, setCopiedId] = useState("")
+
+  if (!project) {
+    return (
+      <div className="grid gap-5">
+        <SectionTitle title="找不到案件" desc="這個案件可能已經被刪除。" />
+        <button
+          onClick={onBack}
+          className="w-fit rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white"
+        >
+          回案件列表
+        </button>
+      </div>
+    )
+  }
+
+  const projectSubcontracts = subcontracts.filter((item) => item.projectId === project.id)
+  const projectBids = bids.filter((item) => item.projectId === project.id)
+  const projectChanges = changeOrders.filter((item) => item.projectId === project.id)
+  const projectTasks = tasks.filter((item) => item.projectId === project.id)
+  const pendingChanges = projectChanges.filter((item) => !item.confirmedByClient)
+  const totalSubcontract = projectSubcontracts.reduce(
+    (sum, item) => sum + Number(item.price || 0),
+    0
+  )
+  const totalChange = projectChanges.reduce((sum, item) => sum + Number(item.amount || 0), 0)
+
+  async function copyOrder(order) {
+    const text = generateConfirmText(order)
+
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      const textarea = document.createElement("textarea")
+      textarea.value = text
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand("copy")
+      document.body.removeChild(textarea)
+    }
+
+    setCopiedId(order.id)
+    window.setTimeout(() => setCopiedId(""), 1400)
+  }
+
+  return (
+    <div className="grid gap-5">
+      <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+        <SectionTitle
+          title={project.name}
+          desc="案件中心：集中查看基本資料、發包、批價、追加減項與任務。"
+        />
+
+        <button
+          onClick={onBack}
+          className="w-fit rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm font-black text-slate-700"
+        >
+          ← 回案件列表
+        </button>
+      </div>
+
+      <div className="grid gap-4 md:grid-cols-4">
+        <Metric label="案件預算" value={`NT$${formatMoney(project.budget)}`} />
+        <Metric label="發包合計" value={`NT$${formatMoney(totalSubcontract)}`} />
+        <Metric label="追加合計" value={`NT$${formatMoney(totalChange)}`} danger />
+        <Metric label="待確認追加" value={pendingChanges.length} danger={pendingChanges.length > 0} />
+      </div>
+
+      <Card>
+        <div className="grid gap-5 lg:grid-cols-[1fr_280px]">
+          <div>
+            <h3 className="text-xl font-black">基本資料</h3>
+            <div className="mt-4 grid gap-3 md:grid-cols-2">
+              <Info label="業主" value={project.client} />
+              <Info label="地址" value={project.address} />
+              <Info label="類型" value={project.type} />
+              <Info label="負責人" value={project.manager} />
+              <Info label="開始日期" value={project.startDate} />
+              <Info label="預計完工" value={project.dueDate} />
+            </div>
+            <p className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
+              {project.note || "沒有備註。"}
+            </p>
+          </div>
+
+          <div>
+            <p className="text-sm font-bold text-slate-500">案件狀態</p>
+            <select
+              value={project.status}
+              onChange={(event) => updateProjectStatus(project.id, event.target.value)}
+              className="mt-3 w-full rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold"
+            >
+              {projectStatuses.map((status) => (
+                <option key={status}>{status}</option>
+              ))}
+            </select>
+
+            <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
+              {pendingChanges.length > 0
+                ? `目前有 ${pendingChanges.length} 筆追加尚未完成業主確認。`
+                : "目前沒有待確認追加。"}
+            </div>
+          </div>
+        </div>
+      </Card>
+
+      <Card>
+        <h3 className="text-xl font-black">本案發包項目</h3>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[850px] text-left text-sm">
+            <thead className="text-slate-500">
+              <tr>
+                <th className="py-3">項目</th>
+                <th>工種</th>
+                <th>負責人</th>
+                <th>金額</th>
+                <th>期限</th>
+                <th>狀態</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {projectSubcontracts.map((item) => (
+                <tr key={item.id}>
+                  <td className="py-4 font-black">{item.item}</td>
+                  <td>{item.trade}</td>
+                  <td>{item.workerName}</td>
+                  <td>NT${formatMoney(item.price)}</td>
+                  <td>{item.dueDate}</td>
+                  <td>
+                    <select
+                      value={item.status}
+                      onChange={(event) => updateSubcontractStatus(item.id, event.target.value)}
+                      className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
+                    >
+                      {subcontractStatuses.map((status) => (
+                        <option key={status}>{status}</option>
+                      ))}
+                    </select>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {!projectSubcontracts.length && (
+            <p className="py-4 text-sm text-slate-500">本案目前沒有發包項目。</p>
+          )}
+        </div>
+      </Card>
+
+      <Card>
+        <h3 className="text-xl font-black">本案批價紀錄</h3>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[780px] text-left text-sm">
+            <thead className="text-slate-500">
+              <tr>
+                <th className="py-3">項目</th>
+                <th>廠商</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>備註</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {projectBids.map((bid) => (
+                <tr key={bid.id}>
+                  <td className="py-4">{bid.item}</td>
+                  <td className="font-black">{bid.vendor}</td>
+                  <td>NT${formatMoney(bid.amount)}</td>
+                  <td>{bid.selected ? "採用" : "未採用"}</td>
+                  <td>{bid.note}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+          {!projectBids.length && (
+            <p className="py-4 text-sm text-slate-500">本案目前沒有批價紀錄。</p>
+          )}
+        </div>
+      </Card>
+
+      <Card>
+        <h3 className="text-xl font-black">本案追加減項</h3>
+        <div className="mt-4 grid gap-3">
+          {projectChanges.map((order) => (
+            <div key={order.id} className="rounded-xl bg-slate-50 p-4">
+              <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
+                <div>
+                  <p className="font-black">
+                    {order.type}｜{order.item}
+                  </p>
+                  <p className="mt-1 text-sm leading-6 text-slate-500">
+                    {order.reason}｜NT${formatMoney(order.amount)}
+                  </p>
+                </div>
+
+                <div className="flex flex-wrap gap-2">
+                  <select
+                    value={order.status}
+                    onChange={(event) => updateChangeStatus(order.id, event.target.value)}
+                    className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
+                  >
+                    {changeStatuses.map((status) => (
+                      <option key={status}>{status}</option>
+                    ))}
+                  </select>
+
+                  <SmallButton onClick={() => copyOrder(order)}>
+                    {copiedId === order.id ? "已複製" : "複製確認"}
+                  </SmallButton>
+                </div>
+              </div>
+            </div>
+          ))}
+
+          {!projectChanges.length && (
+            <p className="text-sm text-slate-500">本案目前沒有追加減項。</p>
+          )}
+        </div>
+      </Card>
+
+      <Card>
+        <h3 className="text-xl font-black">本案任務</h3>
+        <TaskList
+          tasks={projectTasks}
+          toggleTaskComplete={toggleTaskComplete}
+          updateTaskReport={updateTaskReport}
+          showWorker
+        />
+      </Card>
+    </div>
+  )
+}
+
 function ProjectsPanel({
   projects,
   addProject,
   editProject,
   deleteProject,
   updateProjectStatus,
+  openProjectDetail,
 }) {
   return (
     <div className="grid gap-5">
@@ -981,7 +1319,7 @@ function ProjectsPanel({
       <Card>
         <h3 className="text-xl font-black">案件列表</h3>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[980px] text-left text-sm">
+          <table className="w-full min-w-[1080px] text-left text-sm">
             <thead className="text-slate-500">
               <tr>
                 <th className="py-3">案件</th>
@@ -1019,6 +1357,9 @@ function ProjectsPanel({
                   </td>
                   <td>
                     <div className="flex gap-2">
+                      <SmallButton onClick={() => openProjectDetail(project.id)}>
+                        查看
+                      </SmallButton>
                       <SmallButton onClick={() => editProject(project)}>編輯</SmallButton>
                       <SmallButton danger onClick={() => deleteProject(project.id)}>
                         刪除
@@ -1043,6 +1384,7 @@ function SubcontractsPanel({
   editSubcontract,
   deleteSubcontract,
   updateSubcontractStatus,
+  openProjectDetail,
 }) {
   const workers = users.filter((user) => user.role === "worker")
 
@@ -1092,7 +1434,7 @@ function SubcontractsPanel({
       <Card>
         <h3 className="text-xl font-black">發包列表</h3>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[1050px] text-left text-sm">
+          <table className="w-full min-w-[1120px] text-left text-sm">
             <thead className="text-slate-500">
               <tr>
                 <th className="py-3">案件</th>
@@ -1108,7 +1450,15 @@ function SubcontractsPanel({
             <tbody className="divide-y divide-slate-100">
               {subcontracts.map((item) => (
                 <tr key={item.id}>
-                  <td className="py-4">{item.projectName}</td>
+                  <td className="py-4">
+                    <button
+                      type="button"
+                      onClick={() => openProjectDetail(item.projectId)}
+                      className="font-bold text-slate-700 underline underline-offset-4"
+                    >
+                      {item.projectName}
+                    </button>
+                  </td>
                   <td className="font-black">{item.item}</td>
                   <td>{item.trade}</td>
                   <td>{item.workerName}</td>
@@ -1633,6 +1983,15 @@ function Input({ label, name, type = "text", placeholder = "", required = false 
         className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
       />
     </label>
+  )
+}
+
+function Info({ label, value }) {
+  return (
+    <div className="rounded-xl bg-slate-50 p-4">
+      <p className="text-xs font-black text-slate-400">{label}</p>
+      <p className="mt-2 font-bold text-slate-700">{value || "未填"}</p>
+    </div>
   )
 }
 
