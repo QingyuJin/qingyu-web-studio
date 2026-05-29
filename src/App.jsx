@@ -5,6 +5,8 @@ import AdminDashboard from "./AdminDashboard"
 import ProtectedRoute from "./ProtectedRoute"
 import ProjectPlaceholder from "./ProjectPlaceholder"
 import BuildFlow from "./BuildFlow"
+import ContractorSite from "./ContractorSite"
+
 
 
 function App() {
@@ -22,10 +24,7 @@ function App() {
         }
       />
 
-      <Route
-        path="/contractor-site"
-        element={<ProjectPlaceholder type="contractor" />}
-      />
+      <Route path="/contractor-site" element={<ContractorSite />} />
 
       <Route path="/buildflow" element={<BuildFlow />} />
 
