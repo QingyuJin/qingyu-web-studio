@@ -28,6 +28,9 @@ import Status from "./shared/Status"
 import SmallButton from "./shared/SmallButton"
 import SectionTitle from "./shared/SectionTitle"
 import Info from "./shared/Info"
+import BuildFlowLogin from "./components/BuildFlowLogin"
+import Dashboard from "./components/DashboardPanel"
+import LineBotPanel from "./components/LineBotPanel"
 
 function BuildFlow() {
   const [data, setData] = useState(loadInitialData)
@@ -584,138 +587,6 @@ function BuildFlow() {
         </section>
       </section>
     </main>
-  )
-}
-
-function BuildFlowLogin({ users, onLogin }) {
-  const [username, setUsername] = useState("admin")
-  const [password, setPassword] = useState("admin123")
-  const [error, setError] = useState("")
-  const demoAccounts = users.slice(0, 6)
-
-  function handleSubmit(event) {
-    event.preventDefault()
-    const result = onLogin(username, password)
-    if (!result.ok) {
-      setError(result.message)
-      return
-    }
-    setError("")
-  }
-
-  function fillDemo(user) {
-    setUsername(user.username)
-    setPassword(user.password)
-    setError("")
-  }
-
-  return (
-    <main className="min-h-screen bg-slate-100 text-slate-950">
-      <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-12 lg:grid-cols-[1fr_420px]">
-        <div>
-          <Link to="/admin" className="text-sm font-bold text-slate-500">← 回管理入口</Link>
-          <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">BuildFlow Login</p>
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">工程行發包與追加減項管理系統</h1>
-          <p className="mt-5 max-w-2xl leading-8 text-slate-600">
-            這版加入使用者管理。管理者可新增師傅帳號並指派任務；使用者登入後只會看到自己負責的任務與回報。
-          </p>
-
-          <div className="mt-8 grid gap-3 md:grid-cols-2">
-            {demoAccounts.map((user) => (
-              <DemoAccount key={user.id} title={user.name} account={`${user.username} / ${user.password}`} onClick={() => fillDemo(user)} />
-            ))}
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <h2 className="text-2xl font-black">登入 BuildFlow</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-500">目前是假登入，之後可替換成 Supabase Auth。</p>
-
-          <label className="mt-6 grid gap-2">
-            <span className="text-sm font-bold text-slate-600">帳號</span>
-            <input value={username} onChange={(event) => setUsername(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500" />
-          </label>
-
-          <label className="mt-4 grid gap-2">
-            <span className="text-sm font-bold text-slate-600">密碼</span>
-            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500" />
-          </label>
-
-          {error && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">{error}</p>}
-          <button className="mt-6 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">登入</button>
-        </form>
-      </section>
-    </main>
-  )
-}
-
-function DemoAccount({ title, account, onClick }) {
-  return (
-    <button type="button" onClick={onClick} className="rounded-2xl border border-slate-200 bg-white p-4 text-left shadow-sm">
-      <p className="font-black">{title}</p>
-      <p className="mt-1 text-sm text-slate-500">{account}</p>
-    </button>
-  )
-}
-
-function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }) {
-  const redChanges = changeOrders.filter((item) => !item.confirmedByClient)
-
-  return (
-    <div className="grid gap-5">
-      <SectionTitle title="管理者總覽" desc="查看案件、使用者、追加減項、待完成任務與工程風險。" />
-
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-8">
-        <Metric label="總案件" value={metrics.projectCount} />
-        <Metric label="施工中" value={metrics.runningCount} />
-        <Metric label="使用者" value={metrics.userCount} />
-        <Metric label="待確認追加" value={metrics.waitingChangeCount} danger />
-        <Metric label="待完成任務" value={metrics.taskTodoCount} />
-        <Metric label="廠商數" value={metrics.vendorCount} />
-        <Metric label="案件預算" value={`NT$${formatMoney(metrics.totalBudget)}`} />
-        <Metric label="追加金額" value={`NT$${formatMoney(metrics.totalChangeAmount)}`} danger />
-      </div>
-
-      <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
-        <Card>
-          <h3 className="text-xl font-black">最近案件</h3>
-          <div className="mt-4 grid gap-3">
-            {projects.map((project) => (
-              <div key={project.id} className="rounded-xl bg-slate-50 p-4">
-                <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
-                  <div>
-                    <p className="font-black">{project.name}</p>
-                    <p className="mt-1 text-sm text-slate-500">{project.client}｜{project.type}</p>
-                  </div>
-                  <div className="flex flex-wrap gap-2">
-                    <Status>{project.status}</Status>
-                    <SmallButton onClick={() => openProjectDetail(project.id)}>查看案件</SmallButton>
-                  </div>
-                </div>
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        <Card>
-          <h3 className="text-xl font-black">風險提醒</h3>
-          <div className="mt-4 grid gap-3">
-            {redChanges.map((item) => (
-              <div key={item.id} className="rounded-xl bg-red-50 p-4">
-                <p className="font-black text-red-700">{item.projectName}</p>
-                <p className="mt-1 text-sm leading-6 text-red-700/80">{item.item} 尚未完成業主確認。</p>
-              </div>
-            ))}
-            {tasks.filter((task) => task.status !== "已完成").slice(0, 3).map((task) => (
-              <div key={task.id} className="rounded-xl bg-amber-50 p-4">
-                <p className="font-black text-amber-700">{task.title}</p>
-                <p className="mt-1 text-sm text-amber-700/80">負責人：{task.workerName}｜期限：{task.dueDate}</p>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </div>
-    </div>
   )
 }
 
@@ -1396,34 +1267,6 @@ function TaskList({ tasks, toggleTaskComplete, updateTaskReport, deleteTask, sho
         </Card>
       ))}
       {!tasks.length && <Card><p className="text-slate-500">目前沒有任務。</p></Card>}
-    </div>
-  )
-}
-
-function LineBotPanel({ vendors, changeOrders, tasks, session }) {
-  const firstVendor = vendors[0]
-  const firstChange = changeOrders[0]
-  const firstTask = tasks.find((task) => task.status !== "已完成") || tasks[0]
-  const examples = session?.role === "admin"
-    ? [
-        { user: "查案件 屏東住宅", bot: "屏東住宅防水工程｜狀態：施工中｜待確認追加：浴室牆面追加防水。" },
-        { user: "查廠商 阿明", bot: firstVendor ? `${firstVendor.name}｜${firstVendor.trade}｜${firstVendor.phone}｜${firstVendor.area}` : "目前沒有廠商資料。" },
-        { user: "新增追加 浴室牆面防水 12000", bot: firstChange ? `已建立追加項目：${firstChange.item}｜NT$${formatMoney(firstChange.amount)}。是否產生給業主的確認文字？` : "目前沒有追加減項資料。" },
-        { user: "今日任務", bot: firstTask ? `今日待處理任務：${firstTask.title}｜負責人：${firstTask.workerName}` : "目前沒有待完成任務。" },
-      ]
-    : [
-        { user: "今日任務", bot: firstTask ? `${session.name} 今天的任務：${firstTask.title}｜案件：${firstTask.projectName}` : "你目前沒有待完成任務。" },
-        { user: "回報 已完成第一道防水", bot: "已收到回報，管理者會在任務頁看到你的備註。" },
-        { user: "標記完成", bot: "任務已標記完成。" },
-      ]
-
-  return (
-    <div className="grid gap-5">
-      <SectionTitle title="LINE Bot 模擬" desc="未來可串接 LINE Messaging API，讓現場用 LINE 查案件、新增追加、查廠商與回報任務。" />
-      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-        <Card><h3 className="text-xl font-black">可支援指令</h3><div className="mt-4 grid gap-3">{(session?.role === "admin" ? ["查案件", "查廠商", "新增追加", "今日任務", "產生確認文字", "提醒收款"] : ["今日任務", "回報進度", "標記完成", "查備註"]).map((item) => <div key={item} className="rounded-xl bg-slate-50 p-4 font-bold">{item}</div>)}</div></Card>
-        <Card><h3 className="text-xl font-black">對話範例</h3><div className="mt-4 grid gap-4">{examples.map((example) => <div key={example.user} className="grid gap-2"><div className="ml-auto max-w-[85%] rounded-2xl bg-green-500 px-4 py-3 text-sm font-bold text-white">{example.user}</div><div className="max-w-[90%] rounded-2xl bg-slate-100 px-4 py-3 text-sm font-bold leading-7 text-slate-700">{example.bot}</div></div>)}</div><div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">目前為模擬流程。之後接真 API 時，會從 Supabase 查詢案件、廠商、任務與追加減項資料。</div></Card>
-      </div>
     </div>
   )
 }
