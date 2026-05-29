@@ -580,7 +580,7 @@ function BuildFlow() {
           <div>
             <Link to="/admin" className="text-sm font-bold text-slate-500">← 回管理入口</Link>
             <h1 className="mt-2 text-2xl font-black">BuildFlow</h1>
-            <p className="text-sm text-slate-500">工程行發包、批價與追加減項管理系統 v1.4</p>
+            <p className="text-sm text-slate-500">工程行發包、批價與追加減項管理系統 v1.5</p>
             <p className="mt-1 text-xs text-slate-400">
               登入身份：{session.name}｜{session.role === "admin" ? "管理者" : "使用者"}｜最後保存：{savedAt || "尚未保存"}
             </p>
@@ -810,6 +810,9 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }
 }
 
 function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUser, deleteUser }) {
+  const [keyword, setKeyword] = useState("")
+  const [roleFilter, setRoleFilter] = useState("全部")
+
   function taskCount(userId) {
     return tasks.filter((task) => task.workerId === userId).length
   }
@@ -817,6 +820,15 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
   function subcontractCount(userId) {
     return subcontracts.filter((item) => item.workerId === userId).length
   }
+
+  const filteredUsers = users.filter((user) => {
+    const matchRole = roleFilter === "全部" || user.role === roleFilter
+    const matchKeyword = includesKeyword(
+      `${user.name} ${user.username} ${user.phone} ${user.role}`,
+      keyword
+    )
+    return matchRole && matchKeyword
+  })
 
   return (
     <div className="grid gap-5">
@@ -841,7 +853,30 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
       </Card>
 
       <Card>
-        <h3 className="text-xl font-black">使用者列表</h3>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">使用者列表</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredUsers.length} / {users.length} 位使用者</p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-[220px_150px]">
+            <input
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+              placeholder="搜尋姓名 / 帳號 / 電話"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500"
+            />
+            <select
+              value={roleFilter}
+              onChange={(event) => setRoleFilter(event.target.value)}
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold"
+            >
+              <option>全部</option>
+              <option value="admin">admin</option>
+              <option value="worker">worker</option>
+            </select>
+          </div>
+        </div>
+
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead className="text-slate-500">
@@ -857,7 +892,7 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
-              {users.map((user) => (
+              {filteredUsers.map((user) => (
                 <tr key={user.id}>
                   <td className="py-4 font-black">{user.name}{user.id === currentUserId ? "（目前登入）" : ""}</td>
                   <td>{user.username}</td>
@@ -876,12 +911,12 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
               ))}
             </tbody>
           </table>
+          {!filteredUsers.length && <p className="py-4 text-sm text-slate-500">沒有符合條件的使用者。</p>}
         </div>
       </Card>
     </div>
   )
 }
-
 function ProjectDetailPanel({ project, subcontracts, bids, changeOrders, tasks, updateProjectStatus, updateSubcontractStatus, updateChangeStatus, toggleTaskComplete, updateTaskReport, generateConfirmText, onBack }) {
   const [copiedId, setCopiedId] = useState("")
 
@@ -1027,6 +1062,18 @@ function ProjectDetailPanel({ project, subcontracts, bids, changeOrders, tasks, 
 }
 
 function ProjectsPanel({ projects, addProject, editProject, deleteProject, updateProjectStatus, openProjectDetail }) {
+  const [keyword, setKeyword] = useState("")
+  const [statusFilter, setStatusFilter] = useState("全部")
+
+  const filteredProjects = projects.filter((project) => {
+    const matchStatus = statusFilter === "全部" || project.status === statusFilter
+    const matchKeyword = includesKeyword(
+      `${project.name} ${project.client} ${project.address} ${project.type} ${project.note}`,
+      keyword
+    )
+    return matchStatus && matchKeyword
+  })
+
   return (
     <div className="grid gap-5">
       <SectionTitle title="案件管理" desc="新增案件、編輯資料、調整工程狀態。" />
@@ -1046,12 +1093,34 @@ function ProjectsPanel({ projects, addProject, editProject, deleteProject, updat
       </Card>
 
       <Card>
-        <h3 className="text-xl font-black">案件列表</h3>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">案件列表</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredProjects.length} / {projects.length} 件案件</p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-[220px_170px]">
+            <input
+              value={keyword}
+              onChange={(event) => setKeyword(event.target.value)}
+              placeholder="搜尋案件 / 業主 / 地點"
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500"
+            />
+            <select
+              value={statusFilter}
+              onChange={(event) => setStatusFilter(event.target.value)}
+              className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold"
+            >
+              <option>全部</option>
+              {projectStatuses.map((status) => <option key={status}>{status}</option>)}
+            </select>
+          </div>
+        </div>
+
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[1080px] text-left text-sm">
             <thead className="text-slate-500"><tr><th className="py-3">案件</th><th>業主</th><th>類型</th><th>預算</th><th>期限</th><th>狀態</th><th>操作</th></tr></thead>
             <tbody className="divide-y divide-slate-100">
-              {projects.map((project) => (
+              {filteredProjects.map((project) => (
                 <tr key={project.id}>
                   <td className="py-4"><p className="font-black">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.address}</p></td>
                   <td>{project.client}</td><td>{project.type}</td><td>NT${formatMoney(project.budget)}</td><td>{project.dueDate}</td>
@@ -1065,14 +1134,28 @@ function ProjectsPanel({ projects, addProject, editProject, deleteProject, updat
               ))}
             </tbody>
           </table>
+          {!filteredProjects.length && <p className="py-4 text-sm text-slate-500">沒有符合條件的案件。</p>}
         </div>
       </Card>
     </div>
   )
 }
-
 function SubcontractsPanel({ projects, users, subcontracts, addSubcontract, editSubcontract, deleteSubcontract, updateSubcontractStatus, openProjectDetail }) {
   const workers = users.filter((user) => user.role === "worker")
+  const [keyword, setKeyword] = useState("")
+  const [statusFilter, setStatusFilter] = useState("全部")
+  const [workerFilter, setWorkerFilter] = useState("全部")
+
+  const filteredSubcontracts = subcontracts.filter((item) => {
+    const matchStatus = statusFilter === "全部" || item.status === statusFilter
+    const matchWorker = workerFilter === "全部" || item.workerId === workerFilter
+    const matchKeyword = includesKeyword(
+      `${item.projectName} ${item.item} ${item.trade} ${item.workerName} ${item.note}`,
+      keyword
+    )
+    return matchStatus && matchWorker && matchKeyword
+  })
+
   return (
     <div className="grid gap-5">
       <SectionTitle title="發包項目" desc="建立工種、項目、金額與負責師傅。新增使用者後，會自動出現在指派清單。" />
@@ -1093,12 +1176,30 @@ function SubcontractsPanel({ projects, users, subcontracts, addSubcontract, edit
       </Card>
 
       <Card>
-        <h3 className="text-xl font-black">發包列表</h3>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">發包列表</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredSubcontracts.length} / {subcontracts.length} 筆發包</p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-[220px_150px_160px]">
+            <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜尋案件 / 項目 / 工種" className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+            <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+              <option>全部</option>
+              {subcontractStatuses.map((status) => <option key={status}>{status}</option>)}
+            </select>
+            <select value={workerFilter} onChange={(event) => setWorkerFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+              <option>全部</option>
+              <option value="">未指派</option>
+              {workers.map((worker) => <option key={worker.id} value={worker.id}>{worker.name}</option>)}
+            </select>
+          </div>
+        </div>
+
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[1120px] text-left text-sm">
             <thead className="text-slate-500"><tr><th className="py-3">案件</th><th>項目</th><th>工種</th><th>負責人</th><th>金額</th><th>狀態</th><th>期限</th><th>操作</th></tr></thead>
             <tbody className="divide-y divide-slate-100">
-              {subcontracts.map((item) => (
+              {filteredSubcontracts.map((item) => (
                 <tr key={item.id}>
                   <td className="py-4"><button type="button" onClick={() => openProjectDetail(item.projectId)} className="font-bold text-slate-700 underline underline-offset-4">{item.projectName}</button></td>
                   <td className="font-black">{item.item}</td><td>{item.trade}</td><td>{item.workerName}</td><td>NT${formatMoney(item.price)}</td>
@@ -1109,13 +1210,22 @@ function SubcontractsPanel({ projects, users, subcontracts, addSubcontract, edit
               ))}
             </tbody>
           </table>
+          {!filteredSubcontracts.length && <p className="py-4 text-sm text-slate-500">沒有符合條件的發包項目。</p>}
         </div>
       </Card>
     </div>
   )
 }
-
 function BidsPanel({ bids, subcontracts, addBid, deleteBid, selectBid }) {
+  const [keyword, setKeyword] = useState("")
+  const [selectedFilter, setSelectedFilter] = useState("全部")
+
+  const filteredBids = bids.filter((bid) => {
+    const matchSelected = selectedFilter === "全部" || (selectedFilter === "採用" ? bid.selected : !bid.selected)
+    const matchKeyword = includesKeyword(`${bid.projectName} ${bid.item} ${bid.vendor} ${bid.note}`, keyword)
+    return matchSelected && matchKeyword
+  })
+
   return (
     <div className="grid gap-5">
       <SectionTitle title="批價紀錄" desc="比較不同廠商報價，記錄採用原因。" />
@@ -1132,31 +1242,61 @@ function BidsPanel({ bids, subcontracts, addBid, deleteBid, selectBid }) {
       </Card>
 
       <Card>
-        <h3 className="text-xl font-black">報價比較</h3>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">報價比較</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredBids.length} / {bids.length} 筆報價</p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-[220px_150px]">
+            <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜尋案件 / 廠商 / 項目" className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+            <select value={selectedFilter} onChange={(event) => setSelectedFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+              <option>全部</option>
+              <option>採用</option>
+              <option>未採用</option>
+            </select>
+          </div>
+        </div>
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[900px] text-left text-sm">
             <thead className="text-slate-500"><tr><th className="py-3">案件</th><th>項目</th><th>廠商</th><th>金額</th><th>狀態</th><th>備註</th><th>操作</th></tr></thead>
             <tbody className="divide-y divide-slate-100">
-              {bids.map((bid) => (
-                <tr key={bid.id}><td className="py-4">{bid.projectName}</td><td>{bid.item}</td><td className="font-black">{bid.vendor}</td><td>NT${formatMoney(bid.amount)}</td><td>{bid.selected ? "採用" : "未採用"}</td><td>{bid.note}</td><td><div className="flex gap-2">{!bid.selected && <SmallButton onClick={() => selectBid(bid.id)}>設為採用</SmallButton>}<SmallButton danger onClick={() => deleteBid(bid.id)}>刪除</SmallButton></div></td></tr>
+              {filteredBids.map((bid) => (
+                <tr key={bid.id}>
+                  <td className="py-4">{bid.projectName}</td><td>{bid.item}</td><td className="font-black">{bid.vendor}</td><td>NT${formatMoney(bid.amount)}</td><td>{bid.selected ? "採用" : "未採用"}</td><td>{bid.note}</td>
+                  <td><div className="flex gap-2">{!bid.selected && <SmallButton onClick={() => selectBid(bid.id)}>設為採用</SmallButton>}<SmallButton danger onClick={() => deleteBid(bid.id)}>刪除</SmallButton></div></td>
+                </tr>
               ))}
             </tbody>
           </table>
+          {!filteredBids.length && <p className="py-4 text-sm text-slate-500">沒有符合條件的批價紀錄。</p>}
         </div>
       </Card>
     </div>
   )
 }
-
 function ChangeOrdersPanel({ projects, changeOrders, addChangeOrder, editChangeOrder, deleteChangeOrder, updateChangeStatus, generateConfirmText }) {
   const [selectedOrder, setSelectedOrder] = useState(changeOrders[0]?.id || "")
   const [copied, setCopied] = useState(false)
-  const currentOrder = changeOrders.find((item) => item.id === selectedOrder) || changeOrders[0]
+  const [keyword, setKeyword] = useState("")
+  const [statusFilter, setStatusFilter] = useState("全部")
+
+  const filteredOrders = changeOrders.filter((order) => {
+    const matchStatus = statusFilter === "全部" || order.status === statusFilter
+    const matchKeyword = includesKeyword(`${order.projectName} ${order.item} ${order.reason} ${order.type}`, keyword)
+    return matchStatus && matchKeyword
+  })
+
+  const currentOrder =
+    changeOrders.find((item) => item.id === selectedOrder) || changeOrders[0]
 
   async function copyText() {
     if (!currentOrder) return
     const text = generateConfirmText(currentOrder)
-    try { await navigator.clipboard.writeText(text) } catch { copyByTextarea(text) }
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      copyByTextarea(text)
+    }
     setCopied(true)
     window.setTimeout(() => setCopied(false), 1400)
   }
@@ -1179,16 +1319,33 @@ function ChangeOrdersPanel({ projects, changeOrders, addChangeOrder, editChangeO
 
       <div className="grid gap-5 xl:grid-cols-[1.2fr_0.8fr]">
         <Card>
-          <h3 className="text-xl font-black">追加減項列表</h3>
+          <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+            <div>
+              <h3 className="text-xl font-black">追加減項列表</h3>
+              <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredOrders.length} / {changeOrders.length} 筆追加減項</p>
+            </div>
+            <div className="grid gap-2 md:grid-cols-[220px_150px]">
+              <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜尋案件 / 項目 / 原因" className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+              <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+                <option>全部</option>
+                {changeStatuses.map((status) => <option key={status}>{status}</option>)}
+              </select>
+            </div>
+          </div>
           <div className="mt-4 grid gap-3">
-            {changeOrders.map((order) => (
+            {filteredOrders.map((order) => (
               <div key={order.id} className="rounded-xl bg-slate-50 p-4">
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div><p className="font-black">{order.projectName}｜{order.item}</p><p className="mt-1 text-sm text-slate-500">{order.reason}｜NT${formatMoney(order.amount)}</p></div>
-                  <div className="flex flex-wrap gap-2"><select value={order.status} onChange={(event) => updateChangeStatus(order.id, event.target.value)} className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold">{changeStatuses.map((status) => <option key={status}>{status}</option>)}</select><SmallButton onClick={() => editChangeOrder(order)}>編輯</SmallButton><SmallButton danger onClick={() => deleteChangeOrder(order.id)}>刪除</SmallButton></div>
+                  <div className="flex flex-wrap gap-2">
+                    <select value={order.status} onChange={(event) => updateChangeStatus(order.id, event.target.value)} className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold">{changeStatuses.map((status) => <option key={status}>{status}</option>)}</select>
+                    <SmallButton onClick={() => editChangeOrder(order)}>編輯</SmallButton>
+                    <SmallButton danger onClick={() => deleteChangeOrder(order.id)}>刪除</SmallButton>
+                  </div>
                 </div>
               </div>
             ))}
+            {!filteredOrders.length && <p className="text-sm text-slate-500">沒有符合條件的追加減項。</p>}
           </div>
         </Card>
 
@@ -1203,8 +1360,12 @@ function ChangeOrdersPanel({ projects, changeOrders, addChangeOrder, editChangeO
     </div>
   )
 }
-
 function VendorsPanel({ vendors, addVendor, editVendor, deleteVendor }) {
+  const [keyword, setKeyword] = useState("")
+  const filteredVendors = vendors.filter((vendor) =>
+    includesKeyword(`${vendor.name} ${vendor.trade} ${vendor.phone} ${vendor.area} ${vendor.note}`, keyword)
+  )
+
   return (
     <div className="grid gap-5">
       <SectionTitle title="廠商資料" desc="集中管理師傅、工種、電話與合作備註。" />
@@ -1219,21 +1380,98 @@ function VendorsPanel({ vendors, addVendor, editVendor, deleteVendor }) {
           <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">新增廠商</button>
         </form>
       </Card>
-      <div className="grid gap-4 md:grid-cols-3">
-        {vendors.map((vendor) => <Card key={vendor.id}><p className="text-sm font-bold text-slate-500">{vendor.trade}</p><h3 className="mt-2 text-xl font-black">{vendor.name}</h3><p className="mt-3 font-black">{vendor.phone}</p><p className="mt-2 text-sm text-slate-500">{vendor.area}</p><p className="mt-4 text-sm leading-7 text-slate-600">{vendor.note}</p><div className="mt-5 flex gap-2"><SmallButton onClick={() => editVendor(vendor)}>編輯</SmallButton><SmallButton danger onClick={() => deleteVendor(vendor.id)}>刪除</SmallButton></div></Card>)}
-      </div>
+
+      <Card>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">廠商列表</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredVendors.length} / {vendors.length} 筆廠商資料</p>
+          </div>
+          <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜尋廠商 / 工種 / 地區" className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500 md:w-[260px]" />
+        </div>
+
+        <div className="mt-4 grid gap-4 md:grid-cols-3">
+          {filteredVendors.map((vendor) => <Card key={vendor.id}><p className="text-sm font-bold text-slate-500">{vendor.trade}</p><h3 className="mt-2 text-xl font-black">{vendor.name}</h3><p className="mt-3 font-black">{vendor.phone}</p><p className="mt-2 text-sm text-slate-500">{vendor.area}</p><p className="mt-4 text-sm leading-7 text-slate-600">{vendor.note}</p><div className="mt-5 flex gap-2"><SmallButton onClick={() => editVendor(vendor)}>編輯</SmallButton><SmallButton danger onClick={() => deleteVendor(vendor.id)}>刪除</SmallButton></div></Card>)}
+          {!filteredVendors.length && <p className="text-sm text-slate-500">沒有符合條件的廠商。</p>}
+        </div>
+      </Card>
     </div>
   )
 }
-
 function TasksPanel({ tasks, toggleTaskComplete, updateTaskReport, deleteTask }) {
-  return <div className="grid gap-5"><SectionTitle title="任務管理" desc="查看所有師傅與使用者的任務狀態。" /><TaskList tasks={tasks} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} deleteTask={deleteTask} showWorker showAdminActions /></div>
-}
+  const [keyword, setKeyword] = useState("")
+  const [statusFilter, setStatusFilter] = useState("全部")
+  const [workerFilter, setWorkerFilter] = useState("全部")
+  const workers = Array.from(new Map(tasks.map((task) => [task.workerId || "", task.workerName || "未指派"]))).filter(([id]) => id !== "")
 
+  const filteredTasks = tasks.filter((task) => {
+    const matchStatus = statusFilter === "全部" || task.status === statusFilter
+    const matchWorker = workerFilter === "全部" || task.workerId === workerFilter
+    const matchKeyword = includesKeyword(`${task.projectName} ${task.title} ${task.workerName} ${task.note} ${task.report}`, keyword)
+    return matchStatus && matchWorker && matchKeyword
+  })
+
+  return (
+    <div className="grid gap-5">
+      <SectionTitle title="任務管理" desc="查看所有師傅與使用者的任務狀態。" />
+      <Card>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">任務列表</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredTasks.length} / {tasks.length} 個任務</p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-[220px_150px_160px]">
+            <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜尋案件 / 任務 / 回報" className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+            <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+              <option>全部</option>
+              <option>待完成</option>
+              <option>已完成</option>
+            </select>
+            <select value={workerFilter} onChange={(event) => setWorkerFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+              <option>全部</option>
+              {workers.map(([id, name]) => <option key={id} value={id}>{name}</option>)}
+            </select>
+          </div>
+        </div>
+      </Card>
+      <TaskList tasks={filteredTasks} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} deleteTask={deleteTask} showWorker showAdminActions />
+    </div>
+  )
+}
 function WorkerPanel({ worker, tasks, toggleTaskComplete, updateTaskReport }) {
-  return <div className="grid gap-5"><SectionTitle title={`${worker?.name || "使用者"}的任務`} desc="使用者只能看到自己負責的項目，並回報完成或問題。" /><div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">使用者視角不顯示批價、預算與完整案件資料，只保留任務、期限、備註與問題回報。</div><TaskList tasks={tasks} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} /></div>
-}
+  const [keyword, setKeyword] = useState("")
+  const [statusFilter, setStatusFilter] = useState("全部")
 
+  const filteredTasks = tasks.filter((task) => {
+    const matchStatus = statusFilter === "全部" || task.status === statusFilter
+    const matchKeyword = includesKeyword(`${task.projectName} ${task.title} ${task.note} ${task.report}`, keyword)
+    return matchStatus && matchKeyword
+  })
+
+  return (
+    <div className="grid gap-5">
+      <SectionTitle title={`${worker?.name || "使用者"}的任務`} desc="使用者只能看到自己負責的項目，並回報完成或問題。" />
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">使用者視角不顯示批價、預算與完整案件資料，只保留任務、期限、備註與問題回報。</div>
+      <Card>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">我的任務</h3>
+            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredTasks.length} / {tasks.length} 個任務</p>
+          </div>
+          <div className="grid gap-2 md:grid-cols-[220px_150px]">
+            <input value={keyword} onChange={(event) => setKeyword(event.target.value)} placeholder="搜尋案件 / 任務" className="rounded-xl border border-slate-200 px-4 py-3 text-sm outline-none focus:border-slate-500" />
+            <select value={statusFilter} onChange={(event) => setStatusFilter(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold">
+              <option>全部</option>
+              <option>待完成</option>
+              <option>已完成</option>
+            </select>
+          </div>
+        </div>
+      </Card>
+      <TaskList tasks={filteredTasks} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} />
+    </div>
+  )
+}
 function TaskList({ tasks, toggleTaskComplete, updateTaskReport, deleteTask, showWorker = false, showAdminActions = false }) {
   return (
     <div className="grid gap-3">
@@ -1306,6 +1544,13 @@ function Status({ children }) {
 
 function SmallButton({ children, onClick, danger = false }) {
   return <button type="button" onClick={onClick} className={`rounded-lg px-3 py-2 text-xs font-black ${danger ? "bg-red-50 text-red-600" : "bg-slate-100 text-slate-700"}`}>{children}</button>
+}
+
+
+function includesKeyword(text, keyword) {
+  const cleanKeyword = String(keyword || "").trim().toLowerCase()
+  if (!cleanKeyword) return true
+  return String(text || "").toLowerCase().includes(cleanKeyword)
 }
 
 function formatMoney(value) {
