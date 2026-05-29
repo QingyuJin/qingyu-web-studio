@@ -1,180 +1,187 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
+const STORAGE_KEY = "buildflow_v1_1_data"
 const today = new Date().toISOString().slice(0, 10)
 
-const initialUsers = [
-  { id: "u-admin", name: "管理者", role: "admin", phone: "09xx-000-000" },
-  { id: "u-aming", name: "阿明師傅", role: "worker", phone: "09xx-123-456" },
-  { id: "u-along", name: "阿龍師傅", role: "worker", phone: "09xx-456-789" },
-  { id: "u-ming", name: "小明水電", role: "worker", phone: "09xx-888-666" },
-]
+const demoData = {
+  users: [
+    { id: "u-admin", name: "管理者", role: "admin", phone: "09xx-000-000" },
+    { id: "u-aming", name: "阿明師傅", role: "worker", phone: "09xx-123-456" },
+    { id: "u-along", name: "阿龍師傅", role: "worker", phone: "09xx-456-789" },
+    { id: "u-ming", name: "小明水電", role: "worker", phone: "09xx-888-666" },
+  ],
 
-const initialProjects = [
-  {
-    id: "p-001",
-    name: "屏東住宅防水工程",
-    client: "林先生",
-    address: "屏東市住宅案",
-    type: "防水 / 泥作",
-    budget: 125000,
-    status: "施工中",
-    manager: "管理者",
-    startDate: "2026-06-01",
-    dueDate: "2026-06-18",
-    note: "浴室與陽台防水，拆除後發現追加需求。",
-  },
-  {
-    id: "p-002",
-    name: "高雄店面整修",
-    client: "陳小姐",
-    address: "高雄市店面",
-    type: "木作 / 油漆",
-    budget: 238000,
-    status: "待確認追加",
-    manager: "管理者",
-    startDate: "2026-06-06",
-    dueDate: "2026-06-25",
-    note: "業主追加天花板燈槽與牆面修補。",
-  },
-]
+  projects: [
+    {
+      id: "p-001",
+      name: "屏東住宅防水工程",
+      client: "林先生",
+      address: "屏東市住宅案",
+      type: "防水 / 泥作",
+      budget: 125000,
+      status: "施工中",
+      manager: "管理者",
+      startDate: "2026-06-01",
+      dueDate: "2026-06-18",
+      note: "浴室與陽台防水，拆除後發現追加需求。",
+    },
+    {
+      id: "p-002",
+      name: "高雄店面整修",
+      client: "陳小姐",
+      address: "高雄市店面",
+      type: "木作 / 油漆",
+      budget: 238000,
+      status: "待確認追加",
+      manager: "管理者",
+      startDate: "2026-06-06",
+      dueDate: "2026-06-25",
+      note: "業主追加天花板燈槽與牆面修補。",
+    },
+  ],
 
-const initialSubcontracts = [
-  {
-    id: "s-001",
-    projectId: "p-001",
-    projectName: "屏東住宅防水工程",
-    trade: "防水",
-    item: "浴室牆面防水",
-    qty: 1,
-    unit: "式",
-    price: 35000,
-    workerId: "u-aming",
-    workerName: "阿明師傅",
-    status: "施工中",
-    dueDate: "2026-06-15",
-    note: "等業主確認追加範圍。",
-  },
-  {
-    id: "s-002",
-    projectId: "p-002",
-    projectName: "高雄店面整修",
-    trade: "木作",
-    item: "展示牆與燈槽",
-    qty: 1,
-    unit: "式",
-    price: 78000,
-    workerId: "u-along",
-    workerName: "阿龍師傅",
-    status: "待確認",
-    dueDate: "2026-06-20",
-    note: "需先確認追加燈槽價格。",
-  },
-]
+  subcontracts: [
+    {
+      id: "s-001",
+      projectId: "p-001",
+      projectName: "屏東住宅防水工程",
+      trade: "防水",
+      item: "浴室牆面防水",
+      qty: 1,
+      unit: "式",
+      price: 35000,
+      workerId: "u-aming",
+      workerName: "阿明師傅",
+      status: "施工中",
+      dueDate: "2026-06-15",
+      note: "等業主確認追加範圍。",
+    },
+    {
+      id: "s-002",
+      projectId: "p-002",
+      projectName: "高雄店面整修",
+      trade: "木作",
+      item: "展示牆與燈槽",
+      qty: 1,
+      unit: "式",
+      price: 78000,
+      workerId: "u-along",
+      workerName: "阿龍師傅",
+      status: "待確認",
+      dueDate: "2026-06-20",
+      note: "需先確認追加燈槽價格。",
+    },
+  ],
 
-const initialBids = [
-  {
-    id: "b-001",
-    subcontractId: "s-001",
-    projectName: "屏東住宅防水工程",
-    item: "浴室牆面防水",
-    vendor: "阿明工程行",
-    amount: 35000,
-    selected: true,
-    note: "熟悉案場，品質穩定。",
-  },
-  {
-    id: "b-002",
-    subcontractId: "s-001",
-    projectName: "屏東住宅防水工程",
-    item: "浴室牆面防水",
-    vendor: "宏誠防水",
-    amount: 32000,
-    selected: false,
-    note: "價格較低，但時間較晚。",
-  },
-]
+  bids: [
+    {
+      id: "b-001",
+      projectId: "p-001",
+      subcontractId: "s-001",
+      projectName: "屏東住宅防水工程",
+      item: "浴室牆面防水",
+      vendor: "阿明工程行",
+      amount: 35000,
+      selected: true,
+      note: "熟悉案場，品質穩定。",
+    },
+    {
+      id: "b-002",
+      projectId: "p-001",
+      subcontractId: "s-001",
+      projectName: "屏東住宅防水工程",
+      item: "浴室牆面防水",
+      vendor: "宏誠防水",
+      amount: 32000,
+      selected: false,
+      note: "價格較低，但時間較晚。",
+    },
+  ],
 
-const initialChangeOrders = [
-  {
-    id: "c-001",
-    projectId: "p-001",
-    projectName: "屏東住宅防水工程",
-    type: "追加",
-    item: "浴室牆面追加防水",
-    reason: "拆除後發現原防水層失效。",
-    amount: 12000,
-    status: "待確認",
-    confirmedByClient: false,
-    date: "2026-06-12",
-  },
-  {
-    id: "c-002",
-    projectId: "p-002",
-    projectName: "高雄店面整修",
-    type: "追加",
-    item: "天花板新增燈槽",
-    reason: "業主臨時增加展示燈需求。",
-    amount: 18000,
-    status: "已傳 LINE",
-    confirmedByClient: false,
-    date: "2026-06-13",
-  },
-]
+  changeOrders: [
+    {
+      id: "c-001",
+      projectId: "p-001",
+      projectName: "屏東住宅防水工程",
+      type: "追加",
+      item: "浴室牆面追加防水",
+      reason: "拆除後發現原防水層失效。",
+      amount: 12000,
+      status: "待確認",
+      confirmedByClient: false,
+      date: "2026-06-12",
+    },
+    {
+      id: "c-002",
+      projectId: "p-002",
+      projectName: "高雄店面整修",
+      type: "追加",
+      item: "天花板新增燈槽",
+      reason: "業主臨時增加展示燈需求。",
+      amount: 18000,
+      status: "已傳 LINE",
+      confirmedByClient: false,
+      date: "2026-06-13",
+    },
+  ],
 
-const initialVendors = [
-  {
-    id: "v-001",
-    name: "阿明工程行",
-    trade: "防水 / 泥作",
-    phone: "09xx-123-456",
-    area: "屏東 / 高雄",
-    note: "防水細節穩，適合重要案場。",
-  },
-  {
-    id: "v-002",
-    name: "阿龍木作",
-    trade: "木作",
-    phone: "09xx-456-789",
-    area: "高雄 / 屏東",
-    note: "店面木作經驗多，需提前確認追加。",
-  },
-  {
-    id: "v-003",
-    name: "小明水電",
-    trade: "水電",
-    phone: "09xx-888-666",
-    area: "屏東",
-    note: "水電配合度高，適合浴室與廚房案。",
-  },
-]
+  vendors: [
+    {
+      id: "v-001",
+      name: "阿明工程行",
+      trade: "防水 / 泥作",
+      phone: "09xx-123-456",
+      area: "屏東 / 高雄",
+      note: "防水細節穩，適合重要案場。",
+    },
+    {
+      id: "v-002",
+      name: "阿龍木作",
+      trade: "木作",
+      phone: "09xx-456-789",
+      area: "高雄 / 屏東",
+      note: "店面木作經驗多，需提前確認追加。",
+    },
+    {
+      id: "v-003",
+      name: "小明水電",
+      trade: "水電",
+      phone: "09xx-888-666",
+      area: "屏東",
+      note: "水電配合度高，適合浴室與廚房案。",
+    },
+  ],
 
-const initialTasks = [
-  {
-    id: "t-001",
-    projectId: "p-001",
-    projectName: "屏東住宅防水工程",
-    title: "完成浴室牆面防水第一道",
-    workerId: "u-aming",
-    workerName: "阿明師傅",
-    status: "待完成",
-    dueDate: "2026-06-15",
-    note: "施工前先拍照。",
-    report: "",
-  },
-  {
-    id: "t-002",
-    projectId: "p-002",
-    projectName: "高雄店面整修",
-    title: "確認展示牆尺寸與燈槽位置",
-    workerId: "u-along",
-    workerName: "阿龍師傅",
-    status: "待完成",
-    dueDate: "2026-06-16",
-    note: "等業主最後尺寸。",
-    report: "",
-  },
-]
+  tasks: [
+    {
+      id: "t-001",
+      projectId: "p-001",
+      subcontractId: "s-001",
+      projectName: "屏東住宅防水工程",
+      title: "完成浴室牆面防水第一道",
+      workerId: "u-aming",
+      workerName: "阿明師傅",
+      status: "待完成",
+      dueDate: "2026-06-15",
+      note: "施工前先拍照。",
+      report: "",
+    },
+    {
+      id: "t-002",
+      projectId: "p-002",
+      subcontractId: "s-002",
+      projectName: "高雄店面整修",
+      title: "確認展示牆尺寸與燈槽位置",
+      workerId: "u-along",
+      workerName: "阿龍師傅",
+      status: "待完成",
+      dueDate: "2026-06-16",
+      note: "等業主最後尺寸。",
+      report: "",
+    },
+  ],
+}
 
 const adminTabs = [
   { id: "dashboard", label: "總覽" },
@@ -192,19 +199,51 @@ const workerTabs = [
   { id: "linebot", label: "LINE Bot" },
 ]
 
+const projectStatuses = [
+  "估價中",
+  "已報價",
+  "已發包",
+  "施工中",
+  "待確認追加",
+  "完工",
+  "待收款",
+  "已結案",
+]
+
+const subcontractStatuses = [
+  "未發包",
+  "詢價中",
+  "已發包",
+  "施工中",
+  "待確認",
+  "已完成",
+  "有問題",
+]
+
+const changeStatuses = [
+  "待確認",
+  "已傳 LINE",
+  "業主已確認",
+  "已施工",
+  "已收款",
+  "取消",
+]
+
 function BuildFlow() {
+  const [data, setData] = useState(loadInitialData)
   const [viewRole, setViewRole] = useState("admin")
   const [activeWorkerId, setActiveWorkerId] = useState("u-aming")
   const [activeTab, setActiveTab] = useState("dashboard")
+  const [savedAt, setSavedAt] = useState("")
 
-  const [projects, setProjects] = useState(initialProjects)
-  const [subcontracts, setSubcontracts] = useState(initialSubcontracts)
-  const [bids] = useState(initialBids)
-  const [changeOrders, setChangeOrders] = useState(initialChangeOrders)
-  const [vendors] = useState(initialVendors)
-  const [tasks, setTasks] = useState(initialTasks)
+  const { users, projects, subcontracts, bids, changeOrders, vendors, tasks } = data
 
-  const currentWorker = initialUsers.find((user) => user.id === activeWorkerId)
+  useEffect(() => {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
+    setSavedAt(new Date().toLocaleTimeString("zh-TW", { hour12: false }))
+  }, [data])
+
+  const currentWorker = users.find((user) => user.id === activeWorkerId)
   const tabs = viewRole === "admin" ? adminTabs : workerTabs
 
   const metrics = useMemo(() => {
@@ -215,58 +254,139 @@ function BuildFlow() {
       taskTodoCount: tasks.filter((item) => item.status !== "已完成").length,
       totalBudget: projects.reduce((sum, item) => sum + Number(item.budget || 0), 0),
       totalChangeAmount: changeOrders.reduce((sum, item) => sum + Number(item.amount || 0), 0),
+      vendorCount: vendors.length,
     }
-  }, [projects, changeOrders, tasks])
+  }, [projects, changeOrders, tasks, vendors])
 
   const workerTasks = tasks.filter((task) => task.workerId === activeWorkerId)
+
+  function switchRole(role) {
+    setViewRole(role)
+    setActiveTab(role === "admin" ? "dashboard" : "worker")
+  }
+
+  function resetDemoData() {
+    const confirmed = window.confirm("確定要重置 BuildFlow Demo 資料嗎？目前新增的資料會被清除。")
+    if (!confirmed) return
+
+    localStorage.removeItem(STORAGE_KEY)
+    setData(cloneDemoData())
+  }
 
   function addProject(event) {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
 
     const newProject = {
-      id: `p-${Date.now()}`,
-      name: form.get("name"),
-      client: form.get("client"),
-      address: form.get("address"),
-      type: form.get("type"),
-      budget: Number(form.get("budget")) || 0,
+      id: createId("p"),
+      name: textValue(form, "name"),
+      client: textValue(form, "client"),
+      address: textValue(form, "address"),
+      type: textValue(form, "type"),
+      budget: numberValue(form, "budget"),
       status: "估價中",
       manager: "管理者",
-      startDate: form.get("startDate") || today,
-      dueDate: form.get("dueDate") || today,
-      note: form.get("note"),
+      startDate: textValue(form, "startDate") || today,
+      dueDate: textValue(form, "dueDate") || today,
+      note: textValue(form, "note"),
     }
 
-    setProjects((current) => [newProject, ...current])
+    setData((current) => ({
+      ...current,
+      projects: [newProject, ...current.projects],
+    }))
+
     event.currentTarget.reset()
+  }
+
+  function editProject(project) {
+    const name = window.prompt("案件名稱", project.name)
+    if (name === null) return
+
+    const client = window.prompt("業主名稱", project.client)
+    if (client === null) return
+
+    const budgetInput = window.prompt("預算", String(project.budget))
+    if (budgetInput === null) return
+
+    const note = window.prompt("備註", project.note)
+    if (note === null) return
+
+    setData((current) => ({
+      ...current,
+      projects: current.projects.map((item) =>
+        item.id === project.id
+          ? {
+              ...item,
+              name: name.trim() || item.name,
+              client: client.trim() || item.client,
+              budget: Number(budgetInput) || 0,
+              note,
+            }
+          : item
+      ),
+    }))
+  }
+
+  function deleteProject(projectId) {
+    const project = projects.find((item) => item.id === projectId)
+    const confirmed = window.confirm(
+      `確定刪除「${project?.name || "這個案件"}」嗎？相關發包、批價、追加減項、任務也會一起移除。`
+    )
+    if (!confirmed) return
+
+    const subcontractIds = subcontracts
+      .filter((item) => item.projectId === projectId)
+      .map((item) => item.id)
+
+    setData((current) => ({
+      ...current,
+      projects: current.projects.filter((item) => item.id !== projectId),
+      subcontracts: current.subcontracts.filter((item) => item.projectId !== projectId),
+      bids: current.bids.filter(
+        (item) =>
+          item.projectId !== projectId && !subcontractIds.includes(item.subcontractId)
+      ),
+      changeOrders: current.changeOrders.filter((item) => item.projectId !== projectId),
+      tasks: current.tasks.filter((item) => item.projectId !== projectId),
+    }))
+  }
+
+  function updateProjectStatus(projectId, status) {
+    setData((current) => ({
+      ...current,
+      projects: current.projects.map((project) =>
+        project.id === projectId ? { ...project, status } : project
+      ),
+    }))
   }
 
   function addSubcontract(event) {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
-    const project = projects.find((item) => item.id === form.get("projectId"))
-    const worker = initialUsers.find((item) => item.id === form.get("workerId"))
+    const project = projects.find((item) => item.id === textValue(form, "projectId"))
+    const worker = users.find((item) => item.id === textValue(form, "workerId"))
 
     const newItem = {
-      id: `s-${Date.now()}`,
+      id: createId("s"),
       projectId: project?.id || "",
       projectName: project?.name || "未指定案件",
-      trade: form.get("trade"),
-      item: form.get("item"),
-      qty: Number(form.get("qty")) || 1,
-      unit: form.get("unit") || "式",
-      price: Number(form.get("price")) || 0,
+      trade: textValue(form, "trade"),
+      item: textValue(form, "item"),
+      qty: numberValue(form, "qty") || 1,
+      unit: textValue(form, "unit") || "式",
+      price: numberValue(form, "price"),
       workerId: worker?.id || "",
       workerName: worker?.name || "未指定",
       status: "未發包",
-      dueDate: form.get("dueDate") || today,
-      note: form.get("note"),
+      dueDate: textValue(form, "dueDate") || today,
+      note: textValue(form, "note"),
     }
 
     const newTask = {
-      id: `t-${Date.now()}`,
+      id: createId("t"),
       projectId: newItem.projectId,
+      subcontractId: newItem.id,
       projectName: newItem.projectName,
       title: `完成：${newItem.item}`,
       workerId: newItem.workerId,
@@ -277,83 +397,300 @@ function BuildFlow() {
       report: "",
     }
 
-    setSubcontracts((current) => [newItem, ...current])
-    setTasks((current) => [newTask, ...current])
+    setData((current) => ({
+      ...current,
+      subcontracts: [newItem, ...current.subcontracts],
+      tasks: [newTask, ...current.tasks],
+    }))
+
     event.currentTarget.reset()
+  }
+
+  function editSubcontract(subcontract) {
+    const item = window.prompt("發包項目", subcontract.item)
+    if (item === null) return
+
+    const priceInput = window.prompt("金額", String(subcontract.price))
+    if (priceInput === null) return
+
+    const note = window.prompt("備註", subcontract.note)
+    if (note === null) return
+
+    setData((current) => ({
+      ...current,
+      subcontracts: current.subcontracts.map((target) =>
+        target.id === subcontract.id
+          ? {
+              ...target,
+              item: item.trim() || target.item,
+              price: Number(priceInput) || 0,
+              note,
+            }
+          : target
+      ),
+      tasks: current.tasks.map((task) =>
+        task.subcontractId === subcontract.id
+          ? {
+              ...task,
+              title: `完成：${item.trim() || subcontract.item}`,
+              note,
+            }
+          : task
+      ),
+    }))
+  }
+
+  function deleteSubcontract(subcontractId) {
+    const subcontract = subcontracts.find((item) => item.id === subcontractId)
+    const confirmed = window.confirm(
+      `確定刪除「${subcontract?.item || "這個發包項目"}」嗎？相關批價與任務也會一起移除。`
+    )
+    if (!confirmed) return
+
+    setData((current) => ({
+      ...current,
+      subcontracts: current.subcontracts.filter((item) => item.id !== subcontractId),
+      bids: current.bids.filter((item) => item.subcontractId !== subcontractId),
+      tasks: current.tasks.filter((item) => item.subcontractId !== subcontractId),
+    }))
+  }
+
+  function updateSubcontractStatus(subcontractId, status) {
+    setData((current) => ({
+      ...current,
+      subcontracts: current.subcontracts.map((item) =>
+        item.id === subcontractId ? { ...item, status } : item
+      ),
+    }))
+  }
+
+  function addBid(event) {
+    event.preventDefault()
+    const form = new FormData(event.currentTarget)
+    const subcontract = subcontracts.find(
+      (item) => item.id === textValue(form, "subcontractId")
+    )
+    const selected = textValue(form, "selected") === "yes"
+
+    const newBid = {
+      id: createId("b"),
+      projectId: subcontract?.projectId || "",
+      subcontractId: subcontract?.id || "",
+      projectName: subcontract?.projectName || "未指定案件",
+      item: subcontract?.item || "未指定項目",
+      vendor: textValue(form, "vendor"),
+      amount: numberValue(form, "amount"),
+      selected,
+      note: textValue(form, "note"),
+    }
+
+    setData((current) => ({
+      ...current,
+      bids: [
+        newBid,
+        ...current.bids.map((bid) =>
+          selected && bid.subcontractId === newBid.subcontractId
+            ? { ...bid, selected: false }
+            : bid
+        ),
+      ],
+    }))
+
+    event.currentTarget.reset()
+  }
+
+  function deleteBid(bidId) {
+    const confirmed = window.confirm("確定刪除這筆批價紀錄嗎？")
+    if (!confirmed) return
+
+    setData((current) => ({
+      ...current,
+      bids: current.bids.filter((item) => item.id !== bidId),
+    }))
+  }
+
+  function selectBid(bidId) {
+    const target = bids.find((item) => item.id === bidId)
+    if (!target) return
+
+    setData((current) => ({
+      ...current,
+      bids: current.bids.map((bid) =>
+        bid.subcontractId === target.subcontractId
+          ? { ...bid, selected: bid.id === bidId }
+          : bid
+      ),
+    }))
   }
 
   function addChangeOrder(event) {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
-    const project = projects.find((item) => item.id === form.get("projectId"))
+    const project = projects.find((item) => item.id === textValue(form, "projectId"))
 
     const newItem = {
-      id: `c-${Date.now()}`,
+      id: createId("c"),
       projectId: project?.id || "",
       projectName: project?.name || "未指定案件",
-      type: form.get("type"),
-      item: form.get("item"),
-      reason: form.get("reason"),
-      amount: Number(form.get("amount")) || 0,
+      type: textValue(form, "type"),
+      item: textValue(form, "item"),
+      reason: textValue(form, "reason"),
+      amount: numberValue(form, "amount"),
       status: "待確認",
       confirmedByClient: false,
-      date: form.get("date") || today,
+      date: textValue(form, "date") || today,
     }
 
-    setChangeOrders((current) => [newItem, ...current])
+    setData((current) => ({
+      ...current,
+      changeOrders: [newItem, ...current.changeOrders],
+    }))
+
     event.currentTarget.reset()
   }
 
-  function updateProjectStatus(projectId, status) {
-    setProjects((current) =>
-      current.map((project) =>
-        project.id === projectId ? { ...project, status } : project
-      )
-    )
+  function editChangeOrder(order) {
+    const item = window.prompt("追加 / 減項名稱", order.item)
+    if (item === null) return
+
+    const amountInput = window.prompt("金額", String(order.amount))
+    if (amountInput === null) return
+
+    const reason = window.prompt("原因", order.reason)
+    if (reason === null) return
+
+    setData((current) => ({
+      ...current,
+      changeOrders: current.changeOrders.map((target) =>
+        target.id === order.id
+          ? {
+              ...target,
+              item: item.trim() || target.item,
+              amount: Number(amountInput) || 0,
+              reason,
+            }
+          : target
+      ),
+    }))
+  }
+
+  function deleteChangeOrder(orderId) {
+    const confirmed = window.confirm("確定刪除這筆追加 / 減項紀錄嗎？")
+    if (!confirmed) return
+
+    setData((current) => ({
+      ...current,
+      changeOrders: current.changeOrders.filter((item) => item.id !== orderId),
+    }))
   }
 
   function updateChangeStatus(changeId, status) {
-    setChangeOrders((current) =>
-      current.map((item) =>
+    setData((current) => ({
+      ...current,
+      changeOrders: current.changeOrders.map((item) =>
         item.id === changeId
           ? {
               ...item,
               status,
-              confirmedByClient: status === "業主已確認" || status === "已施工" || status === "已收款",
+              confirmedByClient:
+                status === "業主已確認" ||
+                status === "已施工" ||
+                status === "已收款",
             }
           : item
-      )
-    )
+      ),
+    }))
   }
 
-  function completeTask(taskId) {
-    setTasks((current) =>
-      current.map((task) =>
-        task.id === taskId ? { ...task, status: "已完成" } : task
-      )
-    )
+  function addVendor(event) {
+    event.preventDefault()
+    const form = new FormData(event.currentTarget)
+
+    const newVendor = {
+      id: createId("v"),
+      name: textValue(form, "name"),
+      trade: textValue(form, "trade"),
+      phone: textValue(form, "phone"),
+      area: textValue(form, "area"),
+      note: textValue(form, "note"),
+    }
+
+    setData((current) => ({
+      ...current,
+      vendors: [newVendor, ...current.vendors],
+    }))
+
+    event.currentTarget.reset()
+  }
+
+  function editVendor(vendor) {
+    const phone = window.prompt("電話", vendor.phone)
+    if (phone === null) return
+
+    const note = window.prompt("備註", vendor.note)
+    if (note === null) return
+
+    setData((current) => ({
+      ...current,
+      vendors: current.vendors.map((item) =>
+        item.id === vendor.id ? { ...item, phone, note } : item
+      ),
+    }))
+  }
+
+  function deleteVendor(vendorId) {
+    const confirmed = window.confirm("確定刪除這筆廠商資料嗎？")
+    if (!confirmed) return
+
+    setData((current) => ({
+      ...current,
+      vendors: current.vendors.filter((item) => item.id !== vendorId),
+    }))
+  }
+
+  function toggleTaskComplete(taskId) {
+    setData((current) => ({
+      ...current,
+      tasks: current.tasks.map((task) =>
+        task.id === taskId
+          ? {
+              ...task,
+              status: task.status === "已完成" ? "待完成" : "已完成",
+            }
+          : task
+      ),
+    }))
   }
 
   function updateTaskReport(taskId, report) {
-    setTasks((current) =>
-      current.map((task) => (task.id === taskId ? { ...task, report } : task))
-    )
+    setData((current) => ({
+      ...current,
+      tasks: current.tasks.map((task) =>
+        task.id === taskId ? { ...task, report } : task
+      ),
+    }))
+  }
+
+  function deleteTask(taskId) {
+    const confirmed = window.confirm("確定刪除這個任務嗎？")
+    if (!confirmed) return
+
+    setData((current) => ({
+      ...current,
+      tasks: current.tasks.filter((task) => task.id !== taskId),
+    }))
   }
 
   function generateConfirmText(order) {
     return `【追加工程確認】
 
 案件：${order.projectName}
+類型：${order.type}
 項目：${order.item}
 原因：${order.reason}
 金額：NT$${formatMoney(order.amount)}
 
 請業主確認後，我們再安排後續施工。`
-  }
-
-  function switchRole(role) {
-    setViewRole(role)
-    setActiveTab(role === "admin" ? "dashboard" : "worker")
   }
 
   return (
@@ -366,7 +703,10 @@ function BuildFlow() {
             </Link>
             <h1 className="mt-2 text-2xl font-black">BuildFlow</h1>
             <p className="text-sm text-slate-500">
-              工程行發包、批價與追加減項管理系統 v1
+              工程行發包、批價與追加減項管理系統 v1.1
+            </p>
+            <p className="mt-1 text-xs text-slate-400">
+              本機資料保存中｜最後保存：{savedAt || "尚未保存"}
             </p>
           </div>
 
@@ -399,7 +739,7 @@ function BuildFlow() {
                 onChange={(event) => setActiveWorkerId(event.target.value)}
                 className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold"
               >
-                {initialUsers
+                {users
                   .filter((user) => user.role === "worker")
                   .map((user) => (
                     <option key={user.id} value={user.id}>
@@ -408,6 +748,13 @@ function BuildFlow() {
                   ))}
               </select>
             )}
+
+            <button
+              onClick={resetDemoData}
+              className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-600"
+            >
+              重置 Demo
+            </button>
           </div>
         </div>
       </header>
@@ -438,20 +785,27 @@ function BuildFlow() {
               {viewRole === "admin" ? "管理者" : currentWorker?.name}
             </p>
             <p className="mt-3 text-xs text-slate-400">
-              這版是前端假資料，之後可接 Supabase Auth 與資料庫。
+              管理者可看金額與所有資料；使用者只看自己的任務與回報。
             </p>
           </div>
         </aside>
 
         <section className="min-w-0">
           {activeTab === "dashboard" && (
-            <Dashboard metrics={metrics} projects={projects} changeOrders={changeOrders} tasks={tasks} />
+            <Dashboard
+              metrics={metrics}
+              projects={projects}
+              changeOrders={changeOrders}
+              tasks={tasks}
+            />
           )}
 
           {activeTab === "projects" && (
             <ProjectsPanel
               projects={projects}
               addProject={addProject}
+              editProject={editProject}
+              deleteProject={deleteProject}
               updateProjectStatus={updateProjectStatus}
             />
           )}
@@ -459,41 +813,66 @@ function BuildFlow() {
           {activeTab === "subcontracts" && (
             <SubcontractsPanel
               projects={projects}
-              users={initialUsers}
+              users={users}
               subcontracts={subcontracts}
               addSubcontract={addSubcontract}
+              editSubcontract={editSubcontract}
+              deleteSubcontract={deleteSubcontract}
+              updateSubcontractStatus={updateSubcontractStatus}
             />
           )}
 
-          {activeTab === "bids" && <BidsPanel bids={bids} />}
+          {activeTab === "bids" && (
+            <BidsPanel
+              bids={bids}
+              subcontracts={subcontracts}
+              addBid={addBid}
+              deleteBid={deleteBid}
+              selectBid={selectBid}
+            />
+          )}
 
           {activeTab === "changes" && (
             <ChangeOrdersPanel
               projects={projects}
               changeOrders={changeOrders}
               addChangeOrder={addChangeOrder}
+              editChangeOrder={editChangeOrder}
+              deleteChangeOrder={deleteChangeOrder}
               updateChangeStatus={updateChangeStatus}
               generateConfirmText={generateConfirmText}
             />
           )}
 
-          {activeTab === "vendors" && <VendorsPanel vendors={vendors} />}
+          {activeTab === "vendors" && (
+            <VendorsPanel
+              vendors={vendors}
+              addVendor={addVendor}
+              editVendor={editVendor}
+              deleteVendor={deleteVendor}
+            />
+          )}
 
           {activeTab === "tasks" && (
-            <TasksPanel tasks={tasks} completeTask={completeTask} updateTaskReport={updateTaskReport} />
+            <TasksPanel
+              tasks={tasks}
+              toggleTaskComplete={toggleTaskComplete}
+              updateTaskReport={updateTaskReport}
+              deleteTask={deleteTask}
+            />
           )}
 
           {activeTab === "worker" && (
             <WorkerPanel
               worker={currentWorker}
               tasks={workerTasks}
-              completeTask={completeTask}
+              toggleTaskComplete={toggleTaskComplete}
               updateTaskReport={updateTaskReport}
             />
           )}
 
           {activeTab === "linebot" && (
-            <LineBotPanel vendors={vendors} changeOrders={changeOrders} />
+            <LineBotPanel vendors={vendors} changeOrders={changeOrders} tasks={tasks} />
           )}
         </section>
       </section>
@@ -508,14 +887,15 @@ function Dashboard({ metrics, projects, changeOrders, tasks }) {
     <div className="grid gap-5">
       <SectionTitle
         title="管理者總覽"
-        desc="快速查看案件、追加減項、待完成任務與工程風險。"
+        desc="查看案件、追加減項、待完成任務與工程風險。"
       />
 
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-6">
+      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-7">
         <Metric label="總案件" value={metrics.projectCount} />
         <Metric label="施工中" value={metrics.runningCount} />
         <Metric label="待確認追加" value={metrics.waitingChangeCount} danger />
         <Metric label="待完成任務" value={metrics.taskTodoCount} />
+        <Metric label="廠商數" value={metrics.vendorCount} />
         <Metric label="案件預算" value={`NT$${formatMoney(metrics.totalBudget)}`} />
         <Metric label="追加金額" value={`NT$${formatMoney(metrics.totalChangeAmount)}`} danger />
       </div>
@@ -554,7 +934,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks }) {
 
             {tasks
               .filter((task) => task.status !== "已完成")
-              .slice(0, 2)
+              .slice(0, 3)
               .map((task) => (
                 <div key={task.id} className="rounded-xl bg-amber-50 p-4">
                   <p className="font-black text-amber-700">{task.title}</p>
@@ -570,10 +950,16 @@ function Dashboard({ metrics, projects, changeOrders, tasks }) {
   )
 }
 
-function ProjectsPanel({ projects, addProject, updateProjectStatus }) {
+function ProjectsPanel({
+  projects,
+  addProject,
+  editProject,
+  deleteProject,
+  updateProjectStatus,
+}) {
   return (
     <div className="grid gap-5">
-      <SectionTitle title="案件管理" desc="新增案件、查看狀態、調整工程進度。" />
+      <SectionTitle title="案件管理" desc="新增案件、編輯資料、調整工程狀態。" />
 
       <Card>
         <h3 className="text-xl font-black">新增案件</h3>
@@ -595,7 +981,7 @@ function ProjectsPanel({ projects, addProject, updateProjectStatus }) {
       <Card>
         <h3 className="text-xl font-black">案件列表</h3>
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[850px] text-left text-sm">
+          <table className="w-full min-w-[980px] text-left text-sm">
             <thead className="text-slate-500">
               <tr>
                 <th className="py-3">案件</th>
@@ -604,12 +990,16 @@ function ProjectsPanel({ projects, addProject, updateProjectStatus }) {
                 <th>預算</th>
                 <th>期限</th>
                 <th>狀態</th>
+                <th>操作</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {projects.map((project) => (
                 <tr key={project.id}>
-                  <td className="py-4 font-black">{project.name}</td>
+                  <td className="py-4">
+                    <p className="font-black">{project.name}</p>
+                    <p className="mt-1 text-xs text-slate-500">{project.address}</p>
+                  </td>
                   <td>{project.client}</td>
                   <td>{project.type}</td>
                   <td>NT${formatMoney(project.budget)}</td>
@@ -617,13 +1007,23 @@ function ProjectsPanel({ projects, addProject, updateProjectStatus }) {
                   <td>
                     <select
                       value={project.status}
-                      onChange={(event) => updateProjectStatus(project.id, event.target.value)}
+                      onChange={(event) =>
+                        updateProjectStatus(project.id, event.target.value)
+                      }
                       className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
                     >
-                      {["估價中", "已報價", "已發包", "施工中", "待確認追加", "完工", "待收款", "已結案"].map((status) => (
+                      {projectStatuses.map((status) => (
                         <option key={status}>{status}</option>
                       ))}
                     </select>
+                  </td>
+                  <td>
+                    <div className="flex gap-2">
+                      <SmallButton onClick={() => editProject(project)}>編輯</SmallButton>
+                      <SmallButton danger onClick={() => deleteProject(project.id)}>
+                        刪除
+                      </SmallButton>
+                    </div>
                   </td>
                 </tr>
               ))}
@@ -635,7 +1035,15 @@ function ProjectsPanel({ projects, addProject, updateProjectStatus }) {
   )
 }
 
-function SubcontractsPanel({ projects, users, subcontracts, addSubcontract }) {
+function SubcontractsPanel({
+  projects,
+  users,
+  subcontracts,
+  addSubcontract,
+  editSubcontract,
+  deleteSubcontract,
+  updateSubcontractStatus,
+}) {
   const workers = users.filter((user) => user.role === "worker")
 
   return (
@@ -681,39 +1089,142 @@ function SubcontractsPanel({ projects, users, subcontracts, addSubcontract }) {
         </form>
       </Card>
 
-      <SimpleTable
-        title="發包列表"
-        headers={["案件", "項目", "工種", "負責人", "金額", "狀態", "期限"]}
-        rows={subcontracts.map((item) => [
-          item.projectName,
-          item.item,
-          item.trade,
-          item.workerName,
-          `NT$${formatMoney(item.price)}`,
-          item.status,
-          item.dueDate,
-        ])}
-      />
+      <Card>
+        <h3 className="text-xl font-black">發包列表</h3>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[1050px] text-left text-sm">
+            <thead className="text-slate-500">
+              <tr>
+                <th className="py-3">案件</th>
+                <th>項目</th>
+                <th>工種</th>
+                <th>負責人</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>期限</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {subcontracts.map((item) => (
+                <tr key={item.id}>
+                  <td className="py-4">{item.projectName}</td>
+                  <td className="font-black">{item.item}</td>
+                  <td>{item.trade}</td>
+                  <td>{item.workerName}</td>
+                  <td>NT${formatMoney(item.price)}</td>
+                  <td>
+                    <select
+                      value={item.status}
+                      onChange={(event) =>
+                        updateSubcontractStatus(item.id, event.target.value)
+                      }
+                      className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
+                    >
+                      {subcontractStatuses.map((status) => (
+                        <option key={status}>{status}</option>
+                      ))}
+                    </select>
+                  </td>
+                  <td>{item.dueDate}</td>
+                  <td>
+                    <div className="flex gap-2">
+                      <SmallButton onClick={() => editSubcontract(item)}>編輯</SmallButton>
+                      <SmallButton danger onClick={() => deleteSubcontract(item.id)}>
+                        刪除
+                      </SmallButton>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     </div>
   )
 }
 
-function BidsPanel({ bids }) {
+function BidsPanel({ bids, subcontracts, addBid, deleteBid, selectBid }) {
   return (
     <div className="grid gap-5">
-      <SectionTitle title="批價紀錄" desc="同一項目可比較不同廠商報價與選用原因。" />
-      <SimpleTable
-        title="報價比較"
-        headers={["案件", "項目", "廠商", "金額", "是否採用", "備註"]}
-        rows={bids.map((bid) => [
-          bid.projectName,
-          bid.item,
-          bid.vendor,
-          `NT$${formatMoney(bid.amount)}`,
-          bid.selected ? "採用" : "未採用",
-          bid.note,
-        ])}
-      />
+      <SectionTitle title="批價紀錄" desc="比較不同廠商報價，記錄採用原因。" />
+
+      <Card>
+        <h3 className="text-xl font-black">新增批價</h3>
+        <form onSubmit={addBid} className="mt-4 grid gap-3 md:grid-cols-2">
+          <label className="grid gap-2">
+            <span className="text-sm font-bold text-slate-600">發包項目</span>
+            <select name="subcontractId" className="rounded-xl border border-slate-200 px-4 py-3">
+              {subcontracts.map((item) => (
+                <option key={item.id} value={item.id}>
+                  {item.projectName}｜{item.item}
+                </option>
+              ))}
+            </select>
+          </label>
+
+          <Input name="vendor" label="報價廠商" required />
+          <Input name="amount" label="報價金額" type="number" required />
+
+          <label className="grid gap-2">
+            <span className="text-sm font-bold text-slate-600">是否採用</span>
+            <select name="selected" className="rounded-xl border border-slate-200 px-4 py-3">
+              <option value="no">未採用</option>
+              <option value="yes">採用</option>
+            </select>
+          </label>
+
+          <Input name="note" label="備註" />
+
+          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
+            新增批價
+          </button>
+        </form>
+      </Card>
+
+      <Card>
+        <h3 className="text-xl font-black">報價比較</h3>
+        <div className="mt-4 overflow-x-auto">
+          <table className="w-full min-w-[900px] text-left text-sm">
+            <thead className="text-slate-500">
+              <tr>
+                <th className="py-3">案件</th>
+                <th>項目</th>
+                <th>廠商</th>
+                <th>金額</th>
+                <th>狀態</th>
+                <th>備註</th>
+                <th>操作</th>
+              </tr>
+            </thead>
+            <tbody className="divide-y divide-slate-100">
+              {bids.map((bid) => (
+                <tr key={bid.id}>
+                  <td className="py-4">{bid.projectName}</td>
+                  <td>{bid.item}</td>
+                  <td className="font-black">{bid.vendor}</td>
+                  <td>NT${formatMoney(bid.amount)}</td>
+                  <td>{bid.selected ? "採用" : "未採用"}</td>
+                  <td>{bid.note}</td>
+                  <td>
+                    <div className="flex gap-2">
+                      {!bid.selected && (
+                        <SmallButton onClick={() => selectBid(bid.id)}>
+                          設為採用
+                        </SmallButton>
+                      )}
+                      <SmallButton danger onClick={() => deleteBid(bid.id)}>
+                        刪除
+                      </SmallButton>
+                    </div>
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </Card>
     </div>
   )
 }
@@ -722,13 +1233,36 @@ function ChangeOrdersPanel({
   projects,
   changeOrders,
   addChangeOrder,
+  editChangeOrder,
+  deleteChangeOrder,
   updateChangeStatus,
   generateConfirmText,
 }) {
   const [selectedOrder, setSelectedOrder] = useState(changeOrders[0]?.id || "")
+  const [copied, setCopied] = useState(false)
 
   const currentOrder =
     changeOrders.find((item) => item.id === selectedOrder) || changeOrders[0]
+
+  async function copyText() {
+    if (!currentOrder) return
+
+    const text = generateConfirmText(currentOrder)
+
+    try {
+      await navigator.clipboard.writeText(text)
+    } catch {
+      const textarea = document.createElement("textarea")
+      textarea.value = text
+      document.body.appendChild(textarea)
+      textarea.select()
+      document.execCommand("copy")
+      document.body.removeChild(textarea)
+    }
+
+    setCopied(true)
+    window.setTimeout(() => setCopied(false), 1400)
+  }
 
   return (
     <div className="grid gap-5">
@@ -785,15 +1319,22 @@ function ChangeOrdersPanel({
                     </p>
                   </div>
 
-                  <select
-                    value={order.status}
-                    onChange={(event) => updateChangeStatus(order.id, event.target.value)}
-                    className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
-                  >
-                    {["待確認", "已傳 LINE", "業主已確認", "已施工", "已收款", "取消"].map((status) => (
-                      <option key={status}>{status}</option>
-                    ))}
-                  </select>
+                  <div className="flex flex-wrap gap-2">
+                    <select
+                      value={order.status}
+                      onChange={(event) => updateChangeStatus(order.id, event.target.value)}
+                      className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
+                    >
+                      {changeStatuses.map((status) => (
+                        <option key={status}>{status}</option>
+                      ))}
+                    </select>
+
+                    <SmallButton onClick={() => editChangeOrder(order)}>編輯</SmallButton>
+                    <SmallButton danger onClick={() => deleteChangeOrder(order.id)}>
+                      刪除
+                    </SmallButton>
+                  </div>
                 </div>
               </div>
             ))}
@@ -815,10 +1356,21 @@ function ChangeOrdersPanel({
             ))}
           </select>
 
-          {currentOrder && (
-            <pre className="mt-4 max-h-[320px] overflow-auto whitespace-pre-wrap break-all rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
-              {generateConfirmText(currentOrder)}
-            </pre>
+          {currentOrder ? (
+            <>
+              <pre className="mt-4 max-h-[320px] overflow-auto whitespace-pre-wrap break-all rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-700">
+                {generateConfirmText(currentOrder)}
+              </pre>
+
+              <button
+                onClick={copyText}
+                className="mt-4 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white"
+              >
+                {copied ? "已複製" : "複製確認文字"}
+              </button>
+            </>
+          ) : (
+            <p className="mt-4 text-sm text-slate-500">目前沒有追加減項。</p>
           )}
         </Card>
       </div>
@@ -826,10 +1378,24 @@ function ChangeOrdersPanel({
   )
 }
 
-function VendorsPanel({ vendors }) {
+function VendorsPanel({ vendors, addVendor, editVendor, deleteVendor }) {
   return (
     <div className="grid gap-5">
       <SectionTitle title="廠商資料" desc="集中管理師傅、工種、電話與合作備註。" />
+
+      <Card>
+        <h3 className="text-xl font-black">新增廠商</h3>
+        <form onSubmit={addVendor} className="mt-4 grid gap-3 md:grid-cols-2">
+          <Input name="name" label="廠商 / 師傅名稱" required />
+          <Input name="trade" label="工種" />
+          <Input name="phone" label="電話" />
+          <Input name="area" label="合作地區" />
+          <Input name="note" label="備註" />
+          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
+            新增廠商
+          </button>
+        </form>
+      </Card>
 
       <div className="grid gap-4 md:grid-cols-3">
         {vendors.map((vendor) => (
@@ -839,6 +1405,12 @@ function VendorsPanel({ vendors }) {
             <p className="mt-3 font-black">{vendor.phone}</p>
             <p className="mt-2 text-sm text-slate-500">{vendor.area}</p>
             <p className="mt-4 text-sm leading-7 text-slate-600">{vendor.note}</p>
+            <div className="mt-5 flex gap-2">
+              <SmallButton onClick={() => editVendor(vendor)}>編輯</SmallButton>
+              <SmallButton danger onClick={() => deleteVendor(vendor.id)}>
+                刪除
+              </SmallButton>
+            </div>
           </Card>
         ))}
       </div>
@@ -846,22 +1418,24 @@ function VendorsPanel({ vendors }) {
   )
 }
 
-function TasksPanel({ tasks, completeTask, updateTaskReport }) {
+function TasksPanel({ tasks, toggleTaskComplete, updateTaskReport, deleteTask }) {
   return (
     <div className="grid gap-5">
       <SectionTitle title="任務管理" desc="查看所有師傅與使用者的任務狀態。" />
 
       <TaskList
         tasks={tasks}
-        completeTask={completeTask}
+        toggleTaskComplete={toggleTaskComplete}
         updateTaskReport={updateTaskReport}
+        deleteTask={deleteTask}
         showWorker
+        showAdminActions
       />
     </div>
   )
 }
 
-function WorkerPanel({ worker, tasks, completeTask, updateTaskReport }) {
+function WorkerPanel({ worker, tasks, toggleTaskComplete, updateTaskReport }) {
   return (
     <div className="grid gap-5">
       <SectionTitle
@@ -869,16 +1443,27 @@ function WorkerPanel({ worker, tasks, completeTask, updateTaskReport }) {
         desc="使用者只能看到自己負責的項目，並回報完成或問題。"
       />
 
+      <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
+        使用者視角不顯示批價、預算與完整案件資料，只保留任務、期限、備註與問題回報。
+      </div>
+
       <TaskList
         tasks={tasks}
-        completeTask={completeTask}
+        toggleTaskComplete={toggleTaskComplete}
         updateTaskReport={updateTaskReport}
       />
     </div>
   )
 }
 
-function TaskList({ tasks, completeTask, updateTaskReport, showWorker = false }) {
+function TaskList({
+  tasks,
+  toggleTaskComplete,
+  updateTaskReport,
+  deleteTask,
+  showWorker = false,
+  showAdminActions = false,
+}) {
   return (
     <div className="grid gap-3">
       {tasks.map((task) => (
@@ -905,13 +1490,24 @@ function TaskList({ tasks, completeTask, updateTaskReport, showWorker = false })
             rows={3}
           />
 
-          <button
-            onClick={() => completeTask(task.id)}
-            disabled={task.status === "已完成"}
-            className="mt-3 rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white disabled:bg-slate-300"
-          >
-            {task.status === "已完成" ? "已完成" : "標記完成"}
-          </button>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              onClick={() => toggleTaskComplete(task.id)}
+              className={`rounded-xl px-4 py-3 text-sm font-black ${
+                task.status === "已完成"
+                  ? "bg-slate-200 text-slate-700"
+                  : "bg-slate-950 text-white"
+              }`}
+            >
+              {task.status === "已完成" ? "取消完成" : "標記完成"}
+            </button>
+
+            {showAdminActions && (
+              <SmallButton danger onClick={() => deleteTask(task.id)}>
+                刪除任務
+              </SmallButton>
+            )}
+          </div>
         </Card>
       ))}
 
@@ -924,7 +1520,11 @@ function TaskList({ tasks, completeTask, updateTaskReport, showWorker = false })
   )
 }
 
-function LineBotPanel({ vendors, changeOrders }) {
+function LineBotPanel({ vendors, changeOrders, tasks }) {
+  const firstVendor = vendors[0]
+  const firstChange = changeOrders[0]
+  const firstTask = tasks.find((task) => task.status !== "已完成") || tasks[0]
+
   const examples = [
     {
       user: "查案件 屏東住宅",
@@ -932,15 +1532,21 @@ function LineBotPanel({ vendors, changeOrders }) {
     },
     {
       user: "查廠商 阿明",
-      bot: `${vendors[0].name}｜${vendors[0].trade}｜${vendors[0].phone}｜${vendors[0].area}`,
+      bot: firstVendor
+        ? `${firstVendor.name}｜${firstVendor.trade}｜${firstVendor.phone}｜${firstVendor.area}`
+        : "目前沒有廠商資料。",
     },
     {
-      user: "追加 浴室牆面防水 12000",
-      bot: "已建立追加項目：浴室牆面防水｜NT$12,000。是否產生給業主的確認文字？",
+      user: "新增追加 浴室牆面防水 12000",
+      bot: firstChange
+        ? `已建立追加項目：${firstChange.item}｜NT$${formatMoney(firstChange.amount)}。是否產生給業主的確認文字？`
+        : "目前沒有追加減項資料。",
     },
     {
       user: "今日任務",
-      bot: "你今天有 2 個待完成項目：浴室牆面防水第一道、現場施工前照片。",
+      bot: firstTask
+        ? `你今天的任務：${firstTask.title}｜案件：${firstTask.projectName}。`
+        : "目前沒有待完成任務。",
     },
   ]
 
@@ -984,38 +1590,6 @@ function LineBotPanel({ vendors, changeOrders }) {
         </Card>
       </div>
     </div>
-  )
-}
-
-function SimpleTable({ title, headers, rows }) {
-  return (
-    <Card>
-      <h3 className="text-xl font-black">{title}</h3>
-      <div className="mt-4 overflow-x-auto">
-        <table className="w-full min-w-[760px] text-left text-sm">
-          <thead className="text-slate-500">
-            <tr>
-              {headers.map((header) => (
-                <th key={header} className="py-3">
-                  {header}
-                </th>
-              ))}
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-slate-100">
-            {rows.map((row, rowIndex) => (
-              <tr key={rowIndex}>
-                {row.map((cell, cellIndex) => (
-                  <td key={`${rowIndex}-${cellIndex}`} className="py-4 pr-5">
-                    {cell}
-                  </td>
-                ))}
-              </tr>
-            ))}
-          </tbody>
-        </table>
-      </div>
-    </Card>
   )
 }
 
@@ -1070,8 +1644,63 @@ function Status({ children }) {
   )
 }
 
+function SmallButton({ children, onClick, danger = false }) {
+  return (
+    <button
+      type="button"
+      onClick={onClick}
+      className={`rounded-lg px-3 py-2 text-xs font-black ${
+        danger ? "bg-red-50 text-red-600" : "bg-slate-100 text-slate-700"
+      }`}
+    >
+      {children}
+    </button>
+  )
+}
+
 function formatMoney(value) {
   return new Intl.NumberFormat("zh-TW").format(Number(value || 0))
+}
+
+function createId(prefix) {
+  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 10000)}`
+}
+
+function textValue(form, key) {
+  return String(form.get(key) || "").trim()
+}
+
+function numberValue(form, key) {
+  return Number(form.get(key)) || 0
+}
+
+function cloneDemoData() {
+  return JSON.parse(JSON.stringify(demoData))
+}
+
+function loadInitialData() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY)
+    if (!raw) return cloneDemoData()
+
+    const parsed = JSON.parse(raw)
+
+    return {
+      users: Array.isArray(parsed.users) ? parsed.users : demoData.users,
+      projects: Array.isArray(parsed.projects) ? parsed.projects : demoData.projects,
+      subcontracts: Array.isArray(parsed.subcontracts)
+        ? parsed.subcontracts
+        : demoData.subcontracts,
+      bids: Array.isArray(parsed.bids) ? parsed.bids : demoData.bids,
+      changeOrders: Array.isArray(parsed.changeOrders)
+        ? parsed.changeOrders
+        : demoData.changeOrders,
+      vendors: Array.isArray(parsed.vendors) ? parsed.vendors : demoData.vendors,
+      tasks: Array.isArray(parsed.tasks) ? parsed.tasks : demoData.tasks,
+    }
+  } catch {
+    return cloneDemoData()
+  }
 }
 
 export default BuildFlow
