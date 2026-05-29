@@ -6,7 +6,7 @@ import ProtectedRoute from "./ProtectedRoute"
 import ProjectPlaceholder from "./ProjectPlaceholder"
 import BuildFlow from "./BuildFlow"
 import ContractorSite from "./ContractorSite"
-
+import CoachFlow from "./CoachFlow"
 
 
 function App() {
@@ -28,10 +28,7 @@ function App() {
 
       <Route path="/buildflow" element={<BuildFlow />} />
 
-      <Route
-        path="/coachflow"
-        element={<ProjectPlaceholder type="coachflow" />}
-      />
+      <Route path="/coachflow" element={<CoachFlow />} />
 
       <Route path="*" element={<Navigate to="/" replace />} />
     </Routes>
