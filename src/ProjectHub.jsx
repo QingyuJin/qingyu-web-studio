@@ -81,6 +81,21 @@ function ProjectHub() {
             專注於小型團隊的網站、內部管理工具與自動化流程，
             協助案件、課表、資料與日常溝通更清楚地被管理。
           </p>
+
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/buildflow"
+              className="rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white"
+            >
+              直接試用 BuildFlow
+            </Link>
+            <Link
+              to="/contractor-site"
+              className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-black text-slate-700"
+            >
+              查看前台接案網站
+            </Link>
+          </div>
         </div>
 
         <div className="mt-10 grid gap-5 lg:grid-cols-3">

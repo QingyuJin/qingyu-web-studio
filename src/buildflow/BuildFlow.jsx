@@ -1,5 +1,4 @@
 import { useEffect, useMemo, useState } from "react"
-import { Link } from "react-router-dom"
 
 import {
   STORAGE_KEY,
@@ -17,16 +16,9 @@ import {
   loadInitialData,
 } from "./utils/helpers"
 import BuildFlowLogin from "./components/BuildFlowLogin"
-import Dashboard from "./components/Dashboard"
-import UsersPanel from "./components/UsersPanel"
-import ProjectDetailPanel from "./components/ProjectDetailPanel"
-import ProjectsPanel from "./components/ProjectsPanel"
-import SubcontractsPanel from "./components/SubcontractsPanel"
-import BidsPanel from "./components/BidsPanel"
-import ChangeOrdersPanel from "./components/ChangeOrdersPanel"
-import VendorsPanel from "./components/VendorsPanel"
-import TasksPanel, { WorkerPanel } from "./components/TasksPanel"
-import LineBotPanel from "./components/LineBotPanel"
+import BuildFlowContent from "./components/BuildFlowContent"
+import BuildFlowHeader from "./components/BuildFlowHeader"
+import BuildFlowSidebar from "./components/BuildFlowSidebar"
 import EditModal from "./shared/EditModal"
 
 function BuildFlow() {
@@ -343,7 +335,7 @@ function BuildFlow() {
           ),
           bids: current.bids.map((bid) => bid.subcontractId === subcontract.id ? { ...bid, item: nextItem } : bid),
           tasks: current.tasks.map((task) =>
-            task.subcontractId === subcontract.id ? { ...task, title: `?????{nextItem}`, note: values.note } : task
+            task.subcontractId === subcontract.id ? { ...task, title: `完成：${nextItem}`, note: values.note } : task
           ),
         }))
       },
@@ -522,105 +514,75 @@ function BuildFlow() {
 
   if (!session) return <BuildFlowLogin users={users} onLogin={handleLogin} />
 
+  const actions = {
+    addBid,
+    addChangeOrder,
+    addProject,
+    addSubcontract,
+    addUser,
+    addVendor,
+    closeProjectDetail,
+    deleteBid,
+    deleteChangeOrder,
+    deleteProject,
+    deleteSubcontract,
+    deleteTask,
+    deleteUser,
+    deleteVendor,
+    editChangeOrder,
+    editProject,
+    editSubcontract,
+    editUser,
+    editVendor,
+    generateConfirmText,
+    openProjectDetail,
+    selectBid,
+    toggleTaskComplete,
+    updateChangeStatus,
+    updateProjectStatus,
+    updateSubcontractStatus,
+    updateTaskReport,
+  }
+
   return (
     <main className="min-h-screen bg-slate-100 text-slate-950">
-      <header className="border-b border-slate-200 bg-white">
-        <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
-          <div>
-            <Link to="/admin" className="text-sm font-bold text-slate-500">← 回管理入口</Link>
-            <h1 className="mt-2 text-2xl font-black">BuildFlow</h1>
-            <p className="text-sm text-slate-500">工程行發包、批價與追加減項管理系統 v1.5</p>
-            <p className="mt-1 text-xs text-slate-400">
-              登入身份：{session.name}｜{session.role === "admin" ? "管理者" : "使用者"}｜最後保存：{savedAt || "尚未保存"}
-            </p>
-          </div>
-
-          <div className="flex flex-wrap gap-2">
-            {isAdmin && (
-              <button onClick={resetDemoData} className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-600">
-                重置 Demo
-              </button>
-            )}
-            <button onClick={handleLogout} className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-black text-white">登出</button>
-          </div>
-        </div>
-      </header>
+      <BuildFlowHeader
+        session={session}
+        savedAt={savedAt}
+        isAdmin={isAdmin}
+        onResetDemo={resetDemoData}
+        onLogout={handleLogout}
+      />
 
       <section className="mx-auto grid max-w-7xl gap-5 px-4 py-5 lg:grid-cols-[230px_minmax(0,1fr)]">
-        <aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <p className="mb-3 text-sm font-black text-slate-500">功能選單</p>
-          <nav className="grid gap-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => {
-                  setActiveProjectId("")
-                  setActiveTab(tab.id)
-                }}
-                className={`rounded-xl px-4 py-3 text-left text-sm font-bold ${activeTab === tab.id ? "bg-slate-950 text-white" : "bg-slate-50 text-slate-600 hover:bg-slate-100"}`}
-              >
-                {tab.label}
-              </button>
-            ))}
-            {activeTab === "projectDetail" && isAdmin && (
-              <button className="rounded-xl bg-slate-950 px-4 py-3 text-left text-sm font-bold text-white">案件詳情</button>
-            )}
-          </nav>
+        <BuildFlowSidebar
+          tabs={tabs}
+          activeTab={activeTab}
+          session={session}
+          isAdmin={isAdmin}
+          onSelectTab={(tabId) => {
+            setActiveProjectId("")
+            setActiveTab(tabId)
+          }}
+        />
 
-          <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            <p className="font-black text-slate-950">目前身份</p>
-            <p className="mt-1">{session.name}</p>
-            <p className="mt-3 text-xs text-slate-400">
-              {isAdmin ? "管理者可看金額、批價、追加減項與所有任務。" : "使用者只看自己的任務與回報，不顯示金額與批價。"}
-            </p>
-          </div>
-        </aside>
-
-        <section className="min-w-0">
-          {activeTab === "dashboard" && isAdmin && (
-            <Dashboard metrics={metrics} projects={projects} changeOrders={changeOrders} tasks={tasks} openProjectDetail={openProjectDetail} />
-          )}
-
-          {activeTab === "projects" && isAdmin && (
-            <ProjectsPanel projects={projects} addProject={addProject} editProject={editProject} deleteProject={deleteProject} updateProjectStatus={updateProjectStatus} openProjectDetail={openProjectDetail} />
-          )}
-
-          {activeTab === "projectDetail" && isAdmin && (
-            <ProjectDetailPanel project={activeProject} subcontracts={subcontracts} bids={bids} changeOrders={changeOrders} tasks={tasks} updateProjectStatus={updateProjectStatus} updateSubcontractStatus={updateSubcontractStatus} updateChangeStatus={updateChangeStatus} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} generateConfirmText={generateConfirmText} onBack={closeProjectDetail} />
-          )}
-
-          {activeTab === "subcontracts" && isAdmin && (
-            <SubcontractsPanel projects={projects} users={users} subcontracts={subcontracts} addSubcontract={addSubcontract} editSubcontract={editSubcontract} deleteSubcontract={deleteSubcontract} updateSubcontractStatus={updateSubcontractStatus} openProjectDetail={openProjectDetail} />
-          )}
-
-          {activeTab === "bids" && isAdmin && (
-            <BidsPanel bids={bids} subcontracts={subcontracts} addBid={addBid} deleteBid={deleteBid} selectBid={selectBid} />
-          )}
-
-          {activeTab === "changes" && isAdmin && (
-            <ChangeOrdersPanel projects={projects} changeOrders={changeOrders} addChangeOrder={addChangeOrder} editChangeOrder={editChangeOrder} deleteChangeOrder={deleteChangeOrder} updateChangeStatus={updateChangeStatus} generateConfirmText={generateConfirmText} />
-          )}
-
-          {activeTab === "vendors" && isAdmin && (
-            <VendorsPanel vendors={vendors} addVendor={addVendor} editVendor={editVendor} deleteVendor={deleteVendor} />
-          )}
-
-          {activeTab === "users" && isAdmin && (
-            <UsersPanel users={users} tasks={tasks} subcontracts={subcontracts} currentUserId={session.id} addUser={addUser} editUser={editUser} deleteUser={deleteUser} />
-          )}
-
-          {activeTab === "tasks" && isAdmin && (
-            <TasksPanel tasks={tasks} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} deleteTask={deleteTask} />
-          )}
-
-          {activeTab === "worker" && isWorker && (
-            <WorkerPanel worker={session} tasks={workerTasks} toggleTaskComplete={toggleTaskComplete} updateTaskReport={updateTaskReport} />
-          )}
-
-          {activeTab === "linebot" && (
-            <LineBotPanel vendors={vendors} changeOrders={isAdmin ? changeOrders : []} tasks={isAdmin ? tasks : workerTasks} session={session} />
-          )}
-        </section>
+        <BuildFlowContent
+          activeTab={activeTab}
+          activeProject={activeProject}
+          actions={actions}
+          bids={bids}
+          changeOrders={changeOrders}
+          isAdmin={isAdmin}
+          isWorker={isWorker}
+          metrics={metrics}
+          projects={projects}
+          session={session}
+          subcontracts={subcontracts}
+          tasks={tasks}
+          users={users}
+          vendors={vendors}
+          workerTasks={workerTasks}
+        />
       </section>
       <EditModal config={editModal} onClose={() => setEditModal(null)} />
     </main>
