@@ -30,6 +30,22 @@ const projects = [
   },
 ]
 
+const capabilities = [
+  "Role-based login",
+  "Admin dashboard",
+  "CRUD workflow",
+  "Search and filters",
+  "Local data persistence",
+  "LINE Bot workflow simulation",
+  "Future Supabase integration",
+]
+
+const demoAccounts = [
+  { label: "Main Admin", account: "admin@qingyu.dev / qgadmin" },
+  { label: "BuildFlow Admin", account: "admin / admin123" },
+  { label: "BuildFlow Worker", account: "aming / 1234" },
+]
+
 function ProjectHub() {
   return (
     <main className="min-h-screen bg-slate-50 text-slate-950">
@@ -110,6 +126,39 @@ function ProjectHub() {
               </Link>
             </article>
           ))}
+        </div>
+
+        <div className="mt-10 grid gap-5 lg:grid-cols-[1fr_0.9fr]">
+          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
+              System Capabilities
+            </p>
+            <h2 className="mt-3 text-2xl font-black">可以展示的技術能力</h2>
+            <div className="mt-5 grid gap-3 md:grid-cols-2">
+              {capabilities.map((item) => (
+                <div key={item} className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </section>
+
+          <section className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
+              Demo Accounts
+            </p>
+            <h2 className="mt-3 text-2xl font-black">快速測試帳號</h2>
+            <div className="mt-5 grid gap-3">
+              {demoAccounts.map((item) => (
+                <div key={item.label} className="rounded-2xl bg-slate-50 p-4">
+                  <p className="text-sm font-black text-slate-500">{item.label}</p>
+                  <p className="mt-1 font-mono text-sm font-bold text-slate-800">
+                    {item.account}
+                  </p>
+                </div>
+              ))}
+            </div>
+          </section>
         </div>
       </section>
     </main>

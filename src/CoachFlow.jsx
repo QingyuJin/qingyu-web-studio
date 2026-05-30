@@ -107,15 +107,14 @@ function CoachFlow() {
   const [viewRole, setViewRole] = useState("coach")
   const [activeTab, setActiveTab] = useState("dashboard")
   const [activeStudentId, setActiveStudentId] = useState("stu-001")
-  const [savedAt, setSavedAt] = useState("")
 
   const { students, workouts, checkins } = data
   const activeStudent = students.find((student) => student.id === activeStudentId)
   const tabs = viewRole === "coach" ? coachTabs : studentTabs
+  const savedAt = new Date().toLocaleTimeString("zh-TW", { hour12: false })
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-    setSavedAt(new Date().toLocaleTimeString("zh-TW", { hour12: false }))
   }, [data])
 
   const metrics = useMemo(() => {
@@ -321,7 +320,7 @@ function CoachFlow() {
             </Link>
             <h1 className="mt-2 text-2xl font-black">CoachFlow</h1>
             <p className="text-sm text-slate-500">
-              健身教練課表、完成回報與 LINE Bot 系統骨架
+              健身教練課表與完成回報系統原型
             </p>
             <p className="mt-1 text-xs text-slate-400">
               本機資料保存中｜最後保存：{savedAt || "尚未保存"}
@@ -466,7 +465,7 @@ function CoachFlow() {
   )
 }
 
-function CoachDashboard({ metrics, students, workouts, checkins }) {
+function CoachDashboard({ metrics, students, workouts }) {
   const pendingWorkouts = workouts.filter((item) => item.status !== "已完成")
 
   return (

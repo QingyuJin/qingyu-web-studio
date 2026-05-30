@@ -7,7 +7,7 @@ function Input({ label, name, type = "text", placeholder = "", required = false 
         type={type}
         placeholder={placeholder}
         required={required}
-        className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+        className="rounded-xl border border-slate-300 px-4 py-3 text-slate-950 shadow-sm outline-none placeholder:text-slate-500 hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
       />
     </label>
   )

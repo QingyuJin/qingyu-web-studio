@@ -27,7 +27,7 @@ const adminProjects = [
 
 const tasks = [
   "完成主站登入與管理者後台",
-  "建立 BuildFlow 系統規格與頁面架構",
+  "完成 BuildFlow 功能模組拆分與介面整理",
   "第一版使用假資料與角色切換",
   "流程穩定後接 Supabase 登入與資料庫",
   "最後串接 LINE Bot Webhook 與推播",

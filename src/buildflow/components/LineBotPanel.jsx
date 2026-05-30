@@ -30,5 +30,4 @@ function LineBotPanel({ vendors, changeOrders, tasks, session }) {
   )
 }
 
-
 export default LineBotPanel

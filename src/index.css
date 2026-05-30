@@ -2,6 +2,8 @@
 
 html {
   scroll-behavior: smooth;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
 }
 
 /* 讓錨點導航不被 sticky header 遮住 */
@@ -14,10 +16,112 @@ body {
   min-width: 320px;
   min-height: 100vh;
   background: #08090d;
+  color: #0f172a;
+  line-height: 1.65;
 }
 
 * {
   box-sizing: border-box;
+}
+
+button,
+a,
+input,
+select,
+textarea {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    opacity 160ms ease,
+    transform 120ms ease;
+}
+
+button,
+a[href],
+select {
+  cursor: pointer;
+}
+
+button:hover,
+a[href]:hover {
+  filter: brightness(0.98);
+}
+
+button:active,
+a[href]:active,
+[data-pressed="true"] {
+  transform: translateY(1px) scale(0.985);
+}
+
+button:focus-visible,
+a[href]:focus-visible,
+input:focus-visible,
+select:focus-visible,
+textarea:focus-visible {
+  outline: 3px solid rgba(14, 165, 233, 0.34);
+  outline-offset: 3px;
+}
+
+button:disabled,
+[aria-disabled="true"] {
+  cursor: not-allowed;
+  opacity: 0.55;
+}
+
+input,
+select,
+textarea {
+  background-color: white;
+  color: #0f172a;
+}
+
+input:hover,
+select:hover,
+textarea:hover {
+  border-color: #94a3b8;
+}
+
+input::placeholder,
+textarea::placeholder {
+  color: #64748b;
+}
+
+tbody tr {
+  transition:
+    background-color 160ms ease,
+    box-shadow 160ms ease;
+}
+
+tbody tr:hover {
+  background: #f8fafc;
+}
+
+pre {
+  color: #334155;
+}
+
+main :is(article, section, div)[class*="rounded-"][class*="border"] {
+  transition:
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    transform 160ms ease,
+    background-color 160ms ease;
+}
+
+main :is(article, section, div)[class*="rounded-"][class*="border"]:hover {
+  border-color: #cbd5e1;
+  box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
+}
+
+main :is(button, a[href])[class*="bg-slate-950"] {
+  box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
+}
+
+main :is(button, a[href])[class*="bg-slate-950"]:hover {
+  background-color: #1e293b;
+  box-shadow: 0 12px 24px rgba(15, 23, 42, 0.22);
 }
 
 ::selection {
