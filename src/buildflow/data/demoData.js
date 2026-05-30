@@ -2,10 +2,38 @@ export const STORAGE_KEY = "buildflow_v1_4_data"
 
 export const demoData = {
   users: [
-    { id: "u-admin", username: "admin", password: "admin123", name: "管理者", role: "admin", phone: "09xx-000-000" },
-    { id: "u-aming", username: "aming", password: "1234", name: "阿明師傅", role: "worker", phone: "09xx-123-456" },
-    { id: "u-along", username: "along", password: "1234", name: "阿龍師傅", role: "worker", phone: "09xx-456-789" },
-    { id: "u-ming", username: "ming", password: "1234", name: "小明水電", role: "worker", phone: "09xx-888-666" },
+    {
+      id: "u-admin",
+      username: "admin",
+      password: "admin123",
+      name: "管理者",
+      role: "admin",
+      phone: "09xx-000-000",
+    },
+    {
+      id: "u-aming",
+      username: "aming",
+      password: "1234",
+      name: "阿明師傅",
+      role: "worker",
+      phone: "09xx-123-456",
+    },
+    {
+      id: "u-along",
+      username: "along",
+      password: "1234",
+      name: "阿龍師傅",
+      role: "worker",
+      phone: "09xx-456-789",
+    },
+    {
+      id: "u-ming",
+      username: "ming",
+      password: "1234",
+      name: "小明水電",
+      role: "worker",
+      phone: "09xx-888-666",
+    },
   ],
 
   projects: [
@@ -71,25 +99,122 @@ export const demoData = {
   ],
 
   bids: [
-    { id: "b-001", projectId: "p-001", subcontractId: "s-001", projectName: "屏東住宅防水工程", item: "浴室牆面防水", vendor: "阿明工程行", amount: 35000, selected: true, note: "熟悉案場，品質穩定。" },
-    { id: "b-002", projectId: "p-001", subcontractId: "s-001", projectName: "屏東住宅防水工程", item: "浴室牆面防水", vendor: "宏誠防水", amount: 32000, selected: false, note: "價格較低，但時間較晚。" },
-    { id: "b-003", projectId: "p-002", subcontractId: "s-002", projectName: "高雄店面整修", item: "展示牆與燈槽", vendor: "阿龍木作", amount: 78000, selected: true, note: "能配合店面工期。" },
+    {
+      id: "b-001",
+      projectId: "p-001",
+      subcontractId: "s-001",
+      projectName: "屏東住宅防水工程",
+      item: "浴室牆面防水",
+      vendor: "阿明工程行",
+      amount: 35000,
+      selected: true,
+      note: "熟悉案場，品質穩定。",
+    },
+    {
+      id: "b-002",
+      projectId: "p-001",
+      subcontractId: "s-001",
+      projectName: "屏東住宅防水工程",
+      item: "浴室牆面防水",
+      vendor: "宏誠防水",
+      amount: 32000,
+      selected: false,
+      note: "價格較低，但時間較晚。",
+    },
+    {
+      id: "b-003",
+      projectId: "p-002",
+      subcontractId: "s-002",
+      projectName: "高雄店面整修",
+      item: "展示牆與燈槽",
+      vendor: "阿龍木作",
+      amount: 78000,
+      selected: true,
+      note: "能配合店面工期。",
+    },
   ],
 
   changeOrders: [
-    { id: "c-001", projectId: "p-001", projectName: "屏東住宅防水工程", type: "追加", item: "浴室牆面追加防水", reason: "拆除後發現原防水層失效。", amount: 12000, status: "待確認", confirmedByClient: false, date: "2026-06-12" },
-    { id: "c-002", projectId: "p-002", projectName: "高雄店面整修", type: "追加", item: "天花板新增燈槽", reason: "業主臨時增加展示燈需求。", amount: 18000, status: "已傳 LINE", confirmedByClient: false, date: "2026-06-13" },
+    {
+      id: "c-001",
+      projectId: "p-001",
+      projectName: "屏東住宅防水工程",
+      type: "追加",
+      item: "浴室牆面追加防水",
+      reason: "拆除後發現原防水層失效。",
+      amount: 12000,
+      status: "待確認",
+      confirmedByClient: false,
+      date: "2026-06-12",
+    },
+    {
+      id: "c-002",
+      projectId: "p-002",
+      projectName: "高雄店面整修",
+      type: "追加",
+      item: "天花板新增燈槽",
+      reason: "業主臨時增加展示燈需求。",
+      amount: 18000,
+      status: "已傳 LINE",
+      confirmedByClient: false,
+      date: "2026-06-13",
+    },
   ],
 
   vendors: [
-    { id: "v-001", name: "阿明工程行", trade: "防水 / 泥作", phone: "09xx-123-456", area: "屏東 / 高雄", note: "防水細節穩，適合重要案場。" },
-    { id: "v-002", name: "阿龍木作", trade: "木作", phone: "09xx-456-789", area: "高雄 / 屏東", note: "店面木作經驗多，需提前確認追加。" },
-    { id: "v-003", name: "小明水電", trade: "水電", phone: "09xx-888-666", area: "屏東", note: "水電配合度高，適合浴室與廚房案。" },
+    {
+      id: "v-001",
+      name: "阿明工程行",
+      trade: "防水 / 泥作",
+      phone: "09xx-123-456",
+      area: "屏東 / 高雄",
+      note: "防水細節穩，適合重要案場。",
+    },
+    {
+      id: "v-002",
+      name: "阿龍木作",
+      trade: "木作",
+      phone: "09xx-456-789",
+      area: "高雄 / 屏東",
+      note: "店面木作經驗多，需提前確認追加。",
+    },
+    {
+      id: "v-003",
+      name: "小明水電",
+      trade: "水電",
+      phone: "09xx-888-666",
+      area: "屏東",
+      note: "水電配合度高，適合浴室與廚房案。",
+    },
   ],
 
   tasks: [
-    { id: "t-001", projectId: "p-001", subcontractId: "s-001", projectName: "屏東住宅防水工程", title: "完成浴室牆面防水第一道", workerId: "u-aming", workerName: "阿明師傅", status: "待完成", dueDate: "2026-06-15", note: "施工前先拍照。", report: "" },
-    { id: "t-002", projectId: "p-002", subcontractId: "s-002", projectName: "高雄店面整修", title: "確認展示牆尺寸與燈槽位置", workerId: "u-along", workerName: "阿龍師傅", status: "待完成", dueDate: "2026-06-16", note: "等業主最後尺寸。", report: "" },
+    {
+      id: "t-001",
+      projectId: "p-001",
+      subcontractId: "s-001",
+      projectName: "屏東住宅防水工程",
+      title: "完成浴室牆面防水第一道",
+      workerId: "u-aming",
+      workerName: "阿明師傅",
+      status: "待完成",
+      dueDate: "2026-06-15",
+      note: "施工前先拍照。",
+      report: "",
+    },
+    {
+      id: "t-002",
+      projectId: "p-002",
+      subcontractId: "s-002",
+      projectName: "高雄店面整修",
+      title: "確認展示牆尺寸與燈槽位置",
+      workerId: "u-along",
+      workerName: "阿龍師傅",
+      status: "待完成",
+      dueDate: "2026-06-16",
+      note: "等業主最後尺寸。",
+      report: "",
+    },
   ],
 }
 
@@ -110,6 +235,23 @@ export const workerTabs = [
   { id: "linebot", label: "LINE Bot" },
 ]
 
-export const projectStatuses = ["估價中", "已報價", "已發包", "施工中", "待確認追加", "完工", "待收款", "已結案"]
-export const subcontractStatuses = ["未發包", "詢價中", "已發包", "施工中", "待確認", "已完成", "有問題"]
+export const projectStatuses = [
+  "估價中",
+  "已報價",
+  "已發包",
+  "施工中",
+  "待確認追加",
+  "完工",
+  "待收款",
+  "已結案",
+]
+export const subcontractStatuses = [
+  "未發包",
+  "詢價中",
+  "已發包",
+  "施工中",
+  "待確認",
+  "已完成",
+  "有問題",
+]
 export const changeStatuses = ["待確認", "已傳 LINE", "業主已確認", "已施工", "已收款", "取消"]

@@ -33,13 +33,11 @@ function LoginPage() {
             Admin Login
           </p>
 
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">
-            管理者登入
-          </h1>
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">管理者登入</h1>
 
           <p className="mt-5 max-w-xl leading-8 text-slate-600">
-            登入後可查看系統入口、開發狀態與管理者專用資訊。
-            此版本使用本機登入流程，之後可替換為 Supabase Auth 或其他正式登入系統。
+            登入後可查看系統入口、開發狀態與管理者專用資訊。 此版本使用本機登入流程，之後可替換為
+            Supabase Auth 或其他正式登入系統。
           </p>
 
           <div className="mt-8 rounded-2xl bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
@@ -54,9 +52,7 @@ function LoginPage() {
           className="mt-10 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:mt-0"
         >
           <h2 className="text-2xl font-black">登入後台</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-500">
-            只有管理者可以進入控制中心。
-          </p>
+          <p className="mt-2 text-sm leading-6 text-slate-500">只有管理者可以進入控制中心。</p>
 
           <label className="mt-6 block">
             <span className="text-sm font-bold text-slate-600">Email</span>

@@ -99,7 +99,8 @@ const processSteps = [
 const faqItems = [
   {
     question: "一定要現場估價嗎？",
-    answer: "若是防水、泥作、水電或老屋修繕，通常建議現場確認，因為照片無法完整判斷基底狀況與施工難度。",
+    answer:
+      "若是防水、泥作、水電或老屋修繕，通常建議現場確認，因為照片無法完整判斷基底狀況與施工難度。",
   },
   {
     question: "追加項目怎麼確認？",
@@ -107,11 +108,13 @@ const faqItems = [
   },
   {
     question: "可以看施工案例嗎？",
-    answer: "可以。網站會整理不同類型案例，包含施工前後、工項與處理方式，讓客戶更容易理解工程內容。",
+    answer:
+      "可以。網站會整理不同類型案例，包含施工前後、工項與處理方式，讓客戶更容易理解工程內容。",
   },
   {
     question: "這個網站和 BuildFlow 有什麼關係？",
-    answer: "前台網站負責讓客戶認識服務與送出需求；BuildFlow 則負責內部案件、發包、批價與追加減項管理。",
+    answer:
+      "前台網站負責讓客戶認識服務與送出需求；BuildFlow 則負責內部案件、發包、批價與追加減項管理。",
   },
 ]
 
@@ -207,13 +210,13 @@ function ContractorSite() {
       <WhyWebsiteSection />
       <BuildFlowRelationSection />
       <FaqSection />
-        <ContactSection
-          contactText={contactText}
-          copied={copied}
-          inquiry={inquiry}
-          updateInquiry={updateInquiry}
-          copyContactText={copyContactText}
-        />
+      <ContactSection
+        contactText={contactText}
+        copied={copied}
+        inquiry={inquiry}
+        updateInquiry={updateInquiry}
+        copyContactText={copyContactText}
+      />
     </main>
   )
 }
@@ -328,9 +331,7 @@ function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
             key={filter}
             onClick={() => setActiveFilter(filter)}
             className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
-              activeFilter === filter
-                ? "bg-slate-950 text-white"
-                : "bg-white text-slate-600"
+              activeFilter === filter ? "bg-slate-950 text-white" : "bg-white text-slate-600"
             }`}
           >
             {filter}
@@ -448,8 +449,8 @@ function BuildFlowRelationSection() {
               前台負責接案，後台負責管理。
             </h2>
             <p className="mt-5 leading-8 text-slate-300">
-              Contractor Site 是對外網站，負責建立信任與收集需求。
-              BuildFlow 是內部系統，負責案件、發包、批價、追加減項與任務追蹤。
+              Contractor Site 是對外網站，負責建立信任與收集需求。 BuildFlow
+              是內部系統，負責案件、發包、批價、追加減項與任務追蹤。
               兩者合起來，才是一套完整工程行數位流程。
             </p>
 
@@ -519,9 +520,7 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
       <div className="mx-auto max-w-6xl px-4 py-12">
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
-              Contact
-            </p>
+            <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Contact</p>
             <h2 className="mt-4 text-3xl font-black tracking-[-0.04em] md:text-5xl">
               讓客戶用固定格式提供需求。
             </h2>
@@ -552,35 +551,64 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
               <div className="grid gap-3 md:grid-cols-2">
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">姓名</span>
-                  <input value={inquiry.name} onChange={(event) => updateInquiry("name", event.target.value)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                  <input
+                    value={inquiry.name}
+                    onChange={(event) => updateInquiry("name", event.target.value)}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  />
                 </label>
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">電話 / LINE</span>
-                  <input value={inquiry.contact} onChange={(event) => updateInquiry("contact", event.target.value)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                  <input
+                    value={inquiry.contact}
+                    onChange={(event) => updateInquiry("contact", event.target.value)}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  />
                 </label>
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">案場地區</span>
-                  <input value={inquiry.area} onChange={(event) => updateInquiry("area", event.target.value)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                  <input
+                    value={inquiry.area}
+                    onChange={(event) => updateInquiry("area", event.target.value)}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  />
                 </label>
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">工程類型</span>
-                  <input value={inquiry.type} onChange={(event) => updateInquiry("type", event.target.value)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                  <input
+                    value={inquiry.type}
+                    onChange={(event) => updateInquiry("type", event.target.value)}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  />
                 </label>
               </div>
 
               <label className="grid gap-2">
                 <span className="text-sm font-bold text-slate-600">目前狀況</span>
-                <textarea value={inquiry.situation} onChange={(event) => updateInquiry("situation", event.target.value)} rows={3} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                <textarea
+                  value={inquiry.situation}
+                  onChange={(event) => updateInquiry("situation", event.target.value)}
+                  rows={3}
+                  className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                />
               </label>
 
               <div className="grid gap-3 md:grid-cols-2">
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">希望施工時間</span>
-                  <input value={inquiry.schedule} onChange={(event) => updateInquiry("schedule", event.target.value)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                  <input
+                    value={inquiry.schedule}
+                    onChange={(event) => updateInquiry("schedule", event.target.value)}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  />
                 </label>
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">備註</span>
-                  <input value={inquiry.note} onChange={(event) => updateInquiry("note", event.target.value)} className="rounded-xl border border-slate-300 px-4 py-3 text-sm" />
+                  <input
+                    value={inquiry.note}
+                    onChange={(event) => updateInquiry("note", event.target.value)}
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  />
                 </label>
               </div>
             </form>
@@ -598,12 +626,8 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
 function SectionTitle({ label, title, desc }) {
   return (
     <div>
-      <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
-        {label}
-      </p>
-      <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-[-0.04em] md:text-5xl">
-        {title}
-      </h2>
+      <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">{label}</p>
+      <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-[-0.04em] md:text-5xl">{title}</h2>
       {desc && <p className="mt-4 max-w-3xl leading-8 text-slate-600">{desc}</p>}
     </div>
   )

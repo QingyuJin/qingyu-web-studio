@@ -20,9 +20,7 @@ function EditModal({ config, onClose }) {
       >
         <div className="flex items-start justify-between gap-4">
           <div>
-            <p className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
-              Edit
-            </p>
+            <p className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">Edit</p>
             <h2 className="mt-2 text-2xl font-black">{config.title}</h2>
           </div>
 

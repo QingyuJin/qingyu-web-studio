@@ -53,9 +53,7 @@ function ProjectHub() {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div>
             <p className="text-lg font-black">Qingyu System Lab</p>
-            <p className="text-sm text-slate-500">
-              網站、後台系統與 LINE Bot 自動化
-            </p>
+            <p className="text-sm text-slate-500">網站、後台系統與 LINE Bot 自動化</p>
           </div>
 
           <Link
@@ -107,9 +105,7 @@ function ProjectHub() {
               <div>
                 <div className="flex items-start justify-between gap-3">
                   <div>
-                    <p className="text-sm font-bold text-slate-500">
-                      {project.type}
-                    </p>
+                    <p className="text-sm font-bold text-slate-500">{project.type}</p>
                     <h2 className="mt-2 text-2xl font-black">{project.name}</h2>
                   </div>
 
@@ -151,7 +147,10 @@ function ProjectHub() {
             <h2 className="mt-3 text-2xl font-black">可以展示的技術能力</h2>
             <div className="mt-5 grid gap-3 md:grid-cols-2">
               {capabilities.map((item) => (
-                <div key={item} className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700">
+                <div
+                  key={item}
+                  className="rounded-2xl bg-slate-50 px-4 py-3 text-sm font-bold text-slate-700"
+                >
                   {item}
                 </div>
               ))}
@@ -167,9 +166,7 @@ function ProjectHub() {
               {demoAccounts.map((item) => (
                 <div key={item.label} className="rounded-2xl bg-slate-50 p-4">
                   <p className="text-sm font-black text-slate-500">{item.label}</p>
-                  <p className="mt-1 font-mono text-sm font-bold text-slate-800">
-                    {item.account}
-                  </p>
+                  <p className="mt-1 font-mono text-sm font-bold text-slate-800">{item.account}</p>
                 </div>
               ))}
             </div>

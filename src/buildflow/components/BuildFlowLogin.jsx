@@ -35,9 +35,15 @@ function BuildFlowLogin({ users, onLogin }) {
     <main className="min-h-screen bg-slate-100 text-slate-950">
       <section className="mx-auto grid min-h-screen max-w-6xl items-center gap-8 px-4 py-12 lg:grid-cols-[1fr_420px]">
         <div>
-          <Link to="/admin" className="text-sm font-bold text-slate-500">← 回管理入口</Link>
-          <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">BuildFlow Login</p>
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">工程行發包與追加減項管理系統</h1>
+          <Link to="/admin" className="text-sm font-bold text-slate-500">
+            ← 回管理入口
+          </Link>
+          <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">
+            BuildFlow Login
+          </p>
+          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">
+            工程行發包與追加減項管理系統
+          </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">
             BuildFlow 將工程行的案件、發包、批價、追加減、廠商與師傅回報集中在同一個後台。
             目前使用本機 Demo 資料，之後可銜接 Supabase Auth、Database 與 LINE Bot webhook。
@@ -73,7 +79,10 @@ function BuildFlowLogin({ users, onLogin }) {
             <h2 className="text-xl font-black">How to demo</h2>
             <ol className="mt-4 grid gap-3">
               {demoSteps.map((step, index) => (
-                <li key={step} className="flex gap-3 rounded-xl bg-slate-50 p-3 text-sm font-bold text-slate-700">
+                <li
+                  key={step}
+                  className="flex gap-3 rounded-xl bg-slate-50 p-3 text-sm font-bold text-slate-700"
+                >
                   <span className="grid h-6 w-6 shrink-0 place-items-center rounded-full bg-slate-950 text-xs text-white">
                     {index + 1}
                   </span>
@@ -82,10 +91,12 @@ function BuildFlowLogin({ users, onLogin }) {
               ))}
             </ol>
           </div>
-
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
+        <form
+          onSubmit={handleSubmit}
+          className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
+        >
           <h2 className="text-2xl font-black">登入 BuildFlow</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
             Demo 登入用來展示角色權限與工作流程，正式版可替換成 Supabase Auth。
@@ -93,16 +104,31 @@ function BuildFlowLogin({ users, onLogin }) {
 
           <label className="mt-6 grid gap-2">
             <span className="text-sm font-bold text-slate-600">帳號</span>
-            <input value={username} onChange={(event) => setUsername(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500" />
+            <input
+              value={username}
+              onChange={(event) => setUsername(event.target.value)}
+              className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+            />
           </label>
 
           <label className="mt-4 grid gap-2">
             <span className="text-sm font-bold text-slate-600">密碼</span>
-            <input type="password" value={password} onChange={(event) => setPassword(event.target.value)} className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500" />
+            <input
+              type="password"
+              value={password}
+              onChange={(event) => setPassword(event.target.value)}
+              className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+            />
           </label>
 
-          {error && <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">{error}</p>}
-          <button className="mt-6 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">登入</button>
+          {error && (
+            <p className="mt-4 rounded-xl bg-red-50 px-4 py-3 text-sm font-bold text-red-600">
+              {error}
+            </p>
+          )}
+          <button className="mt-6 w-full rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+            登入
+          </button>
         </form>
       </section>
     </main>

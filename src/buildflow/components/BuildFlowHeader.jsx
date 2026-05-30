@@ -9,9 +9,7 @@ function BuildFlowHeader({ session, savedAt, isAdmin, onResetDemo, onLogout }) {
             ← 回管理入口
           </Link>
           <h1 className="mt-2 text-2xl font-black">BuildFlow</h1>
-          <p className="text-sm text-slate-500">
-            工程行發包、批價與追加減項管理系統 v1.5
-          </p>
+          <p className="text-sm text-slate-500">工程行發包、批價與追加減項管理系統 v1.5</p>
           <p className="mt-1 text-xs text-slate-400">
             登入身份：{session.name}｜{session.role === "admin" ? "管理者" : "使用者"}｜最後保存：
             {savedAt || "尚未保存"}

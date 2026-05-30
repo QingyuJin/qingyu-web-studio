@@ -1,10 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 
-import {
-  STORAGE_KEY,
-  adminTabs,
-  workerTabs,
-} from "./data/demoData"
+import { STORAGE_KEY, adminTabs, workerTabs } from "./data/demoData"
 import { SESSION_KEY, loadInitialSession } from "./auth/session"
 import {
   today,
@@ -62,7 +58,8 @@ function BuildFlow() {
 
   function handleLogin(username, password) {
     const user = users.find(
-      (item) => item.username.toLowerCase() === username.trim().toLowerCase() && item.password === password
+      (item) =>
+        item.username.toLowerCase() === username.trim().toLowerCase() && item.password === password
     )
 
     if (!user) return { ok: false, message: "帳號或密碼錯誤" }
@@ -152,7 +149,12 @@ function BuildFlow() {
           ...current,
           users: current.users.map((item) =>
             item.id === user.id
-              ? { ...item, name: nextName, phone: values.phone, password: values.password || item.password }
+              ? {
+                  ...item,
+                  name: nextName,
+                  phone: values.phone,
+                  password: values.password || item.password,
+                }
               : item
           ),
           subcontracts: current.subcontracts.map((item) =>
@@ -164,7 +166,9 @@ function BuildFlow() {
         }))
 
         if (session?.id === user.id) {
-          setSession((current) => current ? { ...current, name: nextName, phone: values.phone } : current)
+          setSession((current) =>
+            current ? { ...current, name: nextName, phone: values.phone } : current
+          )
         }
       },
     })
@@ -238,13 +242,27 @@ function BuildFlow() {
           ...current,
           projects: current.projects.map((item) =>
             item.id === project.id
-              ? { ...item, name: nextName, client: values.client || item.client, budget: Number(values.budget) || 0, note: values.note }
+              ? {
+                  ...item,
+                  name: nextName,
+                  client: values.client || item.client,
+                  budget: Number(values.budget) || 0,
+                  note: values.note,
+                }
               : item
           ),
-          subcontracts: current.subcontracts.map((item) => item.projectId === project.id ? { ...item, projectName: nextName } : item),
-          bids: current.bids.map((item) => item.projectId === project.id ? { ...item, projectName: nextName } : item),
-          changeOrders: current.changeOrders.map((item) => item.projectId === project.id ? { ...item, projectName: nextName } : item),
-          tasks: current.tasks.map((item) => item.projectId === project.id ? { ...item, projectName: nextName } : item),
+          subcontracts: current.subcontracts.map((item) =>
+            item.projectId === project.id ? { ...item, projectName: nextName } : item
+          ),
+          bids: current.bids.map((item) =>
+            item.projectId === project.id ? { ...item, projectName: nextName } : item
+          ),
+          changeOrders: current.changeOrders.map((item) =>
+            item.projectId === project.id ? { ...item, projectName: nextName } : item
+          ),
+          tasks: current.tasks.map((item) =>
+            item.projectId === project.id ? { ...item, projectName: nextName } : item
+          ),
         }))
       },
     })
@@ -252,15 +270,21 @@ function BuildFlow() {
 
   function deleteProject(projectId) {
     const project = projects.find((item) => item.id === projectId)
-    const confirmed = window.confirm(`確定刪除「${project?.name || "這個案件"}」嗎？相關發包、批價、追加減項、任務也會一起移除。`)
+    const confirmed = window.confirm(
+      `確定刪除「${project?.name || "這個案件"}」嗎？相關發包、批價、追加減項、任務也會一起移除。`
+    )
     if (!confirmed) return
-    const subcontractIds = subcontracts.filter((item) => item.projectId === projectId).map((item) => item.id)
+    const subcontractIds = subcontracts
+      .filter((item) => item.projectId === projectId)
+      .map((item) => item.id)
 
     setData((current) => ({
       ...current,
       projects: current.projects.filter((item) => item.id !== projectId),
       subcontracts: current.subcontracts.filter((item) => item.projectId !== projectId),
-      bids: current.bids.filter((item) => item.projectId !== projectId && !subcontractIds.includes(item.subcontractId)),
+      bids: current.bids.filter(
+        (item) => item.projectId !== projectId && !subcontractIds.includes(item.subcontractId)
+      ),
       changeOrders: current.changeOrders.filter((item) => item.projectId !== projectId),
       tasks: current.tasks.filter((item) => item.projectId !== projectId),
     }))
@@ -272,7 +296,12 @@ function BuildFlow() {
   }
 
   function updateProjectStatus(projectId, status) {
-    setData((current) => ({ ...current, projects: current.projects.map((project) => project.id === projectId ? { ...project, status } : project) }))
+    setData((current) => ({
+      ...current,
+      projects: current.projects.map((project) =>
+        project.id === projectId ? { ...project, status } : project
+      ),
+    }))
   }
 
   function addSubcontract(event) {
@@ -311,7 +340,11 @@ function BuildFlow() {
       report: "",
     }
 
-    setData((current) => ({ ...current, subcontracts: [newItem, ...current.subcontracts], tasks: [newTask, ...current.tasks] }))
+    setData((current) => ({
+      ...current,
+      subcontracts: [newItem, ...current.subcontracts],
+      tasks: [newTask, ...current.tasks],
+    }))
     event.currentTarget.reset()
   }
 
@@ -333,9 +366,13 @@ function BuildFlow() {
               ? { ...target, item: nextItem, price: Number(values.price) || 0, note: values.note }
               : target
           ),
-          bids: current.bids.map((bid) => bid.subcontractId === subcontract.id ? { ...bid, item: nextItem } : bid),
+          bids: current.bids.map((bid) =>
+            bid.subcontractId === subcontract.id ? { ...bid, item: nextItem } : bid
+          ),
           tasks: current.tasks.map((task) =>
-            task.subcontractId === subcontract.id ? { ...task, title: `完成：${nextItem}`, note: values.note } : task
+            task.subcontractId === subcontract.id
+              ? { ...task, title: `完成：${nextItem}`, note: values.note }
+              : task
           ),
         }))
       },
@@ -344,7 +381,9 @@ function BuildFlow() {
 
   function deleteSubcontract(subcontractId) {
     const subcontract = subcontracts.find((item) => item.id === subcontractId)
-    const confirmed = window.confirm(`確定刪除「${subcontract?.item || "這個發包項目"}」嗎？相關批價與任務也會一起移除。`)
+    const confirmed = window.confirm(
+      `確定刪除「${subcontract?.item || "這個發包項目"}」嗎？相關批價與任務也會一起移除。`
+    )
     if (!confirmed) return
 
     setData((current) => ({
@@ -356,7 +395,12 @@ function BuildFlow() {
   }
 
   function updateSubcontractStatus(subcontractId, status) {
-    setData((current) => ({ ...current, subcontracts: current.subcontracts.map((item) => item.id === subcontractId ? { ...item, status } : item) }))
+    setData((current) => ({
+      ...current,
+      subcontracts: current.subcontracts.map((item) =>
+        item.id === subcontractId ? { ...item, status } : item
+      ),
+    }))
   }
 
   function addBid(event) {
@@ -381,7 +425,9 @@ function BuildFlow() {
       ...current,
       bids: [
         newBid,
-        ...current.bids.map((bid) => selected && bid.subcontractId === newBid.subcontractId ? { ...bid, selected: false } : bid),
+        ...current.bids.map((bid) =>
+          selected && bid.subcontractId === newBid.subcontractId ? { ...bid, selected: false } : bid
+        ),
       ],
     }))
     event.currentTarget.reset()
@@ -397,7 +443,9 @@ function BuildFlow() {
     if (!target) return
     setData((current) => ({
       ...current,
-      bids: current.bids.map((bid) => bid.subcontractId === target.subcontractId ? { ...bid, selected: bid.id === bidId } : bid),
+      bids: current.bids.map((bid) =>
+        bid.subcontractId === target.subcontractId ? { ...bid, selected: bid.id === bidId } : bid
+      ),
     }))
   }
 
@@ -434,7 +482,12 @@ function BuildFlow() {
           ...current,
           changeOrders: current.changeOrders.map((target) =>
             target.id === order.id
-              ? { ...target, item: values.item || target.item, amount: Number(values.amount) || 0, reason: values.reason }
+              ? {
+                  ...target,
+                  item: values.item || target.item,
+                  amount: Number(values.amount) || 0,
+                  reason: values.reason,
+                }
               : target
           ),
         }))
@@ -444,13 +497,24 @@ function BuildFlow() {
 
   function deleteChangeOrder(orderId) {
     if (!window.confirm("確定刪除這筆追加 / 減項紀錄嗎？")) return
-    setData((current) => ({ ...current, changeOrders: current.changeOrders.filter((item) => item.id !== orderId) }))
+    setData((current) => ({
+      ...current,
+      changeOrders: current.changeOrders.filter((item) => item.id !== orderId),
+    }))
   }
 
   function updateChangeStatus(changeId, status) {
     setData((current) => ({
       ...current,
-      changeOrders: current.changeOrders.map((item) => item.id === changeId ? { ...item, status, confirmedByClient: ["業主已確認", "已施工", "已收款"].includes(status) } : item),
+      changeOrders: current.changeOrders.map((item) =>
+        item.id === changeId
+          ? {
+              ...item,
+              status,
+              confirmedByClient: ["業主已確認", "已施工", "已收款"].includes(status),
+            }
+          : item
+      ),
     }))
   }
 
@@ -489,23 +553,36 @@ function BuildFlow() {
 
   function deleteVendor(vendorId) {
     if (!window.confirm("確定刪除這筆廠商資料嗎？")) return
-    setData((current) => ({ ...current, vendors: current.vendors.filter((item) => item.id !== vendorId) }))
+    setData((current) => ({
+      ...current,
+      vendors: current.vendors.filter((item) => item.id !== vendorId),
+    }))
   }
 
   function toggleTaskComplete(taskId) {
     setData((current) => ({
       ...current,
-      tasks: current.tasks.map((task) => task.id === taskId ? { ...task, status: task.status === "已完成" ? "待完成" : "已完成" } : task),
+      tasks: current.tasks.map((task) =>
+        task.id === taskId
+          ? { ...task, status: task.status === "已完成" ? "待完成" : "已完成" }
+          : task
+      ),
     }))
   }
 
   function updateTaskReport(taskId, report) {
-    setData((current) => ({ ...current, tasks: current.tasks.map((task) => task.id === taskId ? { ...task, report } : task) }))
+    setData((current) => ({
+      ...current,
+      tasks: current.tasks.map((task) => (task.id === taskId ? { ...task, report } : task)),
+    }))
   }
 
   function deleteTask(taskId) {
     if (!window.confirm("確定刪除這個任務嗎？")) return
-    setData((current) => ({ ...current, tasks: current.tasks.filter((task) => task.id !== taskId) }))
+    setData((current) => ({
+      ...current,
+      tasks: current.tasks.filter((task) => task.id !== taskId),
+    }))
   }
 
   function generateConfirmText(order) {

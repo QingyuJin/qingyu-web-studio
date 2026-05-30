@@ -1,10 +1,4 @@
-function BuildFlowSidebar({
-  tabs,
-  activeTab,
-  session,
-  isAdmin,
-  onSelectTab,
-}) {
+function BuildFlowSidebar({ tabs, activeTab, session, isAdmin, onSelectTab }) {
   return (
     <aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
       <p className="mb-3 text-sm font-black text-slate-500">功能選單</p>

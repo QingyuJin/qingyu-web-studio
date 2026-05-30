@@ -46,9 +46,7 @@ function ProjectPlaceholder({ type }) {
           Project Entry
         </p>
 
-        <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">
-          {project.name}
-        </h1>
+        <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">{project.name}</h1>
 
         <h2 className="mt-4 text-2xl font-black">{project.title}</h2>
 

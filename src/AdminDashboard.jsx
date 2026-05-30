@@ -94,9 +94,7 @@ function AdminDashboard() {
             >
               <div className="flex items-start justify-between gap-3">
                 <div>
-                  <p className="text-sm font-bold text-slate-500">
-                    {project.title}
-                  </p>
+                  <p className="text-sm font-bold text-slate-500">{project.title}</p>
                   <h2 className="mt-2 text-2xl font-black">{project.name}</h2>
                 </div>
 
@@ -107,9 +105,7 @@ function AdminDashboard() {
 
               <div className="mt-6 rounded-2xl bg-slate-50 p-4">
                 <p className="text-sm font-black text-slate-950">下一步</p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">
-                  {project.next}
-                </p>
+                <p className="mt-2 text-sm leading-7 text-slate-600">{project.next}</p>
               </div>
 
               <Link
@@ -142,8 +138,8 @@ function AdminDashboard() {
             <h2 className="text-2xl font-black">目前方向</h2>
 
             <p className="mt-5 leading-8 text-slate-600">
-              建立可展示、可操作、可延伸的系統作品，
-              從前台網站到後台管理，再到 LINE Bot 與 API 串接。
+              建立可展示、可操作、可延伸的系統作品， 從前台網站到後台管理，再到 LINE Bot 與 API
+              串接。
             </p>
           </section>
         </div>

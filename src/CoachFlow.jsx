@@ -44,8 +44,24 @@ const demoData = {
       note: "主項不要硬衝，保持動作品質。",
       exercises: [
         { id: "e-001", name: "Back Squat", sets: 5, reps: 5, load: "140kg", rpe: "7", done: false },
-        { id: "e-002", name: "Romanian Deadlift", sets: 4, reps: 8, load: "90kg", rpe: "7", done: false },
-        { id: "e-003", name: "Leg Press", sets: 3, reps: 12, load: "Moderate", rpe: "8", done: false },
+        {
+          id: "e-002",
+          name: "Romanian Deadlift",
+          sets: 4,
+          reps: 8,
+          load: "90kg",
+          rpe: "7",
+          done: false,
+        },
+        {
+          id: "e-003",
+          name: "Leg Press",
+          sets: 3,
+          reps: 12,
+          load: "Moderate",
+          rpe: "8",
+          done: false,
+        },
       ],
     },
     {
@@ -58,9 +74,33 @@ const demoData = {
       status: "待完成",
       note: "每組保留 1–2 下，不用做到爆。",
       exercises: [
-        { id: "e-004", name: "Machine Chest Press", sets: 4, reps: 10, load: "輕中等", rpe: "7", done: false },
-        { id: "e-005", name: "Lat Pulldown", sets: 4, reps: 12, load: "輕中等", rpe: "7", done: false },
-        { id: "e-006", name: "DB Shoulder Press", sets: 3, reps: 10, load: "輕", rpe: "7", done: false },
+        {
+          id: "e-004",
+          name: "Machine Chest Press",
+          sets: 4,
+          reps: 10,
+          load: "輕中等",
+          rpe: "7",
+          done: false,
+        },
+        {
+          id: "e-005",
+          name: "Lat Pulldown",
+          sets: 4,
+          reps: 12,
+          load: "輕中等",
+          rpe: "7",
+          done: false,
+        },
+        {
+          id: "e-006",
+          name: "DB Shoulder Press",
+          sets: 3,
+          reps: 10,
+          load: "輕",
+          rpe: "7",
+          done: false,
+        },
       ],
     },
   ],
@@ -131,13 +171,9 @@ function CoachFlow() {
     }
   }, [students, workouts, checkins])
 
-  const activeStudentWorkouts = workouts.filter(
-    (workout) => workout.studentId === activeStudentId
-  )
+  const activeStudentWorkouts = workouts.filter((workout) => workout.studentId === activeStudentId)
 
-  const activeStudentCheckins = checkins.filter(
-    (checkin) => checkin.studentId === activeStudentId
-  )
+  const activeStudentCheckins = checkins.filter((checkin) => checkin.studentId === activeStudentId)
 
   function switchRole(role) {
     setViewRole(role)
@@ -319,9 +355,7 @@ function CoachFlow() {
               ← 回管理入口
             </Link>
             <h1 className="mt-2 text-2xl font-black">CoachFlow</h1>
-            <p className="text-sm text-slate-500">
-              健身教練課表與完成回報系統原型
-            </p>
+            <p className="text-sm text-slate-500">健身教練課表與完成回報系統原型</p>
             <p className="mt-1 text-xs text-slate-400">
               本機資料保存中｜最後保存：{savedAt || "尚未保存"}
             </p>
@@ -331,9 +365,7 @@ function CoachFlow() {
             <button
               onClick={() => switchRole("coach")}
               className={`rounded-xl px-4 py-2 text-sm font-black ${
-                viewRole === "coach"
-                  ? "bg-slate-950 text-white"
-                  : "bg-slate-100 text-slate-600"
+                viewRole === "coach" ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-600"
               }`}
             >
               教練視角
@@ -342,9 +374,7 @@ function CoachFlow() {
             <button
               onClick={() => switchRole("student")}
               className={`rounded-xl px-4 py-2 text-sm font-black ${
-                viewRole === "student"
-                  ? "bg-slate-950 text-white"
-                  : "bg-slate-100 text-slate-600"
+                viewRole === "student" ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-600"
               }`}
             >
               學生視角
@@ -396,9 +426,7 @@ function CoachFlow() {
 
           <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
             <p className="font-black text-slate-950">目前身份</p>
-            <p className="mt-1">
-              {viewRole === "coach" ? "教練 / 管理者" : activeStudent?.name}
-            </p>
+            <p className="mt-1">{viewRole === "coach" ? "教練 / 管理者" : activeStudent?.name}</p>
             <p className="mt-3 text-xs text-slate-400">
               教練可管理學生與課表；學生只看自己的訓練與回報。
             </p>
@@ -435,11 +463,7 @@ function CoachFlow() {
           )}
 
           {activeTab === "checkins" && (
-            <CheckinsPanel
-              students={students}
-              checkins={checkins}
-              addCheckin={addCheckin}
-            />
+            <CheckinsPanel students={students} checkins={checkins} addCheckin={addCheckin} />
           )}
 
           {activeTab === "student" && (
@@ -470,10 +494,7 @@ function CoachDashboard({ metrics, students, workouts }) {
 
   return (
     <div className="grid gap-5">
-      <SectionTitle
-        title="教練總覽"
-        desc="查看學生、今日課表、完成狀態與身體狀態回報。"
-      />
+      <SectionTitle title="教練總覽" desc="查看學生、今日課表、完成狀態與身體狀態回報。" />
 
       <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
         <Metric label="學生數" value={metrics.studentCount} />
@@ -762,9 +783,7 @@ function WorkoutList({
                 <button
                   onClick={() => toggleExercise(workout.id, exercise.id)}
                   className={`rounded-xl px-4 py-2 text-sm font-black ${
-                    exercise.done
-                      ? "bg-emerald-100 text-emerald-700"
-                      : "bg-white text-slate-700"
+                    exercise.done ? "bg-emerald-100 text-emerald-700" : "bg-white text-slate-700"
                   }`}
                 >
                   {exercise.done ? "已完成" : "標記完成"}

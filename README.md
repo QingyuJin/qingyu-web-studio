@@ -54,6 +54,19 @@ Worker: `ming / 1234`
 - LINE Bot workflow simulation
 - Future Supabase integration
 
+## Demo Flow
+
+1. Open Qingyu System Lab.
+2. Enter Contractor Site to view the public website flow.
+3. Enter BuildFlow.
+4. Login as admin: `admin / admin123`.
+5. Create a project.
+6. Add subcontract items and assign a worker.
+7. Add a change order and copy confirmation text.
+8. Logout.
+9. Login as worker: `aming / 1234`.
+10. Complete assigned tasks and submit reports.
+
 ## Tech Stack
 
 React, Vite, Tailwind CSS, React Router, localStorage prototype.

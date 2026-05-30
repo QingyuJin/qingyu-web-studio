@@ -3,9 +3,13 @@ import { STORAGE_KEY, demoData } from "../data/demoData"
 export const today = new Date().toISOString().slice(0, 10)
 
 export function includesKeyword(text, keyword) {
-  const cleanKeyword = String(keyword || "").trim().toLowerCase()
+  const cleanKeyword = String(keyword || "")
+    .trim()
+    .toLowerCase()
   if (!cleanKeyword) return true
-  return String(text || "").toLowerCase().includes(cleanKeyword)
+  return String(text || "")
+    .toLowerCase()
+    .includes(cleanKeyword)
 }
 
 export function formatMoney(value) {
@@ -45,9 +49,13 @@ export function loadInitialData() {
     return {
       users: Array.isArray(parsed.users) ? parsed.users : demoData.users,
       projects: Array.isArray(parsed.projects) ? parsed.projects : demoData.projects,
-      subcontracts: Array.isArray(parsed.subcontracts) ? parsed.subcontracts : demoData.subcontracts,
+      subcontracts: Array.isArray(parsed.subcontracts)
+        ? parsed.subcontracts
+        : demoData.subcontracts,
       bids: Array.isArray(parsed.bids) ? parsed.bids : demoData.bids,
-      changeOrders: Array.isArray(parsed.changeOrders) ? parsed.changeOrders : demoData.changeOrders,
+      changeOrders: Array.isArray(parsed.changeOrders)
+        ? parsed.changeOrders
+        : demoData.changeOrders,
       vendors: Array.isArray(parsed.vendors) ? parsed.vendors : demoData.vendors,
       tasks: Array.isArray(parsed.tasks) ? parsed.tasks : demoData.tasks,
     }

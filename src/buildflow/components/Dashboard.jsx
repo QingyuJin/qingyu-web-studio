@@ -32,11 +32,15 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }
                 <div className="flex flex-col gap-3 md:flex-row md:items-center md:justify-between">
                   <div>
                     <p className="font-black">{project.name}</p>
-                    <p className="mt-1 text-sm text-slate-500">{project.client}｜{project.type}</p>
+                    <p className="mt-1 text-sm text-slate-500">
+                      {project.client}｜{project.type}
+                    </p>
                   </div>
                   <div className="flex flex-wrap gap-2">
                     <Status>{project.status}</Status>
-                    <SmallButton onClick={() => openProjectDetail(project.id)}>查看案件</SmallButton>
+                    <SmallButton onClick={() => openProjectDetail(project.id)}>
+                      查看案件
+                    </SmallButton>
                   </div>
                 </div>
               </div>
@@ -50,15 +54,22 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }
             {redChanges.map((item) => (
               <div key={item.id} className="rounded-xl bg-red-50 p-4">
                 <p className="font-black text-red-700">{item.projectName}</p>
-                <p className="mt-1 text-sm leading-6 text-red-700/80">{item.item} 尚未完成業主確認。</p>
+                <p className="mt-1 text-sm leading-6 text-red-700/80">
+                  {item.item} 尚未完成業主確認。
+                </p>
               </div>
             ))}
-            {tasks.filter((task) => task.status !== "已完成").slice(0, 3).map((task) => (
-              <div key={task.id} className="rounded-xl bg-amber-50 p-4">
-                <p className="font-black text-amber-700">{task.title}</p>
-                <p className="mt-1 text-sm text-amber-700/80">負責人：{task.workerName}｜期限：{task.dueDate}</p>
-              </div>
-            ))}
+            {tasks
+              .filter((task) => task.status !== "已完成")
+              .slice(0, 3)
+              .map((task) => (
+                <div key={task.id} className="rounded-xl bg-amber-50 p-4">
+                  <p className="font-black text-amber-700">{task.title}</p>
+                  <p className="mt-1 text-sm text-amber-700/80">
+                    負責人：{task.workerName}｜期限：{task.dueDate}
+                  </p>
+                </div>
+              ))}
           </div>
         </Card>
       </div>

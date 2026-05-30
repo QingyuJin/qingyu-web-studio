@@ -6,7 +6,14 @@ import SmallButton from "../shared/SmallButton"
 import { projectStatuses } from "../data/demoData"
 import { includesKeyword, formatMoney } from "../utils/helpers"
 
-function ProjectsPanel({ projects, addProject, editProject, deleteProject, updateProjectStatus, openProjectDetail }) {
+function ProjectsPanel({
+  projects,
+  addProject,
+  editProject,
+  deleteProject,
+  updateProjectStatus,
+  openProjectDetail,
+}) {
   const [keyword, setKeyword] = useState("")
   const [statusFilter, setStatusFilter] = useState("全部")
 
@@ -33,7 +40,9 @@ function ProjectsPanel({ projects, addProject, editProject, deleteProject, updat
           <Input name="startDate" label="開始日期" type="date" />
           <Input name="dueDate" label="預計完工日" type="date" />
           <Input name="note" label="備註" />
-          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">新增案件</button>
+          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
+            新增案件
+          </button>
         </form>
       </Card>
 
@@ -41,7 +50,9 @@ function ProjectsPanel({ projects, addProject, editProject, deleteProject, updat
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h3 className="text-xl font-black">案件列表</h3>
-            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredProjects.length} / {projects.length} 件案件</p>
+            <p className="mt-1 text-sm text-slate-500">
+              目前顯示 {filteredProjects.length} / {projects.length} 件案件
+            </p>
           </div>
           <div className="grid gap-2 md:grid-cols-[220px_170px]">
             <input
@@ -56,30 +67,64 @@ function ProjectsPanel({ projects, addProject, editProject, deleteProject, updat
               className="rounded-xl border border-slate-200 px-4 py-3 text-sm font-bold"
             >
               <option>全部</option>
-              {projectStatuses.map((status) => <option key={status}>{status}</option>)}
+              {projectStatuses.map((status) => (
+                <option key={status}>{status}</option>
+              ))}
             </select>
           </div>
         </div>
 
         <div className="mt-4 overflow-x-auto">
           <table className="w-full min-w-[1080px] text-left text-sm">
-            <thead className="text-slate-500"><tr><th className="py-3">案件</th><th>業主</th><th>類型</th><th>預算</th><th>期限</th><th>狀態</th><th>操作</th></tr></thead>
+            <thead className="text-slate-500">
+              <tr>
+                <th className="py-3">案件</th>
+                <th>業主</th>
+                <th>類型</th>
+                <th>預算</th>
+                <th>期限</th>
+                <th>狀態</th>
+                <th>操作</th>
+              </tr>
+            </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredProjects.map((project) => (
                 <tr key={project.id}>
-                  <td className="py-4"><p className="font-black">{project.name}</p><p className="mt-1 text-xs text-slate-500">{project.address}</p></td>
-                  <td>{project.client}</td><td>{project.type}</td><td>NT${formatMoney(project.budget)}</td><td>{project.dueDate}</td>
+                  <td className="py-4">
+                    <p className="font-black">{project.name}</p>
+                    <p className="mt-1 text-xs text-slate-500">{project.address}</p>
+                  </td>
+                  <td>{project.client}</td>
+                  <td>{project.type}</td>
+                  <td>NT${formatMoney(project.budget)}</td>
+                  <td>{project.dueDate}</td>
                   <td>
-                    <select value={project.status} onChange={(event) => updateProjectStatus(project.id, event.target.value)} className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold">
-                      {projectStatuses.map((status) => <option key={status}>{status}</option>)}
+                    <select
+                      value={project.status}
+                      onChange={(event) => updateProjectStatus(project.id, event.target.value)}
+                      className="rounded-lg border border-slate-200 px-3 py-2 text-sm font-bold"
+                    >
+                      {projectStatuses.map((status) => (
+                        <option key={status}>{status}</option>
+                      ))}
                     </select>
                   </td>
-                  <td><div className="flex gap-2"><SmallButton onClick={() => openProjectDetail(project.id)}>查看</SmallButton><SmallButton onClick={() => editProject(project)}>編輯</SmallButton><SmallButton danger onClick={() => deleteProject(project.id)}>刪除</SmallButton></div></td>
+                  <td>
+                    <div className="flex gap-2">
+                      <SmallButton onClick={() => openProjectDetail(project.id)}>查看</SmallButton>
+                      <SmallButton onClick={() => editProject(project)}>編輯</SmallButton>
+                      <SmallButton danger onClick={() => deleteProject(project.id)}>
+                        刪除
+                      </SmallButton>
+                    </div>
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {!filteredProjects.length && <p className="py-4 text-sm text-slate-500">沒有符合條件的案件。</p>}
+          {!filteredProjects.length && (
+            <p className="py-4 text-sm text-slate-500">沒有符合條件的案件。</p>
+          )}
         </div>
       </Card>
     </div>

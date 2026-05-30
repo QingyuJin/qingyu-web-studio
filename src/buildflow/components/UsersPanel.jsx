@@ -28,7 +28,10 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="使用者管理" desc="管理者可以新增師傅帳號，新增後可直接登入，並可被指派發包項目與任務。" />
+      <SectionTitle
+        title="使用者管理"
+        desc="管理者可以新增師傅帳號，新增後可直接登入，並可被指派發包項目與任務。"
+      />
 
       <Card>
         <h3 className="text-xl font-black">新增使用者</h3>
@@ -44,7 +47,9 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
               <option value="admin">admin 管理者</option>
             </select>
           </label>
-          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">新增使用者</button>
+          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
+            新增使用者
+          </button>
         </form>
       </Card>
 
@@ -52,7 +57,9 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <h3 className="text-xl font-black">使用者列表</h3>
-            <p className="mt-1 text-sm text-slate-500">目前顯示 {filteredUsers.length} / {users.length} 位使用者</p>
+            <p className="mt-1 text-sm text-slate-500">
+              目前顯示 {filteredUsers.length} / {users.length} 位使用者
+            </p>
           </div>
           <div className="grid gap-2 md:grid-cols-[220px_150px]">
             <input
@@ -90,7 +97,10 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
             <tbody className="divide-y divide-slate-100">
               {filteredUsers.map((user) => (
                 <tr key={user.id}>
-                  <td className="py-4 font-black">{user.name}{user.id === currentUserId ? "（目前登入）" : ""}</td>
+                  <td className="py-4 font-black">
+                    {user.name}
+                    {user.id === currentUserId ? "（目前登入）" : ""}
+                  </td>
                   <td>{user.username}</td>
                   <td>{user.password}</td>
                   <td>{user.role}</td>
@@ -100,14 +110,18 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
                   <td>
                     <div className="flex gap-2">
                       <SmallButton onClick={() => editUser(user)}>編輯</SmallButton>
-                      <SmallButton danger onClick={() => deleteUser(user.id)}>刪除</SmallButton>
+                      <SmallButton danger onClick={() => deleteUser(user.id)}>
+                        刪除
+                      </SmallButton>
                     </div>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-          {!filteredUsers.length && <p className="py-4 text-sm text-slate-500">沒有符合條件的使用者。</p>}
+          {!filteredUsers.length && (
+            <p className="py-4 text-sm text-slate-500">沒有符合條件的使用者。</p>
+          )}
         </div>
       </Card>
     </div>
