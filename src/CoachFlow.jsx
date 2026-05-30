@@ -404,6 +404,40 @@ function CoachFlow() {
         </div>
       </header>
 
+      <section className="border-b border-slate-200 bg-white">
+        <div className="mx-auto max-w-7xl px-4 py-5">
+          <div className="grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 md:grid-cols-[1fr_1.2fr] md:items-center">
+            <div>
+              <p className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
+                Prototype Positioning
+              </p>
+              <h2 className="mt-2 text-2xl font-black">第二個垂直領域系統原型</h2>
+              <p className="mt-3 leading-7 text-slate-600">
+                CoachFlow 用來展示教練 / 學生流程、課表指派、完成追蹤、身體狀態回報與 LINE Bot
+                互動概念。它不需要和 BuildFlow 一樣完整，但要讓人一眼理解你能把不同產業流程系統化。
+              </p>
+            </div>
+
+            <div className="grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-2">
+              {[
+                "Coach / student workflow",
+                "Workout assignment",
+                "Completion tracking",
+                "Check-in records",
+                "LINE Bot style interaction",
+              ].map((item) => (
+                <div
+                  key={item}
+                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
+                >
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto grid max-w-7xl gap-5 px-4 py-5 lg:grid-cols-[230px_minmax(0,1fr)]">
         <aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
           <p className="mb-3 text-sm font-black text-slate-500">功能選單</p>

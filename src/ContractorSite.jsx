@@ -132,6 +132,7 @@ function ContractorSite() {
     schedule: "",
     note: "",
   })
+  const [submittedSummary, setSubmittedSummary] = useState("")
 
   const filteredCases = useMemo(() => {
     if (activeFilter === "全部") return cases
@@ -152,6 +153,11 @@ function ContractorSite() {
 
   function updateInquiry(field, value) {
     setInquiry((current) => ({ ...current, [field]: value }))
+  }
+
+  function createInquirySummary(event) {
+    event.preventDefault()
+    setSubmittedSummary(contactText)
   }
 
   async function copyContactText() {
@@ -214,7 +220,9 @@ function ContractorSite() {
         contactText={contactText}
         copied={copied}
         inquiry={inquiry}
+        submittedSummary={submittedSummary}
         updateInquiry={updateInquiry}
+        createInquirySummary={createInquirySummary}
         copyContactText={copyContactText}
       />
     </main>
@@ -514,7 +522,15 @@ function FaqSection() {
   )
 }
 
-function ContactSection({ contactText, copied, inquiry, updateInquiry, copyContactText }) {
+function ContactSection({
+  contactText,
+  copied,
+  inquiry,
+  submittedSummary,
+  updateInquiry,
+  createInquirySummary,
+  copyContactText,
+}) {
   return (
     <section id="contact" className="border-t border-slate-200 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12">
@@ -532,14 +548,14 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
             <div className="mt-8 flex flex-wrap gap-3">
               <button
                 onClick={copyContactText}
-                className="rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white"
+                className="rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white shadow-sm transition hover:bg-slate-800 active:translate-y-px"
               >
                 {copied ? "已複製詢問格式" : "複製詢問格式"}
               </button>
 
               <Link
                 to="/admin"
-                className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-black text-slate-700"
+                className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-black text-slate-700 shadow-sm transition hover:border-slate-300 hover:bg-slate-50 active:translate-y-px"
               >
                 回管理入口
               </Link>
@@ -547,14 +563,17 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
           </div>
 
           <div className="grid gap-4">
-            <form className="grid gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-5">
+            <form
+              onSubmit={createInquirySummary}
+              className="grid gap-3 rounded-3xl border border-slate-200 bg-slate-50 p-5"
+            >
               <div className="grid gap-3 md:grid-cols-2">
                 <label className="grid gap-2">
                   <span className="text-sm font-bold text-slate-600">姓名</span>
                   <input
                     value={inquiry.name}
                     onChange={(event) => updateInquiry("name", event.target.value)}
-                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                   />
                 </label>
                 <label className="grid gap-2">
@@ -562,7 +581,7 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
                   <input
                     value={inquiry.contact}
                     onChange={(event) => updateInquiry("contact", event.target.value)}
-                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                   />
                 </label>
                 <label className="grid gap-2">
@@ -570,7 +589,7 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
                   <input
                     value={inquiry.area}
                     onChange={(event) => updateInquiry("area", event.target.value)}
-                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                   />
                 </label>
                 <label className="grid gap-2">
@@ -578,7 +597,7 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
                   <input
                     value={inquiry.type}
                     onChange={(event) => updateInquiry("type", event.target.value)}
-                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                   />
                 </label>
               </div>
@@ -589,7 +608,7 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
                   value={inquiry.situation}
                   onChange={(event) => updateInquiry("situation", event.target.value)}
                   rows={3}
-                  className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                  className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                 />
               </label>
 
@@ -599,7 +618,7 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
                   <input
                     value={inquiry.schedule}
                     onChange={(event) => updateInquiry("schedule", event.target.value)}
-                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                   />
                 </label>
                 <label className="grid gap-2">
@@ -607,11 +626,42 @@ function ContactSection({ contactText, copied, inquiry, updateInquiry, copyConta
                   <input
                     value={inquiry.note}
                     onChange={(event) => updateInquiry("note", event.target.value)}
-                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm"
+                    className="rounded-xl border border-slate-300 px-4 py-3 text-sm outline-none transition hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
                   />
                 </label>
               </div>
+
+              <button className="rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white shadow-sm transition hover:bg-slate-800 active:translate-y-px">
+                送出並產生案件摘要
+              </button>
             </form>
+
+            {submittedSummary ? (
+              <div className="rounded-3xl border border-emerald-200 bg-emerald-50 p-5 text-emerald-950">
+                <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-700">
+                  Inquiry Summary
+                </p>
+                <h3 className="mt-2 text-2xl font-black">前台收需求，後台建案件。</h3>
+                <p className="mt-3 leading-7">
+                  這份摘要可以複製給管理者，或進入 BuildFlow 建立正式案件。
+                </p>
+                <div className="mt-5 flex flex-wrap gap-2">
+                  <button
+                    type="button"
+                    onClick={copyContactText}
+                    className="rounded-xl bg-emerald-700 px-4 py-3 text-sm font-black text-white transition hover:bg-emerald-600 active:translate-y-px"
+                  >
+                    {copied ? "已複製，可貼到 BuildFlow" : "複製到 BuildFlow"}
+                  </button>
+                  <Link
+                    to="/buildflow"
+                    className="rounded-xl border border-emerald-200 bg-white px-4 py-3 text-sm font-black text-emerald-900 transition hover:bg-emerald-100 active:translate-y-px"
+                  >
+                    前往 BuildFlow 建案
+                  </Link>
+                </div>
+              </div>
+            ) : null}
 
             <pre className="whitespace-pre-wrap rounded-3xl border border-slate-200 bg-white p-6 text-sm leading-7 text-slate-700">
               {contactText}

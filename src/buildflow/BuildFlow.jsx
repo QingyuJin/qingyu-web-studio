@@ -1,45 +1,55 @@
 import { useEffect, useMemo, useState } from "react"
 
-import { STORAGE_KEY, adminTabs, workerTabs } from "./data/demoData"
-import { SESSION_KEY, loadInitialSession } from "./auth/session"
-import {
-  today,
-  formatMoney,
-  createId,
-  textValue,
-  numberValue,
-  cloneDemoData,
-  loadInitialData,
-} from "./utils/helpers"
+import { adminTabs, workerTabs } from "./data/demoData"
+import { today, formatMoney, createId, textValue, numberValue } from "./utils/helpers"
 import BuildFlowLogin from "./components/BuildFlowLogin"
 import BuildFlowContent from "./components/BuildFlowContent"
 import BuildFlowHeader from "./components/BuildFlowHeader"
 import BuildFlowSidebar from "./components/BuildFlowSidebar"
+import useBuildFlowActions from "./hooks/useBuildFlowActions"
+import useBuildFlowAuth from "./hooks/useBuildFlowAuth"
+import useBuildFlowData from "./hooks/useBuildFlowData"
+import ConfirmDialog from "./shared/ConfirmDialog"
 import EditModal from "./shared/EditModal"
+import ToastMessage from "./shared/ToastMessage"
 
 function BuildFlow() {
-  const [data, setData] = useState(loadInitialData)
-  const [session, setSession] = useState(loadInitialSession)
+  const { data, resetData, setData } = useBuildFlowData()
+  const { session, setSession } = useBuildFlowAuth()
   const [activeTab, setActiveTab] = useState(session?.role === "worker" ? "worker" : "dashboard")
   const [activeProjectId, setActiveProjectId] = useState("")
   const [editModal, setEditModal] = useState(null)
+  const [confirmDialog, setConfirmDialog] = useState(null)
+  const [toast, setToast] = useState(null)
 
   const { users, projects, subcontracts, bids, changeOrders, vendors, tasks } = data
   const savedAt = new Date().toLocaleTimeString("zh-TW", { hour12: false })
 
   useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
-  }, [data])
-
-  useEffect(() => {
-    if (session) localStorage.setItem(SESSION_KEY, JSON.stringify(session))
-    else localStorage.removeItem(SESSION_KEY)
-  }, [session])
+    if (!toast) return undefined
+    const timer = window.setTimeout(() => setToast(null), 2400)
+    return () => window.clearTimeout(timer)
+  }, [toast])
 
   const isAdmin = session?.role === "admin"
   const isWorker = session?.role === "worker"
   const tabs = isAdmin ? adminTabs : workerTabs
   const activeProject = projects.find((project) => project.id === activeProjectId)
+
+  function showToast(message, tone = "info") {
+    setToast({ message, tone })
+  }
+
+  function confirmAction(config) {
+    return new Promise((resolve) => {
+      setConfirmDialog({ ...config, resolve })
+    })
+  }
+
+  function resolveConfirm(confirmed) {
+    confirmDialog?.resolve(confirmed)
+    setConfirmDialog(null)
+  }
 
   const metrics = useMemo(() => {
     return {
@@ -85,13 +95,17 @@ function BuildFlow() {
     setActiveTab("dashboard")
   }
 
-  function resetDemoData() {
-    const confirmed = window.confirm("確定要重置 BuildFlow Demo 資料嗎？目前新增的資料會被清除。")
+  async function resetDemoData() {
+    const confirmed = await confirmAction({
+      title: "重置 BuildFlow Demo",
+      message: "目前新增的資料會被清除，並回到預設展示資料。",
+      confirmLabel: "重置資料",
+    })
     if (!confirmed) return
-    localStorage.removeItem(STORAGE_KEY)
     setActiveProjectId("")
     setActiveTab(isAdmin ? "dashboard" : "worker")
-    setData(cloneDemoData())
+    resetData()
+    showToast("BuildFlow Demo 資料已重置。")
   }
 
   function openProjectDetail(projectId) {
@@ -111,13 +125,13 @@ function BuildFlow() {
     const username = textValue(form, "username")
 
     if (!username) {
-      window.alert("請輸入帳號。")
+      showToast("請輸入帳號。", "error")
       return
     }
 
     const exists = users.some((user) => user.username.toLowerCase() === username.toLowerCase())
     if (exists) {
-      window.alert("這個帳號已經存在，請換一個帳號。")
+      showToast("這個帳號已經存在，請換一個帳號。", "error")
       return
     }
 
@@ -174,24 +188,26 @@ function BuildFlow() {
     })
   }
 
-  function deleteUser(userId) {
+  async function deleteUser(userId) {
     const user = users.find((item) => item.id === userId)
     if (!user) return
 
     if (user.id === session?.id) {
-      window.alert("不能刪除目前登入中的帳號。")
+      showToast("不能刪除目前登入中的帳號。", "error")
       return
     }
 
     if (user.role === "admin") {
-      window.alert("Demo 版不允許刪除管理者帳號，避免系統無法登入。")
+      showToast("Demo 版不允許刪除管理者帳號，避免系統無法登入。", "error")
       return
     }
 
     const relatedTasks = tasks.filter((task) => task.workerId === user.id).length
-    const confirmed = window.confirm(
-      `確定刪除「${user.name}」嗎？相關 ${relatedTasks} 個任務會改成未指派。`
-    )
+    const confirmed = await confirmAction({
+      title: `刪除使用者：${user.name}`,
+      message: `相關 ${relatedTasks} 個任務會改成未指派。`,
+      confirmLabel: "刪除使用者",
+    })
     if (!confirmed) return
 
     setData((current) => ({
@@ -268,11 +284,13 @@ function BuildFlow() {
     })
   }
 
-  function deleteProject(projectId) {
+  async function deleteProject(projectId) {
     const project = projects.find((item) => item.id === projectId)
-    const confirmed = window.confirm(
-      `確定刪除「${project?.name || "這個案件"}」嗎？相關發包、批價、追加減項、任務也會一起移除。`
-    )
+    const confirmed = await confirmAction({
+      title: `刪除案件：${project?.name || "這個案件"}`,
+      message: "相關發包、批價、追加減項、任務也會一起移除。",
+      confirmLabel: "刪除案件",
+    })
     if (!confirmed) return
     const subcontractIds = subcontracts
       .filter((item) => item.projectId === projectId)
@@ -379,11 +397,13 @@ function BuildFlow() {
     })
   }
 
-  function deleteSubcontract(subcontractId) {
+  async function deleteSubcontract(subcontractId) {
     const subcontract = subcontracts.find((item) => item.id === subcontractId)
-    const confirmed = window.confirm(
-      `確定刪除「${subcontract?.item || "這個發包項目"}」嗎？相關批價與任務也會一起移除。`
-    )
+    const confirmed = await confirmAction({
+      title: `刪除發包項目：${subcontract?.item || "這個發包項目"}`,
+      message: "相關批價與任務也會一起移除。",
+      confirmLabel: "刪除項目",
+    })
     if (!confirmed) return
 
     setData((current) => ({
@@ -433,8 +453,15 @@ function BuildFlow() {
     event.currentTarget.reset()
   }
 
-  function deleteBid(bidId) {
-    if (!window.confirm("確定刪除這筆批價紀錄嗎？")) return
+  async function deleteBid(bidId) {
+    if (
+      !(await confirmAction({
+        title: "刪除批價紀錄",
+        message: "這筆批價紀錄會從 Demo 資料中移除。",
+        confirmLabel: "刪除紀錄",
+      }))
+    )
+      return
     setData((current) => ({ ...current, bids: current.bids.filter((item) => item.id !== bidId) }))
   }
 
@@ -495,8 +522,15 @@ function BuildFlow() {
     })
   }
 
-  function deleteChangeOrder(orderId) {
-    if (!window.confirm("確定刪除這筆追加 / 減項紀錄嗎？")) return
+  async function deleteChangeOrder(orderId) {
+    if (
+      !(await confirmAction({
+        title: "刪除追加 / 減項",
+        message: "這筆追加 / 減項紀錄會從 Demo 資料中移除。",
+        confirmLabel: "刪除紀錄",
+      }))
+    )
+      return
     setData((current) => ({
       ...current,
       changeOrders: current.changeOrders.filter((item) => item.id !== orderId),
@@ -551,8 +585,15 @@ function BuildFlow() {
     })
   }
 
-  function deleteVendor(vendorId) {
-    if (!window.confirm("確定刪除這筆廠商資料嗎？")) return
+  async function deleteVendor(vendorId) {
+    if (
+      !(await confirmAction({
+        title: "刪除廠商資料",
+        message: "這筆廠商資料會從 Demo 資料中移除。",
+        confirmLabel: "刪除廠商",
+      }))
+    )
+      return
     setData((current) => ({
       ...current,
       vendors: current.vendors.filter((item) => item.id !== vendorId),
@@ -577,8 +618,15 @@ function BuildFlow() {
     }))
   }
 
-  function deleteTask(taskId) {
-    if (!window.confirm("確定刪除這個任務嗎？")) return
+  async function deleteTask(taskId) {
+    if (
+      !(await confirmAction({
+        title: "刪除任務",
+        message: "這個任務會從 Demo 資料中移除。",
+        confirmLabel: "刪除任務",
+      }))
+    )
+      return
     setData((current) => ({
       ...current,
       tasks: current.tasks.filter((task) => task.id !== taskId),
@@ -589,9 +637,7 @@ function BuildFlow() {
     return `【追加工程確認】\n\n案件：${order.projectName}\n類型：${order.type}\n項目：${order.item}\n原因：${order.reason}\n金額：NT$${formatMoney(order.amount)}\n\n請業主確認後，我們再安排後續施工。`
   }
 
-  if (!session) return <BuildFlowLogin users={users} onLogin={handleLogin} />
-
-  const actions = {
+  const actions = useBuildFlowActions({
     addBid,
     addChangeOrder,
     addProject,
@@ -619,7 +665,9 @@ function BuildFlow() {
     updateProjectStatus,
     updateSubcontractStatus,
     updateTaskReport,
-  }
+  })
+
+  if (!session) return <BuildFlowLogin users={users} onLogin={handleLogin} />
 
   return (
     <main className="min-h-screen bg-slate-100 text-slate-950">
@@ -662,6 +710,12 @@ function BuildFlow() {
         />
       </section>
       <EditModal config={editModal} onClose={() => setEditModal(null)} />
+      <ConfirmDialog
+        config={confirmDialog}
+        onCancel={() => resolveConfirm(false)}
+        onConfirm={() => resolveConfirm(true)}
+      />
+      <ToastMessage message={toast?.message} tone={toast?.tone} onClose={() => setToast(null)} />
     </main>
   )
 }
