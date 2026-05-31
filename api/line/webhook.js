@@ -10,11 +10,13 @@ const HELP_TEXT = [
 ].join("\n")
 
 function getSupabaseClient() {
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
-  const supabaseKey =
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
+  const supabaseKey = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.SUPABASE_ANON_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY
+    process.env.VITE_SUPABASE_ANON_KEY ||
+    ""
+  ).trim()
 
   if (!supabaseUrl || !supabaseKey) {
     return { error: "Supabase env is missing. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY." }
@@ -37,7 +39,7 @@ function getSupabaseClient() {
 }
 
 function getEnvStatus() {
-  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
   let supabaseHost = ""
   let supabaseUrlIsValid = false
 
@@ -61,6 +63,45 @@ function getEnvStatus() {
       process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
     ),
     hasLineChannelAccessToken: Boolean(process.env.LINE_CHANNEL_ACCESS_TOKEN),
+  }
+}
+
+async function getSupabaseHealth() {
+  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
+  const supabaseKey = (
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY ||
+    ""
+  ).trim()
+  const env = getEnvStatus()
+
+  if (!env.hasSupabaseUrl || !supabaseKey) {
+    return { ok: false, skipped: true, reason: "Missing Supabase URL or key." }
+  }
+
+  if (!env.supabaseUrlIsValid) {
+    return { ok: false, skipped: true, reason: "Invalid Supabase URL format." }
+  }
+
+  try {
+    const response = await fetch(`${supabaseUrl}/rest/v1/line_profiles?select=id&limit=1`, {
+      headers: {
+        apikey: supabaseKey,
+        Authorization: `Bearer ${supabaseKey}`,
+      },
+    })
+
+    return {
+      ok: response.ok,
+      status: response.status,
+      statusText: response.statusText,
+    }
+  } catch (error) {
+    return {
+      ok: false,
+      error: error.message,
+    }
   }
 }
 
@@ -282,10 +323,12 @@ async function replyToLine(replyToken, text) {
 export default async function handler(req, res) {
   if (req.method === "GET") {
     if (req.query?.debug === "1") {
+      const includeHealth = req.query?.health === "1"
       return res.status(200).json({
         ok: true,
         message: "BuildFlow LINE webhook with Supabase v2 is alive.",
         env: getEnvStatus(),
+        supabaseHealth: includeHealth ? await getSupabaseHealth() : "add &health=1 to check",
       })
     }
 
@@ -342,6 +385,7 @@ export const __testables = {
   findProfileByLineUserId,
   getEnvStatus,
   getRequestBody,
+  getSupabaseHealth,
   handleCommand,
   listTodayTasks,
   reportTask,
