@@ -52,6 +52,15 @@ const demoAccounts = [
 
 const lineBotId = "@550oexzn"
 
+const testSteps = [
+  "進入 BuildFlow",
+  "admin / admin123 登入",
+  "查看案件與任務",
+  `LINE 加 ${lineBotId}`,
+  "輸入：綁定 BF-AMING-1234",
+  "輸入：今日任務",
+]
+
 function ProjectHub() {
   return (
     <main className="lab-page min-h-screen overflow-hidden text-stone-100">
@@ -139,6 +148,21 @@ function ProjectHub() {
       </section>
 
       <section className="relative mx-auto grid max-w-6xl gap-5 px-4 pb-16 lg:grid-cols-[1fr_0.85fr]">
+        <div className="lab-glass-panel lg:col-span-2">
+          <p className="lab-eyebrow">HOW TO TEST</p>
+          <h2 className="mt-3 text-2xl font-black text-white md:text-4xl">測試流程</h2>
+          <div className="mt-7 grid gap-3 md:grid-cols-3">
+            {testSteps.map((step, index) => (
+              <div key={step} className="rounded-xl border border-white/10 bg-black/25 p-4">
+                <p className="font-mono text-xs font-black text-yellow-400">
+                  {String(index + 1).padStart(2, "0")}
+                </p>
+                <p className="mt-2 text-sm font-black leading-7 text-stone-100">{step}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
         <div className="lab-glass-panel">
           <p className="lab-eyebrow">SYSTEM CAPABILITIES</p>
           <h2 className="mt-3 text-2xl font-black text-white md:text-4xl">能力清單</h2>

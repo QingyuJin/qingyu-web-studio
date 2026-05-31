@@ -67,6 +67,23 @@ Worker: `ming / 1234`
 9. Login as worker: `aming / 1234`.
 10. Complete assigned tasks and submit reports.
 
+## Quick Test
+
+For visitors:
+
+1. Open the site.
+2. Enter `BuildFlow`.
+3. Login as admin: `admin / admin123`.
+4. Check projects, tasks, bids, vendors, and LINE Bot panel.
+5. Add LINE Bot: `@550oexzn`.
+6. Send: `綁定 BF-AMING-1234`.
+7. Send: `今日任務`.
+8. Send: `回報 t-001 現場已完成第一道防水`.
+9. Send: `完成 t-001`.
+10. Send: `今日任務`.
+
+Expected: the final task list no longer shows `t-001`.
+
 ## LINE Bot Demo Flow
 
 This repository includes a working Vercel webhook for LINE Messaging API and a minimal Supabase schema.
@@ -93,6 +110,7 @@ The Supabase health check should return `status: 200`.
 Send these messages in LINE:
 
 ```text
+加好友：@550oexzn
 測試
 綁定 BF-AMING-1234
 今日任務
