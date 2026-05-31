@@ -29,6 +29,17 @@ function getSupabaseClient() {
   }
 }
 
+function getEnvStatus() {
+  return {
+    hasSupabaseUrl: Boolean(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL),
+    hasSupabaseServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
+    hasSupabaseAnonKey: Boolean(
+      process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
+    ),
+    hasLineChannelAccessToken: Boolean(process.env.LINE_CHANNEL_ACCESS_TOKEN),
+  }
+}
+
 function getRequestBody(req) {
   if (typeof req.body === "string") {
     try {
@@ -246,6 +257,14 @@ async function replyToLine(replyToken, text) {
 
 export default async function handler(req, res) {
   if (req.method === "GET") {
+    if (req.query?.debug === "1") {
+      return res.status(200).json({
+        ok: true,
+        message: "BuildFlow LINE webhook with Supabase v2 is alive.",
+        env: getEnvStatus(),
+      })
+    }
+
     return res.status(200).send("BuildFlow LINE webhook with Supabase v2 is alive.")
   }
 
@@ -279,6 +298,7 @@ export default async function handler(req, res) {
         input: getMessageText(event),
         reply: errorReply,
         error: requestError.message,
+        env: getEnvStatus(),
         lineReply,
       })
     }
@@ -296,6 +316,7 @@ export const __testables = {
   bindProfile,
   completeTask,
   findProfileByLineUserId,
+  getEnvStatus,
   getRequestBody,
   handleCommand,
   listTodayTasks,
