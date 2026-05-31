@@ -55,6 +55,11 @@ function normalizeText(value) {
     .trim()
 }
 
+function commandNeedsSupabase(text) {
+  if (!text || text === "測試" || text === "help" || text === "說明") return false
+  return true
+}
+
 function taskLabel(task) {
   const dueDate = task.due_date || "未設定"
   const note = task.note || "無"
@@ -249,9 +254,6 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" })
   }
 
-  const { supabase, error } = getSupabaseClient()
-  if (error) return res.status(500).json({ error })
-
   const body = getRequestBody(req)
   const events = Array.isArray(body?.events) ? body.events : []
   const results = []
@@ -260,11 +262,25 @@ export default async function handler(req, res) {
     if (event?.type !== "message" || event?.message?.type !== "text") continue
 
     try {
+      const input = getMessageText(event)
+      const { supabase, error } = commandNeedsSupabase(input)
+        ? getSupabaseClient()
+        : { supabase: null, error: null }
+
+      if (error) throw new Error(error)
+
       const reply = await handleCommand(supabase, event)
       const lineReply = await replyToLine(event.replyToken, reply)
-      results.push({ input: getMessageText(event), reply, lineReply })
+      results.push({ input, reply, lineReply })
     } catch (requestError) {
-      results.push({ input: getMessageText(event), error: requestError.message })
+      const errorReply = `BuildFlow webhook 收到訊息，但處理失敗：${requestError.message}`
+      const lineReply = await replyToLine(event.replyToken, errorReply)
+      results.push({
+        input: getMessageText(event),
+        reply: errorReply,
+        error: requestError.message,
+        lineReply,
+      })
     }
   }
 
