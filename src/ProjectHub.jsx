@@ -50,6 +50,8 @@ const demoAccounts = [
   { label: "BuildFlow Worker", account: "aming / 1234" },
 ]
 
+const lineBotId = "@550oexzn"
+
 function ProjectHub() {
   return (
     <main className="lab-page min-h-screen overflow-hidden text-stone-100">
@@ -80,6 +82,9 @@ function ProjectHub() {
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base font-bold leading-8 text-stone-300 md:text-lg">
             網站、後台、權限、資料、LINE Bot、Supabase。
+          </p>
+          <p className="mx-auto mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-yellow-400">
+            LINE Bot {lineBotId}
           </p>
 
           <div className="mt-9 flex flex-wrap justify-center gap-3">
@@ -151,6 +156,12 @@ function ProjectHub() {
           <p className="lab-eyebrow">DEMO ACCOUNTS</p>
           <h2 className="mt-3 text-2xl font-black text-white">測試帳號</h2>
           <div className="mt-7 grid gap-3">
+            <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-yellow-400/70">
+                LINE Bot
+              </p>
+              <p className="mt-2 font-mono text-sm font-bold text-stone-100">{lineBotId}</p>
+            </div>
             {demoAccounts.map((item) => (
               <div key={item.label} className="rounded-2xl border border-white/10 bg-black/25 p-4">
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-yellow-400/70">

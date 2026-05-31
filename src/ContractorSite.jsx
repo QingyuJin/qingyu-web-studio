@@ -116,6 +116,7 @@ const faqItems = [
 ]
 
 const filters = ["全部", "防水工程", "泥作修繕", "水電配置", "油漆整理", "木作裝修"]
+const lineBotId = "@550oexzn"
 
 function ContractorSite() {
   const [activeFilter, setActiveFilter] = useState("全部")
@@ -140,6 +141,7 @@ function ContractorSite() {
 
 姓名：${inquiry.name || "未填"}
 電話 / LINE：${inquiry.contact || "未填"}
+LINE Bot：${lineBotId}
 案場地區：${inquiry.area || "未填"}
 工程類型：${inquiry.type || "未填"}
 目前狀況：${inquiry.situation || "未填"}
@@ -239,6 +241,9 @@ function HeroSection() {
 
           <p className="mt-5 max-w-xl text-base font-bold leading-8 text-slate-600 md:text-lg">
             服務、案例、流程、表單。前台收需求，後台管案件。
+          </p>
+          <p className="mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-yellow-400">
+            LINE Bot {lineBotId}
           </p>
 
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
@@ -497,7 +502,7 @@ function ContactSection({
             <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Contact</p>
             <h2 className="mt-4 text-2xl font-black tracking-normal md:text-4xl">需求表單</h2>
             <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-              先收地區、類型、狀況與時間。
+              先收地區、類型、狀況與時間。LINE Bot：{lineBotId}
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
