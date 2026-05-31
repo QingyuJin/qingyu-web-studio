@@ -67,7 +67,7 @@ ${task.title}
 備註：${note}${report}`
 }
 
-async function getBoundProfile(supabase, lineUserId) {
+async function findProfileByLineUserId(supabase, lineUserId) {
   if (!lineUserId) return null
 
   const { data, error } = await supabase
@@ -86,7 +86,7 @@ async function bindProfile(supabase, lineUserId, text) {
   const code = normalizeText(text).match(/\bBF-[A-Z0-9-]+\b/i)?.[0]
   if (!code) return "請輸入綁定碼，例如：綁定 BF-AMING-1234"
 
-  const existingProfile = await getBoundProfile(supabase, lineUserId)
+  const existingProfile = await findProfileByLineUserId(supabase, lineUserId)
   if (existingProfile) {
     return `你已經綁定：${existingProfile.name}\n角色：${
       existingProfile.role === "admin" ? "管理者" : "使用者"
@@ -107,7 +107,7 @@ async function bindProfile(supabase, lineUserId, text) {
 }
 
 async function listTodayTasks(supabase, lineUserId) {
-  const profile = await getBoundProfile(supabase, lineUserId)
+  const profile = await findProfileByLineUserId(supabase, lineUserId)
   if (!profile) return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 BF-AMING-1234"
 
   const { data, error } = await supabase
@@ -125,7 +125,7 @@ async function listTodayTasks(supabase, lineUserId) {
 }
 
 async function completeTask(supabase, lineUserId, text) {
-  const profile = await getBoundProfile(supabase, lineUserId)
+  const profile = await findProfileByLineUserId(supabase, lineUserId)
   if (!profile) return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 BF-AMING-1234"
 
   const taskId = normalizeText(text)
@@ -152,13 +152,13 @@ async function completeTask(supabase, lineUserId, text) {
 }
 
 async function reportTask(supabase, lineUserId, text) {
-  const profile = await getBoundProfile(supabase, lineUserId)
+  const profile = await findProfileByLineUserId(supabase, lineUserId)
   if (!profile) return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 BF-AMING-1234"
 
-  const body = normalizeText(text)
+  const reportCommand = normalizeText(text)
     .replace(/^回報\s*/u, "")
     .trim()
-  const [taskId, ...contentParts] = body.split(" ")
+  const [taskId, ...contentParts] = reportCommand.split(" ")
   const content = contentParts.join(" ").trim()
 
   if (!taskId || !content) {
@@ -279,7 +279,7 @@ export default async function handler(req, res) {
 export const __testables = {
   bindProfile,
   completeTask,
-  getBoundProfile,
+  findProfileByLineUserId,
   getRequestBody,
   handleCommand,
   listTodayTasks,
