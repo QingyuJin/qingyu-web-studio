@@ -177,14 +177,14 @@ function ContractorSite() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-950">
-      <header className="border-b border-slate-200 bg-white">
+    <main className="contractor-dark lab-page min-h-screen text-slate-950">
+      <header className="lab-topbar sticky top-0 z-30">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <Link to="/" className="text-sm font-bold text-slate-500">
+            <Link to="/" className="text-sm font-bold text-yellow-300">
               ← 回系統入口
             </Link>
-            <p className="mt-2 text-xl font-black">Contractor Site</p>
+            <p className="mt-2 text-xl font-black text-white">Contractor Site</p>
             <p className="text-sm text-slate-500">工程行對外接案網站</p>
           </div>
 
@@ -233,38 +233,30 @@ function HeroSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
       <div className="grid gap-10 lg:grid-cols-[1fr_420px] lg:items-center">
-        <div>
-          <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
-            Contractor Website
-          </p>
+        <div className="text-center lg:text-left">
+          <p className="lab-eyebrow">Contractor Website</p>
 
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">
+          <h1 className="mt-6 text-5xl font-black leading-tight tracking-normal md:text-7xl">
             讓工程行的服務、案例與聯絡方式被清楚看見。
           </h1>
 
-          <p className="mt-6 max-w-2xl leading-8 text-slate-600">
+          <p className="mt-6 max-w-2xl text-lg font-bold leading-9 text-slate-600">
             這是一個工程行對外接案網站原型，負責展示服務項目、施工案例、流程說明與聯絡導流。
             對外網站負責接案，內部系統則交給 BuildFlow 管理案件、發包與追加減項。
           </p>
 
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#services"
-              className="rounded-2xl bg-slate-950 px-6 py-3 text-sm font-black text-white"
-            >
+          <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
+            <a href="#services" className="lab-primary-button">
               查看服務
             </a>
-            <a
-              href="#cases"
-              className="rounded-2xl border border-slate-200 bg-white px-6 py-3 text-sm font-black text-slate-700"
-            >
+            <a href="#cases" className="lab-secondary-button">
               查看案例
             </a>
           </div>
         </div>
 
-        <div className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-          <p className="text-sm font-black text-slate-500">網站目的</p>
+        <div className="lab-glass-panel">
+          <p className="lab-eyebrow">Website Purpose</p>
 
           <div className="mt-5 grid gap-3">
             {[
@@ -272,10 +264,10 @@ function HeroSection() {
               "展示施工案例與信任感",
               "讓客戶快速送出需求",
               "把前台詢問導入後台管理",
-            ].map((item, index) => (
+            ].map((item) => (
               <div key={item} className="flex gap-3 rounded-2xl bg-slate-50 p-4">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-slate-950 text-xs font-black text-white">
-                  {index + 1}
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-yellow-300 text-xs font-black text-black">
+                  ✓
                 </span>
                 <p className="font-bold text-slate-700">{item}</p>
               </div>
@@ -417,7 +409,7 @@ function WhyWebsiteSection() {
           <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
             Why Website
           </p>
-          <h2 className="mt-4 text-3xl font-black tracking-[-0.04em] md:text-5xl">
+          <h2 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">
             工程行不能只靠 LINE 相簿和口頭介紹。
           </h2>
           <p className="mt-5 leading-8 text-slate-600">
@@ -453,7 +445,7 @@ function BuildFlowRelationSection() {
             <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-400">
               Website + System
             </p>
-            <h2 className="mt-4 text-3xl font-black tracking-[-0.04em] md:text-5xl">
+            <h2 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">
               前台負責接案，後台負責管理。
             </h2>
             <p className="mt-5 leading-8 text-slate-300">
@@ -537,7 +529,7 @@ function ContactSection({
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Contact</p>
-            <h2 className="mt-4 text-3xl font-black tracking-[-0.04em] md:text-5xl">
+            <h2 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">
               讓客戶用固定格式提供需求。
             </h2>
             <p className="mt-5 leading-8 text-slate-600">
@@ -677,7 +669,7 @@ function SectionTitle({ label, title, desc }) {
   return (
     <div>
       <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">{label}</p>
-      <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-[-0.04em] md:text-5xl">{title}</h2>
+      <h2 className="mt-4 max-w-4xl text-3xl font-black tracking-normal md:text-5xl">{title}</h2>
       {desc && <p className="mt-4 max-w-3xl leading-8 text-slate-600">{desc}</p>}
     </div>
   )
