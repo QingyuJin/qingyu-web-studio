@@ -2,46 +2,46 @@ import { Link } from "react-router-dom"
 
 const projects = [
   {
-    title: "工程行對外接案網站",
+    title: "接案網站",
     name: "Contractor Site",
     path: "/contractor-site",
     status: "Website",
     type: "Public Site",
-    desc: "服務介紹、施工案例、流程說明與需求表單，讓客戶先建立信任，再把需求帶進後台。",
-    features: ["服務展示", "施工案例", "需求表單", "導入 BuildFlow"],
+    desc: "服務、案例、表單。前台收需求，後台接案件。",
+    features: ["服務", "案例", "表單", "建案"],
     icon: "⌘",
   },
   {
-    title: "工程行後台管理系統",
+    title: "工程後台",
     name: "BuildFlow",
     path: "/buildflow",
     status: "System",
     type: "Operation System",
-    desc: "管理案件、發包、批價、廠商、追加減項、任務與 LINE Bot 回報，讓工程流程可追蹤。",
-    features: ["角色登入", "案件管理", "發包批價", "LINE Bot"],
+    desc: "案件、發包、批價、任務、LINE 回報集中管理。",
+    features: ["登入", "案件", "發包", "LINE"],
     icon: "▦",
   },
   {
-    title: "健身教練課表系統",
+    title: "課表系統",
     name: "CoachFlow",
     path: "/coachflow",
     status: "Prototype",
     type: "Vertical Workflow",
-    desc: "用第二個垂直領域展示同一套能力：角色流程、課表指派、完成追蹤與回報。",
-    features: ["學生管理", "課表建立", "完成追蹤", "回報流程"],
+    desc: "學生、課表、完成、回報。展示跨產業流程化。",
+    features: ["學生", "課表", "追蹤", "回報"],
     icon: "◈",
   },
 ]
 
 const capabilities = [
-  "Role-based login",
-  "Admin dashboard",
-  "CRUD workflow",
-  "Search and filters",
-  "Supabase webhook",
-  "LINE Bot task reports",
-  "Mobile-first UI",
-  "Interactive feedback",
+  "角色登入",
+  "後台總覽",
+  "資料管理",
+  "搜尋篩選",
+  "Supabase",
+  "LINE 回報",
+  "手機版",
+  "點擊回饋",
 ]
 
 const demoAccounts = [
@@ -71,15 +71,15 @@ function ProjectHub() {
         </div>
       </header>
 
-      <section className="relative mx-auto max-w-6xl px-4 py-14 md:py-20">
+      <section className="relative mx-auto max-w-6xl px-4 py-10 md:py-20">
         <div className="mx-auto max-w-4xl text-center">
           <p className="lab-eyebrow">SYSTEM PORTFOLIO</p>
-          <h1 className="mt-6 text-5xl font-black leading-tight tracking-normal text-white md:text-7xl">
-            把散落流程
-            <span className="block text-yellow-300">整理成可操作系統</span>
+          <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal text-white sm:text-4xl md:text-6xl">
+            流程系統化
+            <span className="block text-yellow-400">作品集</span>
           </h1>
-          <p className="mx-auto mt-6 max-w-2xl text-lg font-bold leading-9 text-stone-300 md:text-xl">
-            網站、後台、登入權限、資料管理、LINE Bot 與 Supabase 串接，組成一套可以展示的系統作品。
+          <p className="mx-auto mt-5 max-w-xl text-base font-bold leading-8 text-stone-300 md:text-lg">
+            網站、後台、權限、資料、LINE Bot、Supabase。
           </p>
 
           <div className="mt-9 flex flex-wrap justify-center gap-3">
@@ -92,27 +92,29 @@ function ProjectHub() {
           </div>
         </div>
 
-        <div className="mt-14 grid gap-5 lg:grid-cols-3">
+        <div className="mt-10 grid gap-4 lg:grid-cols-3">
           {projects.map((project) => (
             <Link key={project.name} to={project.path} className="lab-project-card group">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-yellow-300/80">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-yellow-400/70">
                     {project.type}
                   </p>
-                  <h2 className="mt-4 text-3xl font-black text-white">{project.name}</h2>
+                  <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">
+                    {project.name}
+                  </h2>
                 </div>
-                <span className="rounded-full border border-yellow-300/20 bg-yellow-300/10 px-3 py-1 text-xs font-black text-yellow-200">
+                <span className="rounded-full border border-yellow-400/20 bg-yellow-400/10 px-3 py-1 text-xs font-black text-yellow-200">
                   {project.status}
                 </span>
               </div>
 
-              <div className="my-8 grid h-32 place-items-center rounded-2xl border border-white/10 bg-black/25 text-6xl text-yellow-300 shadow-inner">
+              <div className="my-5 grid h-24 place-items-center rounded-xl border border-white/10 bg-black/25 text-4xl text-yellow-400 shadow-inner md:h-28 md:text-5xl">
                 {project.icon}
               </div>
 
-              <h3 className="text-2xl font-black text-stone-100">{project.title}</h3>
-              <p className="mt-4 leading-8 text-stone-300">{project.desc}</p>
+              <h3 className="text-xl font-black text-stone-100 md:text-2xl">{project.title}</h3>
+              <p className="mt-3 text-sm leading-7 text-stone-300 md:text-base">{project.desc}</p>
 
               <div className="mt-6 grid gap-3">
                 {project.features.map((feature) => (
@@ -123,7 +125,7 @@ function ProjectHub() {
                 ))}
               </div>
 
-              <span className="mt-8 inline-flex w-full items-center justify-center rounded-2xl bg-yellow-300 px-5 py-4 text-sm font-black text-black shadow-[0_0_32px_rgba(250,204,21,0.22)] transition group-hover:bg-yellow-200">
+              <span className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-yellow-600 px-5 py-3 text-sm font-black text-black transition group-hover:bg-yellow-500">
                 進入作品
               </span>
             </Link>
@@ -134,7 +136,7 @@ function ProjectHub() {
       <section className="relative mx-auto grid max-w-6xl gap-5 px-4 pb-16 lg:grid-cols-[1fr_0.85fr]">
         <div className="lab-glass-panel">
           <p className="lab-eyebrow">SYSTEM CAPABILITIES</p>
-          <h2 className="mt-4 text-3xl font-black text-white md:text-5xl">可展示能力</h2>
+          <h2 className="mt-3 text-2xl font-black text-white md:text-4xl">能力清單</h2>
           <div className="mt-7 grid gap-3 md:grid-cols-2">
             {capabilities.map((item) => (
               <div key={item} className="lab-check-row">
@@ -147,11 +149,11 @@ function ProjectHub() {
 
         <div className="lab-glass-panel">
           <p className="lab-eyebrow">DEMO ACCOUNTS</p>
-          <h2 className="mt-4 text-3xl font-black text-white">快速測試</h2>
+          <h2 className="mt-3 text-2xl font-black text-white">測試帳號</h2>
           <div className="mt-7 grid gap-3">
             {demoAccounts.map((item) => (
               <div key={item.label} className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-yellow-300/70">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-yellow-400/70">
                   {item.label}
                 </p>
                 <p className="mt-2 font-mono text-sm font-bold text-stone-100">{item.account}</p>
