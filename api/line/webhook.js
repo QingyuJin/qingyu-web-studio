@@ -1,151 +1,61 @@
-import crypto from "node:crypto"
 import { createClient } from "@supabase/supabase-js"
 
-const LINE_REPLY_ENDPOINT = "https://api.line.me/v2/bot/message/reply"
+const HELP_TEXT = [
+  "BuildFlow LINE 指令：",
+  "測試",
+  "綁定 <帳號>",
+  "今日任務",
+  "完成 <taskId>",
+  "回報 <taskId> <內容>",
+].join("\n")
 
-let supabaseClient = null
+function getSupabaseClient() {
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
+  const supabaseKey =
+    process.env.SUPABASE_SERVICE_ROLE_KEY ||
+    process.env.SUPABASE_ANON_KEY ||
+    process.env.VITE_SUPABASE_ANON_KEY
 
-function getSupabase() {
-  if (supabaseClient) return supabaseClient
-
-  const supabaseUrl = process.env.SUPABASE_URL
-  const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY
-
-  if (!supabaseUrl || !serviceRoleKey) {
-    throw new Error("Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY")
+  if (!supabaseUrl || !supabaseKey) {
+    return { error: "Supabase env is missing. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY." }
   }
 
-  supabaseClient = createClient(supabaseUrl, serviceRoleKey, {
-    auth: {
-      persistSession: false,
-      autoRefreshToken: false,
-    },
-  })
-
-  return supabaseClient
-}
-
-function verifyLineSignature(rawBody, signature, channelSecret) {
-  if (!signature || !channelSecret) return false
-
-  const expectedSignature = crypto
-    .createHmac("sha256", channelSecret)
-    .update(rawBody)
-    .digest("base64")
-
-  try {
-    return crypto.timingSafeEqual(
-      Buffer.from(signature),
-      Buffer.from(expectedSignature)
-    )
-  } catch {
-    return false
-  }
-}
-
-async function replyMessage(replyToken, text) {
-  const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN
-
-  if (!channelAccessToken) {
-    console.error("Missing LINE_CHANNEL_ACCESS_TOKEN")
-    return
-  }
-
-  const response = await fetch(LINE_REPLY_ENDPOINT, {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      Authorization: `Bearer ${channelAccessToken}`,
-    },
-    body: JSON.stringify({
-      replyToken,
-      messages: [
-        {
-          type: "text",
-          text,
-        },
-      ],
+  return {
+    supabase: createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: false,
+      },
     }),
-  })
-
-  if (!response.ok) {
-    const errorText = await response.text()
-    console.error("LINE reply failed:", response.status, errorText)
   }
 }
 
-function normalizeText(value) {
-  return String(value || "").replace(/\s+/g, " ").trim()
+function getRequestBody(req) {
+  if (typeof req.body === "string") {
+    try {
+      return JSON.parse(req.body)
+    } catch {
+      return {}
+    }
+  }
+
+  return req.body || {}
 }
 
 function getLineUserId(event) {
   return event?.source?.userId || ""
 }
 
-async function getBoundProfile(lineUserId) {
-  if (!lineUserId) return null
-
-  const supabase = getSupabase()
-
-  const { data, error } = await supabase
-    .from("line_profiles")
-    .select("id, username, name, role, line_user_id")
-    .eq("line_user_id", lineUserId)
-    .maybeSingle()
-
-  if (error) {
-    console.error("getBoundProfile error:", error)
-    return null
-  }
-
-  return data
+function getMessageText(event) {
+  return String(event?.message?.text || "").trim()
 }
 
-async function handleBindCommand(text, event) {
-  const lineUserId = getLineUserId(event)
-
-  if (!lineUserId) {
-    return "無法取得 LINE userId，請用一對一聊天進行綁定。"
-  }
-
-  const code = normalizeText(text).replace(/^綁定\s*/u, "").trim()
-
-  if (!code) {
-    return "請輸入綁定碼，例如：綁定 BF-AMING-1234"
-  }
-
-  const supabase = getSupabase()
-
-  const alreadyBound = await getBoundProfile(lineUserId)
-
-  if (alreadyBound) {
-    return `你已經綁定：${alreadyBound.name}\n角色：${
-      alreadyBound.role === "admin" ? "管理者" : "使用者"
-    }`
-  }
-
-  const { data, error } = await supabase
-    .from("line_profiles")
-    .update({
-      line_user_id: lineUserId,
-    })
-    .eq("line_bind_code", code)
-    .select("id, username, name, role")
-    .maybeSingle()
-
-  if (error) {
-    console.error("bind error:", error)
-    return "綁定失敗，請稍後再試。"
-  }
-
-  if (!data) {
-    return "找不到這組綁定碼，請確認格式是否正確。"
-  }
-
-  return `綁定成功：${data.name}\n之後可輸入「今日任務」查詢你的任務。`
+function normalizeText(value) {
+  return String(value || "")
+    .replace(/\s+/g, " ")
+    .trim()
 }
 
-function formatTask(task) {
+function taskLabel(task) {
   const dueDate = task.due_date || "未設定"
   const note = task.note || "無"
   const report = task.report ? `\n回報：${task.report}` : ""
@@ -157,15 +67,48 @@ ${task.title}
 備註：${note}${report}`
 }
 
-async function handleTodayTasks(event) {
-  const lineUserId = getLineUserId(event)
-  const profile = await getBoundProfile(lineUserId)
+async function getBoundProfile(supabase, lineUserId) {
+  if (!lineUserId) return null
 
-  if (!profile) {
-    return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 <你的綁定碼>\n例如：綁定 BF-AMING-1234"
+  const { data, error } = await supabase
+    .from("line_profiles")
+    .select("id, username, name, role, line_user_id")
+    .eq("line_user_id", lineUserId)
+    .maybeSingle()
+
+  if (error) throw error
+  return data
+}
+
+async function bindProfile(supabase, lineUserId, text) {
+  if (!lineUserId) return "LINE userId 不存在，無法綁定。"
+
+  const code = normalizeText(text).match(/\bBF-[A-Z0-9-]+\b/i)?.[0]
+  if (!code) return "請輸入綁定碼，例如：綁定 BF-AMING-1234"
+
+  const existingProfile = await getBoundProfile(supabase, lineUserId)
+  if (existingProfile) {
+    return `你已經綁定：${existingProfile.name}\n角色：${
+      existingProfile.role === "admin" ? "管理者" : "使用者"
+    }`
   }
 
-  const supabase = getSupabase()
+  const { data: profile, error } = await supabase
+    .from("line_profiles")
+    .update({ line_user_id: lineUserId })
+    .eq("line_bind_code", code)
+    .select("id, username, name, role")
+    .maybeSingle()
+
+  if (error) throw error
+  if (!profile) return `找不到綁定碼「${code}」。請確認 line_profiles.line_bind_code 是否存在。`
+
+  return `綁定成功：${profile.name}\n之後可輸入「今日任務」查詢你的任務。`
+}
+
+async function listTodayTasks(supabase, lineUserId) {
+  const profile = await getBoundProfile(supabase, lineUserId)
+  if (!profile) return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 BF-AMING-1234"
 
   const { data, error } = await supabase
     .from("line_tasks")
@@ -175,33 +118,20 @@ async function handleTodayTasks(event) {
     .order("due_date", { ascending: true })
     .limit(10)
 
-  if (error) {
-    console.error("today tasks error:", error)
-    return "查詢任務失敗，請稍後再試。"
-  }
+  if (error) throw error
+  if (!data || data.length === 0) return `${profile.name}，你目前沒有待完成任務。`
 
-  if (!data || data.length === 0) {
-    return `${profile.name}，你目前沒有待完成任務。`
-  }
-
-  return `今日任務｜${profile.name}\n\n${data.map(formatTask).join("\n\n")}`
+  return `今日任務｜${profile.name}\n\n${data.map(taskLabel).join("\n\n")}`
 }
 
-async function handleCompleteCommand(text, event) {
-  const lineUserId = getLineUserId(event)
-  const profile = await getBoundProfile(lineUserId)
+async function completeTask(supabase, lineUserId, text) {
+  const profile = await getBoundProfile(supabase, lineUserId)
+  if (!profile) return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 BF-AMING-1234"
 
-  if (!profile) {
-    return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 <你的綁定碼>"
-  }
-
-  const taskId = normalizeText(text).replace(/^完成\s*/u, "").trim()
-
-  if (!taskId) {
-    return "請輸入要完成的任務 ID，例如：完成 t-001"
-  }
-
-  const supabase = getSupabase()
+  const taskId = normalizeText(text)
+    .replace(/^完成\s*/u, "")
+    .trim()
+  if (!taskId) return "請輸入要完成的任務 ID，例如：完成 t-001"
 
   const { data, error } = await supabase
     .from("line_tasks")
@@ -212,38 +142,28 @@ async function handleCompleteCommand(text, event) {
     })
     .eq("id", taskId)
     .eq("assigned_to", profile.id)
-    .select("id, project_name, title, status")
+    .select("id, project_name, title")
     .maybeSingle()
 
-  if (error) {
-    console.error("complete task error:", error)
-    return "更新任務失敗，請稍後再試。"
-  }
-
-  if (!data) {
-    return "找不到這個任務，或這個任務不是指派給你的。"
-  }
+  if (error) throw error
+  if (!data) return "找不到這個任務，或這個任務不是指派給你的。"
 
   return `已完成任務：${data.id}\n${data.project_name}\n${data.title}`
 }
 
-async function handleReportCommand(text, event) {
-  const lineUserId = getLineUserId(event)
-  const profile = await getBoundProfile(lineUserId)
+async function reportTask(supabase, lineUserId, text) {
+  const profile = await getBoundProfile(supabase, lineUserId)
+  if (!profile) return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 BF-AMING-1234"
 
-  if (!profile) {
-    return "你尚未綁定 BuildFlow 帳號。\n請先輸入：綁定 <你的綁定碼>"
-  }
-
-  const body = normalizeText(text).replace(/^回報\s*/u, "").trim()
+  const body = normalizeText(text)
+    .replace(/^回報\s*/u, "")
+    .trim()
   const [taskId, ...contentParts] = body.split(" ")
   const content = contentParts.join(" ").trim()
 
   if (!taskId || !content) {
     return "請輸入回報內容，例如：回報 t-001 現場已完成第一道防水"
   }
-
-  const supabase = getSupabase()
 
   const { data: task, error: taskError } = await supabase
     .from("line_tasks")
@@ -252,14 +172,8 @@ async function handleReportCommand(text, event) {
     .eq("assigned_to", profile.id)
     .maybeSingle()
 
-  if (taskError) {
-    console.error("find report task error:", taskError)
-    return "查詢任務失敗，請稍後再試。"
-  }
-
-  if (!task) {
-    return "找不到這個任務，或這個任務不是指派給你的。"
-  }
+  if (taskError) throw taskError
+  if (!task) return "找不到這個任務，或這個任務不是指派給你的。"
 
   const { error: updateError } = await supabase
     .from("line_tasks")
@@ -271,10 +185,7 @@ async function handleReportCommand(text, event) {
     .eq("id", taskId)
     .eq("assigned_to", profile.id)
 
-  if (updateError) {
-    console.error("update report error:", updateError)
-    return "更新回報失敗，請稍後再試。"
-  }
+  if (updateError) throw updateError
 
   const { error: insertError } = await supabase.from("line_task_reports").insert({
     task_id: taskId,
@@ -282,121 +193,95 @@ async function handleReportCommand(text, event) {
     content,
   })
 
-  if (insertError) {
-    console.error("insert report error:", insertError)
-  }
+  if (insertError) throw insertError
 
   return `已收到回報：${task.id}\n${task.project_name}\n${task.title}\n\n${content}`
 }
 
-async function buildReplyText(userText, event) {
-  const text = normalizeText(userText)
+async function handleCommand(supabase, event) {
+  const text = getMessageText(event)
+  const lineUserId = getLineUserId(event)
 
-  if (text === "測試") {
-    return "BuildFlow Bot 已收到：測試"
+  if (!text || text === "測試") return "BuildFlow LINE webhook with Supabase v2 is alive."
+  if (text === "help" || text === "說明") return HELP_TEXT
+  if (text.startsWith("綁定") || /\bBF-[A-Z0-9-]+\b/i.test(text)) {
+    return bindProfile(supabase, lineUserId, text)
   }
+  if (text === "今日任務") return listTodayTasks(supabase, lineUserId)
+  if (text.startsWith("完成")) return completeTask(supabase, lineUserId, text)
+  if (text.startsWith("回報")) return reportTask(supabase, lineUserId, text)
 
-  if (text.startsWith("綁定")) {
-    return await handleBindCommand(text, event)
-  }
-
-  if (text === "今日任務") {
-    return await handleTodayTasks(event)
-  }
-
-  if (text.startsWith("完成")) {
-    return await handleCompleteCommand(text, event)
-  }
-
-  if (text.startsWith("回報")) {
-    return await handleReportCommand(text, event)
-  }
-
-  return `BuildFlow Bot 已收到：${text || "空訊息"}
-
-可用指令：
-1. 綁定 BF-AMING-1234
-2. 今日任務
-3. 完成 t-001
-4. 回報 t-001 現場已完成第一道防水`
+  return `看不懂「${text}」。\n\n${HELP_TEXT}`
 }
 
-export default {
-  async fetch(request) {
+async function replyToLine(replyToken, text) {
+  const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN
+  if (!channelAccessToken) return { ok: false, error: "Missing LINE_CHANNEL_ACCESS_TOKEN" }
+  if (!replyToken) return { ok: false, error: "Missing LINE replyToken" }
+
+  const response = await fetch("https://api.line.me/v2/bot/message/reply", {
+    method: "POST",
+    headers: {
+      Authorization: `Bearer ${channelAccessToken}`,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      replyToken,
+      messages: [{ type: "text", text }],
+    }),
+  })
+
+  if (!response.ok) {
+    const body = await response.text()
+    return { ok: false, error: `LINE reply failed: ${response.status} ${body}` }
+  }
+
+  return { ok: true }
+}
+
+export default async function handler(req, res) {
+  if (req.method === "GET") {
+    return res.status(200).send("BuildFlow LINE webhook with Supabase v2 is alive.")
+  }
+
+  if (req.method !== "POST") {
+    res.setHeader("Allow", "GET, POST")
+    return res.status(405).json({ error: "Method not allowed" })
+  }
+
+  const { supabase, error } = getSupabaseClient()
+  if (error) return res.status(500).json({ error })
+
+  const body = getRequestBody(req)
+  const events = Array.isArray(body?.events) ? body.events : []
+  const results = []
+
+  for (const event of events) {
+    if (event?.type !== "message" || event?.message?.type !== "text") continue
+
     try {
-      if (request.method === "GET") {
-        return new Response("BuildFlow LINE webhook with Supabase v2 is alive.", {
-          status: 200,
-          headers: {
-            "Content-Type": "text/plain; charset=utf-8",
-          },
-        })
-      }
-
-      if (request.method !== "POST") {
-        return new Response("Method Not Allowed", {
-          status: 405,
-        })
-      }
-
-      const channelSecret = process.env.LINE_CHANNEL_SECRET
-
-      if (!channelSecret) {
-        console.error("Missing LINE_CHANNEL_SECRET")
-        return new Response("Missing LINE_CHANNEL_SECRET", {
-          status: 500,
-        })
-      }
-
-      const rawBody = await request.text()
-      const signature = request.headers.get("x-line-signature")
-
-      const isValid = verifyLineSignature(rawBody, signature, channelSecret)
-
-      if (!isValid) {
-        console.error("Invalid LINE signature")
-        return new Response("Invalid signature", {
-          status: 401,
-        })
-      }
-
-      let payload
-
-      try {
-        payload = JSON.parse(rawBody)
-      } catch (error) {
-        console.error("Invalid JSON:", error)
-        return new Response("Invalid JSON", {
-          status: 400,
-        })
-      }
-
-      const events = Array.isArray(payload.events) ? payload.events : []
-
-      for (const event of events) {
-        try {
-          if (event.type !== "message") continue
-          if (event.message?.type !== "text") continue
-          if (!event.replyToken) continue
-
-          const userText = event.message.text
-          const replyText = await buildReplyText(userText, event)
-
-          await replyMessage(event.replyToken, replyText)
-        } catch (eventError) {
-          console.error("Event handling failed:", eventError)
-        }
-      }
-
-      return new Response("OK", {
-        status: 200,
-      })
-    } catch (error) {
-      console.error("Webhook crashed:", error)
-
-      return new Response("OK", {
-        status: 200,
-      })
+      const reply = await handleCommand(supabase, event)
+      const lineReply = await replyToLine(event.replyToken, reply)
+      results.push({ input: getMessageText(event), reply, lineReply })
+    } catch (requestError) {
+      results.push({ input: getMessageText(event), error: requestError.message })
     }
-  },
+  }
+
+  return res.status(200).json({
+    ok: true,
+    eventCount: events.length,
+    handledCount: results.length,
+    results,
+  })
+}
+
+export const __testables = {
+  bindProfile,
+  completeTask,
+  getBoundProfile,
+  getRequestBody,
+  handleCommand,
+  listTodayTasks,
+  reportTask,
 }
