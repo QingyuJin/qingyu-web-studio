@@ -49,7 +49,7 @@ ${task.title}
 備註：${note}${report}`
 }
 
-async function findProfileByLineUserId(supabase, lineUserId) {
+async function getBoundProfile(supabase, lineUserId) {
   if (!lineUserId) return null
 
   const { data, error } = await supabase
@@ -66,7 +66,7 @@ async function bindProfile(supabase, lineUserId, code) {
   if (!lineUserId) return "LINE userId 不存在，無法綁定。"
   if (!code) return "請輸入綁定碼，例如：綁定 BF-AMING-1234"
 
-  const existingProfile = await findProfileByLineUserId(supabase, lineUserId)
+  const existingProfile = await getBoundProfile(supabase, lineUserId)
   if (existingProfile) {
     return `你已經綁定：${existingProfile.name}\n角色：${
       existingProfile.role === "admin" ? "管理者" : "使用者"
@@ -92,7 +92,7 @@ async function bindProfile(supabase, lineUserId, code) {
 }
 
 async function listTodayTasks(supabase, lineUserId) {
-  const profile = await findProfileByLineUserId(supabase, lineUserId)
+  const profile = await getBoundProfile(supabase, lineUserId)
   if (!profile) return "尚未綁定帳號。請先輸入：綁定 <帳號>"
 
   let query = supabase
@@ -116,7 +116,7 @@ async function listTodayTasks(supabase, lineUserId) {
 async function completeTask(supabase, lineUserId, taskId) {
   if (!taskId) return "請輸入任務 ID，例如：完成 t-001"
 
-  const profile = await findProfileByLineUserId(supabase, lineUserId)
+  const profile = await getBoundProfile(supabase, lineUserId)
   if (!profile) return "尚未綁定帳號。請先輸入：綁定 <帳號>"
 
   let query = supabase.from("line_tasks").update({
@@ -138,7 +138,7 @@ async function completeTask(supabase, lineUserId, taskId) {
 async function reportTask(supabase, lineUserId, taskId, body) {
   if (!taskId || !body) return "請輸入任務 ID 與回報內容，例如：回報 t-001 已完成第一道防水"
 
-  const profile = await findProfileByLineUserId(supabase, lineUserId)
+  const profile = await getBoundProfile(supabase, lineUserId)
   if (!profile) return "尚未綁定帳號。請先輸入：綁定 <帳號>"
 
   let taskQuery = supabase.from("line_tasks").select("id, project_name, title").eq("id", taskId)
@@ -160,6 +160,7 @@ async function reportTask(supabase, lineUserId, taskId, body) {
     .from("line_tasks")
     .update({
       report: body,
+      status: "有回報",
       updated_at: new Date().toISOString(),
     })
     .eq("id", task.id)
