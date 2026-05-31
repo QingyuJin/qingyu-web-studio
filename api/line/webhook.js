@@ -10,7 +10,7 @@ const HELP_TEXT = [
 ].join("\n")
 
 function getSupabaseClient() {
-  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
+  const supabaseUrl = getSupabaseBaseUrl()
   const supabaseKey = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.SUPABASE_ANON_KEY ||
@@ -39,24 +39,27 @@ function getSupabaseClient() {
 }
 
 function getEnvStatus() {
-  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
+  const rawSupabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
   let supabaseHost = ""
+  let supabasePath = ""
+  let normalizedSupabaseUrl = ""
   let supabaseUrlIsValid = false
 
   try {
-    const parsedUrl = new URL(supabaseUrl || "")
+    const parsedUrl = new URL(rawSupabaseUrl || "")
     supabaseHost = parsedUrl.host
-    supabaseUrlIsValid =
-      parsedUrl.protocol === "https:" &&
-      parsedUrl.pathname === "/" &&
-      parsedUrl.host.endsWith(".supabase.co")
+    supabasePath = parsedUrl.pathname
+    normalizedSupabaseUrl = parsedUrl.origin
+    supabaseUrlIsValid = parsedUrl.protocol === "https:" && parsedUrl.host.endsWith(".supabase.co")
   } catch {
     // Leave the host empty when the URL cannot be parsed.
   }
 
   return {
-    hasSupabaseUrl: Boolean(supabaseUrl),
+    hasSupabaseUrl: Boolean(rawSupabaseUrl),
     supabaseHost,
+    supabasePath,
+    normalizedSupabaseUrl,
     supabaseUrlIsValid,
     hasSupabaseServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     hasSupabaseAnonKey: Boolean(
@@ -66,8 +69,18 @@ function getEnvStatus() {
   }
 }
 
+function getSupabaseBaseUrl() {
+  const rawSupabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
+
+  try {
+    return new URL(rawSupabaseUrl).origin
+  } catch {
+    return rawSupabaseUrl
+  }
+}
+
 async function getSupabaseHealth() {
-  const supabaseUrl = (process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL || "").trim()
+  const supabaseUrl = getSupabaseBaseUrl()
   const supabaseKey = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.SUPABASE_ANON_KEY ||
