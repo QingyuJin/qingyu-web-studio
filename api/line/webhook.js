@@ -20,6 +20,13 @@ function getSupabaseClient() {
     return { error: "Supabase env is missing. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY." }
   }
 
+  if (!getEnvStatus().supabaseUrlIsValid) {
+    return {
+      error:
+        "SUPABASE_URL is invalid. It must look like https://your-project-ref.supabase.co without /rest/v1.",
+    }
+  }
+
   return {
     supabase: createClient(supabaseUrl, supabaseKey, {
       auth: {
@@ -30,8 +37,25 @@ function getSupabaseClient() {
 }
 
 function getEnvStatus() {
+  const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
+  let supabaseHost = ""
+  let supabaseUrlIsValid = false
+
+  try {
+    const parsedUrl = new URL(supabaseUrl || "")
+    supabaseHost = parsedUrl.host
+    supabaseUrlIsValid =
+      parsedUrl.protocol === "https:" &&
+      parsedUrl.pathname === "/" &&
+      parsedUrl.host.endsWith(".supabase.co")
+  } catch {
+    // Leave the host empty when the URL cannot be parsed.
+  }
+
   return {
-    hasSupabaseUrl: Boolean(process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL),
+    hasSupabaseUrl: Boolean(supabaseUrl),
+    supabaseHost,
+    supabaseUrlIsValid,
     hasSupabaseServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
     hasSupabaseAnonKey: Boolean(
       process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
