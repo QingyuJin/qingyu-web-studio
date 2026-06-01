@@ -34,42 +34,86 @@ const services = [
   },
 ]
 
+const projectPhotos = {
+  woodFloor: "/project-photos/335949_0.jpg",
+  roofWaterproof: "/project-photos/335950_0.jpg",
+  epoxyFloor: "/project-photos/335953_0.jpg",
+  exteriorWall: "/project-photos/335945_0.jpg",
+  houseFront: "/project-photos/335941_0.jpg",
+  brightRoom: "/project-photos/335942_0.jpg",
+  tileRoom: "/project-photos/335940_0.jpg",
+}
+
 const cases = [
   {
     id: "case-001",
-    title: "屏東住宅浴室防水工程",
-    type: "防水工程",
-    area: "屏東市",
+    title: "室內木地板整理",
+    type: "木作裝修",
+    area: "住宅",
     status: "完工",
-    desc: "浴室防水、追加紀錄、完工照片。",
-    highlights: ["防水", "追加", "照片"],
+    desc: "地板、收納、牆面整理。",
+    highlights: ["木地板", "收納", "完工"],
+    image: projectPhotos.woodFloor,
   },
   {
     id: "case-002",
-    title: "高雄店面展示牆整修",
-    type: "木作裝修",
-    area: "高雄市",
-    status: "施工中",
-    desc: "展示牆、燈槽、追加確認。",
-    highlights: ["木作", "燈槽", "確認"],
+    title: "屋頂防水整理",
+    type: "防水工程",
+    area: "頂樓",
+    status: "完工",
+    desc: "屋頂、女兒牆、防水層。",
+    highlights: ["頂樓", "防水", "完工"],
+    image: projectPhotos.roofWaterproof,
   },
   {
     id: "case-003",
-    title: "潮州透天浴室翻修",
-    type: "水電配置",
-    area: "潮州",
-    status: "估價中",
-    desc: "水電、磁磚、防水丈量。",
-    highlights: ["水電", "磁磚", "報價"],
+    title: "室內地坪施工",
+    type: "泥作修繕",
+    area: "室內",
+    status: "施工中",
+    desc: "地坪整平、表面處理。",
+    highlights: ["地坪", "整平", "施工"],
+    image: projectPhotos.epoxyFloor,
   },
   {
     id: "case-004",
-    title: "鹽埔老屋外牆修補",
+    title: "外牆修繕現場",
     type: "泥作修繕",
-    area: "鹽埔",
+    area: "外牆",
+    status: "勘查",
+    desc: "外牆檢查、修補評估。",
+    highlights: ["外牆", "檢查", "評估"],
+    image: projectPhotos.exteriorWall,
+  },
+  {
+    id: "case-005",
+    title: "住宅外觀整理",
+    type: "統包修繕",
+    area: "透天",
     status: "完工",
-    desc: "外牆裂縫與局部修補。",
-    highlights: ["外牆", "裂縫", "對照"],
+    desc: "立面、門面、局部整理。",
+    highlights: ["外觀", "門面", "完工"],
+    image: projectPhotos.houseFront,
+  },
+  {
+    id: "case-006",
+    title: "採光空間整理",
+    type: "油漆整理",
+    area: "室內",
+    status: "完工",
+    desc: "牆面、天花、室內整理。",
+    highlights: ["採光", "油漆", "整理"],
+    image: projectPhotos.brightRoom,
+  },
+  {
+    id: "case-007",
+    title: "客廳磁磚整理",
+    type: "泥作修繕",
+    area: "室內",
+    status: "完工",
+    desc: "磁磚、牆面、現場清潔。",
+    highlights: ["磁磚", "牆面", "完工"],
+    image: projectPhotos.tileRoom,
   },
 ]
 
@@ -115,7 +159,7 @@ const faqItems = [
   },
 ]
 
-const filters = ["全部", "防水工程", "泥作修繕", "水電配置", "油漆整理", "木作裝修"]
+const filters = ["全部", "防水工程", "泥作修繕", "油漆整理", "木作裝修", "統包修繕"]
 const lineBotId = "@550oexzn"
 
 function ContractorSite() {
@@ -257,6 +301,14 @@ function HeroSection() {
         </div>
 
         <div className="lab-glass-panel">
+          <div className="mb-5 aspect-[4/3] overflow-hidden rounded-2xl border border-white/10 bg-black/30">
+            <img
+              src={projectPhotos.woodFloor}
+              alt="室內木地板整理作品照片"
+              className="h-full w-full object-cover"
+            />
+          </div>
+
           <p className="lab-eyebrow">Website Purpose</p>
 
           <div className="mt-5 grid gap-3">
@@ -333,6 +385,15 @@ function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
             key={item.id}
             className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
           >
+            <div className="mb-5 aspect-[4/3] overflow-hidden rounded-2xl border border-slate-200 bg-slate-100">
+              <img
+                src={item.image}
+                alt={`${item.title}作品照片`}
+                loading="lazy"
+                className="h-full w-full object-cover transition duration-300 hover:scale-[1.03]"
+              />
+            </div>
+
             <div className="flex items-start justify-between gap-3">
               <div>
                 <p className="text-sm font-bold text-slate-500">
