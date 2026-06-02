@@ -52,6 +52,9 @@ const cases = [
     area: "住宅",
     status: "完工",
     desc: "地板、收納、牆面整理。",
+    problem: "室內老舊，收納與地面狀態不一致。",
+    action: "整理木地板、櫃體與牆面視覺。",
+    result: "空間乾淨，完工照片可直接展示。",
     highlights: ["木地板", "收納", "完工"],
     image: projectPhotos.woodFloor,
   },
@@ -62,6 +65,9 @@ const cases = [
     area: "頂樓",
     status: "完工",
     desc: "屋頂、女兒牆、防水層。",
+    problem: "頂樓易積水，後續可能滲漏。",
+    action: "整理屋頂面與女兒牆防水範圍。",
+    result: "表面完整，後續維護更清楚。",
     highlights: ["頂樓", "防水", "完工"],
     image: projectPhotos.roofWaterproof,
   },
@@ -72,6 +78,9 @@ const cases = [
     area: "室內",
     status: "施工中",
     desc: "地坪整平、表面處理。",
+    problem: "室內地面需耐磨、好清潔。",
+    action: "地坪整平，表層塗裝處理。",
+    result: "地面平整，施工進度可追蹤。",
     highlights: ["地坪", "整平", "施工"],
     image: projectPhotos.epoxyFloor,
   },
@@ -82,6 +91,9 @@ const cases = [
     area: "外牆",
     status: "勘查",
     desc: "外牆檢查、修補評估。",
+    problem: "外牆狀況需要先確認範圍。",
+    action: "拍照紀錄，標示修補位置。",
+    result: "報價前先把工項講清楚。",
     highlights: ["外牆", "檢查", "評估"],
     image: projectPhotos.exteriorWall,
   },
@@ -92,6 +104,9 @@ const cases = [
     area: "透天",
     status: "完工",
     desc: "立面、門面、局部整理。",
+    problem: "住宅外觀需整合門面與牆面。",
+    action: "整理外觀細節與立面重點。",
+    result: "門面完整，案例辨識度提高。",
     highlights: ["外觀", "門面", "完工"],
     image: projectPhotos.houseFront,
   },
@@ -102,6 +117,9 @@ const cases = [
     area: "室內",
     status: "完工",
     desc: "牆面、天花、室內整理。",
+    problem: "室內需提高明亮度與整潔度。",
+    action: "整理牆面、天花與採光區域。",
+    result: "空間明亮，適合作為完工案例。",
     highlights: ["採光", "油漆", "整理"],
     image: projectPhotos.brightRoom,
   },
@@ -112,9 +130,21 @@ const cases = [
     area: "室內",
     status: "完工",
     desc: "磁磚、牆面、現場清潔。",
+    problem: "客廳地面與牆面需要收尾。",
+    action: "整理磁磚、牆面與現場清潔。",
+    result: "室內完成度高，交付狀態清楚。",
     highlights: ["磁磚", "牆面", "完工"],
     image: projectPhotos.tileRoom,
   },
+]
+
+const lineTestSteps = [
+  { command: "選單", desc: "看功能入口" },
+  { command: "案例", desc: "看工程案例" },
+  { command: "報價", desc: "產生需求格式" },
+  { command: "綁定 BF-AMING-1234", desc: "測師傅帳號" },
+  { command: "今日任務", desc: "查待辦" },
+  { command: "回報 t-001 現場已完成第一道防水", desc: "寫回進度" },
 ]
 
 const processSteps = [
@@ -249,6 +279,7 @@ LINE Bot：${lineBotId}
       </header>
 
       <HeroSection />
+      <LineBotTestSection />
       <ServicesSection />
       <CasesSection
         activeFilter={activeFilter}
@@ -284,7 +315,7 @@ function HeroSection() {
           </h1>
 
           <p className="mt-5 max-w-xl text-base font-bold leading-8 text-slate-600 md:text-lg">
-            服務、案例、流程、表單。前台收需求，後台管案件。
+            看案例、填需求、加 LINE 測試。後台接案件。
           </p>
           <p className="mt-3 inline-flex rounded-xl border border-sky-300/20 bg-sky-300/10 px-4 py-2 font-mono text-sm font-black text-sky-200">
             LINE Bot {lineBotId}
@@ -292,10 +323,13 @@ function HeroSection() {
 
           <div className="mt-8 flex flex-wrap justify-center gap-3 lg:justify-start">
             <a href="#services" className="lab-primary-button">
-              服務
+              看服務
             </a>
             <a href="#cases" className="lab-secondary-button">
-              案例
+              看案例
+            </a>
+            <a href="#line-test" className="lab-secondary-button">
+              測 LINE
             </a>
           </div>
         </div>
@@ -321,6 +355,44 @@ function HeroSection() {
               </div>
             ))}
           </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function LineBotTestSection() {
+  return (
+    <section id="line-test" className="border-y border-slate-200 bg-white">
+      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 lg:grid-cols-[0.85fr_1.15fr]">
+        <div>
+          <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">LINE Bot</p>
+          <h2 className="mt-3 text-2xl font-black tracking-normal md:text-4xl">現場可測</h2>
+          <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+            加 {lineBotId}，輸入指令。公開指令可直接玩，綁定後可查任務。
+          </p>
+          <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-5">
+            <p className="text-sm font-black text-slate-500">建議順序</p>
+            <p className="mt-2 font-mono text-lg font-black text-slate-950">
+              選單 → 案例 → 報價 → 綁定 → 今日任務
+            </p>
+          </div>
+        </div>
+
+        <div className="grid gap-3 md:grid-cols-2">
+          {lineTestSteps.map((step) => (
+            <button
+              key={step.command}
+              type="button"
+              className="group rounded-3xl border border-slate-200 bg-slate-50 p-5 text-left transition hover:-translate-y-0.5 hover:border-sky-300 hover:bg-white active:translate-y-px"
+            >
+              <p className="font-mono text-sm font-black text-sky-300">{step.command}</p>
+              <p className="mt-2 text-sm font-bold text-slate-600">{step.desc}</p>
+              <span className="mt-4 inline-flex text-xs font-black text-slate-500 group-hover:text-sky-300">
+                點 LINE 輸入測試
+              </span>
+            </button>
+          ))}
         </div>
       </div>
     </section>
@@ -409,6 +481,19 @@ function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
 
             <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">{item.desc}</p>
 
+            <dl className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7">
+              {[
+                ["問題", item.problem],
+                ["做法", item.action],
+                ["成果", item.result],
+              ].map(([label, value]) => (
+                <div key={label} className="grid gap-1 sm:grid-cols-[64px_1fr]">
+                  <dt className="font-black text-sky-300">{label}</dt>
+                  <dd className="font-bold text-slate-600">{value}</dd>
+                </div>
+              ))}
+            </dl>
+
             <div className="mt-5 flex flex-wrap gap-2">
               {item.highlights.map((tag) => (
                 <span
@@ -458,16 +543,16 @@ function WhyWebsiteSection() {
             不只靠 LINE 相簿。
           </h2>
           <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-            客戶先看服務、案例、流程，再送需求。
+            客戶先看案例，再用固定格式送需求。
           </p>
         </div>
 
         <div className="grid gap-4 md:grid-cols-2">
           {[
             ["服務", "清楚列出可做項目。"],
-            ["案例", "建立基本信任。"],
-            ["表單", "固定格式收需求。"],
-            ["後台", "交給 BuildFlow 管理。"],
+            ["案例", "照片搭配做法。"],
+            ["表單", "固定格式收資料。"],
+            ["後台", "案件不漏接。"],
           ].map(([title, desc]) => (
             <div key={title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
               <h3 className="text-xl font-black">{title}</h3>
@@ -490,10 +575,10 @@ function BuildFlowRelationSection() {
               Website + System
             </p>
             <h2 className="mt-4 text-2xl font-black tracking-normal md:text-4xl">
-              前台接案，後台管理。
+              案件、追加、回報有紀錄。
             </h2>
             <p className="mt-4 text-sm leading-7 text-slate-300 md:text-base">
-              Contractor Site 收需求。BuildFlow 管案件、發包、批價與任務。
+              Contractor Site 收需求。BuildFlow 管進度、任務、發包與師傅回報。
             </p>
 
             <div className="mt-8">
@@ -510,7 +595,7 @@ function BuildFlowRelationSection() {
             <p className="text-sm font-black text-slate-500">資料流程</p>
 
             <div className="mt-5 grid gap-3">
-              {["了解服務", "送出需求", "建立案件", "安排任務", "追蹤回報"].map((item, index) => (
+              {["看案例", "填需求", "建案件", "派任務", "回報完工"].map((item, index) => (
                 <div key={item} className="flex gap-3 rounded-2xl bg-slate-50 p-4">
                   <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-slate-950 text-xs font-black text-white">
                     {index + 1}

@@ -53,12 +53,12 @@ const demoAccounts = [
 const lineBotId = "@550oexzn"
 
 const testSteps = [
+  `LINE 加 ${lineBotId}`,
+  "輸入：選單 / 案例 / 報價",
+  "進入 Contractor Site",
+  "填需求表單",
   "進入 BuildFlow",
   "admin / admin123 登入",
-  "查看案件與任務",
-  `LINE 加 ${lineBotId}`,
-  "輸入：綁定 BF-AMING-1234",
-  "輸入：今日任務",
 ]
 
 function ProjectHub() {
@@ -86,11 +86,11 @@ function ProjectHub() {
         <div className="mx-auto max-w-4xl text-center">
           <p className="lab-eyebrow">SYSTEM PORTFOLIO</p>
           <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal text-white sm:text-4xl md:text-6xl">
-            流程系統化
-            <span className="block text-sky-300">作品集</span>
+            工程接案網站
+            <span className="block text-sky-300">後台管理系統</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base font-bold leading-8 text-stone-300 md:text-lg">
-            網站、後台、權限、資料、LINE Bot、Supabase。
+            前台收需求，後台管案件。LINE Bot 可測任務與回報。
           </p>
           <p className="mx-auto mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-sky-300">
             LINE Bot {lineBotId}
@@ -98,10 +98,10 @@ function ProjectHub() {
 
           <div className="mt-9 flex flex-wrap justify-center gap-3">
             <Link to="/buildflow" className="lab-primary-button">
-              進入 BuildFlow
+              測後台系統
             </Link>
             <Link to="/contractor-site" className="lab-secondary-button">
-              查看接案網站
+              看工程網站
             </Link>
           </div>
         </div>
