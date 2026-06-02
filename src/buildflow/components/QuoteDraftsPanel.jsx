@@ -3,7 +3,7 @@ import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
 import SmallButton from "../shared/SmallButton"
 import Status from "../shared/Status"
-import { quoteStages } from "../data/demoData"
+import { quoteStages } from "../data/sampleData"
 import { formatMoney } from "../utils/helpers"
 
 function quoteTotal(quote) {

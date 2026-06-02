@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState } from "react"
 
-import { adminTabs, workerTabs } from "./data/demoData"
+import { adminTabs, workerTabs } from "./data/sampleData"
 import { today, formatMoney, createId, textValue, numberValue } from "./utils/helpers"
 import BuildFlowLogin from "./components/BuildFlowLogin"
 import BuildFlowContent from "./components/BuildFlowContent"
@@ -95,17 +95,17 @@ function BuildFlow() {
     setActiveTab("dashboard")
   }
 
-  async function resetDemoData() {
+  async function resetTestData() {
     const confirmed = await confirmAction({
-      title: "重置 BuildFlow Demo",
-      message: "目前新增的資料會被清除，並回到預設展示資料。",
+      title: "重置 BuildFlow 測試資料",
+      message: "目前新增的測試資料會被清除，並回到預設狀態。",
       confirmLabel: "重置資料",
     })
     if (!confirmed) return
     setActiveProjectId("")
     setActiveTab(isAdmin ? "dashboard" : "worker")
     resetData()
-    showToast("BuildFlow Demo 資料已重置。")
+    showToast("BuildFlow 測試資料已重置。")
   }
 
   function openProjectDetail(projectId) {
@@ -198,7 +198,7 @@ function BuildFlow() {
     }
 
     if (user.role === "admin") {
-      showToast("Demo 版不允許刪除管理者帳號，避免系統無法登入。", "error")
+      showToast("系統保留管理者帳號，避免無法登入。", "error")
       return
     }
 
@@ -608,7 +608,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除批價紀錄",
-        message: "這筆批價紀錄會從 Demo 資料中移除。",
+        message: "這筆批價紀錄會從測試資料中移除。",
         confirmLabel: "刪除紀錄",
       }))
     )
@@ -677,7 +677,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除追加 / 減項",
-        message: "這筆追加 / 減項紀錄會從 Demo 資料中移除。",
+        message: "這筆追加 / 減項紀錄會從測試資料中移除。",
         confirmLabel: "刪除紀錄",
       }))
     )
@@ -740,7 +740,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除廠商資料",
-        message: "這筆廠商資料會從 Demo 資料中移除。",
+        message: "這筆廠商資料會從測試資料中移除。",
         confirmLabel: "刪除廠商",
       }))
     )
@@ -773,7 +773,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除任務",
-        message: "這個任務會從 Demo 資料中移除。",
+        message: "這個任務會從測試資料中移除。",
         confirmLabel: "刪除任務",
       }))
     )
@@ -830,7 +830,7 @@ function BuildFlow() {
         session={session}
         savedAt={savedAt}
         isAdmin={isAdmin}
-        onResetDemo={resetDemoData}
+        onResetTestData={resetTestData}
         onLogout={handleLogout}
       />
 

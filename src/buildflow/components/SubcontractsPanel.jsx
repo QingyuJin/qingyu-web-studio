@@ -3,7 +3,7 @@ import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
 import SmallButton from "../shared/SmallButton"
-import { subcontractStatuses } from "../data/demoData"
+import { subcontractStatuses } from "../data/sampleData"
 import { includesKeyword, formatMoney } from "../utils/helpers"
 
 function SubcontractsPanel({

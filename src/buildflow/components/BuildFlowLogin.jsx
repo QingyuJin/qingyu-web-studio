@@ -5,8 +5,8 @@ function BuildFlowLogin({ users, onLogin }) {
   const [username, setUsername] = useState("admin")
   const [password, setPassword] = useState("admin123")
   const [error, setError] = useState("")
-  const demoAccounts = users.slice(0, 6)
-  const demoSteps = [
+  const testAccounts = users.slice(0, 6)
+  const testSteps = [
     "使用 admin / admin123 登入管理者後台",
     "查看案件、發包項目、批價與追加減",
     "新增或編輯資料，觀察列表即時更新",
@@ -25,7 +25,7 @@ function BuildFlowLogin({ users, onLogin }) {
     setError("")
   }
 
-  function fillDemo(user) {
+  function fillAccount(user) {
     setUsername(user.username)
     setPassword(user.password)
     setError("")
@@ -38,47 +38,45 @@ function BuildFlowLogin({ users, onLogin }) {
           <Link to="/admin" className="text-sm font-bold text-slate-500">
             ← 回管理入口
           </Link>
-          <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">
-            BuildFlow Login
-          </p>
+          <p className="mt-10 text-sm font-black uppercase text-slate-500">BuildFlow Login</p>
           <h1 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">
             工程行發包與追加減項管理系統
           </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">
-            BuildFlow 將工程行的案件、發包、批價、追加減、廠商與師傅回報集中在同一個後台。
-            目前使用本機 Demo 資料，之後可銜接 Supabase Auth、Database 與 LINE Bot webhook。
+            案件、報價、發包、追加減項、任務回報集中管理。先用測試資料驗證流程， 後續可接 Supabase
+            與 LINE webhook。
           </p>
 
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-black">Demo accounts</h2>
+                <h2 className="text-xl font-black">測試帳號</h2>
                 <p className="mt-1 text-sm leading-6 text-slate-600">
-                  點選帳號卡片會自動帶入登入欄位，方便快速展示不同角色權限。
+                  點卡片帶入帳密，直接看不同角色權限。
                 </p>
               </div>
               <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700">
-                Local demo
+                Role test
               </span>
             </div>
 
             <div className="mt-5 grid gap-3 md:grid-cols-2">
-              {demoAccounts.map((user) => (
-                <DemoAccount
+              {testAccounts.map((user) => (
+                <TestAccount
                   key={user.id}
                   title={user.name}
                   role={user.role}
                   account={`${user.username} / ${user.password}`}
-                  onClick={() => fillDemo(user)}
+                  onClick={() => fillAccount(user)}
                 />
               ))}
             </div>
           </div>
 
           <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-xl font-black">How to demo</h2>
+            <h2 className="text-xl font-black">測試流程</h2>
             <ol className="mt-4 grid gap-3">
-              {demoSteps.map((step, index) => (
+              {testSteps.map((step, index) => (
                 <li
                   key={step}
                   className="flex gap-3 rounded-xl bg-slate-50 p-3 text-sm font-bold text-slate-700"
@@ -99,7 +97,7 @@ function BuildFlowLogin({ users, onLogin }) {
         >
           <h2 className="text-2xl font-black">登入 BuildFlow</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
-            Demo 登入用來展示角色權限與工作流程，正式版可替換成 Supabase Auth。
+            用測試帳號驗證角色權限與工作流程。
           </p>
 
           <label className="mt-6 grid gap-2">
@@ -135,7 +133,7 @@ function BuildFlowLogin({ users, onLogin }) {
   )
 }
 
-function DemoAccount({ title, role, account, onClick }) {
+function TestAccount({ title, role, account, onClick }) {
   return (
     <button
       type="button"
@@ -149,7 +147,7 @@ function DemoAccount({ title, role, account, onClick }) {
         </span>
       </div>
       <p className="mt-2 font-mono text-sm text-slate-600">{account}</p>
-      <p className="mt-3 text-xs font-bold text-sky-700">Click to fill</p>
+      <p className="mt-3 text-xs font-bold text-sky-700">點選帶入</p>
     </button>
   )
 }

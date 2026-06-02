@@ -1,4 +1,4 @@
-import { STORAGE_KEY, demoData } from "../data/demoData"
+import { STORAGE_KEY, sampleData } from "../data/sampleData"
 
 export const today = new Date().toISOString().slice(0, 10)
 
@@ -28,8 +28,8 @@ export function numberValue(form, key) {
   return Number(form.get(key)) || 0
 }
 
-export function cloneDemoData() {
-  return JSON.parse(JSON.stringify(demoData))
+export function cloneSampleData() {
+  return JSON.parse(JSON.stringify(sampleData))
 }
 
 export function copyByTextarea(text) {
@@ -44,23 +44,23 @@ export function copyByTextarea(text) {
 export function loadInitialData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return cloneDemoData()
+    if (!raw) return cloneSampleData()
     const parsed = JSON.parse(raw)
     return {
-      users: Array.isArray(parsed.users) ? parsed.users : demoData.users,
-      projects: Array.isArray(parsed.projects) ? parsed.projects : demoData.projects,
+      users: Array.isArray(parsed.users) ? parsed.users : sampleData.users,
+      projects: Array.isArray(parsed.projects) ? parsed.projects : sampleData.projects,
       subcontracts: Array.isArray(parsed.subcontracts)
         ? parsed.subcontracts
-        : demoData.subcontracts,
-      bids: Array.isArray(parsed.bids) ? parsed.bids : demoData.bids,
+        : sampleData.subcontracts,
+      bids: Array.isArray(parsed.bids) ? parsed.bids : sampleData.bids,
       changeOrders: Array.isArray(parsed.changeOrders)
         ? parsed.changeOrders
-        : demoData.changeOrders,
-      quoteDrafts: Array.isArray(parsed.quoteDrafts) ? parsed.quoteDrafts : demoData.quoteDrafts,
-      vendors: Array.isArray(parsed.vendors) ? parsed.vendors : demoData.vendors,
-      tasks: Array.isArray(parsed.tasks) ? parsed.tasks : demoData.tasks,
+        : sampleData.changeOrders,
+      quoteDrafts: Array.isArray(parsed.quoteDrafts) ? parsed.quoteDrafts : sampleData.quoteDrafts,
+      vendors: Array.isArray(parsed.vendors) ? parsed.vendors : sampleData.vendors,
+      tasks: Array.isArray(parsed.tasks) ? parsed.tasks : sampleData.tasks,
     }
   } catch {
-    return cloneDemoData()
+    return cloneSampleData()
   }
 }

@@ -1,6 +1,6 @@
 export const STORAGE_KEY = "buildflow_v1_4_data"
 
-export const demoData = {
+export const sampleData = {
   users: [
     {
       id: "u-admin",

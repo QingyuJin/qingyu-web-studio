@@ -22,26 +22,25 @@ function LoginPage() {
   }
 
   return (
-    <main className="min-h-screen bg-slate-50 text-slate-950">
+    <main className="min-h-screen bg-[#0b111b] text-slate-100">
       <section className="mx-auto grid min-h-screen max-w-6xl items-center px-4 py-12 md:grid-cols-[1fr_420px] md:gap-12">
         <div>
-          <Link to="/" className="text-sm font-bold text-slate-500">
+          <Link to="/" className="text-sm font-bold text-cyan-300">
             ← 回公開首頁
           </Link>
 
-          <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">
-            Admin Login
+          <p className="mt-10 text-sm font-black uppercase text-cyan-300">Admin Login</p>
+
+          <h1 className="mt-4 text-3xl font-black leading-tight text-white md:text-5xl">
+            管理作品入口
+          </h1>
+
+          <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300">
+            登入後可查看三套作品、測試路徑與管理入口。
           </p>
 
-          <h1 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">管理者登入</h1>
-
-          <p className="mt-5 max-w-xl leading-8 text-slate-600">
-            登入後可查看系統入口、開發狀態與管理者專用資訊。 此版本使用本機登入流程，之後可替換為
-            Supabase Auth 或其他正式登入系統。
-          </p>
-
-          <div className="mt-8 rounded-2xl bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
-            <p className="font-black text-slate-950">Demo Login</p>
+          <div className="mt-8 rounded-[24px] border border-white/10 bg-white/[0.045] p-5 text-sm font-bold leading-7 text-slate-300">
+            <p className="font-black text-white">測試帳號</p>
             <p className="mt-2">Email：admin@qingyu.dev</p>
             <p>密碼：qgadmin</p>
           </div>
@@ -49,28 +48,28 @@ function LoginPage() {
 
         <form
           onSubmit={handleSubmit}
-          className="mt-10 rounded-3xl border border-slate-200 bg-white p-6 shadow-sm md:mt-0"
+          className="mt-10 rounded-[28px] border border-white/10 bg-white/[0.045] p-6 md:mt-0"
         >
-          <h2 className="text-2xl font-black">登入後台</h2>
-          <p className="mt-2 text-sm leading-6 text-slate-500">只有管理者可以進入控制中心。</p>
+          <h2 className="text-2xl font-black text-white">登入後台</h2>
+          <p className="mt-2 text-sm font-bold leading-6 text-slate-400">管理者專用。</p>
 
           <label className="mt-6 block">
-            <span className="text-sm font-bold text-slate-600">Email</span>
+            <span className="text-sm font-bold text-slate-300">Email</span>
             <input
               value={email}
               onChange={(event) => setEmail(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+              className="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-white outline-none focus:border-cyan-300"
               placeholder="admin@qingyu.dev"
             />
           </label>
 
           <label className="mt-4 block">
-            <span className="text-sm font-bold text-slate-600">Password</span>
+            <span className="text-sm font-bold text-slate-300">Password</span>
             <input
               type="password"
               value={password}
               onChange={(event) => setPassword(event.target.value)}
-              className="mt-2 w-full rounded-2xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
+              className="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-white outline-none focus:border-cyan-300"
               placeholder="輸入密碼"
             />
           </label>
@@ -83,7 +82,7 @@ function LoginPage() {
 
           <button
             type="submit"
-            className="mt-6 w-full rounded-2xl bg-slate-950 px-5 py-3 text-sm font-black text-white"
+            className="mt-6 w-full rounded-2xl bg-cyan-300 px-5 py-3 text-sm font-black text-slate-950"
           >
             登入
           </button>

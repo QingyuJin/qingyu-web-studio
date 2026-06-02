@@ -4,7 +4,7 @@ import Info from "../shared/Info"
 import Metric from "../shared/Metric"
 import SectionTitle from "../shared/SectionTitle"
 import SmallButton from "../shared/SmallButton"
-import { projectStatuses, subcontractStatuses, changeStatuses } from "../data/demoData"
+import { projectStatuses, subcontractStatuses, changeStatuses } from "../data/sampleData"
 import { TaskList } from "./TasksPanel"
 import { formatMoney } from "../utils/helpers"
 

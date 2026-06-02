@@ -1,182 +1,166 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
 
-const projects = [
+const cases = [
   {
-    title: "接案網站",
+    id: "contractor",
+    index: "01",
     name: "Contractor Site",
+    title: "工程接案入口",
     path: "/contractor-site",
-    status: "Website",
-    desc: "前台收需求，後台建案件。",
-    features: ["服務項目", "工程案例", "需求表單", "報價銜接"],
-    test: ["看案例", "填需求", "複製摘要", "到 BuildFlow 建案"],
-    icon: "01",
+    role: "Public Website",
+    outcome: "把案例、詢問、報價前置整理成同一條線。",
+    proof: ["工程案例", "需求表單", "LINE 詢問", "後台建案"],
+    test: ["看工程照片", "填需求表單", "複製摘要", "進 BuildFlow"],
   },
   {
-    title: "工程後台",
+    id: "buildflow",
+    index: "02",
     name: "BuildFlow",
+    title: "工程管理後台",
     path: "/buildflow",
-    status: "System",
-    desc: "案件、發包、任務、LINE 回報。",
-    features: ["案件管理", "暫存報價", "任務派工", "LINE Bot"],
-    test: ["admin / admin123", "新增案件", "指派任務", "查看回報"],
-    icon: "02",
+    role: "Operation System",
+    outcome: "案件、發包、追加、任務、回報集中管理。",
+    proof: ["角色登入", "案件狀態", "暫存報價", "LINE 回報"],
+    test: ["admin / admin123", "建立案件", "指派任務", "查看回報"],
   },
   {
-    title: "課表系統",
+    id: "coachflow",
+    index: "03",
     name: "CoachFlow",
+    title: "課表追蹤系統",
     path: "/coachflow",
-    status: "Robot Demo",
-    desc: "課表、完成、回報、Robot 測試。",
-    features: ["學員名單", "課表追蹤", "回報紀錄", "Robot 預覽"],
-    test: ["進入 Robot", "點今日課表", "點回報", "點完成"],
-    icon: "03",
+    role: "Workflow Product",
+    outcome: "用同一套邏輯展示跨產業流程化能力。",
+    proof: ["學員資料", "課表狀態", "回報紀錄", "Robot 測試"],
+    test: ["點 Robot", "查今日課表", "送出回報", "標記完成"],
   },
 ]
 
-const systemFlow = ["前台", "需求", "後台", "任務", "LINE"]
 const lineBotId = "@550oexzn"
+const systemSteps = ["前台收件", "後台建案", "任務派工", "LINE 回報"]
 
 function ProjectHub() {
-  const [activeProject, setActiveProject] = useState(projects[0])
+  const [activeCase, setActiveCase] = useState(cases[0])
 
   return (
-    <main className="lab-page min-h-screen overflow-hidden text-stone-100">
-      <FloatingParticles />
-
-      <header className="lab-topbar sticky top-0 z-30">
+    <main className="min-h-screen bg-[#0b111b] text-slate-100">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0b111b]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <Link to="/" className="flex items-center gap-3" aria-label="Qingyu System Lab">
-            <span className="lab-mark">Q</span>
+            <span className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-300/25 bg-white/5 font-black text-cyan-200">
+              Q
+            </span>
             <div>
-              <p className="text-lg font-black tracking-wide">Qingyu System Lab</p>
-              <p className="text-xs font-bold text-stone-400">System Portfolio</p>
+              <p className="font-black">Qingyu System Lab</p>
+              <p className="text-xs font-bold text-slate-400">Workflow systems</p>
             </div>
           </Link>
-          <Link to="/login" className="lab-ghost-button">
-            管理者登入
+          <Link
+            to="/login"
+            className="rounded-xl border border-white/10 px-4 py-2 text-sm font-black text-slate-200"
+          >
+            管理登入
           </Link>
         </div>
       </header>
 
-      <section className="relative mx-auto max-w-6xl px-4 py-10 md:py-18">
-        <div className="max-w-3xl">
-          <p className="lab-eyebrow">SYSTEM LAB</p>
-          <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal text-white sm:text-4xl md:text-5xl">
-            把流程做成系統
+      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.88fr_1.12fr] lg:py-20">
+        <div>
+          <p className="text-xs font-black uppercase text-cyan-300">Portfolio</p>
+          <h1 className="mt-5 max-w-2xl text-3xl font-black leading-tight text-white md:text-6xl">
+            小型企業流程系統作品集
           </h1>
-          <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-stone-300 md:text-base">
-            網站、後台、LINE Bot 串接展示。
+          <p className="mt-5 max-w-xl text-base font-bold leading-7 text-slate-300">
+            從前台接案、後台管理到 LINE Bot 回報，展示一套可驗證的工作流。
           </p>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+              <p className="text-xs font-black text-slate-500">LINE Bot</p>
+              <p className="mt-2 font-mono text-lg font-black text-cyan-200">{lineBotId}</p>
+            </div>
+            <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+              <p className="text-xs font-black text-slate-500">Core</p>
+              <p className="mt-2 text-lg font-black">Website + Backend + Bot</p>
+            </div>
+          </div>
         </div>
 
-        <div className="mt-9 grid gap-5 lg:grid-cols-[330px_minmax(0,1fr)]">
-          <div className="grid grid-cols-3 gap-3 lg:grid-cols-1">
-            {projects.map((project) => {
-              const isActive = activeProject.name === project.name
-              return (
-                <button
-                  key={project.name}
-                  type="button"
-                  onClick={() => setActiveProject(project)}
-                  className={`minimal-motion aspect-square rounded-2xl border p-4 text-left lg:aspect-auto lg:min-h-28 ${
-                    isActive
-                      ? "border-sky-300 bg-sky-300 text-slate-950"
-                      : "border-white/10 bg-white/[0.06] text-white hover:border-sky-300/50"
-                  }`}
-                >
-                  <span className="font-mono text-xs font-black opacity-70">{project.icon}</span>
-                  <span className="mt-3 block text-lg font-black">{project.title}</span>
-                  <span className="mt-1 block text-xs font-bold opacity-70">{project.status}</span>
-                </button>
-              )
-            })}
+        <div className="rounded-[28px] border border-white/10 bg-white/[0.045] p-3 shadow-2xl">
+          <div className="grid grid-cols-3 gap-3">
+            {cases.map((item) => (
+              <button
+                key={item.id}
+                type="button"
+                onClick={() => setActiveCase(item)}
+                className={`aspect-square rounded-2xl border p-3 text-left transition active:translate-y-px ${
+                  activeCase.id === item.id
+                    ? "border-cyan-300 bg-cyan-300 text-slate-950"
+                    : "border-white/10 bg-[#111827] text-slate-200 hover:border-cyan-300/40"
+                }`}
+              >
+                <span className="font-mono text-xs font-black opacity-70">{item.index}</span>
+                <span className="mt-3 block text-sm font-black leading-5 md:text-base">
+                  {item.title}
+                </span>
+              </button>
+            ))}
           </div>
 
-          <section className="minimal-motion rounded-2xl border border-white/10 bg-black/35 p-5 shadow-2xl backdrop-blur md:p-7">
-            <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <section className="mt-3 rounded-2xl bg-[#080d14] p-5 md:p-6">
+            <p className="text-xs font-black uppercase text-cyan-300">{activeCase.role}</p>
+            <div className="mt-3 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
               <div>
-                <p className="lab-eyebrow">{activeProject.status}</p>
-                <h2 className="mt-3 text-2xl font-black text-white md:text-4xl">
-                  {activeProject.name}
-                </h2>
-                <p className="mt-3 text-base font-bold leading-7 text-stone-300">
-                  {activeProject.desc}
+                <h2 className="text-3xl font-black text-white">{activeCase.name}</h2>
+                <p className="mt-2 text-sm font-bold leading-6 text-slate-300">
+                  {activeCase.outcome}
                 </p>
               </div>
-              <Link to={activeProject.path} className="lab-primary-button shrink-0">
-                進入
+              <Link
+                to={activeCase.path}
+                className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-cyan-300 px-5 text-sm font-black text-slate-950"
+              >
+                開啟
               </Link>
             </div>
 
-            <div className="mt-7 grid gap-4 md:grid-cols-2">
-              <InfoBlock title="能力" items={activeProject.features} />
-              <InfoBlock title="測試" items={activeProject.test} />
-            </div>
-
-            <div className="mt-6 rounded-2xl border border-sky-300/15 bg-sky-300/10 p-4">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-sky-200">
-                LINE Bot
-              </p>
-              <p className="mt-2 font-mono text-lg font-black text-white">{lineBotId}</p>
-              <p className="mt-2 text-sm font-bold text-stone-300">
-                可測：選單、案例、報價、今日任務、回報、完成。
-              </p>
+            <div className="mt-6 grid gap-4 md:grid-cols-2">
+              <CaseList title="交付內容" items={activeCase.proof} />
+              <CaseList title="測試方式" items={activeCase.test} />
             </div>
           </section>
         </div>
       </section>
 
-      <section className="relative mx-auto max-w-6xl px-4 pb-16">
-        <div className="rounded-2xl border border-white/10 bg-white/[0.06] p-5">
-          <p className="lab-eyebrow">FLOW</p>
-          <div className="mt-4 flex flex-wrap items-center gap-2">
-            {systemFlow.map((item, index) => (
-              <div key={item} className="flex items-center gap-2">
-                <span className="system-flow-chip">{item}</span>
-                {index < systemFlow.length - 1 ? (
-                  <span className="text-sm font-black text-slate-500">→</span>
-                ) : null}
-              </div>
-            ))}
-          </div>
+      <section className="mx-auto max-w-6xl px-4 pb-16">
+        <div className="grid gap-3 rounded-[28px] border border-white/10 bg-white/[0.035] p-4 md:grid-cols-4">
+          {systemSteps.map((step, index) => (
+            <div key={step} className="rounded-2xl bg-[#111827] p-4">
+              <p className="font-mono text-xs font-black text-cyan-300">
+                {String(index + 1).padStart(2, "0")}
+              </p>
+              <p className="mt-2 font-black text-white">{step}</p>
+            </div>
+          ))}
         </div>
       </section>
     </main>
   )
 }
 
-function InfoBlock({ title, items }) {
+function CaseList({ title, items }) {
   return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.05] p-4">
-      <h3 className="font-black text-white">{title}</h3>
+    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
+      <h3 className="text-sm font-black text-white">{title}</h3>
       <div className="mt-3 grid gap-2">
         {items.map((item) => (
-          <div key={item} className="lab-check-row">
-            <span>✓</span>
+          <div key={item} className="flex items-center gap-3 text-sm font-bold text-slate-300">
+            <span className="h-1.5 w-1.5 rounded-full bg-cyan-300" />
             {item}
           </div>
         ))}
       </div>
-    </div>
-  )
-}
-
-function FloatingParticles() {
-  return (
-    <div className="pointer-events-none fixed inset-0 z-0 overflow-hidden" aria-hidden="true">
-      {Array.from({ length: 20 }).map((_, index) => (
-        <span
-          key={index}
-          className="lab-particle"
-          style={{
-            "--x": `${(index * 37) % 100}%`,
-            "--y": `${(index * 61) % 100}%`,
-            "--d": `${5 + (index % 7)}s`,
-            "--s": `${3 + (index % 5)}px`,
-          }}
-        />
-      ))}
     </div>
   )
 }

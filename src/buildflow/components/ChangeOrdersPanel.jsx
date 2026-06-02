@@ -3,7 +3,7 @@ import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
 import SmallButton from "../shared/SmallButton"
-import { changeStatuses } from "../data/demoData"
+import { changeStatuses } from "../data/sampleData"
 import { includesKeyword, formatMoney, copyByTextarea } from "../utils/helpers"
 
 function ChangeOrdersPanel({

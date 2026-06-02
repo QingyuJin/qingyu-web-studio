@@ -87,9 +87,9 @@ button:disabled,
   opacity: 0.55;
 }
 
-input,
-select,
-textarea {
+input:not([class*="bg-"]),
+select:not([class*="bg-"]),
+textarea:not([class*="bg-"]) {
   background-color: white;
   color: #0f172a;
 }
@@ -115,7 +115,7 @@ tbody tr:hover {
   background: #f8fafc;
 }
 
-pre {
+pre:not([class*="text-"]) {
   color: #334155;
 }
 
