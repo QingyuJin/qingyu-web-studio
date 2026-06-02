@@ -1,349 +1,177 @@
 import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 
-const STORAGE_KEY = "coachflow_v1_data"
+const STORAGE_KEY = "coachflow_robot_minimal_v1"
 const today = new Date().toISOString().slice(0, 10)
+const lineBotId = "@550oexzn"
 
-const demoData = {
+const seedData = {
   students: [
     {
       id: "stu-001",
       name: "Kevin",
-      goal: "力量提升",
-      level: "Intermediate",
-      contact: "LINE: kevin_power",
-      note: "深蹲卡關，想提升下肢力量。",
+      goal: "增肌",
+      level: "中階",
+      line: "kevin_power",
+      note: "下肢優先，週二回報。",
     },
     {
       id: "stu-002",
       name: "Amy",
-      goal: "增肌與體態",
-      level: "Beginner",
-      contact: "LINE: amy_fit",
-      note: "一週可訓練 3 天，想建立穩定習慣。",
-    },
-    {
-      id: "stu-003",
-      name: "Ryan",
-      goal: "減脂與體能",
-      level: "Beginner",
-      contact: "LINE: ryan_run",
-      note: "外食多，睡眠不固定，需要先建立紀律。",
+      goal: "體態",
+      level: "初階",
+      line: "amy_fit",
+      note: "動作穩定，重量保守。",
     },
   ],
-
   workouts: [
     {
       id: "w-001",
       studentId: "stu-001",
       studentName: "Kevin",
       date: today,
-      title: "Lower Strength Day",
-      focus: "深蹲主項 / 下肢力量",
+      title: "下肢力量",
+      focus: "深蹲 / 硬舉",
       status: "待完成",
-      note: "主項不要硬衝，保持動作品質。",
-      exercises: [
-        { id: "e-001", name: "Back Squat", sets: 5, reps: 5, load: "140kg", rpe: "7", done: false },
-        {
-          id: "e-002",
-          name: "Romanian Deadlift",
-          sets: 4,
-          reps: 8,
-          load: "90kg",
-          rpe: "7",
-          done: false,
-        },
-        {
-          id: "e-003",
-          name: "Leg Press",
-          sets: 3,
-          reps: 12,
-          load: "Moderate",
-          rpe: "8",
-          done: false,
-        },
-      ],
+      report: "",
     },
     {
       id: "w-002",
       studentId: "stu-002",
       studentName: "Amy",
       date: today,
-      title: "Upper Hypertrophy",
-      focus: "上肢肌肥大",
+      title: "上肢基礎",
+      focus: "推 / 拉",
       status: "待完成",
-      note: "每組保留 1–2 下，不用做到爆。",
-      exercises: [
-        {
-          id: "e-004",
-          name: "Machine Chest Press",
-          sets: 4,
-          reps: 10,
-          load: "輕中等",
-          rpe: "7",
-          done: false,
-        },
-        {
-          id: "e-005",
-          name: "Lat Pulldown",
-          sets: 4,
-          reps: 12,
-          load: "輕中等",
-          rpe: "7",
-          done: false,
-        },
-        {
-          id: "e-006",
-          name: "DB Shoulder Press",
-          sets: 3,
-          reps: 10,
-          load: "輕",
-          rpe: "7",
-          done: false,
-        },
-      ],
+      report: "",
     },
   ],
-
   checkins: [
     {
       id: "ck-001",
       studentId: "stu-001",
       studentName: "Kevin",
       date: today,
-      sleep: "7 小時",
-      fatigue: "普通",
-      pain: "左膝微緊",
-      note: "深蹲熱身要拉長。",
-    },
-    {
-      id: "ck-002",
-      studentId: "stu-002",
-      studentName: "Amy",
-      date: today,
-      sleep: "6 小時",
-      fatigue: "偏累",
-      pain: "無",
-      note: "今天重量保守一點。",
+      sleep: "7h",
+      condition: "正常",
+      note: "可照表訓練。",
     },
   ],
 }
 
-const coachTabs = [
-  { id: "dashboard", label: "總覽" },
-  { id: "students", label: "學生管理" },
-  { id: "workouts", label: "課表管理" },
-  { id: "checkins", label: "狀態回報" },
-  { id: "linebot", label: "LINE Bot" },
+const modules = [
+  { id: "dashboard", title: "總覽", hint: "今日狀態" },
+  { id: "students", title: "學員", hint: "名單與目標" },
+  { id: "workouts", title: "課表", hint: "排程與完成" },
+  { id: "reports", title: "回報", hint: "紀錄與狀態" },
+  { id: "robot", title: "Robot", hint: "可直接測" },
 ]
 
-const studentTabs = [
-  { id: "student", label: "今日課表" },
-  { id: "linebot", label: "LINE Bot" },
+const robotCommands = [
+  { label: "選單", command: "選單" },
+  { label: "今日課表", command: "今日課表" },
+  { label: "完成", command: "完成 w-001" },
+  { label: "回報", command: "回報 w-001 深蹲完成，膝蓋正常" },
+  { label: "狀態", command: "狀態" },
 ]
 
 function CoachFlow() {
-  const [data, setData] = useState(loadInitialData)
-  const [viewRole, setViewRole] = useState("coach")
-  const [activeTab, setActiveTab] = useState("dashboard")
+  const [data, setData] = useState(loadData)
+  const [activeModule, setActiveModule] = useState("dashboard")
   const [activeStudentId, setActiveStudentId] = useState("stu-001")
+  const [robotInput, setRobotInput] = useState("今日課表")
+  const [robotReply, setRobotReply] = useState("點一個指令，右側會顯示 Robot 回覆。")
 
-  const { students, workouts, checkins } = data
-  const activeStudent = students.find((student) => student.id === activeStudentId)
-  const tabs = viewRole === "coach" ? coachTabs : studentTabs
-  const savedAt = new Date().toLocaleTimeString("zh-TW", { hour12: false })
+  const activeStudent = data.students.find((student) => student.id === activeStudentId) || data.students[0]
+  const activeTasks = data.workouts.filter((task) => task.studentId === activeStudent?.id)
+
+  const metrics = useMemo(
+    () => [
+      ["學員", data.students.length],
+      ["今日", data.workouts.filter((item) => item.date === today).length],
+      ["完成", data.workouts.filter((item) => item.status === "已完成").length],
+      ["回報", data.workouts.filter((item) => item.report).length],
+    ],
+    [data],
+  )
 
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY, JSON.stringify(data))
   }, [data])
 
-  const metrics = useMemo(() => {
-    const todayWorkouts = workouts.filter((item) => item.date === today)
-    const completed = workouts.filter((item) => item.status === "已完成")
-    const pending = workouts.filter((item) => item.status !== "已完成")
-
-    return {
-      studentCount: students.length,
-      todayWorkoutCount: todayWorkouts.length,
-      completedCount: completed.length,
-      pendingCount: pending.length,
-      checkinCount: checkins.length,
-    }
-  }, [students, workouts, checkins])
-
-  const activeStudentWorkouts = workouts.filter((workout) => workout.studentId === activeStudentId)
-
-  const activeStudentCheckins = checkins.filter((checkin) => checkin.studentId === activeStudentId)
-
-  function switchRole(role) {
-    setViewRole(role)
-    setActiveTab(role === "coach" ? "dashboard" : "student")
-  }
-
-  function resetDemoData() {
-    const confirmed = window.confirm("確定要重置 CoachFlow Demo 資料嗎？")
-    if (!confirmed) return
-
+  function resetDemo() {
     localStorage.removeItem(STORAGE_KEY)
-    setData(cloneDemoData())
+    setData(cloneSeed())
+    setRobotInput("今日課表")
+    setRobotReply("Demo 已重置。")
   }
 
-  function addStudent(event) {
-    event.preventDefault()
-    const form = new FormData(event.currentTarget)
+  function runRobot(command) {
+    const text = command.trim()
+    setRobotInput(text)
 
-    const newStudent = {
-      id: createId("stu"),
-      name: textValue(form, "name"),
-      goal: textValue(form, "goal"),
-      level: textValue(form, "level"),
-      contact: textValue(form, "contact"),
-      note: textValue(form, "note"),
+    if (text === "選單") {
+      setRobotReply(`CoachFlow Robot\n\n今日課表\n完成 w-001\n回報 w-001 內容\n狀態\n\nLINE Bot：${lineBotId}`)
+      return
     }
 
-    setData((current) => ({
-      ...current,
-      students: [newStudent, ...current.students],
-    }))
-
-    event.currentTarget.reset()
-  }
-
-  function deleteStudent(studentId) {
-    const student = students.find((item) => item.id === studentId)
-    const confirmed = window.confirm(
-      `確定刪除「${student?.name || "這位學生"}」嗎？相關課表與回報也會移除。`
-    )
-    if (!confirmed) return
-
-    setData((current) => ({
-      ...current,
-      students: current.students.filter((item) => item.id !== studentId),
-      workouts: current.workouts.filter((item) => item.studentId !== studentId),
-      checkins: current.checkins.filter((item) => item.studentId !== studentId),
-    }))
-
-    if (activeStudentId === studentId) {
-      const nextStudent = students.find((item) => item.id !== studentId)
-      if (nextStudent) setActiveStudentId(nextStudent.id)
-    }
-  }
-
-  function addWorkout(event) {
-    event.preventDefault()
-    const form = new FormData(event.currentTarget)
-    const student = students.find((item) => item.id === textValue(form, "studentId"))
-
-    const newWorkout = {
-      id: createId("w"),
-      studentId: student?.id || "",
-      studentName: student?.name || "未指定學生",
-      date: textValue(form, "date") || today,
-      title: textValue(form, "title"),
-      focus: textValue(form, "focus"),
-      status: "待完成",
-      note: textValue(form, "note"),
-      exercises: [
-        {
-          id: createId("e"),
-          name: textValue(form, "exercise1") || "Main Lift",
-          sets: numberValue(form, "sets1") || 3,
-          reps: numberValue(form, "reps1") || 8,
-          load: textValue(form, "load1") || "依狀態調整",
-          rpe: textValue(form, "rpe1") || "7",
-          done: false,
-        },
-        {
-          id: createId("e"),
-          name: textValue(form, "exercise2") || "Accessory",
-          sets: numberValue(form, "sets2") || 3,
-          reps: numberValue(form, "reps2") || 10,
-          load: textValue(form, "load2") || "依狀態調整",
-          rpe: textValue(form, "rpe2") || "7",
-          done: false,
-        },
-      ],
+    if (text === "今日課表") {
+      const tasks = activeTasks.filter((task) => task.status !== "已完成")
+      setRobotReply(
+        tasks.length
+          ? `今日課表｜${activeStudent.name}\n\n${tasks
+              .map((task) => `${task.id}｜${task.title}\n${task.focus}\n狀態：${task.status}`)
+              .join("\n\n")}`
+          : `${activeStudent.name} 目前沒有待完成課表。`,
+      )
+      return
     }
 
-    setData((current) => ({
-      ...current,
-      workouts: [newWorkout, ...current.workouts],
-    }))
-
-    event.currentTarget.reset()
-  }
-
-  function deleteWorkout(workoutId) {
-    const confirmed = window.confirm("確定刪除這份課表嗎？")
-    if (!confirmed) return
-
-    setData((current) => ({
-      ...current,
-      workouts: current.workouts.filter((item) => item.id !== workoutId),
-    }))
-  }
-
-  function toggleExercise(workoutId, exerciseId) {
-    setData((current) => ({
-      ...current,
-      workouts: current.workouts.map((workout) => {
-        if (workout.id !== workoutId) return workout
-
-        const nextExercises = workout.exercises.map((exercise) =>
-          exercise.id === exerciseId ? { ...exercise, done: !exercise.done } : exercise
-        )
-
-        const allDone = nextExercises.every((exercise) => exercise.done)
-
-        return {
-          ...workout,
-          exercises: nextExercises,
-          status: allDone ? "已完成" : "進行中",
-        }
-      }),
-    }))
-  }
-
-  function markWorkoutComplete(workoutId) {
-    setData((current) => ({
-      ...current,
-      workouts: current.workouts.map((workout) =>
-        workout.id === workoutId
-          ? {
-              ...workout,
-              status: workout.status === "已完成" ? "待完成" : "已完成",
-              exercises: workout.exercises.map((exercise) => ({
-                ...exercise,
-                done: workout.status !== "已完成",
-              })),
-            }
-          : workout
-      ),
-    }))
-  }
-
-  function addCheckin(event) {
-    event.preventDefault()
-    const form = new FormData(event.currentTarget)
-    const student = students.find((item) => item.id === textValue(form, "studentId"))
-
-    const newCheckin = {
-      id: createId("ck"),
-      studentId: student?.id || "",
-      studentName: student?.name || "未指定學生",
-      date: textValue(form, "date") || today,
-      sleep: textValue(form, "sleep"),
-      fatigue: textValue(form, "fatigue"),
-      pain: textValue(form, "pain"),
-      note: textValue(form, "note"),
+    if (text.startsWith("完成 ")) {
+      const taskId = text.split(/\s+/)[1]
+      const task = data.workouts.find((item) => item.id === taskId)
+      if (!task) {
+        setRobotReply(`找不到課表：${taskId}`)
+        return
+      }
+      setData((current) => ({
+        ...current,
+        workouts: current.workouts.map((item) =>
+          item.id === taskId ? { ...item, status: "已完成" } : item,
+        ),
+      }))
+      setRobotReply(`已完成：${task.id}\n${task.studentName}｜${task.title}`)
+      return
     }
 
-    setData((current) => ({
-      ...current,
-      checkins: [newCheckin, ...current.checkins],
-    }))
+    if (text.startsWith("回報 ")) {
+      const [, taskId, ...contentParts] = text.split(/\s+/)
+      const content = contentParts.join(" ").trim()
+      const task = data.workouts.find((item) => item.id === taskId)
+      if (!task) {
+        setRobotReply(`找不到課表：${taskId}`)
+        return
+      }
+      setData((current) => ({
+        ...current,
+        workouts: current.workouts.map((item) =>
+          item.id === taskId ? { ...item, report: content || "已回報", status: "有回報" } : item,
+        ),
+      }))
+      setRobotReply(`已收到回報：${task.id}\n${task.studentName}｜${task.title}\n\n${content || "已回報"}`)
+      return
+    }
 
-    event.currentTarget.reset()
+    if (text === "狀態") {
+      setRobotReply(
+        `狀態｜${activeStudent.name}\n待完成：${activeTasks.filter((item) => item.status === "待完成").length}\n已完成：${
+          activeTasks.filter((item) => item.status === "已完成").length
+        }\n有回報：${activeTasks.filter((item) => item.report).length}`,
+      )
+      return
+    }
+
+    setRobotReply("可用指令：選單 / 今日課表 / 完成 w-001 / 回報 w-001 內容 / 狀態")
   }
 
   return (
@@ -352,51 +180,27 @@ function CoachFlow() {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
           <div>
             <Link to="/admin" className="text-sm font-bold text-slate-500">
-              ← 回管理入口
+              返回系統入口
             </Link>
             <h1 className="mt-2 text-2xl font-black">CoachFlow</h1>
-            <p className="text-sm text-slate-500">健身教練課表與完成回報系統原型</p>
-            <p className="mt-1 text-xs text-slate-400">
-              本機資料保存中｜最後保存：{savedAt || "尚未保存"}
-            </p>
+            <p className="text-sm text-slate-500">課表、回報、Robot 測試。</p>
           </div>
-
           <div className="flex flex-wrap gap-2">
-            <button
-              onClick={() => switchRole("coach")}
-              className={`rounded-xl px-4 py-2 text-sm font-black ${
-                viewRole === "coach" ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-600"
-              }`}
+            <select
+              value={activeStudentId}
+              onChange={(event) => setActiveStudentId(event.target.value)}
+              className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold"
             >
-              教練視角
-            </button>
-
+              {data.students.map((student) => (
+                <option key={student.id} value={student.id}>
+                  {student.name}
+                </option>
+              ))}
+            </select>
             <button
-              onClick={() => switchRole("student")}
-              className={`rounded-xl px-4 py-2 text-sm font-black ${
-                viewRole === "student" ? "bg-slate-950 text-white" : "bg-slate-100 text-slate-600"
-              }`}
-            >
-              學生視角
-            </button>
-
-            {viewRole === "student" && (
-              <select
-                value={activeStudentId}
-                onChange={(event) => setActiveStudentId(event.target.value)}
-                className="rounded-xl border border-slate-200 bg-white px-4 py-2 text-sm font-bold"
-              >
-                {students.map((student) => (
-                  <option key={student.id} value={student.id}>
-                    {student.name}
-                  </option>
-                ))}
-              </select>
-            )}
-
-            <button
-              onClick={resetDemoData}
-              className="rounded-xl border border-red-200 bg-red-50 px-4 py-2 text-sm font-black text-red-600"
+              type="button"
+              onClick={resetDemo}
+              className="rounded-xl bg-slate-950 px-4 py-2 text-sm font-black text-white active:translate-y-px"
             >
               重置 Demo
             </button>
@@ -404,117 +208,39 @@ function CoachFlow() {
         </div>
       </header>
 
-      <section className="border-b border-slate-200 bg-white">
-        <div className="mx-auto max-w-7xl px-4 py-5">
-          <div className="grid gap-4 rounded-2xl border border-slate-200 bg-slate-50 p-5 md:grid-cols-[1fr_1.2fr] md:items-center">
-            <div>
-              <p className="text-sm font-black uppercase tracking-[0.16em] text-slate-500">
-                Prototype Positioning
-              </p>
-              <h2 className="mt-2 text-2xl font-black">第二個垂直領域系統原型</h2>
-              <p className="mt-3 leading-7 text-slate-600">
-                CoachFlow 用來展示教練 / 學生流程、課表指派、完成追蹤、身體狀態回報與 LINE Bot
-                互動概念。它不需要和 BuildFlow 一樣完整，但要讓人一眼理解你能把不同產業流程系統化。
-              </p>
-            </div>
-
-            <div className="grid gap-2 text-sm font-bold text-slate-700 sm:grid-cols-2">
-              {[
-                "Coach / student workflow",
-                "Workout assignment",
-                "Completion tracking",
-                "Check-in records",
-                "LINE Bot style interaction",
-              ].map((item) => (
-                <div
-                  key={item}
-                  className="rounded-xl border border-slate-200 bg-white px-4 py-3 shadow-sm"
-                >
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 py-5 lg:grid-cols-[230px_minmax(0,1fr)]">
-        <aside className="rounded-2xl border border-slate-200 bg-white p-4 shadow-sm">
-          <p className="mb-3 text-sm font-black text-slate-500">功能選單</p>
-
-          <nav className="grid gap-2">
-            {tabs.map((tab) => (
-              <button
-                key={tab.id}
-                onClick={() => setActiveTab(tab.id)}
-                className={`rounded-xl px-4 py-3 text-left text-sm font-bold ${
-                  activeTab === tab.id
-                    ? "bg-slate-950 text-white"
-                    : "bg-slate-50 text-slate-600 hover:bg-slate-100"
-                }`}
-              >
-                {tab.label}
-              </button>
-            ))}
-          </nav>
-
-          <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            <p className="font-black text-slate-950">目前身份</p>
-            <p className="mt-1">{viewRole === "coach" ? "教練 / 管理者" : activeStudent?.name}</p>
-            <p className="mt-3 text-xs text-slate-400">
-              教練可管理學生與課表；學生只看自己的訓練與回報。
-            </p>
-          </div>
+      <section className="mx-auto grid max-w-7xl gap-5 px-4 py-5 lg:grid-cols-[300px_minmax(0,1fr)]">
+        <aside className="grid grid-cols-2 gap-3 lg:grid-cols-1">
+          {modules.map((module) => (
+            <button
+              key={module.id}
+              type="button"
+              onClick={() => setActiveModule(module.id)}
+              className={`minimal-motion aspect-square rounded-2xl border p-4 text-left lg:aspect-auto lg:min-h-24 ${
+                activeModule === module.id
+                  ? "border-slate-950 bg-slate-950 text-white"
+                  : "border-slate-200 bg-white text-slate-950 hover:border-slate-400"
+              }`}
+            >
+              <span className="block text-xl font-black">{module.title}</span>
+              <span className="mt-2 block text-xs font-bold opacity-60">{module.hint}</span>
+            </button>
+          ))}
         </aside>
 
-        <section className="min-w-0">
-          {activeTab === "dashboard" && (
-            <CoachDashboard
-              metrics={metrics}
-              students={students}
-              workouts={workouts}
-              checkins={checkins}
-            />
+        <section className="minimal-motion min-w-0 rounded-2xl border border-slate-200 bg-white p-4 shadow-sm md:p-6">
+          {activeModule === "dashboard" && <Dashboard metrics={metrics} data={data} />}
+          {activeModule === "students" && (
+            <Students data={data} activeStudent={activeStudent} setActiveStudentId={setActiveStudentId} />
           )}
-
-          {activeTab === "students" && (
-            <StudentsPanel
-              students={students}
-              addStudent={addStudent}
-              deleteStudent={deleteStudent}
-            />
-          )}
-
-          {activeTab === "workouts" && (
-            <WorkoutsPanel
-              students={students}
-              workouts={workouts}
-              addWorkout={addWorkout}
-              deleteWorkout={deleteWorkout}
-              markWorkoutComplete={markWorkoutComplete}
-              toggleExercise={toggleExercise}
-            />
-          )}
-
-          {activeTab === "checkins" && (
-            <CheckinsPanel students={students} checkins={checkins} addCheckin={addCheckin} />
-          )}
-
-          {activeTab === "student" && (
-            <StudentPanel
-              student={activeStudent}
-              workouts={activeStudentWorkouts}
-              checkins={activeStudentCheckins}
-              toggleExercise={toggleExercise}
-              markWorkoutComplete={markWorkoutComplete}
-            />
-          )}
-
-          {activeTab === "linebot" && (
-            <LineBotPanel
+          {activeModule === "workouts" && <Workouts data={data} />}
+          {activeModule === "reports" && <Reports data={data} />}
+          {activeModule === "robot" && (
+            <Robot
               activeStudent={activeStudent}
-              workouts={activeStudentWorkouts}
-              checkins={activeStudentCheckins}
+              robotCommands={robotCommands}
+              robotInput={robotInput}
+              robotReply={robotReply}
+              runRobot={runRobot}
             />
           )}
         </section>
@@ -523,491 +249,201 @@ function CoachFlow() {
   )
 }
 
-function CoachDashboard({ metrics, students, workouts }) {
-  const pendingWorkouts = workouts.filter((item) => item.status !== "已完成")
-
+function Dashboard({ metrics, data }) {
   return (
     <div className="grid gap-5">
-      <SectionTitle title="教練總覽" desc="查看學生、今日課表、完成狀態與身體狀態回報。" />
-
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-        <Metric label="學生數" value={metrics.studentCount} />
-        <Metric label="今日課表" value={metrics.todayWorkoutCount} />
-        <Metric label="已完成課表" value={metrics.completedCount} />
-        <Metric label="待完成課表" value={metrics.pendingCount} danger />
-        <Metric label="狀態回報" value={metrics.checkinCount} />
-      </div>
-
-      <div className="grid gap-5 xl:grid-cols-[1fr_1fr]">
-        <Card>
-          <h3 className="text-xl font-black">學生列表</h3>
-          <div className="mt-4 grid gap-3">
-            {students.map((student) => (
-              <div key={student.id} className="rounded-xl bg-slate-50 p-4">
-                <p className="font-black">{student.name}</p>
-                <p className="mt-1 text-sm text-slate-500">
-                  {student.goal}｜{student.level}
-                </p>
-              </div>
-            ))}
+      <PanelTitle title="總覽" desc="只看今天需要處理的事。" />
+      <div className="grid grid-cols-2 gap-3 md:grid-cols-4">
+        {metrics.map(([label, value]) => (
+          <div key={label} className="rounded-xl bg-slate-50 p-4">
+            <p className="text-sm font-black text-slate-500">{label}</p>
+            <p className="mt-2 text-3xl font-black">{value}</p>
           </div>
-        </Card>
-
-        <Card>
-          <h3 className="text-xl font-black">待完成課表</h3>
-          <div className="mt-4 grid gap-3">
-            {pendingWorkouts.map((workout) => (
-              <div key={workout.id} className="rounded-xl bg-amber-50 p-4">
-                <p className="font-black text-amber-700">{workout.studentName}</p>
-                <p className="mt-1 text-sm text-amber-700/80">
-                  {workout.title}｜{workout.date}
-                </p>
-              </div>
-            ))}
-
-            {!pendingWorkouts.length && (
-              <p className="text-sm text-slate-500">目前沒有待完成課表。</p>
-            )}
-          </div>
-        </Card>
+        ))}
       </div>
+      <MiniList title="今日課表" items={data.workouts.map((item) => `${item.id}｜${item.studentName}｜${item.title}`)} />
     </div>
   )
 }
 
-function StudentsPanel({ students, addStudent, deleteStudent }) {
+function Students({ data, activeStudent, setActiveStudentId }) {
   return (
     <div className="grid gap-5">
-      <SectionTitle title="學生管理" desc="新增學生、記錄目標、程度與聯絡方式。" />
-
-      <Card>
-        <h3 className="text-xl font-black">新增學生</h3>
-
-        <form onSubmit={addStudent} className="mt-4 grid gap-3 md:grid-cols-2">
-          <Input name="name" label="學生姓名" required />
-          <Input name="goal" label="目標" placeholder="力量提升 / 增肌 / 減脂" />
-          <Input name="level" label="程度" placeholder="Beginner / Intermediate" />
-          <Input name="contact" label="聯絡方式" placeholder="LINE / Email" />
-          <Input name="note" label="備註" />
-
-          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
-            新增學生
-          </button>
-        </form>
-      </Card>
-
-      <div className="grid gap-4 md:grid-cols-3">
-        {students.map((student) => (
-          <Card key={student.id}>
-            <p className="text-sm font-bold text-slate-500">{student.level}</p>
-            <h3 className="mt-2 text-xl font-black">{student.name}</h3>
-            <p className="mt-3 font-black">{student.goal}</p>
-            <p className="mt-2 text-sm text-slate-500">{student.contact}</p>
-            <p className="mt-4 text-sm leading-7 text-slate-600">{student.note}</p>
-
+      <PanelTitle title="學員" desc="點名單，右側換資料。" />
+      <div className="grid gap-4 lg:grid-cols-[220px_minmax(0,1fr)]">
+        <div className="grid gap-2">
+          {data.students.map((student) => (
             <button
-              onClick={() => deleteStudent(student.id)}
-              className="mt-5 rounded-lg bg-red-50 px-3 py-2 text-xs font-black text-red-600"
+              key={student.id}
+              type="button"
+              onClick={() => setActiveStudentId(student.id)}
+              className={`rounded-xl px-4 py-3 text-left text-sm font-black active:translate-y-px ${
+                activeStudent.id === student.id ? "bg-slate-950 text-white" : "bg-slate-50 text-slate-700"
+              }`}
             >
-              刪除學生
+              {student.name}
             </button>
-          </Card>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function WorkoutsPanel({
-  students,
-  workouts,
-  addWorkout,
-  deleteWorkout,
-  markWorkoutComplete,
-  toggleExercise,
-}) {
-  return (
-    <div className="grid gap-5">
-      <SectionTitle title="課表管理" desc="建立學生課表、安排日期、追蹤完成狀態。" />
-
-      <Card>
-        <h3 className="text-xl font-black">新增課表</h3>
-
-        <form onSubmit={addWorkout} className="mt-4 grid gap-3 md:grid-cols-2">
-          <label className="grid gap-2">
-            <span className="text-sm font-bold text-slate-600">學生</span>
-            <select name="studentId" className="rounded-xl border border-slate-200 px-4 py-3">
-              {students.map((student) => (
-                <option key={student.id} value={student.id}>
-                  {student.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <Input name="date" label="訓練日期" type="date" />
-          <Input name="title" label="課表名稱" placeholder="Lower Strength Day" required />
-          <Input name="focus" label="訓練重點" placeholder="深蹲主項 / 上肢肌肥大" />
-          <Input name="exercise1" label="動作 1" placeholder="Back Squat" />
-          <Input name="sets1" label="組數 1" type="number" />
-          <Input name="reps1" label="次數 1" type="number" />
-          <Input name="load1" label="重量 1" placeholder="140kg / 中等" />
-          <Input name="rpe1" label="RPE 1" placeholder="7" />
-          <Input name="exercise2" label="動作 2" placeholder="Romanian Deadlift" />
-          <Input name="sets2" label="組數 2" type="number" />
-          <Input name="reps2" label="次數 2" type="number" />
-          <Input name="load2" label="重量 2" placeholder="90kg / 中等" />
-          <Input name="rpe2" label="RPE 2" placeholder="7" />
-          <Input name="note" label="備註" />
-
-          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
-            新增課表
-          </button>
-        </form>
-      </Card>
-
-      <WorkoutList
-        workouts={workouts}
-        deleteWorkout={deleteWorkout}
-        markWorkoutComplete={markWorkoutComplete}
-        toggleExercise={toggleExercise}
-        showStudent
-      />
-    </div>
-  )
-}
-
-function CheckinsPanel({ students, checkins, addCheckin }) {
-  return (
-    <div className="grid gap-5">
-      <SectionTitle
-        title="狀態回報"
-        desc="記錄睡眠、疲勞、疼痛與訓練前狀態，讓課表調整更有依據。"
-      />
-
-      <Card>
-        <h3 className="text-xl font-black">新增狀態回報</h3>
-
-        <form onSubmit={addCheckin} className="mt-4 grid gap-3 md:grid-cols-2">
-          <label className="grid gap-2">
-            <span className="text-sm font-bold text-slate-600">學生</span>
-            <select name="studentId" className="rounded-xl border border-slate-200 px-4 py-3">
-              {students.map((student) => (
-                <option key={student.id} value={student.id}>
-                  {student.name}
-                </option>
-              ))}
-            </select>
-          </label>
-
-          <Input name="date" label="日期" type="date" />
-          <Input name="sleep" label="睡眠" placeholder="7 小時" />
-          <Input name="fatigue" label="疲勞程度" placeholder="低 / 普通 / 高" />
-          <Input name="pain" label="疼痛狀態" placeholder="無 / 肩膀緊 / 膝蓋不適" />
-          <Input name="note" label="備註" />
-
-          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
-            新增回報
-          </button>
-        </form>
-      </Card>
-
-      <div className="grid gap-3">
-        {checkins.map((item) => (
-          <Card key={item.id}>
-            <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
-              <div>
-                <p className="text-sm font-bold text-slate-500">{item.date}</p>
-                <h3 className="mt-2 text-xl font-black">{item.studentName}</h3>
-                <p className="mt-3 text-sm leading-7 text-slate-600">
-                  睡眠：{item.sleep}｜疲勞：{item.fatigue}｜疼痛：{item.pain}
-                </p>
-                <p className="mt-2 text-sm leading-7 text-slate-600">{item.note}</p>
-              </div>
-            </div>
-          </Card>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function StudentPanel({ student, workouts, checkins, toggleExercise, markWorkoutComplete }) {
-  return (
-    <div className="grid gap-5">
-      <SectionTitle
-        title={`${student?.name || "學生"}的今日課表`}
-        desc="學生只能查看自己的課表、完成動作與回報狀態。"
-      />
-
-      <Card>
-        <h3 className="text-xl font-black">我的訓練目標</h3>
-        <p className="mt-3 leading-7 text-slate-600">
-          目標：{student?.goal}｜程度：{student?.level}
-        </p>
-        <p className="mt-2 leading-7 text-slate-600">{student?.note}</p>
-      </Card>
-
-      <WorkoutList
-        workouts={workouts}
-        markWorkoutComplete={markWorkoutComplete}
-        toggleExercise={toggleExercise}
-        studentMode
-      />
-
-      <Card>
-        <h3 className="text-xl font-black">最近狀態回報</h3>
-        <div className="mt-4 grid gap-3">
-          {checkins.map((item) => (
-            <div key={item.id} className="rounded-xl bg-slate-50 p-4">
-              <p className="font-black">{item.date}</p>
-              <p className="mt-2 text-sm leading-7 text-slate-600">
-                睡眠：{item.sleep}｜疲勞：{item.fatigue}｜疼痛：{item.pain}
-              </p>
-              <p className="mt-1 text-sm text-slate-500">{item.note}</p>
-            </div>
           ))}
-
-          {!checkins.length && <p className="text-sm text-slate-500">目前沒有回報。</p>}
         </div>
-      </Card>
-    </div>
-  )
-}
-
-function WorkoutList({
-  workouts,
-  deleteWorkout,
-  markWorkoutComplete,
-  toggleExercise,
-  showStudent = false,
-  studentMode = false,
-}) {
-  return (
-    <div className="grid gap-4">
-      {workouts.map((workout) => (
-        <Card key={workout.id}>
-          <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
-            <div>
-              <p className="text-sm font-bold text-slate-500">
-                {workout.date}
-                {showStudent ? `｜${workout.studentName}` : ""}
-              </p>
-              <h3 className="mt-2 text-xl font-black">{workout.title}</h3>
-              <p className="mt-2 text-sm leading-7 text-slate-600">{workout.focus}</p>
-              <p className="mt-1 text-sm text-slate-500">{workout.note}</p>
-            </div>
-
-            <Status>{workout.status}</Status>
+        <div className="rounded-xl bg-slate-50 p-4">
+          <p className="text-sm font-black text-slate-500">學員資料</p>
+          <h3 className="mt-2 text-2xl font-black">{activeStudent.name}</h3>
+          <div className="mt-4 grid gap-2 text-sm font-bold text-slate-600">
+            <p>目標：{activeStudent.goal}</p>
+            <p>程度：{activeStudent.level}</p>
+            <p>LINE：{activeStudent.line}</p>
+            <p>備註：{activeStudent.note}</p>
           </div>
-
-          <div className="mt-5 grid gap-3">
-            {workout.exercises.map((exercise) => (
-              <div
-                key={exercise.id}
-                className="flex flex-col gap-3 rounded-xl bg-slate-50 p-4 md:flex-row md:items-center md:justify-between"
-              >
-                <div>
-                  <p className="font-black">{exercise.name}</p>
-                  <p className="mt-1 text-sm text-slate-500">
-                    {exercise.sets} 組 x {exercise.reps} 下｜{exercise.load}｜RPE {exercise.rpe}
-                  </p>
-                </div>
-
-                <button
-                  onClick={() => toggleExercise(workout.id, exercise.id)}
-                  className={`rounded-xl px-4 py-2 text-sm font-black ${
-                    exercise.done ? "bg-emerald-100 text-emerald-700" : "bg-white text-slate-700"
-                  }`}
-                >
-                  {exercise.done ? "已完成" : "標記完成"}
-                </button>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 flex flex-wrap gap-2">
-            <button
-              onClick={() => markWorkoutComplete(workout.id)}
-              className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white"
-            >
-              {workout.status === "已完成" ? "取消完成" : "整份課表完成"}
-            </button>
-
-            {!studentMode && deleteWorkout && (
-              <button
-                onClick={() => deleteWorkout(workout.id)}
-                className="rounded-xl bg-red-50 px-4 py-3 text-sm font-black text-red-600"
-              >
-                刪除課表
-              </button>
-            )}
-          </div>
-        </Card>
-      ))}
-
-      {!workouts.length && (
-        <Card>
-          <p className="text-slate-500">目前沒有課表。</p>
-        </Card>
-      )}
-    </div>
-  )
-}
-
-function LineBotPanel({ activeStudent, workouts, checkins }) {
-  const todayWorkout = workouts.find((item) => item.date === today) || workouts[0]
-  const latestCheckin = checkins[0]
-
-  const examples = [
-    {
-      user: "今日課表",
-      bot: todayWorkout
-        ? `${activeStudent?.name || "學生"} 今天的課表：${todayWorkout.title}｜${todayWorkout.focus}`
-        : "今天尚未安排課表。",
-    },
-    {
-      user: "完成 今日課表",
-      bot: "已收到完成回報，教練端會看到你的課表完成狀態。",
-    },
-    {
-      user: "回報 疲勞高 左膝緊",
-      bot: "已建立狀態回報：疲勞高、左膝緊。建議訓練前多做熱身並回報教練。",
-    },
-    {
-      user: "查狀態",
-      bot: latestCheckin
-        ? `最近回報：睡眠 ${latestCheckin.sleep}｜疲勞 ${latestCheckin.fatigue}｜疼痛 ${latestCheckin.pain}`
-        : "目前沒有狀態回報。",
-    },
-  ]
-
-  return (
-    <div className="grid gap-5">
-      <SectionTitle
-        title="LINE Bot 模擬"
-        desc="未來可串接 LINE Messaging API，讓學生查課表、回報完成與回報身體狀態。"
-      />
-
-      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
-        <Card>
-          <h3 className="text-xl font-black">可支援指令</h3>
-
-          <div className="mt-4 grid gap-3">
-            {["今日課表", "完成 今日課表", "回報 疲勞 / 疼痛", "查狀態", "提醒訓練"].map((item) => (
-              <div key={item} className="rounded-xl bg-slate-50 p-4 font-bold">
-                {item}
-              </div>
-            ))}
-          </div>
-        </Card>
-
-        <Card>
-          <h3 className="text-xl font-black">對話範例</h3>
-
-          <div className="mt-4 grid gap-4">
-            {examples.map((example) => (
-              <div key={example.user} className="grid gap-2">
-                <div className="ml-auto max-w-[85%] rounded-2xl bg-green-500 px-4 py-3 text-sm font-bold text-white">
-                  {example.user}
-                </div>
-                <div className="max-w-[90%] rounded-2xl bg-slate-100 px-4 py-3 text-sm font-bold leading-7 text-slate-700">
-                  {example.bot}
-                </div>
-              </div>
-            ))}
-          </div>
-
-          <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            目前為模擬流程。之後接真 API 時，會從資料庫查詢學生、課表、完成紀錄與身體狀態回報。
-          </div>
-        </Card>
+        </div>
       </div>
     </div>
   )
 }
 
-function SectionTitle({ title, desc }) {
+function Workouts({ data }) {
+  return (
+    <div className="grid gap-5">
+      <PanelTitle title="課表" desc="外層只顯示課表狀態，細節點開看。" />
+      <div className="grid gap-3">
+        {data.workouts.map((task) => (
+          <details key={task.id} className="minimal-detail bg-slate-50">
+            <summary>
+              <span>{task.id}｜{task.studentName}｜{task.title}</span>
+              <span className="rounded-full bg-white px-2 py-1 text-xs">{task.status}</span>
+            </summary>
+            <div className="minimal-detail-body text-sm leading-7 text-slate-600">
+              <p>日期：{task.date}</p>
+              <p>重點：{task.focus}</p>
+              <p>回報：{task.report || "尚未回報"}</p>
+            </div>
+          </details>
+        ))}
+      </div>
+    </div>
+  )
+}
+
+function Reports({ data }) {
+  const reported = data.workouts.filter((task) => task.report)
+
+  return (
+    <div className="grid gap-5">
+      <PanelTitle title="回報" desc="Robot 或學員送出的紀錄。" />
+      <MiniList
+        title="回報紀錄"
+        items={reported.map((item) => `${item.id}｜${item.studentName}｜${item.report}`)}
+        empty="目前沒有回報。"
+      />
+      <MiniList
+        title="身體狀態"
+        items={data.checkins.map((item) => `${item.studentName}｜${item.condition}｜${item.note}`)}
+      />
+    </div>
+  )
+}
+
+function Robot({ activeStudent, robotCommands, robotInput, robotReply, runRobot }) {
+  return (
+    <div className="grid gap-5">
+      <PanelTitle title="Robot" desc={`LINE Bot：${lineBotId}。這裡可直接測。`} />
+      <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr]">
+        <div>
+          <p className="text-sm font-black text-slate-500">測試指令</p>
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            {robotCommands.map((item) => (
+              <button
+                key={item.command}
+                type="button"
+                onClick={() => runRobot(item.command)}
+                className="rounded-xl border border-slate-200 bg-slate-50 px-4 py-4 text-left text-sm font-black hover:border-slate-500 active:translate-y-px"
+              >
+                <span className="block text-xs text-slate-500">{item.label}</span>
+                <span className="mt-1 block">{item.command}</span>
+              </button>
+            ))}
+          </div>
+          <form
+            className="mt-3 flex gap-2"
+            onSubmit={(event) => {
+              event.preventDefault()
+              const form = new FormData(event.currentTarget)
+              runRobot(String(form.get("command") || ""))
+            }}
+          >
+            <input
+              name="command"
+              defaultValue={robotInput}
+              className="min-w-0 flex-1 rounded-xl border border-slate-200 px-4 py-3 text-sm"
+            />
+            <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white">
+              送出
+            </button>
+          </form>
+        </div>
+        <div className="rounded-2xl bg-slate-950 p-4 text-white">
+          <p className="text-sm font-black text-slate-400">對話預覽｜{activeStudent.name}</p>
+          <div className="mt-4 grid gap-3">
+            <div className="ml-auto max-w-[86%] rounded-2xl bg-emerald-500 px-4 py-3 text-sm font-bold">
+              {robotInput}
+            </div>
+            <div className="max-w-[92%] whitespace-pre-line rounded-2xl bg-white/10 px-4 py-3 text-sm font-bold leading-7">
+              {robotReply}
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
+        測試方式：點「今日課表」看待辦，點「回報」寫入紀錄，點「完成」同步狀態。
+      </div>
+    </div>
+  )
+}
+
+function MiniList({ title, items, empty = "目前沒有資料。" }) {
+  return (
+    <div className="rounded-xl bg-slate-50 p-4">
+      <h3 className="font-black">{title}</h3>
+      <div className="mt-3 grid gap-2">
+        {items.length ? (
+          items.map((item) => (
+            <div key={item} className="rounded-lg bg-white px-3 py-2 text-sm font-bold text-slate-700">
+              {item}
+            </div>
+          ))
+        ) : (
+          <p className="text-sm text-slate-500">{empty}</p>
+        )}
+      </div>
+    </div>
+  )
+}
+
+function PanelTitle({ title, desc }) {
   return (
     <div>
-      <h2 className="text-3xl font-black tracking-[-0.04em]">{title}</h2>
-      {desc && <p className="mt-2 leading-7 text-slate-600">{desc}</p>}
+      <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">CoachFlow</p>
+      <h2 className="mt-2 text-2xl font-black">{title}</h2>
+      <p className="mt-1 text-sm leading-6 text-slate-500">{desc}</p>
     </div>
   )
 }
 
-function Card({ children }) {
-  return (
-    <section className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-      {children}
-    </section>
-  )
+function cloneSeed() {
+  return JSON.parse(JSON.stringify(seedData))
 }
 
-function Metric({ label, value, danger = false }) {
-  return (
-    <Card>
-      <p className="text-sm font-bold text-slate-500">{label}</p>
-      <p className={`mt-3 text-2xl font-black ${danger ? "text-red-600" : "text-slate-950"}`}>
-        {value}
-      </p>
-    </Card>
-  )
-}
-
-function Input({ label, name, type = "text", placeholder = "", required = false }) {
-  return (
-    <label className="grid gap-2">
-      <span className="text-sm font-bold text-slate-600">{label}</span>
-      <input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        required={required}
-        className="rounded-xl border border-slate-200 px-4 py-3 outline-none focus:border-slate-500"
-      />
-    </label>
-  )
-}
-
-function Status({ children }) {
-  return (
-    <span className="inline-flex w-fit rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-700">
-      {children}
-    </span>
-  )
-}
-
-function createId(prefix) {
-  return `${prefix}-${Date.now()}-${Math.floor(Math.random() * 10000)}`
-}
-
-function textValue(form, key) {
-  return String(form.get(key) || "").trim()
-}
-
-function numberValue(form, key) {
-  return Number(form.get(key)) || 0
-}
-
-function cloneDemoData() {
-  return JSON.parse(JSON.stringify(demoData))
-}
-
-function loadInitialData() {
+function loadData() {
   try {
     const raw = localStorage.getItem(STORAGE_KEY)
-    if (!raw) return cloneDemoData()
-
+    if (!raw) return cloneSeed()
     const parsed = JSON.parse(raw)
-
     return {
-      students: Array.isArray(parsed.students) ? parsed.students : demoData.students,
-      workouts: Array.isArray(parsed.workouts) ? parsed.workouts : demoData.workouts,
-      checkins: Array.isArray(parsed.checkins) ? parsed.checkins : demoData.checkins,
+      students: Array.isArray(parsed.students) ? parsed.students : seedData.students,
+      workouts: Array.isArray(parsed.workouts) ? parsed.workouts : seedData.workouts,
+      checkins: Array.isArray(parsed.checkins) ? parsed.checkins : seedData.checkins,
     }
   } catch {
-    return cloneDemoData()
+    return cloneSeed()
   }
 }
 
