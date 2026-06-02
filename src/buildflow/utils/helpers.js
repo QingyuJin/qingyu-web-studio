@@ -56,6 +56,7 @@ export function loadInitialData() {
       changeOrders: Array.isArray(parsed.changeOrders)
         ? parsed.changeOrders
         : demoData.changeOrders,
+      quoteDrafts: Array.isArray(parsed.quoteDrafts) ? parsed.quoteDrafts : demoData.quoteDrafts,
       vendors: Array.isArray(parsed.vendors) ? parsed.vendors : demoData.vendors,
       tasks: Array.isArray(parsed.tasks) ? parsed.tasks : demoData.tasks,
     }

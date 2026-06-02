@@ -161,6 +161,45 @@ export const demoData = {
     },
   ],
 
+  quoteDrafts: [
+    {
+      id: "q-001",
+      title: "屏東住宅屋頂防水估價",
+      client: "林先生",
+      phone: "09xx-111-222",
+      address: "屏東市住宅案",
+      type: "防水工程",
+      stage: "確認",
+      quoteDate: "2026-06-14",
+      expectedDate: "2026-06-20",
+      sizeNote: "頂樓約 18 坪，女兒牆約 12 米",
+      note: "業主先詢問屋頂防水，需確認漏水點與排水方向。",
+      items: [
+        { name: "屋頂防水底層處理", qty: 18, unit: "坪", price: 2200 },
+        { name: "女兒牆防水補強", qty: 12, unit: "米", price: 900 },
+        { name: "完工清潔與拍照紀錄", qty: 1, unit: "式", price: 3500 },
+      ],
+    },
+    {
+      id: "q-002",
+      title: "高雄店面地坪整理",
+      client: "陳小姐",
+      phone: "09xx-333-555",
+      address: "高雄市店面",
+      type: "地坪工程",
+      stage: "報價",
+      quoteDate: "2026-06-15",
+      expectedDate: "2026-06-28",
+      sizeNote: "室內約 26 坪",
+      note: "地坪需耐磨、好清潔，報價後確認施工日期。",
+      items: [
+        { name: "地坪研磨整平", qty: 26, unit: "坪", price: 1300 },
+        { name: "表層塗裝", qty: 26, unit: "坪", price: 1600 },
+        { name: "材料搬運", qty: 1, unit: "式", price: 6000 },
+      ],
+    },
+  ],
+
   vendors: [
     {
       id: "v-001",
@@ -220,6 +259,7 @@ export const demoData = {
 
 export const adminTabs = [
   { id: "dashboard", label: "總覽" },
+  { id: "quoteDrafts", label: "暫存報價" },
   { id: "projects", label: "案件管理" },
   { id: "subcontracts", label: "發包項目" },
   { id: "bids", label: "批價紀錄" },
@@ -255,3 +295,4 @@ export const subcontractStatuses = [
   "有問題",
 ]
 export const changeStatuses = ["待確認", "已傳 LINE", "業主已確認", "已施工", "已收款", "取消"]
+export const quoteStages = ["確認", "報價", "發包"]

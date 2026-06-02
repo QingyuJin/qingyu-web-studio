@@ -4,6 +4,7 @@ import Dashboard from "./Dashboard"
 import LineBotPanel from "./LineBotPanel"
 import ProjectDetailPanel from "./ProjectDetailPanel"
 import ProjectsPanel from "./ProjectsPanel"
+import QuoteDraftsPanel from "./QuoteDraftsPanel"
 import SubcontractsPanel from "./SubcontractsPanel"
 import TasksPanel, { WorkerPanel } from "./TasksPanel"
 import UsersPanel from "./UsersPanel"
@@ -18,6 +19,7 @@ function BuildFlowContent({
   isWorker,
   metrics,
   projects,
+  quoteDrafts,
   session,
   subcontracts,
   tasks,
@@ -46,6 +48,16 @@ function BuildFlowContent({
           deleteProject={actions.deleteProject}
           updateProjectStatus={actions.updateProjectStatus}
           openProjectDetail={actions.openProjectDetail}
+        />
+      )}
+
+      {activeTab === "quoteDrafts" && isAdmin && (
+        <QuoteDraftsPanel
+          quoteDrafts={quoteDrafts}
+          addQuoteDraft={actions.addQuoteDraft}
+          updateQuoteDraftStage={actions.updateQuoteDraftStage}
+          createProjectFromQuoteDraft={actions.createProjectFromQuoteDraft}
+          printQuoteDraftPdf={actions.printQuoteDraftPdf}
         />
       )}
 

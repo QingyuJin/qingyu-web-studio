@@ -8,6 +8,7 @@ This project demonstrates:
 - admin dashboards
 - role-based login
 - contractor workflow management
+- quote draft workflow with printable PDF quote sheets
 - training program management
 - LINE Bot webhook with Supabase task workflow
 
@@ -19,7 +20,7 @@ A public website prototype for contractor businesses.
 
 ### BuildFlow
 
-A contractor operation system for projects, subcontracts, bids, change orders, vendors, users, tasks, worker reports, and LINE Bot task updates.
+A contractor operation system for quote drafts, projects, subcontracts, bids, change orders, vendors, users, tasks, worker reports, and LINE Bot task updates.
 
 ### CoachFlow
 

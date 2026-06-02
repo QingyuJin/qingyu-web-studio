@@ -22,7 +22,7 @@ function BuildFlow() {
   const [confirmDialog, setConfirmDialog] = useState(null)
   const [toast, setToast] = useState(null)
 
-  const { users, projects, subcontracts, bids, changeOrders, vendors, tasks } = data
+  const { users, projects, subcontracts, bids, changeOrders, quoteDrafts, vendors, tasks } = data
   const savedAt = new Date().toLocaleTimeString("zh-TW", { hour12: false })
 
   useEffect(() => {
@@ -240,6 +240,157 @@ function BuildFlow() {
     }
     setData((current) => ({ ...current, projects: [newProject, ...current.projects] }))
     event.currentTarget.reset()
+  }
+
+  function addQuoteDraft(event) {
+    event.preventDefault()
+    const form = new FormData(event.currentTarget)
+    const firstItem = textValue(form, "item1")
+    const secondItem = textValue(form, "item2")
+    const items = [
+      firstItem
+        ? {
+            name: firstItem,
+            qty: 1,
+            unit: "式",
+            price: numberValue(form, "amount1"),
+          }
+        : null,
+      secondItem
+        ? {
+            name: secondItem,
+            qty: 1,
+            unit: "式",
+            price: numberValue(form, "amount2"),
+          }
+        : null,
+    ].filter(Boolean)
+
+    const newQuote = {
+      id: createId("q"),
+      title: textValue(form, "title"),
+      client: textValue(form, "client"),
+      phone: textValue(form, "phone"),
+      address: textValue(form, "address"),
+      type: textValue(form, "type") || "工程估價",
+      stage: "確認",
+      quoteDate: textValue(form, "quoteDate") || today,
+      expectedDate: textValue(form, "expectedDate") || today,
+      sizeNote: textValue(form, "sizeNote"),
+      note: textValue(form, "note"),
+      items: items.length ? items : [{ name: "現場估價工項", qty: 1, unit: "式", price: 0 }],
+    }
+
+    setData((current) => ({ ...current, quoteDrafts: [newQuote, ...current.quoteDrafts] }))
+    event.currentTarget.reset()
+    showToast("暫存報價已建立。")
+  }
+
+  function updateQuoteDraftStage(quoteId, stage) {
+    setData((current) => ({
+      ...current,
+      quoteDrafts: current.quoteDrafts.map((quote) =>
+        quote.id === quoteId ? { ...quote, stage } : quote
+      ),
+    }))
+  }
+
+  function createProjectFromQuoteDraft(quote) {
+    const total = quote.items.reduce(
+      (sum, item) => sum + Number(item.qty || 0) * Number(item.price || 0),
+      0
+    )
+    const newProject = {
+      id: createId("p"),
+      name: quote.title,
+      client: quote.client,
+      address: quote.address,
+      type: quote.type,
+      budget: total,
+      status: quote.stage === "發包" ? "已發包" : "已報價",
+      manager: session?.name || "管理者",
+      startDate: quote.expectedDate || today,
+      dueDate: quote.expectedDate || today,
+      note: `由暫存報價 ${quote.id} 建立。${quote.note || ""}`,
+    }
+
+    setData((current) => ({
+      ...current,
+      projects: [newProject, ...current.projects],
+      quoteDrafts: current.quoteDrafts.map((item) =>
+        item.id === quote.id ? { ...item, stage: "發包" } : item
+      ),
+    }))
+    showToast("已由暫存報價建立正式案件。")
+  }
+
+  function printQuoteDraftPdf(quote) {
+    const total = quote.items.reduce(
+      (sum, item) => sum + Number(item.qty || 0) * Number(item.price || 0),
+      0
+    )
+    const rows = quote.items
+      .map(
+        (item) => `<tr>
+          <td>${item.name}</td>
+          <td>${item.qty}</td>
+          <td>${item.unit}</td>
+          <td>NT$${formatMoney(item.price)}</td>
+          <td>NT$${formatMoney(Number(item.qty || 0) * Number(item.price || 0))}</td>
+        </tr>`
+      )
+      .join("")
+    const printWindow = window.open("", "_blank", "width=900,height=720")
+    if (!printWindow) {
+      showToast("瀏覽器封鎖列印視窗，請允許彈出視窗。", "error")
+      return
+    }
+
+    printWindow.document.write(`<!doctype html>
+      <html>
+        <head>
+          <meta charset="utf-8" />
+          <title>${quote.title} 報價單</title>
+          <style>
+            body { font-family: Arial, "Microsoft JhengHei", sans-serif; color: #0f172a; padding: 32px; }
+            h1 { margin: 0 0 8px; font-size: 28px; }
+            .muted { color: #64748b; }
+            .box { border: 1px solid #cbd5e1; border-radius: 12px; padding: 16px; margin: 18px 0; }
+            table { width: 100%; border-collapse: collapse; margin-top: 16px; }
+            th, td { border-bottom: 1px solid #e2e8f0; padding: 12px; text-align: left; }
+            th { color: #475569; font-size: 13px; }
+            .total { text-align: right; font-size: 24px; font-weight: 900; margin-top: 18px; }
+            @media print { button { display: none; } body { padding: 16px; } }
+          </style>
+        </head>
+        <body>
+          <h1>工程報價單</h1>
+          <p class="muted">BuildFlow Quote｜${quote.id}</p>
+          <div class="box">
+            <p><strong>案件：</strong>${quote.title}</p>
+            <p><strong>業主：</strong>${quote.client}｜${quote.phone || "未填電話"}</p>
+            <p><strong>地址：</strong>${quote.address || "未填地址"}</p>
+            <p><strong>報價日期：</strong>${quote.quoteDate}</p>
+            <p><strong>預計施工日：</strong>${quote.expectedDate}</p>
+            <p><strong>尺寸 / 大小張：</strong>${quote.sizeNote || "未填"}</p>
+          </div>
+          <table>
+            <thead>
+              <tr><th>工項</th><th>數量</th><th>單位</th><th>單價</th><th>小計</th></tr>
+            </thead>
+            <tbody>${rows}</tbody>
+          </table>
+          <p class="total">總計 NT$${formatMoney(total)}</p>
+          <div class="box">
+            <strong>備註</strong>
+            <p>${quote.note || "無"}</p>
+          </div>
+          <button onclick="window.print()">列印 / 另存 PDF</button>
+        </body>
+      </html>`)
+    printWindow.document.close()
+    printWindow.focus()
+    printWindow.print()
   }
 
   function editProject(project) {
@@ -641,6 +792,7 @@ function BuildFlow() {
     addBid,
     addChangeOrder,
     addProject,
+    addQuoteDraft,
     addSubcontract,
     addUser,
     addVendor,
@@ -659,10 +811,13 @@ function BuildFlow() {
     editVendor,
     generateConfirmText,
     openProjectDetail,
+    createProjectFromQuoteDraft,
+    printQuoteDraftPdf,
     selectBid,
     toggleTaskComplete,
     updateChangeStatus,
     updateProjectStatus,
+    updateQuoteDraftStage,
     updateSubcontractStatus,
     updateTaskReport,
   })
@@ -701,6 +856,7 @@ function BuildFlow() {
           isWorker={isWorker}
           metrics={metrics}
           projects={projects}
+          quoteDrafts={quoteDrafts}
           session={session}
           subcontracts={subcontracts}
           tasks={tasks}
