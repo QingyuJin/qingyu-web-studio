@@ -33,7 +33,7 @@ function LoginPage() {
             Admin Login
           </p>
 
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">管理者登入</h1>
+          <h1 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">管理者登入</h1>
 
           <p className="mt-5 max-w-xl leading-8 text-slate-600">
             登入後可查看系統入口、開發狀態與管理者專用資訊。 此版本使用本機登入流程，之後可替換為

@@ -24,16 +24,13 @@ function QuoteDraftsPanel({
 
   return (
     <div className="grid gap-5">
-      <SectionTitle
-        title="暫存報價"
-        desc="先暫存客戶需求，再走確認、報價、發包。報價單可直接列印成 PDF。"
-      />
+      <SectionTitle title="暫存報價" desc="確認、報價、發包。需要細節再展開。" />
 
       <div className="grid gap-4 md:grid-cols-3">
         {stageCounts.map((item, index) => (
           <Card key={item.stage}>
             <p className="text-sm font-black text-slate-500">STEP {index + 1}</p>
-            <h3 className="mt-2 text-2xl font-black">{item.stage}</h3>
+            <h3 className="mt-2 text-xl font-black">{item.stage}</h3>
             <p className="mt-2 text-sm text-slate-500">{item.count} 筆暫存案</p>
           </Card>
         ))}
@@ -78,7 +75,7 @@ function QuoteDraftsPanel({
                     <p className="text-xs font-black uppercase tracking-wide text-slate-500">
                       {quote.type}｜{quote.address}
                     </p>
-                    <h3 className="mt-2 text-2xl font-black">{quote.title}</h3>
+                    <h3 className="mt-2 text-xl font-black">{quote.title}</h3>
                     <p className="mt-1 text-sm font-bold text-slate-500">
                       {quote.client}｜{quote.phone || "未填電話"}
                     </p>
@@ -86,7 +83,7 @@ function QuoteDraftsPanel({
                   <Status>{quote.stage}</Status>
                 </div>
 
-                <div className="mt-4 grid gap-3 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600 md:grid-cols-3">
+                <div className="mt-4 grid gap-3 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600 md:grid-cols-3">
                   <p>
                     <span className="font-black text-slate-950">報價日：</span>
                     {quote.quoteDate}
@@ -101,39 +98,46 @@ function QuoteDraftsPanel({
                   </p>
                 </div>
 
-                <div className="mt-4 overflow-x-auto">
-                  <table className="w-full min-w-[620px] text-left text-sm">
-                    <thead className="text-slate-500">
-                      <tr>
-                        <th className="py-2">工項</th>
-                        <th>數量</th>
-                        <th>單位</th>
-                        <th>單價</th>
-                        <th>小計</th>
-                      </tr>
-                    </thead>
-                    <tbody className="divide-y divide-slate-100">
-                      {quote.items.map((item) => (
-                        <tr key={`${quote.id}-${item.name}`}>
-                          <td className="py-3 font-black">{item.name}</td>
-                          <td>{item.qty}</td>
-                          <td>{item.unit}</td>
-                          <td>NT${formatMoney(item.price)}</td>
-                          <td>NT${formatMoney(Number(item.qty || 0) * Number(item.price || 0))}</td>
-                        </tr>
-                      ))}
-                    </tbody>
-                  </table>
-                </div>
+                <details className="minimal-detail mt-4">
+                  <summary>工項與備註</summary>
+                  <div className="minimal-detail-body">
+                    <div className="overflow-x-auto">
+                      <table className="w-full min-w-[560px] text-left text-sm">
+                        <thead className="text-slate-500">
+                          <tr>
+                            <th className="w-[34%] py-2">工項</th>
+                            <th>數量</th>
+                            <th>單位</th>
+                            <th>單價</th>
+                            <th>小計</th>
+                          </tr>
+                        </thead>
+                        <tbody className="divide-y divide-slate-100">
+                          {quote.items.map((item) => (
+                            <tr key={`${quote.id}-${item.name}`}>
+                              <td className="py-3 font-black">{item.name}</td>
+                              <td>{item.qty}</td>
+                              <td>{item.unit}</td>
+                              <td>NT${formatMoney(item.price)}</td>
+                              <td>
+                                NT${formatMoney(Number(item.qty || 0) * Number(item.price || 0))}
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
 
-                <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-                  {quote.note || "尚未填寫備註。"}
-                </p>
+                    <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
+                      {quote.note || "尚未填寫備註。"}
+                    </p>
+                  </div>
+                </details>
               </div>
 
               <aside className="rounded-2xl border border-slate-200 bg-slate-50 p-4">
                 <p className="text-sm font-black text-slate-500">報價總額</p>
-                <p className="mt-2 text-3xl font-black">NT${formatMoney(quoteTotal(quote))}</p>
+                <p className="mt-2 text-2xl font-black">NT${formatMoney(quoteTotal(quote))}</p>
 
                 <div className="mt-5 grid gap-2">
                   {quoteStages.map((stage) => (

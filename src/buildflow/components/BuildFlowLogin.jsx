@@ -41,7 +41,7 @@ function BuildFlowLogin({ users, onLogin }) {
           <p className="mt-10 text-sm font-black uppercase tracking-[0.2em] text-slate-500">
             BuildFlow Login
           </p>
-          <h1 className="mt-4 text-4xl font-black tracking-[-0.05em] md:text-6xl">
+          <h1 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">
             工程行發包與追加減項管理系統
           </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">

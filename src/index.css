@@ -22,6 +22,23 @@ body {
 
 * {
   box-sizing: border-box;
+  min-width: 0;
+}
+
+:is(h1, h2, h3, h4, p, span, a, button, th, td, label, input, textarea, select) {
+  overflow-wrap: anywhere;
+}
+
+table {
+  table-layout: fixed;
+}
+
+summary {
+  cursor: pointer;
+}
+
+summary::-webkit-details-marker {
+  display: none;
 }
 
 button,
@@ -245,7 +262,7 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
 
 .lab-project-card {
   display: flex;
-  min-height: 410px;
+  min-height: 330px;
   flex-direction: column;
   padding: 1rem;
 }
@@ -265,6 +282,83 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
   color: #e7e5e4;
   font-size: 0.92rem;
   font-weight: 800;
+}
+
+.minimal-detail {
+  border: 1px solid rgba(148, 163, 184, 0.18);
+  border-radius: 14px;
+  background: rgba(255, 255, 255, 0.045);
+}
+
+.minimal-detail > summary {
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.78rem 0.95rem;
+  color: inherit;
+  font-size: 0.88rem;
+  font-weight: 900;
+}
+
+.minimal-detail > summary::after {
+  content: "+";
+  display: grid;
+  width: 24px;
+  height: 24px;
+  flex: 0 0 auto;
+  place-items: center;
+  border-radius: 999px;
+  background: rgba(148, 163, 184, 0.14);
+  color: currentColor;
+  font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+}
+
+.minimal-detail[open] > summary::after {
+  content: "-";
+}
+
+.minimal-detail-body {
+  border-top: 1px solid rgba(148, 163, 184, 0.16);
+  padding: 0.95rem;
+}
+
+.system-flow-chip {
+  display: inline-flex;
+  min-height: 40px;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgba(125, 211, 252, 0.22);
+  border-radius: 999px;
+  background: rgba(2, 132, 199, 0.11);
+  padding: 0.55rem 0.9rem;
+  color: #e0f2fe;
+  font-size: 0.78rem;
+  font-weight: 950;
+}
+
+.buildflow-card {
+  overflow: hidden;
+}
+
+.line-clamp-2 {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 2;
+}
+
+@keyframes soft-enter {
+  from {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
 }
 
 .lab-check-row span {
@@ -499,6 +593,34 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
     letter-spacing: 0.16em;
     font-size: 0.68rem;
     line-height: 1.5;
+  }
+
+  .lab-topbar .lab-mark {
+    width: 42px;
+    height: 42px;
+  }
+
+  .lab-project-card,
+  .lab-glass-panel {
+    border-radius: 14px;
+  }
+
+  .lab-primary-button,
+  .lab-secondary-button,
+  .lab-ghost-button {
+    min-height: 44px;
+    border-radius: 10px;
+    padding: 0.64rem 0.85rem;
+    font-size: 0.82rem;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  .lab-project-card,
+  .lab-glass-panel,
+  .buildflow-card,
+  .minimal-motion {
+    animation: soft-enter 520ms cubic-bezier(0.16, 1, 0.3, 1) both;
   }
 }
 

@@ -44,6 +44,8 @@ const capabilities = [
   "點擊回饋",
 ]
 
+const systemFlow = ["前台", "表單", "BuildFlow", "LINE Bot", "Supabase-ready"]
+
 const demoAccounts = [
   { label: "Main Admin", account: "admin@qingyu.dev / qgadmin" },
   { label: "BuildFlow Admin", account: "admin / admin123" },
@@ -85,12 +87,12 @@ function ProjectHub() {
       <section className="relative mx-auto max-w-6xl px-4 py-10 md:py-20">
         <div className="mx-auto max-w-4xl text-center">
           <p className="lab-eyebrow">SYSTEM PORTFOLIO</p>
-          <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal text-white sm:text-4xl md:text-6xl">
-            工程接案網站
-            <span className="block text-sky-300">後台管理系統</span>
+          <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal text-white sm:text-4xl md:text-5xl">
+            網站、後台、LINE
+            <span className="block text-sky-300">串成一套系統</span>
           </h1>
-          <p className="mx-auto mt-5 max-w-xl text-base font-bold leading-8 text-stone-300 md:text-lg">
-            前台收需求，後台管案件。LINE Bot 可測任務與回報。
+          <p className="mx-auto mt-5 max-w-lg text-sm font-bold leading-7 text-stone-300 md:text-base">
+            用工程接案流程展示：收需求、建案件、派任務、查回報。
           </p>
           <p className="mx-auto mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-sky-300">
             LINE Bot {lineBotId}
@@ -114,30 +116,42 @@ function ProjectHub() {
                   <p className="text-xs font-black uppercase tracking-[0.22em] text-sky-300/70">
                     {project.type}
                   </p>
-                  <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">
-                    {project.name}
-                  </h2>
+                  <h2 className="mt-3 text-xl font-black text-white md:text-2xl">{project.name}</h2>
                 </div>
                 <span className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-xs font-black text-sky-100">
                   {project.status}
                 </span>
               </div>
 
-              <div className="my-5 grid h-24 place-items-center rounded-xl border border-white/10 bg-black/25 text-4xl text-sky-300 shadow-inner md:h-28 md:text-5xl">
+              <div className="my-5 grid h-20 place-items-center rounded-xl border border-white/10 bg-black/25 text-3xl text-sky-300 shadow-inner md:h-24 md:text-4xl">
                 {project.icon}
               </div>
 
-              <h3 className="text-xl font-black text-stone-100 md:text-2xl">{project.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-stone-300 md:text-base">{project.desc}</p>
+              <h3 className="text-lg font-black text-stone-100 md:text-xl">{project.title}</h3>
+              <p className="mt-3 line-clamp-2 text-sm leading-6 text-stone-300">{project.desc}</p>
 
-              <div className="mt-6 grid gap-3">
-                {project.features.map((feature) => (
+              <div className="mt-5 grid gap-2">
+                {project.features.slice(0, 2).map((feature) => (
                   <span key={feature} className="lab-check-row">
                     <span>✓</span>
                     {feature}
                   </span>
                 ))}
               </div>
+
+              <details className="minimal-detail mt-4 text-stone-200">
+                <summary>展開能力</summary>
+                <div className="minimal-detail-body flex flex-wrap gap-2">
+                  {project.features.map((feature) => (
+                    <span
+                      key={feature}
+                      className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-stone-200"
+                    >
+                      {feature}
+                    </span>
+                  ))}
+                </div>
+              </details>
 
               <span className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-sky-500 px-5 py-3 text-sm font-black text-slate-950 transition group-hover:bg-sky-400">
                 進入作品
@@ -149,8 +163,23 @@ function ProjectHub() {
 
       <section className="relative mx-auto grid max-w-6xl gap-5 px-4 pb-16 lg:grid-cols-[1fr_0.85fr]">
         <div className="lab-glass-panel lg:col-span-2">
+          <p className="lab-eyebrow">SYSTEM FLOW</p>
+          <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">系統結構</h2>
+          <div className="mt-6 flex flex-wrap items-center gap-2">
+            {systemFlow.map((item, index) => (
+              <div key={item} className="flex items-center gap-2">
+                <span className="system-flow-chip">{item}</span>
+                {index < systemFlow.length - 1 ? (
+                  <span className="text-sm font-black text-slate-500">→</span>
+                ) : null}
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="lab-glass-panel lg:col-span-2">
           <p className="lab-eyebrow">HOW TO TEST</p>
-          <h2 className="mt-3 text-2xl font-black text-white md:text-4xl">測試流程</h2>
+          <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">測試流程</h2>
           <div className="mt-7 grid gap-3 md:grid-cols-3">
             {testSteps.map((step, index) => (
               <div key={step} className="rounded-xl border border-white/10 bg-black/25 p-4">
@@ -165,7 +194,7 @@ function ProjectHub() {
 
         <div className="lab-glass-panel">
           <p className="lab-eyebrow">SYSTEM CAPABILITIES</p>
-          <h2 className="mt-3 text-2xl font-black text-white md:text-4xl">能力清單</h2>
+          <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">能力清單</h2>
           <div className="mt-7 grid gap-3 md:grid-cols-2">
             {capabilities.map((item) => (
               <div key={item} className="lab-check-row">

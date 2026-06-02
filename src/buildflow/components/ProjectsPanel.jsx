@@ -28,7 +28,7 @@ function ProjectsPanel({
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="案件管理" desc="新增案件、編輯資料、調整工程狀態。" />
+      <SectionTitle title="案件管理" desc="新增、搜尋、改狀態。點進去看細節。" />
       <Card>
         <h3 className="text-xl font-black">新增案件</h3>
         <form onSubmit={addProject} className="mt-4 grid gap-3 md:grid-cols-2">
@@ -75,29 +75,29 @@ function ProjectsPanel({
         </div>
 
         <div className="mt-4 overflow-x-auto">
-          <table className="w-full min-w-[1080px] text-left text-sm">
+          <table className="w-full min-w-[920px] table-fixed text-left text-sm">
             <thead className="text-slate-500">
               <tr>
-                <th className="py-3">案件</th>
-                <th>業主</th>
-                <th>類型</th>
-                <th>預算</th>
-                <th>期限</th>
-                <th>狀態</th>
-                <th>操作</th>
+                <th className="w-[28%] py-3">案件</th>
+                <th className="w-[12%]">業主</th>
+                <th className="w-[12%]">類型</th>
+                <th className="w-[12%]">預算</th>
+                <th className="w-[12%]">期限</th>
+                <th className="w-[12%]">狀態</th>
+                <th className="w-[12%]">操作</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-slate-100">
               {filteredProjects.map((project) => (
                 <tr key={project.id}>
                   <td className="py-4">
-                    <p className="font-black">{project.name}</p>
+                    <p className="font-black leading-6">{project.name}</p>
                     <p className="mt-1 text-xs text-slate-500">{project.address}</p>
                   </td>
-                  <td>{project.client}</td>
-                  <td>{project.type}</td>
-                  <td>NT${formatMoney(project.budget)}</td>
-                  <td>{project.dueDate}</td>
+                  <td className="pr-2">{project.client}</td>
+                  <td className="pr-2">{project.type}</td>
+                  <td className="pr-2">NT${formatMoney(project.budget)}</td>
+                  <td className="pr-2">{project.dueDate}</td>
                   <td>
                     <select
                       value={project.status}
@@ -110,7 +110,7 @@ function ProjectsPanel({
                     </select>
                   </td>
                   <td>
-                    <div className="flex gap-2">
+                    <div className="flex flex-wrap gap-2">
                       <SmallButton onClick={() => openProjectDetail(project.id)}>查看</SmallButton>
                       <SmallButton onClick={() => editProject(project)}>編輯</SmallButton>
                       <SmallButton danger onClick={() => deleteProject(project.id)}>

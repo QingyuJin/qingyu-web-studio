@@ -310,12 +310,12 @@ function HeroSection() {
         <div className="text-center lg:text-left">
           <p className="lab-eyebrow">Contractor Website</p>
 
-          <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal sm:text-4xl md:text-6xl">
-            工程接案網站
+          <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal sm:text-4xl md:text-5xl">
+            工程接案入口
           </h1>
 
-          <p className="mt-5 max-w-xl text-base font-bold leading-8 text-slate-600 md:text-lg">
-            看案例、填需求、加 LINE 測試。後台接案件。
+          <p className="mt-5 max-w-lg text-sm font-bold leading-7 text-slate-600 md:text-base">
+            看案例、填需求、測 LINE。後台接案件。
           </p>
           <p className="mt-3 inline-flex rounded-xl border border-sky-300/20 bg-sky-300/10 px-4 py-2 font-mono text-sm font-black text-sky-200">
             LINE Bot {lineBotId}
@@ -367,20 +367,20 @@ function LineBotTestSection() {
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">LINE Bot</p>
-          <h2 className="mt-3 text-2xl font-black tracking-normal md:text-4xl">現場可測</h2>
-          <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
-            加 {lineBotId}，輸入指令。公開指令可直接玩，綁定後可查任務。
+          <h2 className="mt-3 text-2xl font-black tracking-normal md:text-3xl">LINE 測試</h2>
+          <p className="mt-4 text-sm leading-6 text-slate-600">
+            加 {lineBotId}，輸入指令。先玩公開功能，再測師傅任務。
           </p>
           <div className="mt-6 rounded-3xl border border-slate-200 bg-slate-50 p-5">
             <p className="text-sm font-black text-slate-500">建議順序</p>
-            <p className="mt-2 font-mono text-lg font-black text-slate-950">
-              選單 → 案例 → 報價 → 綁定 → 今日任務
+            <p className="mt-2 font-mono text-sm font-black leading-7 text-slate-950 md:text-base">
+              選單 → 案例 → 報價 → 綁定 BF-AMING-1234 → 今日任務
             </p>
           </div>
         </div>
 
         <div className="grid gap-3 md:grid-cols-2">
-          {lineTestSteps.map((step) => (
+          {lineTestSteps.slice(0, 4).map((step) => (
             <button
               key={step.command}
               type="button"
@@ -393,6 +393,17 @@ function LineBotTestSection() {
               </span>
             </button>
           ))}
+          <details className="minimal-detail md:col-span-2">
+            <summary>更多指令</summary>
+            <div className="minimal-detail-body grid gap-2 md:grid-cols-2">
+              {lineTestSteps.slice(4).map((step) => (
+                <div key={step.command} className="rounded-xl bg-white/5 p-3">
+                  <p className="font-mono text-sm font-black text-sky-300">{step.command}</p>
+                  <p className="mt-1 text-sm font-bold text-slate-600">{step.desc}</p>
+                </div>
+              ))}
+            </div>
+          </details>
         </div>
       </div>
     </section>
@@ -403,7 +414,7 @@ function ServicesSection() {
   return (
     <section id="services" className="border-y border-slate-200 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <SectionTitle label="Services" title="服務項目" desc="讓客戶快速知道能不能找你。" />
+        <SectionTitle label="Services" title="服務" desc="先看能不能做。" />
 
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {services.map((service) => (
@@ -411,8 +422,8 @@ function ServicesSection() {
               key={service.title}
               className="rounded-3xl border border-slate-200 bg-slate-50 p-6"
             >
-              <h3 className="text-xl font-black md:text-2xl">{service.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600 md:text-base">{service.desc}</p>
+              <h3 className="text-lg font-black md:text-xl">{service.title}</h3>
+              <p className="mt-3 text-sm leading-6 text-slate-600">{service.desc}</p>
 
               <div className="mt-5 flex flex-wrap gap-2">
                 {service.items.map((item) => (
@@ -435,7 +446,7 @@ function ServicesSection() {
 function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
   return (
     <section id="cases" className="mx-auto max-w-6xl px-4 py-12">
-      <SectionTitle label="Cases" title="施工案例" desc="案場、工項、狀態清楚呈現。" />
+      <SectionTitle label="Cases" title="案例" desc="照片先看，細節展開。" />
 
       <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
         {filters.map((filter) => (
@@ -471,7 +482,7 @@ function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
                 <p className="text-sm font-bold text-slate-500">
                   {item.type}｜{item.area}
                 </p>
-                <h3 className="mt-2 text-xl font-black md:text-2xl">{item.title}</h3>
+                <h3 className="mt-2 text-lg font-black md:text-xl">{item.title}</h3>
               </div>
 
               <span className="rounded-full bg-slate-100 px-3 py-1 text-xs font-black text-slate-600">
@@ -479,20 +490,7 @@ function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
               </span>
             </div>
 
-            <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">{item.desc}</p>
-
-            <dl className="mt-5 grid gap-3 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7">
-              {[
-                ["問題", item.problem],
-                ["做法", item.action],
-                ["成果", item.result],
-              ].map(([label, value]) => (
-                <div key={label} className="grid gap-1 sm:grid-cols-[64px_1fr]">
-                  <dt className="font-black text-sky-300">{label}</dt>
-                  <dd className="font-bold text-slate-600">{value}</dd>
-                </div>
-              ))}
-            </dl>
+            <p className="mt-4 text-sm leading-6 text-slate-600">{item.desc}</p>
 
             <div className="mt-5 flex flex-wrap gap-2">
               {item.highlights.map((tag) => (
@@ -504,6 +502,22 @@ function CasesSection({ activeFilter, setActiveFilter, filteredCases }) {
                 </span>
               ))}
             </div>
+
+            <details className="minimal-detail mt-5">
+              <summary>查看做法</summary>
+              <dl className="minimal-detail-body grid gap-3 text-sm leading-6">
+                {[
+                  ["問題", item.problem],
+                  ["做法", item.action],
+                  ["成果", item.result],
+                ].map(([label, value]) => (
+                  <div key={label} className="grid gap-1 sm:grid-cols-[56px_1fr]">
+                    <dt className="font-black text-sky-300">{label}</dt>
+                    <dd className="font-bold text-slate-600">{value}</dd>
+                  </div>
+                ))}
+              </dl>
+            </details>
           </article>
         ))}
       </div>
@@ -515,14 +529,14 @@ function ProcessSection() {
   return (
     <section className="border-y border-slate-200 bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12">
-        <SectionTitle label="Process" title="施工流程" desc="從詢問到完工，步驟清楚。" />
+        <SectionTitle label="Process" title="流程" desc="確認、報價、發包、完工。" />
 
         <div className="mt-8 grid gap-4 md:grid-cols-5">
           {processSteps.map((step, index) => (
-            <article key={step.title} className="rounded-3xl bg-slate-50 p-5">
+            <article key={step.title} className="rounded-2xl bg-slate-50 p-4">
               <p className="text-sm font-black text-slate-500">STEP {index + 1}</p>
-              <h3 className="mt-3 text-xl font-black">{step.title}</h3>
-              <p className="mt-3 text-sm leading-7 text-slate-600">{step.desc}</p>
+              <h3 className="mt-3 text-lg font-black">{step.title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{step.desc}</p>
             </article>
           ))}
         </div>
@@ -539,10 +553,8 @@ function WhyWebsiteSection() {
           <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">
             Why Website
           </p>
-          <h2 className="mt-4 text-2xl font-black tracking-normal md:text-4xl">
-            不只靠 LINE 相簿。
-          </h2>
-          <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+          <h2 className="mt-4 text-2xl font-black tracking-normal md:text-3xl">不只靠相簿。</h2>
+          <p className="mt-4 text-sm leading-6 text-slate-600">
             客戶先看案例，再用固定格式送需求。
           </p>
         </div>
@@ -554,9 +566,9 @@ function WhyWebsiteSection() {
             ["表單", "固定格式收資料。"],
             ["後台", "案件不漏接。"],
           ].map(([title, desc]) => (
-            <div key={title} className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm">
-              <h3 className="text-xl font-black">{title}</h3>
-              <p className="mt-3 leading-7 text-slate-600">{desc}</p>
+            <div key={title} className="rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
+              <h3 className="text-lg font-black">{title}</h3>
+              <p className="mt-2 text-sm leading-6 text-slate-600">{desc}</p>
             </div>
           ))}
         </div>
@@ -574,10 +586,10 @@ function BuildFlowRelationSection() {
             <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-400">
               Website + System
             </p>
-            <h2 className="mt-4 text-2xl font-black tracking-normal md:text-4xl">
+            <h2 className="mt-4 text-2xl font-black tracking-normal md:text-3xl">
               案件、追加、回報有紀錄。
             </h2>
-            <p className="mt-4 text-sm leading-7 text-slate-300 md:text-base">
+            <p className="mt-4 text-sm leading-6 text-slate-300">
               Contractor Site 收需求。BuildFlow 管進度、任務、發包與師傅回報。
             </p>
 
@@ -614,7 +626,7 @@ function BuildFlowRelationSection() {
 function FaqSection() {
   return (
     <section className="mx-auto max-w-6xl px-4 py-12">
-      <SectionTitle label="FAQ" title="常見問題" desc="先回答，少來回。" />
+      <SectionTitle label="FAQ" title="FAQ" desc="先回答，少來回。" />
 
       <div className="mt-8 grid gap-4 md:grid-cols-2">
         {faqItems.map((item) => (
@@ -622,8 +634,8 @@ function FaqSection() {
             key={item.question}
             className="rounded-3xl border border-slate-200 bg-white p-6 shadow-sm"
           >
-            <h3 className="text-xl font-black">{item.question}</h3>
-            <p className="mt-3 leading-7 text-slate-600">{item.answer}</p>
+            <h3 className="text-lg font-black">{item.question}</h3>
+            <p className="mt-3 text-sm leading-6 text-slate-600">{item.answer}</p>
           </article>
         ))}
       </div>
@@ -646,8 +658,8 @@ function ContactSection({
         <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">Contact</p>
-            <h2 className="mt-4 text-2xl font-black tracking-normal md:text-4xl">需求表單</h2>
-            <p className="mt-4 text-sm leading-7 text-slate-600 md:text-base">
+            <h2 className="mt-4 text-2xl font-black tracking-normal md:text-3xl">需求表單</h2>
+            <p className="mt-4 text-sm leading-6 text-slate-600">
               先收地區、類型、狀況與時間。LINE Bot：{lineBotId}
             </p>
 
@@ -747,8 +759,8 @@ function ContactSection({
                 <p className="text-sm font-black uppercase tracking-[0.16em] text-emerald-700">
                   Inquiry Summary
                 </p>
-                <h3 className="mt-2 text-2xl font-black">前台收需求，後台建案件。</h3>
-                <p className="mt-3 leading-7">
+                <h3 className="mt-2 text-xl font-black">前台收需求，後台建案件。</h3>
+                <p className="mt-3 text-sm leading-6">
                   這份摘要可以複製給管理者，或進入 BuildFlow 建立正式案件。
                 </p>
                 <div className="mt-5 flex flex-wrap gap-2">
@@ -769,7 +781,7 @@ function ContactSection({
               </div>
             ) : null}
 
-            <pre className="whitespace-pre-wrap rounded-3xl border border-slate-200 bg-white p-6 text-sm leading-7 text-slate-700">
+            <pre className="whitespace-pre-wrap rounded-2xl border border-slate-200 bg-white p-4 text-sm leading-6 text-slate-700">
               {contactText}
             </pre>
           </div>
@@ -783,10 +795,8 @@ function SectionTitle({ label, title, desc }) {
   return (
     <div>
       <p className="text-sm font-black uppercase tracking-[0.2em] text-slate-500">{label}</p>
-      <h2 className="mt-3 max-w-4xl text-2xl font-black tracking-normal md:text-4xl">{title}</h2>
-      {desc && (
-        <p className="mt-3 max-w-3xl text-sm leading-7 text-slate-600 md:text-base">{desc}</p>
-      )}
+      <h2 className="mt-3 max-w-4xl text-2xl font-black tracking-normal md:text-3xl">{title}</h2>
+      {desc && <p className="mt-3 max-w-3xl text-sm leading-6 text-slate-600">{desc}</p>}
     </div>
   )
 }
