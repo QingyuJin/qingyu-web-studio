@@ -112,6 +112,12 @@ Send these messages in LINE:
 ```text
 加好友：@550oexzn
 測試
+選單
+案例
+報價
+流程
+綁定碼
+工程測試
 綁定 BF-AMING-1234
 今日任務
 回報 t-001 現場已完成第一道防水
@@ -121,6 +127,7 @@ Send these messages in LINE:
 
 Expected result:
 
+- Public commands return quick replies, case guidance, quote format, and demo instructions.
 - `綁定 BF-AMING-1234` binds the LINE user to 阿明師傅.
 - `今日任務` returns task `t-001`.
 - `回報 t-001 ...` saves the report to Supabase.

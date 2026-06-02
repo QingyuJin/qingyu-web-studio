@@ -7,7 +7,31 @@ const lineCommands = [
   {
     label: "健康檢查",
     command: "測試",
-    reply: "BuildFlow LINE webhook with Supabase v2 is alive.",
+    reply: "系統在線。輸入「選單」開始測試。",
+  },
+  {
+    label: "互動選單",
+    command: "選單",
+    reply:
+      "BuildFlow 工程助理\n\n你可以直接測：\n1. 案例：看工程照片與項目\n2. 報價：產生需求摘要\n3. 流程：了解接案步驟\n4. 綁定碼：取得測試帳號\n\nLINE Bot：@550oexzn",
+  },
+  {
+    label: "案例導覽",
+    command: "案例",
+    reply:
+      "近期工程案例\n\n- 室內木地板整理\n- 屋頂防水整理\n- 室內地坪施工\n- 外牆修繕評估\n\n到網站可看照片案例。",
+  },
+  {
+    label: "報價格式",
+    command: "報價",
+    reply:
+      "需求摘要格式\n\n姓名：\n電話 / LINE：\n案場地區：\n工程類型：\n目前狀況：\n希望時間：\n照片：可先傳 LINE\n\n前台可轉成 BuildFlow 案件。",
+  },
+  {
+    label: "完整測試",
+    command: "工程測試",
+    reply:
+      "推薦測試順序\n\n1. 測試\n2. 選單\n3. 案例\n4. 綁定 BF-AMING-1234\n5. 今日任務\n6. 回報 t-001 現場已完成第一道防水\n7. 完成 t-001\n8. 今日任務",
   },
   {
     label: "綁定師傅",
@@ -43,7 +67,7 @@ function LineBotPanel({ tasks, session }) {
     <div className="grid gap-5">
       <SectionTitle
         title="LINE Bot 串接"
-        desc="LINE webhook 已可連到 Supabase，支援綁定、查今日任務、回報進度與完成任務。"
+        desc="公開選單可先玩，綁定後可查任務、回報進度與完成任務。"
       />
 
       <div className="grid gap-5 lg:grid-cols-[0.95fr_1.05fr]">
@@ -51,7 +75,7 @@ function LineBotPanel({ tasks, session }) {
           <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h3 className="text-xl font-black">可測指令</h3>
-              <p className="mt-1 text-sm text-slate-500">點指令可切換右側對話預覽。</p>
+              <p className="mt-1 text-sm text-slate-500">LINE Bot：@550oexzn</p>
             </div>
             <Status>Supabase v2</Status>
           </div>
@@ -91,8 +115,8 @@ function LineBotPanel({ tasks, session }) {
             </div>
           </div>
           <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            Webhook 使用 `line_profiles`、`line_tasks`、`line_task_reports` 三張最小測試表。 Vercel
-            健康檢查通過後，LINE 端就能直接查任務與寫回 Supabase。
+            訪客可測「選單、案例、報價、流程、綁定碼」。師傅綁定後，LINE 端可直接查任務與寫回
+            Supabase。
           </div>
         </Card>
       </div>

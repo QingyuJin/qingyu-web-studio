@@ -1,13 +1,93 @@
 import { createClient } from "@supabase/supabase-js"
 
 const HELP_TEXT = [
-  "BuildFlow LINE 指令：",
-  "測試",
-  "綁定 <帳號>",
-  "今日任務",
-  "完成 <taskId>",
-  "回報 <taskId> <內容>",
+  "BuildFlow LINE 選單",
+  "",
+  "公開可測：",
+  "- 選單",
+  "- 案例",
+  "- 報價",
+  "- 流程",
+  "- 綁定碼",
+  "",
+  "師傅功能：",
+  "- 綁定 BF-AMING-1234",
+  "- 今日任務",
+  "- 回報 t-001 現場已完成第一道防水",
+  "- 完成 t-001",
 ].join("\n")
+
+const DEFAULT_QUICK_REPLIES = ["選單", "案例", "報價", "流程", "綁定碼", "工程測試"]
+
+const PUBLIC_REPLIES = {
+  選單: [
+    "BuildFlow 工程助理",
+    "",
+    "你可以直接測：",
+    "1. 案例：看工程照片與項目",
+    "2. 報價：產生需求摘要",
+    "3. 流程：了解接案步驟",
+    "4. 綁定碼：取得測試帳號",
+    "",
+    "LINE Bot：@550oexzn",
+  ].join("\n"),
+  案例: [
+    "近期工程案例",
+    "",
+    "- 室內木地板整理",
+    "- 屋頂防水整理",
+    "- 室內地坪施工",
+    "- 外牆修繕評估",
+    "",
+    "到網站可看照片案例。輸入「報價」可產生需求格式。",
+  ].join("\n"),
+  報價: [
+    "需求摘要格式",
+    "",
+    "姓名：",
+    "電話 / LINE：",
+    "案場地區：",
+    "工程類型：",
+    "目前狀況：",
+    "希望時間：",
+    "照片：可先傳 LINE",
+    "",
+    "複製填寫後，前台可轉成 BuildFlow 案件。",
+  ].join("\n"),
+  流程: [
+    "工程接案流程",
+    "",
+    "詢問需求",
+    "現場評估",
+    "整理報價",
+    "安排施工",
+    "回報進度",
+    "完工驗收",
+    "",
+    "師傅可用「今日任務」查待辦。",
+  ].join("\n"),
+  綁定碼: [
+    "測試綁定碼",
+    "",
+    "阿明師傅：BF-AMING-1234",
+    "阿龍師傅：BF-ALONG-1234",
+    "阿明測試：BF-MING-1234",
+    "",
+    "範例：綁定 BF-AMING-1234",
+  ].join("\n"),
+  工程測試: [
+    "推薦測試順序",
+    "",
+    "1. 測試",
+    "2. 選單",
+    "3. 案例",
+    "4. 綁定 BF-AMING-1234",
+    "5. 今日任務",
+    "6. 回報 t-001 現場已完成第一道防水",
+    "7. 完成 t-001",
+    "8. 今日任務",
+  ].join("\n"),
+}
 
 function getSupabaseClient() {
   const supabaseUrl = getSupabaseBaseUrl()
@@ -144,9 +224,41 @@ function normalizeText(value) {
     .trim()
 }
 
+function isPublicCommand(text) {
+  const command = normalizeText(text).toLowerCase()
+  return (
+    !command ||
+    command === "測試" ||
+    command === "help" ||
+    command === "說明" ||
+    command === "功能" ||
+    command === "menu" ||
+    Object.keys(PUBLIC_REPLIES).some((key) => key.toLowerCase() === command)
+  )
+}
+
 function commandNeedsSupabase(text) {
-  if (!text || text === "測試" || text === "help" || text === "說明") return false
-  return true
+  return !isPublicCommand(text)
+}
+
+function createTextReply(text, quickReplyLabels = DEFAULT_QUICK_REPLIES) {
+  return {
+    text,
+    quickReplyLabels,
+  }
+}
+
+function createLineQuickReply(labels) {
+  const items = labels.slice(0, 13).map((label) => ({
+    type: "action",
+    action: {
+      type: "message",
+      label,
+      text: label,
+    },
+  }))
+
+  return items.length ? { items } : undefined
 }
 
 function taskLabel(task) {
@@ -197,7 +309,7 @@ async function bindProfile(supabase, lineUserId, text) {
   if (error) throw error
   if (!profile) return `找不到綁定碼「${code}」。請確認 line_profiles.line_bind_code 是否存在。`
 
-  return `綁定成功：${profile.name}\n之後可輸入「今日任務」查詢你的任務。`
+  return `綁定成功：${profile.name}\n可輸入「今日任務」查詢待辦。`
 }
 
 async function listTodayTasks(supabase, lineUserId) {
@@ -295,20 +407,60 @@ async function reportTask(supabase, lineUserId, text) {
 async function handleCommand(supabase, event) {
   const text = getMessageText(event)
   const lineUserId = getLineUserId(event)
+  const command = normalizeText(text)
 
-  if (!text || text === "測試") return "BuildFlow LINE webhook with Supabase v2 is alive."
-  if (text === "help" || text === "說明") return HELP_TEXT
-  if (text.startsWith("綁定") || /\bBF-[A-Z0-9-]+\b/i.test(text)) {
-    return bindProfile(supabase, lineUserId, text)
+  if (!command || command === "測試") {
+    return createTextReply("系統在線。輸入「選單」開始測試。", ["選單", "工程測試", "綁定碼"])
   }
-  if (text === "今日任務") return listTodayTasks(supabase, lineUserId)
-  if (text.startsWith("完成")) return completeTask(supabase, lineUserId, text)
-  if (text.startsWith("回報")) return reportTask(supabase, lineUserId, text)
+  if (command === "help" || command === "說明" || command === "功能" || command === "menu") {
+    return createTextReply(HELP_TEXT)
+  }
+  if (PUBLIC_REPLIES[command]) {
+    return createTextReply(PUBLIC_REPLIES[command])
+  }
+  if (command.startsWith("綁定") || /\bBF-[A-Z0-9-]+\b/i.test(command)) {
+    return createTextReply(await bindProfile(supabase, lineUserId, command), [
+      "今日任務",
+      "回報 t-001 現場已完成第一道防水",
+      "完成 t-001",
+    ])
+  }
+  if (command === "今日任務") {
+    return createTextReply(await listTodayTasks(supabase, lineUserId), [
+      "回報 t-001 現場已完成第一道防水",
+      "完成 t-001",
+      "流程",
+    ])
+  }
+  if (command.startsWith("完成")) {
+    return createTextReply(await completeTask(supabase, lineUserId, command), ["今日任務", "案例"])
+  }
+  if (command.startsWith("回報")) {
+    return createTextReply(await reportTask(supabase, lineUserId, command), [
+      "完成 t-001",
+      "今日任務",
+    ])
+  }
 
-  return `看不懂「${text}」。\n\n${HELP_TEXT}`
+  return createTextReply(`看不懂「${command}」。\n\n${HELP_TEXT}`)
 }
 
-async function replyToLine(replyToken, text) {
+function toLineMessages(reply) {
+  const replies = Array.isArray(reply) ? reply : [reply]
+
+  return replies.slice(0, 5).map((item) => {
+    if (typeof item === "string") {
+      return { type: "text", text: item }
+    }
+
+    const message = { type: "text", text: item.text || "" }
+    const quickReply = createLineQuickReply(item.quickReplyLabels || [])
+    if (quickReply) message.quickReply = quickReply
+    return message
+  })
+}
+
+async function replyToLine(replyToken, reply) {
   const channelAccessToken = process.env.LINE_CHANNEL_ACCESS_TOKEN
   if (!channelAccessToken) return { ok: false, error: "Missing LINE_CHANNEL_ACCESS_TOKEN" }
   if (!replyToken) return { ok: false, error: "Missing LINE replyToken" }
@@ -321,7 +473,7 @@ async function replyToLine(replyToken, text) {
     },
     body: JSON.stringify({
       replyToken,
-      messages: [{ type: "text", text }],
+      messages: toLineMessages(reply),
     }),
   })
 
@@ -400,6 +552,8 @@ export const __testables = {
   getRequestBody,
   getSupabaseHealth,
   handleCommand,
+  isPublicCommand,
   listTodayTasks,
   reportTask,
+  toLineMessages,
 }

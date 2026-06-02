@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 
 const projects = [
   {
@@ -87,12 +87,12 @@ function ProjectHub() {
           <p className="lab-eyebrow">SYSTEM PORTFOLIO</p>
           <h1 className="mt-5 text-3xl font-black leading-tight tracking-normal text-white sm:text-4xl md:text-6xl">
             流程系統化
-            <span className="block text-yellow-400">作品集</span>
+            <span className="block text-sky-300">作品集</span>
           </h1>
           <p className="mx-auto mt-5 max-w-xl text-base font-bold leading-8 text-stone-300 md:text-lg">
             網站、後台、權限、資料、LINE Bot、Supabase。
           </p>
-          <p className="mx-auto mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-yellow-400">
+          <p className="mx-auto mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-sky-300">
             LINE Bot {lineBotId}
           </p>
 
@@ -111,19 +111,19 @@ function ProjectHub() {
             <Link key={project.name} to={project.path} className="lab-project-card group">
               <div className="flex items-start justify-between gap-4">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-yellow-400/70">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-sky-300/70">
                     {project.type}
                   </p>
                   <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">
                     {project.name}
                   </h2>
                 </div>
-                <span className="rounded-full border border-yellow-400/20 bg-yellow-400/10 px-3 py-1 text-xs font-black text-yellow-200">
+                <span className="rounded-full border border-sky-300/20 bg-sky-300/10 px-3 py-1 text-xs font-black text-sky-100">
                   {project.status}
                 </span>
               </div>
 
-              <div className="my-5 grid h-24 place-items-center rounded-xl border border-white/10 bg-black/25 text-4xl text-yellow-400 shadow-inner md:h-28 md:text-5xl">
+              <div className="my-5 grid h-24 place-items-center rounded-xl border border-white/10 bg-black/25 text-4xl text-sky-300 shadow-inner md:h-28 md:text-5xl">
                 {project.icon}
               </div>
 
@@ -139,7 +139,7 @@ function ProjectHub() {
                 ))}
               </div>
 
-              <span className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-yellow-600 px-5 py-3 text-sm font-black text-black transition group-hover:bg-yellow-500">
+              <span className="mt-6 inline-flex w-full items-center justify-center rounded-xl bg-sky-500 px-5 py-3 text-sm font-black text-slate-950 transition group-hover:bg-sky-400">
                 進入作品
               </span>
             </Link>
@@ -154,7 +154,7 @@ function ProjectHub() {
           <div className="mt-7 grid gap-3 md:grid-cols-3">
             {testSteps.map((step, index) => (
               <div key={step} className="rounded-xl border border-white/10 bg-black/25 p-4">
-                <p className="font-mono text-xs font-black text-yellow-400">
+                <p className="font-mono text-xs font-black text-sky-300">
                   {String(index + 1).padStart(2, "0")}
                 </p>
                 <p className="mt-2 text-sm font-black leading-7 text-stone-100">{step}</p>
@@ -181,14 +181,14 @@ function ProjectHub() {
           <h2 className="mt-3 text-2xl font-black text-white">測試帳號</h2>
           <div className="mt-7 grid gap-3">
             <div className="rounded-2xl border border-white/10 bg-black/25 p-4">
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-yellow-400/70">
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-sky-300/70">
                 LINE Bot
               </p>
               <p className="mt-2 font-mono text-sm font-bold text-stone-100">{lineBotId}</p>
             </div>
             {demoAccounts.map((item) => (
               <div key={item.label} className="rounded-2xl border border-white/10 bg-black/25 p-4">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-yellow-400/70">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-sky-300/70">
                   {item.label}
                 </p>
                 <p className="mt-2 font-mono text-sm font-bold text-stone-100">{item.account}</p>

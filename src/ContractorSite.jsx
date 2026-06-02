@@ -224,7 +224,7 @@ LINE Bot：${lineBotId}
       <header className="lab-topbar sticky top-0 z-30">
         <div className="mx-auto flex max-w-6xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
           <div>
-            <Link to="/" className="text-sm font-bold text-yellow-400">
+            <Link to="/" className="text-sm font-bold text-sky-300">
               ← 回系統入口
             </Link>
             <p className="mt-2 text-xl font-black text-white">Contractor Site</p>
@@ -286,7 +286,7 @@ function HeroSection() {
           <p className="mt-5 max-w-xl text-base font-bold leading-8 text-slate-600 md:text-lg">
             服務、案例、流程、表單。前台收需求，後台管案件。
           </p>
-          <p className="mt-3 inline-flex rounded-xl border border-white/10 bg-white/5 px-4 py-2 font-mono text-sm font-black text-yellow-400">
+          <p className="mt-3 inline-flex rounded-xl border border-sky-300/20 bg-sky-300/10 px-4 py-2 font-mono text-sm font-black text-sky-200">
             LINE Bot {lineBotId}
           </p>
 
@@ -314,7 +314,7 @@ function HeroSection() {
           <div className="mt-5 grid gap-3">
             {["服務清楚", "案例可信", "需求好填", "後台可接"].map((item) => (
               <div key={item} className="flex gap-3 rounded-2xl bg-slate-50 p-4">
-                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-yellow-600 text-xs font-black text-black">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-emerald-400 text-xs font-black text-slate-950">
                   ✓
                 </span>
                 <p className="font-bold text-slate-700">{item}</p>
