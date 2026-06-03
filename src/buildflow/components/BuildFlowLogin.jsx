@@ -43,7 +43,7 @@ function BuildFlowLogin({ users, onLogin }) {
             把案件整理清楚
           </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">
-            報價、發包、追加減項、師傅回報，都放在同一個地方。先用範例資料試一次流程。
+            報價、發包、追加減項、師傅回報，都放在同一個地方。先用測試資料走一次流程。
           </p>
 
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">

@@ -88,7 +88,7 @@ function CoachFlow() {
     localStorage.removeItem(STORAGE_KEY)
     setData(cloneSeed())
     setRobotInput("今日課表")
-    setRobotReply("範例資料已重置。")
+    setRobotReply("測試資料已重置。")
   }
 
   function runRobot(command) {
@@ -189,7 +189,7 @@ function CoachFlow() {
               onClick={resetData}
               className="rounded-xl bg-cyan-300 px-4 py-2 text-sm font-black text-slate-950"
             >
-              重置範例資料
+              重置測試資料
             </button>
           </div>
         </div>

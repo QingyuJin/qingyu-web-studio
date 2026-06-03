@@ -104,7 +104,7 @@ function BuildFlow() {
 
   async function resetTestData() {
     const confirmed = await confirmAction({
-      title: "重置 BuildFlow 範例資料",
+      title: "重置 BuildFlow 測試資料",
       message: "目前新增的資料會被清除，並回到預設狀態。",
       confirmLabel: "重置資料",
     })
@@ -112,7 +112,7 @@ function BuildFlow() {
     setActiveProjectId("")
     setActiveTab(isAdmin ? "dashboard" : "worker")
     resetData()
-    showToast("BuildFlow 範例資料已重置。")
+    showToast("BuildFlow 測試資料已重置。")
   }
 
   function openProjectDetail(projectId) {
