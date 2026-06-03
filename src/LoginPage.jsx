@@ -36,11 +36,11 @@ function LoginPage() {
           </h1>
 
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300">
-            登入後可查看三套作品、測試路徑與管理入口。
+            登入後可查看三套作品、試用路線與管理入口。
           </p>
 
           <div className="mt-8 rounded-[24px] border border-white/10 bg-white/[0.045] p-5 text-sm font-bold leading-7 text-slate-300">
-            <p className="font-black text-white">測試帳號</p>
+            <p className="font-black text-white">試用帳號</p>
             <p className="mt-2">Email：admin@qingyu.dev</p>
             <p>密碼：qgadmin</p>
           </div>

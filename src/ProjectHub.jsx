@@ -8,25 +8,25 @@ const flowSteps = [
     id: "capture",
     no: "01",
     title: "確認",
-    line: "收需求、照片、日期。",
+    line: "把口頭需求變成欄位。",
     path: "/contractor-site#inquiry",
-    bullets: ["LINE / Pro360 / 紙本", "工種與工項", "案場資料"],
+    bullets: ["來源", "工種", "日期"],
   },
   {
     id: "quote",
     no: "02",
     title: "報價",
-    line: "整理單價、材料、PDF。",
+    line: "材料、工項、單價集中。",
     path: "/buildflow",
-    bullets: ["材料 / 工具 / 工種", "成本與毛利", "業主確認"],
+    bullets: ["材料", "單價", "PDF"],
   },
   {
     id: "dispatch",
     no: "03",
     title: "發包",
-    line: "派師傅、追進度、留紀錄。",
+    line: "派工、回報、追加留紀錄。",
     path: "/buildflow",
-    bullets: ["任務指派", "LINE 回報", "追加減項"],
+    bullets: ["派工", "回報", "追加"],
   },
 ]
 
@@ -37,18 +37,18 @@ const roleCards = [
 ]
 
 const proofCards = [
-  ["報價單", "工項、材料、單價、日期"],
-  ["PDF", "給業主確認與留存"],
+  ["估價前台", "收需求與照片"],
+  ["報價後台", "工項、材料、單價"],
+  ["PDF 摘要", "給業主確認"],
   ["LINE Bot", `${lineBotId} 可直接測`],
-  ["後台", "案件、發包、毛利總覽"],
 ]
 
 const testFlow = [
-  "進入工程前台，填估價資料",
-  "打開 BuildFlow，用 admin / admin123 登入",
-  "看報價單 q-001，產生 PDF",
-  "到 LINE 輸入：業主 q-001",
-  "再測：綁定 BF-AMING-1234 → 今日任務",
+  "工程前台填估價",
+  "BuildFlow 登入 admin / admin123",
+  "看 q-001 報價與 PDF",
+  "LINE 輸入：業主 q-001",
+  "再測：綁定 → 今日任務",
 ]
 
 function ProjectHub() {
@@ -87,13 +87,13 @@ function ProjectHub() {
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">
-            BuildFlow Commercial MVP
+            BuildFlow 工程系統
           </p>
           <h1 className="mt-5 max-w-3xl text-3xl font-black leading-tight text-white md:text-5xl">
-            把散亂需求，變成可執行工程案。
+            需求進來，系統接住。
           </h1>
           <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-slate-300">
-            給統包與工程行：接需求、做報價、派師傅、追進度、輸出 PDF。
+            給統包與工程行：收需求、做報價、派師傅、追進度、輸出 PDF。
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -149,7 +149,7 @@ function ProjectHub() {
           <section className="rounded-[28px] border border-white/10 bg-[#0d1726] p-5 md:p-6">
             <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
               <div>
-                <p className="text-xs font-black uppercase text-emerald-300">Selected Flow</p>
+                <p className="text-xs font-black uppercase text-emerald-300">流程</p>
                 <h2 className="mt-2 text-3xl font-black text-white">{activeStep.title}</h2>
                 <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{activeStep.line}</p>
               </div>
@@ -192,9 +192,7 @@ function ProjectHub() {
               測試路線
             </p>
             <h2 className="mt-3 text-2xl font-black text-white">怎麼測</h2>
-            <p className="mt-2 text-sm font-bold leading-6 text-slate-400">
-              一條路線看完前台、後台、LINE Bot。
-            </p>
+            <p className="mt-2 text-sm font-bold leading-6 text-slate-400">前台、後台、LINE 一次看。</p>
           </div>
           <ol className="grid gap-3 md:grid-cols-5">
             {testFlow.map((item, index) => (

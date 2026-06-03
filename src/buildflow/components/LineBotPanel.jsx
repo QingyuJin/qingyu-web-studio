@@ -15,7 +15,7 @@ const lineCommands = [
     label: "選單",
     command: "選單",
     reply:
-      `BuildFlow 工程助理｜${lineBotId}\n\n1. 估價：整理需求\n2. 業主 q-001：查進度\n3. 老闆總覽：看待辦\n4. 綁定碼：師傅測試`,
+      `BuildFlow 工程助理｜${lineBotId}\n\n1. 估價：整理需求\n2. 業主 q-001：查進度\n3. 老闆總覽：看待辦\n4. 綁定碼：師傅試用`,
   },
   {
     label: "估價",
@@ -101,7 +101,7 @@ function LineBotPanel({ tasks, session }) {
         <Card>
           <div className="flex items-start justify-between gap-3">
             <div>
-              <h3 className="text-xl font-black">測試指令</h3>
+              <h3 className="text-xl font-black">指令預覽</h3>
               <p className="mt-1 text-sm text-slate-500">功能導向，少文字。</p>
             </div>
             <Status>Supabase</Status>
@@ -140,7 +140,7 @@ function LineBotPanel({ tasks, session }) {
             </div>
           </div>
           <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            建議測試順序：估價 → 業主 q-001 → 老闆總覽 → 綁定 → 今日任務 → 回報 → 完成。
+            建議順序：估價 → 業主 q-001 → 老闆總覽 → 綁定 → 今日任務 → 回報 → 完成。
           </div>
         </Card>
       </div>
@@ -180,7 +180,7 @@ function LineBotPanel({ tasks, session }) {
 
           {!reportedTasks.length && (
             <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm leading-7 text-slate-600">
-              測試「回報 t-001 現場已完成第一道防水」，或在「我的任務」填寫回報。
+              輸入「回報 t-001 現場已完成第一道防水」，或在「我的任務」填寫回報。
             </div>
           )}
         </div>

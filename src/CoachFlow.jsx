@@ -54,7 +54,7 @@ const modules = [
   { id: "students", title: "學員", hint: "資料" },
   { id: "workouts", title: "課表", hint: "追蹤" },
   { id: "reports", title: "回報", hint: "紀錄" },
-  { id: "robot", title: "Robot", hint: "測試" },
+  { id: "robot", title: "Robot", hint: "預覽" },
 ]
 
 const robotCommands = ["選單", "今日課表", "回報 w-001 深蹲完成，膝蓋正常", "完成 w-001", "狀態"]
@@ -88,7 +88,7 @@ function CoachFlow() {
     localStorage.removeItem(STORAGE_KEY)
     setData(cloneSeed())
     setRobotInput("今日課表")
-    setRobotReply("測試資料已重置。")
+    setRobotReply("範例資料已重置。")
   }
 
   function runRobot(command) {
@@ -170,7 +170,7 @@ function CoachFlow() {
               ← 系統作品集
             </Link>
             <h1 className="mt-2 text-2xl font-black text-white">CoachFlow</h1>
-            <p className="text-sm font-bold text-slate-400">課表、回報、Robot 測試。</p>
+            <p className="text-sm font-bold text-slate-400">課表、回報、Robot 預覽。</p>
           </div>
           <div className="flex flex-wrap gap-2">
             <select
@@ -189,7 +189,7 @@ function CoachFlow() {
               onClick={resetData}
               className="rounded-xl bg-cyan-300 px-4 py-2 text-sm font-black text-slate-950"
             >
-              重置測試資料
+              重置範例資料
             </button>
           </div>
         </div>
@@ -354,7 +354,7 @@ function Reports({ data }) {
 function Robot({ activeStudent, robotCommands, robotInput, robotReply, runRobot }) {
   return (
     <div className="grid gap-5">
-      <PanelTitle title="Robot" desc={`可用 ${lineBotId} 測，這裡先看回覆邏輯。`} />
+      <PanelTitle title="Robot" desc={`可用 ${lineBotId} 測，這裡預覽回覆邏輯。`} />
       <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr]">
         <div>
           <p className="text-sm font-black text-slate-400">指令</p>

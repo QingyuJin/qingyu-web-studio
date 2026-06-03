@@ -6,7 +6,7 @@ function BuildFlowLogin({ users, onLogin }) {
   const [password, setPassword] = useState("admin123")
   const [error, setError] = useState("")
   const testAccounts = users.slice(0, 6)
-  const testSteps = [
+  const trialSteps = [
     "使用 admin / admin123 登入管理者後台",
     "查看案件、發包項目、批價與追加減",
     "新增或編輯資料，觀察列表即時更新",
@@ -43,14 +43,14 @@ function BuildFlowLogin({ users, onLogin }) {
             工程行發包與追加減項管理系統
           </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">
-            案件、報價、發包、追加減項、任務回報集中管理。先用測試資料驗證流程， 後續可接 Supabase
+            案件、報價、發包、追加減項、任務回報集中管理。先用範例資料驗證流程，後續可接 Supabase
             與 LINE webhook。
           </p>
 
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <h2 className="text-xl font-black">測試帳號</h2>
+                <h2 className="text-xl font-black">試用帳號</h2>
                 <p className="mt-1 text-sm leading-6 text-slate-600">
                   點卡片帶入帳密，直接看不同角色權限。
                 </p>
@@ -74,9 +74,9 @@ function BuildFlowLogin({ users, onLogin }) {
           </div>
 
           <div className="mt-5 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
-            <h2 className="text-xl font-black">測試流程</h2>
+            <h2 className="text-xl font-black">試用流程</h2>
             <ol className="mt-4 grid gap-3">
-              {testSteps.map((step, index) => (
+              {trialSteps.map((step, index) => (
                 <li
                   key={step}
                   className="flex gap-3 rounded-xl bg-slate-50 p-3 text-sm font-bold text-slate-700"
@@ -97,7 +97,7 @@ function BuildFlowLogin({ users, onLogin }) {
         >
           <h2 className="text-2xl font-black">登入 BuildFlow</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
-            用測試帳號驗證角色權限與工作流程。
+            用試用帳號驗證角色權限與工作流程。
           </p>
 
           <label className="mt-6 grid gap-2">

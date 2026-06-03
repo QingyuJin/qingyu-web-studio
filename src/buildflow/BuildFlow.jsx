@@ -104,15 +104,15 @@ function BuildFlow() {
 
   async function resetTestData() {
     const confirmed = await confirmAction({
-      title: "重置 BuildFlow 測試資料",
-      message: "目前新增的測試資料會被清除，並回到預設狀態。",
+      title: "重置 BuildFlow 範例資料",
+      message: "目前新增的資料會被清除，並回到預設狀態。",
       confirmLabel: "重置資料",
     })
     if (!confirmed) return
     setActiveProjectId("")
     setActiveTab(isAdmin ? "dashboard" : "worker")
     resetData()
-    showToast("BuildFlow 測試資料已重置。")
+    showToast("BuildFlow 範例資料已重置。")
   }
 
   function openProjectDetail(projectId) {
@@ -671,7 +671,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除批價紀錄",
-        message: "這筆批價紀錄會從測試資料中移除。",
+        message: "這筆批價紀錄會從目前資料中移除。",
         confirmLabel: "刪除紀錄",
       }))
     )
@@ -740,7 +740,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除追加 / 減項",
-        message: "這筆追加 / 減項紀錄會從測試資料中移除。",
+        message: "這筆追加 / 減項紀錄會從目前資料中移除。",
         confirmLabel: "刪除紀錄",
       }))
     )
@@ -803,7 +803,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除廠商資料",
-        message: "這筆廠商資料會從測試資料中移除。",
+        message: "這筆廠商資料會從目前資料中移除。",
         confirmLabel: "刪除廠商",
       }))
     )
@@ -836,7 +836,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除任務",
-        message: "這個任務會從測試資料中移除。",
+        message: "這個任務會從目前資料中移除。",
         confirmLabel: "刪除任務",
       }))
     )

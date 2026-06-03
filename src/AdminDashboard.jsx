@@ -23,7 +23,7 @@ const adminProjects = [
     title: "課表流程",
     path: "/coachflow",
     status: "Robot",
-    summary: "課表、學員、Robot 回覆測試。",
+    summary: "課表、學員、Robot 回覆預覽。",
     checks: ["切換學員", "查今日課表", "回報完成"],
   },
 ]
@@ -77,7 +77,7 @@ function AdminDashboard() {
               三套作品，一條驗證流程。
             </h1>
             <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-slate-300">
-              後台只放入口、狀態與測試重點，細節進系統再看。
+              後台只放入口、狀態與試用重點，細節進系統再看。
             </p>
           </div>
 
