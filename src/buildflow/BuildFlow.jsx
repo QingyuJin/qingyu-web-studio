@@ -52,17 +52,24 @@ function BuildFlow() {
   }
 
   const metrics = useMemo(() => {
+    const totalBudget = projects.reduce((sum, item) => sum + Number(item.budget || 0), 0)
+    const totalChangeAmount = changeOrders.reduce((sum, item) => sum + Number(item.amount || 0), 0)
+    const totalCost = subcontracts.reduce((sum, item) => sum + Number(item.price || 0), 0)
+
     return {
       projectCount: projects.length,
       runningCount: projects.filter((item) => item.status === "施工中").length,
       waitingChangeCount: changeOrders.filter((item) => !item.confirmedByClient).length,
       taskTodoCount: tasks.filter((item) => item.status !== "已完成").length,
-      totalBudget: projects.reduce((sum, item) => sum + Number(item.budget || 0), 0),
-      totalChangeAmount: changeOrders.reduce((sum, item) => sum + Number(item.amount || 0), 0),
+      quotePendingCount: quoteDrafts.filter((item) => item.ownerStatus !== "已確認").length,
+      totalBudget,
+      totalChangeAmount,
+      totalCost,
+      grossProfit: totalBudget + totalChangeAmount - totalCost,
       vendorCount: vendors.length,
       userCount: users.length,
     }
-  }, [projects, changeOrders, tasks, vendors, users])
+  }, [projects, subcontracts, changeOrders, quoteDrafts, tasks, vendors, users])
 
   const workerTasks = tasks.filter((task) => task.workerId === session?.id)
 
@@ -242,48 +249,65 @@ function BuildFlow() {
     event.currentTarget.reset()
   }
 
+  function quoteLineFromForm(form, index) {
+    const trade = textValue(form, `trade${index}`)
+    const name = textValue(form, `item${index}`)
+    const material = textValue(form, `material${index}`)
+    const tool = textValue(form, `tool${index}`)
+
+    if (!trade && !name && !material && !tool) return null
+
+    return {
+      trade: trade || "未分類",
+      name: name || "現場估價工項",
+      material,
+      tool,
+      qty: numberValue(form, `qty${index}`) || 1,
+      unit: textValue(form, `unit${index}`) || "式",
+      price: numberValue(form, `price${index}`),
+      cost: numberValue(form, `cost${index}`),
+    }
+  }
+
   function addQuoteDraft(event) {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
-    const firstItem = textValue(form, "item1")
-    const secondItem = textValue(form, "item2")
-    const items = [
-      firstItem
-        ? {
-            name: firstItem,
-            qty: 1,
-            unit: "式",
-            price: numberValue(form, "amount1"),
-          }
-        : null,
-      secondItem
-        ? {
-            name: secondItem,
-            qty: 1,
-            unit: "式",
-            price: numberValue(form, "amount2"),
-          }
-        : null,
-    ].filter(Boolean)
+    const items = [quoteLineFromForm(form, 1), quoteLineFromForm(form, 2)].filter(Boolean)
 
     const newQuote = {
       id: createId("q"),
       title: textValue(form, "title"),
       client: textValue(form, "client"),
       phone: textValue(form, "phone"),
+      source: textValue(form, "source") || "LINE",
       address: textValue(form, "address"),
       type: textValue(form, "type") || "工程估價",
       stage: "確認",
+      ownerStatus: "待確認",
       quoteDate: textValue(form, "quoteDate") || today,
+      validUntil: textValue(form, "validUntil") || today,
       expectedDate: textValue(form, "expectedDate") || today,
       sizeNote: textValue(form, "sizeNote"),
       note: textValue(form, "note"),
-      items: items.length ? items : [{ name: "現場估價工項", qty: 1, unit: "式", price: 0 }],
+      items: items.length
+        ? items
+        : [
+            {
+              trade: "未分類",
+              name: "現場估價工項",
+              material: "",
+              tool: "",
+              qty: 1,
+              unit: "式",
+              price: 0,
+              cost: 0,
+            },
+          ],
     }
 
     setData((current) => ({ ...current, quoteDrafts: [newQuote, ...current.quoteDrafts] }))
     event.currentTarget.reset()
-    showToast("暫存報價已建立。")
+    showToast("報價單已建立。")
   }
 
   function updateQuoteDraftStage(quoteId, stage) {
@@ -293,6 +317,16 @@ function BuildFlow() {
         quote.id === quoteId ? { ...quote, stage } : quote
       ),
     }))
+  }
+
+  function updateQuoteOwnerStatus(quoteId, ownerStatus) {
+    setData((current) => ({
+      ...current,
+      quoteDrafts: current.quoteDrafts.map((quote) =>
+        quote.id === quoteId ? { ...quote, ownerStatus } : quote
+      ),
+    }))
+    showToast(`業主狀態已更新：${ownerStatus}`)
   }
 
   function createProjectFromQuoteDraft(quote) {
@@ -311,17 +345,19 @@ function BuildFlow() {
       manager: session?.name || "管理者",
       startDate: quote.expectedDate || today,
       dueDate: quote.expectedDate || today,
-      note: `由暫存報價 ${quote.id} 建立。${quote.note || ""}`,
+      note: `由報價單 ${quote.id} 建立。來源：${quote.source || "未填"}。業主確認：${
+        quote.ownerStatus || "待確認"
+      }。${quote.note || ""}`,
     }
 
     setData((current) => ({
       ...current,
       projects: [newProject, ...current.projects],
       quoteDrafts: current.quoteDrafts.map((item) =>
-        item.id === quote.id ? { ...item, stage: "發包" } : item
+        item.id === quote.id ? { ...item, stage: "發包", ownerStatus: "已確認" } : item
       ),
     }))
-    showToast("已由暫存報價建立正式案件。")
+    showToast("已由報價單建立案件。")
   }
 
   function printQuoteDraftPdf(quote) {
@@ -332,9 +368,11 @@ function BuildFlow() {
     const rows = quote.items
       .map(
         (item) => `<tr>
+          <td>${item.trade || "未分類"}</td>
           <td>${item.name}</td>
-          <td>${item.qty}</td>
-          <td>${item.unit}</td>
+          <td>${item.material || "未填"}</td>
+          <td>${item.tool || "未填"}</td>
+          <td>${item.qty} ${item.unit}</td>
           <td>NT$${formatMoney(item.price)}</td>
           <td>NT$${formatMoney(Number(item.qty || 0) * Number(item.price || 0))}</td>
         </tr>`
@@ -360,6 +398,9 @@ function BuildFlow() {
             th, td { border-bottom: 1px solid #e2e8f0; padding: 12px; text-align: left; }
             th { color: #475569; font-size: 13px; }
             .total { text-align: right; font-size: 24px; font-weight: 900; margin-top: 18px; }
+            .sign { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; margin-top: 24px; }
+            .sign div { border: 1px solid #cbd5e1; border-radius: 12px; min-height: 96px; padding: 14px; }
+            ul { margin: 8px 0 0; padding-left: 20px; color: #475569; line-height: 1.8; }
             @media print { button { display: none; } body { padding: 16px; } }
           </style>
         </head>
@@ -370,13 +411,17 @@ function BuildFlow() {
             <p><strong>案件：</strong>${quote.title}</p>
             <p><strong>業主：</strong>${quote.client}｜${quote.phone || "未填電話"}</p>
             <p><strong>地址：</strong>${quote.address || "未填地址"}</p>
+            <p><strong>來源：</strong>${quote.source || "未填"}｜<strong>確認：</strong>${
+              quote.ownerStatus || "待確認"
+            }</p>
             <p><strong>報價日期：</strong>${quote.quoteDate}</p>
+            <p><strong>有效日期：</strong>${quote.validUntil || "未填"}</p>
             <p><strong>預計施工日：</strong>${quote.expectedDate}</p>
             <p><strong>尺寸 / 大小張：</strong>${quote.sizeNote || "未填"}</p>
           </div>
           <table>
             <thead>
-              <tr><th>工項</th><th>數量</th><th>單位</th><th>單價</th><th>小計</th></tr>
+              <tr><th>工種</th><th>工項</th><th>材料</th><th>工具</th><th>數量</th><th>單價</th><th>小計</th></tr>
             </thead>
             <tbody>${rows}</tbody>
           </table>
@@ -384,6 +429,19 @@ function BuildFlow() {
           <div class="box">
             <strong>備註</strong>
             <p>${quote.note || "無"}</p>
+          </div>
+          <div class="box">
+            <strong>報價條款</strong>
+            <ul>
+              <li>未列工項另行報價。</li>
+              <li>追加減項須經業主確認後施工。</li>
+              <li>實際數量以現場丈量與完工驗收為準。</li>
+              <li>照片、口頭與 LINE 紀錄可作為溝通附件。</li>
+            </ul>
+          </div>
+          <div class="sign">
+            <div><strong>業主確認</strong></div>
+            <div><strong>工程行確認</strong></div>
           </div>
           <button onclick="window.print()">列印 / 另存 PDF</button>
         </body>
@@ -818,6 +876,7 @@ function BuildFlow() {
     updateChangeStatus,
     updateProjectStatus,
     updateQuoteDraftStage,
+    updateQuoteOwnerStatus,
     updateSubcontractStatus,
     updateTaskReport,
   })

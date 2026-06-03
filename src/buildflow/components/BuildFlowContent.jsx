@@ -56,6 +56,7 @@ function BuildFlowContent({
           quoteDrafts={quoteDrafts}
           addQuoteDraft={actions.addQuoteDraft}
           updateQuoteDraftStage={actions.updateQuoteDraftStage}
+          updateQuoteOwnerStatus={actions.updateQuoteOwnerStatus}
           createProjectFromQuoteDraft={actions.createProjectFromQuoteDraft}
           printQuoteDraftPdf={actions.printQuoteDraftPdf}
         />

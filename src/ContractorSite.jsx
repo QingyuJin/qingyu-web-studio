@@ -13,7 +13,7 @@ const projectPhotos = {
   tileRoom: "/project-photos/335940_0.jpg",
 }
 
-const services = ["防水", "泥作", "地坪", "油漆", "木作", "統包"]
+const services = ["防水", "泥作", "油漆", "磁磚", "板模", "鋼筋", "地坪", "統包"]
 
 const cases = [
   {
@@ -63,16 +63,18 @@ const cases = [
 const workflow = [
   ["01", "確認", "需求、位置、照片"],
   ["02", "報價", "工項、日期、金額"],
-  ["03", "發包", "師傅、任務、回報"],
+  ["03", "發包", "師傅、任務、進度"],
 ]
 
 const botCommands = [
   "選單",
-  "案例",
-  "報價",
+  "估價",
+  "業主 q-001",
+  "老闆總覽",
+  "PDF q-001",
   "綁定 BF-AMING-1234",
   "今日任務",
-  "回報 t-001 現場已完成",
+  "回報 t-001 + 照片",
 ]
 
 function ContractorSite() {
@@ -82,8 +84,14 @@ function ContractorSite() {
   const [form, setForm] = useState({
     name: "",
     contact: "",
+    source: "",
     area: "",
-    type: "",
+    trade: "",
+    item: "",
+    material: "",
+    tool: "",
+    size: "",
+    unitPrice: "",
     date: "",
     note: "",
   })
@@ -96,8 +104,14 @@ function ContractorSite() {
   const inquiryText = `工程需求
 姓名：${form.name || "未填"}
 電話 / LINE：${form.contact || "未填"}
+來源：${form.source || "LINE / 口頭 / Excel / 紙本 / Pro360"}
 地區：${form.area || "未填"}
-類型：${form.type || "未填"}
+工種：${form.trade || "未填"}
+工項：${form.item || "未填"}
+材料：${form.material || "未填"}
+工具：${form.tool || "未填"}
+坪數 / 數量：${form.size || "未填"}
+單價：${form.unitPrice || "未填"}
 預計日期：${form.date || "未填"}
 備註：${form.note || "未填"}
 LINE Bot：${lineBotId}`
@@ -156,14 +170,14 @@ LINE Bot：${lineBotId}`
             <span className="block text-cyan-200">先整理再報價。</span>
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            用案例建立信任，用表單整理需求，用 BuildFlow 接後台。
+            LINE、口頭、Excel、紙本、Pro360，統一整理成報價資料。
           </p>
           <div className="mt-8 flex flex-wrap gap-3">
             <a
-              href="#cases"
+              href="#inquiry"
               className="rounded-xl bg-cyan-300 px-5 py-3 text-sm font-black text-slate-950"
             >
-              看案例
+              我要估價
             </a>
             <a
               href="#line"
@@ -252,7 +266,7 @@ LINE Bot：${lineBotId}`
 
       <section className="border-y border-white/10 bg-[#111827]">
         <div className="mx-auto max-w-6xl px-4 py-12">
-          <SectionHeader label="Workflow" title="報價流程" desc="客戶建議：確認、報價、發包。" />
+          <SectionHeader label="Workflow" title="報價流程" desc="確認、報價、發包，一案到底。" />
           <div className="mt-6 grid gap-4 md:grid-cols-3">
             {workflow.map(([index, title, desc]) => (
               <div key={title} className="rounded-[24px] border border-white/10 bg-[#0f172a] p-5">
@@ -272,7 +286,7 @@ LINE Bot：${lineBotId}`
         <div>
           <SectionHeader label="LINE Bot" title="可直接測" desc={`加 ${lineBotId}，輸入指令。`} />
           <p className="mt-5 font-mono text-sm font-black text-cyan-200">
-            選單 → 案例 → 報價 → 綁定 BF-AMING-1234 → 今日任務
+            選單 → 估價 → 業主 q-001 → 老闆總覽 → 綁定 BF-AMING-1234
           </p>
         </div>
         <div className="grid grid-cols-2 gap-3">
@@ -286,7 +300,7 @@ LINE Bot：${lineBotId}`
 
       <section id="inquiry" className="border-t border-white/10 bg-[#111827]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader label="Inquiry" title="需求表單" desc="填完後可複製成報價摘要。" />
+          <SectionHeader label="Inquiry" title="估價整理器" desc="填完即可交給後台建報價。" />
           <div className="grid gap-4">
             <form
               className="grid gap-3 rounded-[24px] border border-white/10 bg-[#0f172a] p-5 md:grid-cols-2"
@@ -306,14 +320,50 @@ LINE Bot：${lineBotId}`
                 onChange={(value) => updateForm("contact", value)}
               />
               <Input
+                label="來源"
+                value={form.source}
+                onChange={(value) => updateForm("source", value)}
+                placeholder="LINE / Pro360"
+              />
+              <Input
                 label="地區"
                 value={form.area}
                 onChange={(value) => updateForm("area", value)}
               />
               <Input
-                label="類型"
-                value={form.type}
-                onChange={(value) => updateForm("type", value)}
+                label="工種"
+                value={form.trade}
+                onChange={(value) => updateForm("trade", value)}
+                placeholder="泥作 / 油漆 / 鋼筋"
+              />
+              <Input
+                label="工項"
+                value={form.item}
+                onChange={(value) => updateForm("item", value)}
+                placeholder="屋頂防水"
+              />
+              <Input
+                label="材料"
+                value={form.material}
+                onChange={(value) => updateForm("material", value)}
+                placeholder="PU / 磁磚 / 水泥"
+              />
+              <Input
+                label="工具"
+                value={form.tool}
+                onChange={(value) => updateForm("tool", value)}
+                placeholder="吊車 / 打石機"
+              />
+              <Input
+                label="坪數 / 數量"
+                value={form.size}
+                onChange={(value) => updateForm("size", value)}
+              />
+              <Input
+                label="單價"
+                value={form.unitPrice}
+                onChange={(value) => updateForm("unitPrice", value)}
+                placeholder="例：2200 / 坪"
               />
               <Input
                 label="預計日期"
@@ -321,12 +371,12 @@ LINE Bot：${lineBotId}`
                 onChange={(value) => updateForm("date", value)}
               />
               <Input
-                label="備註"
+                label="備註 / 照片"
                 value={form.note}
                 onChange={(value) => updateForm("note", value)}
               />
               <button className="rounded-xl bg-cyan-300 px-4 py-3 text-sm font-black text-slate-950 md:col-span-2">
-                {copied ? "已複製摘要" : "產生報價摘要"}
+                {copied ? "已複製摘要" : "產生報價資料"}
               </button>
             </form>
             <pre className="whitespace-pre-wrap rounded-[24px] border border-white/10 bg-[#0f172a] p-5 text-sm font-bold leading-7 text-slate-300">
@@ -349,13 +399,14 @@ function SectionHeader({ label, title, desc }) {
   )
 }
 
-function Input({ label, value, onChange }) {
+function Input({ label, value, onChange, placeholder = "" }) {
   return (
     <label className="grid gap-2">
       <span className="text-sm font-bold text-slate-400">{label}</span>
       <input
         value={value}
         onChange={(event) => onChange(event.target.value)}
+        placeholder={placeholder}
         className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none focus:border-cyan-300"
       />
     </label>

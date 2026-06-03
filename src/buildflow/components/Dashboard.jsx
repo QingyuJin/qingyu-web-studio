@@ -13,14 +13,17 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }
     <div className="grid gap-5">
       <SectionTitle title="總覽" desc="今天要看的事。" />
 
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-8">
+      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
         <Metric label="案件" value={metrics.projectCount} />
         <Metric label="施工" value={metrics.runningCount} />
-        <Metric label="人員" value={metrics.userCount} />
-        <Metric label="追加" value={metrics.waitingChangeCount} danger />
+        <Metric label="報價" value={metrics.quotePendingCount} danger />
         <Metric label="待辦" value={metrics.taskTodoCount} />
-        <Metric label="廠商" value={metrics.vendorCount} />
+        <Metric label="毛利" value={`NT$${formatMoney(metrics.grossProfit)}`} />
         <Metric label="預算" value={`NT$${formatMoney(metrics.totalBudget)}`} />
+        <Metric label="成本" value={`NT$${formatMoney(metrics.totalCost)}`} />
+        <Metric label="追加" value={metrics.waitingChangeCount} danger />
+        <Metric label="廠商" value={metrics.vendorCount} />
+        <Metric label="人員" value={metrics.userCount} />
         <Metric label="增減" value={`NT$${formatMoney(metrics.totalChangeAmount)}`} danger />
       </div>
 

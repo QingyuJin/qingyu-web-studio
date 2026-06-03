@@ -9,19 +9,37 @@ const lineCommands = [
   {
     label: "狀態",
     command: "測試",
-    reply: "BuildFlow LINE webhook 已上線。\n可測：選單 / 報價 / 綁定 / 今日任務 / 回報 / 完成",
+    reply: "系統在線。\n可測：選單 / 估價 / 業主 q-001 / 老闆總覽 / 綁定 / 今日任務",
   },
   {
     label: "選單",
     command: "選單",
     reply:
-      `BuildFlow 選單\n\n1. 案例\n2. 報價\n3. 綁定 BF-AMING-1234\n4. 今日任務\n5. 回報 t-001 內容\n6. 完成 t-001\n\nLINE Bot：${lineBotId}`,
+      `BuildFlow 工程助理｜${lineBotId}\n\n1. 估價：整理需求\n2. 業主 q-001：查進度\n3. 老闆總覽：看待辦\n4. 綁定碼：師傅測試`,
   },
   {
-    label: "報價",
-    command: "報價",
+    label: "估價",
+    command: "估價",
     reply:
-      "請提供報價資料：\n\n姓名\n電話 / LINE\n案場地區\n工程類型\n預計施工日\n大約尺寸\n備註\n\n收到後可整理成暫存報價。",
+      "估價資料格式\n\n姓名：\n電話 / LINE：\n來源：LINE / Pro360 / 紙本\n工種：防水 / 泥作 / 油漆\n工項：\n材料：\n工具：\n坪數 / 數量：\n預計日期：\n\n填完可轉報價單與 PDF。",
+  },
+  {
+    label: "業主",
+    command: "業主 q-001",
+    reply:
+      "案件進度｜q-001\n\n案件：屏東住宅屋頂防水\n狀態：報價待確認\n金額：NT$53,900\n有效：2026-06-21\n下一步：確認施工日\n\n可回覆：同意 / 要修改 / 想看 PDF",
+  },
+  {
+    label: "老闆",
+    command: "老闆總覽",
+    reply:
+      "老闆總覽\n\n待報價：1\n施工中：1\n待回報：1\n待確認追加：1\n粗估毛利：NT$77,000\n\n建議先處理：q-001 業主確認。",
+  },
+  {
+    label: "PDF",
+    command: "PDF q-001",
+    reply:
+      "報價單 q-001\n\n防水｜屋頂防水底層處理｜18 坪｜NT$39,600\n泥作｜女兒牆補強｜12 米｜NT$10,800\n管理｜完工清潔拍照｜1 式｜NT$3,500\n\n總計：NT$53,900",
   },
   {
     label: "綁定",
@@ -38,6 +56,12 @@ const lineCommands = [
     label: "回報",
     command: "回報 t-001 現場已完成第一道防水",
     reply: "已收到回報：t-001\n屏東住宅防水工程\n完成浴室牆面防水第一道\n\n現場已完成第一道防水",
+  },
+  {
+    label: "照片",
+    command: "傳照片",
+    reply:
+      "照片已收到。\n若要綁到任務，請輸入：回報 t-001 照片已上傳，請查看現場狀況。",
   },
   {
     label: "完成",
@@ -100,7 +124,7 @@ function LineBotPanel({ tasks, session }) {
             </div>
           </div>
           <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            建議測試順序：綁定 → 今日任務 → 回報 → 完成 → 今日任務。
+            建議測試順序：估價 → 業主 q-001 → 老闆總覽 → 綁定 → 今日任務 → 回報 → 完成。
           </div>
         </Card>
       </div>

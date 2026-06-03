@@ -6,8 +6,10 @@ const HELP_TEXT = [
   "公開可測：",
   "- 選單",
   "- 案例",
-  "- 報價",
+  "- 估價",
   "- 流程",
+  "- 業主 q-001",
+  "- 老闆總覽",
   "- 綁定碼",
   "",
   "師傅功能：",
@@ -17,54 +19,106 @@ const HELP_TEXT = [
   "- 完成 t-001",
 ].join("\n")
 
-const DEFAULT_QUICK_REPLIES = ["選單", "案例", "報價", "流程", "綁定碼", "工程測試"]
+const DEFAULT_QUICK_REPLIES = ["選單", "估價", "案例", "流程", "業主 q-001", "老闆總覽", "綁定碼"]
 
 const PUBLIC_REPLIES = {
   選單: [
-    "BuildFlow 工程助理",
+    "BuildFlow 工程助理｜@550oexzn",
     "",
-    "你可以直接測：",
-    "1. 案例：看工程照片與項目",
-    "2. 報價：產生需求摘要",
-    "3. 流程：了解接案步驟",
-    "4. 綁定碼：取得測試帳號",
+    "直接測：",
+    "1. 估價：整理需求",
+    "2. 業主 q-001：查進度",
+    "3. 老闆總覽：看待辦",
+    "4. 綁定碼：師傅測試",
     "",
-    "LINE Bot：@550oexzn",
+    "常用：綁定 BF-AMING-1234 → 今日任務 → 回報 t-001 現場完成 → 完成 t-001",
   ].join("\n"),
   案例: [
-    "近期工程案例",
+    "工程案例",
     "",
-    "- 室內木地板整理",
-    "- 屋頂防水整理",
-    "- 室內地坪施工",
-    "- 外牆修繕評估",
+    "01 屋頂防水",
+    "02 室內地坪",
+    "03 木作整理",
+    "04 外牆修繕",
     "",
-    "到網站可看照片案例。輸入「報價」可產生需求格式。",
+    "輸入「估價」可整理需求。",
   ].join("\n"),
-  報價: [
-    "需求摘要格式",
+  估價: [
+    "估價資料格式",
     "",
     "姓名：",
     "電話 / LINE：",
+    "來源：LINE / 口頭 / Excel / 紙本 / Pro360",
     "案場地區：",
-    "工程類型：",
-    "目前狀況：",
-    "希望時間：",
-    "照片：可先傳 LINE",
+    "工種：防水 / 泥作 / 油漆 / 磁磚 / 板模 / 鋼筋",
+    "工項：",
+    "材料：",
+    "工具：",
+    "坪數 / 數量：",
+    "單價預算：",
+    "預計日期：",
+    "照片：可直接傳",
     "",
-    "複製填寫後，前台可轉成 BuildFlow 案件。",
+    "填完可轉報價單與 PDF。",
+  ].join("\n"),
+  報價: [
+    "報價指令已改成「估價」。",
+    "",
+    "輸入「估價」取得完整欄位。",
+    "輸入「業主 q-001」看報價進度範例。",
   ].join("\n"),
   流程: [
-    "工程接案流程",
+    "工程行三步驟",
     "",
-    "詢問需求",
-    "現場評估",
-    "整理報價",
-    "安排施工",
-    "回報進度",
-    "完工驗收",
+    "1. 確認：需求、照片、日期",
+    "2. 報價：工項、材料、單價、PDF",
+    "3. 發包：師傅、任務、回報",
     "",
-    "師傅可用「今日任務」查待辦。",
+    "業主看進度，老闆看毛利，師傅用 LINE 回報。",
+  ].join("\n"),
+  "業主 q-001": [
+    "案件進度｜q-001",
+    "",
+    "案件：屏東住宅屋頂防水",
+    "狀態：報價待確認",
+    "金額：NT$53,900",
+    "有效：2026-06-21",
+    "下一步：確認施工日",
+    "",
+    "可回覆：同意 / 要修改 / 想看 PDF",
+  ].join("\n"),
+  "老闆總覽": [
+    "老闆總覽",
+    "",
+    "待報價：1",
+    "施工中：1",
+    "待回報：1",
+    "待確認追加：1",
+    "粗估毛利：NT$77,000",
+    "",
+    "建議先處理：q-001 業主確認。",
+  ].join("\n"),
+  "PDF q-001": [
+    "報價單 q-001",
+    "",
+    "防水｜屋頂防水底層處理｜18 坪｜NT$39,600",
+    "泥作｜女兒牆補強｜12 米｜NT$10,800",
+    "管理｜完工清潔拍照｜1 式｜NT$3,500",
+    "",
+    "總計：NT$53,900",
+    "業主確認後可轉案件。",
+  ].join("\n"),
+  同意: "已收到：業主同意。\n後台可把 q-001 標記為已確認，並轉成正式案件。",
+  要修改: "已收到：業主需要修改。\n請補充要改的項目，例如：日期、材料、金額或施工範圍。",
+  "想看 PDF": [
+    "報價單 q-001",
+    "",
+    "防水｜屋頂防水底層處理｜18 坪｜NT$39,600",
+    "泥作｜女兒牆補強｜12 米｜NT$10,800",
+    "管理｜完工清潔拍照｜1 式｜NT$3,500",
+    "",
+    "總計：NT$53,900",
+    "業主確認後可轉案件。",
   ].join("\n"),
   綁定碼: [
     "測試綁定碼",
@@ -80,13 +134,29 @@ const PUBLIC_REPLIES = {
     "",
     "1. 測試",
     "2. 選單",
-    "3. 案例",
-    "4. 綁定 BF-AMING-1234",
-    "5. 今日任務",
-    "6. 回報 t-001 現場已完成第一道防水",
-    "7. 完成 t-001",
-    "8. 今日任務",
+    "3. 估價",
+    "4. 業主 q-001",
+    "5. 老闆總覽",
+    "6. 綁定 BF-AMING-1234",
+    "7. 今日任務",
+    "8. 回報 t-001 現場已完成第一道防水",
+    "9. 完成 t-001",
+    "10. 今日任務",
   ].join("\n"),
+}
+
+const PUBLIC_QUICK_REPLIES = {
+  選單: ["估價", "業主 q-001", "老闆總覽", "綁定碼"],
+  估價: ["業主 q-001", "PDF q-001", "流程", "綁定碼"],
+  報價: ["估價", "業主 q-001", "流程"],
+  流程: ["估價", "業主 q-001", "老闆總覽"],
+  "業主 q-001": ["同意", "要修改", "想看 PDF", "老闆總覽"],
+  "PDF q-001": ["同意", "要修改", "流程"],
+  同意: ["老闆總覽", "流程", "選單"],
+  要修改: ["估價", "PDF q-001", "選單"],
+  "想看 PDF": ["同意", "要修改", "流程"],
+  綁定碼: ["綁定 BF-AMING-1234", "今日任務", "工程測試"],
+  工程測試: ["選單", "估價", "綁定 BF-AMING-1234"],
 }
 
 function getSupabaseClient() {
@@ -249,14 +319,19 @@ function createTextReply(text, quickReplyLabels = DEFAULT_QUICK_REPLIES) {
 }
 
 function createLineQuickReply(labels) {
-  const items = labels.slice(0, 13).map((label) => ({
-    type: "action",
-    action: {
-      type: "message",
-      label,
-      text: label,
-    },
-  }))
+  const items = labels.slice(0, 13).map((item) => {
+    const label = typeof item === "string" ? item : item.label
+    const text = typeof item === "string" ? item : item.text
+
+    return {
+      type: "action",
+      action: {
+        type: "message",
+        label: String(label || "").slice(0, 20),
+        text: String(text || label || ""),
+      },
+    }
+  })
 
   return items.length ? { items } : undefined
 }
@@ -410,24 +485,29 @@ async function handleCommand(supabase, event) {
   const command = normalizeText(text)
 
   if (!command || command === "測試") {
-    return createTextReply("系統在線。輸入「選單」開始測試。", ["選單", "工程測試", "綁定碼"])
+    return createTextReply("系統在線。輸入「選單」開始測試。", [
+      "選單",
+      "估價",
+      "業主 q-001",
+      "工程測試",
+    ])
   }
   if (command === "help" || command === "說明" || command === "功能" || command === "menu") {
     return createTextReply(HELP_TEXT)
   }
   if (PUBLIC_REPLIES[command]) {
-    return createTextReply(PUBLIC_REPLIES[command])
+    return createTextReply(PUBLIC_REPLIES[command], PUBLIC_QUICK_REPLIES[command])
   }
   if (command.startsWith("綁定") || /\bBF-[A-Z0-9-]+\b/i.test(command)) {
     return createTextReply(await bindProfile(supabase, lineUserId, command), [
       "今日任務",
-      "回報 t-001 現場已完成第一道防水",
+      { label: "回報 t-001", text: "回報 t-001 現場已完成第一道防水" },
       "完成 t-001",
     ])
   }
   if (command === "今日任務") {
     return createTextReply(await listTodayTasks(supabase, lineUserId), [
-      "回報 t-001 現場已完成第一道防水",
+      { label: "回報 t-001", text: "回報 t-001 現場已完成第一道防水" },
       "完成 t-001",
       "流程",
     ])
@@ -510,7 +590,19 @@ export default async function handler(req, res) {
   const results = []
 
   for (const event of events) {
-    if (event?.type !== "message" || event?.message?.type !== "text") continue
+    if (event?.type !== "message") continue
+
+    if (event?.message?.type === "image") {
+      const imageReply = createTextReply(
+        "照片已收到。\n若要綁到任務，請輸入：回報 t-001 照片已上傳，請查看現場狀況。",
+        [{ label: "回報 t-001", text: "回報 t-001 照片已上傳，請查看現場狀況。" }, "今日任務"]
+      )
+      const lineReply = await replyToLine(event.replyToken, imageReply)
+      results.push({ input: "image", reply: imageReply, lineReply })
+      continue
+    }
+
+    if (event?.message?.type !== "text") continue
 
     try {
       const input = getMessageText(event)
