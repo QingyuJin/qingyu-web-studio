@@ -7,7 +7,7 @@ const adminProjects = [
     title: "前台接案",
     path: "/contractor-site",
     status: "Website",
-    summary: "案例、需求、詢問集中整理。",
+    summary: "客戶先填清楚，後台少重問。",
     checks: ["看工程照片", "填需求表單", "複製摘要"],
   },
   {
@@ -15,7 +15,7 @@ const adminProjects = [
     title: "工程後台",
     path: "/buildflow",
     status: "System",
-    summary: "案件、報價、發包、任務回報。",
+    summary: "案件、報價、派工、回報集中看。",
     checks: ["角色登入", "新增案件", "派工回報"],
   },
   {
@@ -23,12 +23,12 @@ const adminProjects = [
     title: "課表流程",
     path: "/coachflow",
     status: "Robot",
-    summary: "課表、學員、Robot 回覆預覽。",
+    summary: "課表、學員、Robot 回覆先預覽。",
     checks: ["切換學員", "查今日課表", "回報完成"],
   },
 ]
 
-const verificationFlow = ["前台收件", "後台建案", "報價暫存", "任務派工", "LINE 回報"]
+const verificationFlow = ["收需求", "建案件", "做報價", "派師傅", "LINE 回報"]
 
 function AdminDashboard() {
   const navigate = useNavigate()
@@ -74,10 +74,10 @@ function AdminDashboard() {
           <div>
             <p className="text-xs font-black uppercase text-cyan-300">System Portfolio</p>
             <h1 className="mt-4 max-w-xl text-3xl font-black leading-tight text-white md:text-5xl">
-              三套作品，一條驗證流程。
+              先看入口，再進系統試。
             </h1>
             <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-slate-300">
-              後台只放入口、狀態與試用重點，細節進系統再看。
+              這裡只放重點。細節點進去看，才不會一開始就太滿。
             </p>
           </div>
 

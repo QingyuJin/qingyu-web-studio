@@ -102,7 +102,7 @@ function LineBotPanel({ tasks, session }) {
           <div className="flex items-start justify-between gap-3">
             <div>
               <h3 className="text-xl font-black">指令預覽</h3>
-              <p className="mt-1 text-sm text-slate-500">功能導向，少文字。</p>
+              <p className="mt-1 text-sm text-slate-500">點一下，看會怎麼回。</p>
             </div>
             <Status>Supabase</Status>
           </div>

@@ -40,11 +40,10 @@ function BuildFlowLogin({ users, onLogin }) {
           </Link>
           <p className="mt-10 text-sm font-black uppercase text-slate-500">BuildFlow Login</p>
           <h1 className="mt-4 text-3xl font-black tracking-normal md:text-5xl">
-            工程行發包與追加減項管理系統
+            把案件整理清楚
           </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">
-            案件、報價、發包、追加減項、任務回報集中管理。先用範例資料驗證流程，後續可接 Supabase
-            與 LINE webhook。
+            報價、發包、追加減項、師傅回報，都放在同一個地方。先用範例資料試一次流程。
           </p>
 
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -97,7 +96,7 @@ function BuildFlowLogin({ users, onLogin }) {
         >
           <h2 className="text-2xl font-black">登入 BuildFlow</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
-            用試用帳號驗證角色權限與工作流程。
+            點帳號帶入，直接進去看。
           </p>
 
           <label className="mt-6 grid gap-2">

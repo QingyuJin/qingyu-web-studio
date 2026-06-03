@@ -167,7 +167,7 @@ function CoachFlow() {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
           <div>
             <Link to="/" className="text-sm font-bold text-cyan-300">
-              ← 系統作品集
+              ← 回首頁
             </Link>
             <h1 className="mt-2 text-2xl font-black text-white">CoachFlow</h1>
             <p className="text-sm font-bold text-slate-400">課表、回報、Robot 預覽。</p>

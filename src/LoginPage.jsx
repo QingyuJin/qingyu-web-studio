@@ -32,11 +32,11 @@ function LoginPage() {
           <p className="mt-10 text-sm font-black uppercase text-cyan-300">Admin Login</p>
 
           <h1 className="mt-4 text-3xl font-black leading-tight text-white md:text-5xl">
-            管理作品入口
+            進後台看看
           </h1>
 
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300">
-            登入後可查看三套作品、試用路線與管理入口。
+            用一組帳號，快速看前台、後台和試用路線。
           </p>
 
           <div className="mt-8 rounded-[24px] border border-white/10 bg-white/[0.045] p-5 text-sm font-bold leading-7 text-slate-300">
@@ -51,7 +51,7 @@ function LoginPage() {
           className="mt-10 rounded-[28px] border border-white/10 bg-white/[0.045] p-6 md:mt-0"
         >
           <h2 className="text-2xl font-black text-white">登入後台</h2>
-          <p className="mt-2 text-sm font-bold leading-6 text-slate-400">管理者專用。</p>
+          <p className="mt-2 text-sm font-bold leading-6 text-slate-400">先用試用帳號登入。</p>
 
           <label className="mt-6 block">
             <span className="text-sm font-bold text-slate-300">Email</span>

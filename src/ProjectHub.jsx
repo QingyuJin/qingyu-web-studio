@@ -8,47 +8,47 @@ const flowSteps = [
     id: "capture",
     no: "01",
     title: "確認",
-    line: "把口頭需求變成欄位。",
+    line: "先把需求問清楚。",
     path: "/contractor-site#inquiry",
-    bullets: ["來源", "工種", "日期"],
+    bullets: ["來源", "照片", "日期"],
   },
   {
     id: "quote",
     no: "02",
     title: "報價",
-    line: "材料、工項、單價集中。",
+    line: "少漏工項，價格有依據。",
     path: "/buildflow",
-    bullets: ["材料", "單價", "PDF"],
+    bullets: ["工項", "材料", "單價"],
   },
   {
     id: "dispatch",
     no: "03",
     title: "發包",
-    line: "派工、回報、追加留紀錄。",
+    line: "師傅知道今天做什麼。",
     path: "/buildflow",
-    bullets: ["派工", "回報", "追加"],
+    bullets: ["派工", "回報", "追款"],
   },
 ]
 
 const roleCards = [
-  ["老闆", "看毛利、待辦、追加"],
-  ["師傅", "看任務、回報照片"],
-  ["業主", "看報價、確認進度"],
+  ["老闆", "今天剩什麼，一眼看。"],
+  ["師傅", "任務清楚，回報簡單。"],
+  ["業主", "報價和進度看得懂。"],
 ]
 
 const proofCards = [
-  ["估價前台", "收需求與照片"],
-  ["報價後台", "工項、材料、單價"],
-  ["PDF 摘要", "給業主確認"],
-  ["LINE Bot", `${lineBotId} 可直接測`],
+  ["估價前台", "客戶先填清楚"],
+  ["報價後台", "工項與價格留底"],
+  ["PDF 摘要", "業主好確認"],
+  ["LINE Bot", `${lineBotId} 直接試`],
 ]
 
 const testFlow = [
-  "工程前台填估價",
+  "前台填估價",
   "BuildFlow 登入 admin / admin123",
   "看 q-001 報價與 PDF",
   "LINE 輸入：業主 q-001",
-  "再測：綁定 → 今日任務",
+  "再輸入：綁定 → 今日任務",
 ]
 
 function ProjectHub() {
@@ -64,7 +64,7 @@ function ProjectHub() {
             </span>
             <div>
               <p className="font-black">Qingyu System Lab</p>
-              <p className="text-xs font-bold text-slate-400">工程行系統作品</p>
+              <p className="text-xs font-bold text-slate-400">工程行工作流</p>
             </div>
           </Link>
           <div className="flex items-center gap-2">
@@ -87,13 +87,13 @@ function ProjectHub() {
       <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">
-            BuildFlow 工程系統
+            BuildFlow 工程工作流
           </p>
           <h1 className="mt-5 max-w-3xl text-3xl font-black leading-tight text-white md:text-5xl">
-            需求進來，系統接住。
+            不用再翻 LINE 找資料。
           </h1>
           <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-slate-300">
-            給統包與工程行：收需求、做報價、派師傅、追進度、輸出 PDF。
+            接案、報價、派工、回報，幫工程行整理成一條清楚的路。
           </p>
 
           <div className="mt-8 flex flex-wrap gap-3">
@@ -107,7 +107,7 @@ function ProjectHub() {
               to="/contractor-site"
               className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 px-5 text-sm font-black text-slate-100 hover:border-emerald-300/50"
             >
-              看前台流程
+              先看前台
             </Link>
           </div>
 
@@ -149,7 +149,7 @@ function ProjectHub() {
           <section className="rounded-[28px] border border-white/10 bg-[#0d1726] p-5 md:p-6">
             <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
               <div>
-                <p className="text-xs font-black uppercase text-emerald-300">流程</p>
+                <p className="text-xs font-black uppercase text-emerald-300">下一步</p>
                 <h2 className="mt-2 text-3xl font-black text-white">{activeStep.title}</h2>
                 <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{activeStep.line}</p>
               </div>
@@ -189,10 +189,10 @@ function ProjectHub() {
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.72fr_1.28fr]">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-300">
-              測試路線
+              試用路線
             </p>
-            <h2 className="mt-3 text-2xl font-black text-white">怎麼測</h2>
-            <p className="mt-2 text-sm font-bold leading-6 text-slate-400">前台、後台、LINE 一次看。</p>
+            <h2 className="mt-3 text-2xl font-black text-white">照這樣試</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-slate-400">不用猜，照順序點就好。</p>
           </div>
           <ol className="grid gap-3 md:grid-cols-5">
             {testFlow.map((item, index) => (

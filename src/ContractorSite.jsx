@@ -61,18 +61,18 @@ const cases = [
 ]
 
 const quoteSteps = [
-  ["確認", "需求、照片、日期"],
-  ["報價", "工項、單價、PDF"],
-  ["發包", "師傅、任務、回報"],
+  ["確認", "先問清楚"],
+  ["報價", "價格留底"],
+  ["發包", "有人負責"],
 ]
 
 const botCommands = [
-  ["選單", "看可測功能"],
-  ["估價", "取得欄位"],
-  ["業主 q-001", "看案件進度"],
-  ["老闆總覽", "看待辦與毛利"],
-  ["PDF q-001", "看報價摘要"],
-  ["綁定 BF-AMING-1234", "師傅測試"],
+  ["選單", "看功能"],
+  ["估價", "看欄位"],
+  ["業主 q-001", "看進度"],
+  ["老闆總覽", "看毛利"],
+  ["PDF q-001", "看報價"],
+  ["綁定 BF-AMING-1234", "師傅試用"],
 ]
 
 function ContractorSite() {
@@ -139,9 +139,9 @@ LINE Bot：${lineBotId}`
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div>
             <Link to="/" className="text-sm font-bold text-emerald-300">
-              ← 系統作品集
+              ← 回首頁
             </Link>
-            <p className="mt-1 font-black">工程前台</p>
+            <p className="mt-1 font-black">估價前台</p>
           </div>
           <div className="flex gap-2">
             <a
@@ -166,10 +166,10 @@ LINE Bot：${lineBotId}`
             Contractor Site
           </p>
           <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
-            估價前，先整理需求。
+            先把需求問清楚。
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            LINE、口頭、Excel、紙本、Pro360，統一成報價資料。
+            LINE、口頭、Excel、紙本、Pro360，都先整理成一份摘要。
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -195,7 +195,7 @@ LINE Bot：${lineBotId}`
               href="#line"
               className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 px-5 text-sm font-black"
             >
-              測 LINE Bot
+              試 LINE Bot
             </a>
           </div>
         </div>
@@ -236,7 +236,7 @@ LINE Bot：${lineBotId}`
       </section>
 
       <section id="cases" className="mx-auto max-w-6xl px-4 py-12">
-        <SectionHeader label="Cases" title="工程案例" desc="先看照片，細節再展開。" />
+        <SectionHeader label="Cases" title="工程案例" desc="先看照片，點開再看細節。" />
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           {["全部", ...services, "木作"].map((item) => (
             <button
@@ -283,7 +283,7 @@ LINE Bot：${lineBotId}`
 
       <section id="line" className="border-y border-white/10 bg-[#0d1726]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.78fr_1.22fr]">
-          <SectionHeader label="LINE Bot" title="可直接測" desc={`加入 ${lineBotId}，輸入指令。`} />
+          <SectionHeader label="LINE Bot" title="可以直接試" desc={`加入 ${lineBotId}，照指令輸入。`} />
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
             {botCommands.map(([command, desc]) => (
               <div key={command} className="rounded-2xl border border-white/10 bg-[#08111f] p-4">
@@ -297,7 +297,7 @@ LINE Bot：${lineBotId}`
 
       <section id="inquiry" className="bg-[#08111f]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader label="Inquiry" title="估價整理器" desc="填一次，後台可轉報價單。" />
+          <SectionHeader label="Inquiry" title="估價摘要" desc="填一次，後台接著報價。" />
           <div className="grid gap-4">
             <form
               className="grid gap-4 rounded-[24px] border border-white/10 bg-[#0d1726] p-5"
