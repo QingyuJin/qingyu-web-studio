@@ -5,36 +5,86 @@ import SmallButton from "../shared/SmallButton"
 import Status from "../shared/Status"
 import { formatMoney } from "../utils/helpers"
 
-function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }) {
+function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail, goToTab }) {
   const waitingChanges = changeOrders.filter((item) => !item.confirmedByClient)
   const openTasks = tasks.filter((task) => task.status !== "已完成").slice(0, 4)
+  const runningProjects = projects.filter((project) => project.status === "施工中")
+  const priorityCards = [
+    {
+      title: "先收口",
+      value: `${metrics.quotePendingCount} 張`,
+      desc: "報價待業主確認",
+      action: "看報價",
+      onClick: () => goToTab("quoteDrafts"),
+      danger: metrics.quotePendingCount > 0,
+    },
+    {
+      title: "先追工",
+      value: `${metrics.taskTodoCount} 件`,
+      desc: "師傅任務未完成",
+      action: "看任務",
+      onClick: () => goToTab("tasks"),
+      danger: metrics.taskTodoCount > 0,
+    },
+    {
+      title: "先看錢",
+      value: `NT$${formatMoney(metrics.grossProfit)}`,
+      desc: "粗估毛利",
+      action: "看案件",
+      onClick: () => goToTab("projects"),
+      danger: metrics.grossProfit < 0,
+    },
+  ]
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="總覽" desc="今天要看的事。" />
+      <SectionTitle title="今日總覽" desc="先處理會影響收款的事。" />
 
-      <div className="grid gap-4 md:grid-cols-3 xl:grid-cols-5">
-        <Metric label="案件" value={metrics.projectCount} />
-        <Metric label="施工" value={metrics.runningCount} />
-        <Metric label="報價" value={metrics.quotePendingCount} danger />
-        <Metric label="待辦" value={metrics.taskTodoCount} />
-        <Metric label="毛利" value={`NT$${formatMoney(metrics.grossProfit)}`} />
-        <Metric label="預算" value={`NT$${formatMoney(metrics.totalBudget)}`} />
-        <Metric label="成本" value={`NT$${formatMoney(metrics.totalCost)}`} />
-        <Metric label="追加" value={metrics.waitingChangeCount} danger />
-        <Metric label="廠商" value={metrics.vendorCount} />
-        <Metric label="人員" value={metrics.userCount} />
-        <Metric label="增減" value={`NT$${formatMoney(metrics.totalChangeAmount)}`} danger />
+      <div className="grid gap-4 lg:grid-cols-3">
+        {priorityCards.map((item) => (
+          <Card key={item.title}>
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-sm font-black text-slate-500">{item.title}</p>
+                <p
+                  className={`mt-3 text-3xl font-black ${
+                    item.danger ? "text-rose-700" : "text-slate-950"
+                  }`}
+                >
+                  {item.value}
+                </p>
+                <p className="mt-2 text-sm font-bold text-slate-500">{item.desc}</p>
+              </div>
+              <button
+                type="button"
+                onClick={item.onClick}
+                className="rounded-xl border border-slate-200 bg-slate-50 px-3 py-2 text-xs font-black text-slate-700 hover:border-emerald-300 hover:bg-emerald-50"
+              >
+                {item.action}
+              </button>
+            </div>
+          </Card>
+        ))}
       </div>
 
-      <div className="grid gap-5 xl:grid-cols-[1.1fr_0.9fr]">
+      <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+        <Metric label="施工中" value={metrics.runningCount} />
+        <Metric label="預算" value={`NT$${formatMoney(metrics.totalBudget)}`} />
+        <Metric label="成本" value={`NT$${formatMoney(metrics.totalCost)}`} />
+        <Metric label="追加待確認" value={metrics.waitingChangeCount} danger />
+      </div>
+
+      <div className="grid gap-5 xl:grid-cols-[1.05fr_0.95fr]">
         <Card>
           <div className="flex items-center justify-between gap-3">
-            <h3 className="text-xl font-black">案件</h3>
-            <span className="text-sm font-bold text-slate-500">點開看細節</span>
+            <div>
+              <h3 className="text-xl font-black">施工案件</h3>
+              <p className="mt-1 text-sm text-slate-500">點開才看細節。</p>
+            </div>
+            <Status>{runningProjects.length || projects.length} 案</Status>
           </div>
           <div className="mt-4 grid gap-3">
-            {projects.map((project) => (
+            {(runningProjects.length ? runningProjects : projects).map((project) => (
               <details key={project.id} className="minimal-detail bg-slate-50">
                 <summary>
                   <span>{project.name}</span>
@@ -52,7 +102,19 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail }
         </Card>
 
         <Card>
-          <h3 className="text-xl font-black">待處理</h3>
+          <div className="flex items-start justify-between gap-3">
+            <div>
+              <h3 className="text-xl font-black">待處理</h3>
+              <p className="mt-1 text-sm text-slate-500">追加與任務優先。</p>
+            </div>
+            <button
+              type="button"
+              onClick={() => goToTab("linebot")}
+              className="rounded-xl bg-slate-950 px-3 py-2 text-xs font-black text-white hover:bg-slate-800"
+            >
+              測 LINE
+            </button>
+          </div>
           <div className="mt-4 grid gap-3">
             {waitingChanges.map((item) => (
               <div key={item.id} className="rounded-xl border border-rose-100 bg-rose-50 p-4">

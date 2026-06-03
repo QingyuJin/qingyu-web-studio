@@ -37,6 +37,7 @@ function BuildFlowContent({
           changeOrders={changeOrders}
           tasks={tasks}
           openProjectDetail={actions.openProjectDetail}
+          goToTab={actions.goToTab}
         />
       )}
 

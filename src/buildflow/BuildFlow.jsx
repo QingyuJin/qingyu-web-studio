@@ -126,6 +126,11 @@ function BuildFlow() {
     setActiveTab("projects")
   }
 
+  function goToTab(tabId) {
+    setActiveProjectId("")
+    setActiveTab(tabId)
+  }
+
   function addUser(event) {
     event.preventDefault()
     const form = new FormData(event.currentTarget)
@@ -868,6 +873,7 @@ function BuildFlow() {
     editUser,
     editVendor,
     generateConfirmText,
+    goToTab,
     openProjectDetail,
     createProjectFromQuoteDraft,
     printQuoteDraftPdf,
@@ -884,7 +890,7 @@ function BuildFlow() {
   if (!session) return <BuildFlowLogin users={users} onLogin={handleLogin} />
 
   return (
-    <main className="min-h-screen bg-slate-100 text-slate-950">
+    <main className="min-h-screen bg-[#eef3f6] text-slate-950">
       <BuildFlowHeader
         session={session}
         savedAt={savedAt}

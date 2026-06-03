@@ -70,6 +70,13 @@ const lineCommands = [
   },
 ]
 
+const roleTests = [
+  ["公開", "選單 / 估價"],
+  ["業主", "業主 q-001 / PDF q-001"],
+  ["老闆", "老闆總覽"],
+  ["師傅", "綁定 → 今日任務 → 回報"],
+]
+
 function LineBotPanel({ tasks, session }) {
   const [activeCommand, setActiveCommand] = useState(lineCommands[1])
   const reportedTasks = useMemo(() => tasks.filter((task) => task.report?.trim()), [tasks])
@@ -80,6 +87,15 @@ function LineBotPanel({ tasks, session }) {
   return (
     <div className="grid gap-5">
       <SectionTitle title="LINE Bot" desc={`帳號 ${lineBotId}。點指令即可預覽回覆。`} />
+
+      <div className="grid gap-3 md:grid-cols-4">
+        {roleTests.map(([role, flow]) => (
+          <Card key={role}>
+            <p className="text-sm font-black text-slate-500">{role}</p>
+            <p className="mt-2 text-sm font-bold leading-6 text-slate-800">{flow}</p>
+          </Card>
+        ))}
+      </div>
 
       <div className="grid gap-5 lg:grid-cols-[0.82fr_1.18fr]">
         <Card>

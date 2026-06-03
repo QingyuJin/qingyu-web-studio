@@ -3,145 +3,212 @@ import { Link } from "react-router-dom"
 
 const lineBotId = "@550oexzn"
 
-const entryPoints = [
+const flowSteps = [
+  {
+    id: "capture",
+    no: "01",
+    title: "確認",
+    line: "收需求、照片、日期。",
+    path: "/contractor-site#inquiry",
+    bullets: ["LINE / Pro360 / 紙本", "工種與工項", "案場資料"],
+  },
   {
     id: "quote",
-    index: "01",
-    title: "我要估價",
-    desc: "把 LINE、口頭、Excel、Pro360 需求整理成報價單。",
-    path: "/contractor-site#inquiry",
-    checks: ["需求表單", "工種工項", "PDF 報價"],
-  },
-  {
-    id: "cases",
-    index: "02",
-    title: "看工程案例",
-    desc: "用真實照片快速建立信任。",
-    path: "/contractor-site#cases",
-    checks: ["防水", "地坪", "木作"],
-  },
-  {
-    id: "status",
-    index: "03",
-    title: "查案件進度",
-    desc: "老闆看總覽，師傅回報，業主確認進度。",
+    no: "02",
+    title: "報價",
+    line: "整理單價、材料、PDF。",
     path: "/buildflow",
-    checks: ["案件", "派工", "LINE 回報"],
+    bullets: ["材料 / 工具 / 工種", "成本與毛利", "業主確認"],
+  },
+  {
+    id: "dispatch",
+    no: "03",
+    title: "發包",
+    line: "派師傅、追進度、留紀錄。",
+    path: "/buildflow",
+    bullets: ["任務指派", "LINE 回報", "追加減項"],
   },
 ]
 
-const systems = [
-  ["前台", "接需求"],
-  ["後台", "做報價"],
-  ["LINE", "回報進度"],
-  ["PDF", "給業主確認"],
+const roleCards = [
+  ["老闆", "看毛利、待辦、追加"],
+  ["師傅", "看任務、回報照片"],
+  ["業主", "看報價、確認進度"],
+]
+
+const proofCards = [
+  ["報價單", "工項、材料、單價、日期"],
+  ["PDF", "給業主確認與留存"],
+  ["LINE Bot", `${lineBotId} 可直接測`],
+  ["後台", "案件、發包、毛利總覽"],
+]
+
+const testFlow = [
+  "進入工程前台，填估價資料",
+  "打開 BuildFlow，用 admin / admin123 登入",
+  "看報價單 q-001，產生 PDF",
+  "到 LINE 輸入：業主 q-001",
+  "再測：綁定 BF-AMING-1234 → 今日任務",
 ]
 
 function ProjectHub() {
-  const [activeEntry, setActiveEntry] = useState(entryPoints[0])
+  const [activeStep, setActiveStep] = useState(flowSteps[0])
 
   return (
-    <main className="min-h-screen bg-[#0b111b] text-slate-100">
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0b111b]/90 backdrop-blur">
+    <main className="min-h-screen bg-[#08111f] text-slate-100">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#08111f]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <Link to="/" className="flex items-center gap-3" aria-label="Qingyu System Lab">
-            <span className="grid h-10 w-10 place-items-center rounded-xl border border-cyan-300/25 bg-white/5 font-black text-cyan-200">
+            <span className="grid h-10 w-10 place-items-center rounded-xl border border-emerald-300/25 bg-white/5 font-black text-emerald-200">
               Q
             </span>
             <div>
               <p className="font-black">Qingyu System Lab</p>
-              <p className="text-xs font-bold text-slate-400">工程行流程系統</p>
+              <p className="text-xs font-bold text-slate-400">工程行系統作品</p>
             </div>
           </Link>
-          <Link to="/login" className="rounded-xl border border-white/10 px-4 py-2 text-sm font-black text-slate-200">
-            管理登入
-          </Link>
+          <div className="flex items-center gap-2">
+            <Link
+              to="/contractor-site"
+              className="hidden rounded-xl border border-white/10 px-4 py-2 text-sm font-black text-slate-200 sm:inline-flex"
+            >
+              前台
+            </Link>
+            <Link
+              to="/login"
+              className="rounded-xl bg-emerald-300 px-4 py-2 text-sm font-black text-slate-950 shadow-lg shadow-emerald-950/20"
+            >
+              管理登入
+            </Link>
+          </div>
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.78fr_1.22fr] lg:py-20">
+      <section className="mx-auto grid max-w-6xl gap-10 px-4 py-12 lg:grid-cols-[0.92fr_1.08fr] lg:py-20">
         <div>
-          <p className="text-xs font-black uppercase text-cyan-300">BuildFlow</p>
-          <h1 className="mt-5 max-w-2xl text-3xl font-black leading-tight text-white md:text-6xl">
-            工程行報價與派工系統
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">
+            BuildFlow Commercial MVP
+          </p>
+          <h1 className="mt-5 max-w-3xl text-3xl font-black leading-tight text-white md:text-5xl">
+            把散亂需求，變成可執行工程案。
           </h1>
-          <p className="mt-5 max-w-xl text-base font-bold leading-7 text-slate-300">
-            需求進來，變報價。報價確認，變案件。師傅用 LINE 回報。
+          <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-slate-300">
+            給統包與工程行：接需求、做報價、派師傅、追進度、輸出 PDF。
           </p>
 
-          <div className="mt-8 grid gap-3 sm:grid-cols-2">
-            <InfoPill label="LINE Bot" value={lineBotId} />
-            <InfoPill label="目標價值" value="20 萬級 MVP" />
+          <div className="mt-8 flex flex-wrap gap-3">
+            <Link
+              to="/buildflow"
+              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-300 px-5 text-sm font-black text-slate-950 shadow-lg shadow-emerald-950/20"
+            >
+              進入 BuildFlow
+            </Link>
+            <Link
+              to="/contractor-site"
+              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 px-5 text-sm font-black text-slate-100 hover:border-emerald-300/50"
+            >
+              看前台流程
+            </Link>
+          </div>
+
+          <div className="mt-8 grid gap-3 sm:grid-cols-3">
+            {roleCards.map(([role, text]) => (
+              <div key={role} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
+                <p className="text-xs font-black text-emerald-300">{role}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{text}</p>
+              </div>
+            ))}
           </div>
         </div>
 
-        <div className="rounded-[28px] border border-white/10 bg-white/[0.045] p-3">
+        <div className="grid gap-4">
           <div className="grid grid-cols-3 gap-3">
-            {entryPoints.map((item) => (
-              <button
-                key={item.id}
-                type="button"
-                onClick={() => setActiveEntry(item)}
-                className={`aspect-square rounded-2xl border p-3 text-left transition active:translate-y-px ${
-                  activeEntry.id === item.id
-                    ? "border-cyan-300 bg-cyan-300 text-slate-950"
-                    : "border-white/10 bg-[#111827] text-slate-200 hover:border-cyan-300/40"
-                }`}
-              >
-                <span className="font-mono text-xs font-black opacity-70">{item.index}</span>
-                <span className="mt-3 block text-sm font-black leading-5 md:text-base">
-                  {item.title}
-                </span>
-              </button>
-            ))}
+            {flowSteps.map((item) => {
+              const isActive = activeStep.id === item.id
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => setActiveStep(item)}
+                  className={`aspect-square rounded-2xl border p-4 text-left transition active:translate-y-px ${
+                    isActive
+                      ? "border-emerald-300 bg-emerald-300 text-slate-950 shadow-xl shadow-emerald-950/20"
+                      : "border-white/10 bg-white/[0.045] text-slate-100 hover:border-emerald-300/40"
+                  }`}
+                >
+                  <span className="font-mono text-xs font-black opacity-60">{item.no}</span>
+                  <span className="mt-4 block text-xl font-black">{item.title}</span>
+                  <span className="mt-2 hidden text-xs font-bold leading-5 opacity-70 sm:block">
+                    {item.line}
+                  </span>
+                </button>
+              )
+            })}
           </div>
 
-          <section className="mt-3 rounded-2xl bg-[#080d14] p-5 md:p-6">
-            <p className="text-xs font-black uppercase text-cyan-300">Action</p>
-            <div className="mt-3 flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
+          <section className="rounded-[28px] border border-white/10 bg-[#0d1726] p-5 md:p-6">
+            <div className="flex flex-col gap-5 md:flex-row md:items-start md:justify-between">
               <div>
-                <h2 className="text-3xl font-black text-white">{activeEntry.title}</h2>
-                <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{activeEntry.desc}</p>
+                <p className="text-xs font-black uppercase text-emerald-300">Selected Flow</p>
+                <h2 className="mt-2 text-3xl font-black text-white">{activeStep.title}</h2>
+                <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{activeStep.line}</p>
               </div>
               <Link
-                to={activeEntry.path}
-                className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-cyan-300 px-5 text-sm font-black text-slate-950"
+                to={activeStep.path}
+                className="inline-flex min-h-11 shrink-0 items-center justify-center rounded-xl bg-white px-5 text-sm font-black text-slate-950"
               >
                 開啟
               </Link>
             </div>
-
             <div className="mt-6 grid gap-2 sm:grid-cols-3">
-              {activeEntry.checks.map((item) => (
-                <div key={item} className="rounded-xl border border-white/10 bg-white/[0.04] p-3 text-sm font-black">
+              {activeStep.bullets.map((item) => (
+                <p
+                  key={item}
+                  className="rounded-xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm font-black text-slate-200"
+                >
                   {item}
-                </div>
+                </p>
               ))}
             </div>
           </section>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-16">
-        <div className="grid gap-3 rounded-[28px] border border-white/10 bg-white/[0.035] p-4 md:grid-cols-4">
-          {systems.map(([label, value]) => (
-            <div key={label} className="rounded-2xl bg-[#111827] p-4">
-              <p className="text-xs font-black text-cyan-300">{label}</p>
-              <p className="mt-2 font-black text-white">{value}</p>
-            </div>
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <div className="grid gap-3 md:grid-cols-4">
+          {proofCards.map(([title, desc]) => (
+            <article key={title} className="rounded-2xl border border-white/10 bg-white/[0.04] p-5">
+              <h3 className="text-lg font-black text-white">{title}</h3>
+              <p className="mt-2 text-sm font-bold leading-6 text-slate-400">{desc}</p>
+            </article>
           ))}
         </div>
       </section>
-    </main>
-  )
-}
 
-function InfoPill({ label, value }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-4">
-      <p className="text-xs font-black text-slate-500">{label}</p>
-      <p className="mt-2 font-mono text-lg font-black text-cyan-200">{value}</p>
-    </div>
+      <section className="border-t border-white/10 bg-[#0d1726]">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.72fr_1.28fr]">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-300">
+              測試路線
+            </p>
+            <h2 className="mt-3 text-2xl font-black text-white">怎麼測</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-slate-400">
+              一條路線看完前台、後台、LINE Bot。
+            </p>
+          </div>
+          <ol className="grid gap-3 md:grid-cols-5">
+            {testFlow.map((item, index) => (
+              <li key={item} className="rounded-2xl border border-white/10 bg-[#08111f] p-4">
+                <span className="font-mono text-xs font-black text-emerald-300">
+                  {String(index + 1).padStart(2, "0")}
+                </span>
+                <p className="mt-3 text-sm font-black leading-6 text-slate-200">{item}</p>
+              </li>
+            ))}
+          </ol>
+        </div>
+      </section>
+    </main>
   )
 }
 

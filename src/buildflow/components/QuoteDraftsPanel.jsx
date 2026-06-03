@@ -42,32 +42,41 @@ function QuoteDraftsPanel({
       </div>
 
       <Card>
-        <h3 className="text-xl font-black">新增報價</h3>
-        <form onSubmit={addQuoteDraft} className="mt-4 grid gap-3 md:grid-cols-2">
-          <Input name="title" label="案件名稱" required placeholder="例：屋頂防水估價" />
-          <Input name="client" label="業主名稱" required />
-          <Input name="phone" label="電話 / LINE" />
-          <Input name="source" label="來源" placeholder="LINE / Pro360 / 紙本" />
-          <Input name="address" label="案場地址" />
-          <Input name="type" label="工程類型" placeholder="防水 / 地坪 / 木作" />
-          <Input name="quoteDate" label="報價日期" type="date" />
-          <Input name="validUntil" label="有效日期" type="date" />
-          <Input name="expectedDate" label="預計施工日" type="date" />
-          <Input name="sizeNote" label="尺寸 / 大小張" placeholder="例：18 坪 / 大小張照片 8 張" />
-          <QuoteLine index="1" />
-          <QuoteLine index="2" />
-          <label className="grid gap-2 md:col-span-2">
-            <span className="text-sm font-bold text-slate-600">備註</span>
-            <textarea
-              name="note"
-              rows={3}
-              className="rounded-xl border border-slate-300 px-4 py-3 text-slate-950 shadow-sm outline-none placeholder:text-slate-500 hover:border-slate-400 focus:border-sky-500 focus:ring-4 focus:ring-sky-100"
+        <details className="minimal-detail bg-slate-50">
+          <summary>
+            <span>新增報價單</span>
+            <Status>展開填寫</Status>
+          </summary>
+          <form onSubmit={addQuoteDraft} className="minimal-detail-body grid gap-3 md:grid-cols-2">
+            <Input name="title" label="案件名稱" required placeholder="例：屋頂防水估價" />
+            <Input name="client" label="業主名稱" required />
+            <Input name="phone" label="電話 / LINE" />
+            <Input name="source" label="來源" placeholder="LINE / Pro360 / 紙本" />
+            <Input name="address" label="案場地址" />
+            <Input name="type" label="工程類型" placeholder="防水 / 地坪 / 木作" />
+            <Input name="quoteDate" label="報價日期" type="date" />
+            <Input name="validUntil" label="有效日期" type="date" />
+            <Input name="expectedDate" label="預計施工日" type="date" />
+            <Input
+              name="sizeNote"
+              label="尺寸 / 大小張"
+              placeholder="例：18 坪 / 大小張照片 8 張"
             />
-          </label>
-          <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
-            加入報價單
-          </button>
-        </form>
+            <QuoteLine index="1" />
+            <QuoteLine index="2" />
+            <label className="grid gap-2 md:col-span-2">
+              <span className="text-sm font-bold text-slate-600">備註</span>
+              <textarea
+                name="note"
+                rows={3}
+                className="rounded-xl border border-slate-300 px-4 py-3 text-slate-950 shadow-sm outline-none placeholder:text-slate-500 hover:border-slate-400 focus:border-emerald-500 focus:ring-4 focus:ring-emerald-100"
+              />
+            </label>
+            <button className="rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white md:col-span-2">
+              建立報價單
+            </button>
+          </form>
+        </details>
       </Card>
 
       <div className="grid gap-4">
@@ -177,7 +186,7 @@ function QuoteDraftsPanel({
                 </div>
 
                 <div className="mt-5 flex flex-wrap gap-2">
-                  <SmallButton onClick={() => printQuoteDraftPdf(quote)}>產生 PDF</SmallButton>
+                  <SmallButton onClick={() => printQuoteDraftPdf(quote)}>PDF</SmallButton>
                   <SmallButton onClick={() => updateQuoteOwnerStatus(quote.id, "已確認")}>
                     業主確認
                   </SmallButton>
