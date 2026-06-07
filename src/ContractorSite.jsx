@@ -166,10 +166,10 @@ LINE Bot：${lineBotId}`
             Contractor Site
           </p>
           <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
-            先把需求問清楚。
+            先把現場說清楚。
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            LINE、口頭、Excel、紙本、Pro360，都先整理成一份摘要。
+            LINE、口頭、Excel、紙本、Pro360，先整理成一份估價資料。
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
@@ -195,7 +195,7 @@ LINE Bot：${lineBotId}`
               href="#line"
               className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 px-5 text-sm font-black"
             >
-              試 LINE Bot
+              LINE 詢問
             </a>
           </div>
         </div>
@@ -236,7 +236,7 @@ LINE Bot：${lineBotId}`
       </section>
 
       <section id="cases" className="mx-auto max-w-6xl px-4 py-12">
-        <SectionHeader label="Cases" title="工程案例" desc="先看照片，點開再看細節。" />
+        <SectionHeader label="Cases" title="施工案例" desc="看現場，也看做法。" />
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
           {["全部", ...services, "木作"].map((item) => (
             <button
@@ -283,7 +283,7 @@ LINE Bot：${lineBotId}`
 
       <section id="line" className="border-y border-white/10 bg-[#0d1726]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.78fr_1.22fr]">
-          <SectionHeader label="LINE Bot" title="可以直接試" desc={`加入 ${lineBotId}，照指令輸入。`} />
+          <SectionHeader label="LINE" title="LINE 詢問" desc={`加入 ${lineBotId}，查任務與進度。`} />
           <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
             {botCommands.map(([command, desc]) => (
               <div key={command} className="rounded-2xl border border-white/10 bg-[#08111f] p-4">
@@ -297,7 +297,7 @@ LINE Bot：${lineBotId}`
 
       <section id="inquiry" className="bg-[#08111f]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader label="Inquiry" title="估價摘要" desc="填一次，後台接著報價。" />
+          <SectionHeader label="Inquiry" title="估價資料" desc="送出後，可轉成後台案件。" />
           <div className="grid gap-4">
             <form
               className="grid gap-4 rounded-[24px] border border-white/10 bg-[#0d1726] p-5"

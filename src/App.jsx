@@ -7,7 +7,6 @@ const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
 const ContractorSite = lazy(() => import("./ContractorSite"))
-const CoachFlow = lazy(() => import("./CoachFlow"))
 
 function PageFallback() {
   return (
@@ -36,8 +35,6 @@ function App() {
         <Route path="/contractor-site" element={<ContractorSite />} />
 
         <Route path="/buildflow" element={<BuildFlow />} />
-
-        <Route path="/coachflow" element={<CoachFlow />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

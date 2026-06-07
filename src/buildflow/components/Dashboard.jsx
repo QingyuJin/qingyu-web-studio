@@ -79,7 +79,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail, 
           <div className="flex items-center justify-between gap-3">
             <div>
               <h3 className="text-xl font-black">施工案件</h3>
-              <p className="mt-1 text-sm text-slate-500">點開才看細節。</p>
+              <p className="mt-1 text-sm text-slate-500">點開看內容。</p>
             </div>
             <Status>{runningProjects.length || projects.length} 案</Status>
           </div>
