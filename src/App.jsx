@@ -3,6 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
+const StudioHome = lazy(() => import("./StudioHome"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -20,7 +21,8 @@ function App() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
-        <Route path="/" element={<ProjectHub />} />
+        <Route path="/" element={<StudioHome />} />
+        <Route path="/engineering" element={<ProjectHub />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route

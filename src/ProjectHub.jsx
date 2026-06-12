@@ -84,7 +84,7 @@ function ProjectHub() {
     <main className="min-h-screen bg-[#f6f3ec] text-[#12212a]">
       <header className="sticky top-0 z-40 border-b border-[#ded8cc] bg-[#f6f3ec]/95 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
-          <Link to="/" className="flex items-center gap-3" aria-label="鑫匠工程">
+          <Link to="/engineering" className="flex items-center gap-3" aria-label="鑫匠工程">
             <span className="grid h-10 w-10 place-items-center rounded-md bg-[#12212a] text-sm font-black text-white">
               鑫
             </span>

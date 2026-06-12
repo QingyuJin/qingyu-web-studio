@@ -44,7 +44,7 @@ function AdminDashboard() {
 
           <div className="flex gap-2">
             <Link
-              to="/"
+              to="/engineering"
               className="rounded-md border border-[#c8c0b3] px-4 py-2 text-sm font-black text-[#12212a]"
             >
               回首頁

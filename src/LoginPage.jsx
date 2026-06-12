@@ -25,7 +25,7 @@ function LoginPage() {
     <main className="min-h-screen bg-[#0b111b] text-slate-100">
       <section className="mx-auto grid min-h-screen max-w-6xl items-center px-4 py-12 md:grid-cols-[1fr_420px] md:gap-12">
         <div>
-          <Link to="/" className="text-sm font-bold text-cyan-300">
+          <Link to="/engineering" className="text-sm font-bold text-cyan-300">
             ← 回公開首頁
           </Link>
 

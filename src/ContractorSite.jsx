@@ -138,7 +138,7 @@ LINE Bot：${lineBotId}`
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#08111f]/90 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div>
-            <Link to="/" className="text-sm font-bold text-emerald-300">
+            <Link to="/engineering" className="text-sm font-bold text-emerald-300">
               ← 回首頁
             </Link>
             <p className="mt-1 font-black">估價前台</p>

@@ -5,7 +5,7 @@ function BuildFlowHeader({ session, savedAt, isAdmin, onResetTestData, onLogout 
     <header className="border-b border-slate-800 bg-[#0f172a] text-white">
       <div className="mx-auto flex max-w-7xl flex-col gap-4 px-4 py-4 md:flex-row md:items-center md:justify-between">
         <div>
-          <Link to="/" className="text-sm font-bold text-emerald-300">
+          <Link to="/engineering" className="text-sm font-bold text-emerald-300">
             ← 回首頁
           </Link>
           <div className="mt-2 flex flex-wrap items-end gap-3">

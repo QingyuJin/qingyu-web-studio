@@ -1,10 +1,20 @@
-# 鑫匠工程｜BuildFlow
+# Qingyu Web Studio
 
-工程接案網站與後台管理系統。
+作品入口網站。
 
-工程案常亂在 LINE、口頭、Excel、紙本和 Pro360。這個專案把需求、報價、派工、回報整理成一條流程。
+主網站保持簡潔，之後可以陸續放不同作品。目前主作品是工程行作品集。
 
-## 可以看什麼
+## 路由
+
+- `/`：Qingyu Web Studio 作品入口
+- `/engineering`：工程行作品集
+- `/contractor-site`：工程接案前台
+- `/buildflow`：BuildFlow 工程後台
+- `/login`：管理登入
+
+## 工程行作品集
+
+工程案常亂在 LINE、口頭、Excel、紙本和 Pro360。這個作品把需求、報價、派工、回報整理成一條流程。
 
 ### 工程前台
 
@@ -26,10 +36,10 @@
 ## 怎麼試
 
 1. 打開首頁。
-2. 點「填需求」看工程前台。
-3. 點「看後台」進 BuildFlow。
-4. 用 `admin / admin123` 登入。
-5. 看案件、報價、發包、任務與 LINE Bot。
+2. 點「工程行作品集」。
+3. 點「填需求」看工程前台。
+4. 點「看後台」進 BuildFlow。
+5. 用 `admin / admin123` 登入。
 6. 加入 LINE Bot：`@550oexzn`。
 7. 輸入 `業主 q-001`。
 8. 輸入 `綁定 BF-AMING-1234`。
@@ -61,31 +71,6 @@
 - `回報 t-001 現場已完成第一道防水`
 - `完成 t-001`
 
-## 部署
-
-1. 在 Supabase SQL Editor 執行 `supabase/line_minimal_schema.sql`。
-2. 在 Vercel 設定：
-   - `SUPABASE_URL`
-   - `SUPABASE_SERVICE_ROLE_KEY`
-   - `LINE_CHANNEL_ACCESS_TOKEN`
-   - `LINE_CHANNEL_SECRET`
-3. 部署 `main`。
-4. 檢查：
-
-```text
-/api/line/webhook?debug=1&health=1
-```
-
-看到 `status: 200` 就可以測 LINE Bot。
-
 ## 技術
 
 React, Vite, Tailwind CSS, React Router, Supabase, Vercel Serverless Functions, LINE Messaging API.
-
-## 下一步
-
-- PDF 報價單細節
-- 更多工程案例
-- 業主確認頁
-- LINE 圖片回報
-- Supabase Auth 與 RLS
