@@ -47,14 +47,6 @@ const aiProjects = [
   },
 ]
 
-const aiPrototypeServices = [
-  "AI 圖片分類 Demo",
-  "PDF / 投影片摘要工具",
-  "自動出題與詳解生成",
-  "CSV 資料分析 Dashboard",
-  "Machine Learning 專題原型開發",
-]
-
 function StudioHome() {
   return (
     <main className="min-h-screen bg-[#f7f5ef] text-[#141c20]">
@@ -129,7 +121,8 @@ function StudioHome() {
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#5b6966]">
               我將 Machine Learning 與 AI
-              技術做成可操作的小工具，包含圖片分類、文件摘要、自動出題與資料分析 Dashboard。
+              技術做成可操作的小工具，包含圖片分類、文件摘要、自動出題與資料分析
+              Dashboard。可協助把資料、文件或想法快速做成能展示的 AI Demo。
             </p>
           </div>
 
@@ -189,31 +182,6 @@ function StudioHome() {
             如果你有圖片、PDF、CSV 或 AI 工具想法，我可以協助你整理資料、建立
             Demo，並做成可展示的網頁作品。
           </p>
-        </div>
-      </section>
-
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-8 rounded-lg border border-[#d9d1c4] bg-white p-6 md:grid-cols-[0.85fr_1.15fr] md:p-8">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#1d6f65]">
-              Services
-            </p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight">AI Prototype Services</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#5f6b68]">
-              我可以協助製作小型 AI Demo 與資料工具，例如：
-            </p>
-          </div>
-
-          <div className="grid gap-3 sm:grid-cols-2">
-            {aiPrototypeServices.map((service) => (
-              <div
-                key={service}
-                className="rounded-md border border-[#d9d1c4] bg-[#f7f5ef] px-4 py-3 text-sm font-black text-[#2a3438]"
-              >
-                {service}
-              </div>
-            ))}
-          </div>
         </div>
       </section>
     </main>
