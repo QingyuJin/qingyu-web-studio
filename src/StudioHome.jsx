@@ -1,5 +1,6 @@
 import { Link } from "react-router-dom"
 import BuildFlowDemoSection from "./components/BuildFlowDemoSection"
+import ContactLeadSection from "./components/ContactLeadSection"
 import PortfolioSection from "./components/PortfolioSection"
 import ServicePlansSection from "./components/ServicePlansSection"
 
@@ -13,12 +14,6 @@ const aiProjects = [
   ["SeedlingVision", "影像分類 Demo，適合把照片判讀、品質檢查、分類流程做成可展示原型。"],
   ["ExamCraft AI", "PDF 與教材內容轉成題庫草稿，展示文件處理與提示工程能力。"],
   ["StockTrendLab", "CSV 資料清理、趨勢圖表與儀表板，適合營運與報表自動化情境。"],
-]
-
-const process = [
-  ["01", "釐清需求", "確認目標客群、轉換動線、資料來源與必備功能。"],
-  ["02", "快速原型", "先做可點、可填、可展示的版本，用真實畫面討論。"],
-  ["03", "上線優化", "補齊響應式、文案、SEO、效能與部署設定。"],
 ]
 
 function StudioHome() {
@@ -121,39 +116,7 @@ function StudioHome() {
         </div>
       </section>
 
-      <section id="contact" className="bg-[#172026] text-white">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Process</p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">有想法就先做成能討論的版本</h2>
-          </div>
-          <div className="grid gap-3">
-            {process.map(([no, title, text]) => (
-              <div key={no} className="grid gap-3 rounded-lg border border-white/12 bg-white/[0.07] p-4 sm:grid-cols-[3rem_1fr]">
-                <p className="font-mono text-sm font-black text-[#f0c36a]">{no}</p>
-                <div>
-                  <p className="font-black">{title}</p>
-                  <p className="mt-1 text-sm font-bold leading-7 text-[#d9e6e3]">{text}</p>
-                </div>
-              </div>
-            ))}
-            <div className="mt-3 flex flex-wrap gap-3">
-              <a
-                href="https://github.com/QingyuJin/qingyu-web-studio"
-                className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] hover:bg-[#ffd785]"
-              >
-                從 GitHub 聯絡
-              </a>
-              <Link
-                to="/contractor-site#inquiry"
-                className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white hover:bg-white/10"
-              >
-                看需求表範例
-              </Link>
-            </div>
-          </div>
-        </div>
-      </section>
+      <ContactLeadSection />
     </main>
   )
 }

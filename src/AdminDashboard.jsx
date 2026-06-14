@@ -34,13 +34,42 @@ function AdminDashboard() {
   const user = getCurrentUser()
   const [requests, setRequests] = useState([])
   const [requestStatusFilter, setRequestStatusFilter] = useState("all")
+  const [requestKeyword, setRequestKeyword] = useState("")
   const [requestMessage, setRequestMessage] = useState("")
   const [loadingRequests, setLoadingRequests] = useState(true)
 
   const filteredRequests = useMemo(() => {
-    if (requestStatusFilter === "all") return requests
-    return requests.filter((item) => item.status === requestStatusFilter)
-  }, [requests, requestStatusFilter])
+    const keyword = requestKeyword.trim().toLowerCase()
+
+    return requests.filter((item) => {
+      const matchStatus = requestStatusFilter === "all" || item.status === requestStatusFilter
+      const matchKeyword =
+        !keyword ||
+        [
+          item.name,
+          item.contact,
+          item.company,
+          item.service_type,
+          item.budget_range,
+          item.message,
+          item.admin_note,
+        ]
+          .join(" ")
+          .toLowerCase()
+          .includes(keyword)
+
+      return matchStatus && matchKeyword
+    })
+  }, [requests, requestStatusFilter, requestKeyword])
+
+  const requestCounts = useMemo(
+    () =>
+      contactRequestStatuses.map((status) => ({
+        ...status,
+        count: requests.filter((item) => item.status === status.value).length,
+      })),
+    [requests]
+  )
 
   function handleLogout() {
     logout()
@@ -48,10 +77,11 @@ function AdminDashboard() {
   }
 
   async function loadRequests() {
+    setRequestMessage("")
     const result = await listContactRequests()
     setLoadingRequests(false)
     setRequests(result.data)
-    setRequestMessage(result.ok ? "" : result.reason)
+    setRequestMessage(result.mode === "local" ? result.reason : result.ok ? "" : result.reason)
   }
 
   useEffect(() => {
@@ -179,6 +209,13 @@ function AdminDashboard() {
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
+                onClick={loadRequests}
+                className="rounded-full border border-[#d9d1c4] px-3 py-2 text-xs font-black text-[#61706d]"
+              >
+                重新整理
+              </button>
+              <button
+                type="button"
                 onClick={() => setRequestStatusFilter("all")}
                 className={`rounded-full px-3 py-2 text-xs font-black ${
                   requestStatusFilter === "all"
@@ -203,6 +240,27 @@ function AdminDashboard() {
                 </button>
               ))}
             </div>
+          </div>
+
+          <div className="mt-5 grid gap-3 md:grid-cols-[1fr_220px]">
+            <input
+              value={requestKeyword}
+              onChange={(event) => setRequestKeyword(event.target.value)}
+              placeholder="搜尋姓名、聯絡方式、方案、留言或管理備註"
+              className="min-h-11 rounded-md border border-[#c8c0b3] bg-white px-4 text-sm font-bold text-[#12212a] outline-none focus:border-[#123f4a]"
+            />
+            <p className="rounded-md bg-[#f3f0e8] px-4 py-3 text-sm font-black text-[#61706d]">
+              顯示 {filteredRequests.length} / {requests.length} 筆
+            </p>
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-4">
+            {requestCounts.map((status) => (
+              <div key={status.value} className="rounded-md bg-[#f3f0e8] p-4">
+                <p className="text-xs font-black text-[#61706d]">{status.label}</p>
+                <p className="mt-2 text-2xl font-black">{status.count}</p>
+              </div>
+            ))}
           </div>
 
           {requestMessage ? (
@@ -236,7 +294,12 @@ function AdminDashboard() {
                     </div>
                     <p className="mt-1 text-sm font-bold text-[#61706d]">{request.contact}</p>
                     <p className="mt-2 text-sm font-bold leading-6 text-[#5b6966]">
+                      {request.company ? `${request.company} / ` : ""}
                       {request.service_type || "未填服務類型"} / {request.budget_range || "未填預算"}
+                    </p>
+                    <p className="mt-1 text-xs font-bold text-[#8a8172]">
+                      來源：{request.source || "website"} / 建立：
+                      {formatRequestDate(request.created_at)}
                     </p>
                   </div>
 
@@ -277,6 +340,16 @@ function AdminDashboard() {
       </section>
     </main>
   )
+}
+
+function formatRequestDate(value) {
+  if (!value) return "未知"
+  return new Intl.DateTimeFormat("zh-TW", {
+    month: "2-digit",
+    day: "2-digit",
+    hour: "2-digit",
+    minute: "2-digit",
+  }).format(new Date(value))
 }
 
 export default AdminDashboard

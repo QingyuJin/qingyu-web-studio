@@ -1,5 +1,7 @@
 import { isSupabaseConfigured, supabase } from "./supabaseClient"
 
+const LOCAL_STORAGE_KEY = "qingyu_contact_requests"
+
 export const contactRequestStatuses = [
   { value: "new", label: "新需求" },
   { value: "reviewing", label: "確認中" },
@@ -13,10 +15,8 @@ export function getStatusLabel(status) {
 
 export async function createContactRequest(payload) {
   if (!isSupabaseConfigured) {
-    return {
-      ok: false,
-      reason: "Supabase 尚未設定，請加入 VITE_SUPABASE_URL 與 VITE_SUPABASE_ANON_KEY。",
-    }
+    saveLocalRequest(payload)
+    return { ok: true, mode: "local" }
   }
 
   const { error } = await supabase.from("contact_requests").insert(payload)
@@ -27,9 +27,10 @@ export async function createContactRequest(payload) {
 export async function listContactRequests() {
   if (!isSupabaseConfigured) {
     return {
-      ok: false,
-      reason: "Supabase 尚未設定，部署環境需要 VITE_SUPABASE_URL 與 VITE_SUPABASE_ANON_KEY。",
-      data: [],
+      ok: true,
+      mode: "local",
+      reason: "目前使用本機暫存資料。部署後設定 Supabase 環境變數即可改讀後端。",
+      data: readLocalRequests(),
     }
   }
 
@@ -44,10 +45,42 @@ export async function listContactRequests() {
 
 export async function updateContactRequest(requestId, values) {
   if (!isSupabaseConfigured) {
-    return { ok: false, reason: "Supabase 尚未設定。" }
+    updateLocalRequest(requestId, values)
+    return { ok: true, mode: "local" }
   }
 
   const { error } = await supabase.from("contact_requests").update(values).eq("id", requestId)
   if (error) return { ok: false, reason: error.message }
   return { ok: true }
+}
+
+function saveLocalRequest(payload) {
+  const now = new Date().toISOString()
+  const request = {
+    id: `local-${Date.now()}`,
+    status: "new",
+    admin_note: "",
+    created_at: now,
+    updated_at: now,
+    ...payload,
+  }
+
+  window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([request, ...readLocalRequests()]))
+}
+
+function readLocalRequests() {
+  try {
+    return JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY) || "[]")
+  } catch {
+    return []
+  }
+}
+
+function updateLocalRequest(requestId, values) {
+  const nextRequests = readLocalRequests().map((request) =>
+    request.id === requestId
+      ? { ...request, ...values, updated_at: new Date().toISOString() }
+      : request
+  )
+  window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextRequests))
 }
