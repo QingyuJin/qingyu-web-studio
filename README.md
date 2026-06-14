@@ -74,3 +74,27 @@
 ## 技術
 
 React, Vite, Tailwind CSS, React Router, Supabase, Vercel Serverless Functions, LINE Messaging API.
+
+## Supabase MVP
+
+最小後端 schema 在 `supabase/mvp_schema.sql`，包含：
+
+- `contact_requests`：前台接案需求
+- `projects`：工程案件資料，之後可取代 mock data
+- `project_files`：工程照片、報價單、附件 metadata
+
+前端需要設定：
+
+```env
+VITE_SUPABASE_URL=https://your-project-ref.supabase.co
+VITE_SUPABASE_ANON_KEY=your-anon-key
+```
+
+目前 MVP 流程：
+
+1. 在 Supabase SQL Editor 執行 `supabase/mvp_schema.sql`。
+2. 在 Vercel 設定上方兩個環境變數。
+3. 前台 `/contractor-site#inquiry` 送出需求，會寫入 `contact_requests`。
+4. 管理頁 `/admin` 可查看需求列表、更新狀態與管理備註。
+
+注意：目前管理頁仍使用本專案的輕量 localStorage 登入。`mvp_schema.sql` 為了快速可用，讓 anon 可以讀取與更新 `contact_requests`。正式收真實客戶資料前，應改成 Supabase Auth + admin RLS。

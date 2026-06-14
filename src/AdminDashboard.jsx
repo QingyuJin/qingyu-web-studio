@@ -1,5 +1,12 @@
+import { useEffect, useMemo, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { getCurrentUser, logout } from "./auth"
+import {
+  contactRequestStatuses,
+  getStatusLabel,
+  listContactRequests,
+  updateContactRequest,
+} from "./lib/contactRequests"
 
 const adminProjects = [
   {
@@ -25,10 +32,46 @@ const verificationFlow = ["收需求", "建案件", "出報價", "派師傅", "�
 function AdminDashboard() {
   const navigate = useNavigate()
   const user = getCurrentUser()
+  const [requests, setRequests] = useState([])
+  const [requestStatusFilter, setRequestStatusFilter] = useState("all")
+  const [requestMessage, setRequestMessage] = useState("")
+  const [loadingRequests, setLoadingRequests] = useState(true)
+
+  const filteredRequests = useMemo(() => {
+    if (requestStatusFilter === "all") return requests
+    return requests.filter((item) => item.status === requestStatusFilter)
+  }, [requests, requestStatusFilter])
 
   function handleLogout() {
     logout()
     navigate("/")
+  }
+
+  async function loadRequests() {
+    const result = await listContactRequests()
+    setLoadingRequests(false)
+    setRequests(result.data)
+    setRequestMessage(result.ok ? "" : result.reason)
+  }
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      loadRequests()
+    }, 0)
+    return () => window.clearTimeout(timer)
+  }, [])
+
+  async function handleRequestUpdate(requestId, values) {
+    const result = await updateContactRequest(requestId, values)
+    if (!result.ok) {
+      setRequestMessage(result.reason)
+      return
+    }
+
+    setRequests((current) =>
+      current.map((item) => (item.id === requestId ? { ...item, ...values } : item))
+    )
+    setRequestMessage("需求狀態已更新。")
   }
 
   return (
@@ -120,6 +163,117 @@ function AdminDashboard() {
             </article>
           ))}
         </div>
+
+        <section className="mt-8 rounded-md border border-[#d9d1c4] bg-white p-5">
+          <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#1d6f65]">
+                Contact Requests
+              </p>
+              <h2 className="mt-2 text-2xl font-black">接案需求列表</h2>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#5b6966]">
+                前台表單送出後會進到這裡，先用最小狀態管理追蹤每一筆需求。
+              </p>
+            </div>
+
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => setRequestStatusFilter("all")}
+                className={`rounded-full px-3 py-2 text-xs font-black ${
+                  requestStatusFilter === "all"
+                    ? "bg-[#123f4a] text-white"
+                    : "border border-[#d9d1c4] text-[#61706d]"
+                }`}
+              >
+                全部
+              </button>
+              {contactRequestStatuses.map((status) => (
+                <button
+                  key={status.value}
+                  type="button"
+                  onClick={() => setRequestStatusFilter(status.value)}
+                  className={`rounded-full px-3 py-2 text-xs font-black ${
+                    requestStatusFilter === status.value
+                      ? "bg-[#123f4a] text-white"
+                      : "border border-[#d9d1c4] text-[#61706d]"
+                  }`}
+                >
+                  {status.label}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          {requestMessage ? (
+            <p className="mt-4 rounded-md border border-amber-200 bg-amber-50 p-4 text-sm font-bold leading-6 text-amber-900">
+              {requestMessage}
+            </p>
+          ) : null}
+
+          <div className="mt-5 grid gap-3">
+            {loadingRequests ? (
+              <p className="rounded-md bg-[#f3f0e8] p-4 text-sm font-bold text-[#61706d]">
+                載入需求中...
+              </p>
+            ) : null}
+
+            {!loadingRequests && !filteredRequests.length ? (
+              <p className="rounded-md border border-dashed border-[#d9d1c4] p-6 text-center text-sm font-bold text-[#61706d]">
+                目前沒有符合的接案需求。
+              </p>
+            ) : null}
+
+            {filteredRequests.map((request) => (
+              <article key={request.id} className="rounded-md border border-[#e1dccf] bg-[#fbfaf6] p-4">
+                <div className="flex flex-col gap-3 md:flex-row md:items-start md:justify-between">
+                  <div>
+                    <div className="flex flex-wrap items-center gap-2">
+                      <h3 className="text-lg font-black">{request.name}</h3>
+                      <span className="rounded-full bg-[#e9f4ef] px-3 py-1 text-xs font-black text-[#1d6f65]">
+                        {getStatusLabel(request.status)}
+                      </span>
+                    </div>
+                    <p className="mt-1 text-sm font-bold text-[#61706d]">{request.contact}</p>
+                    <p className="mt-2 text-sm font-bold leading-6 text-[#5b6966]">
+                      {request.service_type || "未填服務類型"} / {request.budget_range || "未填預算"}
+                    </p>
+                  </div>
+
+                  <select
+                    value={request.status}
+                    onChange={(event) =>
+                      handleRequestUpdate(request.id, { status: event.target.value })
+                    }
+                    className="rounded-md border border-[#c8c0b3] bg-white px-3 py-2 text-sm font-black text-[#12212a]"
+                  >
+                    {contactRequestStatuses.map((status) => (
+                      <option key={status.value} value={status.value}>
+                        {status.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+
+                <p className="mt-4 whitespace-pre-wrap rounded-md bg-white p-3 text-sm font-bold leading-7 text-[#5b6966]">
+                  {request.message || "沒有留言內容"}
+                </p>
+
+                <label className="mt-4 grid gap-2">
+                  <span className="text-sm font-black text-[#61706d]">管理備註</span>
+                  <textarea
+                    defaultValue={request.admin_note || ""}
+                    onBlur={(event) =>
+                      handleRequestUpdate(request.id, { admin_note: event.target.value })
+                    }
+                    className="min-h-24 rounded-md border border-[#c8c0b3] bg-white px-3 py-2 text-sm font-bold leading-6 text-[#12212a] outline-none focus:border-[#123f4a]"
+                    placeholder="例如：已加 LINE、等待照片、下週回覆..."
+                  />
+                </label>
+              </article>
+            ))}
+          </div>
+        </section>
       </section>
     </main>
   )

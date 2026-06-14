@@ -1,117 +1,101 @@
 import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
+import { createContactRequest } from "./lib/contactRequests"
 
 const lineBotId = "@550oexzn"
 
-const projectPhotos = {
-  woodFloor: "/project-photos/335949_0.jpg",
-  roofWaterproof: "/project-photos/335950_0.jpg",
-  epoxyFloor: "/project-photos/335953_0.jpg",
-  exteriorWall: "/project-photos/335945_0.jpg",
-  houseFront: "/project-photos/335941_0.jpg",
-  brightRoom: "/project-photos/335942_0.jpg",
-  tileRoom: "/project-photos/335940_0.jpg",
-}
-
-const services = ["防水", "泥作", "油漆", "磁磚", "板模", "鋼筋", "地坪", "統包"]
+const services = ["防水抓漏", "地坪工程", "磁磚泥作", "油漆修繕", "木作裝修", "工程管理"]
 
 const cases = [
   {
-    title: "屋頂防水",
-    type: "防水",
-    image: projectPhotos.roofWaterproof,
-    brief: "頂樓、女兒牆、防水層。",
-    detail: "先確認漏水點、排水方向與施工日期，再轉報價單。",
+    title: "屋頂防水修繕",
+    type: "防水抓漏",
+    image: "/project-photos/335950_0.jpg",
+    brief: "以現場照片、施工範圍與材料說明，讓客戶能快速理解報價基礎。",
+    detail: "適合整理成接案作品案例：問題描述、處理方式、施工前後與保固說明。",
   },
   {
-    title: "室內地坪",
-    type: "地坪",
-    image: projectPhotos.epoxyFloor,
-    brief: "地面整平、表層處理。",
-    detail: "記錄坪數、材料、單價與完工照片，方便業主確認。",
+    title: "Epoxy 地坪整理",
+    type: "地坪工程",
+    image: "/project-photos/335953_0.jpg",
+    brief: "用大圖呈現表面質感，搭配坪數、材料與工期資訊。",
+    detail: "可延伸成線上詢價表，讓客戶先提供坪數、用途、地面狀況與照片。",
   },
   {
-    title: "木地板整理",
-    type: "木作",
-    image: projectPhotos.woodFloor,
-    brief: "地板、牆面、收納。",
-    detail: "把現場狀態整理成案例，降低後續說明成本。",
+    title: "木地板與室內修繕",
+    type: "木作裝修",
+    image: "/project-photos/335949_0.jpg",
+    brief: "把複雜的修繕需求拆成項目，協助業主更快取得有效報價。",
+    detail: "適合需要多工種整合的服務頁，將流程、注意事項與交付物寫清楚。",
   },
   {
-    title: "外牆修繕",
-    type: "泥作",
-    image: projectPhotos.exteriorWall,
-    brief: "外牆檢查、修補標示。",
-    detail: "用照片與工項描述確認範圍，避免口頭說不清。",
+    title: "外牆與立面工程",
+    type: "油漆修繕",
+    image: "/project-photos/335945_0.jpg",
+    brief: "建立信任感的重點是照片、施工位置、安全措施與完工品質。",
+    detail: "作品頁可加入常見問題，例如是否需要搭架、是否影響住戶與保固範圍。",
   },
   {
-    title: "住宅統包",
-    type: "統包",
-    image: projectPhotos.houseFront,
-    brief: "立面、門面、局部整理。",
-    detail: "一案多工種時，用後台拆成材料、工項、師傅與日期。",
+    title: "住宅門面翻新",
+    type: "工程管理",
+    image: "/project-photos/335941_0.jpg",
+    brief: "以專案方式呈現前期溝通、排程、廠商協調與驗收。",
+    detail: "此類案例能展示專案管理能力，適合銜接 BuildFlow 這類後台工具。",
   },
   {
-    title: "室內整理",
-    type: "油漆",
-    image: projectPhotos.brightRoom,
-    brief: "牆面、天花、採光區。",
-    detail: "用簡短資料讓客戶先懂範圍，再進報價。",
+    title: "室內明亮化整理",
+    type: "磁磚泥作",
+    image: "/project-photos/335942_0.jpg",
+    brief: "讓服務頁不只放照片，也能說明問題、預算與施工限制。",
+    detail: "對接案網站來說，案例越具體，客戶越容易判斷是否適合委託。",
   },
 ]
 
 const quoteSteps = [
-  ["確認", "先問清楚"],
-  ["報價", "價格留底"],
-  ["發包", "有人負責"],
+  ["需求整理", "先用表單收集地點、照片、尺寸與預算。"],
+  ["初步報價", "用固定欄位建立可追蹤的報價草稿。"],
+  ["施工追蹤", "把進度、變更、付款與驗收集中管理。"],
 ]
 
-const botCommands = [
-  ["選單", "看功能"],
-  ["估價", "看欄位"],
-  ["業主 q-001", "看進度"],
-  ["老闆總覽", "看毛利"],
-  ["PDF q-001", "看報價"],
-  ["綁定 BF-AMING-1234", "師傅試用"],
+const formFields = [
+  ["name", "姓名"],
+  ["contact", "電話 / LINE"],
+  ["source", "來源", "LINE / Google / Pro360"],
+  ["area", "施工地區"],
+  ["trade", "工程類型", "防水 / 地坪 / 泥作"],
+  ["item", "需求項目"],
+  ["material", "指定材料"],
+  ["size", "坪數 / 尺寸"],
+  ["date", "期望施工日期"],
+  ["budget", "預算範圍"],
+  ["note", "補充說明"],
 ]
 
 function ContractorSite() {
   const [activeCase, setActiveCase] = useState(cases[0])
   const [activeType, setActiveType] = useState("全部")
   const [copied, setCopied] = useState(false)
-  const [form, setForm] = useState({
-    name: "",
-    contact: "",
-    source: "",
-    area: "",
-    trade: "",
-    item: "",
-    material: "",
-    tool: "",
-    size: "",
-    unitPrice: "",
-    date: "",
-    note: "",
-  })
+  const [submitting, setSubmitting] = useState(false)
+  const [submitMessage, setSubmitMessage] = useState("")
+  const [form, setForm] = useState(Object.fromEntries(formFields.map(([key]) => [key, ""])))
 
   const filteredCases = useMemo(() => {
     if (activeType === "全部") return cases
     return cases.filter((item) => item.type === activeType)
   }, [activeType])
 
-  const inquiryText = `工程估價摘要
-姓名：${form.name || "未填"}
-電話 / LINE：${form.contact || "未填"}
-來源：${form.source || "LINE / 口頭 / Excel / 紙本 / Pro360"}
-地區：${form.area || "未填"}
-工種：${form.trade || "未填"}
-工項：${form.item || "未填"}
-材料：${form.material || "未填"}
-工具：${form.tool || "未填"}
-坪數 / 數量：${form.size || "未填"}
-單價：${form.unitPrice || "未填"}
-日期：${form.date || "未填"}
-備註：${form.note || "未填"}
+  const inquiryText = `工程需求詢價
+姓名：${form.name || "待填"}
+電話 / LINE：${form.contact || "待填"}
+來源：${form.source || "待填"}
+施工地區：${form.area || "待填"}
+工程類型：${form.trade || "待填"}
+需求項目：${form.item || "待填"}
+指定材料：${form.material || "待填"}
+坪數 / 尺寸：${form.size || "待填"}
+期望施工日期：${form.date || "待填"}
+預算範圍：${form.budget || "待填"}
+補充說明：${form.note || "待填"}
 LINE Bot：${lineBotId}`
 
   function updateForm(field, value) {
@@ -133,70 +117,74 @@ LINE Bot：${lineBotId}`
     window.setTimeout(() => setCopied(false), 1400)
   }
 
+  async function submitInquiry(event) {
+    event.preventDefault()
+    setSubmitting(true)
+    setSubmitMessage("")
+
+    const result = await createContactRequest({
+      name: form.name || "未填姓名",
+      contact: form.contact || "未填聯絡方式",
+      company: form.area,
+      service_type: form.trade || form.item || "工程需求",
+      budget_range: form.budget,
+      message: inquiryText,
+      source: form.source || "contractor-site",
+      status: "new",
+    })
+
+    setSubmitting(false)
+
+    if (!result.ok) {
+      setSubmitMessage(`尚未送出到後台：${result.reason}`)
+      return
+    }
+
+    setSubmitMessage("需求已送出，我會盡快回覆。")
+    setForm(Object.fromEntries(formFields.map(([key]) => [key, ""])))
+  }
+
   return (
-    <main className="min-h-screen bg-[#08111f] text-slate-100">
-      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#08111f]/90 backdrop-blur">
+    <main className="min-h-screen bg-[#0c1518] text-slate-100">
+      <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0c1518]/92 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div>
-            <Link to="/engineering" className="text-sm font-bold text-emerald-300">
-              ← 回首頁
+            <Link to="/" className="text-sm font-bold text-[#8bd8cc]">
+              Qingyu Web Studio
             </Link>
-            <p className="mt-1 font-black">估價前台</p>
+            <p className="mt-1 font-black">工程接案頁 Demo</p>
           </div>
           <div className="flex gap-2">
-            <a
-              href="#inquiry"
-              className="rounded-xl bg-emerald-300 px-4 py-2 text-sm font-black text-slate-950"
-            >
-              我要估價
+            <a href="#inquiry" className="rounded-md bg-[#f0c36a] px-4 py-2 text-sm font-black text-[#0c1518]">
+              填寫需求
             </a>
-            <Link
-              to="/buildflow"
-              className="rounded-xl border border-white/10 px-4 py-2 text-sm font-black"
-            >
-              後台
+            <Link to="/buildflow" className="rounded-md border border-white/12 px-4 py-2 text-sm font-black">
+              BuildFlow
             </Link>
           </div>
         </div>
       </header>
 
-      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-10 lg:grid-cols-[0.86fr_1.14fr] lg:py-16">
+      <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:py-16">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-emerald-300">
-            Contractor Site
-          </p>
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#8bd8cc]">Contractor Landing Page</p>
           <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
-            先把現場說清楚。
+            把施工照片、服務項目與詢價流程整理成能接案的網站。
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            LINE、口頭、Excel、紙本、Pro360，先整理成一份估價資料。
+            這頁示範工程類客戶可以怎麼呈現案例、引導詢價，並把需求轉成可複製文字，方便後續接到 LINE 或後台系統。
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {quoteSteps.map(([title, desc], index) => (
-              <div key={title} className="rounded-2xl border border-white/10 bg-white/[0.045] p-4">
-                <span className="font-mono text-xs font-black text-emerald-300">
+              <div key={title} className="rounded-lg border border-white/10 bg-white/[0.055] p-4">
+                <span className="font-mono text-xs font-black text-[#f0c36a]">
                   {String(index + 1).padStart(2, "0")}
                 </span>
-                <h2 className="mt-3 text-xl font-black text-white">{title}</h2>
+                <h2 className="mt-3 text-lg font-black text-white">{title}</h2>
                 <p className="mt-2 text-sm font-bold leading-6 text-slate-400">{desc}</p>
               </div>
             ))}
-          </div>
-
-          <div className="mt-8 flex flex-wrap gap-3">
-            <a
-              href="#inquiry"
-              className="inline-flex min-h-12 items-center justify-center rounded-xl bg-emerald-300 px-5 text-sm font-black text-slate-950"
-            >
-              填估價資料
-            </a>
-            <a
-              href="#line"
-              className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 px-5 text-sm font-black"
-            >
-              LINE 詢問
-            </a>
           </div>
         </div>
 
@@ -204,7 +192,7 @@ LINE Bot：${lineBotId}`
           <button
             type="button"
             onClick={() => setActiveCase(cases[(cases.indexOf(activeCase) + 1) % cases.length])}
-            className="group overflow-hidden rounded-[28px] border border-white/10 bg-white/5 text-left"
+            className="group overflow-hidden rounded-lg border border-white/10 bg-white/5 text-left"
           >
             <img
               src={activeCase.image}
@@ -212,39 +200,24 @@ LINE Bot：${lineBotId}`
               className="aspect-[5/3] w-full object-cover transition duration-500 group-hover:scale-[1.025]"
             />
           </button>
-          <div className="rounded-[24px] border border-white/10 bg-white/[0.045] p-5">
-            <p className="text-xs font-black text-emerald-300">{activeCase.type}</p>
+          <div className="rounded-lg border border-white/10 bg-white/[0.055] p-5">
+            <p className="text-xs font-black text-[#8bd8cc]">{activeCase.type}</p>
             <h2 className="mt-2 text-2xl font-black">{activeCase.title}</h2>
             <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{activeCase.brief}</p>
           </div>
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 pb-10">
-        <div className="grid grid-cols-2 gap-3 sm:grid-cols-4 lg:grid-cols-8">
-          {services.map((service) => (
-            <button
-              key={service}
-              type="button"
-              onClick={() => setActiveType(service)}
-              className="rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3 text-sm font-black text-slate-200 hover:border-emerald-300/40"
-            >
-              {service}
-            </button>
-          ))}
-        </div>
-      </section>
-
       <section id="cases" className="mx-auto max-w-6xl px-4 py-12">
-        <SectionHeader label="Cases" title="施工案例" desc="看現場，也看做法。" />
+        <SectionHeader label="Cases" title="案例展示" desc="用照片與明確描述建立信任，讓客戶知道你做過什麼、適合處理什麼。" />
         <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
-          {["全部", ...services, "木作"].map((item) => (
+          {["全部", ...services].map((item) => (
             <button
               key={item}
               type="button"
               onClick={() => setActiveType(item)}
               className={`shrink-0 rounded-full px-4 py-2 text-sm font-black ${
-                activeType === item ? "bg-emerald-300 text-slate-950" : "bg-white/5 text-slate-300"
+                activeType === item ? "bg-[#f0c36a] text-[#0c1518]" : "bg-white/5 text-slate-300"
               }`}
             >
               {item}
@@ -254,26 +227,21 @@ LINE Bot：${lineBotId}`
 
         <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {filteredCases.map((item) => (
-            <article
-              key={item.title}
-              className="rounded-[24px] border border-white/10 bg-white/[0.045] p-3"
-            >
+            <article key={item.title} className="rounded-lg border border-white/10 bg-white/[0.055] p-3">
               <button
                 type="button"
                 onClick={() => setActiveCase(item)}
-                className="block w-full overflow-hidden rounded-[18px] bg-white/5 text-left"
+                className="block w-full overflow-hidden rounded-md bg-white/5 text-left"
               >
                 <img src={item.image} alt={item.title} className="aspect-[4/3] w-full object-cover" />
               </button>
               <div className="p-3">
-                <p className="text-xs font-black text-emerald-300">{item.type}</p>
+                <p className="text-xs font-black text-[#8bd8cc]">{item.type}</p>
                 <h3 className="mt-2 text-lg font-black">{item.title}</h3>
                 <p className="mt-2 text-sm font-bold leading-6 text-slate-300">{item.brief}</p>
                 <details className="minimal-detail mt-4">
-                  <summary>查看做法</summary>
-                  <p className="minimal-detail-body text-sm font-bold leading-7 text-slate-300">
-                    {item.detail}
-                  </p>
+                  <summary>查看說明</summary>
+                  <p className="minimal-detail-body text-sm font-bold leading-7 text-slate-300">{item.detail}</p>
                 </details>
               </div>
             </article>
@@ -281,99 +249,48 @@ LINE Bot：${lineBotId}`
         </div>
       </section>
 
-      <section id="line" className="border-y border-white/10 bg-[#0d1726]">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.78fr_1.22fr]">
-          <SectionHeader label="LINE" title="LINE 詢問" desc={`加入 ${lineBotId}，查任務與進度。`} />
-          <div className="grid grid-cols-2 gap-3 md:grid-cols-3">
-            {botCommands.map(([command, desc]) => (
-              <div key={command} className="rounded-2xl border border-white/10 bg-[#08111f] p-4">
-                <p className="font-mono text-sm font-black text-white">{command}</p>
-                <p className="mt-2 text-xs font-bold text-slate-400">{desc}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="inquiry" className="bg-[#08111f]">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.8fr_1.2fr]">
-          <SectionHeader label="Inquiry" title="估價資料" desc="送出後，可轉成後台案件。" />
+      <section id="inquiry" className="border-t border-white/10 bg-[#111d22]">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.82fr_1.18fr]">
+          <SectionHeader label="Inquiry" title="需求表單範例" desc="客戶填完後可一鍵複製，轉貼到 LINE、Email 或後台工單。" />
           <div className="grid gap-4">
             <form
-              className="grid gap-4 rounded-[24px] border border-white/10 bg-[#0d1726] p-5"
-              onSubmit={(event) => {
-                event.preventDefault()
-                copyInquiry()
-              }}
+              className="grid gap-4 rounded-lg border border-white/10 bg-[#0c1518] p-5"
+              onSubmit={submitInquiry}
             >
-              <FormGroup title="基本">
-                <Input label="姓名" value={form.name} onChange={(value) => updateForm("name", value)} />
-                <Input
-                  label="電話 / LINE"
-                  value={form.contact}
-                  onChange={(value) => updateForm("contact", value)}
-                />
-                <Input
-                  label="來源"
-                  value={form.source}
-                  onChange={(value) => updateForm("source", value)}
-                  placeholder="LINE / Pro360"
-                />
-                <Input label="地區" value={form.area} onChange={(value) => updateForm("area", value)} />
-              </FormGroup>
+              <div className="grid gap-3 md:grid-cols-2">
+                {formFields.map(([key, label, placeholder]) => (
+                  <Input
+                    key={key}
+                    label={label}
+                    value={form[key]}
+                    onChange={(value) => updateForm(key, value)}
+                    placeholder={placeholder}
+                  />
+                ))}
+              </div>
+              {submitMessage ? (
+                <p className="rounded-md border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-slate-200">
+                  {submitMessage}
+                </p>
+              ) : null}
 
-              <FormGroup title="工程">
-                <Input
-                  label="工種"
-                  value={form.trade}
-                  onChange={(value) => updateForm("trade", value)}
-                  placeholder="泥作 / 油漆 / 鋼筋"
-                />
-                <Input
-                  label="工項"
-                  value={form.item}
-                  onChange={(value) => updateForm("item", value)}
-                  placeholder="屋頂防水"
-                />
-                <Input
-                  label="材料"
-                  value={form.material}
-                  onChange={(value) => updateForm("material", value)}
-                  placeholder="PU / 磁磚 / 水泥"
-                />
-                <Input
-                  label="工具"
-                  value={form.tool}
-                  onChange={(value) => updateForm("tool", value)}
-                  placeholder="吊車 / 打石機"
-                />
-              </FormGroup>
-
-              <FormGroup title="報價">
-                <Input
-                  label="坪數 / 數量"
-                  value={form.size}
-                  onChange={(value) => updateForm("size", value)}
-                />
-                <Input
-                  label="單價"
-                  value={form.unitPrice}
-                  onChange={(value) => updateForm("unitPrice", value)}
-                  placeholder="例：2200 / 坪"
-                />
-                <Input label="日期" value={form.date} onChange={(value) => updateForm("date", value)} />
-                <Input
-                  label="備註 / 照片"
-                  value={form.note}
-                  onChange={(value) => updateForm("note", value)}
-                />
-              </FormGroup>
-
-              <button className="rounded-xl bg-emerald-300 px-4 py-3 text-sm font-black text-slate-950">
-                {copied ? "已複製摘要" : "產生報價摘要"}
-              </button>
+              <div className="grid gap-3 sm:grid-cols-2">
+                <button
+                  disabled={submitting}
+                  className="rounded-md bg-[#f0c36a] px-4 py-3 text-sm font-black text-[#0c1518]"
+                >
+                  {submitting ? "送出中..." : "送出需求到後台"}
+                </button>
+                <button
+                  type="button"
+                  onClick={copyInquiry}
+                  className="rounded-md border border-white/10 px-4 py-3 text-sm font-black text-white"
+                >
+                  {copied ? "已複製需求內容" : "複製詢價內容"}
+                </button>
+              </div>
             </form>
-            <pre className="whitespace-pre-wrap rounded-[24px] border border-white/10 bg-[#0d1726] p-5 text-sm font-bold leading-7 text-slate-300">
+            <pre className="whitespace-pre-wrap rounded-lg border border-white/10 bg-[#0c1518] p-5 text-sm font-bold leading-7 text-slate-300">
               {inquiryText}
             </pre>
           </div>
@@ -386,19 +303,10 @@ LINE Bot：${lineBotId}`
 function SectionHeader({ label, title, desc }) {
   return (
     <div>
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-emerald-300">{label}</p>
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8bd8cc]">{label}</p>
       <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">{title}</h2>
       <p className="mt-2 text-sm font-bold leading-6 text-slate-400">{desc}</p>
     </div>
-  )
-}
-
-function FormGroup({ title, children }) {
-  return (
-    <fieldset className="grid gap-3 rounded-2xl border border-white/10 bg-white/[0.035] p-4 md:grid-cols-2">
-      <legend className="px-2 text-sm font-black text-emerald-300">{title}</legend>
-      {children}
-    </fieldset>
   )
 }
 
@@ -410,7 +318,7 @@ function Input({ label, value, onChange, placeholder = "" }) {
         value={value}
         onChange={(event) => onChange(event.target.value)}
         placeholder={placeholder}
-        className="rounded-xl border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-emerald-300"
+        className="rounded-md border border-white/10 bg-white/[0.06] px-4 py-3 text-sm text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
       />
     </label>
   )

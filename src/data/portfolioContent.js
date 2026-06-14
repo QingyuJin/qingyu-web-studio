@@ -1,0 +1,77 @@
+export const portfolioProjects = [
+  {
+    id: "buildflow",
+    name: "BuildFlow 工程資料管理系統",
+    audience: "工程行、統包、維修團隊",
+    positioning: "工程行案件資料整理系統",
+    problem: "LINE 裡的工程照片、報價、施工備註很難找，案件一多就容易漏追蹤。",
+    features: ["案件列表", "狀態管理", "工程照片分類", "搜尋", "時間軸", "報價紀錄"],
+    techStack: ["React", "Vite", "Tailwind CSS", "Mock data", "Supabase-ready"],
+    demoPath: "/buildflow",
+    preview: {
+      title: "工程案件",
+      metric: "4 cases",
+      rows: ["浴室防水修繕", "店面地坪工程", "老屋電線更新"],
+    },
+  },
+  {
+    id: "lead-form",
+    name: "小型商家接案表單系統",
+    audience: "工作室、小店、自由接案者",
+    positioning: "幫工作室與小店收集客戶需求",
+    problem: "客戶需求散在私訊、口頭與表單截圖裡，後續很難整理、分類與追蹤。",
+    features: ["需求表單", "預算欄位", "服務類型", "聯絡資料", "送出通知", "後台列表"],
+    techStack: ["React", "Form state", "表單驗證", "Mock data", "Database-ready"],
+    demoPath: "/contractor-site#inquiry",
+    preview: {
+      title: "需求收集",
+      metric: "12 leads",
+      rows: ["品牌網站詢問", "店面裝修估價", "服務頁改版"],
+    },
+  },
+  {
+    id: "brand-site",
+    name: "品牌形象官網",
+    audience: "個人品牌、工程行、小型公司",
+    positioning: "可信任的品牌與服務展示網站",
+    problem: "沒有正式網站時，客戶只能看社群或 LINE，難以快速理解服務、案例與聯絡方式。",
+    features: ["首頁", "服務介紹", "作品展示", "常見問題", "聯絡表單", "RWD"],
+    techStack: ["React", "RWD", "SEO 基礎", "Tailwind CSS", "Vercel-ready"],
+    demoPath: "/",
+    preview: {
+      title: "品牌首頁",
+      metric: "RWD",
+      rows: ["服務定位", "作品案例", "聯絡 CTA"],
+    },
+  },
+]
+
+export const servicePlans = [
+  {
+    id: "brand-website",
+    name: "形象官網方案",
+    fit: "個人品牌、工程行、小店、工作室",
+    solves: "建立正式可信的網路門面，讓客戶不用只靠社群或 LINE 判斷你。",
+    deliverables: ["首頁", "服務介紹", "作品展示", "聯絡表單", "手機版 RWD"],
+    price: "依需求報價",
+    cta: "詢問形象官網",
+  },
+  {
+    id: "lead-system",
+    name: "接案流程系統方案",
+    fit: "需要收需求、整理客戶資料、追蹤案件的人",
+    solves: "把私訊、表單與口頭需求整理成可查詢的案件資料，不再散落各處。",
+    deliverables: ["需求表單", "案件列表", "狀態管理", "簡易後台", "搜尋"],
+    price: "依需求報價",
+    cta: "詢問接案系統",
+  },
+  {
+    id: "custom-mvp",
+    name: "客製化後台 / MVP 方案",
+    fit: "想把工作流程系統化的小團隊",
+    solves: "把內部流程做成可登入、可管理、可迭代的產品雛形。",
+    deliverables: ["登入", "資料庫", "檔案上傳", "權限管理", "後台管理"],
+    price: "依需求報價",
+    cta: "討論客製需求",
+  },
+]
