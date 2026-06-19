@@ -1305,20 +1305,25 @@ function ApiAutomationDemo() {
   const [flowStep, setFlowStep] = useState(-1)
   const [flowRunning, setFlowRunning] = useState(false)
   const [showPayload, setShowPayload] = useState(false)
+  const [showResponse, setShowResponse] = useState(false)
+  const [apiResponse, setApiResponse] = useState(null)
+  const [apiError, setApiError] = useState("")
   const [dashboardItems, setDashboardItems] = useState([])
   const [detailLead, setDetailLead] = useState(null)
   const flow = ["Form", "API", "Database", "Notification", "Dashboard"]
 
-  const payload = {
+  function normalizeBudget(value) {
+    if (value === "30,000 以上") return "30000+"
+    if (value === "還不確定") return "undecided"
+    return value.replaceAll(",", "").replace("～", "-")
+  }
+
+  const apiPayload = {
     name: form.name.trim(),
     industry: form.industry.trim(),
     service: form.service,
-    budget: form.budget,
+    budget: normalizeBudget(form.budget),
     note: form.note.trim(),
-    source: "website_form",
-    status: "new",
-    notify: ["LINE", "Email"],
-    createdAt: "剛剛",
   }
 
   function updateField(key, value) {
@@ -1336,28 +1341,96 @@ function ApiAutomationDemo() {
     return Object.keys(nextErrors).length === 0
   }
 
-  function addDashboardItem() {
+  function createFallbackResponse() {
+    return {
+      ok: true,
+      leadId: `mock_${Date.now()}`,
+      status: "mock_fallback",
+      notification: "mock_sent",
+      message: "Demo mode: frontend fallback simulated",
+      dashboardItem: {
+        ...apiPayload,
+        status: "新需求",
+        source: "Frontend Mock Fallback",
+        createdAt: new Date().toISOString(),
+      },
+    }
+  }
+
+  function formatTime(value) {
+    if (!value) return "剛剛"
+    return new Intl.DateTimeFormat("zh-TW", {
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    }).format(new Date(value))
+  }
+
+  function addDashboardItem(response) {
+    const item = response.dashboardItem || {}
     const nextItem = {
-      id: `REQ-${String(dashboardItems.length + 1).padStart(3, "0")}`,
-      ...payload,
-      notificationStatus: "LINE / Email 已排程",
+      id: response.leadId || `REQ-${Date.now()}`,
+      name: item.name || apiPayload.name,
+      industry: item.industry || apiPayload.industry,
+      service: item.service || apiPayload.service,
+      budget: item.budget || apiPayload.budget,
+      note: item.note || apiPayload.note,
+      status: item.status || "新需求",
+      source: item.source || "API Demo",
+      createdAt: formatTime(item.createdAt),
+      apiStatus: response.status || "received",
+      notificationStatus: response.notification || "mock_sent",
+      apiMessage: response.message || "Demo mode: notification simulated",
+      payload: apiPayload,
+      response,
       nextStep: "確認需求欄位，安排初步討論。",
     }
     setDashboardItems((current) => [nextItem, ...current])
   }
 
-  function runFlow() {
+  async function postLead() {
+    try {
+      const response = await fetch("/api/automation-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(apiPayload),
+      })
+      const data = await response.json()
+      if (!response.ok || !data.ok) throw new Error(data.error || "API request failed")
+      setApiError("")
+      return data
+    } catch (error) {
+      console.warn("automation lead demo fallback", error.message)
+      setApiError("API 暫時無法連線，已使用前端 mock fallback 完成展示。")
+      return createFallbackResponse()
+    }
+  }
+
+  async function playFlowAnimation() {
+    for (let index = 0; index < flow.length; index += 1) {
+      await new Promise((resolve) => {
+        window.setTimeout(() => {
+          setFlowStep(index)
+          resolve()
+        }, 260)
+      })
+    }
+  }
+
+  async function runFlow() {
     if (!validateForm()) return
     setShowPayload(false)
+    setShowResponse(false)
+    setApiResponse(null)
+    setApiError("")
     setFlowStep(-1)
     setFlowRunning(true)
-    flow.forEach((_, index) => {
-      window.setTimeout(() => setFlowStep(index), 260 * (index + 1))
-    })
-    window.setTimeout(() => {
-      addDashboardItem()
-      setFlowRunning(false)
-    }, 260 * (flow.length + 1))
+    const [response] = await Promise.all([postLead(), playFlowAnimation()])
+    setApiResponse(response)
+    setShowResponse(true)
+    addDashboardItem(response)
+    setFlowRunning(false)
   }
 
   function replayFlow() {
@@ -1373,6 +1446,9 @@ function ApiAutomationDemo() {
     setFlowStep(-1)
     setFlowRunning(false)
     setShowPayload(false)
+    setShowResponse(false)
+    setApiResponse(null)
+    setApiError("")
     setDashboardItems([])
     setDetailLead(null)
   }
@@ -1419,13 +1495,16 @@ function ApiAutomationDemo() {
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
             <button type="button" onClick={runFlow} disabled={flowRunning} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60">
-              送出表單
+              {flowRunning ? "傳送中..." : "送出表單"}
             </button>
             <button type="button" onClick={() => setShowPayload((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看 API Payload
             </button>
+            <button type="button" onClick={() => setShowResponse((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              查看 API Response
+            </button>
             <button type="button" onClick={replayFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
-              重播流程
+              重送一次
             </button>
             <button type="button" onClick={clearDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               清空
@@ -1433,8 +1512,20 @@ function ApiAutomationDemo() {
           </div>
           {showPayload ? (
             <pre className="mt-3 overflow-x-auto rounded-lg bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
-              {JSON.stringify(payload, null, 2)}
+              {JSON.stringify(apiPayload, null, 2)}
             </pre>
+          ) : null}
+          {showResponse ? (
+            <div className="mt-3 rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
+              <div className="mb-2 flex flex-wrap items-center gap-2 text-xs font-black text-[#52605c]">
+                <span className="rounded-full bg-white px-3 py-1">API: {apiResponse?.status || "尚未送出"}</span>
+                <span className="rounded-full bg-white px-3 py-1">Notification: {apiResponse?.notification || "尚未模擬"}</span>
+              </div>
+              {apiError ? <p className="mb-2 text-xs font-black text-[#b45309]">{apiError}</p> : null}
+              <pre className="overflow-x-auto rounded-lg bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
+                {JSON.stringify(apiResponse || { message: "送出表單後會顯示 API response。" }, null, 2)}
+              </pre>
+            </div>
           ) : null}
         </MiniCard>
         <div className="grid gap-4">
@@ -1460,10 +1551,11 @@ function ApiAutomationDemo() {
                   <button key={item.id} type="button" onClick={() => setDetailLead(item)} className="rounded-xl border border-white/10 bg-white/10 p-3 text-left transition hover:bg-white/15">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="text-sm font-black text-white">{item.name}</p>
-                      <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#111c22]">Done</span>
+                      <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#111c22]">{item.status}</span>
                     </div>
                     <div className="mt-2 grid gap-1 text-xs font-bold leading-5 text-white/72">
                       <span>需求：{item.service} · 預算：{item.budget}</span>
+                      <span>來源：{item.source} · leadId：{item.id}</span>
                       <span>建立時間：{item.createdAt} · 通知：{item.notificationStatus}</span>
                     </div>
                     <span className="mt-3 inline-flex rounded-md bg-white px-3 py-1 text-xs font-black text-[#111c22]">查看詳情</span>
@@ -1495,19 +1587,26 @@ function ApiAutomationDemo() {
                   <p>需求：{detailLead.service}</p>
                   <p>預算：{detailLead.budget}</p>
                   <p>備註：{detailLead.note || "未填"}</p>
+                  <p>來源：{detailLead.source}</p>
                 </div>
               </MiniCard>
               <MiniCard title="通知紀錄">
                 <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
-                  <p>LINE：已排程通知</p>
-                  <p>Email：已建立寄送任務</p>
+                  <p>通知狀態：{detailLead.notificationStatus}</p>
+                  <p>API 狀態：{detailLead.apiStatus}</p>
+                  <p>{detailLead.apiMessage}</p>
                   <p>後台：已新增案件</p>
                 </div>
               </MiniCard>
             </div>
             <MiniCard title="API Payload">
               <pre className="overflow-x-auto rounded-lg bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
-                {JSON.stringify(detailLead, null, 2)}
+                {JSON.stringify(detailLead.payload, null, 2)}
+              </pre>
+            </MiniCard>
+            <MiniCard title="API Response">
+              <pre className="overflow-x-auto rounded-lg bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
+                {JSON.stringify(detailLead.response, null, 2)}
               </pre>
             </MiniCard>
             <MiniCard title="下一步處理建議">

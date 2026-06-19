@@ -180,10 +180,11 @@ export const projects = [
     architecture: ["REST API", "Webhook", "Supabase", "Serverless Function", "Notification Flow"],
     stack: {
       Frontend: "React / Tailwind",
-      API: "Vercel Serverless Function",
+      API: "POST /api/automation-lead → Validation → Lead Object",
       Database: "Supabase optional",
-      Notification: "LINE / Email optional",
+      Notification: "Mock Notification（LINE / Email optional）",
       Dashboard: "React State UI",
+      Flow: "Frontend Form → REST API → Mock Notification → Dashboard UI",
       Fallback: "Mock Data",
     },
     visuals: ["Form Submit", "API Log", "Admin Status"],
