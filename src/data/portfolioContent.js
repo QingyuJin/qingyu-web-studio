@@ -8,6 +8,7 @@ export const portfolioProjects = [
     features: ["案件列表", "狀態管理", "工程照片分類", "搜尋", "時間軸", "報價紀錄"],
     techStack: ["React", "Vite", "Tailwind CSS", "Mock data", "Supabase-ready"],
     demoPath: "/buildflow",
+    cta: "查看案例",
     preview: {
       title: "工程案件",
       metric: "4 cases",
@@ -23,6 +24,7 @@ export const portfolioProjects = [
     features: ["需求表單", "預算欄位", "服務類型", "聯絡資料", "送出通知", "後台列表"],
     techStack: ["React", "Form state", "表單驗證", "Mock data", "Database-ready"],
     demoPath: "/contractor-site#inquiry",
+    cta: "查看流程",
     preview: {
       title: "需求收集",
       metric: "12 leads",
@@ -38,6 +40,7 @@ export const portfolioProjects = [
     features: ["首頁", "服務介紹", "作品展示", "常見問題", "聯絡表單", "RWD"],
     techStack: ["React", "RWD", "SEO 基礎", "Tailwind CSS", "Vercel-ready"],
     demoPath: "/",
+    cta: "查看版型",
     preview: {
       title: "品牌首頁",
       metric: "RWD",

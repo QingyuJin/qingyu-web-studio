@@ -59,6 +59,7 @@ export const techStack = [
   "SEO",
   "RWD",
   "Dashboard UI",
+  "API 串接",
 ]
 
 export const processSteps = [
@@ -87,6 +88,7 @@ export const projects = [
     features: ["健檢表單", "規則式評分", "SEO 檢查", "CTA 建議", "報告摘要"],
     architecture: ["React UI", "Rule-based analyzer", "Report cards", "Future OpenAI API"],
     visuals: ["Audit Score", "Issue List", "Action Plan"],
+    steps: ["輸入網站或需求", "產生健檢報告", "整理修正優先順序"],
     mobile: "手機版以一題一題填寫與卡片式報告為主，不把報告塞成大表格。",
     future: ["接 OpenAI API 產生更完整建議", "儲存健檢紀錄", "Email 寄送報告"],
   },
@@ -100,11 +102,12 @@ export const projects = [
     features: ["LINE 對話流程", "Webhook 接收", "需求解析", "狀態標記", "後台 Inbox"],
     architecture: ["LINE Messaging API", "Vercel API", "Supabase-ready", "Dashboard UI"],
     visuals: ["Chat Preview", "Parsed Result", "Inbox Board"],
+    steps: ["客戶在 LINE 詢問", "Bot 追問必要欄位", "後台建立案件並通知店家"],
     mobile: "LINE 情境本身以手機為主，後台則用卡片和分頁避免小螢幕爆版。",
     future: ["正式 LINE webhook", "通知店家", "客戶預約狀態查詢"],
   },
   {
-    slug: "xinjiang",
+    slug: "buildflow",
     title: "工程行案件管理系統 Demo",
     category: "後台系統",
     summary: "工程行網站與後台概念案例，將 LINE 報價、施工回報與案件狀態整理成流程。",
@@ -113,11 +116,12 @@ export const projects = [
     features: ["案件列表", "報價流程", "每日回報", "驗收請款", "保固狀態", "同步 Timeline"],
     architecture: ["React", "Tailwind CSS", "Vercel", "Supabase concept", "LINE Bot concept"],
     visuals: ["Case Board", "Quote Status", "Flow Overview"],
+    steps: ["LINE 回報或後台新增案件", "整理照片 / 報價 / 狀態", "產出案件流程與同步紀錄"],
     mobile: "手機版以案件卡、流程節點和重要 CTA 優先，不讓工程資訊變成密密麻麻表格。",
     future: ["Supabase 資料庫", "LINE 通知", "報價單 PDF", "客戶進度查詢"],
   },
   {
-    slug: "studio",
+    slug: "qingyu-web",
     title: "Qingyu Web Studio 主站",
     category: "品牌網站",
     summary: "為個人工作室整理定位、服務、作品、技術力與聯絡 CTA 的主站。",
@@ -126,6 +130,7 @@ export const projects = [
     features: ["服務分類", "作品入口", "技術能力", "價格摘要", "聯絡 CTA"],
     architecture: ["React", "Vite", "Tailwind CSS", "React Router", "SEO"],
     visuals: ["Home Layout", "Work Cards", "Contact Section"],
+    steps: ["定位服務與客群", "規劃首頁與作品入口", "部署並檢查 SEO / OG"],
     mobile: "首頁第一屏保留標題、描述與兩個 CTA，避免在手機上過度壓迫。",
     future: ["文章系統", "案例詳情擴充", "表單收件"],
   },

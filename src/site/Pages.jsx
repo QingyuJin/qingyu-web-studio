@@ -71,6 +71,10 @@ export function WorkDetailPage() {
 
   return (
     <PageShell page={projectSeo} eyebrow={project.category} title={project.title} intro={project.summary}>
+      <section className="mx-auto max-w-6xl px-4 pt-14">
+        <WorkShowcase project={project} />
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 lg:grid-cols-3">
           <Card>
@@ -114,6 +118,21 @@ export function WorkDetailPage() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="mb-7">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Workflow</p>
+          <h2 className="mt-3 text-3xl font-black">使用流程</h2>
+        </div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {project.steps.map((step, index) => (
+            <Card key={step}>
+              <p className="text-xs font-black text-[#0d6b62]">Step {index + 1}</p>
+              <p className="mt-3 text-lg font-black">{step}</p>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2">
           <Card>
             <h2 className="text-2xl font-black">手機版展示</h2>
@@ -137,6 +156,54 @@ export function WorkDetailPage() {
         </div>
       </section>
     </PageShell>
+  )
+}
+
+function WorkShowcase({ project }) {
+  return (
+    <div className="overflow-hidden rounded-2xl border border-[#d8d2c5] bg-[#111c22] text-white shadow-xl shadow-[#111c22]/10">
+      <div className="grid gap-0 lg:grid-cols-[1.1fr_0.9fr]">
+        <div className="p-5 md:p-8">
+          <div className="flex flex-wrap items-center gap-2">
+            {project.architecture.slice(0, 4).map((item) => (
+              <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/75">
+                {item}
+              </span>
+            ))}
+          </div>
+          <div className="mt-8 rounded-xl border border-white/10 bg-white/[0.04] p-4">
+            <div className="flex items-center justify-between border-b border-white/10 pb-3">
+              <span className="text-sm font-black">{project.title}</span>
+              <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">Demo UI</span>
+            </div>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {project.visuals.map((item, index) => (
+                <div key={item} className="rounded-lg bg-white p-3 text-[#111c22]">
+                  <p className="text-xs font-black text-[#0d6b62]">0{index + 1}</p>
+                  <p className="mt-2 text-sm font-black">{item}</p>
+                  <div className="mt-3 h-1.5 rounded-full bg-[#e4e9e6]">
+                    <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${60 + index * 12}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+        <div className="border-t border-white/10 bg-white/[0.03] p-5 md:p-8 lg:border-l lg:border-t-0">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Data Flow</p>
+          <div className="mt-5 grid gap-3">
+            {project.steps.map((step, index) => (
+              <div key={step} className="flex gap-3 rounded-lg border border-white/10 bg-white/[0.05] p-3">
+                <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-white text-xs font-black text-[#111c22]">
+                  {index + 1}
+                </span>
+                <p className="text-sm font-bold leading-6 text-white/78">{step}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
   )
 }
 

@@ -10,10 +10,20 @@ function upsertMeta(selector, attributes) {
   Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value))
 }
 
+function upsertLink(selector, attributes) {
+  let element = document.head.querySelector(selector)
+  if (!element) {
+    element = document.createElement("link")
+    document.head.appendChild(element)
+  }
+  Object.entries(attributes).forEach(([key, value]) => element.setAttribute(key, value))
+}
+
 function Seo({ page = seo.home }) {
   useEffect(() => {
     const url = `${siteUrl}${page.path}`
     document.title = page.title
+    upsertLink('link[rel="canonical"]', { rel: "canonical", href: url })
     upsertMeta('meta[name="description"]', { name: "description", content: page.description })
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: page.title })
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: page.description })

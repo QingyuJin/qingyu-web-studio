@@ -50,6 +50,7 @@ function StudioHome() {
               to={`/works/${project.slug}`}
               className="group rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
             >
+              <ProjectPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
               <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
@@ -176,6 +177,69 @@ function QuietMockup() {
           ))}
         </div>
       </div>
+    </div>
+  )
+}
+
+function ProjectPreview({ project }) {
+  const isBuildFlow = project.slug === "buildflow"
+  const isLineBot = project.slug === "linebot"
+  const isAudit = project.slug === "ai-audit"
+
+  return (
+    <div className="mb-5 min-h-44 rounded-lg border border-[#e6e0d5] bg-[#faf8f3] p-4">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-xs font-black text-[#0d6b62]">{project.category}</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#53605d]">Preview</span>
+      </div>
+
+      {isBuildFlow ? (
+        <div className="mt-4 space-y-3">
+          <div className="rounded-lg bg-[#111c22] p-3 text-white">
+            <div className="flex items-center justify-between gap-3 text-xs font-black">
+              <span>q-001 工程案件</span>
+              <span className="text-[#8fd6cc]">75%</span>
+            </div>
+            <div className="mt-3 h-2 rounded-full bg-white/15">
+              <div className="h-full w-3/4 rounded-full bg-[#8fd6cc]" />
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
+            {["LINE 回報", "驗收", "請款"].map((item) => (
+              <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : isLineBot ? (
+        <div className="mt-4 grid gap-2">
+          {["客戶：想預約服務", "Bot：請留下時間", "後台：新增需求"].map((item) => (
+            <div key={item} className="rounded-lg border border-[#e1dbcf] bg-white px-3 py-2 text-xs font-black text-[#40504c]">
+              {item}
+            </div>
+          ))}
+        </div>
+      ) : isAudit ? (
+        <div className="mt-4 grid gap-2">
+          {["首頁文案 82", "CTA 清楚度 76", "手機版信任感 88"].map((item, index) => (
+            <div key={item} className="rounded-lg bg-white p-3">
+              <div className="flex justify-between text-xs font-black text-[#40504c]">
+                <span>{item}</span>
+                <span>{index === 0 ? "A-" : index === 1 ? "B+" : "A"}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-4 rounded-lg border border-[#e1dbcf] bg-white p-3">
+          <div className="h-3 w-2/3 rounded-full bg-[#111c22]" />
+          <div className="mt-3 grid grid-cols-2 gap-2">
+            <div className="h-16 rounded-md bg-[#eef7f4]" />
+            <div className="h-16 rounded-md bg-[#f1ede4]" />
+          </div>
+        </div>
+      )}
     </div>
   )
 }

@@ -69,7 +69,7 @@ function PortfolioSection() {
                   to={project.demoPath}
                   className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-[#0f766e] px-5 text-sm font-black text-white hover:bg-[#115e59]"
                 >
-                  查看 Demo
+                  {project.cta}
                 </Link>
               </div>
 
