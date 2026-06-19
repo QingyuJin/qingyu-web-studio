@@ -46,6 +46,43 @@ function Tags({ items }) {
   )
 }
 
+function WorkPreview({ project }) {
+  const panels = {
+    "ai-audit": ["SEO 82", "CTA 建議", "手機版檢查"],
+    linebot: ["LINE 對話", "Webhook", "後台收件"],
+    buildflow: ["案件列表", "報價單", "LINE 回報"],
+    "api-automation": ["Form", "API", "Notify"],
+    xinjiang: ["服務頁", "估價入口", "案例"],
+    "qingyu-web": ["RWD", "SEO / OG", "Contact CTA"],
+  }
+  const items = panels[project.slug] || project.visuals.slice(0, 3)
+
+  return (
+    <div className="mb-5 rounded-xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Product Mockup</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{project.category}</span>
+      </div>
+      <div className="mt-4 rounded-xl bg-[#111c22] p-3 text-white">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm font-black">{project.title}</p>
+          <span className="text-xs font-black text-[#8fd6cc]">Live</span>
+        </div>
+        <div className="mt-3 h-2 rounded-full bg-white/15">
+          <div className="h-full w-4/5 rounded-full bg-[#8fd6cc]" />
+        </div>
+      </div>
+      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+        {items.map((item) => (
+          <div key={item} className="rounded-lg border border-[#e1dbcf] bg-white px-3 py-2 text-xs font-black text-[#40504c]">
+            {item}
+          </div>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 export function WorksPage() {
   const categories = ["網站", "系統", "AI 工具", "LINE Bot", "工程流程系統"]
 
@@ -62,6 +99,7 @@ export function WorksPage() {
         <div className="grid gap-4 md:grid-cols-2">
           {projects.map((project) => (
             <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
+              <WorkPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
@@ -91,6 +129,7 @@ export function WorkDetailPage() {
   const isBuildFlowProject = project.slug === "buildflow"
   const isApiAutomationProject = project.slug === "api-automation"
   const isQingyuWebProject = project.slug === "qingyu-web"
+  const isInternalDemoPath = project.livePath === `/works/${project.slug}#demo`
   const projectSeo = {
     path: `/works/${project.slug}`,
     title: isQingyuWebProject
@@ -187,14 +226,24 @@ export function WorkDetailPage() {
             <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Live Demo</p>
-                <h2 className="mt-2 text-2xl font-black">實際成品入口</h2>
+                <h2 className="mt-2 text-2xl font-black">Demo 操作台</h2>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
-                  這裡可以直接操作 Demo，查看畫面、流程、狀態與資料如何同步。
+                  下方可以直接操作這個案例的核心流程，包含畫面狀態、資料結果與技術拆解。
                 </p>
               </div>
-              <Link to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-                {project.liveLabel}
-              </Link>
+              {isInternalDemoPath ? (
+                <div className="flex flex-wrap gap-2 md:justify-end">
+                  {["可互動 Demo", "狀態會變化", "手機版可操作"].map((item) => (
+                    <span key={item} className="rounded-full border border-[#d7dfdb] bg-[#f7f4ec] px-3 py-2 text-xs font-black text-[#40504c]">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <Link to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+                  {project.liveLabel}
+                </Link>
+              )}
             </div>
           </div>
           <WorkDemoPanel project={project} />

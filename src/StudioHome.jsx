@@ -94,9 +94,9 @@ function StudioHome() {
           <div className="grid gap-5 md:grid-cols-[0.72fr_1.28fr] md:items-center">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Demo Lab</p>
-              <h2 className="mt-2 text-2xl font-black tracking-tight md:text-3xl">Demo Lab 已更新</h2>
+              <h2 className="mt-2 text-2xl font-black tracking-tight md:text-3xl">互動作品入口</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-                這裡列出目前可直接打開的作品與互動 Demo，方便確認公開網站已部署到新版。
+                這些不是靜態截圖，而是可以直接點進去操作的網站、AI、LINE Bot、API 與後台流程 Demo。
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
