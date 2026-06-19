@@ -64,6 +64,21 @@ function OptionButton({ option, active, onClick }) {
   )
 }
 
+function PlanList({ title, items = [] }) {
+  return (
+    <div className="rounded-xl bg-white/10 p-4">
+      <p className="text-xs font-black text-[#8fd6cc]">{title}</p>
+      <div className="mt-3 flex flex-wrap gap-2">
+        {items.map((item) => (
+          <span key={item} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">
+            {item}
+          </span>
+        ))}
+      </div>
+    </div>
+  )
+}
+
 function buildRecommendation(answers) {
   const features = answers.features
   const wantsLine = answers.goal === "LINE Bot" || features.includes("LINE Bot")
@@ -137,6 +152,10 @@ function ProjectPlanner() {
   const [result, setResult] = useState(null)
   const [message, setMessage] = useState("")
   const [copied, setCopied] = useState(false)
+  const [aiPlan, setAiPlan] = useState(null)
+  const [aiLoading, setAiLoading] = useState(false)
+  const [aiError, setAiError] = useState("")
+  const [aiCopied, setAiCopied] = useState(false)
 
   const currentStep = steps[stepIndex]
   const progress = ((stepIndex + 1) / steps.length) * 100
@@ -154,6 +173,9 @@ function ProjectPlanner() {
     setAnswers((current) => ({ ...current, [key]: value }))
     setMessage("")
     setCopied(false)
+    setAiPlan(null)
+    setAiError("")
+    setAiCopied(false)
   }
 
   function toggleFeature(feature) {
@@ -166,6 +188,9 @@ function ProjectPlanner() {
     })
     setMessage("")
     setCopied(false)
+    setAiPlan(null)
+    setAiError("")
+    setAiCopied(false)
   }
 
   function isStepComplete(index = stepIndex) {
@@ -206,6 +231,9 @@ function ProjectPlanner() {
     setResult(buildRecommendation(answers))
     setMessage("已產生建議方案。")
     setCopied(false)
+    setAiPlan(null)
+    setAiError("")
+    setAiCopied(false)
   }
 
   function loadExample() {
@@ -214,6 +242,9 @@ function ProjectPlanner() {
     setResult(buildRecommendation(exampleAnswers))
     setMessage("已載入小型店家 + LINE Bot + 預約詢價範例。")
     setCopied(false)
+    setAiPlan(null)
+    setAiError("")
+    setAiCopied(false)
     scrollToSection("demo")
   }
 
@@ -223,6 +254,9 @@ function ProjectPlanner() {
     setResult(null)
     setMessage("已清空，可以重新選擇。")
     setCopied(false)
+    setAiPlan(null)
+    setAiError("")
+    setAiCopied(false)
   }
 
   async function copyRecommendation() {
@@ -245,6 +279,64 @@ function ProjectPlanner() {
     } catch {
       setCopied(false)
       setMessage("目前瀏覽器不支援自動複製，可以手動選取右側建議。")
+    }
+  }
+
+  async function requestAiPlan() {
+    if (!validateAll()) return
+    const localResult = result || buildRecommendation(answers)
+    if (!result) setResult(localResult)
+    setAiLoading(true)
+    setAiError("")
+    setAiCopied(false)
+    try {
+      const response = await fetch("/api/project-plan", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          answers,
+          ruleBasedResult: localResult,
+        }),
+      })
+      const data = await response.json().catch(() => null)
+      if (!response.ok) throw new Error(data?.error || "AI 規劃產生失敗")
+      setAiPlan(data)
+      setMessage("AI 完整規劃已產生。")
+    } catch (error) {
+      setAiError(error?.message || "AI 規劃產生失敗，請稍後再試。")
+      setMessage("已保留本地快速建議。")
+    } finally {
+      setAiLoading(false)
+    }
+  }
+
+  async function copyAiPlan() {
+    if (!aiPlan) {
+      setAiError("請先產生 AI 完整規劃。")
+      return
+    }
+    const text = [
+      `推薦方案：${aiPlan.recommendedPackage}`,
+      `摘要：${aiPlan.summary}`,
+      `建議功能：${aiPlan.features?.join("、")}`,
+      `技術架構：${aiPlan.techStack?.join(" / ")}`,
+      `製作時程：${aiPlan.timeline?.join("；")}`,
+      `風險提醒：${aiPlan.risks?.join("；")}`,
+      `下一步：${aiPlan.nextSteps?.join("；")}`,
+      `技術複雜度：${aiPlan.estimatedComplexity}`,
+    ].join("\n")
+
+    try {
+      if (navigator?.clipboard?.writeText) {
+        await navigator.clipboard.writeText(text)
+      }
+      setAiCopied(true)
+      setMessage("AI 規劃已複製。")
+    } catch {
+      setAiCopied(false)
+      setAiError("目前瀏覽器不支援自動複製，可以手動選取 AI 規劃內容。")
     }
   }
 
@@ -354,7 +446,8 @@ function ProjectPlanner() {
 
         <aside className="rounded-2xl border border-[#233139] bg-[#111c22] p-5 text-white md:p-6">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Result</p>
-          <h2 className="mt-3 text-3xl font-black">{result ? result.planName : "完成選項後產生建議"}</h2>
+          <h2 className="mt-3 text-3xl font-black">快速建議</h2>
+          <p className="mt-2 text-sm font-bold leading-6 text-white/70">{result ? result.planName : "完成選項後產生建議"}</p>
           <div className="mt-6 grid gap-3">
             <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">技術複雜度</p>
@@ -390,6 +483,60 @@ function ProjectPlanner() {
               </div>
             </div>
           </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={requestAiPlan}
+              disabled={aiLoading}
+              className="min-h-11 rounded-md bg-white px-5 text-sm font-black text-[#111c22] transition hover:bg-[#eef7f4] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {aiLoading ? "AI 規劃中..." : "用 AI 產生完整規劃"}
+            </button>
+            <button
+              type="button"
+              onClick={copyAiPlan}
+              disabled={!aiPlan}
+              className="min-h-11 rounded-md border border-white/20 px-5 text-sm font-black text-white transition hover:bg-white/10 disabled:cursor-not-allowed disabled:opacity-50"
+            >
+              {aiCopied ? "已複製 AI 規劃" : "複製 AI 規劃"}
+            </button>
+          </div>
+          {aiError ? (
+            <p className="mt-4 rounded-lg bg-[#fff7ed] px-4 py-3 text-sm font-black text-[#b45309]">{aiError}</p>
+          ) : null}
+          <div className="mt-5 rounded-2xl border border-white/10 bg-white/[0.06] p-4">
+            <div className="flex flex-wrap items-center justify-between gap-2">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">AI 完整規劃</p>
+                <h3 className="mt-2 text-2xl font-black">{aiPlan ? aiPlan.recommendedPackage : "等待產生 AI 規劃"}</h3>
+              </div>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">
+                {aiPlan ? aiPlan.estimatedComplexity : "API / Mock"}
+              </span>
+            </div>
+            {aiLoading ? (
+              <div className="mt-5 grid gap-2">
+                {[82, 68, 76].map((width) => (
+                  <div key={width} className="h-2 overflow-hidden rounded-full bg-white/15">
+                    <div className="h-full rounded-full bg-[#8fd6cc]" style={{ width: `${width}%` }} />
+                  </div>
+                ))}
+              </div>
+            ) : aiPlan ? (
+              <div className="mt-5 grid gap-4">
+                <p className="text-sm font-bold leading-7 text-white/78">{aiPlan.summary}</p>
+                <PlanList title="建議功能" items={aiPlan.features} />
+                <PlanList title="技術架構" items={aiPlan.techStack} />
+                <PlanList title="製作時程" items={aiPlan.timeline} />
+                <PlanList title="風險提醒" items={aiPlan.risks} />
+                <PlanList title="下一步" items={aiPlan.nextSteps} />
+              </div>
+            ) : (
+              <p className="mt-4 text-sm font-bold leading-7 text-white/70">
+                完成左側診斷後，可以用 AI 顧問模式產生更完整的功能、技術、時程與風險建議。沒有後端 AI 金鑰時會自動使用 mock plan。
+              </p>
+            )}
+          </div>
           <Link to="/contact" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
             聊聊需求
           </Link>
@@ -409,6 +556,11 @@ function ProjectPlanner() {
             {[
               ["Frontend", "React / Tailwind"],
               ["Logic", "Rule-based Recommendation"],
+              ["API", "Vercel Serverless Function"],
+              ["AI", "OpenAI API optional"],
+              ["Prompt Flow", "台灣網站與小系統顧問語氣"],
+              ["Fallback", "Mock Plan"],
+              ["State UI", "React State UI"],
               ["Future", "OpenAI API 可升級成 AI 顧問"],
               ["Deploy", "Vercel"],
               ["CTA", "可客製成你的店家需求表單"],
