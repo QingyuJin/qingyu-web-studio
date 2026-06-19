@@ -88,6 +88,7 @@ export function WorkDetailPage() {
   const { slug } = useParams()
   const project = projects.find((item) => item.slug === slug) || projects[0]
   const isLineBotProject = project.slug === "linebot"
+  const isApiAutomationProject = project.slug === "api-automation"
   const projectSeo = {
     path: `/works/${project.slug}`,
     title: `${project.title}｜Qingyu Web Studio`,
@@ -108,6 +109,18 @@ export function WorkDetailPage() {
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看後台
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isApiAutomationProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              送出表單
+            </Link>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看 API Payload
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解

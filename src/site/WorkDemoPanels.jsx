@@ -1293,50 +1293,142 @@ function BuildFlowDemo() {
 }
 
 function ApiAutomationDemo() {
-  const [submitted, setSubmitted] = useState(false)
-  const [flowStep, setFlowStep] = useState(-1)
-  const [showPayload, setShowPayload] = useState(false)
-  const flow = ["Form", "API", "Database", "Notification", "Dashboard"]
-  const payload = {
-    name: "測試客戶",
+  const initialForm = {
+    name: "王小姐",
+    industry: "咖啡店",
     service: "LINE Bot",
-    budget: "10000-30000",
+    budget: "15,000～30,000",
+    note: "想做預約、菜單查詢，也希望後台可以看到客戶需求。",
+  }
+  const [form, setForm] = useState(initialForm)
+  const [errors, setErrors] = useState({})
+  const [flowStep, setFlowStep] = useState(-1)
+  const [flowRunning, setFlowRunning] = useState(false)
+  const [showPayload, setShowPayload] = useState(false)
+  const [dashboardItems, setDashboardItems] = useState([])
+  const [detailLead, setDetailLead] = useState(null)
+  const flow = ["Form", "API", "Database", "Notification", "Dashboard"]
+
+  const payload = {
+    name: form.name.trim(),
+    industry: form.industry.trim(),
+    service: form.service,
+    budget: form.budget,
+    note: form.note.trim(),
+    source: "website_form",
     status: "new",
+    notify: ["LINE", "Email"],
+    createdAt: "剛剛",
+  }
+
+  function updateField(key, value) {
+    setForm((current) => ({ ...current, [key]: value }))
+    setErrors((current) => ({ ...current, [key]: "" }))
+  }
+
+  function validateForm() {
+    const nextErrors = {}
+    if (!form.name.trim()) nextErrors.name = "請填寫姓名。"
+    if (!form.industry.trim()) nextErrors.industry = "請填寫產業。"
+    if (!form.service) nextErrors.service = "請選擇需求類型。"
+    if (!form.budget) nextErrors.budget = "請選擇預算區間。"
+    setErrors(nextErrors)
+    return Object.keys(nextErrors).length === 0
+  }
+
+  function addDashboardItem() {
+    const nextItem = {
+      id: `REQ-${String(dashboardItems.length + 1).padStart(3, "0")}`,
+      ...payload,
+      notificationStatus: "LINE / Email 已排程",
+      nextStep: "確認需求欄位，安排初步討論。",
+    }
+    setDashboardItems((current) => [nextItem, ...current])
   }
 
   function runFlow() {
-    setSubmitted(true)
+    if (!validateForm()) return
     setShowPayload(false)
     setFlowStep(-1)
+    setFlowRunning(true)
     flow.forEach((_, index) => {
       window.setTimeout(() => setFlowStep(index), 260 * (index + 1))
     })
+    window.setTimeout(() => {
+      addDashboardItem()
+      setFlowRunning(false)
+    }, 260 * (flow.length + 1))
   }
 
   function replayFlow() {
-    setSubmitted(false)
+    if (!validateForm()) return
     setFlowStep(-1)
+    setFlowRunning(false)
     window.setTimeout(runFlow, 120)
   }
 
+  function clearDemo() {
+    setForm({ name: "", industry: "", service: "", budget: "", note: "" })
+    setErrors({})
+    setFlowStep(-1)
+    setFlowRunning(false)
+    setShowPayload(false)
+    setDashboardItems([])
+    setDetailLead(null)
+  }
+
+  function flowStatus(index) {
+    if (flowStep > index) return "Done"
+    if (flowStep === index) return flowRunning ? "Processing" : "Done"
+    return "Waiting"
+  }
+
   return (
-    <Shell title="API 串接 / 自動化流程" desc="用流程圖與 UI mockup 展示從表單到 API、資料庫、後台與通知的完整自動化。">
+    <Shell title="API 自動化流程" desc="把客戶表單、API、資料庫、通知與後台串成一條完整流程。">
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
-        <MiniCard title="表單送出">
+        <MiniCard title="客戶需求表單">
           <div className="grid gap-3">
-            {["姓名：陳小姐", "需求：預約諮詢", "通知：LINE + Email"].map((item) => (
-              <div key={item} className="rounded-lg border border-[#e3ded3] bg-white p-3 text-sm font-bold text-[#52605c]">{item}</div>
-            ))}
+            <label className="grid gap-2 text-sm font-black text-[#111c22]">
+              姓名
+              <input value={form.name} onChange={(event) => updateField("name", event.target.value)} className="min-h-11 rounded-lg border border-[#d8d2c5] px-3 text-sm font-bold outline-none focus:border-[#0d6b62]" />
+              {errors.name ? <span className="text-xs font-black text-[#b45309]">{errors.name}</span> : null}
+            </label>
+            <label className="grid gap-2 text-sm font-black text-[#111c22]">
+              產業
+              <input value={form.industry} onChange={(event) => updateField("industry", event.target.value)} className="min-h-11 rounded-lg border border-[#d8d2c5] px-3 text-sm font-bold outline-none focus:border-[#0d6b62]" />
+              {errors.industry ? <span className="text-xs font-black text-[#b45309]">{errors.industry}</span> : null}
+            </label>
+            <label className="grid gap-2 text-sm font-black text-[#111c22]">
+              需求類型
+              <select value={form.service} onChange={(event) => updateField("service", event.target.value)} className="min-h-11 rounded-lg border border-[#d8d2c5] px-3 text-sm font-bold outline-none focus:border-[#0d6b62]">
+                {["網站", "LINE Bot", "AI 工具", "小型系統"].map((item) => <option key={item}>{item}</option>)}
+              </select>
+              {errors.service ? <span className="text-xs font-black text-[#b45309]">{errors.service}</span> : null}
+            </label>
+            <label className="grid gap-2 text-sm font-black text-[#111c22]">
+              預算區間
+              <select value={form.budget} onChange={(event) => updateField("budget", event.target.value)} className="min-h-11 rounded-lg border border-[#d8d2c5] px-3 text-sm font-bold outline-none focus:border-[#0d6b62]">
+                {["6,000～12,000", "15,000～30,000", "30,000 以上", "還不確定"].map((item) => <option key={item}>{item}</option>)}
+              </select>
+              {errors.budget ? <span className="text-xs font-black text-[#b45309]">{errors.budget}</span> : null}
+            </label>
+            <label className="grid gap-2 text-sm font-black text-[#111c22]">
+              備註
+              <textarea value={form.note} onChange={(event) => updateField("note", event.target.value)} rows={4} className="rounded-lg border border-[#d8d2c5] px-3 py-2 text-sm font-bold leading-6 outline-none focus:border-[#0d6b62]" />
+            </label>
           </div>
           <div className="mt-3 flex flex-wrap gap-2">
-            <button type="button" onClick={runFlow} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+            <button type="button" onClick={runFlow} disabled={flowRunning} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60">
               送出表單
-            </button>
-            <button type="button" onClick={replayFlow} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
-              重播流程
             </button>
             <button type="button" onClick={() => setShowPayload((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看 API Payload
+            </button>
+            <button type="button" onClick={replayFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
+              重播流程
+            </button>
+            <button type="button" onClick={clearDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              清空
             </button>
           </div>
           {showPayload ? (
@@ -1345,25 +1437,85 @@ function ApiAutomationDemo() {
             </pre>
           ) : null}
         </MiniCard>
-        <div className="grid gap-3 md:grid-cols-5">
-          {flow.map((item, index) => (
-            <MiniCard key={item} title={`0${index + 1}`}>
-              <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${flowStep >= index ? "bg-[#0d6b62] text-white" : "bg-white text-[#52605c]"}`}>
-                {index + 1}
-              </div>
-              <p className="text-sm font-black leading-6">{item}</p>
-              <p className="mt-2 text-xs font-bold text-[#52605c]">{flowStep >= index ? "synced" : submitted ? "processing" : "waiting"}</p>
-            </MiniCard>
-          ))}
-        </div>
-        <MiniCard title="Dashboard 更新結果" tone="dark">
-          <div className="grid gap-3 sm:grid-cols-3">
-            {(flowStep >= 4 ? ["新需求 #1042", "通知已排程", "狀態 synced"] : ["等待資料", "等待通知", "尚未同步"]).map((item) => (
-              <div key={item} className="rounded-lg bg-white/10 p-3 text-sm font-black">{item}</div>
-            ))}
+        <div className="grid gap-4">
+          <div className="grid gap-3 md:grid-cols-5">
+            {flow.map((item, index) => {
+              const status = flowStatus(index)
+              const active = status !== "Waiting"
+              return (
+                <MiniCard key={item} title={`0${index + 1}`}>
+                  <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${active ? "bg-[#0d6b62] text-white" : "bg-white text-[#52605c]"}`}>
+                    {index + 1}
+                  </div>
+                  <p className="text-sm font-black leading-6">{item}</p>
+                  <p className={`mt-2 text-xs font-black ${status === "Processing" ? "text-[#b45309]" : active ? "text-[#0d6b62]" : "text-[#52605c]"}`}>{status}</p>
+                </MiniCard>
+              )
+            })}
           </div>
-        </MiniCard>
+          <MiniCard title="Dashboard 更新結果" tone="dark">
+            <div className="grid gap-3">
+              {dashboardItems.length ? (
+                dashboardItems.map((item) => (
+                  <button key={item.id} type="button" onClick={() => setDetailLead(item)} className="rounded-xl border border-white/10 bg-white/10 p-3 text-left transition hover:bg-white/15">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-sm font-black text-white">{item.name}</p>
+                      <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#111c22]">Done</span>
+                    </div>
+                    <div className="mt-2 grid gap-1 text-xs font-bold leading-5 text-white/72">
+                      <span>需求：{item.service} · 預算：{item.budget}</span>
+                      <span>建立時間：{item.createdAt} · 通知：{item.notificationStatus}</span>
+                    </div>
+                    <span className="mt-3 inline-flex rounded-md bg-white px-3 py-1 text-xs font-black text-[#111c22]">查看詳情</span>
+                  </button>
+                ))
+              ) : (
+                <div className="rounded-xl border border-white/10 bg-white/10 p-4 text-sm font-bold leading-7 text-white/72">
+                  表單送出後，資料會在這裡變成 dashboard 紀錄。
+                </div>
+              )}
+            </div>
+          </MiniCard>
+        </div>
       </div>
+      {detailLead ? (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#111c22]/55 p-4" role="dialog" aria-modal="true">
+          <div className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Request Detail</p>
+                <h3 className="mt-2 text-2xl font-black">{detailLead.name}</h3>
+              </div>
+              <button type="button" onClick={() => setDetailLead(null)} className="rounded-md border border-[#d8d2c5] px-3 py-2 text-sm font-black">關閉</button>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <MiniCard title="原始表單資料">
+                <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
+                  <p>產業：{detailLead.industry}</p>
+                  <p>需求：{detailLead.service}</p>
+                  <p>預算：{detailLead.budget}</p>
+                  <p>備註：{detailLead.note || "未填"}</p>
+                </div>
+              </MiniCard>
+              <MiniCard title="通知紀錄">
+                <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
+                  <p>LINE：已排程通知</p>
+                  <p>Email：已建立寄送任務</p>
+                  <p>後台：已新增案件</p>
+                </div>
+              </MiniCard>
+            </div>
+            <MiniCard title="API Payload">
+              <pre className="overflow-x-auto rounded-lg bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
+                {JSON.stringify(detailLead, null, 2)}
+              </pre>
+            </MiniCard>
+            <MiniCard title="下一步處理建議">
+              <p className="text-sm font-bold leading-7 text-[#52605c]">{detailLead.nextStep}</p>
+            </MiniCard>
+          </div>
+        </div>
+      ) : null}
     </Shell>
   )
 }
