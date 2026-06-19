@@ -1310,7 +1310,7 @@ function ApiAutomationDemo() {
   const [apiError, setApiError] = useState("")
   const [dashboardItems, setDashboardItems] = useState([])
   const [detailLead, setDetailLead] = useState(null)
-  const flow = ["Form", "API", "Database", "Notification", "Dashboard"]
+  const flow = ["Form", "API", "Validation", "Database", "Notification", "Dashboard"]
 
   function normalizeBudget(value) {
     if (value === "30,000 以上") return "30000+"
@@ -1433,11 +1433,19 @@ function ApiAutomationDemo() {
     setFlowRunning(false)
   }
 
-  function replayFlow() {
+  async function resendFlow() {
     if (!validateForm()) return
     setFlowStep(-1)
     setFlowRunning(false)
     window.setTimeout(runFlow, 120)
+  }
+
+  async function replayFlow() {
+    if (flowRunning) return
+    setFlowStep(-1)
+    setFlowRunning(true)
+    await playFlowAnimation()
+    setFlowRunning(false)
   }
 
   function clearDemo() {
@@ -1460,9 +1468,13 @@ function ApiAutomationDemo() {
   }
 
   return (
-    <Shell title="API 自動化流程" desc="把客戶表單、API、資料庫、通知與後台串成一條完整流程。">
+    <Shell title="API 自動化流程" desc="把客戶表單、API、資料驗證、通知與後台串成一條完整流程。">
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <MiniCard title="客戶需求表單">
+          <div className="mb-4 rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Live API Demo</p>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">送出後會 POST 到 /api/automation-lead，回傳 leadId、通知狀態與 dashboardItem。</p>
+          </div>
           <div className="grid gap-3">
             <label className="grid gap-2 text-sm font-black text-[#111c22]">
               姓名
@@ -1503,8 +1515,14 @@ function ApiAutomationDemo() {
             <button type="button" onClick={() => setShowResponse((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看 API Response
             </button>
-            <button type="button" onClick={replayFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
+            <button type="button" onClick={resendFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
               重送一次
+            </button>
+            <button type="button" onClick={replayFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
+              重播流程
+            </button>
+            <button type="button" onClick={() => scrollToSection("tech")} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              技術拆解
             </button>
             <button type="button" onClick={clearDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               清空
@@ -1529,7 +1547,7 @@ function ApiAutomationDemo() {
           ) : null}
         </MiniCard>
         <div className="grid gap-4">
-          <div className="grid gap-3 md:grid-cols-5">
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {flow.map((item, index) => {
               const status = flowStatus(index)
               const active = status !== "Waiting"
@@ -1544,6 +1562,21 @@ function ApiAutomationDemo() {
               )
             })}
           </div>
+          <MiniCard title="API 回應狀態">
+            <div className="grid gap-3 sm:grid-cols-3">
+              {[
+                ["ok", apiResponse?.ok ? "true" : "waiting"],
+                ["leadId", apiResponse?.leadId || "尚未建立"],
+                ["notification", apiResponse?.notification || "尚未通知"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-[#e3ded3] bg-[#faf7ef] p-3">
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-[#0d6b62]">{label}</p>
+                  <p className="mt-2 break-words text-sm font-black text-[#111c22]">{value}</p>
+                </div>
+              ))}
+            </div>
+            {apiError ? <p className="mt-3 text-xs font-black text-[#b45309]">{apiError}</p> : null}
+          </MiniCard>
           <MiniCard title="Dashboard 更新結果" tone="dark">
             <div className="grid gap-3">
               {dashboardItems.length ? (
@@ -1553,10 +1586,17 @@ function ApiAutomationDemo() {
                       <p className="text-sm font-black text-white">{item.name}</p>
                       <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#111c22]">{item.status}</span>
                     </div>
-                    <div className="mt-2 grid gap-1 text-xs font-bold leading-5 text-white/72">
-                      <span>需求：{item.service} · 預算：{item.budget}</span>
-                      <span>來源：{item.source} · leadId：{item.id}</span>
-                      <span>建立時間：{item.createdAt} · 通知：{item.notificationStatus}</span>
+                    <div className="mt-3 grid gap-2 text-xs font-bold leading-5 text-white/72 sm:grid-cols-2">
+                      <span>Lead ID：{item.id}</span>
+                      <span>產業：{item.industry}</span>
+                      <span>需求：{item.service}</span>
+                      <span>預算：{item.budget}</span>
+                      <span>通知：{item.notificationStatus}</span>
+                      <span>建立：{item.createdAt}</span>
+                    </div>
+                    <div className="mt-3 flex flex-wrap gap-2">
+                      <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">來源：{item.source}</span>
+                      <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">待追蹤</span>
                     </div>
                     <span className="mt-3 inline-flex rounded-md bg-white px-3 py-1 text-xs font-black text-[#111c22]">查看詳情</span>
                   </button>
@@ -1595,7 +1635,8 @@ function ApiAutomationDemo() {
                   <p>通知狀態：{detailLead.notificationStatus}</p>
                   <p>API 狀態：{detailLead.apiStatus}</p>
                   <p>{detailLead.apiMessage}</p>
-                  <p>後台：已新增案件</p>
+                  <p>Mock Notification Log：LINE / Email optional 已模擬送出。</p>
+                  <p>後台：已新增 lead 並標記待追蹤。</p>
                 </div>
               </MiniCard>
             </div>

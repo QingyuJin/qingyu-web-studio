@@ -91,8 +91,12 @@ export function WorkDetailPage() {
   const isApiAutomationProject = project.slug === "api-automation"
   const projectSeo = {
     path: `/works/${project.slug}`,
-    title: `${project.title}｜Qingyu Web Studio`,
-    description: project.summary,
+    title: isApiAutomationProject
+      ? "API 自動化流程 Demo｜表單、API、通知與後台展示｜Qingyu Web Studio"
+      : `${project.title}｜Qingyu Web Studio`,
+    description: isApiAutomationProject
+      ? "展示如何將客戶表單、API、資料驗證、通知流程與後台 Dashboard 串接成完整小型系統。"
+      : project.summary,
   }
 
   return (
@@ -117,7 +121,7 @@ export function WorkDetailPage() {
         ) : isApiAutomationProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              送出表單
+              送出表單 Demo
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看 API Payload
@@ -218,6 +222,21 @@ export function WorkDetailPage() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Mock mode"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {isApiAutomationProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Automation Architecture</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  User Form → POST /api/automation-lead → Validation → Lead Object → Mock Notification → Dashboard UI
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Tailwind", "Vercel Serverless Function", "Request Body Check", "JSON Payload", "Mock Notification", "React State UI"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -368,13 +387,31 @@ function HeroPreview({ project }) {
           <HeroPreviewList items={["首頁標題建議", "CTA 動線", "SEO Description", "手機版問題"]} />
         </div>
       ) : isApi ? (
-        <div className="mt-5 grid gap-3 md:grid-cols-5">
-          {["Form", "API", "Database", "Notify", "Dashboard"].map((item, index) => (
-            <div key={item} className="rounded-xl bg-white/10 p-3">
-              <p className="text-xs font-black text-[#8fd6cc]">0{index + 1}</p>
-              <p className="mt-2 text-sm font-black">{item}</p>
+        <div className="mt-5 grid gap-4">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-[#0d6b62]">POST /api/automation-lead</p>
+                <p className="mt-2 text-sm font-black">客戶需求進件</p>
+              </div>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">ok: true</span>
             </div>
-          ))}
+            <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
+              <div className="h-full w-[84%] rounded-full bg-[#0d6b62]" />
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black sm:grid-cols-3">
+              {["leadId", "mock_sent", "Dashboard"].map((item) => (
+                <span key={item} className="rounded-md bg-[#faf8f3] px-2 py-2 text-center">{item}</span>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {["Form → API", "Validation → Lead Object", "Notification → Dashboard"].map((item) => (
+              <div key={item} className="rounded-xl bg-white/10 p-3 text-sm font-black text-white/86">
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
