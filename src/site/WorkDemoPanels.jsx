@@ -578,6 +578,8 @@ function AiAuditProductDemo() {
 function LineBotDemo() {
   const [activePanel, setActivePanel] = useState("chat")
   const [selectedId, setSelectedId] = useState("REQ-001")
+  const [webhookStatus, setWebhookStatus] = useState(null)
+  const [webhookLoading, setWebhookLoading] = useState(false)
   const [messages, setMessages] = useState([
     { role: "customer", text: "你好，我想預約店內諮詢" },
     { role: "bot", text: "可以，請問方便留下姓名、服務類型與希望時間嗎？" },
@@ -643,6 +645,31 @@ function LineBotDemo() {
   function showDashboard() {
     setActivePanel("dashboard")
     addSimulatedInquiry()
+  }
+
+  async function testWebhook() {
+    setWebhookLoading(true)
+    setWebhookStatus(null)
+    try {
+      const response = await fetch("/api/line-webhook")
+      const data = await response.json().catch(() => null)
+      if (!response.ok) throw new Error(data?.error || "Webhook health check failed")
+      setWebhookStatus({
+        ok: true,
+        message: data?.message || "LINE webhook endpoint ready",
+        openAI: data?.modes?.openAI || "demo fallback mode",
+        line: data?.modes?.line || "webhook mock mode",
+      })
+    } catch (error) {
+      setWebhookStatus({
+        ok: false,
+        message: error.message || "Webhook health check failed",
+        openAI: "demo fallback mode",
+        line: "webhook mock mode",
+      })
+    } finally {
+      setWebhookLoading(false)
+    }
   }
 
   return (
@@ -736,6 +763,29 @@ function LineBotDemo() {
                   {tag}
                 </span>
               ))}
+            </div>
+          </MiniCard>
+
+          <MiniCard title="Webhook 測試狀態">
+            <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+              <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
+                <p><span className="font-black text-[#111c22]">Endpoint：</span>/api/line-webhook</p>
+                <p><span className="font-black text-[#111c22]">OpenAI：</span>{webhookStatus?.openAI || "demo fallback mode"}</p>
+                <p><span className="font-black text-[#111c22]">LINE：</span>{webhookStatus?.line || "webhook mock mode"}</p>
+                {webhookStatus ? (
+                  <p className={webhookStatus.ok ? "font-black text-[#0d6b62]" : "font-black text-[#b45309]"}>
+                    {webhookStatus.ok ? "Ready：" : "Error："}{webhookStatus.message}
+                  </p>
+                ) : null}
+              </div>
+              <button
+                type="button"
+                onClick={testWebhook}
+                disabled={webhookLoading}
+                className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60"
+              >
+                {webhookLoading ? "測試中..." : "測試 Webhook"}
+              </button>
             </div>
           </MiniCard>
         </div>

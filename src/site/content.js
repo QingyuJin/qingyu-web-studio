@@ -126,9 +126,9 @@ export const projects = [
     architecture: ["LINE Messaging API", "Webhook", "OpenAI API", "Vercel Function", "Supabase", "Dashboard UI"],
     stack: {
       Frontend: "React 後台收件匣與狀態卡",
-      Backend: "Webhook endpoint 接收 LINE event",
-      API: "LINE Messaging API / OpenAI API / Reply flow",
-      Database: "Supabase 訊息與案件資料",
+      Backend: "/api/line-webhook 接收 LINE event 並驗證 x-line-signature",
+      API: "LINE User → LINE Platform → /api/line-webhook → Signature Verify → OpenAI / Mock Reply → LINE Reply API → Dashboard Mock",
+      Database: "Supabase-ready 訊息與案件資料",
       Deploy: "Vercel Serverless Function",
     },
     visuals: ["Chat Preview", "Parsed Result", "Inbox Board"],
