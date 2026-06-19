@@ -27,6 +27,9 @@ function StudioHome() {
               <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                 聊聊需求
               </Link>
+              <Link to="/tools/project-planner" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                需求診斷
+              </Link>
             </div>
           </div>
           <QuietMockup />
@@ -42,13 +45,15 @@ function StudioHome() {
             </article>
           ))}
         </div>
-        <div className="mt-6 rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5 md:flex md:items-center md:justify-between">
+        <div className="mt-8 rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5 md:flex md:items-center md:justify-between">
           <div>
-            <h3 className="text-xl font-black">不知道適合做哪一種？</h3>
-            <p className="mt-2 text-sm font-bold leading-7 text-[#5a6461]">用小工具快速判斷網站、系統、AI 工具或 LINE Bot 方向。</p>
+            <h3 className="text-xl font-black">不知道要做哪種網站？</h3>
+            <p className="mt-2 max-w-2xl text-sm font-bold leading-7 text-[#5a6461]">
+              用 1 分鐘回答幾個問題，我會幫你判斷適合品牌網站、作品集、LINE Bot、AI 工具還是小型系統。
+            </p>
           </div>
-          <Link to="/tools/project-planner" className="mt-4 inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white md:mt-0">
-            開始診斷
+          <Link to="/tools/project-planner" className="mt-4 inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white md:mt-0">
+            開始需求診斷
           </Link>
         </div>
       </Section>

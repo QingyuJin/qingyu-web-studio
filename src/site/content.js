@@ -40,8 +40,8 @@ export const seo = {
   },
   planner: {
     path: "/tools/project-planner",
-    title: "網站類型診斷｜Qingyu Web Studio",
-    description: "用簡單問題診斷適合的網站、系統、AI 工具或 LINE Bot 製作方向。",
+    title: "網站需求診斷工具｜Qingyu Web Studio",
+    description: "用互動式診斷工具判斷你的需求適合網站、作品集、LINE Bot、AI 工具或小型系統，並產生建議方案與技術方向。",
   },
 }
 

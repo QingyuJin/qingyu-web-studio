@@ -22,11 +22,11 @@ const budgetOptions = ["3,000～5,000", "6,000～12,000", "15,000～30,000", "30
 const timelineOptions = ["一週內", "兩週內", "一個月內", "不急，想慢慢規劃"]
 
 const steps = [
-  { key: "profile", title: "你是誰？", type: "single", options: profileOptions },
-  { key: "goal", title: "你想做什麼？", type: "single", options: goalOptions },
-  { key: "features", title: "你需要哪些功能？", type: "multi", options: featureOptions },
+  { key: "profile", title: "你的身份", type: "single", options: profileOptions },
+  { key: "goal", title: "想做的東西", type: "single", options: goalOptions },
+  { key: "features", title: "需要的功能", type: "multi", options: featureOptions },
   { key: "budget", title: "預算區間", type: "single", options: budgetOptions },
-  { key: "timeline", title: "希望什麼時候上線？", type: "single", options: timelineOptions },
+  { key: "timeline", title: "上線時間", type: "single", options: timelineOptions },
 ]
 
 const emptyAnswers = {
@@ -135,6 +135,11 @@ function buildRecommendation(answers) {
     "列出最重要的 1～2 個轉換動作",
     "先做可上線版本，再逐步加後台或自動化",
   ]
+  const risks = [
+    "需求一次放太多會拉長時程",
+    "需要先確認最重要的轉換動作",
+    "若要串接外部 API，需預留測試時間",
+  ]
 
   return {
     planName,
@@ -142,6 +147,7 @@ function buildRecommendation(answers) {
     recommendedFeatures: Array.from(new Set([...recommendedFeatures, ...features])).slice(0, 8),
     tech,
     direction,
+    risks,
     nextSteps,
   }
 }
@@ -267,6 +273,7 @@ function ProjectPlanner() {
       `適合功能：${target.recommendedFeatures.join("、")}`,
       `建議技術：${target.tech.join(" / ")}`,
       `製作方向：${target.direction}`,
+      `風險提醒：${target.risks.join("；")}`,
       `下一步：${target.nextSteps.join("；")}`,
     ].join("\n")
 
@@ -348,10 +355,10 @@ function ProjectPlanner() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Project Planner</p>
             <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
-              需求診斷工具
+              網站需求診斷
             </h1>
             <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">
-              回答幾個問題，我會幫你判斷適合做網站、系統、AI 工具還是 LINE Bot。
+              不知道該做網站、LINE Bot、AI 工具還是小系統？回答幾個問題，我會幫你整理適合的方案、功能與技術方向。
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -364,8 +371,8 @@ function ProjectPlanner() {
           </div>
           <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white shadow-xl shadow-[#111c22]/10">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Instant Result</p>
-            <div className="mt-5 grid gap-3 sm:grid-cols-3">
-              {["推薦方案", "複雜度", "下一步"].map((item) => (
+            <div className="mt-5 grid gap-3 sm:grid-cols-2">
+              {["推薦方案", "技術複雜度", "建議功能", "下一步"].map((item) => (
                 <div key={item} className="rounded-xl bg-white/10 p-4">
                   <p className="text-sm font-black">{item}</p>
                   <div className="mt-3 h-1.5 rounded-full bg-white/15">
@@ -475,6 +482,14 @@ function ProjectPlanner() {
               <p className="mt-2 text-sm font-bold leading-7 text-white/80">{(result || previewResult).direction}</p>
             </div>
             <div className="rounded-xl bg-white/10 p-4">
+              <p className="text-xs font-black text-[#8fd6cc]">風險提醒</p>
+              <div className="mt-3 grid gap-2 text-sm font-bold leading-6 text-white/80">
+                {(result || previewResult).risks.map((item) => (
+                  <span key={item}>・{item}</span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">下一步建議</p>
               <div className="mt-3 grid gap-2 text-sm font-bold leading-6 text-white/80">
                 {(result || previewResult).nextSteps.map((item) => (
@@ -570,6 +585,16 @@ function ProjectPlanner() {
                 <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{detail}</p>
               </div>
             ))}
+            <div className="rounded-xl border border-[#ddd6c9] bg-[#111c22] p-4 text-white md:col-span-2">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">Flow</p>
+              <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
+                {["User Input", "Rule Engine", "AI Planner optional", "Recommendation UI", "Contact CTA"].map((item) => (
+                  <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-white/85">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </div>
       </section>
