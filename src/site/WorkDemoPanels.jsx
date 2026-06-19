@@ -296,14 +296,18 @@ function LineBotDemo() {
   const visibleMessages = [...messages.slice(0, step + 1), ...(activePanel === "chat-simulated" || activePanel === "dashboard" ? simulatedMessages : [])]
   const flowSteps = ["User", "LINE", "Webhook", "OpenAI", "Reply API", "Dashboard"]
 
-  function simulateConversation() {
-    setActivePanel("chat-simulated")
-    setStep(3)
+  function addSimulatedInquiry() {
     setInboxItems((current) => (
       current.some((item) => item.id === "REQ-002")
         ? current
         : [{ id: "REQ-002", customer: "LINE 使用者", need: "店家網站", status: "新需求", source: "LINE" }, ...current]
     ))
+  }
+
+  function simulateConversation() {
+    setActivePanel("chat-simulated")
+    setStep(3)
+    addSimulatedInquiry()
   }
 
   function showWebhookFlow() {
@@ -313,7 +317,8 @@ function LineBotDemo() {
 
   function showDashboard() {
     setActivePanel("dashboard")
-    simulateConversation()
+    setStep(3)
+    addSimulatedInquiry()
   }
 
   return (
@@ -398,7 +403,7 @@ function LineBotDemo() {
 
 function BuildFlowDemo() {
   const [selected, setSelected] = useState("q-001")
-  const [statusIndex, setStatusIndex] = useState(0)
+  const [statusIndex, setStatusIndex] = useState(-1)
   const [showDetail, setShowDetail] = useState(false)
   const [cases, setCases] = useState([
     { id: "q-001", name: "屋頂防水工程", customer: "LINE 業主", status: "施工回報中", progress: 75 },
@@ -420,6 +425,7 @@ function BuildFlowDemo() {
       currentCases.some((item) => item.id === demoCase.id) ? currentCases : [demoCase, ...currentCases]
     ))
     setSelected(demoCase.id)
+    setStatusIndex(-1)
     setLineReport("LINE 回報：新增案件，客戶已補照片，待估價。")
   }
 
