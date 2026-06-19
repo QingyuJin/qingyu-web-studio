@@ -101,7 +101,7 @@ export default async function handler(req, res) {
   const signature = req.headers["x-line-signature"]
 
   if (!verifyLineSignature(rawBody, signature)) {
-    return res.status(401).json({ error: "Invalid LINE signature" })
+    return res.status(401).json({ error: "LINE channel secret is not configured or signature is invalid." })
   }
 
   const events = parseEvents(rawBody)
