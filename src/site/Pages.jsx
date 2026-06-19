@@ -42,17 +42,34 @@ function Tags({ items }) {
 }
 
 export function WorksPage() {
+  const categories = ["網站", "系統", "AI 工具", "LINE Bot", "工程流程系統"]
+
   return (
     <PageShell page={seo.works} title="作品案例" intro="首頁安靜好懂，作品頁展現技術力。這裡放精選 Demo 與系統概念。">
       <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="mb-8 flex flex-wrap gap-2">
+          {categories.map((category) => (
+            <span key={category} className="rounded-full border border-[#ddd6c9] bg-white px-4 py-2 text-sm font-black text-[#2f3c3b]">
+              {category}
+            </span>
+          ))}
+        </div>
         <div className="grid gap-4 md:grid-cols-2">
           {projects.map((project) => (
-            <Link key={project.slug} to={`/works/${project.slug}`} className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
+            <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
-              <span className="mt-5 inline-flex text-sm font-black text-[#0d6b62]">看作品頁 →</span>
-            </Link>
+              <Tags items={project.tags.slice(0, 4)} />
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link to={project.livePath} className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                  {project.liveLabel}
+                </Link>
+                <Link to={`/works/${project.slug}`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22]">
+                  {project.secondaryLabel}
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
       </section>
@@ -73,6 +90,23 @@ export function WorkDetailPage() {
     <PageShell page={projectSeo} eyebrow={project.category} title={project.title} intro={project.summary}>
       <section className="mx-auto max-w-6xl px-4 pt-14">
         <WorkShowcase project={project} />
+      </section>
+
+      <section id="demo" className="mx-auto max-w-6xl px-4 pt-8">
+        <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+          <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Live Demo</p>
+              <h2 className="mt-2 text-2xl font-black">實際成品入口</h2>
+              <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
+                這個案例連到專案裡已存在的成品頁或展示頁，作品頁則保留技術拆解。
+              </p>
+            </div>
+            <Link to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              {project.liveLabel}
+            </Link>
+          </div>
+        </div>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
@@ -111,9 +145,30 @@ export function WorkDetailPage() {
             </div>
             <div>
               <p className="mb-3 text-sm font-black text-[#0d6b62]">技術架構</p>
-              <Tags items={project.architecture} />
+              <div className="grid gap-3">
+                {Object.entries(project.stack).map(([layer, detail]) => (
+                  <div key={layer} className="rounded-lg border border-[#ddd6c9] bg-white p-3">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{layer}</p>
+                    <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{detail}</p>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="mb-7">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Demo Details</p>
+          <h2 className="mt-3 text-3xl font-black">功能展示</h2>
+        </div>
+        <div className="grid gap-3 md:grid-cols-3">
+          {project.demo.map((item) => (
+            <Card key={item}>
+              <p className="text-sm font-black leading-7">{item}</p>
+            </Card>
+          ))}
         </div>
       </section>
 

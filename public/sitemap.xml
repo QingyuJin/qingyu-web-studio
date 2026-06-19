@@ -21,6 +21,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.qingyuweb.com/works/xinjiang</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.qingyuweb.com/works/qingyu-web</loc>
     <priority>0.8</priority>
   </url>
@@ -43,5 +47,13 @@
   <url>
     <loc>https://www.qingyuweb.com/buildflow</loc>
     <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.qingyuweb.com/contractor-site</loc>
+    <priority>0.6</priority>
+  </url>
+  <url>
+    <loc>https://www.qingyuweb.com/engineering</loc>
+    <priority>0.5</priority>
   </url>
 </urlset>

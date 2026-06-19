@@ -45,17 +45,30 @@ function StudioHome() {
       <Section eyebrow="Works" title="精選作品">
         <div className="grid gap-4 md:grid-cols-2">
           {projects.map((project) => (
-            <Link
+            <article
               key={project.slug}
-              to={`/works/${project.slug}`}
-              className="group rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
+              className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
             >
               <ProjectPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
               <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
-              <span className="mt-5 inline-flex text-sm font-black text-[#0d6b62] group-hover:text-[#111c22]">查看作品 →</span>
-            </Link>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {project.tags.slice(0, 4).map((tag) => (
+                  <span key={tag} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link to={project.livePath} className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white hover:bg-[#26343b]">
+                  {project.liveLabel}
+                </Link>
+                <Link to={`/works/${project.slug}`} className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                  {project.secondaryLabel}
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
       </Section>
@@ -185,6 +198,8 @@ function ProjectPreview({ project }) {
   const isBuildFlow = project.slug === "buildflow"
   const isLineBot = project.slug === "linebot"
   const isAudit = project.slug === "ai-audit"
+  const isXinjiang = project.slug === "xinjiang"
+  const isQingyu = project.slug === "qingyu-web"
 
   return (
     <div className="mb-5 min-h-44 rounded-lg border border-[#e6e0d5] bg-[#faf8f3] p-4">
@@ -228,6 +243,31 @@ function ProjectPreview({ project }) {
                 <span>{item}</span>
                 <span>{index === 0 ? "A-" : index === 1 ? "B+" : "A"}</span>
               </div>
+            </div>
+          ))}
+        </div>
+      ) : isXinjiang ? (
+        <div className="mt-4 grid gap-3">
+          <div className="rounded-lg bg-white p-3">
+            <div className="h-3 w-2/3 rounded-full bg-[#111c22]" />
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {["服務", "案例", "估價"].map((item) => (
+                <span key={item} className="rounded-md bg-[#f1ede4] py-2 text-center text-[11px] font-black text-[#40504c]">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+          <div className="rounded-lg border border-[#e1dbcf] bg-white px-3 py-2 text-xs font-black text-[#40504c]">
+            估價入口 → 後台概念
+          </div>
+        </div>
+      ) : isQingyu ? (
+        <div className="mt-4 grid gap-2">
+          {["RWD layout", "SEO / OG", "Contact CTA"].map((item) => (
+            <div key={item} className="flex items-center justify-between rounded-lg bg-white px-3 py-2 text-xs font-black text-[#40504c]">
+              <span>{item}</span>
+              <span className="text-[#0d6b62]">OK</span>
             </div>
           ))}
         </div>
