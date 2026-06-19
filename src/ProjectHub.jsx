@@ -79,8 +79,8 @@ function ProjectHub() {
               Q
             </span>
             <div>
-              <p className="font-black tracking-tight">BuildFlow Case Demo</p>
-              <p className="text-xs font-bold text-[#66716d]">Qingyu Web Studio 作品案例</p>
+              <p className="font-black tracking-tight">Engineering Demo</p>
+              <p className="text-xs font-bold text-[#66716d]">Landing page + workflow app</p>
             </div>
           </Link>
 
@@ -120,10 +120,10 @@ function ProjectHub() {
               Contractor Business System
             </p>
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              這是 Qingyu Web Studio 的工程資料管理作品案例。
+              工程接案不只需要網站，也需要能追蹤案件的流程。
             </h1>
             <p className="mt-5 max-w-xl text-base font-bold leading-8 text-[#d8e1de] sm:text-lg">
-              以工程行常見情境示範：把服務頁、詢價表單、案例展示與 BuildFlow 後台串成可追蹤流程。
+              這個案例把工程服務頁、詢價表單、案例展示與 BuildFlow 後台串成一個完整接案故事。
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">

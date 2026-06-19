@@ -66,57 +66,40 @@ function BuildFlowDemoSection() {
 
   return (
     <section id="buildflow-demo" className="border-y border-[#dedbd1] bg-[#eef4f1]">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="grid gap-5 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+      <div className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-end">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">
-              BuildFlow Demo
+              Interactive Demo
             </p>
-            <h2 className="mt-3 text-[clamp(1.75rem,7vw,2.25rem)] font-black tracking-tight md:text-4xl">
-              LINE 訊息，變成案件
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
+              BuildFlow 工程資料管理互動 Demo
             </h2>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#5d6863] md:mt-4">
-              LINE 報價、業主同意、施工回報、驗收、請款與保固，都同步成後台可追蹤資料。
+            <p className="mt-4 text-sm font-bold leading-7 text-[#5d6863]">
+              模擬把 LINE 裡散落的照片、報價、備註與施工進度整理成可搜尋、可追蹤的案件系統。
             </p>
-            <div className="mt-4 flex flex-wrap items-center gap-2 text-xs font-black text-[#40514f] md:mt-5">
-              {["LINE 報價", "業主同意", "施工回報", "驗收", "請款", "保固"].map((item, index) => (
-                <span key={item} className="inline-flex items-center gap-2">
-                  <span className="rounded-full bg-white px-3 py-1 text-[#0f766e] shadow-sm">{item}</span>
-                  {index < 5 ? <span className="text-[#8aa39d]">→</span> : null}
-                </span>
-              ))}
-            </div>
-            <div className="mt-3 flex flex-wrap gap-2">
-              {["LINE Bot", "Supabase", "Webhook", "Vercel", "狀態同步"].map((tech) => (
-                <span key={tech} className="rounded-md bg-[#172026] px-2.5 py-1 text-xs font-black text-white">
-                  {tech}
-                </span>
-              ))}
-            </div>
           </div>
 
-          <BuildFlowProductMock />
+          <div className="grid gap-3 sm:grid-cols-[1fr_auto]">
+            <label className="grid gap-2">
+              <span className="text-sm font-black text-[#40514f]">搜尋案件、狀態或備註</span>
+              <input
+                value={keyword}
+                onChange={(event) => setKeyword(event.target.value)}
+                placeholder="例如：施工中、防水、照片、報價"
+                className="min-h-12 rounded-md border border-[#cbd8d4] bg-white px-4 text-sm font-bold text-[#172026] shadow-sm outline-none placeholder:text-[#8a9692] focus:border-[#0f766e] focus:ring-4 focus:ring-[#0f766e]/10"
+              />
+            </label>
+            <Link
+              to="/buildflow"
+              className="inline-flex min-h-12 items-center justify-center self-end rounded-md bg-[#172026] px-5 text-sm font-black text-white hover:bg-[#27404a]"
+            >
+              查看工程管理 Demo
+            </Link>
+          </div>
         </div>
 
-        <div className="mt-5 grid gap-3 rounded-2xl border border-[#d0ddd9] bg-white p-3 shadow-sm sm:grid-cols-[1fr_auto] md:p-4">
-          <label className="grid gap-2">
-            <span className="text-sm font-black text-[#40514f]">搜尋案件、狀態或備註</span>
-            <input
-              value={keyword}
-              onChange={(event) => setKeyword(event.target.value)}
-              placeholder="例如：施工中、防水、照片、報價"
-              className="min-h-12 rounded-md border border-[#cbd8d4] bg-white px-4 text-sm font-bold text-[#172026] shadow-sm outline-none placeholder:text-[#8a9692] focus:border-[#0f766e] focus:ring-4 focus:ring-[#0f766e]/10"
-            />
-          </label>
-          <Link
-            to="/buildflow"
-            className="inline-flex min-h-12 items-center justify-center self-end rounded-md bg-[#172026] px-5 text-sm font-black text-white hover:bg-[#27404a]"
-          >
-            看 LINE 接單後台
-          </Link>
-        </div>
-
-        <div className="mt-6 grid gap-4 md:mt-8 lg:grid-cols-[0.9fr_1.1fr] lg:gap-5">
+        <div className="mt-8 grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
           <div className="grid gap-3">
             {filteredCases.map((item) => (
               <CaseCard
@@ -170,70 +153,6 @@ function BuildFlowDemoSection() {
         ) : null}
       </div>
     </section>
-  )
-}
-
-function BuildFlowProductMock() {
-  const flow = ["報價", "同意", "回報", "驗收", "請款", "保固"]
-
-  return (
-    <div className="rounded-[1.35rem] border border-[#172026] bg-[#172026] p-2.5 shadow-xl shadow-[#0f766e]/10">
-      <div className="grid gap-3 rounded-[1rem] bg-[#f8f7f2] p-3 text-[#172026]">
-        <div className="flex items-center justify-between gap-3 rounded-xl border border-[#dedbd1] bg-white px-3 py-3">
-          <div>
-            <p className="text-[0.68rem] font-black uppercase tracking-[0.18em] text-[#0f766e]">
-              BuildFlow Sync
-            </p>
-            <p className="mt-1 text-sm font-black">q-001 屋頂防水工程</p>
-          </div>
-          <span className="rounded-full bg-emerald-50 px-3 py-1 text-xs font-black text-emerald-800">
-            Supabase synced
-          </span>
-        </div>
-
-        <div className="grid gap-3 sm:grid-cols-[1fr_0.9fr]">
-          <div className="rounded-xl border border-[#dedbd1] bg-white p-3">
-            <div className="flex items-center justify-between text-xs font-black text-[#66716d]">
-              <span>案件進度</span>
-              <span>75%</span>
-            </div>
-            <div className="mt-2 h-2.5 overflow-hidden rounded-full bg-[#dfe7e3]">
-              <div className="h-full w-3/4 rounded-full bg-[#0f766e]" />
-            </div>
-            <div className="mt-3 grid grid-cols-2 gap-2">
-              <MockStat label="狀態" value="施工中" />
-              <MockStat label="來源" value="LINE Bot" />
-            </div>
-          </div>
-
-          <div className="rounded-xl border border-[#dedbd1] bg-white p-3">
-            <p className="text-xs font-black text-[#0f766e]">Timeline</p>
-            <div className="mt-2 grid gap-2 text-xs font-bold text-[#40514f]">
-              <p>09:12 報價單已查看</p>
-              <p>10:40 業主已同意</p>
-              <p>17:30 每日施工回報</p>
-            </div>
-          </div>
-        </div>
-
-        <div className="flex gap-2 overflow-x-auto pb-1">
-          {flow.map((item) => (
-            <span key={item} className="shrink-0 rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#135e56]">
-              {item}
-            </span>
-          ))}
-        </div>
-      </div>
-    </div>
-  )
-}
-
-function MockStat({ label, value }) {
-  return (
-    <div className="rounded-lg bg-[#f8f7f2] px-3 py-2">
-      <p className="text-[0.65rem] font-black text-[#66716d]">{label}</p>
-      <p className="mt-1 text-xs font-black text-[#172026]">{value}</p>
-    </div>
   )
 }
 
