@@ -110,7 +110,7 @@ export function WorksPage() {
                 <Link to={project.livePath} className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
                   {project.liveLabel}
                 </Link>
-                <Link to={`/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22]">
+                <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22]">
                   {project.secondaryLabel}
                 </Link>
               </div>
@@ -129,20 +129,25 @@ export function WorkDetailPage() {
   const isBuildFlowProject = project.slug === "buildflow"
   const isApiAutomationProject = project.slug === "api-automation"
   const isQingyuWebProject = project.slug === "qingyu-web"
+  const isXinjiangProject = project.slug === "xinjiang"
   const isInternalDemoPath = project.livePath === `/works/${project.slug}#demo`
   const projectSeo = {
     path: `/works/${project.slug}`,
     title: isQingyuWebProject
       ? "Qingyu Web Studio 主站案例｜網站服務、Demo Lab 與 SEO 架構"
       : isBuildFlowProject
-      ? "BuildFlow 工程行案件管理系統 Demo｜Qingyu Web Studio"
+      ? "BuildFlow 工程行案件管理系統 Demo｜鑫匠工程案例｜Qingyu Web Studio"
+      : isXinjiangProject
+      ? "鑫匠工程案例｜工程網站與 BuildFlow 案件管理展示｜Qingyu Web Studio"
       : isApiAutomationProject
         ? "API 自動化流程 Demo｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
     description: isQingyuWebProject
       ? "展示 Qingyu Web Studio 主站如何整合網站服務、作品展示、需求診斷工具、SEO metadata、Vercel 部署與聯絡轉換。"
       : isBuildFlowProject
-      ? "展示工程行如何用案件管理後台整理客戶需求、現場照片、報價狀態、施工進度與 LINE 回報流程。"
+      ? "以鑫匠工程為案例，展示工程服務業如何用 BuildFlow 整合網站詢價、案件管理、現場照片、報價單、施工狀態與 LINE 回報流程。"
+      : isXinjiangProject
+      ? "展示鑫匠工程網站如何結合 BuildFlow 案件管理流程，串接估價入口、工程案例、報價狀態與 LINE 回報。"
       : isApiAutomationProject
         ? "展示如何將客戶表單、API、資料驗證、通知流程與後台 Dashboard 串接成完整小型系統。"
         : project.summary,
@@ -198,6 +203,18 @@ export function WorkDetailPage() {
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看 API Payload
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isXinjiangProject ? (
+          <>
+            <Link to="/contractor-site" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看鑫匠網站
+            </Link>
+            <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看 BuildFlow 系統
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -597,7 +614,7 @@ function WorkShowcase({ project }) {
           <Link to={project.livePath} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
             {project.liveLabel}
           </Link>
-          <Link to={`/works/${project.slug}#tech`} className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+          <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
             {project.secondaryLabel}
           </Link>
         </div>

@@ -1,4 +1,5 @@
 import { useEffect, useMemo, useState } from "react"
+import { Link } from "react-router-dom"
 
 const aiExampleReport = {
   source: "mock_example",
@@ -1258,6 +1259,25 @@ function BuildFlowDemo() {
     })
   }
 
+  function createXinjiangCaseId() {
+    return `BF-XJ-${Date.now().toString().slice(-4)}`
+  }
+
+  function mapXinjiangCaseToUi(apiCase) {
+    return {
+      ...mapApiCaseToUi({
+        ...apiCase,
+        source: apiCase.source || "鑫匠工程網站表單",
+        photos: ["xinjiang-roof-1", "quote-form", "site-waterproof"],
+        logs: ["已收到來自鑫匠工程網站的估價需求，等待初步估價。"],
+      }),
+      name: "鑫匠工程 Demo 案件",
+      quoteStatus: "待估價",
+      construction: "網站估價需求已進入 BuildFlow，等待整理照片與初步估價。",
+      notes: "此案件示範從鑫匠工程網站估價入口進入 BuildFlow 後台，後續可接 LINE 回報與報價單 Preview。",
+    }
+  }
+
   function parseBudget(value) {
     const numeric = Number(String(value).replace(/[^\d]/g, ""))
     return Number.isFinite(numeric) && numeric > 0 ? numeric : 28000
@@ -1367,6 +1387,54 @@ function BuildFlowDemo() {
     }
   }
 
+  async function simulateXinjiangCase() {
+    const payload = {
+      customer: "陳先生",
+      type: "屋頂防水",
+      description: "下雨後屋頂滲水，想先估價",
+      budget: "NT$28,000",
+      source: "鑫匠工程網站表單",
+    }
+    try {
+      const response = await fetch("/api/buildflow-cases", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const data = await response.json()
+      if (!response.ok || !data.ok) throw new Error(data.error || "API request failed")
+      const mapped = mapXinjiangCaseToUi(data.case)
+      setCases((currentCases) => [mapped, ...currentCases])
+      setSelected(mapped.id)
+      setApiMode("Connected")
+      setApiError("")
+      setApiResponse({
+        ...data,
+        scenario: "xinjiang_case",
+        lineMessage: "已收到來自鑫匠工程網站的估價需求，等待初步估價。",
+      })
+      setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
+    } catch (error) {
+      console.warn("buildflow xinjiang case fallback", error.message)
+      const fallbackCase = mapXinjiangCaseToUi({
+        id: createXinjiangCaseId(),
+        customer: "陳先生",
+        type: "屋頂防水",
+        status: "待估價",
+        budget: "NT$28,000",
+        createdAt: "剛剛",
+        source: "鑫匠工程網站表單",
+        description: "下雨後屋頂滲水，想先估價",
+      })
+      setCases((currentCases) => [fallbackCase, ...currentCases])
+      setSelected(fallbackCase.id)
+      setApiMode("Mock fallback")
+      setApiError("鑫匠案例 API 暫時無法連線，已用前端 mock fallback 新增。")
+      setApiResponse({ ok: true, source: "frontend_fallback", scenario: "xinjiang_case", case: fallbackCase })
+      setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
+    }
+  }
+
   async function updateConstructionStatus() {
     if (!current) return
     const status = nextStatus(current.status)
@@ -1415,6 +1483,82 @@ function BuildFlowDemo() {
 
   return (
     <Shell title="BuildFlow 案件管理" desc="把工程行的客戶需求、現場照片、報價狀態、施工進度與 LINE 回報整理成一套後台流程。">
+      <section className="mb-5 rounded-2xl border border-[#d8d2c5] bg-[#faf7ef] p-5">
+        <div className="grid gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:items-stretch">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Applied Case</p>
+            <h3 className="mt-2 text-2xl font-black text-[#111c22]">實際案例：鑫匠工程</h3>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
+              以防水、地坪、修繕工程為情境，展示 BuildFlow 如何把網站詢價、案件管理、照片、報價、施工狀態與 LINE 回報串成一套流程。
+            </p>
+            <div className="mt-4 flex flex-wrap gap-2">
+              {["估價入口", "案件進後台", "報價單 Preview", "LINE 回報紀錄"].map((item) => (
+                <span key={item} className="rounded-full border border-[#d8d2c5] bg-white px-3 py-1 text-xs font-black text-[#40504c]">
+                  {item}
+                </span>
+              ))}
+            </div>
+            <div className="mt-5 flex flex-wrap gap-3">
+              <Link to="/works/xinjiang" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+                查看鑫匠案例
+              </Link>
+              <button type="button" onClick={simulateXinjiangCase} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                在 BuildFlow 中模擬此案例
+              </button>
+            </div>
+          </div>
+          <div className="grid gap-3 md:grid-cols-[0.9fr_1.1fr]">
+            <div className="rounded-xl border border-[#e3ded3] bg-white p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-black text-[#111c22]">鑫匠工程網站 mockup</p>
+                <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">Quote Entry</span>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {["屋頂防水", "地坪修繕", "我要估價"].map((item) => (
+                  <div key={item} className="rounded-lg bg-[#faf7ef] px-3 py-2 text-xs font-black text-[#40504c]">
+                    {item}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-xl bg-[#111c22] p-4 text-white">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-black">BuildFlow 後台</p>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">待估價</span>
+              </div>
+              <div className="mt-4 grid gap-2">
+                {[
+                  ["客戶", "陳先生"],
+                  ["工程", "屋頂防水"],
+                  ["預估", "NT$28,000"],
+                  ["來源", "鑫匠工程網站表單"],
+                ].map(([label, value]) => (
+                  <div key={label} className="flex justify-between gap-3 rounded-lg bg-white/10 px-3 py-2 text-xs font-bold">
+                    <span className="text-[#8fd6cc]">{label}</span>
+                    <span>{value}</span>
+                  </div>
+                ))}
+              </div>
+            </div>
+          </div>
+        </div>
+        <div className="mt-5 grid gap-2 md:grid-cols-7">
+          {[
+            ["鑫匠工程網站", "客戶看服務與案例"],
+            ["我要估價", "送出屋頂防水需求"],
+            ["/api/buildflow-cases", "建立案件資料"],
+            ["BuildFlow 案件列表", "進入待估價"],
+            ["報價單 Preview", "整理工項與金額"],
+            ["LINE 回報", "同步狀態文案"],
+            ["完工紀錄", "後續可追蹤"],
+          ].map(([title, desc]) => (
+            <div key={title} className="rounded-xl border border-[#e3ded3] bg-white p-3">
+              <p className="text-xs font-black text-[#0d6b62]">{title}</p>
+              <p className="mt-2 text-[11px] font-bold leading-5 text-[#52605c]">{desc}</p>
+            </div>
+          ))}
+        </div>
+      </section>
       <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-[#d8d2c5] bg-white p-4">
         <span className={`rounded-full px-3 py-1 text-xs font-black ${apiMode === "Connected" ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
           API 狀態：{apiMode}
@@ -2178,13 +2322,54 @@ function QingyuWebDemo() {
 
 function XinjiangDemo() {
   return (
-    <Shell title="鑫匠工程網站案例" desc="工程服務網站與估價入口，作為 Qingyu Web Studio 的垂直產業案例，而不是主品牌。">
-      <div className="grid gap-4 lg:grid-cols-3">
-        {["工程服務網站", "估價入口", "施工案例", "管理後台概念"].map((item) => (
-          <MiniCard key={item} title={item}>
-            <p className="text-sm font-bold leading-6 text-[#52605c]">展示工程服務如何從網站入口銜接到後台流程。</p>
+    <Shell title="鑫匠工程案例" desc="防水、地坪與修繕工程網站，搭配 BuildFlow 案件管理流程，展示工程服務業如何從網站接案到後台追蹤。">
+      <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
+        <div className="grid gap-4">
+          <MiniCard title="專案背景">
+            <p className="text-sm font-bold leading-7 text-[#52605c]">
+              工程服務業需要先建立信任，再把估價需求整理成可追蹤案件。鑫匠工程在這裡是 BuildFlow 的套用案例，而不是 Qingyu Web Studio 主品牌。
+            </p>
           </MiniCard>
-        ))}
+          <MiniCard title="估價入口">
+            <div className="grid gap-2">
+              {["服務類型：屋頂防水 / 地坪 / 修繕", "現場狀況：照片與問題描述", "下一步：送進 BuildFlow 案件列表"].map((item) => (
+                <div key={item} className="rounded-lg bg-white px-3 py-2 text-xs font-black text-[#40504c]">{item}</div>
+              ))}
+            </div>
+          </MiniCard>
+          <div className="flex flex-wrap gap-3">
+            <Link to="/contractor-site" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              查看鑫匠網站
+            </Link>
+            <Link to="/works/buildflow#demo" className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+              查看 BuildFlow 系統
+            </Link>
+          </div>
+        </div>
+        <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white">
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">Case Flow</p>
+          <h3 className="mt-3 text-2xl font-black">如何串到 BuildFlow</h3>
+          <div className="mt-5 grid gap-3">
+            {[
+              ["網站首頁展示", "服務、案例、聯絡 CTA 先建立信任"],
+              ["估價入口", "客戶送出屋頂防水或地坪修繕需求"],
+              ["BuildFlow 案件", "轉成案件列表、客戶資料、照片與報價狀態"],
+              ["LINE 回報", "狀態更新時產生可回覆客戶的訊息"],
+            ].map(([title, desc], index) => (
+              <div key={title} className="rounded-xl bg-white/10 p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black">{title}</p>
+                  <span className="text-xs font-black text-[#8fd6cc]">0{index + 1}</span>
+                </div>
+                <p className="mt-2 text-xs font-bold leading-5 text-white/70">{desc}</p>
+              </div>
+            ))}
+          </div>
+          <div className="mt-5 rounded-xl bg-white p-4 text-[#111c22]">
+            <p className="text-xs font-black text-[#0d6b62]">案件管理流程</p>
+            <p className="mt-2 text-sm font-black">詢價 → 待估價 → 報價單 Preview → 施工狀態 → LINE 回報</p>
+          </div>
+        </div>
       </div>
     </Shell>
   )
