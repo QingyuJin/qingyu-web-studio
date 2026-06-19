@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 const aiExampleReport = {
   source: "mock_example",
@@ -1157,128 +1157,247 @@ function LineBotProductDemo() {
 }
 
 function BuildFlowDemo() {
-  const initialCases = [
+  const fallbackApiCases = [
     {
-      id: "q-001",
-      name: "屋頂防水工程",
-      customer: "LINE 業主",
-      phone: "LINE user",
-      type: "防水 / 泥作",
-      status: "施工中",
-      progress: 75,
-      amount: 53900,
-      createdAt: "06/18 14:20",
-      issue: "屋頂滲水，女兒牆需要補強，業主已確認報價。",
-      quoteStatus: "業主已確認",
-      construction: "底層清潔完成，明天做防水底漆。",
-      notes: "完工後需要補試水與完工照。",
-      photos: ["施工前 3 張", "底層清潔 2 張", "完工照待補"],
-      reports: ["LINE：業主已同意 q-001 報價。", "LINE：今日 2 人出工，完成底層清潔。"],
+      id: "BF-001",
+      customer: "林先生",
+      type: "屋頂防水",
+      status: "待估價",
+      budget: "NT$28,000",
+      createdAt: "2026-06-20",
+      source: "LINE",
+      description: "屋頂下雨會滲水，想先估價。",
+      photos: ["roof-1", "roof-2"],
+      logs: ["已收到案件需求，等待初步估價。"],
     },
     {
-      id: "b-014",
-      name: "店面地坪工程",
-      customer: "張先生",
-      phone: "0912-***-210",
-      type: "地坪",
-      status: "估價中",
-      progress: 45,
-      amount: 82000,
-      createdAt: "06/19 09:10",
-      issue: "店面地坪不平，想評估修補與耐磨塗層。",
-      quoteStatus: "估價中",
-      construction: "等待場勘尺寸。",
-      notes: "需確認營業時間，避免施工影響店面。",
-      photos: ["現場地坪 4 張", "裂縫特寫 2 張"],
-      reports: ["LINE：已收到店面地坪照片，等待場勘。"],
-    },
-    {
-      id: "c-022",
-      name: "浴室漏水修繕",
+      id: "BF-002",
       customer: "王小姐",
-      phone: "LINE user",
-      type: "漏水 / 修繕",
-      status: "待驗收",
-      progress: 90,
-      amount: 36000,
-      createdAt: "06/19 11:35",
-      issue: "浴室外牆滲水，已完成防水補強與試水。",
-      quoteStatus: "已報價",
-      construction: "試水 24 小時正常，等待業主驗收。",
-      notes: "驗收後建立請款與保固紀錄。",
-      photos: ["施工前 2 張", "防水層 3 張", "完工照 4 張"],
-      reports: ["LINE：已試水 24 小時，目前沒有滲漏。"],
+      type: "浴室漏水修繕",
+      status: "已報價",
+      budget: "NT$36,000",
+      createdAt: "2026-06-20",
+      source: "表單",
+      description: "浴室外牆滲水，已補現場照片，等待客戶確認報價。",
+      photos: ["bathroom-1", "bathroom-2", "quote-photo"],
+      logs: ["已完成報價，等待客戶確認。"],
     },
   ]
-  const [selected, setSelected] = useState("q-001")
+  const statusProgress = {
+    "待估價": 25,
+    "已報價": 55,
+    "施工中": 75,
+    "完工": 100,
+  }
+  const statusFlow = ["待估價", "已報價", "施工中", "完工"]
+  const lineMessageByStatus = {
+    "待估價": "已收到案件需求，等待初步估價。",
+    "已報價": "已完成報價，等待客戶確認。",
+    "施工中": "案件已排入施工中。",
+    "完工": "案件已完工，請安排驗收。",
+  }
+  const [selected, setSelected] = useState("BF-001")
   const [showDetail, setShowDetail] = useState(false)
-  const [cases, setCases] = useState(initialCases)
-  const statusFlow = [
-    { status: "待估價", progress: 25, line: "已收到案件需求，等待初步估價。", quoteStatus: "待估價", construction: "尚未排工" },
-    { status: "已報價", progress: 55, line: "已完成報價，等待客戶確認。", quoteStatus: "已報價", construction: "等待業主確認" },
-    { status: "施工中", progress: 75, line: "已排入施工中。", quoteStatus: "業主已確認", construction: "今日 2 人出工，完成底層清潔。" },
-    { status: "完工", progress: 100, line: "案件已完工，請安排驗收。", quoteStatus: "業主已確認", construction: "完工照已上傳，準備驗收。" },
-  ]
+  const [cases, setCases] = useState(() => fallbackApiCases.map(mapApiCaseToUi))
+  const [apiMode, setApiMode] = useState("Loading")
+  const [apiResponse, setApiResponse] = useState(null)
+  const [showResponse, setShowResponse] = useState(false)
+  const [apiError, setApiError] = useState("")
+  const [lastLineMessage, setLastLineMessage] = useState(lineMessageByStatus["待估價"])
   const current = cases.find((item) => item.id === selected) || cases[0]
-  const selectedStatusIndex = Math.max(0, statusFlow.findIndex((item) => item.status === current.status))
   const metrics = [
-    ["今日新案", cases.filter((item) => item.createdAt.includes("06/19")).length],
+    ["今日新案", cases.filter((item) => item.createdAt.includes("2026-06-20") || item.createdAt.includes("剛剛")).length],
     ["待估價", cases.filter((item) => item.status === "待估價" || item.status === "估價中").length],
     ["施工中", cases.filter((item) => item.status === "施工中").length],
     ["已完工", cases.filter((item) => item.status === "完工" || item.status === "待驗收").length],
   ]
 
-  function money(value) {
-    return `NT$${value.toLocaleString("zh-TW")}`
+  function normalizeLineLog(log) {
+    return log.startsWith("LINE：") ? log : `LINE：${log}`
   }
 
-  function addDemoCase() {
-    const demoCase = {
-      id: "d-033",
-      name: "陽台漏水檢修",
-      customer: "林先生",
-      phone: "LINE user",
-      type: "抓漏 / 防水",
-      status: "待估價",
-      progress: 25,
-      amount: 28000,
-      createdAt: "剛剛",
-      issue: "陽台排水孔附近滲水，客戶已傳現場照片。",
-      quoteStatus: "待估價",
-      construction: "等待初步估價。",
-      notes: "需確認是否方便場勘與拍照。",
-      photos: ["客戶照片 3 張", "漏水位置 1 張"],
-      reports: ["LINE：已收到案件需求，等待初步估價。"],
+  function mapApiCaseToUi(apiCase) {
+    const status = apiCase.status || "待估價"
+    const logs = Array.isArray(apiCase.logs) && apiCase.logs.length ? apiCase.logs : [lineMessageByStatus[status]]
+    const photos = Array.isArray(apiCase.photos) && apiCase.photos.length ? apiCase.photos : ["site-photo-1", "site-photo-2"]
+
+    return {
+      id: apiCase.id,
+      name: `${apiCase.type || "工程案件"}案件`,
+      customer: apiCase.customer || "未填客戶",
+      phone: apiCase.source === "LINE" ? "LINE user" : "未填電話",
+      type: apiCase.type || "工程案件",
+      status,
+      progress: statusProgress[status] || 25,
+      budget: apiCase.budget || "未填預算",
+      createdAt: apiCase.createdAt || "剛剛",
+      source: apiCase.source || "LINE",
+      issue: apiCase.description || "未填問題描述",
+      quoteStatus: status === "待估價" ? "待估價" : status === "已報價" ? "已報價" : "業主已確認",
+      construction: status === "施工中" ? "案件已排入施工中。" : status === "完工" ? "完工照已上傳，準備驗收。" : lineMessageByStatus[status] || "等待下一步。",
+      notes: "可延伸接 Supabase、LINE Messaging API 與報價單 PDF。",
+      photos: photos.map((photo, index) => `${photo}｜照片 ${index + 1}`),
+      reports: logs.map(normalizeLineLog),
     }
-    setCases((currentCases) => (
-      currentCases.some((item) => item.id === demoCase.id) ? currentCases : [demoCase, ...currentCases]
-    ))
-    setSelected(demoCase.id)
   }
 
-  function updateConstructionStatus() {
-    const nextIndex = (selectedStatusIndex + 1) % statusFlow.length
-    const next = statusFlow[nextIndex]
-    setCases((currentCases) => currentCases.map((item) => (
-      item.id === selected ? {
-        ...item,
-        status: next.status,
-        progress: next.progress,
-        quoteStatus: next.quoteStatus,
-        construction: next.construction,
-        reports: [`LINE：${next.line}`, ...item.reports],
-      } : item
-    )))
+  function createFallbackCase() {
+    return mapApiCaseToUi({
+      id: `BF-MOCK-${Date.now().toString().slice(-4)}`,
+      customer: "王小姐",
+      type: "地坪修繕",
+      status: "待估價",
+      budget: "NT$35,000",
+      createdAt: "剛剛",
+      source: "LINE",
+      description: "倉庫地面破損，需要修補。",
+      photos: ["floor-1", "floor-2"],
+      logs: [lineMessageByStatus["待估價"]],
+    })
+  }
+
+  function parseBudget(value) {
+    const numeric = Number(String(value).replace(/[^\d]/g, ""))
+    return Number.isFinite(numeric) && numeric > 0 ? numeric : 28000
+  }
+
+  function splitBudget(value, ratio) {
+    return `NT$${Math.round(parseBudget(value) * ratio).toLocaleString("zh-TW")}`
+  }
+
+  function nextStatus(status) {
+    const index = statusFlow.indexOf(status)
+    return statusFlow[(Math.max(index, 0) + 1) % statusFlow.length]
+  }
+
+  async function loadCases() {
+    try {
+      setApiMode("Loading")
+      const response = await fetch("/api/buildflow-cases")
+      const data = await response.json()
+      if (!response.ok || !data.ok) throw new Error(data.error || "API request failed")
+      const mappedCases = data.cases.map(mapApiCaseToUi)
+      setCases(mappedCases)
+      setSelected(mappedCases[0]?.id || "BF-001")
+      setApiMode("Connected")
+      setApiResponse(data)
+      setApiError("")
+    } catch (error) {
+      console.warn("buildflow cases demo fallback", error.message)
+      const fallback = fallbackApiCases.map(mapApiCaseToUi)
+      setCases(fallback)
+      setSelected(fallback[0].id)
+      setApiMode("Mock fallback")
+      setApiResponse({ ok: true, source: "frontend_fallback", cases: fallbackApiCases })
+      setApiError("API 暫時無法連線，已使用前端 mock fallback。")
+    }
+  }
+
+  useEffect(() => {
+    const timer = window.setTimeout(() => {
+      void loadCases()
+    }, 0)
+    return () => window.clearTimeout(timer)
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [])
+
+  function applyCaseUpdate(nextCase, response) {
+    const mapped = mapApiCaseToUi(nextCase)
+    setCases((currentCases) => {
+      const exists = currentCases.some((item) => item.id === mapped.id)
+      return exists ? currentCases.map((item) => (item.id === mapped.id ? mapped : item)) : [mapped, ...currentCases]
+    })
+    setSelected(mapped.id)
+    setApiResponse(response)
+    setLastLineMessage(response.lineMessage || mapped.reports[0]?.replace("LINE：", "") || "")
+  }
+
+  async function addDemoCase() {
+    const payload = {
+      customer: "王小姐",
+      type: "地坪修繕",
+      description: "倉庫地面破損，需要修補。",
+      budget: "NT$35,000",
+      source: "LINE",
+    }
+    try {
+      const response = await fetch("/api/buildflow-cases", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      })
+      const data = await response.json()
+      if (!response.ok || !data.ok) throw new Error(data.error || "API request failed")
+      setApiMode("Connected")
+      setApiError("")
+      applyCaseUpdate(data.case, data)
+    } catch (error) {
+      console.warn("buildflow add case fallback", error.message)
+      const fallbackCase = createFallbackCase()
+      setCases((currentCases) => [fallbackCase, ...currentCases])
+      setSelected(fallbackCase.id)
+      setApiMode("Mock fallback")
+      setApiError("新增案件 API 暫時無法連線，已用前端 mock fallback 新增。")
+      setApiResponse({ ok: true, source: "frontend_fallback", case: fallbackCase })
+      setLastLineMessage(lineMessageByStatus["待估價"])
+    }
+  }
+
+  async function updateConstructionStatus() {
+    if (!current) return
+    const status = nextStatus(current.status)
+    try {
+      const response = await fetch("/api/buildflow-cases", {
+        method: "PATCH",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ id: current.id, status }),
+      })
+      const data = await response.json()
+      if (!response.ok || !data.ok) throw new Error(data.error || "API request failed")
+      setApiMode("Connected")
+      setApiError("")
+      applyCaseUpdate(data.case, data)
+    } catch (error) {
+      console.warn("buildflow update case fallback", error.message)
+      const lineMessage = lineMessageByStatus[status]
+      setCases((currentCases) => currentCases.map((item) => (
+        item.id === current.id ? {
+          ...item,
+          status,
+          progress: statusProgress[status],
+          quoteStatus: status === "待估價" ? "待估價" : status === "已報價" ? "已報價" : "業主已確認",
+          construction: lineMessage,
+          reports: [`LINE：${lineMessage}`, ...item.reports],
+        } : item
+      )))
+      setApiMode("Mock fallback")
+      setApiError("更新狀態 API 暫時無法連線，已用前端 mock fallback 更新。")
+      setApiResponse({ ok: true, source: "frontend_fallback", lineMessage, caseId: current.id, status })
+      setLastLineMessage(lineMessage)
+    }
   }
 
   function resetDemo() {
-    setCases(initialCases)
-    setSelected("q-001")
+    const fallback = fallbackApiCases.map(mapApiCaseToUi)
+    setCases(fallback)
+    setSelected(fallback[0].id)
     setShowDetail(false)
+    setApiMode("Mock fallback")
+    setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
+    setApiError("Demo 已重置為前端 mock 初始資料。")
+    setLastLineMessage(lineMessageByStatus["待估價"])
   }
 
   return (
     <Shell title="BuildFlow 案件管理" desc="把工程行的客戶需求、現場照片、報價狀態、施工進度與 LINE 回報整理成一套後台流程。">
+      <div className="mb-4 flex flex-wrap items-center gap-2 rounded-xl border border-[#d8d2c5] bg-white p-4">
+        <span className={`rounded-full px-3 py-1 text-xs font-black ${apiMode === "Connected" ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
+          API 狀態：{apiMode}
+        </span>
+        <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">Endpoint：/api/buildflow-cases</span>
+        <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">最近 LINE：{lastLineMessage}</span>
+        {apiError ? <p className="w-full text-xs font-black text-[#b45309]">{apiError}</p> : null}
+      </div>
       <div className="mb-4 grid gap-3 sm:grid-cols-4">
         {metrics.map(([label, value]) => (
           <MiniCard key={label} title={label}>
@@ -1289,6 +1408,9 @@ function BuildFlowDemo() {
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="grid gap-3">
           <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={loadCases} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              重新載入案件
+            </button>
             <button type="button" onClick={addDemoCase} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
               新增案件 Demo
             </button>
@@ -1298,10 +1420,18 @@ function BuildFlowDemo() {
             <button type="button" onClick={() => setShowDetail(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看照片 / 報價
             </button>
+            <button type="button" onClick={() => setShowResponse((currentValue) => !currentValue)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              查看 API Response
+            </button>
             <button type="button" onClick={resetDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               重置 Demo
             </button>
           </div>
+          {showResponse ? (
+            <pre className="overflow-x-auto rounded-xl bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
+              {JSON.stringify(apiResponse || { message: "尚未呼叫 BuildFlow API。" }, null, 2)}
+            </pre>
+          ) : null}
           {cases.map((item) => (
             <button
               key={item.id}
@@ -1317,8 +1447,9 @@ function BuildFlowDemo() {
                 <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{item.status}</span>
               </div>
               <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#52605c]">
-                <span>預估：{money(item.amount)}</span>
+                <span>預估：{item.budget}</span>
                 <span>建立：{item.createdAt}</span>
+                <span>來源：{item.source}</span>
               </div>
               <div className="mt-3"><Progress value={item.progress} /></div>
             </button>
@@ -1333,7 +1464,8 @@ function BuildFlowDemo() {
               </div>
               <p className="mt-2 text-sm font-bold text-white/65">客戶：{current.customer}</p>
               <p className="mt-1 text-sm font-bold text-white/65">工程類型：{current.type}</p>
-              <p className="mt-1 text-sm font-bold text-white/65">預估金額：{money(current.amount)}</p>
+              <p className="mt-1 text-sm font-bold text-white/65">預估金額：{current.budget}</p>
+              <p className="mt-1 text-sm font-bold text-white/65">來源：{current.source}</p>
               <div className="mt-4"><Progress value={current.progress} /></div>
               <div className="mt-4 grid grid-cols-3 gap-2">
                 {current.photos.map((item) => (
@@ -1347,7 +1479,7 @@ function BuildFlowDemo() {
               {[
                 ["客戶資料", `${current.customer}｜${current.phone}`],
                 ["問題描述", current.issue],
-                ["報價資訊", `${money(current.amount)}｜${current.quoteStatus}`],
+                ["報價資訊", `${current.budget}｜${current.quoteStatus}`],
                 ["施工狀態", current.construction],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg bg-white/10 p-3">
@@ -1386,12 +1518,12 @@ function BuildFlowDemo() {
                 </div>
               </MiniCard>
               <MiniCard title="報價欄位">
-                <p className="text-sm font-black">{money(current.amount)}</p>
+                <p className="text-sm font-black">{current.budget}</p>
                 <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：{current.quoteStatus}</p>
                 <div className="mt-3 grid gap-2 text-xs font-bold text-[#52605c]">
-                  <span>材料 / 工資：{money(Math.round(current.amount * 0.72))}</span>
-                  <span>管理 / 清潔：{money(Math.round(current.amount * 0.18))}</span>
-                  <span>預備金：{money(Math.round(current.amount * 0.1))}</span>
+                  <span>材料 / 工資：{splitBudget(current.budget, 0.72)}</span>
+                  <span>管理 / 清潔：{splitBudget(current.budget, 0.18)}</span>
+                  <span>預備金：{splitBudget(current.budget, 0.1)}</span>
                 </div>
               </MiniCard>
               <MiniCard title="施工備註">

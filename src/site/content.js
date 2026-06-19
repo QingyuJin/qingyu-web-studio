@@ -153,6 +153,9 @@ export const projects = [
     architecture: ["React", "Tailwind CSS", "Vercel", "Supabase concept", "LINE Bot concept"],
     stack: {
       Frontend: "React / Tailwind",
+      API: "Vercel Serverless Function",
+      Method: "GET / POST / PATCH",
+      Data: "Mock Case Store",
       State: "Case Status Management",
       Dashboard: "案件列表 / 詳情 / Modal",
       Notification: "LINE 回報 mock",
