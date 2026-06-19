@@ -2,5 +2,6 @@ User-agent: *
 Allow: /
 Disallow: /contractor-site
 Disallow: /engineering
+Disallow: /buildflow
 
 Sitemap: https://www.qingyuweb.com/sitemap.xml
