@@ -279,13 +279,42 @@ function HeroPreview({ project }) {
           <HeroPreviewList items={["LINE 每日回報", "照片已歸檔", "請款待建立", "保固可追蹤"]} />
         </div>
       ) : isAudit ? (
-        <div className="mt-5 grid gap-4 md:grid-cols-[0.82fr_1fr]">
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
           <div className="rounded-xl bg-white p-4 text-[#111c22]">
-            <p className="text-xs font-black text-[#0d6b62]">AI Report Score</p>
-            <p className="mt-3 text-5xl font-black">82</p>
-            <p className="mt-2 text-sm font-bold text-[#52605c]">首頁文案、CTA、SEO 與信任感建議</p>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-black text-[#0d6b62]">AI Audit Score</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">Mock fallback ready</span>
+            </div>
+            <div className="mt-4 flex items-end gap-3">
+              <p className="text-5xl font-black">82</p>
+              <p className="pb-2 text-xs font-black text-[#52605c]">/ 100</p>
+            </div>
+            <div className="mt-4 grid gap-2">
+              {[
+                ["SEO", 78],
+                ["CTA", 74],
+                ["Trust", 88],
+              ].map(([label, value]) => (
+                <div key={label}>
+                  <div className="mb-1 flex justify-between text-[11px] font-black text-[#52605c]">
+                    <span>{label}</span>
+                    <span>{value}</span>
+                  </div>
+                  <div className="h-1.5 overflow-hidden rounded-full bg-[#e4e9e6]">
+                    <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${value}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
           </div>
-          <HeroPreviewList items={["SEO 建議", "CTA 優化", "手機版提醒", "下一步清單"]} />
+          <div className="grid gap-2">
+            {["首頁標題太長", "CTA 需要更明確", "手機版第一屏要收斂", "下一步：重排作品入口"].map((item, index) => (
+              <div key={item} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/80">
+                <span className="mr-2 text-[#8fd6cc]">0{index + 1}</span>
+                {item}
+              </div>
+            ))}
+          </div>
         </div>
       ) : isApi ? (
         <div className="mt-5 grid gap-3 md:grid-cols-5">

@@ -285,118 +285,92 @@ const cleanAiAuditFallback = {
   source: "mock_fallback",
   score: 82,
   summary: "這份 Demo 會檢查首頁是否讓台灣客戶快速看懂服務、信任你，並知道下一步要怎麼聯絡。",
-  seo: {
-    score: 78,
-    advice: "title 建議包含服務、地區與主要客群，例如：台灣網站製作、作品集、一頁式網站。",
-  },
-  cta: {
-    score: 74,
-    advice: "主要 CTA 建議只保留一個明確動作，例如「免費網站健檢」或「聊聊需求」。",
-  },
-  headline: {
-    score: 86,
-    advice: "首頁標題要先說清楚你能幫誰解決什麼事，不要一開始堆滿技術詞。",
-  },
-  trust: {
-    score: 88,
-    advice: "加入作品案例、製作流程、聯絡方式與交付內容，會比單純說自己會技術更有信任感。",
-  },
-  mobile: {
-    score: 80,
-    advice: "手機版第一屏要先看到標題、短描述與 CTA，避免過多卡片讓訪客滑不到重點。",
-  },
-  nextSteps: [
-    "重寫首頁第一屏標題與 CTA",
-    "把作品案例放到 CTA 後方",
-    "補上 SEO title / description",
-    "檢查手機版按鈕是否容易點擊",
-  ],
+  seo: ["title 建議包含服務、地區與主要客群，例如：台灣網站製作、作品集、一頁式網站。"],
+  cta: ["主要 CTA 建議只保留一個明確動作，例如「免費網站健檢」或「聊聊需求」。"],
+  copywriting: ["首頁標題要先說清楚你能幫誰解決什麼事，不要一開始堆滿技術詞。"],
+  trust: ["加入作品案例、製作流程、聯絡方式與交付內容，會比單純說自己會技術更有信任感。"],
+  mobile: ["手機版第一屏要先看到標題、短描述與 CTA，避免過多卡片讓訪客滑不到重點。"],
+  nextSteps: ["重寫首頁第一屏標題與 CTA", "把作品案例放到 CTA 後方", "補上 SEO title / description", "檢查手機版按鈕是否容易點擊"],
 }
 
 const cleanAiAuditExampleInput =
   "我是台灣小型工作室，想做一個能介紹服務、放作品、讓客戶填表或加 LINE 的網站。希望手機版清楚，也想知道 SEO 和首頁文案怎麼寫。"
 
+const auditIndustries = ["店家", "個人品牌", "工作室", "工程服務", "學生作品集"]
+const auditGoals = ["增加詢問", "提升信任", "改善手機版", "SEO", "作品展示"]
+const auditTabs = [
+  ["seo", "SEO"],
+  ["cta", "CTA"],
+  ["copywriting", "文案"],
+  ["trust", "信任感"],
+  ["mobile", "手機版"],
+]
+
 function normalizeAiAuditReport(data) {
   if (!data || typeof data !== "object") return cleanAiAuditFallback
 
   if (Array.isArray(data.seo) || Array.isArray(data.cta) || Array.isArray(data.copywriting)) {
-    const toAdvice = (items, fallback) => {
-      if (!Array.isArray(items) || !items.length) return fallback
-      return items.filter(Boolean).join(" ")
-    }
-
     return {
       source: data.source || "api",
       score: Number.isFinite(Number(data.score)) ? Math.max(0, Math.min(100, Math.round(Number(data.score)))) : cleanAiAuditFallback.score,
       summary: data.summary || cleanAiAuditFallback.summary,
-      seo: {
-        score: 82,
-        advice: toAdvice(data.seo, cleanAiAuditFallback.seo.advice),
-      },
-      cta: {
-        score: 78,
-        advice: toAdvice(data.cta, cleanAiAuditFallback.cta.advice),
-      },
-      headline: {
-        score: 84,
-        advice: toAdvice(data.copywriting, cleanAiAuditFallback.headline.advice),
-      },
-      trust: {
-        score: 86,
-        advice: toAdvice(data.trust, cleanAiAuditFallback.trust.advice),
-      },
-      mobile: {
-        score: 80,
-        advice: toAdvice(data.mobile, cleanAiAuditFallback.mobile.advice),
-      },
-      nextSteps: Array.isArray(data.nextSteps) && data.nextSteps.length ? data.nextSteps : cleanAiAuditFallback.nextSteps,
+      seo: normalizeList(data.seo, cleanAiAuditFallback.seo),
+      cta: normalizeList(data.cta, cleanAiAuditFallback.cta),
+      copywriting: normalizeList(data.copywriting, cleanAiAuditFallback.copywriting),
+      trust: normalizeList(data.trust, cleanAiAuditFallback.trust),
+      mobile: normalizeList(data.mobile, cleanAiAuditFallback.mobile),
+      nextSteps: normalizeList(data.nextSteps, cleanAiAuditFallback.nextSteps),
     }
   }
 
-  const sections = Array.isArray(data.sections) ? data.sections : []
-  const findSection = (keyword, fallback) => {
-    const section = sections.find((item) => String(item.title || "").toLowerCase().includes(keyword.toLowerCase()))
-    return section?.suggestion || section?.finding || fallback
-  }
   const scores = data.scores || {}
-  const scoreValues = Object.values(scores).filter((value) => typeof value === "number")
-  const score = scoreValues.length
-    ? Math.round(scoreValues.reduce((sum, value) => sum + value, 0) / scoreValues.length)
-    : cleanAiAuditFallback.score
+  const sections = Array.isArray(data.sections) ? data.sections : []
+  const findText = (keyword, fallback) => {
+    const section = sections.find((item) => String(item.title || "").toLowerCase().includes(keyword.toLowerCase()))
+    return normalizeList([section?.suggestion || section?.finding], fallback)
+  }
 
   return {
     source: data.source || "mock_fallback",
-    score,
-    summary: data.summary && !String(data.summary).includes("�") ? data.summary : cleanAiAuditFallback.summary,
-    seo: {
-      score: scores.seo || cleanAiAuditFallback.seo.score,
-      advice: findSection("seo", cleanAiAuditFallback.seo.advice),
-    },
-    cta: {
-      score: scores.cta || cleanAiAuditFallback.cta.score,
-      advice: findSection("cta", cleanAiAuditFallback.cta.advice),
-    },
-    headline: {
-      score: scores.clarity || cleanAiAuditFallback.headline.score,
-      advice: findSection("標題", cleanAiAuditFallback.headline.advice),
-    },
-    trust: {
-      score: scores.trust || cleanAiAuditFallback.trust.score,
-      advice: findSection("信任", cleanAiAuditFallback.trust.advice),
-    },
-    mobile: {
-      score: scores.mobile || cleanAiAuditFallback.mobile.score,
-      advice: findSection("mobile", cleanAiAuditFallback.mobile.advice),
-    },
-    nextSteps: Array.isArray(data.nextSteps) && data.nextSteps.length ? data.nextSteps : cleanAiAuditFallback.nextSteps,
+    score: scores.seo ? Math.round(((scores.seo || 0) + (scores.cta || 0) + (scores.trust || 0) + (scores.mobile || 0)) / 4) : cleanAiAuditFallback.score,
+    summary: data.summary || cleanAiAuditFallback.summary,
+    seo: findText("seo", cleanAiAuditFallback.seo),
+    cta: findText("cta", cleanAiAuditFallback.cta),
+    copywriting: findText("標題", cleanAiAuditFallback.copywriting),
+    trust: findText("信任", cleanAiAuditFallback.trust),
+    mobile: findText("mobile", cleanAiAuditFallback.mobile),
+    nextSteps: normalizeList(data.nextSteps, cleanAiAuditFallback.nextSteps),
   }
+}
+
+function normalizeList(value, fallback) {
+  if (!Array.isArray(value)) return fallback
+  const items = value.map((item) => String(item || "").trim()).filter(Boolean)
+  return items.length ? items : fallback
+}
+
+function reportText(report) {
+  return [
+    `AI 網站健檢總分：${report.score}`,
+    `摘要：${report.summary}`,
+    `SEO：${report.seo.join(" ")}`,
+    `CTA：${report.cta.join(" ")}`,
+    `首頁文案：${report.copywriting.join(" ")}`,
+    `信任感：${report.trust.join(" ")}`,
+    `手機版：${report.mobile.join(" ")}`,
+    `下一步：${report.nextSteps.join(" / ")}`,
+  ].join("\n")
 }
 
 function AiAuditProductDemo() {
   const [input, setInput] = useState("")
+  const [industry, setIndustry] = useState(auditIndustries[0])
+  const [goal, setGoal] = useState(auditGoals[0])
   const [report, setReport] = useState(null)
+  const [activeTab, setActiveTab] = useState("seo")
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
+  const [copied, setCopied] = useState(false)
 
   async function runAudit(useExample = false) {
     const value = useExample ? cleanAiAuditExampleInput : input.trim()
@@ -406,19 +380,24 @@ function AiAuditProductDemo() {
       return
     }
 
-    if (useExample) setInput(cleanAiAuditExampleInput)
+    if (useExample) {
+      setInput(cleanAiAuditExampleInput)
+      setIndustry("工作室")
+      setGoal("增加詢問")
+    }
     setLoading(true)
     setError("")
+    setCopied(false)
 
     try {
       await wait(900)
       const response = await fetch("/api/ai-audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ input: value }),
+        body: JSON.stringify({ input: `${value}\n產業：${industry}\n目標：${goal}` }),
       })
       const data = await response.json().catch(() => null)
-      setReport(normalizeAiAuditReport(response.ok ? data : data?.fallback))
+      setReport(normalizeAiAuditReport(response.ok ? data : null))
       if (!response.ok) setError("API 暫時無法分析，已顯示 Demo mock 報告。")
     } catch {
       setReport(cleanAiAuditFallback)
@@ -428,68 +407,86 @@ function AiAuditProductDemo() {
     }
   }
 
+  async function copyAdvice() {
+    const current = report || cleanAiAuditFallback
+    const text = reportText(current)
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      setError("")
+    } catch {
+      setCopied(false)
+      setError("瀏覽器目前不允許複製，請手動選取報告內容。")
+    }
+  }
+
   function clearAudit() {
     setInput("")
+    setIndustry(auditIndustries[0])
+    setGoal(auditGoals[0])
     setReport(null)
+    setActiveTab("seo")
     setError("")
+    setCopied(false)
     setLoading(false)
   }
 
   const displayedReport = report || cleanAiAuditFallback
-  const reportCards = [
-    ["SEO 建議", displayedReport.seo],
-    ["CTA 建議", displayedReport.cta],
-    ["首頁標題建議", displayedReport.headline],
-    ["台灣客戶信任感", displayedReport.trust],
-    ["手機版問題", displayedReport.mobile],
-  ]
+  const tabItems = displayedReport[activeTab] || []
+  const scoreStyle = {
+    background: `conic-gradient(#0d6b62 ${displayedReport.score * 3.6}deg, #e4e9e6 0deg)`,
+  }
 
   return (
     <Shell
-      title="AI 網站健檢 Demo"
-      desc="前端會送出需求到 /api/ai-audit；沒有 OpenAI key 時會自動顯示 mock fallback，頁面不會壞掉。"
+      title="AI 網站健檢"
+      desc="輸入網站或需求，快速產生首頁文案、CTA、SEO 與信任感建議。"
     >
-      <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr]">
-        <MiniCard title="輸入網站或需求">
-          <label className="text-xs font-black uppercase tracking-[0.18em] text-[#52605c]" htmlFor="ai-audit-input">
-            Website brief
-          </label>
+      <div className="grid gap-5 lg:grid-cols-[0.88fr_1.12fr]">
+        <MiniCard title="網站網址 / 需求輸入">
           <textarea
             id="ai-audit-input"
             value={input}
             onChange={(event) => setInput(event.target.value)}
-            className="mt-2 min-h-44 w-full resize-none rounded-lg border border-[#d8d2c5] bg-white p-3 text-sm font-bold leading-7 text-[#111c22] outline-none transition focus:border-[#0d6b62] focus:ring-2 focus:ring-[#0d6b62]/10"
-            placeholder="貼上網址，或描述你的網站、服務、客群與目前卡住的地方。"
+            className="min-h-40 w-full resize-none rounded-lg border border-[#d8d2c5] bg-white p-3 text-sm font-bold leading-7 text-[#111c22] outline-none transition focus:border-[#0d6b62] focus:ring-2 focus:ring-[#0d6b62]/10"
+            placeholder="貼上網站網址，或描述你的產業、服務、客群與目前卡住的地方。"
           />
-          <div className="mt-3 flex flex-wrap gap-2">
-            <button
-              type="button"
-              onClick={() => runAudit(false)}
-              disabled={loading}
-              className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60"
-            >
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <label className="grid gap-2 text-xs font-black text-[#52605c]">
+              產業選擇
+              <select
+                value={industry}
+                onChange={(event) => setIndustry(event.target.value)}
+                className="min-h-10 rounded-md border border-[#d8d2c5] bg-white px-3 text-sm font-black text-[#111c22] outline-none focus:border-[#0d6b62]"
+              >
+                {auditIndustries.map((item) => <option key={item}>{item}</option>)}
+              </select>
+            </label>
+            <label className="grid gap-2 text-xs font-black text-[#52605c]">
+              目標選擇
+              <select
+                value={goal}
+                onChange={(event) => setGoal(event.target.value)}
+                className="min-h-10 rounded-md border border-[#d8d2c5] bg-white px-3 text-sm font-black text-[#111c22] outline-none focus:border-[#0d6b62]"
+              >
+                {auditGoals.map((item) => <option key={item}>{item}</option>)}
+              </select>
+            </label>
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button type="button" onClick={() => runAudit(false)} disabled={loading} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
               {loading ? "分析中..." : "開始分析"}
             </button>
-            <button
-              type="button"
-              onClick={() => runAudit(true)}
-              disabled={loading}
-              className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60"
-            >
+            <button type="button" onClick={() => runAudit(true)} disabled={loading} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
               查看範例報告
             </button>
-            <button
-              type="button"
-              onClick={clearAudit}
-              className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]"
-            >
+            <button type="button" onClick={copyAdvice} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
+              {copied ? "已複製" : "複製建議"}
+            </button>
+            <button type="button" onClick={clearAudit} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
               清空
             </button>
-            <button
-              type="button"
-              onClick={() => scrollToSection("tech")}
-              className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]"
-            >
+            <button type="button" onClick={() => scrollToSection("tech")} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
               技術拆解
             </button>
           </div>
@@ -501,51 +498,75 @@ function AiAuditProductDemo() {
           ) : null}
           {error ? <p className="mt-3 rounded-lg bg-[#fff7ed] px-3 py-2 text-xs font-black text-[#b45309]">{error}</p> : null}
           <div className="mt-4 flex flex-wrap gap-2">
-            {["Mock fallback", "Report UI", "SEO Check", "CTA Review"].map((tag) => (
-              <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
-                {tag}
-              </span>
+            {["Client form", "Serverless API", "OpenAI-ready", "Mock fallback"].map((tag) => (
+              <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{tag}</span>
             ))}
           </div>
         </MiniCard>
 
         <div className="grid gap-4">
           <MiniCard title="AI 健檢報告" tone="dark">
-            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">Total score</p>
-                <p className="mt-2 text-5xl font-black">{displayedReport.score}</p>
+            <div className="grid gap-5 md:grid-cols-[auto_1fr] md:items-center">
+              <div className="grid h-32 w-32 place-items-center rounded-full p-2" style={scoreStyle}>
+                <div className="grid h-full w-full place-items-center rounded-full bg-[#111c22]">
+                  <div className="text-center">
+                    <p className="text-4xl font-black">{displayedReport.score}</p>
+                    <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/45">score</p>
+                  </div>
+                </div>
               </div>
-              <span className="w-fit rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
-                {displayedReport.source === "openai" ? "OpenAI result" : "Mock result"}
-              </span>
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
+                    {displayedReport.source === "openai" ? "OpenAI result" : "Mock result"}
+                  </span>
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/70">{industry}</span>
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/70">{goal}</span>
+                </div>
+                <p className="mt-4 text-sm font-bold leading-7 text-white/72">{displayedReport.summary}</p>
+              </div>
             </div>
-            <p className="mt-4 text-sm font-bold leading-7 text-white/72">{displayedReport.summary}</p>
           </MiniCard>
 
-          <div className="grid gap-3 md:grid-cols-2">
-            {reportCards.map(([title, item]) => (
-              <MiniCard key={title} title={title}>
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-2xl font-black text-[#111c22]">{item.score}</p>
-                  <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#0d6b62]">建議</span>
-                </div>
-                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{item.advice}</p>
-                <div className="mt-3">
-                  <Progress value={item.score} />
-                </div>
-              </MiniCard>
-            ))}
+          <div className="overflow-x-auto rounded-xl border border-[#e3ded3] bg-white p-2">
+            <div className="flex min-w-max gap-2">
+              {auditTabs.map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setActiveTab(key)}
+                  className={`min-h-10 rounded-lg px-4 text-sm font-black transition ${activeTab === key ? "bg-[#111c22] text-white" : "bg-[#faf8f3] text-[#52605c] hover:text-[#111c22]"}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
           </div>
 
-          <MiniCard title="下一步優化清單">
+          <MiniCard title={`${auditTabs.find(([key]) => key === activeTab)?.[1]}建議清單`}>
             <div className="grid gap-2">
-              {displayedReport.nextSteps.map((item, index) => (
+              {tabItems.map((item, index) => (
                 <div key={item} className="flex gap-3 rounded-lg bg-white px-3 py-2 text-sm font-bold leading-6 text-[#52605c]">
                   <span className="font-black text-[#0d6b62]">0{index + 1}</span>
                   <span>{item}</span>
                 </div>
               ))}
+            </div>
+          </MiniCard>
+
+          <MiniCard title="下一步 CTA">
+            <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
+              <div className="grid gap-2">
+                {displayedReport.nextSteps.slice(0, 4).map((item, index) => (
+                  <p key={item} className="text-sm font-bold leading-6 text-[#52605c]">
+                    <span className="mr-2 font-black text-[#0d6b62]">0{index + 1}</span>
+                    {item}
+                  </p>
+                ))}
+              </div>
+              <a href="/contact" className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]">
+                找我討論
+              </a>
             </div>
           </MiniCard>
         </div>
