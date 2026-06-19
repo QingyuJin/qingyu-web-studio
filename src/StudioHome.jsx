@@ -4,6 +4,8 @@ import SiteLayout from "./site/SiteLayout"
 import { audience, contact, pricing, processSteps, projects, seo, serviceCategories, techStack } from "./site/content"
 
 function StudioHome() {
+  const featuredProjects = projects.filter((project) => project.featured !== false)
+
   return (
     <SiteLayout>
       <Seo page={seo.home} />
@@ -53,7 +55,7 @@ function StudioHome() {
 
       <Section eyebrow="Works" title="精選作品">
         <div className="grid gap-4 md:grid-cols-2">
-          {projects.filter((project) => project.featured !== false).map((project) => (
+          {featuredProjects.map((project) => (
             <article
               key={project.slug}
               className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
@@ -81,6 +83,32 @@ function StudioHome() {
           ))}
         </div>
       </Section>
+
+      <section className="border-y border-[#e6e0d5] bg-[#faf8f3]">
+        <div className="mx-auto max-w-6xl px-4 py-10">
+          <div className="grid gap-5 md:grid-cols-[0.72fr_1.28fr] md:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Demo Lab</p>
+              <h2 className="mt-2 text-2xl font-black tracking-tight md:text-3xl">Demo Lab 已更新</h2>
+              <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
+                這裡列出目前可直接打開的作品與互動 Demo，方便確認公開網站已部署到新版。
+              </p>
+            </div>
+            <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
+              {featuredProjects.map((project) => (
+                <Link
+                  key={project.slug}
+                  to={`/works/${project.slug}`}
+                  className="rounded-lg border border-[#ded8cb] bg-white p-3 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
+                >
+                  <span className="block text-xs text-[#0d6b62]">{project.category}</span>
+                  <span className="mt-1 block leading-5">{project.title}</span>
+                </Link>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
 
       <section className="border-y border-[#e6e0d5] bg-[#f2efe7]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 md:grid-cols-[0.78fr_1.22fr] md:items-center">

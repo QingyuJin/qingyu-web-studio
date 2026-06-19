@@ -6,6 +6,7 @@ const MOCK_LINE_REPLY =
 async function readRawBody(req) {
   if (typeof req.body === "string") return req.body
   if (Buffer.isBuffer(req.body)) return req.body.toString("utf8")
+  if (req.body && typeof req.body === "object") return JSON.stringify(req.body)
 
   const chunks = []
   for await (const chunk of req) {
