@@ -75,7 +75,7 @@ function StudioHome() {
                 <Link to={project.livePath} className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white hover:bg-[#26343b]">
                   {project.liveLabel}
                 </Link>
-                <Link to={`/works/${project.slug}`} className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                <Link to={`/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                   {project.secondaryLabel}
                 </Link>
               </div>

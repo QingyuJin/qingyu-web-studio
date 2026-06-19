@@ -1,5 +1,31 @@
 import { useMemo, useState } from "react"
 
+const aiExampleReport = {
+  source: "mock_example",
+  summary: "範例網站適合先強化首頁標題、聯絡 CTA、社群信任感與手機版資訊排序。",
+  scores: { clarity: 86, cta: 81, seo: 84, trust: 88, mobile: 79 },
+  sections: [
+    { title: "首頁標題", finding: "標題有方向，但還可以更直接說明服務價值。", suggestion: "改成「讓網站真的幫你接單」或「讓你的服務被看懂」。" },
+    { title: "首頁文案", finding: "目前描述偏完整，但手機版可再縮短。", suggestion: "副標控制在 1～2 行，把細節放到服務區。" },
+    { title: "CTA", finding: "主要 CTA 需要比其他連結更突出。", suggestion: "第一屏放「聊聊需求」，第二 CTA 放「看作品」。" },
+    { title: "SEO", finding: "title 需要包含地區與服務。", suggestion: "建議使用「台灣網站製作、AI 工具與 LINE Bot 開發」。" },
+    { title: "信任感", finding: "作品展示可再加強技術與流程證據。", suggestion: "每個案例加上 mockup、技術架構和可互動 Demo。" },
+    { title: "手機版", finding: "若首屏資訊太多，使用者會滑走。", suggestion: "保留短標題、短副標、兩個按鈕與一個產品 mockup。" },
+  ],
+  nextSteps: ["縮短 Hero 文案", "把 CTA 移到第一屏", "作品卡補 Demo 入口", "確認 sitemap 與 OG metadata"],
+}
+
+function scrollToSection(id) {
+  if (typeof document === "undefined") return
+  document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
+}
+
+function wait(ms) {
+  return new Promise((resolve) => {
+    window.setTimeout(resolve, ms)
+  })
+}
+
 function Shell({ title, desc, children }) {
   return (
     <div className="overflow-hidden rounded-2xl border border-[#ded8cb] bg-white shadow-sm">
@@ -95,6 +121,7 @@ function AiAuditDemo() {
     setLoading(true)
     setError("")
     try {
+      await wait(900)
       const response = await fetch("/api/ai-audit", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -108,6 +135,15 @@ function AiAuditDemo() {
     } finally {
       setLoading(false)
     }
+  }
+
+  async function showExampleReport() {
+    setTarget("範例：台灣小型店家，想做一頁式網站，主要希望客戶能看懂服務並透過 LINE 詢問。")
+    setError("")
+    setLoading(true)
+    await wait(650)
+    setReport(aiExampleReport)
+    setLoading(false)
   }
 
   async function sendChat() {
@@ -144,9 +180,17 @@ function AiAuditDemo() {
             onChange={(event) => setTarget(event.target.value)}
             className="min-h-32 w-full resize-none rounded-lg border border-[#d8d2c5] bg-white p-3 text-sm font-bold leading-7 outline-none focus:border-[#0d6b62]"
           />
-          <button type="button" onClick={runAudit} disabled={loading} className="mt-3 min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:opacity-60">
-            {loading ? "分析中..." : "開始 AI 健檢"}
-          </button>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button type="button" onClick={runAudit} disabled={loading} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:opacity-60">
+              {loading ? "分析中..." : "開始分析"}
+            </button>
+            <button type="button" onClick={showExampleReport} disabled={loading} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:opacity-60">
+              查看範例報告
+            </button>
+            <button type="button" onClick={() => scrollToSection("tech")} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              技術拆解
+            </button>
+          </div>
           {loading ? <div className="mt-4"><LoadingBars /></div> : null}
           {error ? <p className="mt-3 text-xs font-black text-[#b45309]">{error}</p> : null}
           <div className="mt-3 flex flex-wrap gap-2">
@@ -235,13 +279,42 @@ function findReportSuggestion(sections, label) {
 
 function LineBotDemo() {
   const [step, setStep] = useState(1)
+  const [activePanel, setActivePanel] = useState("chat")
+  const [inboxItems, setInboxItems] = useState([
+    { id: "REQ-001", customer: "王小姐", need: "形象網站", status: "待店家確認", source: "LINE" },
+  ])
   const messages = [
     ["customer", "你好，我想預約店內諮詢"],
     ["bot", "可以，請問方便留下姓名、服務類型與希望時間嗎？"],
     ["customer", "王小姐，想做形象網站，週三下午可以"],
     ["bot", "已建立詢價紀錄，店家會收到通知。"],
   ]
-  const visibleMessages = messages.slice(0, step + 1)
+  const simulatedMessages = [
+    ["customer", "我想做店家網站"],
+    ["bot", "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。"],
+  ]
+  const visibleMessages = [...messages.slice(0, step + 1), ...(activePanel === "chat-simulated" || activePanel === "dashboard" ? simulatedMessages : [])]
+  const flowSteps = ["User", "LINE", "Webhook", "OpenAI", "Reply API", "Dashboard"]
+
+  function simulateConversation() {
+    setActivePanel("chat-simulated")
+    setStep(3)
+    setInboxItems((current) => (
+      current.some((item) => item.id === "REQ-002")
+        ? current
+        : [{ id: "REQ-002", customer: "LINE 使用者", need: "店家網站", status: "新需求", source: "LINE" }, ...current]
+    ))
+  }
+
+  function showWebhookFlow() {
+    setActivePanel("flow")
+    setStep(3)
+  }
+
+  function showDashboard() {
+    setActivePanel("dashboard")
+    simulateConversation()
+  }
 
   return (
     <Shell title="LINE Bot 詢價 / 預約系統" desc="展示 User → LINE → /api/line-webhook → OpenAI → LINE Reply，實際 token 只放後端環境變數。">
@@ -269,26 +342,38 @@ function LineBotDemo() {
               </button>
             ))}
           </div>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button type="button" onClick={simulateConversation} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+              模擬對話
+            </button>
+            <button type="button" onClick={showWebhookFlow} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              Webhook 流程
+            </button>
+            <button type="button" onClick={showDashboard} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              查看後台
+            </button>
+          </div>
         </MiniCard>
         <div className="grid gap-4">
-          <div className="grid gap-3 md:grid-cols-4">
-            {["LINE", "/api/line-webhook", "OpenAI", "LINE Reply"].map((item, index) => (
+          <div className="grid gap-3 md:grid-cols-6">
+            {flowSteps.map((item, index) => (
               <MiniCard key={item} title={item}>
-                <p className="text-xs font-black text-[#52605c]">{index < step + 1 ? "已同步" : "待處理"}</p>
-                <div className="mt-3"><Progress value={index < step + 1 ? 100 : 35} /></div>
+                <p className="text-xs font-black text-[#52605c]">
+                  {activePanel === "flow" || activePanel === "dashboard" ? ["Received", "Received", "Processing", "Processing", "Replied", "Synced"][index] : index < step + 1 ? "已同步" : "待處理"}
+                </p>
+                <div className="mt-3"><Progress value={activePanel === "flow" || activePanel === "dashboard" ? 100 : index < step + 1 ? 100 : 35} /></div>
               </MiniCard>
             ))}
           </div>
           <MiniCard title="後台收到案件" tone="dark">
-            <div className="grid gap-3 sm:grid-cols-3">
-              {[
-                ["客戶", "王小姐"],
-                ["需求", "形象網站"],
-                ["預約", "週三下午"],
-              ].map(([label, value]) => (
-                <div key={label} className="rounded-lg bg-white/10 p-3">
-                  <p className="text-xs font-black text-[#8fd6cc]">{label}</p>
-                  <p className="mt-2 text-sm font-black">{value}</p>
+            <div className="grid gap-3">
+              {inboxItems.map((item) => (
+                <div key={item.id} className="rounded-lg bg-white/10 p-3">
+                  <div className="flex flex-wrap items-center justify-between gap-2">
+                    <p className="text-xs font-black text-[#8fd6cc]">{item.id}・{item.source}</p>
+                    <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#111c22]">{item.status}</span>
+                  </div>
+                  <p className="mt-2 text-sm font-black">{item.customer}｜{item.need}</p>
                 </div>
               ))}
             </div>
@@ -313,17 +398,56 @@ function LineBotDemo() {
 
 function BuildFlowDemo() {
   const [selected, setSelected] = useState("q-001")
-  const cases = [
+  const [statusIndex, setStatusIndex] = useState(0)
+  const [showDetail, setShowDetail] = useState(false)
+  const [cases, setCases] = useState([
     { id: "q-001", name: "屋頂防水工程", customer: "LINE 業主", status: "施工回報中", progress: 75 },
     { id: "b-014", name: "店面地坪工程", customer: "張先生", status: "估價中", progress: 45 },
     { id: "c-022", name: "浴室漏水修繕", customer: "王小姐", status: "待驗收", progress: 90 },
+  ])
+  const statusFlow = [
+    { status: "待估價", progress: 25, line: "LINE 回報：已收到客戶照片，等待估價。" },
+    { status: "已報價", progress: 55, line: "LINE 回報：報價已送出，等待業主確認。" },
+    { status: "施工中", progress: 75, line: "LINE 回報：今日 2 人出工，完成底層清潔。" },
+    { status: "完工", progress: 100, line: "LINE 回報：完工照已上傳，準備驗收。" },
   ]
+  const [lineReport, setLineReport] = useState(statusFlow[0].line)
   const current = cases.find((item) => item.id === selected) || cases[0]
+
+  function addDemoCase() {
+    const demoCase = { id: "d-033", name: "陽台漏水檢修", customer: "林先生", status: "待估價", progress: 25 }
+    setCases((currentCases) => (
+      currentCases.some((item) => item.id === demoCase.id) ? currentCases : [demoCase, ...currentCases]
+    ))
+    setSelected(demoCase.id)
+    setLineReport("LINE 回報：新增案件，客戶已補照片，待估價。")
+  }
+
+  function updateConstructionStatus() {
+    const nextIndex = (statusIndex + 1) % statusFlow.length
+    const next = statusFlow[nextIndex]
+    setStatusIndex(nextIndex)
+    setCases((currentCases) => currentCases.map((item) => (
+      item.id === selected ? { ...item, status: next.status, progress: next.progress } : item
+    )))
+    setLineReport(next.line)
+  }
 
   return (
     <Shell title="BuildFlow 工程行案件管理系統" desc="用前端 Dashboard 展示案件、報價、照片、施工狀態與 LINE 回報如何被整理。">
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="grid gap-3">
+          <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={addDemoCase} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+              新增案件 Demo
+            </button>
+            <button type="button" onClick={updateConstructionStatus} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              更新施工狀態
+            </button>
+            <button type="button" onClick={() => setShowDetail(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              查看照片 / 報價
+            </button>
+          </div>
           {cases.map((item) => (
             <button
               key={item.id}
@@ -360,7 +484,7 @@ function BuildFlowDemo() {
                 ["照片區", "施工前 3 張，完工照待補"],
                 ["報價區", "NT$53,900，業主已確認"],
                 ["施工狀態", "今日 2 人出工，底層清潔完成"],
-                ["LINE 回報", "師傅訊息已整理成施工日誌"],
+                ["LINE 回報", lineReport],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg bg-white/10 p-3">
                   <p className="text-xs text-[#8fd6cc]">{label}</p>
@@ -371,13 +495,68 @@ function BuildFlowDemo() {
           </div>
         </MiniCard>
       </div>
+      {showDetail ? (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#111c22]/55 p-4" role="dialog" aria-modal="true">
+          <div className="max-h-[88vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-xl">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-[#0d6b62]">案件詳情</p>
+                <h3 className="text-2xl font-black">{current.id}｜{current.name}</h3>
+              </div>
+              <button type="button" onClick={() => setShowDetail(false)} className="rounded-md border border-[#d8d2c5] px-3 py-2 text-sm font-black">
+                關閉
+              </button>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <MiniCard title="照片區">
+                <div className="grid grid-cols-3 gap-2">
+                  {["施工前", "施工中", "完工照"].map((item) => <div key={item} className="aspect-square rounded-lg bg-[#eef7f4] p-2 text-xs font-black text-[#0d6b62]">{item}</div>)}
+                </div>
+              </MiniCard>
+              <MiniCard title="報價欄位">
+                <p className="text-sm font-black">NT$53,900</p>
+                <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：業主已確認</p>
+              </MiniCard>
+              <MiniCard title="施工備註">
+                <p className="text-sm font-bold leading-7 text-[#52605c]">底層清潔完成，明天施作防水底漆。</p>
+              </MiniCard>
+              <MiniCard title="LINE 回報紀錄">
+                <p className="text-sm font-bold leading-7 text-[#52605c]">{lineReport}</p>
+              </MiniCard>
+            </div>
+          </div>
+        </div>
+      ) : null}
     </Shell>
   )
 }
 
 function ApiAutomationDemo() {
   const [submitted, setSubmitted] = useState(false)
-  const flow = submitted ? ["表單已送出", "API 已接收", "資料已入庫", "後台已更新", "通知已送出"] : ["表單待送出", "API 待接收", "資料待入庫", "後台待更新", "通知待送出"]
+  const [flowStep, setFlowStep] = useState(-1)
+  const [showPayload, setShowPayload] = useState(false)
+  const flow = ["Form", "API", "Database", "Notification", "Dashboard"]
+  const payload = {
+    name: "測試客戶",
+    service: "LINE Bot",
+    budget: "10000-30000",
+    status: "new",
+  }
+
+  function runFlow() {
+    setSubmitted(true)
+    setShowPayload(false)
+    setFlowStep(-1)
+    flow.forEach((_, index) => {
+      window.setTimeout(() => setFlowStep(index), 260 * (index + 1))
+    })
+  }
+
+  function replayFlow() {
+    setSubmitted(false)
+    setFlowStep(-1)
+    window.setTimeout(runFlow, 120)
+  }
 
   return (
     <Shell title="API 串接 / 自動化流程" desc="用流程圖與 UI mockup 展示從表單到 API、資料庫、後台與通知的完整自動化。">
@@ -388,24 +567,37 @@ function ApiAutomationDemo() {
               <div key={item} className="rounded-lg border border-[#e3ded3] bg-white p-3 text-sm font-bold text-[#52605c]">{item}</div>
             ))}
           </div>
-          <button type="button" onClick={() => setSubmitted(true)} className="mt-3 min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
-            送出測試需求
-          </button>
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button type="button" onClick={runFlow} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+              送出表單
+            </button>
+            <button type="button" onClick={replayFlow} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              重播流程
+            </button>
+            <button type="button" onClick={() => setShowPayload((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              查看 API Payload
+            </button>
+          </div>
+          {showPayload ? (
+            <pre className="mt-3 overflow-x-auto rounded-lg bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
+              {JSON.stringify(payload, null, 2)}
+            </pre>
+          ) : null}
         </MiniCard>
         <div className="grid gap-3 md:grid-cols-5">
           {flow.map((item, index) => (
             <MiniCard key={item} title={`0${index + 1}`}>
-              <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${submitted ? "bg-[#0d6b62] text-white" : "bg-white text-[#52605c]"}`}>
+              <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${flowStep >= index ? "bg-[#0d6b62] text-white" : "bg-white text-[#52605c]"}`}>
                 {index + 1}
               </div>
               <p className="text-sm font-black leading-6">{item}</p>
-              <p className="mt-2 text-xs font-bold text-[#52605c]">{submitted ? "synced" : "waiting"}</p>
+              <p className="mt-2 text-xs font-bold text-[#52605c]">{flowStep >= index ? "synced" : submitted ? "processing" : "waiting"}</p>
             </MiniCard>
           ))}
         </div>
         <MiniCard title="Dashboard 更新結果" tone="dark">
           <div className="grid gap-3 sm:grid-cols-3">
-            {["新需求 #1042", "通知已排程", "狀態 synced"].map((item) => (
+            {(flowStep >= 4 ? ["新需求 #1042", "通知已排程", "狀態 synced"] : ["等待資料", "等待通知", "尚未同步"]).map((item) => (
               <div key={item} className="rounded-lg bg-white/10 p-3 text-sm font-black">{item}</div>
             ))}
           </div>

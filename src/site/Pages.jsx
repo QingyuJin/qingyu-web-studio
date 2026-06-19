@@ -70,7 +70,7 @@ export function WorksPage() {
                 <Link to={project.livePath} className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
                   {project.liveLabel}
                 </Link>
-                <Link to={`/works/${project.slug}`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22]">
+                <Link to={`/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22]">
                   {project.secondaryLabel}
                 </Link>
               </div>
@@ -156,7 +156,7 @@ export function WorkDetailPage() {
         </div>
       </section>
 
-      <section className="border-y border-[#e6e0d5] bg-[#f2efe7]">
+      <section id="tech" className="scroll-mt-24 border-y border-[#e6e0d5] bg-[#f2efe7]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.9fr_1.1fr]">
           <div>
             <h2 className="text-3xl font-black">功能與技術架構</h2>

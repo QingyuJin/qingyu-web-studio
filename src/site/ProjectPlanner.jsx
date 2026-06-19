@@ -42,6 +42,7 @@ function ProjectPlanner() {
   const [budget, setBudget] = useState("NT$6,000～12,000")
   const [timeline, setTimeline] = useState("1 個月內")
   const [submitted, setSubmitted] = useState(true)
+  const [error, setError] = useState("")
 
   const result = useMemo(() => {
     const needsSystem = goal === "系統" || selectedFeatures.includes("後台")
@@ -67,6 +68,26 @@ function ProjectPlanner() {
     setSelectedFeatures((current) => (
       current.includes(option) ? current.filter((item) => item !== option) : [...current, option]
     ))
+  }
+
+  function generatePlan() {
+    if (!profile || !goal || !budget || !timeline) {
+      setSubmitted(false)
+      setError("請先選擇身份、想做項目、預算與預計上線時間。")
+      return
+    }
+    setError("")
+    setSubmitted(true)
+  }
+
+  function resetPlanner() {
+    setProfile("")
+    setGoal("")
+    setSelectedFeatures([])
+    setBudget("")
+    setTimeline("")
+    setSubmitted(false)
+    setError("")
   }
 
   return (
@@ -106,14 +127,21 @@ function ProjectPlanner() {
           <ToggleGroup title="需要功能" options={features} selected={selectedFeatures} onSelect={toggleFeature} multi />
           <ToggleGroup title="預算區間" options={budgets} selected={budget} onSelect={setBudget} />
           <ToggleGroup title="預計上線時間" options={timelines} selected={timeline} onSelect={setTimeline} />
-          <button type="button" onClick={() => setSubmitted(true)} className="min-h-11 rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-            產生建議方案
-          </button>
+          {error ? <p className="rounded-lg bg-[#fff7ed] px-4 py-3 text-sm font-black text-[#b45309]">{error}</p> : null}
+          <div className="flex flex-wrap gap-2">
+            <button type="button" onClick={generatePlan} className="min-h-11 rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              產生建議
+            </button>
+            <button type="button" onClick={resetPlanner} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              重新選擇
+            </button>
+          </div>
         </div>
 
         <aside className="rounded-2xl border border-[#233139] bg-[#111c22] p-5 text-white md:p-6">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Result</p>
           <h2 className="mt-3 text-3xl font-black">{submitted ? result.plan : "尚未產生建議"}</h2>
+          {submitted ? (
           <div className="mt-6 grid gap-3">
             <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">預估複雜度</p>
@@ -142,6 +170,11 @@ function ProjectPlanner() {
               <span>下一步 3：約時間聊需求</span>
             </div>
           </div>
+          ) : (
+            <div className="mt-6 rounded-xl bg-white/10 p-4 text-sm font-bold leading-7 text-white/75">
+              選完左側條件後按「產生建議」，這裡會顯示推薦服務、技術複雜度、建議功能與下一步。
+            </div>
+          )}
           <Link to="/contact" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
             聊聊需求
           </Link>
