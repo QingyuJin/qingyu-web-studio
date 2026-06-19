@@ -90,14 +90,19 @@ export function WorkDetailPage() {
   const isLineBotProject = project.slug === "linebot"
   const isBuildFlowProject = project.slug === "buildflow"
   const isApiAutomationProject = project.slug === "api-automation"
+  const isQingyuWebProject = project.slug === "qingyu-web"
   const projectSeo = {
     path: `/works/${project.slug}`,
-    title: isBuildFlowProject
+    title: isQingyuWebProject
+      ? "Qingyu Web Studio 主站案例｜網站服務、Demo Lab 與 SEO 架構"
+      : isBuildFlowProject
       ? "BuildFlow 工程行案件管理系統 Demo｜Qingyu Web Studio"
       : isApiAutomationProject
         ? "API 自動化流程 Demo｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
-    description: isBuildFlowProject
+    description: isQingyuWebProject
+      ? "展示 Qingyu Web Studio 主站如何整合網站服務、作品展示、需求診斷工具、SEO metadata、Vercel 部署與聯絡轉換。"
+      : isBuildFlowProject
       ? "展示工程行如何用案件管理後台整理客戶需求、現場照片、報價狀態、施工進度與 LINE 回報流程。"
       : isApiAutomationProject
         ? "展示如何將客戶表單、API、資料驗證、通知流程與後台 Dashboard 串接成完整小型系統。"
@@ -130,6 +135,18 @@ export function WorkDetailPage() {
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看報價單
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isQingyuWebProject ? (
+          <>
+            <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看首頁
+            </Link>
+            <Link to="/tools/project-planner" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看需求診斷
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -261,6 +278,21 @@ export function WorkDetailPage() {
                 </div>
               </div>
             ) : null}
+            {isQingyuWebProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Site Conversion Flow</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  Visitor → Homepage → Demo Lab → Project Planner → Contact → Case Study
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Vite / Tailwind", "React Router", "Vercel Deploy", "SEO metadata", "Open Graph", "Contact CTA"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
             {isApiAutomationProject ? (
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Automation Architecture</p>
@@ -343,6 +375,7 @@ function HeroPreview({ project }) {
   const isBuildFlow = project.slug === "buildflow"
   const isAudit = project.slug === "ai-audit"
   const isApi = project.slug === "api-automation"
+  const isQingyuWeb = project.slug === "qingyu-web"
 
   return (
     <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-xl shadow-[#111c22]/10 md:p-5">
@@ -453,6 +486,28 @@ function HeroPreview({ project }) {
               </div>
             ))}
           </div>
+        </div>
+      ) : isQingyuWeb ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_0.78fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black">Qingyu Web Studio</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">SEO Ready</span>
+            </div>
+            <div className="mt-4 grid gap-2">
+              {[
+                ["Hero", "讓你的服務被看懂"],
+                ["Demo Lab", "AI / LINE Bot / BuildFlow"],
+                ["CTA", "Project Planner → Contact"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-[#faf8f3] px-3 py-2">
+                  <p className="text-[11px] font-black text-[#0d6b62]">{label}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <HeroPreviewList items={["RWD mockup", "Open Graph", "sitemap.xml", "robots.txt"]} />
         </div>
       ) : (
         <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">

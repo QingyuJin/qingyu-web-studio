@@ -2039,30 +2039,138 @@ function ApiAutomationDemo() {
 }
 
 function QingyuWebDemo() {
-  const metrics = [
-    ["SEO metadata", "title / description / canonical"],
-    ["Open Graph", "社群預覽圖與描述"],
-    ["RWD", "手機第一屏與 CTA"],
-    ["Vercel", "靜態部署與 sitemap"],
+  const siteBlocks = [
+    ["Hero", "讓服務被看懂，第一屏放清楚定位與 CTA。"],
+    ["服務分類", "品牌網站、作品集、小型系統、AI 工具、LINE Bot。"],
+    ["Demo Lab / 精選作品", "把技術作品變成可點、可看的案例入口。"],
+    ["需求診斷 CTA", "引導客戶用 Project Planner 整理需求。"],
+    ["技術能力", "展示 React、Vercel、SEO、API 串接能力。"],
+    ["聯絡轉換", "把訪客導到 contact 與需求討論。"],
+    ["SEO / sitemap / robots", "讓搜尋引擎讀懂主站與作品頁。"],
   ]
+  const rwdDevices = [
+    {
+      name: "Desktop",
+      width: "lg:col-span-2",
+      preview: ["Hero + CTA", "Demo Lab 作品列", "技術能力 / 服務分類"],
+    },
+    {
+      name: "Tablet",
+      width: "",
+      preview: ["作品卡雙欄", "Project Planner CTA", "Contact CTA"],
+    },
+    {
+      name: "Mobile",
+      width: "",
+      preview: ["短標題", "一張一張好滑", "按鈕好點"],
+    },
+  ]
+  const seoPanel = [
+    ["title", "Qingyu Web Studio｜台灣網站製作、AI 工具與 LINE Bot 開發"],
+    ["description", "網站、作品集、AI 工具、LINE Bot、API 串接與簡易管理系統。"],
+    ["Open Graph", "社群分享標題、描述與預覽圖。"],
+    ["sitemap.xml", "收錄首頁、作品頁、工具頁。"],
+    ["robots.txt", "允許搜尋引擎索引公開頁面。"],
+    ["canonical", "每頁指向正式網址。"],
+    ["structured data", "提供網站服務與組織資訊。"],
+  ]
+  const techTags = ["React", "Vite", "Tailwind", "React Router", "Vercel", "SEO", "Open Graph", "sitemap", "robots"]
 
   return (
-    <Shell title="Qingyu Web Studio 主站" desc="這個網站本身也是作品：展示定位、服務分類、作品入口、SEO 與聯絡轉換。">
-      <div className="grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
-        <MiniCard title="首頁架構" tone="dark">
+    <Shell title="Qingyu Web Studio 主站" desc="一個為台灣個人品牌、小型店家、工作室與學生設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。">
+      <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
+        <MiniCard title="主站架構圖" tone="dark">
+          <div className="grid gap-3">
+            {siteBlocks.map(([title, text], index) => (
+              <div key={title} className="grid gap-3 rounded-xl border border-white/10 bg-white/10 p-3 sm:grid-cols-[auto_1fr] sm:items-start">
+                <div className="flex h-9 w-9 items-center justify-center rounded-full bg-[#8fd6cc] text-xs font-black text-[#0b2724]">
+                  {index + 1}
+                </div>
+                <div>
+                  <p className="text-sm font-black text-white">{title}</p>
+                  <p className="mt-1 text-xs font-bold leading-5 text-white/68">{text}</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            <a href="/" className="inline-flex min-h-10 items-center rounded-md bg-white px-4 text-sm font-black text-[#111c22]">
+              查看首頁
+            </a>
+            <a href="/tools/project-planner" className="inline-flex min-h-10 items-center rounded-md border border-white/20 px-4 text-sm font-black text-white">
+              查看需求診斷
+            </a>
+            <button type="button" onClick={() => scrollToSection("tech")} className="inline-flex min-h-10 items-center rounded-md border border-white/20 px-4 text-sm font-black text-white">
+              技術拆解
+            </button>
+          </div>
+        </MiniCard>
+        <div className="grid gap-4">
+          <MiniCard title="RWD 展示">
+            <div className="grid gap-3 lg:grid-cols-2">
+              {rwdDevices.map((device) => (
+                <div key={device.name} className={`rounded-2xl border border-[#e3ded3] bg-[#faf7ef] p-3 ${device.width}`}>
+                  <div className="mb-3 flex items-center justify-between">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{device.name}</p>
+                    <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#52605c]">RWD</span>
+                  </div>
+                  <div className="grid gap-2 rounded-xl bg-white p-3">
+                    {device.preview.map((item) => (
+                      <div key={item} className="rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </MiniCard>
+          <MiniCard title="入口連結">
+            <div className="flex flex-wrap gap-2">
+              <a href="/sitemap.xml" className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 py-2 text-sm font-black text-[#111c22]">
+                查看 sitemap
+              </a>
+              <a href="/robots.txt" className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 py-2 text-sm font-black text-[#111c22]">
+                查看 robots
+              </a>
+              <a href="/contact" className="min-h-10 rounded-md bg-[#111c22] px-4 py-2 text-sm font-black text-white">
+                聯絡 CTA
+              </a>
+            </div>
+          </MiniCard>
+        </div>
+      </div>
+      <div className="mt-4 grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+        <MiniCard title="SEO Panel">
           <div className="grid gap-2">
-            {["Hero：讓服務被看懂", "服務分類", "精選作品", "技術能力", "聯絡 CTA"].map((item) => (
-              <div key={item} className="rounded-lg bg-white/10 p-3 text-sm font-black">{item}</div>
+            {seoPanel.map(([label, value]) => (
+              <div key={label} className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{label}</p>
+                <p className="mt-2 break-words text-sm font-bold leading-6 text-[#52605c]">{value}</p>
+              </div>
             ))}
           </div>
         </MiniCard>
-        <div className="grid gap-3 sm:grid-cols-2">
-          {metrics.map(([title, text]) => (
-            <MiniCard key={title} title={title}>
-              <p className="text-sm font-bold leading-6 text-[#52605c]">{text}</p>
-            </MiniCard>
-          ))}
-        </div>
+        <MiniCard title="產品導流流程">
+          <div className="grid gap-3">
+            {["Visitor", "Homepage", "Demo Lab", "Project Planner", "Contact", "Case Study"].map((item, index) => (
+              <div key={item} className="flex items-center gap-3 rounded-xl border border-[#e3ded3] bg-[#faf7ef] p-3">
+                <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#111c22] text-xs font-black text-white">{index + 1}</span>
+                <div>
+                  <p className="text-sm font-black text-[#111c22]">{item}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">導向下一個更明確的委託行動。</p>
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {techTags.map((item) => (
+              <span key={item} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+                {item}
+              </span>
+            ))}
+          </div>
+        </MiniCard>
       </div>
     </Shell>
   )
