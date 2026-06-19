@@ -576,117 +576,162 @@ function AiAuditProductDemo() {
 }
 
 function LineBotDemo() {
-  const [step, setStep] = useState(1)
   const [activePanel, setActivePanel] = useState("chat")
-  const [inboxItems, setInboxItems] = useState([
-    { id: "REQ-001", customer: "王小姐", need: "形象網站", status: "待店家確認", source: "LINE" },
+  const [selectedId, setSelectedId] = useState("REQ-001")
+  const [messages, setMessages] = useState([
+    { role: "customer", text: "你好，我想預約店內諮詢" },
+    { role: "bot", text: "可以，請問方便留下姓名、服務類型與希望時間嗎？" },
+    { role: "customer", text: "王小姐，想做形象網站，週三下午可以" },
+    { role: "bot", text: "已建立詢價紀錄，店家會收到通知。" },
   ])
-  const messages = [
-    ["customer", "你好，我想預約店內諮詢"],
-    ["bot", "可以，請問方便留下姓名、服務類型與希望時間嗎？"],
-    ["customer", "王小姐，想做形象網站，週三下午可以"],
-    ["bot", "已建立詢價紀錄，店家會收到通知。"],
+  const [inboxItems, setInboxItems] = useState([
+    {
+      id: "REQ-001",
+      customer: "王小姐",
+      need: "形象網站",
+      detail: "想做一個能介紹服務、放作品、並讓客戶加 LINE 的形象網站。",
+      status: "待店家確認",
+      source: "LINE",
+      createdAt: "09:42",
+    },
+  ])
+  const flowSteps = [
+    ["User", "Received"],
+    ["LINE", "Received"],
+    ["Webhook", "Processing"],
+    ["OpenAI", "AI Reply"],
+    ["Reply API", "Sent"],
+    ["Dashboard", "Saved"],
   ]
-  const simulatedMessages = [
-    ["customer", "我想做店家網站"],
-    ["bot", "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。"],
-  ]
-  const visibleMessages = [...messages.slice(0, step + 1), ...(activePanel === "chat-simulated" || activePanel === "dashboard" ? simulatedMessages : [])]
-  const flowSteps = ["User", "LINE", "Webhook", "OpenAI", "Reply API", "Dashboard"]
+  const isFlowActive = activePanel === "flow" || activePanel === "dashboard"
+  const selectedItem = inboxItems.find((item) => item.id === selectedId) || inboxItems[0]
 
   function addSimulatedInquiry() {
+    const demoInquiry = {
+      id: "REQ-002",
+      customer: "LINE 使用者",
+      need: "店家網站",
+      detail: "使用者想做店家網站，需要判斷適合一般網站、LINE Bot 或小型管理系統。",
+      status: "新需求",
+      source: "LINE",
+      createdAt: "剛剛",
+    }
     setInboxItems((current) => (
-      current.some((item) => item.id === "REQ-002")
-        ? current
-        : [{ id: "REQ-002", customer: "LINE 使用者", need: "店家網站", status: "新需求", source: "LINE" }, ...current]
+      current.some((item) => item.id === demoInquiry.id) ? current : [demoInquiry, ...current]
     ))
+    setSelectedId(demoInquiry.id)
   }
 
   function simulateConversation() {
-    setActivePanel("chat-simulated")
-    setStep(3)
+    setActivePanel("chat")
+    setMessages((current) => {
+      if (current.some((message) => message.text === "我想做店家網站")) return current
+      return [
+        ...current,
+        { role: "customer", text: "我想做店家網站" },
+        { role: "bot", text: "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。" },
+      ]
+    })
     addSimulatedInquiry()
   }
 
   function showWebhookFlow() {
     setActivePanel("flow")
-    setStep(3)
+    addSimulatedInquiry()
   }
 
   function showDashboard() {
     setActivePanel("dashboard")
-    setStep(3)
     addSimulatedInquiry()
   }
 
   return (
-    <Shell title="LINE Bot 詢價 / 預約系統" desc="展示 User → LINE → /api/line-webhook → OpenAI → LINE Reply，實際 token 只放後端環境變數。">
-      <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
-        <MiniCard title="LINE 對話 mockup">
-          <div className="overflow-hidden rounded-[2rem] border border-[#c9dfd4] bg-[#e9f4ee] shadow-inner">
+    <Shell title="LINE Bot 詢價 / 預約系統" desc="用前端 mock 展示 LINE 對話、Webhook 流程、AI 回覆與後台收件，不會在前端放 LINE token。">
+      <div className="grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
+        <MiniCard title="LINE 手機對話 mockup">
+          <div className="mx-auto max-w-sm overflow-hidden rounded-[2rem] border border-[#b6d8ca] bg-[#e9f4ee] shadow-inner">
             <div className="bg-[#06c755] px-4 py-3 text-center text-sm font-black text-white">Qingyu 詢價助理</div>
-            <div className="min-h-80 space-y-3 p-4">
-            <div className="space-y-3">
-              {visibleMessages.map(([role, text], index) => (
-                <div key={`${role}-${text}`} className={`flex ${role === "customer" ? "justify-end" : "justify-start"}`}>
-                  <div className={`max-w-[82%] rounded-2xl px-3 py-2 text-sm font-bold leading-6 ${role === "customer" ? "bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"}`}>
-                    {text}
+            <div className="min-h-96 space-y-3 p-4">
+              {messages.map((message, index) => (
+                <div key={`${message.role}-${message.text}-${index}`} className={`flex ${message.role === "customer" ? "justify-end" : "justify-start"}`}>
+                  <div className={`max-w-[84%] break-words rounded-2xl px-3 py-2 text-sm font-bold leading-6 ${message.role === "customer" ? "bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"}`}>
+                    {message.text}
                   </div>
-                  {index === visibleMessages.length - 1 ? null : null}
                 </div>
               ))}
             </div>
-            </div>
           </div>
-          <div className="mt-3 flex gap-2">
-            {[1, 2, 3].map((item) => (
-              <button key={item} type="button" onClick={() => setStep(item)} className="min-h-9 rounded-md border border-[#d8d2c5] px-3 text-xs font-black text-[#111c22]">
-                Step {item}
-              </button>
-            ))}
-          </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <button type="button" onClick={simulateConversation} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+          <div className="mt-4 flex flex-wrap gap-2">
+            <button type="button" onClick={simulateConversation} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]">
               模擬對話
             </button>
-            <button type="button" onClick={showWebhookFlow} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={showWebhookFlow} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
               Webhook 流程
             </button>
-            <button type="button" onClick={showDashboard} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={showDashboard} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
               查看後台
             </button>
           </div>
         </MiniCard>
+
         <div className="grid gap-4">
           <div className="grid gap-3 md:grid-cols-6">
-            {flowSteps.map((item, index) => (
-              <MiniCard key={item} title={item}>
-                <p className="text-xs font-black text-[#52605c]">
-                  {activePanel === "flow" || activePanel === "dashboard" ? ["Received", "Received", "Processing", "Processing", "Replied", "Synced"][index] : index < step + 1 ? "已同步" : "待處理"}
-                </p>
-                <div className="mt-3"><Progress value={activePanel === "flow" || activePanel === "dashboard" ? 100 : index < step + 1 ? 100 : 35} /></div>
-              </MiniCard>
+            {flowSteps.map(([name, status], index) => (
+              <div
+                key={name}
+                className={`rounded-xl border p-3 transition ${isFlowActive ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}
+              >
+                <p className="text-xs font-black text-[#0d6b62]">0{index + 1}</p>
+                <p className="mt-2 text-sm font-black text-[#111c22]">{name}</p>
+                <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-[11px] font-black ${isFlowActive ? "bg-[#0d6b62] text-white" : "bg-[#faf8f3] text-[#52605c]"}`}>
+                  {isFlowActive ? status : "Waiting"}
+                </span>
+              </div>
             ))}
           </div>
-          <MiniCard title="後台收到案件" tone="dark">
-            <div className="grid gap-3">
-              {inboxItems.map((item) => (
-                <div key={item.id} className="rounded-lg bg-white/10 p-3">
-                  <div className="flex flex-wrap items-center justify-between gap-2">
-                    <p className="text-xs font-black text-[#8fd6cc]">{item.id}・{item.source}</p>
-                    <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#111c22]">{item.status}</span>
-                  </div>
-                  <p className="mt-2 text-sm font-black">{item.customer}｜{item.need}</p>
+
+          <div className="grid gap-4 lg:grid-cols-[0.92fr_1.08fr]">
+            <MiniCard title="後台案件列表" tone={activePanel === "dashboard" ? "dark" : "light"}>
+              <div className="grid gap-3">
+                {inboxItems.map((item) => (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedId(item.id)
+                      setActivePanel("dashboard")
+                    }}
+                    className={`rounded-lg border p-3 text-left transition ${selectedId === item.id ? "border-[#8fd6cc] bg-white/10 text-white" : activePanel === "dashboard" ? "border-white/10 bg-white/5 text-white" : "border-[#e3ded3] bg-white text-[#111c22]"}`}
+                  >
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className={`text-xs font-black ${activePanel === "dashboard" ? "text-[#8fd6cc]" : "text-[#0d6b62]"}`}>{item.id}・{item.source}</p>
+                      <span className={`rounded-full px-3 py-1 text-[11px] font-black ${activePanel === "dashboard" ? "bg-white text-[#111c22]" : "bg-[#eef7f4] text-[#0d6b62]"}`}>{item.status}</span>
+                    </div>
+                    <p className="mt-2 text-sm font-black">{item.customer}｜{item.need}</p>
+                  </button>
+                ))}
+              </div>
+            </MiniCard>
+
+            <MiniCard title="需求詳情卡">
+              <div className="grid gap-3">
+                <div className="flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-2xl font-black text-[#111c22]">{selectedItem.id}</p>
+                  <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{selectedItem.status}</span>
                 </div>
-              ))}
-            </div>
-            <div className="mt-3 rounded-lg bg-white/10 p-3 text-sm font-bold text-white/75">
-              狀態：待店家確認，已可同步到 Supabase Inbox。
-            </div>
-          </MiniCard>
+                <div className="grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+                  <p><span className="font-black text-[#111c22]">來源：</span>{selectedItem.source}</p>
+                  <p><span className="font-black text-[#111c22]">需求：</span>{selectedItem.need}</p>
+                  <p><span className="font-black text-[#111c22]">建立時間：</span>{selectedItem.createdAt}</p>
+                  <p><span className="font-black text-[#111c22]">內容：</span>{selectedItem.detail}</p>
+                </div>
+              </div>
+            </MiniCard>
+          </div>
+
           <MiniCard title="技術標籤">
             <div className="flex flex-wrap gap-2">
-              {["LINE Messaging API", "Webhook", "OpenAI API", "Vercel Function", "Dashboard UI"].map((tag) => (
+              {["LINE Messaging API", "Webhook", "OpenAI API", "Vercel Function", "Supabase", "Dashboard UI"].map((tag) => (
                 <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
                   {tag}
                 </span>
