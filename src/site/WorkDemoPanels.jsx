@@ -35,17 +35,82 @@ function MiniCard({ title, children, tone = "light" }) {
 
 function AiAuditDemo() {
   const [target, setTarget] = useState("小型店家想做一頁式網站，主要靠 LINE 接洽客戶。")
-  const [hasRun, setHasRun] = useState(true)
-  const score = hasRun ? 82 : 0
+  const [report, setReport] = useState({
+    source: "mock",
+    summary: "這個網站方向可以成立，但首頁需要更快說清楚服務、客群與聯絡方式。",
+    scores: { clarity: 82, cta: 74, seo: 78, trust: 86, mobile: 80 },
+    sections: [
+      { title: "首頁標題", finding: "標題需要在 5 秒內說清楚服務。", suggestion: "使用短標題，再用副標補充服務範圍。" },
+      { title: "CTA", finding: "聯絡入口可以更明顯。", suggestion: "第一屏保留主要 CTA「聊聊需求」。" },
+      { title: "SEO", finding: "需要包含地區、服務與客群。", suggestion: "title 可加入「台灣網站製作、AI 工具、LINE Bot」。" },
+      { title: "信任感", finding: "小型客戶會先看案例與流程。", suggestion: "補作品、流程、價格方向與聯絡方式。" },
+    ],
+    nextSteps: ["收斂首頁主標題", "補清楚 CTA", "整理精選作品", "確認手機版第一屏"],
+  })
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+  const [chatInput, setChatInput] = useState("我的網站適合做哪種方案？")
+  const [chatMessages, setChatMessages] = useState([
+    {
+      role: "assistant",
+      content: "這是 Demo 顧問助理。你可以問網站方案、LINE Bot、AI 工具或工程系統方向。",
+    },
+  ])
+
   const checks = [
-    ["SEO", "標題可加入地區與服務關鍵字", 78],
-    ["CTA", "首頁第一屏需要更明確的聯絡入口", 74],
-    ["信任感", "建議補作品案例、客戶常見問題與流程", 86],
-    ["手機版", "按鈕可加大，服務重點需提前", 80],
+    ["標題清楚", "clarity"],
+    ["CTA 明顯", "cta"],
+    ["SEO 建議", "seo"],
+    ["信任感", "trust"],
+    ["手機版", "mobile"],
   ]
 
+  async function runAudit() {
+    if (!target.trim()) {
+      setError("請先輸入網站網址或需求描述。")
+      return
+    }
+
+    setLoading(true)
+    setError("")
+    try {
+      const response = await fetch("/api/ai-audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: target }),
+      })
+      const data = await response.json()
+      if (!response.ok && !data.fallback) throw new Error(data.error || "分析失敗")
+      setReport(data.fallback || data)
+    } catch (requestError) {
+      setError(requestError.message || "AI 暫時無法分析，已保留 mock report。")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  async function sendChat() {
+    const message = chatInput.trim()
+    if (!message) return
+
+    const nextMessages = [...chatMessages, { role: "user", content: message }]
+    setChatMessages(nextMessages)
+    setChatInput("")
+    try {
+      const response = await fetch("/api/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message, history: chatMessages }),
+      })
+      const data = await response.json()
+      setChatMessages([...nextMessages, { role: "assistant", content: data.reply || "目前先用 Demo 回覆，請稍後再試。" }])
+    } catch {
+      setChatMessages([...nextMessages, { role: "assistant", content: "AI 助理暫時無法連線，這裡先顯示 Demo fallback 回覆。" }])
+    }
+  }
+
   return (
-    <Shell title="AI 網站健檢工具" desc="前端先用 mock analysis 模擬 OpenAI 報告流程，讓客戶理解未來可擴充成真正 AI 工具。">
+    <Shell title="AI 網站健檢工具" desc="前端送到 /api/ai-audit，由 serverless function 呼叫 OpenAI；沒有 key 時自動回 mock report。">
       <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
         <MiniCard title="Input｜網址 / 需求輸入">
           <textarea
@@ -53,31 +118,71 @@ function AiAuditDemo() {
             onChange={(event) => setTarget(event.target.value)}
             className="min-h-32 w-full resize-none rounded-lg border border-[#d8d2c5] bg-white p-3 text-sm font-bold leading-7 outline-none focus:border-[#0d6b62]"
           />
-          <button type="button" onClick={() => setHasRun(true)} className="mt-3 min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
-            重新分析
+          <button type="button" onClick={runAudit} disabled={loading} className="mt-3 min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:opacity-60">
+            {loading ? "分析中..." : "開始 AI 健檢"}
           </button>
+          {error ? <p className="mt-3 text-xs font-black text-[#b45309]">{error}</p> : null}
+          <div className="mt-3 flex flex-wrap gap-2">
+            {["OpenAI API", "Prompt Flow", "Report UI", "SEO Check"].map((tag) => (
+              <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{tag}</span>
+            ))}
+          </div>
         </MiniCard>
         <div className="grid gap-4">
           <MiniCard title="Report UI｜健檢總分" tone="dark">
             <div className="flex items-end justify-between gap-4">
               <div>
-                <p className="text-4xl font-black">{score}</p>
-                <p className="mt-1 text-sm font-bold text-white/65">需要優先修 CTA 與首頁說明</p>
+                <p className="text-4xl font-black">{Math.round(Object.values(report.scores || {}).reduce((sum, value) => sum + value, 0) / Math.max(Object.values(report.scores || {}).length, 1))}</p>
+                <p className="mt-1 text-sm font-bold text-white/65">{report.summary}</p>
               </div>
-              <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">Mock OpenAI Flow</span>
+              <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
+                {report.source === "openai" ? "OpenAI" : "Mock fallback"}
+              </span>
             </div>
           </MiniCard>
           <div className="grid gap-3 sm:grid-cols-2">
-            {checks.map(([label, text, value]) => (
+            {checks.map(([label, key]) => (
               <MiniCard key={label} title={label}>
-                <p className="min-h-12 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+                <p className="min-h-12 text-sm font-bold leading-6 text-[#52605c]">
+                  {(report.sections || []).find((item) => item.title.includes(label.replace(" 建議", "")))?.suggestion || "依目前內容產生可執行優化建議。"}
+                </p>
                 <div className="mt-3">
-                  <Progress value={value} />
+                  <Progress value={report.scores?.[key] || 70} />
                 </div>
               </MiniCard>
             ))}
           </div>
         </div>
+      </div>
+      <div className="mt-5 grid gap-4 lg:grid-cols-[1.1fr_0.9fr]">
+        <MiniCard title="下一步優化清單">
+          <ul className="grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+            {(report.nextSteps || []).map((item) => <li key={item}>・{item}</li>)}
+          </ul>
+        </MiniCard>
+        <MiniCard title="聊天式 AI 助理 Demo">
+          <div className="max-h-64 space-y-2 overflow-y-auto rounded-lg bg-white p-3">
+            {chatMessages.map((item, index) => (
+              <div key={`${item.role}-${index}`} className={`rounded-lg p-2 text-sm font-bold leading-6 ${item.role === "assistant" ? "bg-[#eef7f4] text-[#23413d]" : "bg-[#111c22] text-white"}`}>
+                {item.content}
+              </div>
+            ))}
+          </div>
+          <div className="mt-3 flex gap-2">
+            <input
+              value={chatInput}
+              onChange={(event) => setChatInput(event.target.value)}
+              onKeyDown={(event) => {
+                if (event.key === "Enter") sendChat()
+              }}
+              className="min-w-0 flex-1 rounded-md border border-[#d8d2c5] bg-white px-3 text-sm font-bold outline-none focus:border-[#0d6b62]"
+              placeholder="問網站、LINE Bot 或 AI 工具..."
+            />
+            <button type="button" onClick={sendChat} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+              送出
+            </button>
+          </div>
+        </MiniCard>
       </div>
     </Shell>
   )
@@ -94,7 +199,7 @@ function LineBotDemo() {
   const visibleMessages = messages.slice(0, step + 1)
 
   return (
-    <Shell title="LINE Bot 詢價 / 預約系統" desc="模擬 LINE 對話、Webhook 解析、後台收件與店家通知，展示完整訊息到案件流程。">
+    <Shell title="LINE Bot 詢價 / 預約系統" desc="展示 User → LINE → /api/line-webhook → OpenAI → LINE Reply，實際 token 只放後端環境變數。">
       <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
         <MiniCard title="LINE 對話 mockup">
           <div className="rounded-2xl bg-[#e9f4ee] p-4">
@@ -119,7 +224,7 @@ function LineBotDemo() {
         </MiniCard>
         <div className="grid gap-4">
           <div className="grid gap-3 md:grid-cols-4">
-            {["Webhook", "Parse", "Inbox", "通知店家"].map((item, index) => (
+            {["LINE", "/api/line-webhook", "OpenAI", "LINE Reply"].map((item, index) => (
               <MiniCard key={item} title={item}>
                 <p className="text-xs font-black text-[#52605c]">{index < step + 1 ? "已同步" : "待處理"}</p>
               </MiniCard>
@@ -131,6 +236,15 @@ function LineBotDemo() {
                 <div key={item} className="rounded-lg bg-white/10 p-3 text-sm font-black">
                   {item}
                 </div>
+              ))}
+            </div>
+          </MiniCard>
+          <MiniCard title="技術標籤">
+            <div className="flex flex-wrap gap-2">
+              {["LINE Messaging API", "Webhook", "OpenAI API", "Vercel Function", "Dashboard UI"].map((tag) => (
+                <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
+                  {tag}
+                </span>
               ))}
             </div>
           </MiniCard>

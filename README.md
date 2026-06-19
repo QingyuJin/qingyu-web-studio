@@ -1,5 +1,32 @@
 # Qingyu Web Studio
 
+## AI / LINE Bot Demo API
+
+本專案的 AI 與 LINE Bot 展示使用 Vercel Serverless Functions，前端只呼叫自己的 `/api/*`，不會把 API key 放進前端 bundle。
+
+### API Routes
+
+- `POST /api/ai-audit`：AI 網站健檢，無 `OPENAI_API_KEY` 時會回傳 mock report。
+- `POST /api/chat`：聊天式網站顧問 Demo，無 `OPENAI_API_KEY` 時會回傳 mock reply。
+- `POST /api/line-webhook`：LINE Bot Demo webhook，會驗證 `x-line-signature`，再用 OpenAI 或 mock reply 回覆 LINE。
+
+### Vercel Environment Variables
+
+```env
+OPENAI_API_KEY=
+OPENAI_MODEL=gpt-4.1-mini
+LINE_CHANNEL_ACCESS_TOKEN=
+LINE_CHANNEL_SECRET=
+```
+
+LINE Developers 的 Webhook URL 可填：
+
+```text
+https://你的網域/api/line-webhook
+```
+
+正式部署時，`OPENAI_API_KEY`、`LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET` 只能放在 Vercel 後端環境變數，不可放到 `src` 前端程式。
+
 作品入口網站。
 
 主網站保持簡潔，之後可以陸續放不同作品。目前主作品是工程行作品集。
