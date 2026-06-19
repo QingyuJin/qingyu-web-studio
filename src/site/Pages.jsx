@@ -1,6 +1,7 @@
 import { Link, useParams } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
+import WorkDemoPanel from "./WorkDemoPanels"
 import { contact, pricing, projects, seo, serviceCategories } from "./content"
 
 function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, children }) {
@@ -93,19 +94,22 @@ export function WorkDetailPage() {
       </section>
 
       <section id="demo" className="mx-auto max-w-6xl px-4 pt-8">
-        <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-          <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
-            <div>
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Live Demo</p>
-              <h2 className="mt-2 text-2xl font-black">實際成品入口</h2>
-              <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
-                這個案例連到專案裡已存在的成品頁或展示頁，作品頁則保留技術拆解。
-              </p>
+        <div className="grid gap-5">
+          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+            <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Live Demo</p>
+                <h2 className="mt-2 text-2xl font-black">實際成品入口</h2>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
+                  這個案例連到專案裡已存在的成品頁或展示頁，作品頁則保留技術拆解。
+                </p>
+              </div>
+              <Link to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+                {project.liveLabel}
+              </Link>
             </div>
-            <Link to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              {project.liveLabel}
-            </Link>
           </div>
+          <WorkDemoPanel project={project} />
         </div>
       </section>
 

@@ -40,11 +40,20 @@ function StudioHome() {
             </article>
           ))}
         </div>
+        <div className="mt-6 rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5 md:flex md:items-center md:justify-between">
+          <div>
+            <h3 className="text-xl font-black">不知道適合做哪一種？</h3>
+            <p className="mt-2 text-sm font-bold leading-7 text-[#5a6461]">用小工具快速判斷網站、系統、AI 工具或 LINE Bot 方向。</p>
+          </div>
+          <Link to="/tools/project-planner" className="mt-4 inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white md:mt-0">
+            開始診斷
+          </Link>
+        </div>
       </Section>
 
       <Section eyebrow="Works" title="精選作品">
         <div className="grid gap-4 md:grid-cols-2">
-          {projects.map((project) => (
+          {projects.filter((project) => project.featured !== false).map((project) => (
             <article
               key={project.slug}
               className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
@@ -198,6 +207,7 @@ function ProjectPreview({ project }) {
   const isBuildFlow = project.slug === "buildflow"
   const isLineBot = project.slug === "linebot"
   const isAudit = project.slug === "ai-audit"
+  const isApi = project.slug === "api-automation"
   const isXinjiang = project.slug === "xinjiang"
   const isQingyu = project.slug === "qingyu-web"
 
@@ -245,6 +255,25 @@ function ProjectPreview({ project }) {
               </div>
             </div>
           ))}
+        </div>
+      ) : isApi ? (
+        <div className="mt-4 space-y-3">
+          <div className="grid grid-cols-4 gap-1 text-center text-[10px] font-black text-[#40504c]">
+            {["Form", "API", "DB", "Notify"].map((item) => (
+              <span key={item} className="rounded-md bg-white py-2">
+                {item}
+              </span>
+            ))}
+          </div>
+          <div className="rounded-lg bg-[#111c22] p-3 text-xs font-black text-white">
+            <div className="flex justify-between">
+              <span>Status</span>
+              <span className="text-[#8fd6cc]">synced</span>
+            </div>
+            <div className="mt-3 h-1.5 rounded-full bg-white/15">
+              <div className="h-full w-5/6 rounded-full bg-[#8fd6cc]" />
+            </div>
+          </div>
         </div>
       ) : isXinjiang ? (
         <div className="mt-4 grid gap-3">

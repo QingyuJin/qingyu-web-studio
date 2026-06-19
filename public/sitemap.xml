@@ -21,6 +21,10 @@
     <priority>0.8</priority>
   </url>
   <url>
+    <loc>https://www.qingyuweb.com/works/api-automation</loc>
+    <priority>0.8</priority>
+  </url>
+  <url>
     <loc>https://www.qingyuweb.com/works/xinjiang</loc>
     <priority>0.8</priority>
   </url>
@@ -42,6 +46,10 @@
   </url>
   <url>
     <loc>https://www.qingyuweb.com/contact</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
+    <loc>https://www.qingyuweb.com/tools/project-planner</loc>
     <priority>0.7</priority>
   </url>
   <url>

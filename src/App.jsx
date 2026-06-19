@@ -10,6 +10,7 @@ const ServicesPage = lazy(() => import("./site/Pages").then((module) => ({ defau
 const PricingPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.PricingPage })))
 const FreeAuditPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.FreeAuditPage })))
 const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ContactPage })))
+const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -34,6 +35,7 @@ function App() {
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/free-audit" element={<FreeAuditPage />} />
         <Route path="/contact" element={<ContactPage />} />
+        <Route path="/tools/project-planner" element={<ProjectPlanner />} />
         <Route path="/engineering" element={<ProjectHub />} />
         <Route path="/login" element={<LoginPage />} />
 
