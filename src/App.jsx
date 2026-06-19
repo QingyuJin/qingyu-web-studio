@@ -4,6 +4,12 @@ import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
 const StudioHome = lazy(() => import("./StudioHome"))
+const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
+const WorkDetailPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorkDetailPage })))
+const ServicesPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ServicesPage })))
+const PricingPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.PricingPage })))
+const FreeAuditPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.FreeAuditPage })))
+const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ContactPage })))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -22,6 +28,12 @@ function App() {
     <Suspense fallback={<PageFallback />}>
       <Routes>
         <Route path="/" element={<StudioHome />} />
+        <Route path="/works" element={<WorksPage />} />
+        <Route path="/works/:slug" element={<WorkDetailPage />} />
+        <Route path="/services" element={<ServicesPage />} />
+        <Route path="/pricing" element={<PricingPage />} />
+        <Route path="/free-audit" element={<FreeAuditPage />} />
+        <Route path="/contact" element={<ContactPage />} />
         <Route path="/engineering" element={<ProjectHub />} />
         <Route path="/login" element={<LoginPage />} />
 
