@@ -41,6 +41,7 @@ function AiAuditDemo() {
     scores: { clarity: 82, cta: 74, seo: 78, trust: 86, mobile: 80 },
     sections: [
       { title: "首頁標題", finding: "標題需要在 5 秒內說清楚服務。", suggestion: "使用短標題，再用副標補充服務範圍。" },
+      { title: "首頁文案", finding: "副標需要說清楚服務對象與下一步。", suggestion: "用 1～2 句補充服務對象、可做項目與聯絡方式。" },
       { title: "CTA", finding: "聯絡入口可以更明顯。", suggestion: "第一屏保留主要 CTA「聊聊需求」。" },
       { title: "SEO", finding: "需要包含地區、服務與客群。", suggestion: "title 可加入「台灣網站製作、AI 工具、LINE Bot」。" },
       { title: "信任感", finding: "小型客戶會先看案例與流程。", suggestion: "補作品、流程、價格方向與聯絡方式。" },
@@ -59,6 +60,7 @@ function AiAuditDemo() {
 
   const checks = [
     ["標題清楚", "clarity"],
+    ["首頁文案", "copy"],
     ["CTA 明顯", "cta"],
     ["SEO 建議", "seo"],
     ["信任感", "trust"],
@@ -144,10 +146,10 @@ function AiAuditDemo() {
             {checks.map(([label, key]) => (
               <MiniCard key={label} title={label}>
                 <p className="min-h-12 text-sm font-bold leading-6 text-[#52605c]">
-                  {(report.sections || []).find((item) => item.title.includes(label.replace(" 建議", "")))?.suggestion || "依目前內容產生可執行優化建議。"}
+                  {findReportSuggestion(report.sections || [], label) || "依目前內容產生可執行優化建議。"}
                 </p>
                 <div className="mt-3">
-                  <Progress value={report.scores?.[key] || 70} />
+                  <Progress value={report.scores?.[key] || (key === "copy" ? report.scores?.clarity : 70) || 70} />
                 </div>
               </MiniCard>
             ))}
@@ -186,6 +188,16 @@ function AiAuditDemo() {
       </div>
     </Shell>
   )
+}
+
+function findReportSuggestion(sections, label) {
+  if (label.includes("標題")) return sections.find((item) => item.title.includes("標題"))?.suggestion
+  if (label.includes("文案")) return sections.find((item) => item.title.includes("文案"))?.suggestion
+  if (label.includes("CTA")) return sections.find((item) => item.title.includes("CTA"))?.suggestion
+  if (label.includes("SEO")) return sections.find((item) => item.title.includes("SEO"))?.suggestion
+  if (label.includes("信任")) return sections.find((item) => item.title.includes("信任"))?.suggestion
+  if (label.includes("手機")) return sections.find((item) => item.title.includes("手機"))?.suggestion
+  return ""
 }
 
 function LineBotDemo() {
