@@ -576,6 +576,10 @@ function AiAuditProductDemo() {
 }
 
 function LineBotDemo() {
+  return <LineBotProductDemo />
+}
+
+export function LegacyLineBotDemo() {
   const [activePanel, setActivePanel] = useState("chat")
   const [selectedId, setSelectedId] = useState("REQ-001")
   const [webhookStatus, setWebhookStatus] = useState(null)
@@ -790,6 +794,364 @@ function LineBotDemo() {
           </MiniCard>
         </div>
       </div>
+    </Shell>
+  )
+}
+
+const lineBotInitialMessages = [
+  {
+    role: "bot",
+    text: "你好，我是 Qingyu 詢價助理。你可以直接說想做什麼網站、LINE Bot 或小系統。",
+  },
+]
+
+const lineBotFlowSteps = [
+  { label: "User", status: "Received" },
+  { label: "LINE", status: "Verified" },
+  { label: "Webhook", status: "Processing" },
+  { label: "AI Reply", status: "Replied" },
+  { label: "LINE Reply API", status: "Sent" },
+  { label: "Dashboard", status: "Saved" },
+]
+
+function LineBotProductDemo() {
+  const [messages, setMessages] = useState(lineBotInitialMessages)
+  const [cases, setCases] = useState([])
+  const [selectedCaseId, setSelectedCaseId] = useState("")
+  const [activeView, setActiveView] = useState("chat")
+  const [flowStep, setFlowStep] = useState(-1)
+  const [flowPlaying, setFlowPlaying] = useState(false)
+  const [webhookStatus, setWebhookStatus] = useState(null)
+  const [webhookLoading, setWebhookLoading] = useState(false)
+  const [detailOpen, setDetailOpen] = useState(false)
+
+  const selectedCase = cases.find((item) => item.id === selectedCaseId) || cases[0]
+
+  function createBaseCase(status = "新需求") {
+    return {
+      id: "REQ-001",
+      customer: "LINE 使用者",
+      summary: "想做店家網站",
+      source: "LINE",
+      status,
+      createdAt: "剛剛",
+      suggestedService: "待判斷",
+      note: "Bot 已收到初步需求，等待補齊產業、功能、預算與上線時間。",
+      history: [
+        "我想做店家網站",
+        "Bot 已引導客戶補充產業、功能、預算、上線時間。",
+      ],
+      nextSteps: ["確認產業與功能", "整理預算區間", "安排初步討論"],
+    }
+  }
+
+  function upsertCase(nextCase) {
+    setCases((current) => {
+      const exists = current.some((item) => item.id === nextCase.id)
+      return exists ? current.map((item) => (item.id === nextCase.id ? { ...item, ...nextCase } : item)) : [nextCase, ...current]
+    })
+    setSelectedCaseId(nextCase.id)
+  }
+
+  function simulateConversation() {
+    const nextCase = createBaseCase("新需求")
+    setMessages([
+      ...lineBotInitialMessages,
+      { role: "user", text: "我想做店家網站" },
+      {
+        role: "bot",
+        text: "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。",
+      },
+    ])
+    upsertCase(nextCase)
+    setActiveView("dashboard")
+  }
+
+  function nextConversation() {
+    const nextCase = {
+      ...createBaseCase("已整理需求"),
+      customer: "咖啡店業主",
+      summary: "咖啡店預約與菜單查詢",
+      suggestedService: "LINE Bot + 表單 + 小型後台",
+      note: "需求已整理成店家 LINE Bot 與網站流程，可進一步確認預約欄位與菜單資料來源。",
+      history: [
+        "我想做店家網站",
+        "我是咖啡店，想做預約和菜單查詢",
+        "Bot 已記錄為店家 LINE Bot + 網站需求。",
+      ],
+      nextSteps: ["確認預約欄位", "整理菜單資料", "規劃後台狀態與通知"],
+    }
+    setMessages([
+      ...lineBotInitialMessages,
+      { role: "user", text: "我想做店家網站" },
+      {
+        role: "bot",
+        text: "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。",
+      },
+      { role: "user", text: "我是咖啡店，想做預約和菜單查詢" },
+      { role: "bot", text: "了解，我會記錄為店家 LINE Bot + 網站需求。" },
+    ])
+    upsertCase(nextCase)
+    setActiveView("dashboard")
+  }
+
+  function resetLineBotDemo() {
+    setMessages(lineBotInitialMessages)
+    setCases([])
+    setSelectedCaseId("")
+    setActiveView("chat")
+    setFlowStep(-1)
+    setWebhookStatus(null)
+    setDetailOpen(false)
+  }
+
+  function playWebhookFlow() {
+    setActiveView("flow")
+    setFlowPlaying(true)
+    setFlowStep(-1)
+    lineBotFlowSteps.forEach((_, index) => {
+      window.setTimeout(() => setFlowStep(index), 280 * (index + 1))
+    })
+    window.setTimeout(() => setFlowPlaying(false), 280 * (lineBotFlowSteps.length + 2))
+  }
+
+  async function testWebhook() {
+    setWebhookLoading(true)
+    setWebhookStatus(null)
+    try {
+      const response = await fetch("/api/line-webhook")
+      const data = await response.json().catch(() => null)
+      if (!response.ok || !data?.ok) throw new Error("Webhook health check failed")
+      setWebhookStatus({
+        ok: true,
+        message: data.message || "LINE webhook endpoint ready",
+        items: [
+          "Endpoint Ready",
+          "Demo fallback mode",
+          "Signature verify supported",
+          "OpenAI reply optional",
+          "LINE Reply API optional",
+        ],
+      })
+    } catch (error) {
+      setWebhookStatus({
+        ok: false,
+        message: error?.message || "Webhook health check failed",
+        items: ["Endpoint error", "Demo fallback mode", "No secret exposed"],
+      })
+    } finally {
+      setWebhookLoading(false)
+    }
+  }
+
+  return (
+    <Shell
+      title="LINE Bot 詢價助理"
+      desc="讓客戶在 LINE 裡提出需求，Bot 自動引導填寫資訊，並同步到後台追蹤。"
+    >
+      <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr]">
+        <MiniCard title="LINE 手機對話 mockup">
+          <div className="mx-auto max-w-sm overflow-hidden rounded-[2rem] border border-[#a6d5c6] bg-[#e9f5ee] shadow-inner">
+            <div className="flex items-center justify-between bg-[#06c755] px-4 py-3 text-white">
+              <span className="text-xs font-black">Qingyu 詢價助理</span>
+              <span className="rounded-full bg-white/20 px-2 py-1 text-[10px] font-black">LINE</span>
+            </div>
+            <div className="min-h-[26rem] space-y-3 p-4">
+              {messages.map((message, index) => (
+                <div key={`${message.role}-${index}`} className={`flex ${message.role === "user" ? "justify-end" : "justify-start"}`}>
+                  <div
+                    className={`max-w-[86%] break-words rounded-2xl px-3 py-2 text-sm font-bold leading-6 shadow-sm ${
+                      message.role === "user" ? "bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"
+                    }`}
+                  >
+                    {message.text}
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="mt-4 grid gap-2 sm:grid-cols-3">
+            <button type="button" onClick={simulateConversation} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]">
+              模擬對話
+            </button>
+            <button type="button" onClick={nextConversation} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
+              下一步對話
+            </button>
+            <button type="button" onClick={resetLineBotDemo} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
+              重置 Demo
+            </button>
+          </div>
+        </MiniCard>
+
+        <div className="grid gap-5">
+          <MiniCard title="後台案件面板" tone={activeView === "dashboard" ? "dark" : "light"}>
+            <div className="grid gap-4 lg:grid-cols-[0.86fr_1.14fr]">
+              <div className="grid gap-3">
+                {cases.length ? (
+                  cases.map((item) => (
+                    <button
+                      key={item.id}
+                      type="button"
+                      onClick={() => {
+                        setSelectedCaseId(item.id)
+                        setActiveView("dashboard")
+                      }}
+                      className={`rounded-xl border p-3 text-left transition ${
+                        selectedCaseId === item.id
+                          ? "border-[#8fd6cc] bg-white/10"
+                          : activeView === "dashboard"
+                            ? "border-white/10 bg-white/5 hover:bg-white/10"
+                            : "border-[#e3ded3] bg-white hover:border-[#0d6b62]"
+                      }`}
+                    >
+                      <div className="flex flex-wrap items-center justify-between gap-2">
+                        <p className="text-xs font-black text-[#8fd6cc]">{item.id} · {item.source}</p>
+                        <span className="rounded-full bg-[#0d6b62] px-3 py-1 text-[11px] font-black text-white">{item.status}</span>
+                      </div>
+                      <p className="mt-2 text-sm font-black">{item.customer}</p>
+                      <p className={`mt-1 text-xs font-bold leading-5 ${activeView === "dashboard" ? "text-white/70" : "text-[#52605c]"}`}>{item.summary}</p>
+                    </button>
+                  ))
+                ) : (
+                  <div className="rounded-xl border border-dashed border-[#cfd7d3] bg-white/5 p-4 text-sm font-bold leading-7 text-[#52605c]">
+                    尚未收到需求。按「模擬對話」後，LINE 訊息會同步成後台案件。
+                  </div>
+                )}
+              </div>
+
+              <div className="rounded-xl border border-[#e3ded3] bg-white p-4 text-[#111c22]">
+                {selectedCase ? (
+                  <div className="grid gap-3">
+                    <div className="flex flex-wrap items-center justify-between gap-2">
+                      <p className="text-2xl font-black">{selectedCase.id}</p>
+                      <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{selectedCase.status}</span>
+                    </div>
+                    <div className="grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+                      <p><span className="font-black text-[#111c22]">客戶：</span>{selectedCase.customer}</p>
+                      <p><span className="font-black text-[#111c22]">需求：</span>{selectedCase.summary}</p>
+                      <p><span className="font-black text-[#111c22]">來源：</span>{selectedCase.source}</p>
+                      <p><span className="font-black text-[#111c22]">建立時間：</span>{selectedCase.createdAt}</p>
+                      <p><span className="font-black text-[#111c22]">建議服務：</span>{selectedCase.suggestedService}</p>
+                      <p><span className="font-black text-[#111c22]">備註：</span>{selectedCase.note}</p>
+                    </div>
+                    <button type="button" onClick={() => setDetailOpen(true)} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]">
+                      查看詳情
+                    </button>
+                  </div>
+                ) : (
+                  <div className="grid gap-3 text-sm font-bold leading-7 text-[#52605c]">
+                    <p className="text-lg font-black text-[#111c22]">等待 LINE 需求</p>
+                    <p>後台會顯示客戶名稱、需求摘要、來源、狀態、建議服務與追蹤備註。</p>
+                  </div>
+                )}
+              </div>
+            </div>
+          </MiniCard>
+
+          <MiniCard title="訊息怎麼被處理">
+            <div className="grid gap-3 md:grid-cols-6">
+              {lineBotFlowSteps.map((step, index) => {
+                const active = flowStep >= index
+                return (
+                  <div key={step.label} className={`rounded-xl border p-3 transition ${active ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
+                    <p className="text-xs font-black text-[#0d6b62]">0{index + 1}</p>
+                    <p className="mt-2 text-sm font-black text-[#111c22]">{step.label}</p>
+                    <span className={`mt-3 inline-flex rounded-full px-2.5 py-1 text-[11px] font-black ${active ? "bg-[#0d6b62] text-white" : "bg-[#faf8f3] text-[#52605c]"}`}>
+                      {active ? step.status : "Waiting"}
+                    </span>
+                  </div>
+                )
+              })}
+            </div>
+            <button type="button" onClick={playWebhookFlow} disabled={flowPlaying} className="mt-4 min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
+              {flowPlaying ? "流程播放中..." : "播放流程"}
+            </button>
+          </MiniCard>
+
+          <MiniCard title="Webhook 測試狀態">
+            <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+              <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
+                <p><span className="font-black text-[#111c22]">Endpoint：</span>/api/line-webhook</p>
+                {webhookStatus ? (
+                  <>
+                    <p className={webhookStatus.ok ? "font-black text-[#0d6b62]" : "font-black text-[#b45309]"}>
+                      {webhookStatus.message}
+                    </p>
+                    <div className="flex flex-wrap gap-2">
+                      {webhookStatus.items.map((item) => (
+                        <span key={item} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{item}</span>
+                      ))}
+                    </div>
+                  </>
+                ) : (
+                  <p>按下測試後會檢查 endpoint，僅顯示安全狀態，不顯示任何 secret 或 token。</p>
+                )}
+              </div>
+              <button type="button" onClick={testWebhook} disabled={webhookLoading} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
+                {webhookLoading ? "測試中..." : "測試 Webhook"}
+              </button>
+            </div>
+          </MiniCard>
+
+          <MiniCard title="技術拆解">
+            <div className="flex flex-wrap gap-2">
+              {[
+                "Frontend: React / Tailwind",
+                "Webhook: Vercel Serverless Function",
+                "LINE: Messaging API / Reply API",
+                "AI: OpenAI API optional",
+                "Database: Supabase optional",
+                "Dashboard: 案件狀態 UI",
+                "Fallback: Mock mode",
+              ].map((tag) => (
+                <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
+                  {tag}
+                </span>
+              ))}
+            </div>
+            <div className="mt-4 overflow-x-auto rounded-xl bg-[#111c22] p-4 text-xs font-black text-white">
+              LINE User → LINE Platform → /api/line-webhook → OpenAI / Mock → LINE Reply → Dashboard
+            </div>
+          </MiniCard>
+        </div>
+      </div>
+
+      {detailOpen && selectedCase ? (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#111c22]/55 p-4" role="dialog" aria-modal="true">
+          <div className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-2xl bg-white p-5 shadow-2xl">
+            <div className="flex items-start justify-between gap-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Request Detail</p>
+                <h3 className="mt-2 text-2xl font-black">{selectedCase.customer}</h3>
+              </div>
+              <button type="button" onClick={() => setDetailOpen(false)} className="rounded-md border border-[#d8d2c5] px-3 py-2 text-sm font-black">
+                關閉
+              </button>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-2">
+              <MiniCard title="客戶訊息紀錄">
+                <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
+                  {selectedCase.history.map((item) => <p key={item}>・{item}</p>)}
+                </div>
+              </MiniCard>
+              <MiniCard title="Bot 整理後需求">
+                <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
+                  <p>需求摘要：{selectedCase.summary}</p>
+                  <p>建議方案：{selectedCase.suggestedService}</p>
+                  <p>狀態：{selectedCase.status}</p>
+                </div>
+              </MiniCard>
+            </div>
+            <MiniCard title="後續追蹤事項">
+              <div className="flex flex-wrap gap-2">
+                {selectedCase.nextSteps.map((item) => (
+                  <span key={item} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{item}</span>
+                ))}
+              </div>
+            </MiniCard>
+          </div>
+        </div>
+      ) : null}
     </Shell>
   )
 }
