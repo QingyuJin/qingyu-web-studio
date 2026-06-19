@@ -5,15 +5,15 @@ const initialForm = {
   name: "",
   contact: "",
   company: "",
-  service_type: "接案流程系統方案",
+  service_type: "LINE Bot 後台",
   budget_range: "",
   message: "",
 }
 
 const process = [
-  ["01", "釐清需求", "確認目標客群、轉換動線、資料來源與必備功能。"],
-  ["02", "快速原型", "先做可點、可填、可展示的版本，用真實畫面討論。"],
-  ["03", "上線優化", "補齊響應式、文案、SEO、效能與部署設定。"],
+  ["01", "說清楚服務", "讓客戶一眼懂你能解決什麼。"],
+  ["02", "收進需求", "表單、LINE、報價流程整理起來。"],
+  ["03", "追到結案", "案件、進度、請款與保固不再散落。"],
 ]
 
 function ContactLeadSection() {
@@ -57,10 +57,10 @@ function ContactLeadSection() {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-            有想法就先做成能討論的版本
+            想讓網站開始幫你接單？
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            留下目前最卡的流程，我會先幫你判斷適合做成形象網站、接案系統，還是後台 MVP。
+            告訴我你的服務與目前卡住的流程，我可以幫你規劃網站、LINE Bot 或後台系統。
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -95,31 +95,31 @@ function ContactLeadSection() {
               required
             />
             <Input
-              label="品牌或公司"
+              label="服務或公司"
               value={form.company}
               onChange={(value) => updateForm("company", value)}
               placeholder="可留空"
             />
             <label className="grid gap-2">
-              <span className="text-sm font-black text-[#d9e6e3]">想討論的方案</span>
+              <span className="text-sm font-black text-[#d9e6e3]">想做什麼</span>
               <select
                 value={form.service_type}
                 onChange={(event) => updateForm("service_type", event.target.value)}
                 className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-sm font-bold text-white outline-none focus:border-[#f0c36a]"
               >
-                <option>形象官網方案</option>
-                <option>接案流程系統方案</option>
-                <option>客製化後台 / MVP 方案</option>
+                <option>形象官網</option>
+                <option>Landing Page</option>
+                <option>LINE Bot 後台</option>
               </select>
             </label>
             <Input
-              label="預算範圍"
+              label="預算或時程"
               value={form.budget_range}
               onChange={(value) => updateForm("budget_range", value)}
               placeholder="例如：3-8 萬 / 先討論"
             />
             <label className="grid gap-2 sm:col-span-2">
-              <span className="text-sm font-black text-[#d9e6e3]">目前想解決的問題</span>
+              <span className="text-sm font-black text-[#d9e6e3]">目前卡住的流程</span>
               <textarea
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
@@ -140,7 +140,7 @@ function ContactLeadSection() {
             disabled={submitting}
             className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] hover:bg-[#ffd785]"
           >
-            {submitting ? "送出中..." : "送出需求"}
+            {submitting ? "送出中..." : "找我討論"}
           </button>
         </form>
       </div>

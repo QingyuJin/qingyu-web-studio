@@ -911,24 +911,36 @@ function BuildFlow() {
           }}
         />
 
-        <BuildFlowContent
-          activeTab={activeTab}
-          activeProject={activeProject}
-          actions={actions}
-          bids={bids}
-          changeOrders={changeOrders}
-          isAdmin={isAdmin}
-          isWorker={isWorker}
-          metrics={metrics}
-          projects={projects}
-          quoteDrafts={quoteDrafts}
-          session={session}
-          subcontracts={subcontracts}
-          tasks={tasks}
-          users={users}
-          vendors={vendors}
-          workerTasks={workerTasks}
-        />
+        <div className="grid gap-5">
+          <section className="rounded-xl border border-slate-200 bg-white p-4 shadow-sm md:p-5">
+            <p className="text-xs font-black uppercase tracking-normal text-emerald-600">BuildFlow Product Demo</p>
+            <h2 className="mt-2 text-xl font-black text-slate-950 md:text-2xl">
+              工程行 LINE Bot + 後台管理系統 Demo
+            </h2>
+            <p className="mt-3 max-w-4xl text-sm font-bold leading-7 text-slate-600">
+              BuildFlow 是為工程行設計的 LINE Bot + 後台管理系統 Demo。客戶在 LINE 裡查看報價、同意施工，師傅回報每日進度，老闆則在後台追蹤案件、排程、驗收、請款與保固。
+            </p>
+          </section>
+
+          <BuildFlowContent
+            activeTab={activeTab}
+            activeProject={activeProject}
+            actions={actions}
+            bids={bids}
+            changeOrders={changeOrders}
+            isAdmin={isAdmin}
+            isWorker={isWorker}
+            metrics={metrics}
+            projects={projects}
+            quoteDrafts={quoteDrafts}
+            session={session}
+            subcontracts={subcontracts}
+            tasks={tasks}
+            users={users}
+            vendors={vendors}
+            workerTasks={workerTasks}
+          />
+        </div>
       </section>
       <EditModal config={editModal} onClose={() => setEditModal(null)} />
       <ConfirmDialog

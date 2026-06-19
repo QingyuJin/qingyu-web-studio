@@ -152,7 +152,7 @@ LINE Bot：${lineBotId}`
             <Link to="/" className="text-sm font-bold text-[#8bd8cc]">
               Qingyu Web Studio
             </Link>
-            <p className="mt-1 font-black">工程接案頁 Demo</p>
+            <p className="mt-1 font-black">Qingyu Web Studio 作品案例 Demo</p>
           </div>
           <div className="flex gap-2">
             <a href="#inquiry" className="rounded-md bg-[#f0c36a] px-4 py-2 text-sm font-black text-[#0c1518]">
@@ -169,10 +169,10 @@ LINE Bot：${lineBotId}`
         <div>
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#8bd8cc]">Contractor Landing Page</p>
           <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
-            把施工照片、服務項目與詢價流程整理成能接案的網站。
+            作品案例：工程服務頁如何變成可收需求的網站。
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            這頁示範工程類客戶可以怎麼呈現案例、引導詢價，並把需求轉成可複製文字，方便後續接到 LINE 或後台系統。
+            這頁是 Qingyu Web Studio 的 demo，示範工程類客戶如何呈現案例、引導詢價，並把需求接到 LINE 或後台系統。
           </p>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">

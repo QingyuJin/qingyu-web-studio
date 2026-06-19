@@ -1,4 +1,21 @@
+import crypto from "node:crypto"
 import { createClient } from "@supabase/supabase-js"
+import {
+  getActionTypeByIntent,
+  parseEngineeringMessage,
+  parseLineImageMessage,
+} from "./buildFlowParser.js"
+import {
+  appendBuildFlowSyncAction,
+  createDailyReportFromMessage,
+  createOrUpdateProjectFromIntent,
+} from "./buildFlowSync.js"
+
+export const config = {
+  api: {
+    bodyParser: false,
+  },
+}
 
 const HELP_TEXT = [
   "BuildFlow LINE 選單",
@@ -164,7 +181,6 @@ function getSupabaseClient() {
   const supabaseKey = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.SUPABASE_ANON_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY ||
     ""
   ).trim()
 
@@ -181,6 +197,32 @@ function getSupabaseClient() {
 
   return {
     supabase: createClient(supabaseUrl, supabaseKey, {
+      auth: {
+        persistSession: false,
+      },
+    }),
+  }
+}
+
+function getLineBotSupabaseClient() {
+  const supabaseUrl = getSupabaseBaseUrl()
+  const serviceRoleKey = (process.env.SUPABASE_SERVICE_ROLE_KEY || "").trim()
+
+  if (!supabaseUrl || !serviceRoleKey) {
+    return {
+      error: "Supabase admin env is missing. Set SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY.",
+    }
+  }
+
+  if (!getEnvStatus().supabaseUrlIsValid) {
+    return {
+      error:
+        "SUPABASE_URL is invalid. It must look like https://your-project-ref.supabase.co without /rest/v1.",
+    }
+  }
+
+  return {
+    supabase: createClient(supabaseUrl, serviceRoleKey, {
       auth: {
         persistSession: false,
       },
@@ -212,9 +254,8 @@ function getEnvStatus() {
     normalizedSupabaseUrl,
     supabaseUrlIsValid,
     hasSupabaseServiceRoleKey: Boolean(process.env.SUPABASE_SERVICE_ROLE_KEY),
-    hasSupabaseAnonKey: Boolean(
-      process.env.SUPABASE_ANON_KEY || process.env.VITE_SUPABASE_ANON_KEY
-    ),
+    hasSupabaseAnonKey: Boolean(process.env.SUPABASE_ANON_KEY),
+    hasLineChannelSecret: Boolean(process.env.LINE_CHANNEL_SECRET),
     hasLineChannelAccessToken: Boolean(process.env.LINE_CHANNEL_ACCESS_TOKEN),
   }
 }
@@ -234,7 +275,6 @@ async function getSupabaseHealth() {
   const supabaseKey = (
     process.env.SUPABASE_SERVICE_ROLE_KEY ||
     process.env.SUPABASE_ANON_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY ||
     ""
   ).trim()
   const env = getEnvStatus()
@@ -268,7 +308,43 @@ async function getSupabaseHealth() {
   }
 }
 
-function getRequestBody(req) {
+async function getRawRequestBody(req) {
+  if (typeof req.body === "string") return req.body
+  if (req.body && typeof req.body === "object") return JSON.stringify(req.body)
+
+  const chunks = []
+  for await (const chunk of req) {
+    chunks.push(Buffer.isBuffer(chunk) ? chunk : Buffer.from(chunk))
+  }
+
+  return Buffer.concat(chunks).toString("utf8")
+}
+
+function verifyLineSignature(rawBody, signature) {
+  const channelSecret = process.env.LINE_CHANNEL_SECRET
+  if (!channelSecret || !signature || !rawBody) return false
+
+  const expectedSignature = crypto
+    .createHmac("sha256", channelSecret)
+    .update(rawBody)
+    .digest("base64")
+
+  try {
+    return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature))
+  } catch {
+    return false
+  }
+}
+
+function getRequestBody(req, rawBody = "") {
+  if (rawBody) {
+    try {
+      return JSON.parse(rawBody)
+    } catch {
+      return {}
+    }
+  }
+
   if (typeof req.body === "string") {
     try {
       return JSON.parse(req.body)
@@ -286,6 +362,16 @@ function getLineUserId(event) {
 
 function getMessageText(event) {
   return String(event?.message?.text || "").trim()
+}
+
+function getLineMessageTime(event) {
+  const timestamp = Number(event?.timestamp)
+  if (Number.isFinite(timestamp) && timestamp > 0) return new Date(timestamp).toISOString()
+  return new Date().toISOString()
+}
+
+function getLineSenderName(event) {
+  return event?.source?.userId || event?.source?.groupId || event?.source?.roomId || "LINE 使用者"
 }
 
 function normalizeText(value) {
@@ -309,6 +395,88 @@ function isPublicCommand(text) {
 
 function commandNeedsSupabase(text) {
   return !isPublicCommand(text)
+}
+
+async function syncLineMessageToBuildFlow(event) {
+  const messageType = event?.message?.type
+  const text = messageType === "image" ? "[圖片訊息]" : getMessageText(event)
+  if (!text) return { ok: false, skipped: true, reason: "empty_message" }
+
+  try {
+    const { supabase, error } = getLineBotSupabaseClient()
+    if (error) {
+      console.warn("[LineBot Supabase] sync skipped:", error)
+      return { ok: false, skipped: true, reason: error }
+    }
+
+    const parse = messageType === "image" ? parseLineImageMessage(event) : parseEngineeringMessage(text)
+    const isQuoteIntent = typeof parse.intent === "string" && parse.intent.startsWith("quote_")
+    const lineMessagePayload = {
+      scenario_id: isQuoteIntent ? "real_linebot_quote" : "real_linebot",
+      role: "customer",
+      sender_name: getLineSenderName(event),
+      message: text,
+      message_time: getLineMessageTime(event),
+      status: messageType === "image" ? "pending_photo" : isQuoteIntent ? "received" : "pending",
+      tags: parse.tags,
+    }
+
+    const { data: savedMessage, error: messageError } = await supabase
+      .from("line_messages")
+      .insert(lineMessagePayload)
+      .select("id")
+      .single()
+
+    if (messageError) throw messageError
+
+    const parsePayload = {
+      line_message_id: savedMessage.id,
+      intent: parse.intent,
+      confidence: parse.confidence,
+      entities: parse.entities,
+      missing_fields: parse.missingFields,
+      suggested_actions: parse.suggestedActions,
+    }
+
+    const { error: parseError } = await supabase.from("line_message_parses").insert(parsePayload)
+    if (parseError) throw parseError
+
+    const updatedProject = await createOrUpdateProjectFromIntent({
+      supabase,
+      parse,
+      messageText: text,
+      senderName: getLineSenderName(event),
+      messageTime: getLineMessageTime(event),
+    })
+    const dailyReport = await createDailyReportFromMessage({
+      supabase,
+      project: updatedProject,
+      parse,
+      messageText: text,
+    })
+    const actionType = getActionTypeByIntent(parse.intent)
+    const syncAction = await appendBuildFlowSyncAction({
+      supabase,
+      lineMessageId: savedMessage.id,
+      projectId: updatedProject?.id,
+      actionType,
+      parse,
+      messageText: text,
+    })
+
+    return {
+      ok: true,
+      lineMessageId: savedMessage.id,
+      intent: parse.intent,
+      actionType,
+      projectId: updatedProject?.id,
+      dailyReportId: dailyReport?.id,
+      syncActionId: syncAction?.id,
+    }
+  } catch (error) {
+    console.warn("[LineBot Supabase] sync failed", error)
+    return { ok: false, error: error.message }
+  }
 }
 
 function createTextReply(text, quickReplyLabels = DEFAULT_QUICK_REPLIES) {
@@ -585,7 +753,15 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" })
   }
 
-  const body = getRequestBody(req)
+  const rawBody = await getRawRequestBody(req)
+  const signatureHeader = req.headers["x-line-signature"]
+  const signature = Array.isArray(signatureHeader) ? signatureHeader[0] : signatureHeader
+
+  if (!verifyLineSignature(rawBody, signature)) {
+    return res.status(401).json({ error: "Invalid LINE signature" })
+  }
+
+  const body = getRequestBody(req, rawBody)
   const events = Array.isArray(body?.events) ? body.events : []
   const results = []
 
@@ -593,12 +769,13 @@ export default async function handler(req, res) {
     if (event?.type !== "message") continue
 
     if (event?.message?.type === "image") {
+      const supabaseSync = await syncLineMessageToBuildFlow(event)
       const imageReply = createTextReply(
         "照片已收到。\n若要綁到任務，請輸入：回報 t-001 照片已上傳，請查看現場狀況。",
         [{ label: "回報 t-001", text: "回報 t-001 照片已上傳，請查看現場狀況。" }, "今日任務"]
       )
       const lineReply = await replyToLine(event.replyToken, imageReply)
-      results.push({ input: "image", reply: imageReply, lineReply })
+      results.push({ input: "image", reply: imageReply, lineReply, supabaseSync })
       continue
     }
 
@@ -606,6 +783,7 @@ export default async function handler(req, res) {
 
     try {
       const input = getMessageText(event)
+      const supabaseSync = await syncLineMessageToBuildFlow(event)
       const { supabase, error } = commandNeedsSupabase(input)
         ? getSupabaseClient()
         : { supabase: null, error: null }
@@ -614,7 +792,7 @@ export default async function handler(req, res) {
 
       const reply = await handleCommand(supabase, event)
       const lineReply = await replyToLine(event.replyToken, reply)
-      results.push({ input, reply, lineReply })
+      results.push({ input, reply, lineReply, supabaseSync })
     } catch (requestError) {
       const errorReply = `BuildFlow webhook 收到訊息，但處理失敗：${requestError.message}`
       const lineReply = await replyToLine(event.replyToken, errorReply)
@@ -642,10 +820,14 @@ export const __testables = {
   findProfileByLineUserId,
   getEnvStatus,
   getRequestBody,
+  getRawRequestBody,
   getSupabaseHealth,
   handleCommand,
   isPublicCommand,
   listTodayTasks,
+  parseEngineeringMessage,
   reportTask,
+  verifyLineSignature,
+  syncLineMessageToBuildFlow,
   toLineMessages,
 }

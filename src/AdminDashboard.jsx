@@ -11,7 +11,7 @@ import {
 const adminProjects = [
   {
     name: "Contractor Site",
-    title: "估價前台",
+    title: "工程案例前台 Demo",
     path: "/contractor-site",
     status: "Website",
     summary: "給客戶填需求、看案例、留下聯絡資料。",
@@ -19,7 +19,7 @@ const adminProjects = [
   },
   {
     name: "BuildFlow",
-    title: "工程後台",
+    title: "工程資料管理 Demo",
     path: "/buildflow",
     status: "System",
     summary: "案件、報價、發包、任務回報集中管理。",
@@ -109,7 +109,7 @@ function AdminDashboard() {
       <header className="border-b border-[#ded8cc] bg-[#f6f3ec]/95">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div>
-            <p className="text-sm font-black text-[#1d6f65]">工程入口</p>
+            <p className="text-sm font-black text-[#1d6f65]">Qingyu Web Studio 管理入口</p>
             <p className="text-xs font-bold text-[#61706d]">
               {user?.name || "Admin"} / {user?.role || "admin"}
             </p>
