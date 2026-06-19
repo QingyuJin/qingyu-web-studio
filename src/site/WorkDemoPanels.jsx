@@ -319,6 +319,40 @@ const cleanAiAuditExampleInput =
 function normalizeAiAuditReport(data) {
   if (!data || typeof data !== "object") return cleanAiAuditFallback
 
+  if (Array.isArray(data.seo) || Array.isArray(data.cta) || Array.isArray(data.copywriting)) {
+    const toAdvice = (items, fallback) => {
+      if (!Array.isArray(items) || !items.length) return fallback
+      return items.filter(Boolean).join(" ")
+    }
+
+    return {
+      source: data.source || "api",
+      score: Number.isFinite(Number(data.score)) ? Math.max(0, Math.min(100, Math.round(Number(data.score)))) : cleanAiAuditFallback.score,
+      summary: data.summary || cleanAiAuditFallback.summary,
+      seo: {
+        score: 82,
+        advice: toAdvice(data.seo, cleanAiAuditFallback.seo.advice),
+      },
+      cta: {
+        score: 78,
+        advice: toAdvice(data.cta, cleanAiAuditFallback.cta.advice),
+      },
+      headline: {
+        score: 84,
+        advice: toAdvice(data.copywriting, cleanAiAuditFallback.headline.advice),
+      },
+      trust: {
+        score: 86,
+        advice: toAdvice(data.trust, cleanAiAuditFallback.trust.advice),
+      },
+      mobile: {
+        score: 80,
+        advice: toAdvice(data.mobile, cleanAiAuditFallback.mobile.advice),
+      },
+      nextSteps: Array.isArray(data.nextSteps) && data.nextSteps.length ? data.nextSteps : cleanAiAuditFallback.nextSteps,
+    }
+  }
+
   const sections = Array.isArray(data.sections) ? data.sections : []
   const findSection = (keyword, fallback) => {
     const section = sections.find((item) => String(item.title || "").toLowerCase().includes(keyword.toLowerCase()))

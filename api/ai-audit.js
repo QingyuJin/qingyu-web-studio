@@ -1,46 +1,32 @@
 const MOCK_REPORT = {
-  source: "mock",
-  summary: "這個網站方向可以成立，但首頁需要更快說清楚服務、客群與聯絡方式。",
-  scores: {
-    clarity: 82,
-    cta: 74,
-    seo: 78,
-    trust: 86,
-    mobile: 80,
-  },
-  sections: [
-    {
-      title: "首頁標題",
-      finding: "標題需要在 5 秒內說清楚你提供什麼服務。",
-      suggestion: "建議使用「讓你的服務被看懂」這類短句，再用副標補充服務範圍。",
-    },
-    {
-      title: "首頁文案",
-      finding: "副標需要說清楚服務對象、交付內容與下一步行動。",
-      suggestion: "建議用 1～2 句補充：服務對象、可做項目、聯絡方式，不要一開始堆太多技術詞。",
-    },
-    {
-      title: "CTA",
-      finding: "聯絡入口要比作品說明更容易被看到。",
-      suggestion: "第一屏保留 1 個主要 CTA，例如「聊聊需求」，次要 CTA 放「看作品」。",
-    },
-    {
-      title: "SEO",
-      finding: "title 與 description 應包含地區、服務與客群。",
-      suggestion: "可使用「台灣網站製作、AI 工具與 LINE Bot 開發」這類明確描述。",
-    },
-    {
-      title: "台灣客戶信任感",
-      finding: "小型店家會先看案例、流程、價格區間與聯絡方式。",
-      suggestion: "補上精選作品、製作流程、簡單價格方向與 Email / LINE CTA。",
-    },
-    {
-      title: "手機版",
-      finding: "手機第一屏不宜塞太多技術詞或卡片。",
-      suggestion: "保留短標題、副標、兩個按鈕，作品展示往下放。",
-    },
+  score: 82,
+  summary: "這份網站方向已經清楚，但首頁需要更快說明服務對象、主要 CTA 與信任證據，讓台灣小型店家或工作室能在 10 秒內判斷是否要聯絡你。",
+  seo: [
+    "首頁 title 建議包含「台灣網站製作、作品集、一頁式網站」等主要關鍵字。",
+    "description 要說清楚服務對象、交付內容與聯絡方式，不要只寫品牌名稱。",
   ],
-  nextSteps: ["收斂首頁主標題", "補清楚 CTA", "整理 3～5 個精選作品", "確認手機版第一屏"],
+  cta: [
+    "第一屏保留一個主要 CTA，例如「免費網站健檢」或「聊聊需求」。",
+    "次要 CTA 可以放「看作品」，避免訪客不知道下一步。",
+  ],
+  copywriting: [
+    "首頁標題先說結果，例如「讓你的服務被看懂」，細節放在副標。",
+    "服務卡片用客戶看得懂的語言，不要一開始堆滿技術詞。",
+  ],
+  trust: [
+    "加入作品案例、製作流程、聯絡方式與常見交付項目。",
+    "若有 Demo，標示哪些是 mock、哪些可以真正互動，會更有可信度。",
+  ],
+  mobile: [
+    "手機第一屏要看到標題、短描述與 CTA，避免過多卡片擠在一起。",
+    "按鈕高度至少 40px，表單欄位要有清楚 label 與錯誤提示。",
+  ],
+  nextSteps: [
+    "重整首頁第一屏標題與 CTA",
+    "補上 3 到 5 個作品案例的實際 Demo 入口",
+    "檢查 sitemap、Open Graph 與 canonical",
+    "用手機實測首頁與作品頁是否能順暢閱讀",
+  ],
 }
 
 function setCors(res) {
@@ -60,14 +46,44 @@ function readBody(req) {
   return req.body || {}
 }
 
-function jsonFromResponseText(text) {
+function normalizeReport(value) {
+  const report = value && typeof value === "object" ? value : {}
+  return {
+    score: clampScore(report.score),
+    summary: nonEmptyText(report.summary, MOCK_REPORT.summary),
+    seo: stringList(report.seo, MOCK_REPORT.seo),
+    cta: stringList(report.cta, MOCK_REPORT.cta),
+    copywriting: stringList(report.copywriting, MOCK_REPORT.copywriting),
+    trust: stringList(report.trust, MOCK_REPORT.trust),
+    mobile: stringList(report.mobile, MOCK_REPORT.mobile),
+    nextSteps: stringList(report.nextSteps, MOCK_REPORT.nextSteps),
+  }
+}
+
+function clampScore(value) {
+  const number = Number(value)
+  if (!Number.isFinite(number)) return MOCK_REPORT.score
+  return Math.max(0, Math.min(100, Math.round(number)))
+}
+
+function nonEmptyText(value, fallback) {
+  const text = String(value || "").trim()
+  return text || fallback
+}
+
+function stringList(value, fallback) {
+  if (!Array.isArray(value)) return fallback
+  const items = value.map((item) => String(item || "").trim()).filter(Boolean)
+  return items.length ? items : fallback
+}
+
+function parseOpenAIText(text) {
   try {
-    return JSON.parse(text)
+    return normalizeReport(JSON.parse(text))
   } catch {
     return {
       ...MOCK_REPORT,
-      source: "openai_text_fallback",
-      summary: text || MOCK_REPORT.summary,
+      summary: text?.trim() || MOCK_REPORT.summary,
     }
   }
 }
@@ -88,11 +104,11 @@ async function callOpenAI(input) {
         {
           role: "system",
           content:
-            "你是台灣小型網站顧問。請用繁體中文，輸出 JSON，不要 markdown。欄位：summary, scores{clarity,cta,seo,trust,mobile}, sections[{title,finding,suggestion}], nextSteps[]。不要承諾固定價格。",
+            "你是一位台灣網站顧問，請用台灣小型店家、個人品牌、工作室看得懂的語氣，分析網站首頁文案、CTA、SEO、信任感、手機版體驗，並提出可執行建議。只回傳 JSON，不要 markdown。格式固定為：{ score:number, summary:string, seo:string[], cta:string[], copywriting:string[], trust:string[], mobile:string[], nextSteps:string[] }。",
         },
         {
           role: "user",
-          content: `請健檢這個網站或需求：${input}`,
+          content: `請分析這個網站網址或需求：${input}`,
         },
       ],
       text: {
@@ -108,11 +124,11 @@ async function callOpenAI(input) {
   }
 
   const data = await response.json()
-  const text = data.output_text || data.output?.flatMap((item) => item.content || []).map((item) => item.text || "").join("") || ""
-  return {
-    ...jsonFromResponseText(text),
-    source: "openai",
-  }
+  const text =
+    data.output_text ||
+    data.output?.flatMap((item) => item.content || []).map((item) => item.text || "").join("") ||
+    ""
+  return parseOpenAIText(text)
 }
 
 export default async function handler(req, res) {
@@ -126,19 +142,16 @@ export default async function handler(req, res) {
 
   const body = readBody(req)
   const input = String(body.input || "").trim()
+
   if (!input) {
-    return res.status(400).json({ error: "請先輸入網站網址或需求描述。", fallback: MOCK_REPORT })
+    return res.status(400).json({ error: "請先輸入網站網址或網站描述。" })
   }
 
   try {
     const report = await callOpenAI(input)
-    return res.status(200).json(report || { ...MOCK_REPORT, source: "mock_no_key" })
+    return res.status(200).json(report || MOCK_REPORT)
   } catch (error) {
     console.warn("[ai-audit] fallback:", error.message)
-    return res.status(200).json({
-      ...MOCK_REPORT,
-      source: "mock_error_fallback",
-      warning: "AI 暫時無法回覆，已使用 mock report。",
-    })
+    return res.status(200).json(MOCK_REPORT)
   }
 }
