@@ -5,6 +5,18 @@ import { audience, contact, pricing, processSteps, projects, seo, serviceCategor
 
 function StudioHome() {
   const featuredProjects = projects.filter((project) => project.featured !== false)
+  const plannerCard = {
+    slug: "project-planner",
+    title: "網站需求診斷",
+    category: "互動工具",
+    summary: "回答幾個問題，快速判斷適合品牌網站、作品集、LINE Bot、AI 工具還是小型系統。",
+    livePath: "/tools/project-planner#demo",
+    liveLabel: "開始診斷",
+    secondaryPath: "/tools/project-planner#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["Rule-based", "OpenAI optional", "Vercel API", "Recommendation UI"],
+  }
+  const featuredCards = [...featuredProjects, plannerCard]
 
   return (
     <SiteLayout>
@@ -60,7 +72,7 @@ function StudioHome() {
 
       <Section eyebrow="Works" title="精選作品">
         <div className="grid gap-4 md:grid-cols-2">
-          {featuredProjects.map((project) => (
+          {featuredCards.map((project) => (
             <article
               key={project.slug}
               className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
@@ -80,7 +92,7 @@ function StudioHome() {
                 <Link to={project.livePath} className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white hover:bg-[#26343b]">
                   {project.liveLabel}
                 </Link>
-                <Link to={`/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                   {project.secondaryLabel}
                 </Link>
               </div>
@@ -100,10 +112,10 @@ function StudioHome() {
               </p>
             </div>
             <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-5">
-              {featuredProjects.map((project) => (
+              {featuredCards.map((project) => (
                 <Link
                   key={project.slug}
-                  to={`/works/${project.slug}`}
+                  to={project.slug === "project-planner" ? "/tools/project-planner" : `/works/${project.slug}`}
                   className="rounded-lg border border-[#ded8cb] bg-white p-3 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
                 >
                   <span className="block text-xs text-[#0d6b62]">{project.category}</span>
@@ -243,6 +255,7 @@ function ProjectPreview({ project }) {
   const isApi = project.slug === "api-automation"
   const isXinjiang = project.slug === "xinjiang"
   const isQingyu = project.slug === "qingyu-web"
+  const isPlanner = project.slug === "project-planner"
 
   return (
     <div className="mb-5 min-h-44 rounded-lg border border-[#e6e0d5] bg-[#faf8f3] p-4">
@@ -332,6 +345,25 @@ function ProjectPreview({ project }) {
               <span className="text-[#0d6b62]">OK</span>
             </div>
           ))}
+        </div>
+      ) : isPlanner ? (
+        <div className="mt-4 grid gap-3">
+          <div className="rounded-lg bg-[#111c22] p-3 text-white">
+            <div className="flex items-center justify-between gap-3 text-xs font-black">
+              <span>推薦方案</span>
+              <span className="text-[#8fd6cc]">LINE Bot 詢價</span>
+            </div>
+            <div className="mt-3 h-2 rounded-full bg-white/15">
+              <div className="h-full w-2/3 rounded-full bg-[#8fd6cc]" />
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
+            {["5 步驟", "AI 規劃", "Contact CTA"].map((item) => (
+              <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       ) : (
         <div className="mt-4 rounded-lg border border-[#e1dbcf] bg-white p-3">
