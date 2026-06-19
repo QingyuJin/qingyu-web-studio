@@ -79,6 +79,10 @@ function LoadingBars() {
 }
 
 function AiAuditDemo() {
+  return <AiAuditProductDemo />
+}
+
+export function LegacyAiAuditDemo() {
   const [target, setTarget] = useState("小型店家想做一頁式網站，主要靠 LINE 接洽客戶。")
   const [report, setReport] = useState({
     source: "mock",
@@ -275,6 +279,245 @@ function findReportSuggestion(sections, label) {
   if (label.includes("信任")) return sections.find((item) => item.title.includes("信任"))?.suggestion
   if (label.includes("手機")) return sections.find((item) => item.title.includes("手機"))?.suggestion
   return ""
+}
+
+const cleanAiAuditFallback = {
+  source: "mock_fallback",
+  score: 82,
+  summary: "這份 Demo 會檢查首頁是否讓台灣客戶快速看懂服務、信任你，並知道下一步要怎麼聯絡。",
+  seo: {
+    score: 78,
+    advice: "title 建議包含服務、地區與主要客群，例如：台灣網站製作、作品集、一頁式網站。",
+  },
+  cta: {
+    score: 74,
+    advice: "主要 CTA 建議只保留一個明確動作，例如「免費網站健檢」或「聊聊需求」。",
+  },
+  headline: {
+    score: 86,
+    advice: "首頁標題要先說清楚你能幫誰解決什麼事，不要一開始堆滿技術詞。",
+  },
+  trust: {
+    score: 88,
+    advice: "加入作品案例、製作流程、聯絡方式與交付內容，會比單純說自己會技術更有信任感。",
+  },
+  mobile: {
+    score: 80,
+    advice: "手機版第一屏要先看到標題、短描述與 CTA，避免過多卡片讓訪客滑不到重點。",
+  },
+  nextSteps: [
+    "重寫首頁第一屏標題與 CTA",
+    "把作品案例放到 CTA 後方",
+    "補上 SEO title / description",
+    "檢查手機版按鈕是否容易點擊",
+  ],
+}
+
+const cleanAiAuditExampleInput =
+  "我是台灣小型工作室，想做一個能介紹服務、放作品、讓客戶填表或加 LINE 的網站。希望手機版清楚，也想知道 SEO 和首頁文案怎麼寫。"
+
+function normalizeAiAuditReport(data) {
+  if (!data || typeof data !== "object") return cleanAiAuditFallback
+
+  const sections = Array.isArray(data.sections) ? data.sections : []
+  const findSection = (keyword, fallback) => {
+    const section = sections.find((item) => String(item.title || "").toLowerCase().includes(keyword.toLowerCase()))
+    return section?.suggestion || section?.finding || fallback
+  }
+  const scores = data.scores || {}
+  const scoreValues = Object.values(scores).filter((value) => typeof value === "number")
+  const score = scoreValues.length
+    ? Math.round(scoreValues.reduce((sum, value) => sum + value, 0) / scoreValues.length)
+    : cleanAiAuditFallback.score
+
+  return {
+    source: data.source || "mock_fallback",
+    score,
+    summary: data.summary && !String(data.summary).includes("�") ? data.summary : cleanAiAuditFallback.summary,
+    seo: {
+      score: scores.seo || cleanAiAuditFallback.seo.score,
+      advice: findSection("seo", cleanAiAuditFallback.seo.advice),
+    },
+    cta: {
+      score: scores.cta || cleanAiAuditFallback.cta.score,
+      advice: findSection("cta", cleanAiAuditFallback.cta.advice),
+    },
+    headline: {
+      score: scores.clarity || cleanAiAuditFallback.headline.score,
+      advice: findSection("標題", cleanAiAuditFallback.headline.advice),
+    },
+    trust: {
+      score: scores.trust || cleanAiAuditFallback.trust.score,
+      advice: findSection("信任", cleanAiAuditFallback.trust.advice),
+    },
+    mobile: {
+      score: scores.mobile || cleanAiAuditFallback.mobile.score,
+      advice: findSection("mobile", cleanAiAuditFallback.mobile.advice),
+    },
+    nextSteps: Array.isArray(data.nextSteps) && data.nextSteps.length ? data.nextSteps : cleanAiAuditFallback.nextSteps,
+  }
+}
+
+function AiAuditProductDemo() {
+  const [input, setInput] = useState("")
+  const [report, setReport] = useState(null)
+  const [loading, setLoading] = useState(false)
+  const [error, setError] = useState("")
+
+  async function runAudit(useExample = false) {
+    const value = useExample ? cleanAiAuditExampleInput : input.trim()
+    if (!value) {
+      setError("請先輸入網站網址、服務內容，或按「查看範例報告」。")
+      setReport(null)
+      return
+    }
+
+    if (useExample) setInput(cleanAiAuditExampleInput)
+    setLoading(true)
+    setError("")
+
+    try {
+      await wait(900)
+      const response = await fetch("/api/ai-audit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ input: value }),
+      })
+      const data = await response.json().catch(() => null)
+      setReport(normalizeAiAuditReport(response.ok ? data : data?.fallback))
+      if (!response.ok) setError("API 暫時無法分析，已顯示 Demo mock 報告。")
+    } catch {
+      setReport(cleanAiAuditFallback)
+      setError("目前沒有連線到 AI 服務，已使用前端 mock fallback。")
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  function clearAudit() {
+    setInput("")
+    setReport(null)
+    setError("")
+    setLoading(false)
+  }
+
+  const displayedReport = report || cleanAiAuditFallback
+  const reportCards = [
+    ["SEO 建議", displayedReport.seo],
+    ["CTA 建議", displayedReport.cta],
+    ["首頁標題建議", displayedReport.headline],
+    ["台灣客戶信任感", displayedReport.trust],
+    ["手機版問題", displayedReport.mobile],
+  ]
+
+  return (
+    <Shell
+      title="AI 網站健檢 Demo"
+      desc="前端會送出需求到 /api/ai-audit；沒有 OpenAI key 時會自動顯示 mock fallback，頁面不會壞掉。"
+    >
+      <div className="grid gap-5 lg:grid-cols-[0.86fr_1.14fr]">
+        <MiniCard title="輸入網站或需求">
+          <label className="text-xs font-black uppercase tracking-[0.18em] text-[#52605c]" htmlFor="ai-audit-input">
+            Website brief
+          </label>
+          <textarea
+            id="ai-audit-input"
+            value={input}
+            onChange={(event) => setInput(event.target.value)}
+            className="mt-2 min-h-44 w-full resize-none rounded-lg border border-[#d8d2c5] bg-white p-3 text-sm font-bold leading-7 text-[#111c22] outline-none transition focus:border-[#0d6b62] focus:ring-2 focus:ring-[#0d6b62]/10"
+            placeholder="貼上網址，或描述你的網站、服務、客群與目前卡住的地方。"
+          />
+          <div className="mt-3 flex flex-wrap gap-2">
+            <button
+              type="button"
+              onClick={() => runAudit(false)}
+              disabled={loading}
+              className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {loading ? "分析中..." : "開始分析"}
+            </button>
+            <button
+              type="button"
+              onClick={() => runAudit(true)}
+              disabled={loading}
+              className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              查看範例報告
+            </button>
+            <button
+              type="button"
+              onClick={clearAudit}
+              className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]"
+            >
+              清空
+            </button>
+            <button
+              type="button"
+              onClick={() => scrollToSection("tech")}
+              className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]"
+            >
+              技術拆解
+            </button>
+          </div>
+          {loading ? (
+            <div className="mt-4 rounded-lg border border-[#e3ded3] bg-white p-3">
+              <p className="mb-3 text-xs font-black text-[#0d6b62]">正在檢查 SEO、CTA、信任感與手機版...</p>
+              <LoadingBars />
+            </div>
+          ) : null}
+          {error ? <p className="mt-3 rounded-lg bg-[#fff7ed] px-3 py-2 text-xs font-black text-[#b45309]">{error}</p> : null}
+          <div className="mt-4 flex flex-wrap gap-2">
+            {["Mock fallback", "Report UI", "SEO Check", "CTA Review"].map((tag) => (
+              <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </MiniCard>
+
+        <div className="grid gap-4">
+          <MiniCard title="AI 健檢報告" tone="dark">
+            <div className="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">Total score</p>
+                <p className="mt-2 text-5xl font-black">{displayedReport.score}</p>
+              </div>
+              <span className="w-fit rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
+                {displayedReport.source === "openai" ? "OpenAI result" : "Mock result"}
+              </span>
+            </div>
+            <p className="mt-4 text-sm font-bold leading-7 text-white/72">{displayedReport.summary}</p>
+          </MiniCard>
+
+          <div className="grid gap-3 md:grid-cols-2">
+            {reportCards.map(([title, item]) => (
+              <MiniCard key={title} title={title}>
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-2xl font-black text-[#111c22]">{item.score}</p>
+                  <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#0d6b62]">建議</span>
+                </div>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{item.advice}</p>
+                <div className="mt-3">
+                  <Progress value={item.score} />
+                </div>
+              </MiniCard>
+            ))}
+          </div>
+
+          <MiniCard title="下一步優化清單">
+            <div className="grid gap-2">
+              {displayedReport.nextSteps.map((item, index) => (
+                <div key={item} className="flex gap-3 rounded-lg bg-white px-3 py-2 text-sm font-bold leading-6 text-[#52605c]">
+                  <span className="font-black text-[#0d6b62]">0{index + 1}</span>
+                  <span>{item}</span>
+                </div>
+              ))}
+            </div>
+          </MiniCard>
+        </div>
+      </div>
+    </Shell>
+  )
 }
 
 function LineBotDemo() {
