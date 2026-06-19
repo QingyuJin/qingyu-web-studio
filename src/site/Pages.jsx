@@ -88,6 +88,7 @@ export function WorkDetailPage() {
   const { slug } = useParams()
   const project = projects.find((item) => item.slug === slug) || projects[0]
   const isLineBotProject = project.slug === "linebot"
+  const isBuildFlowProject = project.slug === "buildflow"
   const isApiAutomationProject = project.slug === "api-automation"
   const projectSeo = {
     path: `/works/${project.slug}`,
@@ -113,6 +114,18 @@ export function WorkDetailPage() {
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看後台
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isBuildFlowProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              新增案件 Demo
+            </Link>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看案件詳情
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -222,6 +235,21 @@ export function WorkDetailPage() {
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Mock mode"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {isBuildFlowProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">BuildFlow Architecture</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  Case List → Case Detail → Status Update → LINE Report Timeline → Photo / Quote Modal
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Tailwind", "Case Status Management", "Dashboard UI", "LINE 回報 mock", "Supabase-ready", "報價單 PDF future"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>

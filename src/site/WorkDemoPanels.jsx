@@ -1157,45 +1157,135 @@ function LineBotProductDemo() {
 }
 
 function BuildFlowDemo() {
-  const [selected, setSelected] = useState("q-001")
-  const [statusIndex, setStatusIndex] = useState(-1)
-  const [showDetail, setShowDetail] = useState(false)
-  const [cases, setCases] = useState([
-    { id: "q-001", name: "屋頂防水工程", customer: "LINE 業主", status: "施工回報中", progress: 75 },
-    { id: "b-014", name: "店面地坪工程", customer: "張先生", status: "估價中", progress: 45 },
-    { id: "c-022", name: "浴室漏水修繕", customer: "王小姐", status: "待驗收", progress: 90 },
-  ])
-  const statusFlow = [
-    { status: "待估價", progress: 25, line: "LINE 回報：已收到客戶照片，等待估價。" },
-    { status: "已報價", progress: 55, line: "LINE 回報：報價已送出，等待業主確認。" },
-    { status: "施工中", progress: 75, line: "LINE 回報：今日 2 人出工，完成底層清潔。" },
-    { status: "完工", progress: 100, line: "LINE 回報：完工照已上傳，準備驗收。" },
+  const initialCases = [
+    {
+      id: "q-001",
+      name: "屋頂防水工程",
+      customer: "LINE 業主",
+      phone: "LINE user",
+      type: "防水 / 泥作",
+      status: "施工中",
+      progress: 75,
+      amount: 53900,
+      createdAt: "06/18 14:20",
+      issue: "屋頂滲水，女兒牆需要補強，業主已確認報價。",
+      quoteStatus: "業主已確認",
+      construction: "底層清潔完成，明天做防水底漆。",
+      notes: "完工後需要補試水與完工照。",
+      photos: ["施工前 3 張", "底層清潔 2 張", "完工照待補"],
+      reports: ["LINE：業主已同意 q-001 報價。", "LINE：今日 2 人出工，完成底層清潔。"],
+    },
+    {
+      id: "b-014",
+      name: "店面地坪工程",
+      customer: "張先生",
+      phone: "0912-***-210",
+      type: "地坪",
+      status: "估價中",
+      progress: 45,
+      amount: 82000,
+      createdAt: "06/19 09:10",
+      issue: "店面地坪不平，想評估修補與耐磨塗層。",
+      quoteStatus: "估價中",
+      construction: "等待場勘尺寸。",
+      notes: "需確認營業時間，避免施工影響店面。",
+      photos: ["現場地坪 4 張", "裂縫特寫 2 張"],
+      reports: ["LINE：已收到店面地坪照片，等待場勘。"],
+    },
+    {
+      id: "c-022",
+      name: "浴室漏水修繕",
+      customer: "王小姐",
+      phone: "LINE user",
+      type: "漏水 / 修繕",
+      status: "待驗收",
+      progress: 90,
+      amount: 36000,
+      createdAt: "06/19 11:35",
+      issue: "浴室外牆滲水，已完成防水補強與試水。",
+      quoteStatus: "已報價",
+      construction: "試水 24 小時正常，等待業主驗收。",
+      notes: "驗收後建立請款與保固紀錄。",
+      photos: ["施工前 2 張", "防水層 3 張", "完工照 4 張"],
+      reports: ["LINE：已試水 24 小時，目前沒有滲漏。"],
+    },
   ]
-  const [lineReport, setLineReport] = useState(statusFlow[0].line)
+  const [selected, setSelected] = useState("q-001")
+  const [showDetail, setShowDetail] = useState(false)
+  const [cases, setCases] = useState(initialCases)
+  const statusFlow = [
+    { status: "待估價", progress: 25, line: "已收到案件需求，等待初步估價。", quoteStatus: "待估價", construction: "尚未排工" },
+    { status: "已報價", progress: 55, line: "已完成報價，等待客戶確認。", quoteStatus: "已報價", construction: "等待業主確認" },
+    { status: "施工中", progress: 75, line: "已排入施工中。", quoteStatus: "業主已確認", construction: "今日 2 人出工，完成底層清潔。" },
+    { status: "完工", progress: 100, line: "案件已完工，請安排驗收。", quoteStatus: "業主已確認", construction: "完工照已上傳，準備驗收。" },
+  ]
   const current = cases.find((item) => item.id === selected) || cases[0]
+  const selectedStatusIndex = Math.max(0, statusFlow.findIndex((item) => item.status === current.status))
+  const metrics = [
+    ["今日新案", cases.filter((item) => item.createdAt.includes("06/19")).length],
+    ["待估價", cases.filter((item) => item.status === "待估價" || item.status === "估價中").length],
+    ["施工中", cases.filter((item) => item.status === "施工中").length],
+    ["已完工", cases.filter((item) => item.status === "完工" || item.status === "待驗收").length],
+  ]
+
+  function money(value) {
+    return `NT$${value.toLocaleString("zh-TW")}`
+  }
 
   function addDemoCase() {
-    const demoCase = { id: "d-033", name: "陽台漏水檢修", customer: "林先生", status: "待估價", progress: 25 }
+    const demoCase = {
+      id: "d-033",
+      name: "陽台漏水檢修",
+      customer: "林先生",
+      phone: "LINE user",
+      type: "抓漏 / 防水",
+      status: "待估價",
+      progress: 25,
+      amount: 28000,
+      createdAt: "剛剛",
+      issue: "陽台排水孔附近滲水，客戶已傳現場照片。",
+      quoteStatus: "待估價",
+      construction: "等待初步估價。",
+      notes: "需確認是否方便場勘與拍照。",
+      photos: ["客戶照片 3 張", "漏水位置 1 張"],
+      reports: ["LINE：已收到案件需求，等待初步估價。"],
+    }
     setCases((currentCases) => (
       currentCases.some((item) => item.id === demoCase.id) ? currentCases : [demoCase, ...currentCases]
     ))
     setSelected(demoCase.id)
-    setStatusIndex(-1)
-    setLineReport("LINE 回報：新增案件，客戶已補照片，待估價。")
   }
 
   function updateConstructionStatus() {
-    const nextIndex = (statusIndex + 1) % statusFlow.length
+    const nextIndex = (selectedStatusIndex + 1) % statusFlow.length
     const next = statusFlow[nextIndex]
-    setStatusIndex(nextIndex)
     setCases((currentCases) => currentCases.map((item) => (
-      item.id === selected ? { ...item, status: next.status, progress: next.progress } : item
+      item.id === selected ? {
+        ...item,
+        status: next.status,
+        progress: next.progress,
+        quoteStatus: next.quoteStatus,
+        construction: next.construction,
+        reports: [`LINE：${next.line}`, ...item.reports],
+      } : item
     )))
-    setLineReport(next.line)
+  }
+
+  function resetDemo() {
+    setCases(initialCases)
+    setSelected("q-001")
+    setShowDetail(false)
   }
 
   return (
-    <Shell title="BuildFlow 工程行案件管理系統" desc="用前端 Dashboard 展示案件、報價、照片、施工狀態與 LINE 回報如何被整理。">
+    <Shell title="BuildFlow 案件管理" desc="把工程行的客戶需求、現場照片、報價狀態、施工進度與 LINE 回報整理成一套後台流程。">
+      <div className="mb-4 grid gap-3 sm:grid-cols-4">
+        {metrics.map(([label, value]) => (
+          <MiniCard key={label} title={label}>
+            <p className="text-3xl font-black text-[#111c22]">{value}</p>
+          </MiniCard>
+        ))}
+      </div>
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <div className="grid gap-3">
           <div className="flex flex-wrap gap-2">
@@ -1208,6 +1298,9 @@ function BuildFlowDemo() {
             <button type="button" onClick={() => setShowDetail(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看照片 / 報價
             </button>
+            <button type="button" onClick={resetDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              重置 Demo
+            </button>
           </div>
           {cases.map((item) => (
             <button
@@ -1216,8 +1309,17 @@ function BuildFlowDemo() {
               onClick={() => setSelected(item.id)}
               className={`rounded-xl border p-4 text-left ${selected === item.id ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}
             >
-              <p className="text-sm font-black">{item.id}｜{item.name}</p>
-              <p className="mt-1 text-xs font-bold text-[#52605c]">{item.customer}・{item.status}</p>
+              <div className="flex flex-wrap items-start justify-between gap-2">
+                <div>
+                  <p className="text-sm font-black">{item.id}｜{item.name}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">{item.customer}・{item.type}</p>
+                </div>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{item.status}</span>
+              </div>
+              <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-bold text-[#52605c]">
+                <span>預估：{money(item.amount)}</span>
+                <span>建立：{item.createdAt}</span>
+              </div>
               <div className="mt-3"><Progress value={item.progress} /></div>
             </button>
           ))}
@@ -1230,10 +1332,11 @@ function BuildFlowDemo() {
                 <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">{current.status}</span>
               </div>
               <p className="mt-2 text-sm font-bold text-white/65">客戶：{current.customer}</p>
-              <p className="mt-1 text-sm font-bold text-white/65">工程類型：防水 / 修繕</p>
+              <p className="mt-1 text-sm font-bold text-white/65">工程類型：{current.type}</p>
+              <p className="mt-1 text-sm font-bold text-white/65">預估金額：{money(current.amount)}</p>
               <div className="mt-4"><Progress value={current.progress} /></div>
               <div className="mt-4 grid grid-cols-3 gap-2">
-                {["施工前", "施工中", "完工照"].map((item) => (
+                {current.photos.map((item) => (
                   <div key={item} className="aspect-square rounded-lg bg-white/10 p-2 text-[11px] font-black text-white/70">
                     {item}
                   </div>
@@ -1242,16 +1345,24 @@ function BuildFlowDemo() {
             </div>
             <div className="grid gap-2 text-sm font-black">
               {[
-                ["照片區", "施工前 3 張，完工照待補"],
-                ["報價區", "NT$53,900，業主已確認"],
-                ["施工狀態", "今日 2 人出工，底層清潔完成"],
-                ["LINE 回報", lineReport],
+                ["客戶資料", `${current.customer}｜${current.phone}`],
+                ["問題描述", current.issue],
+                ["報價資訊", `${money(current.amount)}｜${current.quoteStatus}`],
+                ["施工狀態", current.construction],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg bg-white/10 p-3">
                   <p className="text-xs text-[#8fd6cc]">{label}</p>
                   <p className="mt-1">{value}</p>
                 </div>
               ))}
+              <div className="rounded-lg bg-white/10 p-3">
+                <p className="text-xs text-[#8fd6cc]">LINE 回報紀錄</p>
+                <div className="mt-2 grid gap-2">
+                  {current.reports.slice(0, 3).map((report, index) => (
+                    <p key={`${report}-${index}`} className="rounded-md bg-white/10 px-3 py-2 text-xs leading-5">{report}</p>
+                  ))}
+                </div>
+              </div>
             </div>
           </div>
         </MiniCard>
@@ -1271,18 +1382,28 @@ function BuildFlowDemo() {
             <div className="mt-5 grid gap-4 md:grid-cols-2">
               <MiniCard title="照片區">
                 <div className="grid grid-cols-3 gap-2">
-                  {["施工前", "施工中", "完工照"].map((item) => <div key={item} className="aspect-square rounded-lg bg-[#eef7f4] p-2 text-xs font-black text-[#0d6b62]">{item}</div>)}
+                  {current.photos.map((item) => <div key={item} className="aspect-square rounded-lg bg-[#eef7f4] p-2 text-xs font-black text-[#0d6b62]">{item}</div>)}
                 </div>
               </MiniCard>
               <MiniCard title="報價欄位">
-                <p className="text-sm font-black">NT$53,900</p>
-                <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：業主已確認</p>
+                <p className="text-sm font-black">{money(current.amount)}</p>
+                <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：{current.quoteStatus}</p>
+                <div className="mt-3 grid gap-2 text-xs font-bold text-[#52605c]">
+                  <span>材料 / 工資：{money(Math.round(current.amount * 0.72))}</span>
+                  <span>管理 / 清潔：{money(Math.round(current.amount * 0.18))}</span>
+                  <span>預備金：{money(Math.round(current.amount * 0.1))}</span>
+                </div>
               </MiniCard>
               <MiniCard title="施工備註">
-                <p className="text-sm font-bold leading-7 text-[#52605c]">底層清潔完成，明天施作防水底漆。</p>
+                <p className="text-sm font-bold leading-7 text-[#52605c]">{current.construction}</p>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">{current.notes}</p>
               </MiniCard>
               <MiniCard title="LINE 回報紀錄">
-                <p className="text-sm font-bold leading-7 text-[#52605c]">{lineReport}</p>
+                <div className="grid gap-2">
+                  {current.reports.map((report, index) => (
+                    <p key={`${report}-${index}`} className="rounded-lg bg-[#faf7ef] p-3 text-sm font-bold leading-7 text-[#52605c]">{report}</p>
+                  ))}
+                </div>
               </MiniCard>
             </div>
           </div>
