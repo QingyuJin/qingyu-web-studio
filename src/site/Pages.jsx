@@ -92,12 +92,16 @@ export function WorkDetailPage() {
   const isApiAutomationProject = project.slug === "api-automation"
   const projectSeo = {
     path: `/works/${project.slug}`,
-    title: isApiAutomationProject
-      ? "API 自動化流程 Demo｜表單、API、通知與後台展示｜Qingyu Web Studio"
-      : `${project.title}｜Qingyu Web Studio`,
-    description: isApiAutomationProject
-      ? "展示如何將客戶表單、API、資料驗證、通知流程與後台 Dashboard 串接成完整小型系統。"
-      : project.summary,
+    title: isBuildFlowProject
+      ? "BuildFlow 工程行案件管理系統 Demo｜Qingyu Web Studio"
+      : isApiAutomationProject
+        ? "API 自動化流程 Demo｜表單、API、通知與後台展示｜Qingyu Web Studio"
+        : `${project.title}｜Qingyu Web Studio`,
+    description: isBuildFlowProject
+      ? "展示工程行如何用案件管理後台整理客戶需求、現場照片、報價狀態、施工進度與 LINE 回報流程。"
+      : isApiAutomationProject
+        ? "展示如何將客戶表單、API、資料驗證、通知流程與後台 Dashboard 串接成完整小型系統。"
+        : project.summary,
   }
 
   return (
@@ -125,7 +129,7 @@ export function WorkDetailPage() {
               新增案件 Demo
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看案件詳情
+              查看報價單
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -374,18 +378,27 @@ function HeroPreview({ project }) {
       ) : isBuildFlow ? (
         <div className="mt-5 grid gap-4 md:grid-cols-[1fr_0.82fr]">
           <div className="rounded-xl bg-white p-4 text-[#111c22]">
-            <div className="flex items-center justify-between">
-              <p className="text-sm font-black">q-001 屋頂防水工程</p>
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black">BF-001 屋頂防水</p>
               <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">施工中</span>
             </div>
             <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
               <div className="h-full w-3/4 rounded-full bg-[#0d6b62]" />
             </div>
-            <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs font-black">
-              {["報價", "施工", "驗收"].map((item) => <span key={item} className="rounded-md bg-[#faf8f3] py-2">{item}</span>)}
+            <div className="mt-4 grid gap-2">
+              {[
+                ["LINE 回報", "今日 2 人出工，照片已補"],
+                ["報價卡", "NT$28,000｜業主確認中"],
+                ["案件列表", "4 件進行中"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-[#faf8f3] px-3 py-2">
+                  <p className="text-[11px] font-black text-[#0d6b62]">{label}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">{value}</p>
+                </div>
+              ))}
             </div>
           </div>
-          <HeroPreviewList items={["LINE 每日回報", "照片已歸檔", "請款待建立", "保固可追蹤"]} />
+          <HeroPreviewList items={["案件列表 + 狀態", "現場照片 mock", "報價單 Preview", "LINE 回報可複製"]} />
         </div>
       ) : isAudit ? (
         <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">

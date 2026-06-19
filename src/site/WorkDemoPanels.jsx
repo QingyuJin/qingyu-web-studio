@@ -1191,13 +1191,15 @@ function BuildFlowDemo() {
   }
   const statusFlow = ["待估價", "已報價", "施工中", "完工"]
   const lineMessageByStatus = {
-    "待估價": "已收到案件需求，等待初步估價。",
-    "已報價": "已完成報價，等待客戶確認。",
-    "施工中": "案件已排入施工中。",
-    "完工": "案件已完工，請安排驗收。",
+    "待估價": "已收到您的案件需求，我們會先整理照片與問題描述，接著安排初步估價。",
+    "已報價": "已完成初步報價，您可以查看報價明細，確認後即可安排施工時間。",
+    "施工中": "案件目前施工中，如有現場照片或進度更新，會同步整理在系統紀錄。",
+    "完工": "案件已完工，請安排驗收。若有後續保固或維修需求，也可透過 LINE 回報。",
   }
   const [selected, setSelected] = useState("BF-001")
   const [showDetail, setShowDetail] = useState(false)
+  const [showQuote, setShowQuote] = useState(false)
+  const [copied, setCopied] = useState("")
   const [cases, setCases] = useState(() => fallbackApiCases.map(mapApiCaseToUi))
   const [apiMode, setApiMode] = useState("Loading")
   const [apiResponse, setApiResponse] = useState(null)
@@ -1263,6 +1265,28 @@ function BuildFlowDemo() {
 
   function splitBudget(value, ratio) {
     return `NT$${Math.round(parseBudget(value) * ratio).toLocaleString("zh-TW")}`
+  }
+
+  function quoteItems(caseItem = current) {
+    const total = parseBudget(caseItem?.budget)
+    const items = [
+      ["現場整理與防護", "1 式", Math.round(total * 0.16)],
+      [`${caseItem?.type || "工程"}主要工項`, "1 式", Math.round(total * 0.58)],
+      ["材料與耗材", "1 式", Math.round(total * 0.18)],
+      ["完工清潔與拍照", "1 式", Math.round(total * 0.08)],
+    ]
+    return items.map(([name, qty, subtotal]) => ({ name, qty, unitPrice: subtotal, subtotal }))
+  }
+
+  async function copyLineReport() {
+    const text = current?.reports?.[0]?.replace("LINE：", "") || lastLineMessage
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied("已複製")
+    } catch {
+      setCopied("已選取回報文字")
+    }
+    window.setTimeout(() => setCopied(""), 1600)
   }
 
   function nextStatus(status) {
@@ -1382,6 +1406,7 @@ function BuildFlowDemo() {
     setCases(fallback)
     setSelected(fallback[0].id)
     setShowDetail(false)
+    setShowQuote(false)
     setApiMode("Mock fallback")
     setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
     setApiError("Demo 已重置為前端 mock 初始資料。")
@@ -1405,7 +1430,7 @@ function BuildFlowDemo() {
           </MiniCard>
         ))}
       </div>
-      <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
+      <div className="grid gap-4 xl:grid-cols-[0.72fr_1.05fr_0.78fr]">
         <div className="grid gap-3">
           <div className="flex flex-wrap gap-2">
             <button type="button" onClick={loadCases} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
@@ -1419,6 +1444,12 @@ function BuildFlowDemo() {
             </button>
             <button type="button" onClick={() => setShowDetail(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看照片 / 報價
+            </button>
+            <button type="button" onClick={() => setShowQuote(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              產生報價單
+            </button>
+            <button type="button" onClick={copyLineReport} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              複製 LINE 回報
             </button>
             <button type="button" onClick={() => setShowResponse((currentValue) => !currentValue)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看 API Response
@@ -1456,7 +1487,7 @@ function BuildFlowDemo() {
           ))}
         </div>
         <MiniCard title="案件詳情 / Dashboard UI" tone="dark">
-          <div className="grid gap-4 md:grid-cols-2">
+          <div className="grid gap-4">
             <div>
               <div className="flex flex-wrap items-center gap-2">
                 <h3 className="text-2xl font-black">{current.id} {current.name}</h3>
@@ -1487,17 +1518,54 @@ function BuildFlowDemo() {
                   <p className="mt-1">{value}</p>
                 </div>
               ))}
-              <div className="rounded-lg bg-white/10 p-3">
-                <p className="text-xs text-[#8fd6cc]">LINE 回報紀錄</p>
-                <div className="mt-2 grid gap-2">
-                  {current.reports.slice(0, 3).map((report, index) => (
-                    <p key={`${report}-${index}`} className="rounded-md bg-white/10 px-3 py-2 text-xs leading-5">{report}</p>
-                  ))}
-                </div>
-              </div>
             </div>
           </div>
         </MiniCard>
+        <div className="grid gap-4">
+          <MiniCard title="LINE 回報 / 報價資訊">
+            <div className="grid gap-3">
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
+                <div className="mb-2 flex flex-wrap items-center justify-between gap-2">
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE Message</p>
+                  {copied ? <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{copied}</span> : null}
+                </div>
+                <p className="text-sm font-bold leading-7 text-[#52605c]">{current.reports[0]?.replace("LINE：", "")}</p>
+              </div>
+              <div className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Quotation Card</p>
+                <div className="mt-3 flex items-end justify-between gap-3">
+                  <div>
+                    <p className="text-2xl font-black text-[#111c22]">{current.budget}</p>
+                    <p className="mt-1 text-xs font-bold text-[#52605c]">{current.quoteStatus}</p>
+                  </div>
+                  <span className="rounded-full bg-[#111c22] px-3 py-1 text-xs font-black text-white">Demo Preview</span>
+                </div>
+                <div className="mt-3 grid gap-2">
+                  {quoteItems(current).slice(0, 3).map((item) => (
+                    <div key={item.name} className="flex justify-between gap-3 rounded-lg bg-[#faf7ef] px-3 py-2 text-xs font-bold text-[#52605c]">
+                      <span>{item.name}</span>
+                      <span>NT${item.subtotal.toLocaleString("zh-TW")}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Status Timeline</p>
+                <div className="mt-3 grid gap-2">
+                  {statusFlow.map((status) => {
+                    const active = statusFlow.indexOf(status) <= statusFlow.indexOf(current.status)
+                    return (
+                      <div key={status} className="flex items-center gap-2 text-xs font-black text-[#52605c]">
+                        <span className={`h-2.5 w-2.5 rounded-full ${active ? "bg-[#0d6b62]" : "bg-[#d8d2c5]"}`} />
+                        {status}
+                      </div>
+                    )
+                  })}
+                </div>
+              </div>
+            </div>
+          </MiniCard>
+        </div>
       </div>
       {showDetail ? (
         <div className="fixed inset-0 z-50 grid place-items-center bg-[#111c22]/55 p-4" role="dialog" aria-modal="true">
@@ -1537,6 +1605,63 @@ function BuildFlowDemo() {
                   ))}
                 </div>
               </MiniCard>
+            </div>
+          </div>
+        </div>
+      ) : null}
+      {showQuote ? (
+        <div className="fixed inset-0 z-50 grid place-items-center bg-[#111c22]/55 p-4" role="dialog" aria-modal="true">
+          <div className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-[#fdfbf6] p-5 shadow-xl">
+            <div className="flex items-start justify-between gap-4 border-b border-[#e3ded3] pb-4">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Qingyu Web Studio Demo</p>
+                <h3 className="mt-2 text-3xl font-black">工程報價單 Preview</h3>
+                <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：Demo Preview｜報價日期：2026-06-20</p>
+              </div>
+              <button type="button" onClick={() => setShowQuote(false)} className="rounded-md border border-[#d8d2c5] bg-white px-3 py-2 text-sm font-black">關閉</button>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-3">
+              {[
+                ["案件編號", current.id],
+                ["客戶名稱", current.customer],
+                ["工程類型", current.type],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-[#e3ded3] bg-white p-4">
+                  <p className="text-xs font-black text-[#0d6b62]">{label}</p>
+                  <p className="mt-2 text-sm font-black text-[#111c22]">{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-5 overflow-x-auto rounded-xl border border-[#e3ded3] bg-white">
+              <table className="w-full min-w-[620px] text-left text-sm">
+                <thead className="bg-[#111c22] text-white">
+                  <tr>
+                    {["工項", "數量", "單價", "小計"].map((head) => (
+                      <th key={head} className="px-4 py-3 font-black">{head}</th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody>
+                  {quoteItems(current).map((item) => (
+                    <tr key={item.name} className="border-b border-[#e3ded3]">
+                      <td className="px-4 py-3 font-bold">{item.name}</td>
+                      <td className="px-4 py-3 font-bold">{item.qty}</td>
+                      <td className="px-4 py-3 font-bold">NT${item.unitPrice.toLocaleString("zh-TW")}</td>
+                      <td className="px-4 py-3 font-black">NT${item.subtotal.toLocaleString("zh-TW")}</td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
+              <div className="rounded-xl border border-[#e3ded3] bg-white p-4">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">報價備註</p>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">本報價為 Demo Preview，實際金額需依現場尺寸、材料與施工條件調整。未來可延伸 PDF 匯出與業主線上確認。</p>
+              </div>
+              <div className="rounded-xl bg-[#111c22] p-5 text-white">
+                <p className="text-xs font-black text-white/60">總額</p>
+                <p className="mt-2 text-3xl font-black">{current.budget}</p>
+              </div>
             </div>
           </div>
         </div>
