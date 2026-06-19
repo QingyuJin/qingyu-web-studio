@@ -4,17 +4,21 @@ import SiteLayout from "./SiteLayout"
 import WorkDemoPanel from "./WorkDemoPanels"
 import { contact, pricing, projects, seo, serviceCategories } from "./content"
 
-function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, children }) {
+function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions, heroVisual, children }) {
   return (
     <SiteLayout>
       <Seo page={page} />
       <section className="border-b border-[#e6e0d5] bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
-          <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
-            {title}
-          </h1>
-          <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">{intro}</p>
+        <div className={`mx-auto grid max-w-6xl gap-8 px-4 py-14 md:py-20 ${heroVisual ? "lg:grid-cols-[0.95fr_1.05fr] lg:items-center" : ""}`}>
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
+            <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
+              {title}
+            </h1>
+            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">{intro}</p>
+            {actions ? <div className="mt-7 flex flex-wrap gap-3">{actions}</div> : null}
+          </div>
+          {heroVisual ? <div>{heroVisual}</div> : null}
         </div>
       </section>
       {children}
@@ -88,7 +92,23 @@ export function WorkDetailPage() {
   }
 
   return (
-    <PageShell page={projectSeo} eyebrow={project.category} title={project.title} intro={project.summary}>
+    <PageShell
+      page={projectSeo}
+      eyebrow={project.category}
+      title={project.title}
+      intro={project.summary}
+      actions={
+        <>
+          <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            查看 Demo
+          </Link>
+          <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            聯絡我
+          </Link>
+        </>
+      }
+      heroVisual={<HeroPreview project={project} />}
+    >
       <section className="mx-auto max-w-6xl px-4 pt-14">
         <WorkShowcase project={project} />
       </section>
@@ -215,6 +235,93 @@ export function WorkDetailPage() {
         </div>
       </section>
     </PageShell>
+  )
+}
+
+function HeroPreview({ project }) {
+  const isLineBot = project.slug === "linebot"
+  const isBuildFlow = project.slug === "buildflow"
+  const isAudit = project.slug === "ai-audit"
+  const isApi = project.slug === "api-automation"
+
+  return (
+    <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-xl shadow-[#111c22]/10 md:p-5">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Live Product Preview</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Demo-ready</span>
+      </div>
+
+      {isLineBot ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.82fr_1fr]">
+          <div className="rounded-[1.8rem] border border-white/10 bg-[#dff1e8] p-3 text-[#111c22]">
+            {["客戶：我想預約諮詢", "Bot：請留下時間與需求", "後台：已建立案件"].map((item, index) => (
+              <div key={item} className={`mb-2 max-w-[88%] rounded-2xl px-3 py-2 text-xs font-black ${index === 1 ? "bg-white" : "ml-auto bg-[#0d6b62] text-white"}`}>
+                {item}
+              </div>
+            ))}
+          </div>
+          <HeroPreviewList items={["Webhook 已接收", "OpenAI 回覆草稿", "Supabase Inbox", "LINE Reply"]} />
+        </div>
+      ) : isBuildFlow ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_0.82fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-black">q-001 屋頂防水工程</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">施工中</span>
+            </div>
+            <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
+              <div className="h-full w-3/4 rounded-full bg-[#0d6b62]" />
+            </div>
+            <div className="mt-4 grid grid-cols-3 gap-2 text-center text-xs font-black">
+              {["報價", "回報", "驗收"].map((item) => <span key={item} className="rounded-md bg-[#faf8f3] py-2">{item}</span>)}
+            </div>
+          </div>
+          <HeroPreviewList items={["LINE 每日回報", "照片已歸檔", "請款待建立", "保固可追蹤"]} />
+        </div>
+      ) : isAudit ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.82fr_1fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <p className="text-xs font-black text-[#0d6b62]">AI Report Score</p>
+            <p className="mt-3 text-5xl font-black">82</p>
+            <p className="mt-2 text-sm font-bold text-[#52605c]">首頁文案、CTA、SEO 與信任感建議</p>
+          </div>
+          <HeroPreviewList items={["SEO 建議", "CTA 優化", "手機版提醒", "下一步清單"]} />
+        </div>
+      ) : isApi ? (
+        <div className="mt-5 grid gap-3 md:grid-cols-5">
+          {["Form", "API", "DB", "Notify", "Dashboard"].map((item, index) => (
+            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-3">
+              <p className="text-xs font-black text-[#8fd6cc]">0{index + 1}</p>
+              <p className="mt-2 text-sm font-black">{item}</p>
+              <div className="mt-3 h-1.5 rounded-full bg-white/15">
+                <div className="h-full rounded-full bg-[#8fd6cc]" style={{ width: `${58 + index * 9}%` }} />
+              </div>
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div className="mt-5 grid gap-3 sm:grid-cols-2">
+          {project.visuals.map((item, index) => (
+            <div key={item} className="rounded-xl border border-white/10 bg-white/5 p-4">
+              <p className="text-xs font-black text-[#8fd6cc]">0{index + 1}</p>
+              <p className="mt-2 text-sm font-black">{item}</p>
+            </div>
+          ))}
+        </div>
+      )}
+    </div>
+  )
+}
+
+function HeroPreviewList({ items }) {
+  return (
+    <div className="grid gap-2">
+      {items.map((item) => (
+        <div key={item} className="rounded-lg border border-white/10 bg-white/5 px-3 py-2 text-sm font-black text-white/80">
+          {item}
+        </div>
+      ))}
+    </div>
   )
 }
 

@@ -2,7 +2,8 @@ import { useMemo, useState } from "react"
 
 function Shell({ title, desc, children }) {
   return (
-    <div className="rounded-2xl border border-[#ded8cb] bg-white p-4 shadow-sm md:p-6">
+    <div className="overflow-hidden rounded-2xl border border-[#ded8cb] bg-white shadow-sm">
+      <div className="border-b border-[#eee9df] bg-[#faf8f3] p-4 md:p-6">
       <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Product Demo</p>
@@ -10,7 +11,10 @@ function Shell({ title, desc, children }) {
         </div>
         <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">{desc}</p>
       </div>
+      </div>
+      <div className="p-4 md:p-6">
       {children}
+      </div>
     </div>
   )
 }
@@ -29,6 +33,21 @@ function MiniCard({ title, children, tone = "light" }) {
     <div className={`rounded-xl border p-4 ${dark ? "border-[#26343b] bg-[#111c22] text-white" : "border-[#e3ded3] bg-[#faf8f3]"}`}>
       <p className={`text-sm font-black ${dark ? "text-[#8fd6cc]" : "text-[#0d6b62]"}`}>{title}</p>
       <div className="mt-3">{children}</div>
+    </div>
+  )
+}
+
+function LoadingBars() {
+  return (
+    <div className="grid gap-2">
+      {[82, 64, 74].map((width, index) => (
+        <div key={width} className="h-2 overflow-hidden rounded-full bg-[#e4e9e6]">
+          <div
+            className="h-full rounded-full bg-[#0d6b62] transition-all duration-500"
+            style={{ width: `${width - index * 8}%` }}
+          />
+        </div>
+      ))}
     </div>
   )
 }
@@ -113,8 +132,13 @@ function AiAuditDemo() {
 
   return (
     <Shell title="AI 網站健檢工具" desc="前端送到 /api/ai-audit，由 serverless function 呼叫 OpenAI；沒有 key 時自動回 mock report。">
-      <div className="grid gap-4 lg:grid-cols-[0.9fr_1.1fr]">
+      <div className="grid gap-4 lg:grid-cols-[0.86fr_1.14fr]">
         <MiniCard title="Input｜網址 / 需求輸入">
+          <div className="mb-3 grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#52605c]">
+            {["需求", "分析", "報告"].map((item) => (
+              <span key={item} className="rounded-md border border-[#e3ded3] bg-white py-2">{item}</span>
+            ))}
+          </div>
           <textarea
             value={target}
             onChange={(event) => setTarget(event.target.value)}
@@ -123,6 +147,7 @@ function AiAuditDemo() {
           <button type="button" onClick={runAudit} disabled={loading} className="mt-3 min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:opacity-60">
             {loading ? "分析中..." : "開始 AI 健檢"}
           </button>
+          {loading ? <div className="mt-4"><LoadingBars /></div> : null}
           {error ? <p className="mt-3 text-xs font-black text-[#b45309]">{error}</p> : null}
           <div className="mt-3 flex flex-wrap gap-2">
             {["OpenAI API", "Prompt Flow", "Report UI", "SEO Check"].map((tag) => (
@@ -142,6 +167,14 @@ function AiAuditDemo() {
               </span>
             </div>
           </MiniCard>
+          <div className="grid gap-3 sm:grid-cols-5">
+            {Object.entries(report.scores || {}).map(([key, value]) => (
+              <div key={key} className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                <p className="text-[11px] font-black uppercase text-[#0d6b62]">{key}</p>
+                <p className="mt-2 text-2xl font-black text-[#111c22]">{value}</p>
+              </div>
+            ))}
+          </div>
           <div className="grid gap-3 sm:grid-cols-2">
             {checks.map(([label, key]) => (
               <MiniCard key={label} title={label}>
@@ -214,7 +247,9 @@ function LineBotDemo() {
     <Shell title="LINE Bot 詢價 / 預約系統" desc="展示 User → LINE → /api/line-webhook → OpenAI → LINE Reply，實際 token 只放後端環境變數。">
       <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr]">
         <MiniCard title="LINE 對話 mockup">
-          <div className="rounded-2xl bg-[#e9f4ee] p-4">
+          <div className="overflow-hidden rounded-[2rem] border border-[#c9dfd4] bg-[#e9f4ee] shadow-inner">
+            <div className="bg-[#06c755] px-4 py-3 text-center text-sm font-black text-white">Qingyu 詢價助理</div>
+            <div className="min-h-80 space-y-3 p-4">
             <div className="space-y-3">
               {visibleMessages.map(([role, text], index) => (
                 <div key={`${role}-${text}`} className={`flex ${role === "customer" ? "justify-end" : "justify-start"}`}>
@@ -224,6 +259,7 @@ function LineBotDemo() {
                   {index === visibleMessages.length - 1 ? null : null}
                 </div>
               ))}
+            </div>
             </div>
           </div>
           <div className="mt-3 flex gap-2">
@@ -239,16 +275,25 @@ function LineBotDemo() {
             {["LINE", "/api/line-webhook", "OpenAI", "LINE Reply"].map((item, index) => (
               <MiniCard key={item} title={item}>
                 <p className="text-xs font-black text-[#52605c]">{index < step + 1 ? "已同步" : "待處理"}</p>
+                <div className="mt-3"><Progress value={index < step + 1 ? 100 : 35} /></div>
               </MiniCard>
             ))}
           </div>
           <MiniCard title="後台收到案件" tone="dark">
             <div className="grid gap-3 sm:grid-cols-3">
-              {["王小姐", "形象網站", "週三下午"].map((item) => (
-                <div key={item} className="rounded-lg bg-white/10 p-3 text-sm font-black">
-                  {item}
+              {[
+                ["客戶", "王小姐"],
+                ["需求", "形象網站"],
+                ["預約", "週三下午"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-white/10 p-3">
+                  <p className="text-xs font-black text-[#8fd6cc]">{label}</p>
+                  <p className="mt-2 text-sm font-black">{value}</p>
                 </div>
               ))}
+            </div>
+            <div className="mt-3 rounded-lg bg-white/10 p-3 text-sm font-bold text-white/75">
+              狀態：待店家確認，已可同步到 Supabase Inbox。
             </div>
           </MiniCard>
           <MiniCard title="技術標籤">
@@ -295,14 +340,32 @@ function BuildFlowDemo() {
         <MiniCard title="案件詳情 / Dashboard UI" tone="dark">
           <div className="grid gap-4 md:grid-cols-2">
             <div>
-              <h3 className="text-2xl font-black">{current.id} {current.name}</h3>
+              <div className="flex flex-wrap items-center gap-2">
+                <h3 className="text-2xl font-black">{current.id} {current.name}</h3>
+                <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">{current.status}</span>
+              </div>
               <p className="mt-2 text-sm font-bold text-white/65">客戶：{current.customer}</p>
               <p className="mt-1 text-sm font-bold text-white/65">工程類型：防水 / 修繕</p>
               <div className="mt-4"><Progress value={current.progress} /></div>
+              <div className="mt-4 grid grid-cols-3 gap-2">
+                {["施工前", "施工中", "完工照"].map((item) => (
+                  <div key={item} className="aspect-square rounded-lg bg-white/10 p-2 text-[11px] font-black text-white/70">
+                    {item}
+                  </div>
+                ))}
+              </div>
             </div>
             <div className="grid gap-2 text-sm font-black">
-              {["照片區：施工前 3 張", "報價狀態：已確認", "LINE 回報：今日 2 人出工", "下一步：驗收 / 請款"].map((item) => (
-                <div key={item} className="rounded-lg bg-white/10 p-3">{item}</div>
+              {[
+                ["照片區", "施工前 3 張，完工照待補"],
+                ["報價區", "NT$53,900，業主已確認"],
+                ["施工狀態", "今日 2 人出工，底層清潔完成"],
+                ["LINE 回報", "師傅訊息已整理成施工日誌"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-white/10 p-3">
+                  <p className="text-xs text-[#8fd6cc]">{label}</p>
+                  <p className="mt-1">{value}</p>
+                </div>
               ))}
             </div>
           </div>
@@ -332,11 +395,21 @@ function ApiAutomationDemo() {
         <div className="grid gap-3 md:grid-cols-5">
           {flow.map((item, index) => (
             <MiniCard key={item} title={`0${index + 1}`}>
+              <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${submitted ? "bg-[#0d6b62] text-white" : "bg-white text-[#52605c]"}`}>
+                {index + 1}
+              </div>
               <p className="text-sm font-black leading-6">{item}</p>
               <p className="mt-2 text-xs font-bold text-[#52605c]">{submitted ? "synced" : "waiting"}</p>
             </MiniCard>
           ))}
         </div>
+        <MiniCard title="Dashboard 更新結果" tone="dark">
+          <div className="grid gap-3 sm:grid-cols-3">
+            {["新需求 #1042", "通知已排程", "狀態 synced"].map((item) => (
+              <div key={item} className="rounded-lg bg-white/10 p-3 text-sm font-black">{item}</div>
+            ))}
+          </div>
+        </MiniCard>
       </div>
     </Shell>
   )

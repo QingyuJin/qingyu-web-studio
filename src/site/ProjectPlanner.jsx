@@ -73,14 +73,29 @@ function ProjectPlanner() {
     <SiteLayout>
       <Seo page={seo.planner} />
       <section className="border-b border-[#e6e0d5] bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Project Planner</p>
-          <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
-            網站類型診斷
-          </h1>
-          <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">
-            用幾個問題快速判斷適合做網站、系統、AI 工具還是 LINE Bot。這是前端 Demo，不會送出資料。
-          </p>
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Project Planner</p>
+            <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
+              網站類型診斷
+            </h1>
+            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">
+              用幾個問題快速判斷適合做網站、系統、AI 工具還是 LINE Bot。這是前端 Demo，不會送出資料。
+            </p>
+          </div>
+          <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Instant Result</p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {["適合服務", "複雜度", "下一步"].map((item) => (
+                <div key={item} className="rounded-xl bg-white/10 p-4">
+                  <p className="text-sm font-black">{item}</p>
+                  <div className="mt-3 h-1.5 rounded-full bg-white/15">
+                    <div className="h-full w-3/4 rounded-full bg-[#8fd6cc]" />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
         </div>
       </section>
 
@@ -103,6 +118,9 @@ function ProjectPlanner() {
             <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">預估複雜度</p>
               <p className="mt-2 text-xl font-black">{result.complexity}</p>
+              <div className="mt-3 h-2 rounded-full bg-white/15">
+                <div className="h-full rounded-full bg-[#8fd6cc]" style={{ width: result.complexity === "中～高" ? "82%" : "54%" }} />
+              </div>
             </div>
             <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">適合功能</p>
@@ -115,7 +133,13 @@ function ProjectPlanner() {
               </div>
             </div>
             <div className="rounded-xl bg-white/10 p-4">
+              <p className="text-xs font-black text-[#8fd6cc]">建議方案</p>
               <p className="text-sm font-bold leading-7 text-white/75">{result.next}</p>
+            </div>
+            <div className="grid gap-2 rounded-xl bg-white/10 p-4 text-sm font-black text-white/80">
+              <span>下一步 1：整理參考網站</span>
+              <span>下一步 2：確認必要功能</span>
+              <span>下一步 3：約時間聊需求</span>
             </div>
           </div>
           <Link to="/contact" className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
