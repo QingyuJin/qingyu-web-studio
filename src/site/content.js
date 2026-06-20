@@ -2,7 +2,8 @@ export const siteUrl = "https://www.qingyuweb.com"
 
 export const contact = {
   email: "a0988874324@gmail.com",
-  line: "LINE 聯絡：請先用 Email 留下你的 LINE ID、服務內容與想做的功能，我會回覆加好友方式。",
+  lineId: "a0988874324",
+  line: "目前先提供 LINE ID 複製與 Email 聯絡。你可以把產業、想做的功能、預算區間與希望上線時間一起傳給我。",
   github: "https://github.com/QingyuJin/qingyu-web-studio",
 }
 

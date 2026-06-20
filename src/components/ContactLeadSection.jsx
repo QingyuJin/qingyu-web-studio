@@ -1,28 +1,40 @@
-import { useState } from "react"
+import { useMemo, useState } from "react"
 import { createContactRequest } from "../lib/contactRequests"
 
 const initialForm = {
   name: "",
   contact: "",
-  company: "",
-  service_type: "接案流程系統方案",
+  service_type: "網站",
   budget_range: "",
   message: "",
 }
 
-const process = [
-  ["01", "釐清需求", "確認目標客群、轉換動線、資料來源與必備功能。"],
-  ["02", "快速原型", "先做可點、可填、可展示的版本，用真實畫面討論。"],
-  ["03", "上線優化", "補齊響應式、文案、SEO、效能與部署設定。"],
-]
+const serviceOptions = ["網站", "LINE Bot", "AI 工具", "小系統", "不確定"]
+const budgetOptions = ["還不確定", "NT$3,000-5,000", "NT$6,000-12,000", "NT$15,000-30,000", "NT$30,000 以上"]
 
 function ContactLeadSection() {
   const [form, setForm] = useState(initialForm)
   const [submitting, setSubmitting] = useState(false)
   const [message, setMessage] = useState("")
+  const [copied, setCopied] = useState(false)
+
+  const mailBody = useMemo(() => {
+    const lines = [
+      "你好，我想討論網站 / LINE Bot / AI 工具 / 小系統需求。",
+      `姓名 / 稱呼：${form.name || ""}`,
+      `聯絡方式：${form.contact || ""}`,
+      `想做的項目：${form.service_type || ""}`,
+      `預算區間：${form.budget_range || ""}`,
+      `需求描述：${form.message || ""}`,
+    ]
+
+    return encodeURIComponent(lines.join("\n"))
+  }, [form])
 
   function updateForm(field, value) {
     setForm((current) => ({ ...current, [field]: value }))
+    setMessage("")
+    setCopied(false)
   }
 
   async function handleSubmit(event) {
@@ -32,39 +44,65 @@ function ContactLeadSection() {
 
     const result = await createContactRequest({
       ...form,
-      source: "studio-home",
+      source: "contact-page",
       status: "new",
     })
 
     setSubmitting(false)
 
     if (!result.ok) {
-      setMessage(`送出失敗：${result.reason}`)
+      setMessage(`送出時遇到問題：${result.reason || "請稍後再試，或直接用 Email 聯絡我。"}`)
       return
     }
 
-    setForm(initialForm)
     setMessage(
       result.mode === "local"
-        ? "需求已先暫存在本機 Demo 後台。接上 Supabase 後會直接寫入資料庫。"
+        ? "已整理需求。這版會先暫存在本機 Demo，你也可以用下方按鈕把內容用 Email 傳給我。"
         : "需求已送出，我會盡快回覆。"
     )
   }
 
+  async function copySummary() {
+    const text = [
+      "Qingyu Web Studio 需求整理",
+      `姓名 / 稱呼：${form.name || "未填"}`,
+      `聯絡方式：${form.contact || "未填"}`,
+      `想做的項目：${form.service_type || "未填"}`,
+      `預算區間：${form.budget_range || "未填"}`,
+      `需求描述：${form.message || "未填"}`,
+    ].join("\n")
+
+    try {
+      await navigator.clipboard.writeText(text)
+      setCopied(true)
+      setMessage("已複製需求摘要，可以直接貼到 Email 或 LINE。")
+    } catch {
+      setMessage("瀏覽器不支援自動複製，請手動複製表單內容。")
+    }
+  }
+
+  function resetForm() {
+    setForm(initialForm)
+    setMessage("")
+    setCopied(false)
+  }
+
   return (
     <section id="contact" className="bg-[#172026] text-white">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.85fr_1.15fr] lg:items-start">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-            有想法就先做成能討論的版本
-          </h2>
+          <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">先聊聊需求</h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            留下目前最卡的流程，我會先幫你判斷適合做成形象網站、接案系統，還是後台 MVP。
+            你可以先不用想得很完整。告訴我你的服務、客戶來源與目前卡住的流程，我可以幫你判斷適合網站、LINE Bot、AI 工具還是小系統。
           </p>
 
           <div className="mt-8 grid gap-3">
-            {process.map(([no, title, text]) => (
+            {[
+              ["01", "留下需求", "簡單描述你想做的項目與目前狀況。"],
+              ["02", "判斷方向", "我會整理適合的網站、工具或後台流程。"],
+              ["03", "討論下一步", "確認功能範圍、預算級距與上線節奏。"],
+            ].map(([no, title, text]) => (
               <div
                 key={no}
                 className="grid gap-3 rounded-lg border border-white/12 bg-white/[0.07] p-4 sm:grid-cols-[3rem_1fr]"
@@ -91,40 +129,28 @@ function ContactLeadSection() {
               label="聯絡方式"
               value={form.contact}
               onChange={(value) => updateForm("contact", value)}
-              placeholder="LINE / Email / 電話"
+              placeholder="Email / LINE ID / 電話"
               required
             />
-            <Input
-              label="品牌或公司"
-              value={form.company}
-              onChange={(value) => updateForm("company", value)}
-              placeholder="可留空"
+            <Select
+              label="想做的項目"
+              value={form.service_type}
+              onChange={(value) => updateForm("service_type", value)}
+              options={serviceOptions}
             />
-            <label className="grid gap-2">
-              <span className="text-sm font-black text-[#d9e6e3]">想討論的方案</span>
-              <select
-                value={form.service_type}
-                onChange={(event) => updateForm("service_type", event.target.value)}
-                className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-sm font-bold text-white outline-none focus:border-[#f0c36a]"
-              >
-                <option>形象官網方案</option>
-                <option>接案流程系統方案</option>
-                <option>客製化後台 / MVP 方案</option>
-              </select>
-            </label>
-            <Input
-              label="預算範圍"
+            <Select
+              label="預算區間"
               value={form.budget_range}
               onChange={(value) => updateForm("budget_range", value)}
-              placeholder="例如：3-8 萬 / 先討論"
+              options={budgetOptions}
             />
             <label className="grid gap-2 sm:col-span-2">
-              <span className="text-sm font-black text-[#d9e6e3]">目前想解決的問題</span>
+              <span className="text-sm font-black text-[#d9e6e3]">需求描述</span>
               <textarea
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：客戶需求都在 LINE，很難追蹤報價與進度..."
+                placeholder="例如：我是咖啡店，想做一頁式網站、LINE 預約、菜單查詢，最好手機版好操作。"
                 className="min-h-32 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>
@@ -136,11 +162,35 @@ function ContactLeadSection() {
             </p>
           ) : null}
 
+          <div className="mt-5 grid gap-3 sm:grid-cols-3">
+            <button
+              type="submit"
+              disabled={submitting}
+              className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] transition hover:bg-[#ffd785] disabled:cursor-not-allowed disabled:opacity-60"
+            >
+              {submitting ? "整理中..." : "整理需求"}
+            </button>
+            <a
+              href={`mailto:a0988874324@gmail.com?subject=${encodeURIComponent("網站需求討論")}&body=${mailBody}`}
+              className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white transition hover:bg-white/10"
+            >
+              用 Email 傳送
+            </a>
+            <button
+              type="button"
+              onClick={copySummary}
+              className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white transition hover:bg-white/10"
+            >
+              {copied ? "已複製" : "複製摘要"}
+            </button>
+          </div>
+
           <button
-            disabled={submitting}
-            className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] hover:bg-[#ffd785]"
+            type="button"
+            onClick={resetForm}
+            className="mt-3 text-sm font-black text-[#d9e6e3] underline underline-offset-4 hover:text-white"
           >
-            {submitting ? "送出中..." : "送出需求"}
+            清空表單
           </button>
         </form>
       </div>
@@ -159,6 +209,23 @@ function Input({ label, value, onChange, placeholder = "", required = false }) {
         required={required}
         className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-sm font-bold text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
       />
+    </label>
+  )
+}
+
+function Select({ label, value, onChange, options }) {
+  return (
+    <label className="grid gap-2">
+      <span className="text-sm font-black text-[#d9e6e3]">{label}</span>
+      <select
+        value={value}
+        onChange={(event) => onChange(event.target.value)}
+        className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-sm font-bold text-white outline-none focus:border-[#f0c36a]"
+      >
+        {options.map((option) => (
+          <option key={option}>{option}</option>
+        ))}
+      </select>
     </label>
   )
 }

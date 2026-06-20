@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import ContactLeadSection from "../components/ContactLeadSection"
 import Seo from "./Seo"
@@ -17,7 +18,19 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
               {title}
             </h1>
             <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">{intro}</p>
-            {actions ? <div className="mt-7 flex flex-wrap gap-3">{actions}</div> : null}
+            {actions ? (
+              <div className="mt-7 flex flex-wrap gap-3">
+                {actions}
+                {page?.path?.startsWith("/works/") ? (
+                  <Link
+                    to="/contact"
+                    className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#0d6b62] bg-[#eef7f4] px-5 text-sm font-black text-[#0d6b62] transition hover:bg-[#dff1ec]"
+                  >
+                    找我做類似系統
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
           </div>
           {heroVisual ? <div>{heroVisual}</div> : null}
         </div>
@@ -691,25 +704,67 @@ export function FreeAuditPage() {
 }
 
 export function ContactPage() {
+  const [lineCopied, setLineCopied] = useState(false)
+
+  async function copyLineId() {
+    try {
+      await navigator.clipboard.writeText(contact.lineId)
+      setLineCopied(true)
+    } catch {
+      setLineCopied(true)
+    }
+  }
+
   return (
-    <PageShell page={seo.contact} title="先聊聊你的網站" intro="可以用 Email 或 LINE 說明你的服務、想做的功能、預算區間與希望上線時間。">
-      <section className="mx-auto grid max-w-6xl gap-5 px-4 py-16 md:grid-cols-[0.8fr_1.2fr]">
+    <PageShell
+      page={seo.contact}
+      title="先聊聊你的網站"
+      intro="先聊聊需求，我可以幫你判斷適合網站、LINE Bot、AI 工具還是小系統。你不需要先準備完整規格，先把目前卡住的流程說清楚就可以。"
+    >
+      <section className="mx-auto grid max-w-6xl gap-5 px-4 py-14 md:grid-cols-[0.82fr_1.18fr]">
         <Card>
           <h2 className="text-2xl font-black">聯絡方式</h2>
-          <a href={`mailto:${contact.email}`} className="mt-4 block text-lg font-black text-[#0d6b62]">{contact.email}</a>
-          <p className="mt-3 text-sm font-bold text-[#52605c]">{contact.line}</p>
-          <a href={`mailto:${contact.email}?subject=網站需求討論&body=你好，我想討論網站 / LINE Bot / AI 工具 / 小系統。%0A產業：%0A想做的功能：%0A預算區間：%0A希望上線時間：%0ALINE ID：`} className="mt-5 inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
+            你可以先用 Email 或 LINE ID 留下產業、想做的功能、預算區間與希望上線時間。
+          </p>
+          <a href={`mailto:${contact.email}`} className="mt-4 block text-lg font-black text-[#0d6b62]">
+            {contact.email}
+          </a>
+          <div className="mt-5 rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-4">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE ID</p>
+            <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+              <p className="text-xl font-black text-[#111c22]">{contact.lineId}</p>
+              <button
+                type="button"
+                onClick={copyLineId}
+                className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]"
+              >
+                {lineCopied ? "已複製 LINE ID" : "複製 LINE ID"}
+              </button>
+            </div>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
+          </div>
+          <a
+            href={`mailto:${contact.email}?subject=${encodeURIComponent("網站需求討論")}&body=${encodeURIComponent("你好，我想討論網站 / LINE Bot / AI 工具 / 小系統。\n產業：\n想做的功能：\n預算區間：\n希望上線時間：\nLINE ID：")}`}
+            className="mt-5 inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white transition hover:bg-[#0d6b62]"
+          >
             用 Email 開始討論
           </a>
         </Card>
         <Card>
-          <h2 className="text-2xl font-black">你可以先準備</h2>
-          <ul className="mt-4 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-            <li>・你的產業與服務內容</li>
-            <li>・想做網站、AI 工具、LINE Bot 或小系統</li>
-            <li>・目前卡住的流程或想改善的問題</li>
-            <li>・預算區間與希望上線時間</li>
+          <h2 className="text-2xl font-black">你可以先告訴我</h2>
+          <ul className="mt-4 grid gap-3 text-sm font-bold leading-7 text-[#52605c]">
+            <li>想做網站、LINE Bot、AI 工具、小系統，或還不確定。</li>
+            <li>你的產業、服務內容，以及客戶通常怎麼聯絡你。</li>
+            <li>目前最卡的流程：詢問、報價、預約、回覆、整理資料或後台管理。</li>
+            <li>預算區間與希望上線時間，方便我先判斷適合的做法。</li>
           </ul>
+          <div className="mt-5 rounded-lg bg-[#eef7f4] p-4">
+            <p className="text-sm font-black text-[#0d6b62]">CTA</p>
+            <p className="mt-1 text-sm font-bold leading-7 text-[#40504c]">
+              填下面的需求表單，或直接用 Email 傳送，我會用台灣小型網站與系統顧問的角度幫你整理方向。
+            </p>
+          </div>
         </Card>
       </section>
       <ContactLeadSection />
