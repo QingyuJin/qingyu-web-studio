@@ -564,6 +564,47 @@ function ProjectPlanner() {
         </aside>
       </section>
 
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-4 md:grid-cols-3">
+          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">適合對象</p>
+            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+              {["還不確定要做什麼的店家", "想導入 LINE Bot 的工作室", "需要 AI 工具或小型後台的團隊", "準備做作品集或形象網站的人"].map((item) => (
+                <li key={item}>・{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製什麼</p>
+            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+              {["診斷題目", "推薦規則", "AI Prompt", "Email / LINE 輸出格式"].map((item) => (
+                <li key={item}>・{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">建議使用情境</p>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
+              適合在第一次洽談前先整理身份、需求、功能、預算與上線時間，讓後續估價與規劃更快進入重點。
+            </p>
+          </div>
+        </div>
+        <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
+          <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
+          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
+            我可以先幫你判斷適合網站、LINE Bot、AI 工具還是小型後台。
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <a href="#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              開始需求診斷
+            </a>
+            <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              聯絡我
+            </Link>
+          </div>
+        </div>
+      </section>
+
       <section id="tech" className="scroll-mt-24 border-y border-[#e6e0d5] bg-[#f2efe7]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.85fr_1.15fr]">
           <div>

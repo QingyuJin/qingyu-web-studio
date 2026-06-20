@@ -57,7 +57,7 @@ function ContactLeadSection() {
 
     setMessage(
       result.mode === "local"
-        ? "已整理需求。這版會先暫存在本機 Demo，你也可以用下方按鈕把內容用 Email 傳給我。"
+        ? "已整理需求，請透過 Email 傳送給我。"
         : "需求已送出，我會盡快回覆。"
     )
   }
