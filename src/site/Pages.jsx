@@ -187,7 +187,20 @@ export function WorksPage() {
     visuals: ["5-step form", "Recommendation UI", "AI plan"],
     demo: ["需求表單", "快速建議", "AI 完整規劃"],
   }
-  const workCards = [...projects, plannerProject]
+  const rescueProject = {
+    slug: "website-rescue",
+    title: "網站救援小遊戲",
+    category: "互動工具",
+    summary: "修復問題網站，體驗 CTA、SEO、手機版與信任感如何拉高成交分數。",
+    livePath: "/tools/website-rescue#demo",
+    liveLabel: "開始遊玩",
+    secondaryPath: "/tools/website-rescue#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "State Machine", "Scoring UI", "Conversion CTA"],
+    visuals: ["Score UI", "Before / After", "Result Report"],
+    demo: ["問題清單", "修正選項", "改善報告"],
+  }
+  const workCards = [...projects, plannerProject, rescueProject]
 
   return (
     <PageShell page={seo.works} title="作品案例" intro="精選網站、LINE Bot、AI 工具與後台系統 Demo，展示從前端畫面到資料流程的完整製作能力。">
@@ -207,7 +220,7 @@ export function WorksPage() {
               <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
               <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
               <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
-                {workBusinessValues[project.slug]}
+                {workBusinessValues[project.slug] || "用遊戲化體驗讓客戶看懂網站優化價值。"}
               </p>
               <div className="mt-4">
                 <Tags items={project.tags.slice(0, 4)} />

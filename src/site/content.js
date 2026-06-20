@@ -44,6 +44,11 @@ export const seo = {
     title: "網站需求診斷工具｜Qingyu Web Studio",
     description: "用互動式診斷工具判斷你的需求適合網站、作品集、LINE Bot、AI 工具或小型系統，並產生建議方案與技術方向。",
   },
+  websiteRescue: {
+    path: "/tools/website-rescue",
+    title: "網站救援小遊戲｜互動式網站健檢 Demo｜Qingyu Web Studio",
+    description: "透過互動小遊戲修復網站 CTA、SEO、手機版與信任感問題，體驗網站優化如何提升成交分數。",
+  },
 }
 
 export const serviceCategories = [

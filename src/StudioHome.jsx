@@ -16,7 +16,18 @@ function StudioHome() {
     secondaryLabel: "技術拆解",
     tags: ["Rule-based", "OpenAI optional", "Vercel API", "Recommendation UI"],
   }
-  const featuredCards = [...featuredProjects, plannerCard]
+  const rescueCard = {
+    slug: "website-rescue",
+    title: "網站救援小遊戲",
+    category: "互動工具",
+    summary: "修復一個問題網站，看看 CTA、SEO、手機版與信任感如何影響分數。",
+    livePath: "/tools/website-rescue#demo",
+    liveLabel: "開始遊玩",
+    secondaryPath: "/tools/website-rescue#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "State Machine", "Scoring UI", "Conversion CTA"],
+  }
+  const featuredCards = [...featuredProjects, plannerCard, rescueCard]
   const businessValues = {
     "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
     linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
@@ -93,7 +104,7 @@ function StudioHome() {
               <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
               <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
               <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
-                {businessValues[project.slug]}
+                {businessValues[project.slug] || "用遊戲化體驗讓客戶看懂網站優化價值。"}
               </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {project.tags.slice(0, 4).map((tag) => (
@@ -129,7 +140,7 @@ function StudioHome() {
               {featuredCards.map((project) => (
                 <Link
                   key={project.slug}
-                  to={project.slug === "project-planner" ? "/tools/project-planner" : `/works/${project.slug}`}
+                  to={project.slug === "project-planner" ? "/tools/project-planner" : project.slug === "website-rescue" ? "/tools/website-rescue" : `/works/${project.slug}`}
                   className="rounded-lg border border-[#ded8cb] bg-white p-3 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
                 >
                   <span className="block text-xs text-[#0d6b62]">{project.category}</span>
@@ -300,6 +311,7 @@ function ProjectPreview({ project }) {
   const isXinjiang = project.slug === "xinjiang"
   const isQingyu = project.slug === "qingyu-web"
   const isPlanner = project.slug === "project-planner"
+  const isRescue = project.slug === "website-rescue"
 
   return (
     <div className="mb-5 min-h-52 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
@@ -403,6 +415,25 @@ function ProjectPreview({ project }) {
           </div>
           <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
             {["5 步驟", "AI 規劃", "Contact CTA"].map((item) => (
+              <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : isRescue ? (
+        <div className="mt-4 grid gap-3">
+          <div className="rounded-xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
+            <div className="flex items-center justify-between gap-3 text-xs font-black">
+              <span>網站分數</span>
+              <span className="text-[#8fd6cc]">42 → 92</span>
+            </div>
+            <div className="mt-3 h-2 rounded-full bg-white/15">
+              <div className="h-full w-[82%] rounded-full bg-[#8fd6cc]" />
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
+            {["CTA", "SEO", "手機版"].map((item) => (
               <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
                 {item}
               </span>

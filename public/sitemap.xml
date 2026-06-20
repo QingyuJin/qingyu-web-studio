@@ -52,4 +52,8 @@
     <loc>https://www.qingyuweb.com/tools/project-planner</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.qingyuweb.com/tools/website-rescue</loc>
+    <priority>0.7</priority>
+  </url>
 </urlset>
