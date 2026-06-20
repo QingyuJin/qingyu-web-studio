@@ -1,4 +1,5 @@
 import { Link, useParams } from "react-router-dom"
+import ContactLeadSection from "../components/ContactLeadSection"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 import WorkDemoPanel from "./WorkDemoPanels"
@@ -163,10 +164,10 @@ export function WorkDetailPage() {
         isLineBotProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              模擬對話
+              前往對話 Demo
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看後台
+              查看後台 Demo
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -175,10 +176,10 @@ export function WorkDetailPage() {
         ) : isBuildFlowProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              新增案件 Demo
+              前往 Demo 操作台
             </Link>
-            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看報價單
+            <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              看鑫匠案例
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -199,10 +200,10 @@ export function WorkDetailPage() {
         ) : isApiAutomationProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              送出表單 Demo
+              前往表單 Demo
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看 API Payload
+              查看 API Demo
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -697,6 +698,9 @@ export function ContactPage() {
           <h2 className="text-2xl font-black">聯絡方式</h2>
           <a href={`mailto:${contact.email}`} className="mt-4 block text-lg font-black text-[#0d6b62]">{contact.email}</a>
           <p className="mt-3 text-sm font-bold text-[#52605c]">{contact.line}</p>
+          <a href={`mailto:${contact.email}?subject=網站需求討論&body=你好，我想討論網站 / LINE Bot / AI 工具 / 小系統。%0A產業：%0A想做的功能：%0A預算區間：%0A希望上線時間：%0ALINE ID：`} className="mt-5 inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            用 Email 開始討論
+          </a>
         </Card>
         <Card>
           <h2 className="text-2xl font-black">你可以先準備</h2>
@@ -708,6 +712,7 @@ export function ContactPage() {
           </ul>
         </Card>
       </section>
+      <ContactLeadSection />
     </PageShell>
   )
 }
