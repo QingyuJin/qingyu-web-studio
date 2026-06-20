@@ -482,7 +482,7 @@ export function WorkDetailPage() {
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Architecture</p>
                 <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
-                  LINE User → LINE Platform → /api/line-webhook → OpenAI / Mock → LINE Reply → Dashboard
+                  LINE User → LINE Platform → /api/line-webhook → OpenAI / Demo → LINE Reply → Dashboard
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Demo 模式"].map((item) => (
@@ -500,7 +500,7 @@ export function WorkDetailPage() {
                   Case List → Case Detail → Status Update → LINE Report Timeline → Photo / Quote Modal
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["React / Tailwind", "Case Status Management", "Dashboard UI", "LINE 回報 mock", "Supabase-ready", "報價單 PDF future"].map((item) => (
+                  {["React / Tailwind", "Case Status Management", "Dashboard UI", "LINE 回報", "Supabase-ready", "報價單 PDF future"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -530,7 +530,7 @@ export function WorkDetailPage() {
                   客戶表單 → 資料檢查 → 需求建立 → 通知紀錄 → 後台追蹤
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["React / Tailwind", "Vercel Serverless Function", "Request Body Check", "JSON Payload", "Mock Notification", "React State UI"].map((item) => (
+                  {["React / Tailwind", "Vercel Serverless Function", "Request Body Check", "JSON Payload", "通知流程", "React State UI"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -586,41 +586,28 @@ export function WorkDetailPage() {
             </ul>
           </Card>
         </div>
-        <div className="mt-10">
-          <h2 className="text-3xl font-black">這個 Demo 可以怎麼用在你的服務？</h2>
-          <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-[#52605c]">
-            Demo 不是只看功能，而是先把你的客戶來源、服務流程與後續追蹤整理成能成交的路徑。
-          </p>
-        </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <Card>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">適合對象</p>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-              {conversionProfile.audience.map((item) => (
-                <li key={item}>・{item}</li>
-              ))}
-            </ul>
-          </Card>
-          <Card>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製的功能</p>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-              {conversionProfile.custom.map((item) => (
-                <li key={item}>・{item}</li>
-              ))}
-            </ul>
-          </Card>
-          <Card>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以解決的問題</p>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-              {conversionProfile.problems.map((item) => (
-                <li key={item}>・{item}</li>
-              ))}
-            </ul>
-          </Card>
-          <Card>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">下一步建議</p>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{conversionProfile.next}</p>
-          </Card>
+        <div className="mt-10 rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Use Case</p>
+              <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
+            </div>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
+              先看 Demo，再把你的流程改成可上線的版本。
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["適合誰", conversionProfile.audience.slice(0, 2).join("、")],
+              ["能做什麼", conversionProfile.custom.slice(0, 2).join("、")],
+              ["下一步", conversionProfile.next],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+                <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+              </div>
+            ))}
+          </div>
         </div>
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
@@ -676,7 +663,7 @@ function HeroPreview({ project }) {
               </div>
               <p className="mt-3 text-xs font-bold leading-5 text-[#52605c]">來源 LINE · 建議方案：LINE Bot + 表單 + 小型後台</p>
             </div>
-            <HeroPreviewList items={["Webhook 接收", "Signature Verify", "OpenAI / Mock Reply", "Dashboard Saved"]} />
+            <HeroPreviewList items={["Webhook 接收", "Signature Verify", "AI 回覆", "Dashboard Saved"]} />
           </div>
         </div>
       ) : isBuildFlow ? (
@@ -702,7 +689,7 @@ function HeroPreview({ project }) {
               ))}
             </div>
           </div>
-          <HeroPreviewList items={["案件列表 + 狀態", "現場照片 mock", "報價單 Preview", "LINE 回報可複製"]} />
+          <HeroPreviewList items={["案件列表 + 狀態", "現場照片", "報價單 Preview", "LINE 回報可複製"]} />
         </div>
       ) : isAudit ? (
         <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">

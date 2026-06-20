@@ -532,7 +532,7 @@ function ProjectPlanner() {
                 <h3 className="mt-2 text-2xl font-black">{aiPlan ? aiPlan.recommendedPackage : "等待產生 AI 規劃"}</h3>
               </div>
               <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">
-                {aiPlan ? aiPlan.estimatedComplexity : "API / Mock"}
+                {aiPlan ? aiPlan.estimatedComplexity : "API / Demo"}
               </span>
             </div>
             {aiLoading ? (
@@ -554,7 +554,7 @@ function ProjectPlanner() {
               </div>
             ) : (
               <p className="mt-4 text-sm font-bold leading-7 text-white/70">
-                完成左側診斷後，可以用 AI 顧問模式產生更完整的功能、技術、時程與風險建議。沒有後端 AI 金鑰時會自動使用 mock plan。
+                完成左側診斷後，可以用 AI 顧問模式產生更完整的功能、技術、時程與風險建議。沒有後端 AI 金鑰時會自動使用 Demo 規劃。
               </p>
             )}
           </div>
@@ -565,42 +565,27 @@ function ProjectPlanner() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div>
-          <h2 className="text-3xl font-black">這個 Demo 可以怎麼用在你的服務？</h2>
-          <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-[#52605c]">
-            需求診斷不是只做表單，而是幫客戶先整理自己到底需要網站、LINE Bot、AI 工具還是小型後台。
-          </p>
-        </div>
-        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">適合對象</p>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-              {["還不確定要做什麼的店家", "想導入 LINE Bot 的工作室", "需要 AI 工具或小型後台的團隊", "準備做作品集或形象網站的人"].map((item) => (
-                <li key={item}>・{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製的功能</p>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-              {["診斷題目", "推薦規則", "AI Prompt", "Email / LINE 輸出格式"].map((item) => (
-                <li key={item}>・{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以解決的問題</p>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
-              {["客戶不知道該買哪種服務", "第一次洽談資訊太分散", "需求、預算、時程沒有先整理"].map((item) => (
-                <li key={item}>・{item}</li>
-              ))}
-            </ul>
-          </div>
-          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">下一步建議</p>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-              先用診斷工具產生初步方向，再帶著結果到 Contact 頁討論實際做法。
+        <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Use Case</p>
+              <h2 className="mt-2 text-2xl font-black">診斷結果可以怎麼用？</h2>
+            </div>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
+              先整理方向，再決定要做網站、LINE Bot、AI 工具或小後台。
             </p>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["適合誰", "店家、工作室、個人品牌"],
+              ["能做什麼", "分類需求、整理功能、產生建議"],
+              ["下一步", "帶著結果到 Contact 頁討論實作"],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+              </div>
+            ))}
           </div>
         </div>
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
@@ -635,7 +620,7 @@ function ProjectPlanner() {
               ["API", "Vercel Serverless Function"],
               ["AI", "OpenAI API optional"],
               ["Prompt Flow", "台灣網站與小系統顧問語氣"],
-              ["Fallback", "Mock Plan"],
+              ["Fallback", "Demo Plan"],
               ["State UI", "React State UI"],
               ["Future", "OpenAI API 可升級成 AI 顧問"],
               ["Deploy", "Vercel"],

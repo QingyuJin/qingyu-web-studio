@@ -40,9 +40,9 @@ function StudioHome() {
             <p className="mt-6 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
               我協助台灣個人品牌、小型店家、工作室與學生，製作乾淨好懂的網站、互動功能、LINE Bot、AI 工具與簡易管理系統。
             </p>
-            <p className="mt-4 max-w-2xl rounded-xl border border-[#e3ded3] bg-[#faf8f3] px-4 py-3 text-sm font-black leading-7 text-[#40504c]">
+            <div className="mt-5 inline-flex max-w-full rounded-full border border-[#d8e2dc] bg-[#f5faf7] px-4 py-2 text-sm font-black text-[#0d6b62]">
               不只做網站，也能把表單、LINE、AI、API 與後台流程接起來。
-            </p>
+            </div>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
                 看作品

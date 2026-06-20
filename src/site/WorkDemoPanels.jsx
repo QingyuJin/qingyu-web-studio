@@ -136,7 +136,7 @@ export function LegacyAiAuditDemo() {
       if (!response.ok && !data.fallback) throw new Error(data.error || "分析失敗")
       setReport(data.fallback || data)
     } catch (requestError) {
-      setError(requestError.message || "AI 暫時無法分析，已保留 mock report。")
+      setError(requestError.message || "AI 暫時無法分析，已保留範例報告。")
     } finally {
       setLoading(false)
     }
@@ -172,7 +172,7 @@ export function LegacyAiAuditDemo() {
   }
 
   return (
-    <Shell title="AI 網站健檢工具" desc="前端送到 /api/ai-audit，由 serverless function 呼叫 OpenAI；沒有 key 時自動回 mock report。">
+    <Shell title="AI 網站健檢工具" desc="輸入網站或需求後，產生首頁文案、CTA、SEO 與信任感建議。">
       <div className="grid gap-4 lg:grid-cols-[0.86fr_1.14fr]">
         <MiniCard title="Input｜網址 / 需求輸入">
           <div className="mb-3 grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#52605c]">
@@ -399,7 +399,7 @@ function AiAuditProductDemo() {
       })
       const data = await response.json().catch(() => null)
       setReport(normalizeAiAuditReport(response.ok ? data : null))
-      if (!response.ok) setError("API 暫時無法分析，已顯示 Demo mock 報告。")
+      if (!response.ok) setError("API 暫時無法分析，已顯示 Demo 範例報告。")
     } catch {
       setReport(cleanAiAuditFallback)
       setError("目前沒有連線到 AI 服務，已使用 Demo 示範資料。")
@@ -519,7 +519,7 @@ function AiAuditProductDemo() {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
-                    {displayedReport.source === "openai" ? "OpenAI result" : "Mock result"}
+                    {displayedReport.source === "openai" ? "OpenAI result" : "Demo result"}
                   </span>
                   <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/70">{industry}</span>
                   <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/70">{goal}</span>
@@ -663,14 +663,14 @@ export function LegacyLineBotDemo() {
         ok: true,
         message: data?.message || "LINE webhook endpoint ready",
         openAI: data?.modes?.openAI || "Demo 回覆模式",
-        line: data?.modes?.line || "webhook mock mode",
+        line: data?.modes?.line || "Demo webhook 模式",
       })
     } catch (error) {
       setWebhookStatus({
         ok: false,
         message: error.message || "Webhook health check failed",
         openAI: "Demo 回覆模式",
-        line: "webhook mock mode",
+        line: "Demo webhook 模式",
       })
     } finally {
       setWebhookLoading(false)
@@ -678,7 +678,7 @@ export function LegacyLineBotDemo() {
   }
 
   return (
-    <Shell title="LINE Bot 詢價 / 預約系統" desc="用前端 mock 展示 LINE 對話、Webhook 流程、AI 回覆與後台收件，不會在前端放 LINE token。">
+    <Shell title="LINE Bot 詢價 / 預約系統" desc="展示客戶在 LINE 留需求後，如何整理成後台案件與追蹤狀態。">
       <div className="grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
         <MiniCard title="LINE 手機對話 mockup">
           <div className="mx-auto max-w-sm overflow-hidden rounded-[2rem] border border-[#b6d8ca] bg-[#e9f4ee] shadow-inner">
@@ -1111,7 +1111,7 @@ function LineBotProductDemo() {
               ))}
             </div>
             <div className="mt-4 overflow-x-auto rounded-xl bg-[#111c22] p-4 text-xs font-black text-white">
-              LINE User → LINE Platform → /api/line-webhook → OpenAI / Mock → LINE Reply → Dashboard
+              LINE User → LINE Platform → /api/line-webhook → OpenAI / Demo → LINE Reply → Dashboard
             </div>
           </MiniCard>
         </div>
@@ -1477,7 +1477,7 @@ function BuildFlowDemo() {
     setShowQuote(false)
     setApiMode("Demo 模式")
     setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
-    setApiError("Demo 已重置為前端 mock 初始資料。")
+    setApiError("Demo 已重置為初始資料。")
     setLastLineMessage(lineMessageByStatus["待估價"])
   }
 
@@ -2157,7 +2157,7 @@ function ApiAutomationDemo() {
                   <p>通知狀態：{detailLead.notificationStatus}</p>
                   <p>API 狀態：{detailLead.apiStatus}</p>
                   <p>{detailLead.apiMessage}</p>
-                  <p>Mock Notification Log：LINE / Email optional 已模擬送出。</p>
+                  <p>通知紀錄：LINE / Email optional 已模擬送出。</p>
                   <p>後台：已新增 lead 並標記待追蹤。</p>
                 </div>
               </MiniCard>
