@@ -357,7 +357,7 @@ function ProjectPlanner() {
             <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
               網站需求診斷
             </h1>
-            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">
+            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">
               不知道該做網站、LINE Bot、AI 工具還是小系統？回答幾個問題，我會幫你整理適合的方案、功能與技術方向。
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
@@ -390,7 +390,7 @@ function ProjectPlanner() {
             <div className="mt-5 rounded-xl bg-white p-4 text-[#111c22]">
               <p className="text-xs font-black text-[#0d6b62]">Preview</p>
               <p className="mt-2 text-lg font-black">{previewResult.planName}</p>
-              <p className="mt-2 text-xs font-bold leading-5 text-[#52605c]">{previewResult.direction}</p>
+              <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-[#52605c]">{previewResult.direction}</p>
             </div>
           </div>
         </div>
@@ -594,9 +594,9 @@ function ProjectPlanner() {
             我可以先幫你判斷適合網站、LINE Bot、AI 工具還是小型後台。
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
-            <a href="#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               開始需求診斷
-            </a>
+            </button>
             <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               找我做類似系統
             </Link>

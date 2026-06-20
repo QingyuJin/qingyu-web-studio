@@ -17,7 +17,7 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
             <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
               {title}
             </h1>
-            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c]">{intro}</p>
+            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">{intro}</p>
             {actions ? (
               <div className="mt-7 flex flex-wrap gap-3">
                 {actions}
@@ -83,12 +83,12 @@ function WorkPreview({ project }) {
   const meta = previewMeta[project.slug] || { status: "Live", metric: "Demo", summary: project.category }
 
   return (
-    <div className="mb-5 rounded-xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
+    <div className="mb-5 min-h-56 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
       <div className="flex items-center justify-between gap-3">
         <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Product Mockup</span>
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{meta.status}</span>
       </div>
-      <div className="mt-4 rounded-xl bg-[#111c22] p-3 text-white">
+      <div className="mt-4 rounded-2xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm font-black">{project.title}</p>
           <span className="text-xs font-black text-[#8fd6cc]">{meta.metric}</span>
@@ -205,7 +205,7 @@ export function WorksPage() {
               <WorkPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
+              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
               <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
                 {workBusinessValues[project.slug]}
               </p>
@@ -640,9 +640,9 @@ function HeroPreview({ project }) {
   const isQingyuWeb = project.slug === "qingyu-web"
 
   return (
-    <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-xl shadow-[#111c22]/10 md:p-5">
+    <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-2xl shadow-[#111c22]/15 md:p-5">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
-        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Live Product Preview</span>
+        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Product Preview</span>
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Demo-ready</span>
       </div>
 
@@ -908,27 +908,27 @@ export function ContactPage() {
   }
 
   return (
-    <PageShell
-      page={seo.contact}
-      title="先聊聊你的網站"
-      intro="先聊聊需求，我可以幫你判斷適合網站、LINE Bot、AI 工具還是小系統。你不需要先準備完整規格，先把目前卡住的流程說清楚就可以。"
-    >
-      <section className="mx-auto grid max-w-6xl gap-5 px-4 py-14 md:grid-cols-[0.82fr_1.18fr]">
-        <Card>
-          <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
-          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            可以先傳「產業、想做的功能、預算、希望上線時間」給我，我會幫你判斷適合網站、LINE Bot、AI 工具還是小型系統。
-          </p>
-          <div className="mt-4 rounded-lg border border-[#e3ded3] bg-white p-4">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Email</p>
-            <a href={`mailto:${contact.email}`} className="mt-2 block break-words text-lg font-black text-[#0d6b62]">
-              {contact.email}
-            </a>
-          </div>
-          <div className="mt-5 rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-4">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE</p>
-            <p className="mt-2 text-xl font-black text-[#111c22]">LINE：{contact.lineId}</p>
-            <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
+      <PageShell
+        page={seo.contact}
+        title="先聊聊你的網站"
+        intro="把產業、想做的功能、預算與時程先丟給我，我會幫你判斷適合網站、LINE Bot、AI 工具還是小系統。"
+      >
+        <section className="mx-auto grid max-w-6xl gap-5 px-4 py-14 md:grid-cols-[0.82fr_1.18fr]">
+          <Card>
+            <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
+          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">可以先傳產業、功能、預算與希望上線時間。</p>
+          <div className="mt-5 grid gap-3">
+            <div className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE</p>
+              <p className="mt-2 text-2xl font-black text-[#111c22]">{contact.lineId}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
+            </div>
+            <div className="rounded-2xl border border-[#e3ded3] bg-white p-4">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Email</p>
+              <a href={`mailto:${contact.email}`} className="mt-2 block break-words text-lg font-black text-[#0d6b62]">
+                {contact.email}
+              </a>
+            </div>
           </div>
           <div className="mt-5 flex flex-wrap gap-3">
             <button
@@ -954,18 +954,18 @@ export function ContactPage() {
           </div>
         </Card>
         <Card>
-          <h2 className="text-2xl font-black">你可以先告訴我</h2>
-          <ul className="mt-4 grid gap-3 text-sm font-bold leading-7 text-[#52605c]">
-            <li>想做網站、LINE Bot、AI 工具、小系統，或還不確定。</li>
-            <li>你的產業、服務內容，以及客戶通常怎麼聯絡你。</li>
-            <li>目前最卡的流程：詢問、報價、預約、回覆、整理資料或後台管理。</li>
-            <li>預算區間與希望上線時間，方便我先判斷適合的做法。</li>
-          </ul>
-          <div className="mt-5 rounded-lg bg-[#eef7f4] p-4">
-            <p className="text-sm font-black text-[#0d6b62]">CTA</p>
-            <p className="mt-1 text-sm font-bold leading-7 text-[#40504c]">
-              填下面的需求表單，或直接用 Email 傳送，我會用台灣小型網站與系統顧問的角度幫你整理方向。
-            </p>
+          <h2 className="text-2xl font-black">先給我三件事</h2>
+          <div className="mt-5 grid gap-3">
+            {[
+              ["你是誰", "店家、工作室、學生或個人品牌"],
+              ["想做什麼", "網站、LINE Bot、AI 工具或小系統"],
+              ["卡在哪裡", "詢問、報價、預約、回覆或後台整理"],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+              </div>
+            ))}
           </div>
         </Card>
       </section>

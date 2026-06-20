@@ -37,10 +37,10 @@ function StudioHome() {
             <h1 className="mt-5 max-w-2xl text-[clamp(2.55rem,8vw,5rem)] font-black leading-[1.02] tracking-tight">
               讓你的服務被看懂
             </h1>
-            <p className="mt-6 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
+            <p className="mt-6 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg md:line-clamp-2">
               我協助台灣個人品牌、小型店家、工作室與學生，製作乾淨好懂的網站、互動功能、LINE Bot、AI 工具與簡易管理系統。
             </p>
-            <div className="mt-5 inline-flex max-w-full rounded-full border border-[#d8e2dc] bg-[#f5faf7] px-4 py-2 text-sm font-black text-[#0d6b62]">
+            <div className="mt-5 inline-flex max-w-full rounded-full border border-[#d8e2dc] bg-[#f5faf7] px-4 py-2 text-sm font-black text-[#0d6b62] shadow-sm">
               不只做網站，也能把表單、LINE、AI、API 與後台流程接起來。
             </div>
             <div className="mt-8 flex flex-wrap gap-3">
@@ -64,14 +64,14 @@ function StudioHome() {
           {serviceCategories.map(([title, text]) => (
             <article key={title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
               <h3 className="text-lg font-black">{title}</h3>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
+              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
             </article>
           ))}
         </div>
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5 md:flex md:items-center md:justify-between">
           <div>
             <h3 className="text-xl font-black">不知道要做哪種網站？</h3>
-            <p className="mt-2 max-w-2xl text-sm font-bold leading-7 text-[#5a6461]">
+            <p className="mt-2 max-w-2xl text-sm font-bold leading-7 text-[#5a6461] md:line-clamp-2">
               用 1 分鐘回答幾個問題，我會幫你判斷適合品牌網站、作品集、LINE Bot、AI 工具還是小型系統。
             </p>
           </div>
@@ -91,7 +91,7 @@ function StudioHome() {
               <ProjectPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
+              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
               <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
                 {businessValues[project.slug]}
               </p>
@@ -166,7 +166,7 @@ function StudioHome() {
             <article key={num} className="rounded-xl border border-[#e3ded3] bg-white p-5">
               <p className="text-xs font-black text-[#0d6b62]">{num}</p>
               <h3 className="mt-3 text-xl font-black">{title}</h3>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
+              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
             </article>
           ))}
         </div>
@@ -186,7 +186,7 @@ function StudioHome() {
         <div className="mx-auto max-w-6xl px-4 py-16">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Pricing</p>
           <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">價格依需求估</h2>
-          <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-[#5a6461]">
+          <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-[#5a6461] md:line-clamp-2">
             不在首頁主打廉價。小型網站可從基礎方案開始，系統與 AI 工具依功能和資料流程估價。
           </p>
           <div className="mt-8 grid gap-4 md:grid-cols-3">
@@ -194,7 +194,7 @@ function StudioHome() {
               <article key={name} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5">
                 <h3 className="text-xl font-black">{name}</h3>
                 <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
-                <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
+                <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
               </article>
             ))}
           </div>
@@ -238,24 +238,54 @@ function Section({ eyebrow, title, children }) {
 
 function QuietMockup() {
   return (
-    <div className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
-      <div className="rounded-xl border border-[#e3ded3] bg-white p-4">
-        <div className="flex items-center justify-between border-b border-[#eee9df] pb-3">
-          <span className="text-xs font-black text-[#0d6b62]">Project preview</span>
-          <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">RWD</span>
+    <div className="rounded-[1.75rem] border border-[#e3ded3] bg-[#faf8f3] p-3 shadow-2xl shadow-[#111c22]/10 md:p-4">
+      <div className="overflow-hidden rounded-[1.35rem] border border-[#d8d2c5] bg-white">
+        <div className="flex items-center justify-between border-b border-[#eee9df] px-4 py-3">
+          <div className="flex gap-1.5">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ffb4a2]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#ffd166]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#8fd6cc]" />
+          </div>
+          <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">Live System</span>
         </div>
-        <div className="mt-5 space-y-3">
-          {["品牌網站", "LINE Bot", "AI 工具", "Dashboard UI"].map((item, index) => (
-            <div key={item} className="rounded-lg border border-[#eee9df] bg-[#faf8f3] p-3">
-              <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-black">{item}</p>
-                <span className="text-xs font-black text-[#0d6b62]">0{index + 1}</span>
-              </div>
-              <div className="mt-2 h-1.5 overflow-hidden rounded-full bg-[#e4e9e6]">
-                <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${48 + index * 13}%` }} />
-              </div>
+        <div className="grid gap-3 p-4">
+          <div className="rounded-2xl bg-[#111c22] p-4 text-white">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black">LINE 詢問</p>
+              <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-[#8fd6cc]">parsed</span>
             </div>
-          ))}
+            <div className="mt-4 grid gap-2 text-xs font-black">
+              {["客戶傳照片", "想看報價", "已整理成 q-001"].map((item, index) => (
+                <div key={item} className={`rounded-xl px-3 py-2 ${index === 1 ? "ml-auto bg-[#0d6b62] text-white" : "bg-white/10 text-white/84"}`}>
+                  {item}
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-2xl border border-[#eee9df] bg-[#faf8f3] p-4">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-black">q-001 案件</p>
+                <span className="text-xs font-black text-[#0d6b62]">75%</span>
+              </div>
+              <div className="mt-3 h-2 rounded-full bg-[#e4e9e6]">
+                <div className="h-full w-3/4 rounded-full bg-[#0d6b62]" />
+              </div>
+              <p className="mt-3 text-xs font-black text-[#52605c]">施工回報中</p>
+            </div>
+            <div className="rounded-2xl border border-[#eee9df] bg-white p-4">
+              <p className="text-sm font-black">AI 分析</p>
+              <p className="mt-2 text-2xl font-black text-[#0d6b62]">79.26%</p>
+              <p className="mt-1 text-xs font-black text-[#52605c]">CSV / 題庫 / 影像</p>
+            </div>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {["LINE Bot", "Supabase", "Webhook", "Vercel", "RWD"].map((item) => (
+              <span key={item} className="rounded-full border border-[#e1dbcf] bg-white px-3 py-1 text-[11px] font-black text-[#40504c]">
+                {item}
+              </span>
+            ))}
+          </div>
         </div>
       </div>
     </div>
@@ -272,15 +302,15 @@ function ProjectPreview({ project }) {
   const isPlanner = project.slug === "project-planner"
 
   return (
-    <div className="mb-5 min-h-44 rounded-lg border border-[#e6e0d5] bg-[#faf8f3] p-4">
+    <div className="mb-5 min-h-52 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
       <div className="flex items-center justify-between gap-3">
         <span className="text-xs font-black text-[#0d6b62]">{project.category}</span>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#53605d]">Preview</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#53605d]">Demo Preview</span>
       </div>
 
       {isBuildFlow ? (
         <div className="mt-4 space-y-3">
-          <div className="rounded-lg bg-[#111c22] p-3 text-white">
+          <div className="rounded-xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
             <div className="flex items-center justify-between gap-3 text-xs font-black">
               <span>q-001 工程案件</span>
               <span className="text-[#8fd6cc]">75%</span>
@@ -325,7 +355,7 @@ function ProjectPreview({ project }) {
               </span>
             ))}
           </div>
-          <div className="rounded-lg bg-[#111c22] p-3 text-xs font-black text-white">
+          <div className="rounded-xl bg-[#111c22] p-4 text-xs font-black text-white shadow-lg shadow-[#111c22]/10">
             <div className="flex justify-between">
               <span>Status</span>
               <span className="text-[#8fd6cc]">synced</span>
@@ -362,7 +392,7 @@ function ProjectPreview({ project }) {
         </div>
       ) : isPlanner ? (
         <div className="mt-4 grid gap-3">
-          <div className="rounded-lg bg-[#111c22] p-3 text-white">
+          <div className="rounded-xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
             <div className="flex items-center justify-between gap-3 text-xs font-black">
               <span>推薦方案</span>
               <span className="text-[#8fd6cc]">LINE Bot 詢價</span>
