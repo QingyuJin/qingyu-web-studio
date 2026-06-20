@@ -250,8 +250,8 @@ export function WorkDetailPage() {
           </>
         ) : isXinjiangProject ? (
           <>
-            <Link to="/contractor-site" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看鑫匠網站
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
             </Link>
             <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看 BuildFlow 系統
@@ -265,8 +265,8 @@ export function WorkDetailPage() {
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               查看互動 Demo
             </Link>
-            <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              聯絡我
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
             </Link>
           </>
         )
