@@ -167,7 +167,7 @@ export function LegacyAiAuditDemo() {
       const data = await response.json()
       setChatMessages([...nextMessages, { role: "assistant", content: data.reply || "目前先用 Demo 回覆，請稍後再試。" }])
     } catch {
-      setChatMessages([...nextMessages, { role: "assistant", content: "AI 助理暫時無法連線，這裡先顯示 Demo fallback 回覆。" }])
+      setChatMessages([...nextMessages, { role: "assistant", content: "AI 助理暫時無法連線，這裡先顯示 Demo 示範回覆。" }])
     }
   }
 
@@ -212,7 +212,7 @@ export function LegacyAiAuditDemo() {
                 <p className="mt-1 text-sm font-bold text-white/65">{report.summary}</p>
               </div>
               <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
-                {report.source === "openai" ? "OpenAI" : "Mock fallback"}
+                {report.source === "openai" ? "OpenAI" : "Demo 模式"}
               </span>
             </div>
           </MiniCard>
@@ -283,7 +283,7 @@ function findReportSuggestion(sections, label) {
 }
 
 const cleanAiAuditFallback = {
-  source: "mock_fallback",
+  source: "demo_mode",
   score: 82,
   summary: "這份 Demo 會檢查首頁是否讓台灣客戶快速看懂服務、信任你，並知道下一步要怎麼聯絡。",
   seo: ["title 建議包含服務、地區與主要客群，例如：台灣網站製作、作品集、一頁式網站。"],
@@ -332,7 +332,7 @@ function normalizeAiAuditReport(data) {
   }
 
   return {
-    source: data.source || "mock_fallback",
+    source: data.source || "demo_mode",
     score: scores.seo ? Math.round(((scores.seo || 0) + (scores.cta || 0) + (scores.trust || 0) + (scores.mobile || 0)) / 4) : cleanAiAuditFallback.score,
     summary: data.summary || cleanAiAuditFallback.summary,
     seo: findText("seo", cleanAiAuditFallback.seo),
@@ -402,7 +402,7 @@ function AiAuditProductDemo() {
       if (!response.ok) setError("API 暫時無法分析，已顯示 Demo mock 報告。")
     } catch {
       setReport(cleanAiAuditFallback)
-      setError("目前沒有連線到 AI 服務，已使用前端 mock fallback。")
+      setError("目前沒有連線到 AI 服務，已使用 Demo 示範資料。")
     } finally {
       setLoading(false)
     }
@@ -499,7 +499,7 @@ function AiAuditProductDemo() {
           ) : null}
           {error ? <p className="mt-3 rounded-lg bg-[#fff7ed] px-3 py-2 text-xs font-black text-[#b45309]">{error}</p> : null}
           <div className="mt-4 flex flex-wrap gap-2">
-            {["Client form", "Serverless API", "OpenAI-ready", "Mock fallback"].map((tag) => (
+            {["需求輸入", "Serverless API", "OpenAI-ready", "Demo 資料"].map((tag) => (
               <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{tag}</span>
             ))}
           </div>
@@ -662,14 +662,14 @@ export function LegacyLineBotDemo() {
       setWebhookStatus({
         ok: true,
         message: data?.message || "LINE webhook endpoint ready",
-        openAI: data?.modes?.openAI || "demo fallback mode",
+        openAI: data?.modes?.openAI || "Demo 回覆模式",
         line: data?.modes?.line || "webhook mock mode",
       })
     } catch (error) {
       setWebhookStatus({
         ok: false,
         message: error.message || "Webhook health check failed",
-        openAI: "demo fallback mode",
+        openAI: "Demo 回覆模式",
         line: "webhook mock mode",
       })
     } finally {
@@ -774,9 +774,9 @@ export function LegacyLineBotDemo() {
           <MiniCard title="Webhook 測試狀態">
             <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
               <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
-                <p><span className="font-black text-[#111c22]">Endpoint：</span>/api/line-webhook</p>
-                <p><span className="font-black text-[#111c22]">OpenAI：</span>{webhookStatus?.openAI || "demo fallback mode"}</p>
-                <p><span className="font-black text-[#111c22]">LINE：</span>{webhookStatus?.line || "webhook mock mode"}</p>
+                <p><span className="font-black text-[#111c22]">Webhook 路徑：</span>/api/line-webhook</p>
+                <p><span className="font-black text-[#111c22]">AI 回覆：</span>{webhookStatus?.openAI || "Demo 回覆模式"}</p>
+                <p><span className="font-black text-[#111c22]">LINE 回覆：</span>{webhookStatus?.line || "Demo webhook 模式"}</p>
                 {webhookStatus ? (
                   <p className={webhookStatus.ok ? "font-black text-[#0d6b62]" : "font-black text-[#b45309]"}>
                     {webhookStatus.ok ? "Ready：" : "Error："}{webhookStatus.message}
@@ -927,8 +927,8 @@ function LineBotProductDemo() {
         ok: true,
         message: data.message || "LINE webhook endpoint ready",
         items: [
-          "Endpoint Ready",
-          "Demo fallback mode",
+          "Webhook Ready",
+          "Demo 回覆模式",
           "Signature verify supported",
           "OpenAI reply optional",
           "LINE Reply API optional",
@@ -938,7 +938,7 @@ function LineBotProductDemo() {
       setWebhookStatus({
         ok: false,
         message: error?.message || "Webhook health check failed",
-        items: ["Endpoint error", "Demo fallback mode", "No secret exposed"],
+        items: ["Webhook 暫時無法連線", "Demo 回覆模式", "不顯示任何金鑰"],
       })
     } finally {
       setWebhookLoading(false)
@@ -1072,7 +1072,7 @@ function LineBotProductDemo() {
           <MiniCard title="Webhook 測試狀態">
             <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
               <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
-                <p><span className="font-black text-[#111c22]">Endpoint：</span>/api/line-webhook</p>
+                <p><span className="font-black text-[#111c22]">Webhook 路徑：</span>/api/line-webhook</p>
                 {webhookStatus ? (
                   <>
                     <p className={webhookStatus.ok ? "font-black text-[#0d6b62]" : "font-black text-[#b45309]"}>
@@ -1103,7 +1103,7 @@ function LineBotProductDemo() {
                 "AI: OpenAI API optional",
                 "Database: Supabase optional",
                 "Dashboard: 案件狀態 UI",
-                "Fallback: Mock mode",
+                "Demo 回覆模式",
               ].map((tag) => (
                 <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
                   {tag}
@@ -1331,9 +1331,9 @@ function BuildFlowDemo() {
       const fallback = fallbackApiCases.map(mapApiCaseToUi)
       setCases(fallback)
       setSelected(fallback[0].id)
-      setApiMode("Mock fallback")
-      setApiResponse({ ok: true, source: "frontend_fallback", cases: fallbackApiCases })
-      setApiError("API 暫時無法連線，已使用前端 mock fallback。")
+      setApiMode("Demo 模式")
+      setApiResponse({ ok: true, source: "demo_mode", cases: fallbackApiCases })
+      setApiError("API 暫時無法連線，已使用 Demo 模式顯示。")
     }
   }
 
@@ -1380,9 +1380,9 @@ function BuildFlowDemo() {
       const fallbackCase = createFallbackCase()
       setCases((currentCases) => [fallbackCase, ...currentCases])
       setSelected(fallbackCase.id)
-      setApiMode("Mock fallback")
-      setApiError("新增案件 API 暫時無法連線，已用前端 mock fallback 新增。")
-      setApiResponse({ ok: true, source: "frontend_fallback", case: fallbackCase })
+      setApiMode("Demo 模式")
+      setApiError("新增案件 API 暫時無法連線，已用 Demo 模式新增。")
+      setApiResponse({ ok: true, source: "demo_mode", case: fallbackCase })
       setLastLineMessage(lineMessageByStatus["待估價"])
     }
   }
@@ -1428,9 +1428,9 @@ function BuildFlowDemo() {
       })
       setCases((currentCases) => [fallbackCase, ...currentCases])
       setSelected(fallbackCase.id)
-      setApiMode("Mock fallback")
-      setApiError("鑫匠案例 API 暫時無法連線，已用前端 mock fallback 新增。")
-      setApiResponse({ ok: true, source: "frontend_fallback", scenario: "xinjiang_case", case: fallbackCase })
+      setApiMode("Demo 模式")
+      setApiError("鑫匠案例 API 暫時無法連線，已用 Demo 模式新增。")
+      setApiResponse({ ok: true, source: "demo_mode", scenario: "xinjiang_case", case: fallbackCase })
       setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
     }
   }
@@ -1462,9 +1462,9 @@ function BuildFlowDemo() {
           reports: [`LINE：${lineMessage}`, ...item.reports],
         } : item
       )))
-      setApiMode("Mock fallback")
-      setApiError("更新狀態 API 暫時無法連線，已用前端 mock fallback 更新。")
-      setApiResponse({ ok: true, source: "frontend_fallback", lineMessage, caseId: current.id, status })
+      setApiMode("Demo 模式")
+      setApiError("更新狀態 API 暫時無法連線，已用 Demo 模式更新。")
+      setApiResponse({ ok: true, source: "demo_mode", lineMessage, caseId: current.id, status })
       setLastLineMessage(lineMessage)
     }
   }
@@ -1475,7 +1475,7 @@ function BuildFlowDemo() {
     setSelected(fallback[0].id)
     setShowDetail(false)
     setShowQuote(false)
-    setApiMode("Mock fallback")
+    setApiMode("Demo 模式")
     setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
     setApiError("Demo 已重置為前端 mock 初始資料。")
     setLastLineMessage(lineMessageByStatus["待估價"])
@@ -1563,7 +1563,7 @@ function BuildFlowDemo() {
         <span className={`rounded-full px-3 py-1 text-xs font-black ${apiMode === "Connected" ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
           API 狀態：{apiMode}
         </span>
-        <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">Endpoint：/api/buildflow-cases</span>
+        <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">案件資料流程</span>
         <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">最近 LINE：{lastLineMessage}</span>
         {apiError ? <p className="w-full text-xs font-black text-[#b45309]">{apiError}</p> : null}
       </div>
@@ -1867,13 +1867,13 @@ function ApiAutomationDemo() {
     return {
       ok: true,
       leadId: `mock_${Date.now()}`,
-      status: "mock_fallback",
-      notification: "mock_sent",
-      message: "Demo mode: frontend fallback simulated",
+      status: "demo_mode",
+      notification: "通知已模擬送出",
+      message: "Demo 模式：已模擬通知流程",
       dashboardItem: {
         ...apiPayload,
         status: "新需求",
-        source: "Frontend Mock Fallback",
+        source: "Demo 模式",
         createdAt: new Date().toISOString(),
       },
     }
@@ -1902,8 +1902,8 @@ function ApiAutomationDemo() {
       source: item.source || "API Demo",
       createdAt: formatTime(item.createdAt),
       apiStatus: response.status || "received",
-      notificationStatus: response.notification || "mock_sent",
-      apiMessage: response.message || "Demo mode: notification simulated",
+      notificationStatus: response.notification || "通知已模擬送出",
+      apiMessage: response.message || "Demo 模式：已模擬通知流程",
       payload: apiPayload,
       response,
       nextStep: "確認需求欄位，安排初步討論。",
@@ -1924,7 +1924,7 @@ function ApiAutomationDemo() {
       return data
     } catch (error) {
       console.warn("automation lead demo fallback", error.message)
-      setApiError("API 暫時無法連線，已使用前端 mock fallback 完成展示。")
+      setApiError("API 暫時無法連線，已使用 Demo 模式完成展示。")
       return createFallbackResponse()
     }
   }

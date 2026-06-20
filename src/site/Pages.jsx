@@ -113,39 +113,63 @@ const conversionProfiles = {
   "ai-audit": {
     audience: ["小型店家", "個人品牌", "工作室", "準備改版的網站"],
     custom: ["健檢項目", "報告格式", "Prompt Flow", "Email 報告輸出"],
+    problems: ["不知道網站哪裡不清楚", "客戶看完沒有聯絡", "首頁 CTA 與 SEO 不夠明確"],
     scenario: "適合在改版前快速找出首頁文案、CTA、SEO、信任感與手機版問題。",
+    next: "先用健檢工具整理問題，再決定是改文案、調 CTA，還是重做一頁式網站。",
   },
   linebot: {
     audience: ["小型店家", "預約型服務", "工作室", "需要 LINE 收需求的團隊"],
     custom: ["對話流程", "Webhook 欄位", "後台收件狀態", "LINE / Email 通知"],
+    problems: ["LINE 訊息太散", "客戶需求沒有被整理", "店家回覆與追蹤靠人工記"],
     scenario: "適合把 LINE 詢問整理成可追蹤需求，減少訊息散落與人工整理。",
+    next: "先整理客戶常問問題與收件欄位，再做 LINE Bot 對話與後台收件流程。",
   },
   buildflow: {
     audience: ["工程行", "修繕服務", "現場服務團隊", "需要照片與進度管理的公司"],
     custom: ["案件欄位", "報價單", "LINE 回報", "Supabase / PDF Export"],
+    problems: ["照片與報價散在 LINE", "施工狀態不好追", "案件從詢價到完工沒有完整紀錄"],
     scenario: "適合把網站詢價、照片、報價、施工狀態與 LINE 回報整理成後台流程。",
+    next: "先定義案件狀態與報價欄位，再把 LINE 回報與後台案件串起來。",
   },
   "api-automation": {
     audience: ["有表單收件需求的團隊", "需要通知流程的店家", "想把資料進後台的工作室"],
     custom: ["API Payload", "驗證規則", "通知節點", "Dashboard 欄位"],
+    problems: ["表單送出後沒人追", "資料要手動複製到表格", "通知與後台狀態沒有串接"],
     scenario: "適合把表單送出後的 API、資料驗證、通知與後台狀態串起來。",
+    next: "先確認表單欄位與通知對象，再設計 API、資料流程與後台狀態。",
   },
   "qingyu-web": {
     audience: ["個人品牌", "小型店家", "工作室", "學生作品集"],
     custom: ["首頁架構", "作品頁", "需求診斷工具", "SEO / Open Graph"],
+    problems: ["服務說不清楚", "作品沒有導到詢問", "客戶不知道下一步該怎麼聯絡"],
     scenario: "適合把服務、作品、技術展示與聯絡轉換整合成一個能接案的主站。",
+    next: "先定義服務分類與作品入口，再把需求診斷與 Contact 串成成交路徑。",
   },
   xinjiang: {
     audience: ["工程服務業", "需要形象網站的店家", "想把詢價接到後台的團隊"],
     custom: ["估價入口", "服務分類", "BuildFlow 串接", "LINE 回報流程"],
+    problems: ["客戶只看 LINE 或社群", "估價需求沒有進後台", "工程案例與案件管理分開"],
     scenario: "適合用工程行情境展示網站如何從詢價入口延伸到案件管理流程。",
+    next: "先做好服務頁與估價入口，再視需求接到 BuildFlow 案件管理。",
   },
 }
 
 const defaultConversionProfile = {
   audience: ["小型店家", "個人品牌", "工作室"],
   custom: ["頁面架構", "互動流程", "資料欄位", "聯絡 CTA"],
+  problems: ["服務不容易被理解", "客戶看完不知道怎麼詢問", "流程太靠人工整理"],
   scenario: "適合先用 Demo 驗證流程，再依實際需求客製成可上線版本。",
+  next: "先用需求診斷整理方向，再挑一個最重要的流程做成可展示版本。",
+}
+
+const workBusinessValues = {
+  "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
+  linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
+  buildflow: "把工程案從 LINE 對話變成可追蹤案件。",
+  "api-automation": "表單送出後，自動進 API、通知與後台。",
+  "project-planner": "客戶不知道要做什麼時，先用診斷工具分類需求。",
+  "qingyu-web": "展示主站如何把服務、作品、工具與聯絡流程串成成交路徑。",
+  xinjiang: "把工程網站的估價入口接到案件管理流程。",
 }
 
 export function WorksPage() {
@@ -182,6 +206,9 @@ export function WorksPage() {
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
               <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
+              <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
+                {workBusinessValues[project.slug]}
+              </p>
               <div className="mt-4">
                 <Tags items={project.tags.slice(0, 4)} />
               </div>
@@ -374,6 +401,32 @@ export function WorkDetailPage() {
                 ))}
               </div>
             </div>
+            <div className="mt-6 rounded-2xl bg-[#111c22] p-5 text-white">
+              <div className="grid gap-5 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">CTA Flow</p>
+                  <h3 className="mt-3 text-2xl font-black">Visitor → Homepage → Demo Lab → Project Planner → Contact</h3>
+                  <p className="mt-3 text-sm font-bold leading-7 text-white/70">
+                    首頁先建立信任，作品頁展示技術，需求診斷整理問題，最後把客戶帶到 LINE / Email 討論。
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  {["首頁定位", "Demo Lab 技術展示", "Project Planner 收需求", "Contact 轉換", "SEO / sitemap / robots / Vercel"].map((item, index) => (
+                    <div key={item} className="flex items-center gap-3 rounded-xl bg-white/10 p-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8fd6cc] text-xs font-black text-[#0b2724]">{index + 1}</span>
+                      <span className="text-sm font-black text-white/86">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {["React", "Vite", "Tailwind", "React Router", "SEO metadata", "Open Graph", "sitemap.xml", "robots.txt", "Vercel"].map((item) => (
+                  <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
         </section>
       ) : null}
@@ -432,7 +485,7 @@ export function WorkDetailPage() {
                   LINE User → LINE Platform → /api/line-webhook → OpenAI / Mock → LINE Reply → Dashboard
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Mock mode"].map((item) => (
+                  {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Demo 模式"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -474,7 +527,7 @@ export function WorkDetailPage() {
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Automation Architecture</p>
                 <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
-                  User Form → POST /api/automation-lead → Validation → Lead Object → Mock Notification → Dashboard UI
+                  客戶表單 → 資料檢查 → 需求建立 → 通知紀錄 → 後台追蹤
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {["React / Tailwind", "Vercel Serverless Function", "Request Body Check", "JSON Payload", "Mock Notification", "React State UI"].map((item) => (
@@ -533,7 +586,13 @@ export function WorkDetailPage() {
             </ul>
           </Card>
         </div>
-        <div className="mt-8 grid gap-4 md:grid-cols-3">
+        <div className="mt-10">
+          <h2 className="text-3xl font-black">這個 Demo 可以怎麼用在你的服務？</h2>
+          <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-[#52605c]">
+            Demo 不是只看功能，而是先把你的客戶來源、服務流程與後續追蹤整理成能成交的路徑。
+          </p>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <Card>
             <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">適合對象</p>
             <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
@@ -543,7 +602,7 @@ export function WorkDetailPage() {
             </ul>
           </Card>
           <Card>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製什麼</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製的功能</p>
             <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
               {conversionProfile.custom.map((item) => (
                 <li key={item}>・{item}</li>
@@ -551,8 +610,16 @@ export function WorkDetailPage() {
             </ul>
           </Card>
           <Card>
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">建議使用情境</p>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{conversionProfile.scenario}</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以解決的問題</p>
+            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+              {conversionProfile.problems.map((item) => (
+                <li key={item}>・{item}</li>
+              ))}
+            </ul>
+          </Card>
+          <Card>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">下一步建議</p>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{conversionProfile.next}</p>
           </Card>
         </div>
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
@@ -565,7 +632,7 @@ export function WorkDetailPage() {
               開始需求診斷
             </Link>
             <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              聯絡我
+              找我做類似系統
             </Link>
           </div>
         </div>
@@ -642,7 +709,7 @@ function HeroPreview({ project }) {
           <div className="rounded-xl bg-white p-4 text-[#111c22]">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-black text-[#0d6b62]">AI Audit Score</p>
-              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">Mock fallback ready</span>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">Demo 模式可用</span>
             </div>
             <div className="mt-4 flex items-end gap-3">
               <p className="text-5xl font-black">82</p>
@@ -669,16 +736,16 @@ function HeroPreview({ project }) {
           <div className="rounded-xl bg-white p-4 text-[#111c22]">
             <div className="flex flex-wrap items-center justify-between gap-3">
               <div>
-                <p className="text-xs font-black text-[#0d6b62]">POST /api/automation-lead</p>
+                <p className="text-xs font-black text-[#0d6b62]">表單自動化</p>
                 <p className="mt-2 text-sm font-black">客戶需求進件</p>
               </div>
-              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">ok: true</span>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">已收到</span>
             </div>
             <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
               <div className="h-full w-[84%] rounded-full bg-[#0d6b62]" />
             </div>
             <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black sm:grid-cols-3">
-              {["leadId", "mock_sent", "Dashboard"].map((item) => (
+              {["需求編號", "通知完成", "後台新增"].map((item) => (
                 <span key={item} className="rounded-md bg-[#faf8f3] px-2 py-2 text-center">{item}</span>
               ))}
             </div>
@@ -859,23 +926,17 @@ export function ContactPage() {
         <Card>
           <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            你可以先簡單告訴我產業、想做的功能、預算區間與希望上線時間。
+            可以先傳「產業、想做的功能、預算、希望上線時間」給我，我會幫你判斷適合網站、LINE Bot、AI 工具還是小型系統。
           </p>
-          <a href={`mailto:${contact.email}`} className="mt-4 block text-lg font-black text-[#0d6b62]">
-            {contact.email}
-          </a>
+          <div className="mt-4 rounded-lg border border-[#e3ded3] bg-white p-4">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Email</p>
+            <a href={`mailto:${contact.email}`} className="mt-2 block break-words text-lg font-black text-[#0d6b62]">
+              {contact.email}
+            </a>
+          </div>
           <div className="mt-5 rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-4">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE ID</p>
-            <div className="mt-2 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-              <p className="text-xl font-black text-[#111c22]">{contact.lineId}</p>
-              <button
-                type="button"
-                onClick={copyLineId}
-                className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]"
-              >
-                {lineCopied ? "已複製 LINE ID" : "複製 LINE ID"}
-              </button>
-            </div>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE</p>
+            <p className="mt-2 text-xl font-black text-[#111c22]">LINE：{contact.lineId}</p>
             <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
           </div>
           <div className="mt-5 flex flex-wrap gap-3">

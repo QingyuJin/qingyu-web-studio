@@ -565,7 +565,13 @@ function ProjectPlanner() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div>
+          <h2 className="text-3xl font-black">這個 Demo 可以怎麼用在你的服務？</h2>
+          <p className="mt-3 max-w-3xl text-sm font-bold leading-7 text-[#52605c]">
+            需求診斷不是只做表單，而是幫客戶先整理自己到底需要網站、LINE Bot、AI 工具還是小型後台。
+          </p>
+        </div>
+        <div className="mt-6 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">適合對象</p>
             <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
@@ -575,7 +581,7 @@ function ProjectPlanner() {
             </ul>
           </div>
           <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製什麼</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以客製的功能</p>
             <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
               {["診斷題目", "推薦規則", "AI Prompt", "Email / LINE 輸出格式"].map((item) => (
                 <li key={item}>・{item}</li>
@@ -583,9 +589,17 @@ function ProjectPlanner() {
             </ul>
           </div>
           <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">建議使用情境</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">可以解決的問題</p>
+            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+              {["客戶不知道該買哪種服務", "第一次洽談資訊太分散", "需求、預算、時程沒有先整理"].map((item) => (
+                <li key={item}>・{item}</li>
+              ))}
+            </ul>
+          </div>
+          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">下一步建議</p>
             <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-              適合在第一次洽談前先整理身份、需求、功能、預算與上線時間，讓後續估價與規劃更快進入重點。
+              先用診斷工具產生初步方向，再帶著結果到 Contact 頁討論實際做法。
             </p>
           </div>
         </div>
@@ -599,7 +613,7 @@ function ProjectPlanner() {
               開始需求診斷
             </a>
             <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              聯絡我
+              找我做類似系統
             </Link>
           </div>
         </div>

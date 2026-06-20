@@ -17,6 +17,14 @@ function StudioHome() {
     tags: ["Rule-based", "OpenAI optional", "Vercel API", "Recommendation UI"],
   }
   const featuredCards = [...featuredProjects, plannerCard]
+  const businessValues = {
+    "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
+    linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
+    buildflow: "把工程案從 LINE 對話變成可追蹤案件。",
+    "api-automation": "表單送出後，自動進 API、通知與後台。",
+    "project-planner": "客戶不知道要做什麼時，先用診斷工具分類需求。",
+    "qingyu-web": "展示主站如何把服務、作品、工具與聯絡流程串成成交路徑。",
+  }
 
   return (
     <SiteLayout>
@@ -84,6 +92,9 @@ function StudioHome() {
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
               <p className="mt-3 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
+              <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
+                {businessValues[project.slug]}
+              </p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {project.tags.slice(0, 4).map((tag) => (
                   <span key={tag} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
