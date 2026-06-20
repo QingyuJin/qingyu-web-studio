@@ -79,8 +79,19 @@ function WorkPreview({ project }) {
     xinjiang: { status: "Case Study", metric: "Estimate", summary: "Website → BuildFlow" },
     "qingyu-web": { status: "SEO Ready", metric: "RWD", summary: "Demo Lab → Contact" },
   }
-  const items = panels[project.slug] || project.visuals.slice(0, 3)
-  const meta = previewMeta[project.slug] || { status: "Live", metric: "Demo", summary: project.category }
+  const toolPreviewFallback = {
+    "website-rescue": {
+      items: ["Score 42 → 92", "CTA / SEO", "Result Report"],
+      meta: { status: "Rescue Game", metric: "Score +50", summary: "Before / After / CTA" },
+    },
+    "linebot-mission": {
+      items: ["LINE Chat", "Mission Score", "Case Dashboard"],
+      meta: { status: "Mission", metric: "5 rounds", summary: "LINE Bot → Dashboard" },
+    },
+  }
+  const fallbackPreview = toolPreviewFallback[project.slug]
+  const items = panels[project.slug] || fallbackPreview?.items || project.visuals.slice(0, 3)
+  const meta = previewMeta[project.slug] || fallbackPreview?.meta || { status: "Live", metric: "Demo", summary: project.category }
 
   return (
     <div className="mb-5 min-h-56 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">

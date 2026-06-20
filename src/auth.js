@@ -1,34 +1,31 @@
 const AUTH_KEY = "qingyu_system_lab_user"
 
-export const ADMIN_ACCOUNT = {
-  email: "admin@qingyu.dev",
-  password: "qgadmin",
-  name: "金晴宇",
-  role: "admin",
+function isValidEmail(email) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
 }
 
 export function login(email, password) {
   const cleanEmail = email.trim().toLowerCase()
 
-  if (cleanEmail === ADMIN_ACCOUNT.email && password === ADMIN_ACCOUNT.password) {
-    const user = {
-      name: ADMIN_ACCOUNT.name,
-      email: ADMIN_ACCOUNT.email,
-      role: ADMIN_ACCOUNT.role,
-      loginAt: new Date().toISOString(),
-    }
-
-    localStorage.setItem(AUTH_KEY, JSON.stringify(user))
-
+  if (!isValidEmail(cleanEmail) || password.length < 6) {
     return {
-      ok: true,
-      user,
+      ok: false,
+      message: "請輸入有效 Email，密碼至少 6 個字元。",
     }
   }
 
+  const user = {
+    name: "Qingyu Studio",
+    email: cleanEmail,
+    role: "admin",
+    loginAt: new Date().toISOString(),
+  }
+
+  localStorage.setItem(AUTH_KEY, JSON.stringify(user))
+
   return {
-    ok: false,
-    message: "帳號或密碼錯誤",
+    ok: true,
+    user,
   }
 }
 
