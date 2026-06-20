@@ -177,7 +177,7 @@ export function WorkDetailPage() {
         isLineBotProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              前往對話 Demo
+              查看互動 Demo
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看後台 Demo
@@ -189,7 +189,7 @@ export function WorkDetailPage() {
         ) : isBuildFlowProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              前往 Demo 操作台
+              查看互動 Demo
             </Link>
             <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               看鑫匠案例
@@ -200,8 +200,8 @@ export function WorkDetailPage() {
           </>
         ) : isQingyuWebProject ? (
           <>
-            <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看首頁
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
             </Link>
             <Link to="/tools/project-planner" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看需求診斷
@@ -213,7 +213,7 @@ export function WorkDetailPage() {
         ) : isApiAutomationProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              前往表單 Demo
+              查看互動 Demo
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看 API Demo
@@ -237,7 +237,7 @@ export function WorkDetailPage() {
         ) : (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看 Demo
+              查看互動 Demo
             </Link>
             <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               聯絡我

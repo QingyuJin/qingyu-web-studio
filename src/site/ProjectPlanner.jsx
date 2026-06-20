@@ -367,6 +367,12 @@ function ProjectPlanner() {
               <button type="button" onClick={loadExample} className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
                 查看範例
               </button>
+              <button type="button" onClick={() => scrollToSection("tech")} className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+                技術拆解
+              </button>
+              <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#0d6b62] bg-[#eef7f4] px-5 text-sm font-black text-[#0d6b62] transition hover:bg-[#dff1ec]">
+                找我做類似系統
+              </Link>
             </div>
           </div>
           <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white shadow-xl shadow-[#111c22]/10">
