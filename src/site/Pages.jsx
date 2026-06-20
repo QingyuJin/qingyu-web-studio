@@ -542,33 +542,37 @@ export function WorkDetailPage() {
         </div>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-7">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Demo Details</p>
-          <h2 className="mt-3 text-3xl font-black">功能展示</h2>
-        </div>
-        <div className="grid gap-3 md:grid-cols-3">
-          {project.demo.map((item) => (
-            <Card key={item}>
-              <p className="text-sm font-black leading-7">{item}</p>
-            </Card>
-          ))}
-        </div>
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <details className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+          <summary className="cursor-pointer list-none">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Design Details</p>
+            <h2 className="mt-2 text-2xl font-black">功能展示細節</h2>
+          </summary>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {project.demo.map((item) => (
+              <Card key={item}>
+                <p className="text-sm font-black leading-7">{item}</p>
+              </Card>
+            ))}
+          </div>
+        </details>
       </section>
 
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-7">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Workflow</p>
-          <h2 className="mt-3 text-3xl font-black">使用流程</h2>
-        </div>
-        <div className="grid gap-3 md:grid-cols-3">
-          {project.steps.map((step, index) => (
-            <Card key={step}>
-              <p className="text-xs font-black text-[#0d6b62]">Step {index + 1}</p>
-              <p className="mt-3 text-lg font-black">{step}</p>
-            </Card>
-          ))}
-        </div>
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <details className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+          <summary className="cursor-pointer list-none">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Workflow</p>
+            <h2 className="mt-2 text-2xl font-black">使用流程</h2>
+          </summary>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {project.steps.map((step, index) => (
+              <Card key={step}>
+                <p className="text-xs font-black text-[#0d6b62]">Step {index + 1}</p>
+                <p className="mt-3 text-lg font-black">{step}</p>
+              </Card>
+            ))}
+          </div>
+        </details>
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
@@ -586,7 +590,7 @@ export function WorkDetailPage() {
             </ul>
           </Card>
         </div>
-        <div className="mt-10 rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+        <div className="mt-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Use Case</p>

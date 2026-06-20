@@ -5,8 +5,8 @@ const MOCK_REPLY =
 
 function safeModeStatus() {
   return {
-    openAI: process.env.OPENAI_API_KEY ? "OpenAI ready" : "demo fallback mode",
-    line: process.env.LINE_CHANNEL_ACCESS_TOKEN ? "LINE reply ready" : "webhook mock mode",
+    openAI: process.env.OPENAI_API_KEY ? "OpenAI ready" : "Demo 回覆模式",
+    line: process.env.LINE_CHANNEL_ACCESS_TOKEN ? "LINE reply ready" : "Demo webhook 模式",
     signature: process.env.LINE_CHANNEL_SECRET ? "signature verify ready" : "signature secret missing",
   }
 }

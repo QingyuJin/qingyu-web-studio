@@ -565,7 +565,7 @@ function ProjectPlanner() {
       </section>
 
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+        <div>
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Use Case</p>
