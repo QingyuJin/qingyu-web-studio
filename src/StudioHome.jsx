@@ -27,7 +27,18 @@ function StudioHome() {
     secondaryLabel: "技術拆解",
     tags: ["React", "State Machine", "Scoring UI", "Conversion CTA"],
   }
-  const featuredCards = [...featuredProjects, plannerCard, rescueCard]
+  const lineBotMissionCard = {
+    slug: "linebot-mission",
+    title: "LINE Bot 任務模擬器",
+    category: "互動工具",
+    summary: "模擬客戶從 LINE 詢問、預約、估價，看看 Bot 如何自動整理需求並同步到後台。",
+    livePath: "/tools/linebot-mission#demo",
+    liveLabel: "開始任務",
+    secondaryPath: "/tools/linebot-mission#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "LINE Bot", "State Machine", "Dashboard UI"],
+  }
+  const featuredCards = [...featuredProjects, plannerCard, rescueCard, lineBotMissionCard]
   const businessValues = {
     "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
     linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
@@ -140,7 +151,7 @@ function StudioHome() {
               {featuredCards.map((project) => (
                 <Link
                   key={project.slug}
-                  to={project.slug === "project-planner" ? "/tools/project-planner" : project.slug === "website-rescue" ? "/tools/website-rescue" : `/works/${project.slug}`}
+                  to={project.slug === "project-planner" ? "/tools/project-planner" : project.slug === "website-rescue" ? "/tools/website-rescue" : project.slug === "linebot-mission" ? "/tools/linebot-mission" : `/works/${project.slug}`}
                   className="rounded-lg border border-[#ded8cb] bg-white p-3 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
                 >
                   <span className="block text-xs text-[#0d6b62]">{project.category}</span>
@@ -312,6 +323,7 @@ function ProjectPreview({ project }) {
   const isQingyu = project.slug === "qingyu-web"
   const isPlanner = project.slug === "project-planner"
   const isRescue = project.slug === "website-rescue"
+  const isLineMission = project.slug === "linebot-mission"
 
   return (
     <div className="mb-5 min-h-52 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
@@ -434,6 +446,26 @@ function ProjectPreview({ project }) {
           </div>
           <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
             {["CTA", "SEO", "手機版"].map((item) => (
+              <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+      ) : isLineMission ? (
+        <div className="mt-4 grid gap-3">
+          <div className="rounded-xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
+            <div className="flex items-center justify-between gap-3 text-xs font-black">
+              <span>LINE 任務</span>
+              <span className="text-[#8fd6cc]">5 rounds</span>
+            </div>
+            <div className="mt-3 grid gap-2">
+              <div className="rounded-lg bg-white/10 px-3 py-2 text-[11px] font-black">客戶：想預約討論</div>
+              <div className="ml-auto rounded-lg bg-[#0d6b62] px-3 py-2 text-[11px] font-black">Bot：已整理需求</div>
+            </div>
+          </div>
+          <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
+            {["滿意度", "案件", "風險"].map((item) => (
               <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
                 {item}
               </span>

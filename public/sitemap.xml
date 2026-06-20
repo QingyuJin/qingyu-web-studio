@@ -56,4 +56,8 @@
     <loc>https://www.qingyuweb.com/tools/website-rescue</loc>
     <priority>0.7</priority>
   </url>
+  <url>
+    <loc>https://www.qingyuweb.com/tools/linebot-mission</loc>
+    <priority>0.7</priority>
+  </url>
 </urlset>

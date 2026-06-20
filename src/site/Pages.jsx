@@ -200,7 +200,20 @@ export function WorksPage() {
     visuals: ["Score UI", "Before / After", "Result Report"],
     demo: ["問題清單", "修正選項", "改善報告"],
   }
-  const workCards = [...projects, plannerProject, rescueProject]
+  const lineBotMissionProject = {
+    slug: "linebot-mission",
+    title: "LINE Bot 任務模擬器",
+    category: "互動工具",
+    summary: "模擬客戶從 LINE 詢問、預約、估價，看看 Bot 如何自動整理需求並同步到後台。",
+    livePath: "/tools/linebot-mission#demo",
+    liveLabel: "開始任務",
+    secondaryPath: "/tools/linebot-mission#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "LINE Bot", "State Machine", "Dashboard UI"],
+    visuals: ["LINE Chat", "Mission Score", "Case Dashboard"],
+    demo: ["任務策略", "指標變化", "後台同步"],
+  }
+  const workCards = [...projects, plannerProject, rescueProject, lineBotMissionProject]
 
   return (
     <PageShell page={seo.works} title="作品案例" intro="精選網站、LINE Bot、AI 工具與後台系統 Demo，展示從前端畫面到資料流程的完整製作能力。">

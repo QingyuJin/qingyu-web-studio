@@ -12,6 +12,7 @@ const FreeAuditPage = lazy(() => import("./site/Pages").then((module) => ({ defa
 const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ContactPage })))
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const WebsiteRescue = lazy(() => import("./site/WebsiteRescue"))
+const LineBotMission = lazy(() => import("./site/LineBotMission"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -38,6 +39,7 @@ function App() {
         <Route path="/contact" element={<ContactPage />} />
         <Route path="/tools/project-planner" element={<ProjectPlanner />} />
         <Route path="/tools/website-rescue" element={<WebsiteRescue />} />
+        <Route path="/tools/linebot-mission" element={<LineBotMission />} />
         <Route path="/engineering" element={<ProjectHub />} />
         <Route path="/login" element={<LoginPage />} />
 
