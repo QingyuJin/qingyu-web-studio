@@ -66,25 +66,37 @@ function WorkPreview({ project }) {
     linebot: ["LINE 對話", "Webhook", "後台收件"],
     buildflow: ["案件列表", "報價單", "LINE 回報"],
     "api-automation": ["Form", "API", "Notify"],
+    "project-planner": ["5 步驟", "AI 規劃", "Contact CTA"],
     xinjiang: ["服務頁", "估價入口", "案例"],
     "qingyu-web": ["RWD", "SEO / OG", "Contact CTA"],
   }
+  const previewMeta = {
+    "ai-audit": { status: "AI Report", metric: "Score 82", summary: "SEO / CTA / Trust" },
+    linebot: { status: "Webhook", metric: "3 messages", summary: "LINE → Reply → Inbox" },
+    buildflow: { status: "Dashboard", metric: "75%", summary: "Case / Quote / LINE" },
+    "api-automation": { status: "API Flow", metric: "ok: true", summary: "Payload → Response" },
+    "project-planner": { status: "Planner", metric: "Step 1 / 5", summary: "Rule-based + AI plan" },
+    xinjiang: { status: "Case Study", metric: "Estimate", summary: "Website → BuildFlow" },
+    "qingyu-web": { status: "SEO Ready", metric: "RWD", summary: "Demo Lab → Contact" },
+  }
   const items = panels[project.slug] || project.visuals.slice(0, 3)
+  const meta = previewMeta[project.slug] || { status: "Live", metric: "Demo", summary: project.category }
 
   return (
     <div className="mb-5 rounded-xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
       <div className="flex items-center justify-between gap-3">
         <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Product Mockup</span>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{project.category}</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{meta.status}</span>
       </div>
       <div className="mt-4 rounded-xl bg-[#111c22] p-3 text-white">
         <div className="flex items-center justify-between gap-3">
           <p className="text-sm font-black">{project.title}</p>
-          <span className="text-xs font-black text-[#8fd6cc]">Live</span>
+          <span className="text-xs font-black text-[#8fd6cc]">{meta.metric}</span>
         </div>
         <div className="mt-3 h-2 rounded-full bg-white/15">
           <div className="h-full w-4/5 rounded-full bg-[#8fd6cc]" />
         </div>
+        <p className="mt-3 rounded-lg bg-white/10 px-3 py-2 text-xs font-black text-white/80">{meta.summary}</p>
       </div>
       <div className="mt-3 grid gap-2 sm:grid-cols-3">
         {items.map((item) => (
@@ -99,6 +111,20 @@ function WorkPreview({ project }) {
 
 export function WorksPage() {
   const categories = ["網站", "系統", "AI 工具", "LINE Bot", "工程流程系統"]
+  const plannerProject = {
+    slug: "project-planner",
+    title: "網站需求診斷工具",
+    category: "互動工具",
+    summary: "回答幾個問題，整理適合的網站、LINE Bot、AI 工具或小系統方向。",
+    livePath: "/tools/project-planner#demo",
+    liveLabel: "查看互動 Demo",
+    secondaryPath: "/tools/project-planner#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "Rule-based", "OpenAI optional", "Contact CTA"],
+    visuals: ["5-step form", "Recommendation UI", "AI plan"],
+    demo: ["需求表單", "快速建議", "AI 完整規劃"],
+  }
+  const workCards = [...projects, plannerProject]
 
   return (
     <PageShell page={seo.works} title="作品案例" intro="精選網站、LINE Bot、AI 工具與後台系統 Demo，展示從前端畫面到資料流程的完整製作能力。">
@@ -111,7 +137,7 @@ export function WorksPage() {
           ))}
         </div>
         <div className="grid gap-4 md:grid-cols-2">
-          {projects.map((project) => (
+          {workCards.map((project) => (
             <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
               <WorkPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
@@ -200,11 +226,11 @@ export function WorkDetailPage() {
           </>
         ) : isQingyuWebProject ? (
           <>
-            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看互動 Demo
+            <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看首頁
             </Link>
-            <Link to="/tools/project-planner" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看需求診斷
+            <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              開始需求診斷
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
