@@ -80,6 +80,7 @@ function WebsiteRescue() {
   const score = Math.min(100, baseScore + fixedItems.reduce((sum, item) => sum + item.points, 0))
   const progress = Math.round((fixedIds.length / improvements.length) * 100)
   const mood = getMood(score)
+  const latestItem = fixedItems[fixedItems.length - 1]
 
   const preview = useMemo(() => {
     const has = (id) => fixedIds.includes(id)
@@ -136,7 +137,7 @@ function WebsiteRescue() {
               </button>
             </div>
           </div>
-          <RescueHero score={score} progress={progress} mood={mood} />
+          <RescueHero score={score} progress={progress} mood={mood} fixedIds={fixedIds} latestItem={latestItem} />
         </div>
       </section>
 
@@ -177,7 +178,7 @@ function WebsiteRescue() {
           <div className="mt-5">
             {mobileTab === "preview" ? (
               <div className="grid gap-4">
-                <WebsitePreview preview={preview} />
+                <WebsitePreview preview={preview} activeItem={activeItem} fixedCount={fixedIds.length} />
                 <button
                   type="button"
                   onClick={() => setMobileTab("improve")}
@@ -210,7 +211,7 @@ function WebsiteRescue() {
         </div>
 
         <div className="hidden gap-5 lg:grid lg:grid-cols-[1fr_0.9fr_0.88fr]">
-          <WebsitePreview preview={preview} />
+          <WebsitePreview preview={preview} activeItem={activeItem} fixedCount={fixedIds.length} />
           <ImprovementPanel
             items={improvements}
             activeId={activeId}
@@ -234,7 +235,14 @@ function WebsiteRescue() {
   )
 }
 
-function RescueHero({ score, progress, mood }) {
+function RescueHero({ score, progress, mood, fixedIds, latestItem }) {
+  const heroChecks = [
+    ["cta", "CTA"],
+    ["line", "LINE 聯絡"],
+    ["mobile", "手機版"],
+    ["seo", "SEO 摘要"],
+  ]
+
   return (
     <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-2xl shadow-[#111c22]/15">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
@@ -251,11 +259,22 @@ function RescueHero({ score, progress, mood }) {
           </div>
         </div>
         <div className="grid gap-2">
-          {["CTA", "LINE 聯絡", "手機版", "SEO 摘要"].map((item, index) => (
-            <div key={item} className="rounded-xl bg-white/10 px-3 py-2 text-sm font-black text-white/86">
-              <span className="text-[#8fd6cc]">0{index + 1}</span> {item}
+          {heroChecks.map(([id, item], index) => {
+            const done = fixedIds.includes(id)
+            return (
+            <div key={item} className={`rounded-xl px-3 py-2 text-sm font-black transition ${done ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/10 text-white/86"}`}>
+              <span className={done ? "text-[#0b2724]/55" : "text-[#8fd6cc]"}>0{index + 1}</span> {item}
             </div>
-          ))}
+            )
+          })}
+        </div>
+      </div>
+      <div className="mt-4 grid gap-2 sm:grid-cols-2">
+        <div className="rounded-xl bg-white/10 px-3 py-2 text-xs font-black text-white/75">
+          最近改善：<span className="text-[#8fd6cc]">{latestItem?.title || "尚未開始"}</span>
+        </div>
+        <div className="rounded-xl bg-white/10 px-3 py-2 text-xs font-black text-white/75">
+          狀態：<span className="text-[#8fd6cc]">{mood.label}</span>
         </div>
       </div>
       <div className="mt-4 h-2 rounded-full bg-white/15">
@@ -265,7 +284,7 @@ function RescueHero({ score, progress, mood }) {
   )
 }
 
-function WebsitePreview({ preview }) {
+function WebsitePreview({ preview, activeItem, fixedCount }) {
   return (
     <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
       <div className="flex items-center justify-between gap-3">
@@ -277,7 +296,7 @@ function WebsitePreview({ preview }) {
           {preview.trust ? "○w○ 穩定" : "(><) 待整理"}
         </span>
       </div>
-      <div className="mt-5 overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3]">
+      <div className="mt-5 overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] shadow-sm transition duration-300">
         <div className="flex items-center justify-between border-b border-[#e3ded3] bg-white px-4 py-3">
           <div className="flex gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-[#ffb4a2]" />
@@ -292,14 +311,32 @@ function WebsitePreview({ preview }) {
           <p className="text-xs font-black text-[#0d6b62]">Hero</p>
           <h3 className="mt-2 text-3xl font-black leading-tight">{preview.title}</h3>
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className={`inline-flex min-h-10 items-center rounded-md px-4 text-sm font-black ${preview.mobile ? "bg-[#111c22] text-white" : "bg-[#d8d2c5] text-[#52605c]"}`}>
+            <span className={`inline-flex min-h-10 items-center rounded-md px-4 text-sm font-black transition ${preview.mobile || activeItem?.id === "cta" ? "bg-[#111c22] text-white shadow-md shadow-[#111c22]/12" : "bg-[#d8d2c5] text-[#52605c]"}`}>
               {preview.cta}
             </span>
-            {preview.line ? <span className="inline-flex min-h-10 items-center rounded-md border border-[#0d6b62] bg-white px-4 text-sm font-black text-[#0d6b62]">LINE 聯絡</span> : null}
+            {preview.line ? <span className="inline-flex min-h-10 items-center rounded-md border border-[#0d6b62] bg-white px-4 text-sm font-black text-[#0d6b62] shadow-sm">LINE 聯絡</span> : null}
           </div>
           <div className="mt-5 grid gap-2 sm:grid-cols-2">
             <PreviewCard title={preview.works ? "作品案例" : "服務介紹"} text={preview.works ? "Demo / 系統 / 技術拆解" : "內容還不夠像成果展示"} />
             <PreviewCard title={preview.trust ? "信任元素" : "缺少信任感"} text={preview.trust ? "流程、技術與聯絡入口完整" : "客戶還不知道能不能放心詢問"} />
+          </div>
+          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+            <div className={`rounded-xl border p-3 transition ${preview.seo ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
+              <p className="text-xs font-black text-[#0d6b62]">SEO 摘要</p>
+              <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-[#52605c]">
+                {preview.seo ? "台灣網站製作、LINE Bot、AI 工具與後台流程。" : "目前摘要太空泛，搜尋結果不夠清楚。"}
+              </p>
+            </div>
+            <div className={`rounded-xl border p-3 transition ${preview.mobile ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
+              <p className="text-xs font-black text-[#0d6b62]">手機操作</p>
+              <p className="mt-1 text-xs font-bold leading-5 text-[#52605c]">
+                {preview.mobile ? "按鈕高度與間距已調整，手機更好點。" : "按鈕偏小，容易降低詢問率。"}
+              </p>
+            </div>
+          </div>
+          <div className="mt-4 flex items-center justify-between rounded-xl bg-white px-3 py-2 text-xs font-black text-[#52605c]">
+            <span>已改善 {fixedCount} 項</span>
+            <span>{activeItem?.title || "選擇改善項目"}</span>
           </div>
         </div>
       </div>
@@ -335,7 +372,7 @@ function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
               key={item.id}
               type="button"
               onClick={() => onApply(item)}
-              className={`rounded-2xl border p-4 text-left transition ${active ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white hover:border-[#0d6b62]"}`}
+              className={`rounded-2xl border p-4 text-left transition duration-200 ${fixed ? "border-[#0d6b62] bg-[#eef7f4] shadow-sm" : active ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md"}`}
             >
               <span className="flex items-center justify-between gap-3">
                 <span className="text-sm font-black text-[#111c22]">{item.title}</span>
@@ -348,7 +385,7 @@ function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
           )
         })}
       </div>
-      {toast ? <p className="mt-4 rounded-xl bg-[#eef7f4] px-4 py-3 text-sm font-black text-[#0d6b62]">{toast}</p> : null}
+      {toast ? <p className="mt-4 rounded-xl bg-[#eef7f4] px-4 py-3 text-sm font-black text-[#0d6b62] shadow-sm">{toast}</p> : null}
     </div>
   )
 }
@@ -385,7 +422,7 @@ function ScorePanel({ score, mood, progress, fixedItems, activeItem, onReset }) 
       </div>
       <div className="mt-5 grid gap-3">
         {fixedItems.length ? fixedItems.map((item) => (
-          <div key={item.id} className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82">
+          <div key={item.id} className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82 transition">
             {item.report}
           </div>
         )) : (

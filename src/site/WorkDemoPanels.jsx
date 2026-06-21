@@ -372,6 +372,7 @@ function AiAuditProductDemo() {
   const [loading, setLoading] = useState(false)
   const [error, setError] = useState("")
   const [copied, setCopied] = useState(false)
+  const [auditNotice, setAuditNotice] = useState("輸入網站或需求，報告會分成 SEO、CTA、文案與手機版建議。")
 
   async function runAudit(useExample = false) {
     const value = useExample ? cleanAiAuditExampleInput : input.trim()
@@ -398,10 +399,13 @@ function AiAuditProductDemo() {
         body: JSON.stringify({ input: `${value}\n產業：${industry}\n目標：${goal}` }),
       })
       const data = await response.json().catch(() => null)
-      setReport(normalizeAiAuditReport(response.ok ? data : null))
+      const nextReport = normalizeAiAuditReport(response.ok ? data : null)
+      setReport(nextReport)
+      setAuditNotice(`報告已產生，分數 ${nextReport.score}。`)
       if (!response.ok) setError("API 暫時無法分析，已顯示 Demo 範例報告。")
     } catch {
       setReport(cleanAiAuditFallback)
+      setAuditNotice(`Demo 報告已載入，分數 ${cleanAiAuditFallback.score}。`)
       setError("目前沒有連線到 AI 服務，已使用 Demo 示範資料。")
     } finally {
       setLoading(false)
@@ -414,6 +418,7 @@ function AiAuditProductDemo() {
     try {
       await navigator.clipboard.writeText(text)
       setCopied(true)
+      setAuditNotice("報告摘要已複製。")
       setError("")
     } catch {
       setCopied(false)
@@ -430,6 +435,7 @@ function AiAuditProductDemo() {
     setError("")
     setCopied(false)
     setLoading(false)
+    setAuditNotice("輸入網站或需求，報告會分成 SEO、CTA、文案與手機版建議。")
   }
 
   const displayedReport = report || cleanAiAuditFallback
@@ -503,6 +509,7 @@ function AiAuditProductDemo() {
               <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{tag}</span>
             ))}
           </div>
+          <p className="mt-4 rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">{auditNotice}</p>
         </MiniCard>
 
         <div className="grid gap-4">
@@ -1208,6 +1215,7 @@ function BuildFlowDemo() {
   const [apiError, setApiError] = useState("")
   const [lastLineMessage, setLastLineMessage] = useState(lineMessageByStatus["待估價"])
   const [mobileTab, setMobileTab] = useState("cases")
+  const [actionNotice, setActionNotice] = useState("案件流程已載入，可以新增案件或更新狀態。")
   const current = cases.find((item) => item.id === selected) || cases[0]
   const metrics = [
     ["今日新案", cases.filter((item) => item.createdAt.includes("2026-06-20") || item.createdAt.includes("剛剛")).length],
@@ -1304,8 +1312,10 @@ function BuildFlowDemo() {
     try {
       await navigator.clipboard.writeText(text)
       setCopied("已複製")
+      setActionNotice("LINE 回報文字已複製，可以直接貼給客戶。")
     } catch {
       setCopied("已選取回報文字")
+      setActionNotice("瀏覽器未開放剪貼簿權限，請手動選取 LINE 回報。")
     }
     window.setTimeout(() => setCopied(""), 1600)
   }
@@ -1327,6 +1337,7 @@ function BuildFlowDemo() {
       setApiMode("Connected")
       setApiResponse(data)
       setApiError("")
+      setActionNotice("案件列表已重新載入。")
     } catch (error) {
       console.warn("buildflow cases demo fallback", error.message)
       const fallback = fallbackApiCases.map(mapApiCaseToUi)
@@ -1335,6 +1346,7 @@ function BuildFlowDemo() {
       setApiMode("Demo 模式")
       setApiResponse({ ok: true, source: "demo_mode", cases: fallbackApiCases })
       setApiError("API 暫時無法連線，已使用 Demo 模式顯示。")
+      setActionNotice("Demo 模式已載入案件列表。")
     }
   }
 
@@ -1376,6 +1388,7 @@ function BuildFlowDemo() {
       setApiMode("Connected")
       setApiError("")
       applyCaseUpdate(data.case, data)
+      setActionNotice("新案件已進入 BuildFlow，右側詳情已同步更新。")
       setMobileTab("detail")
     } catch (error) {
       console.warn("buildflow add case fallback", error.message)
@@ -1386,6 +1399,7 @@ function BuildFlowDemo() {
       setApiError("新增案件 API 暫時無法連線，已用 Demo 模式新增。")
       setApiResponse({ ok: true, source: "demo_mode", case: fallbackCase })
       setLastLineMessage(lineMessageByStatus["待估價"])
+      setActionNotice("Demo 模式新增案件完成，已切到案件詳情。")
       setMobileTab("detail")
     }
   }
@@ -1417,6 +1431,7 @@ function BuildFlowDemo() {
         lineMessage: "已收到來自鑫匠工程網站的估價需求，等待初步估價。",
       })
       setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
+      setActionNotice("鑫匠工程估價需求已進入 BuildFlow。")
       setMobileTab("detail")
     } catch (error) {
       console.warn("buildflow xinjiang case fallback", error.message)
@@ -1436,6 +1451,7 @@ function BuildFlowDemo() {
       setApiError("鑫匠案例 API 暫時無法連線，已用 Demo 模式新增。")
       setApiResponse({ ok: true, source: "demo_mode", scenario: "xinjiang_case", case: fallbackCase })
       setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
+      setActionNotice("Demo 模式新增鑫匠案例完成。")
       setMobileTab("detail")
     }
   }
@@ -1454,6 +1470,7 @@ function BuildFlowDemo() {
       setApiMode("Connected")
       setApiError("")
       applyCaseUpdate(data.case, data)
+      setActionNotice(`案件狀態已更新為「${status}」，LINE 回報已同步。`)
       setMobileTab("line")
     } catch (error) {
       console.warn("buildflow update case fallback", error.message)
@@ -1472,6 +1489,7 @@ function BuildFlowDemo() {
       setApiError("更新狀態 API 暫時無法連線，已用 Demo 模式更新。")
       setApiResponse({ ok: true, source: "demo_mode", lineMessage, caseId: current.id, status })
       setLastLineMessage(lineMessage)
+      setActionNotice(`Demo 模式更新為「${status}」，LINE 回報已新增。`)
       setMobileTab("line")
     }
   }
@@ -1486,6 +1504,7 @@ function BuildFlowDemo() {
     setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
     setApiError("Demo 已重置為初始資料。")
     setLastLineMessage(lineMessageByStatus["待估價"])
+    setActionNotice("Demo 已重置。")
     setMobileTab("cases")
   }
 
@@ -1573,6 +1592,7 @@ function BuildFlowDemo() {
         </span>
         <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">案件資料流程</span>
         <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">最近 LINE：{lastLineMessage}</span>
+        <span className="w-full rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">最新操作：{actionNotice}</span>
         {apiError ? <p className="w-full text-xs font-black text-[#b45309]">{apiError}</p> : null}
       </div>
       <div className="mb-4 grid gap-3 sm:grid-cols-4">
@@ -1679,7 +1699,7 @@ function BuildFlowDemo() {
                   <button type="button" onClick={updateConstructionStatus} className="min-h-11 rounded-md bg-white px-3 text-sm font-black text-[#111c22]">
                     更新狀態
                   </button>
-                  <button type="button" onClick={() => setShowDetail(true)} className="min-h-11 rounded-md border border-white/20 px-3 text-sm font-black text-white">
+                  <button type="button" onClick={() => { setShowDetail(true); setActionNotice("已開啟照片與報價詳情。") }} className="min-h-11 rounded-md border border-white/20 px-3 text-sm font-black text-white">
                     查看詳情
                   </button>
                 </div>
@@ -1701,7 +1721,7 @@ function BuildFlowDemo() {
                     <span>NT${item.subtotal.toLocaleString("zh-TW")}</span>
                   </div>
                 ))}
-                <button type="button" onClick={() => setShowQuote(true)} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                <button type="button" onClick={() => { setShowQuote(true); setActionNotice("報價單 Preview 已開啟。") }} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
                   產生報價單
                 </button>
               </div>
@@ -1749,10 +1769,10 @@ function BuildFlowDemo() {
             <button type="button" onClick={updateConstructionStatus} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               更新施工狀態
             </button>
-            <button type="button" onClick={() => setShowDetail(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={() => { setShowDetail(true); setActionNotice("已開啟照片與報價詳情。") }} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看照片 / 報價
             </button>
-            <button type="button" onClick={() => setShowQuote(true)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={() => { setShowQuote(true); setActionNotice("報價單 Preview 已開啟。") }} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               產生報價單
             </button>
             <button type="button" onClick={copyLineReport} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
@@ -1995,6 +2015,7 @@ function ApiAutomationDemo() {
   const [apiError, setApiError] = useState("")
   const [dashboardItems, setDashboardItems] = useState([])
   const [detailLead, setDetailLead] = useState(null)
+  const [automationNotice, setAutomationNotice] = useState("填寫表單後，流程會依序進入 API、通知與後台。")
   const flow = ["Form", "API", "Validation", "Database", "Notification", "Dashboard"]
 
   function normalizeBudget(value) {
@@ -2115,6 +2136,7 @@ function ApiAutomationDemo() {
     setApiResponse(response)
     setShowResponse(true)
     addDashboardItem(response)
+    setAutomationNotice(`已建立 ${response.leadId || "demo lead"}，Dashboard 新增一筆需求。`)
     setFlowRunning(false)
   }
 
@@ -2122,6 +2144,7 @@ function ApiAutomationDemo() {
     if (!validateForm()) return
     setFlowStep(-1)
     setFlowRunning(false)
+    setAutomationNotice("正在用同一筆資料重送流程。")
     window.setTimeout(runFlow, 120)
   }
 
@@ -2130,6 +2153,7 @@ function ApiAutomationDemo() {
     setFlowStep(-1)
     setFlowRunning(true)
     await playFlowAnimation()
+    setAutomationNotice("流程動畫已重播，未重新送出 API。")
     setFlowRunning(false)
   }
 
@@ -2144,6 +2168,7 @@ function ApiAutomationDemo() {
     setApiError("")
     setDashboardItems([])
     setDetailLead(null)
+    setAutomationNotice("Demo 已清空，可以重新填寫。")
   }
 
   function flowStatus(index) {
@@ -2158,7 +2183,7 @@ function ApiAutomationDemo() {
         <MiniCard title="客戶需求表單">
           <div className="mb-4 rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
             <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Live API Demo</p>
-            <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">送出後會 POST 到 /api/automation-lead，回傳 leadId、通知狀態與 dashboardItem。</p>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{automationNotice}</p>
           </div>
           <div className="grid gap-3">
             <label className="grid gap-2 text-sm font-black text-[#111c22]">

@@ -55,11 +55,11 @@ function OptionButton({ option, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`min-h-11 rounded-full border px-4 text-sm font-black transition ${
-        active ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62]" : "border-[#ddd6c9] bg-white text-[#52605c] hover:border-[#0d6b62]"
+      className={`min-h-11 rounded-full border px-4 text-sm font-black transition duration-200 ${
+        active ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62] shadow-sm" : "border-[#ddd6c9] bg-white text-[#52605c] hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-sm"
       }`}
     >
-      {option}
+      {active ? "✓ " : ""}{option}
     </button>
   )
 }
@@ -177,7 +177,7 @@ function ProjectPlanner() {
 
   function setSingleAnswer(key, value) {
     setAnswers((current) => ({ ...current, [key]: value }))
-    setMessage("")
+    setMessage(`已選擇：${value}`)
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -192,7 +192,7 @@ function ProjectPlanner() {
         features: exists ? current.features.filter((item) => item !== feature) : [...current.features, feature],
       }
     })
-    setMessage("")
+    setMessage("已更新功能選項。")
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -498,8 +498,9 @@ function ProjectPlanner() {
           <p className="mt-2 text-sm font-bold leading-6 text-white/70">{result ? result.planName : "完成選項後產生建議"}</p>
           <div className="mt-6 grid gap-3">
             <div className="rounded-xl bg-white/10 p-4">
-              <p className="text-xs font-black text-[#8fd6cc]">技術複雜度</p>
-              <p className="mt-2 text-xl font-black">{result ? result.complexity : previewResult.complexity}</p>
+              <p className="text-xs font-black text-[#8fd6cc]">推薦方向</p>
+              <p className="mt-2 text-xl font-black">{result ? result.planName : previewResult.planName}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-white/70">複雜度：{result ? result.complexity : previewResult.complexity}</p>
               <div className="mt-3 h-2 rounded-full bg-white/15">
                 <div className="h-full rounded-full bg-[#8fd6cc]" style={{ width: (result || previewResult).complexity === "高" ? "86%" : (result || previewResult).complexity === "中" ? "62%" : "38%" }} />
               </div>
@@ -507,7 +508,7 @@ function ProjectPlanner() {
             <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">適合功能</p>
               <div className="mt-3 flex flex-wrap gap-2">
-                {(result || previewResult).recommendedFeatures.map((item) => (
+                {(result || previewResult).recommendedFeatures.slice(0, 6).map((item) => (
                   <span key={item} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">
                     {item}
                   </span>
@@ -515,25 +516,13 @@ function ProjectPlanner() {
               </div>
             </div>
             <div className="rounded-xl bg-white/10 p-4">
-              <p className="text-xs font-black text-[#8fd6cc]">建議技術</p>
-              <p className="mt-2 text-sm font-bold leading-7 text-white/80">{(result || previewResult).tech.join(" / ")}</p>
-            </div>
-            <div className="rounded-xl bg-white/10 p-4">
               <p className="text-xs font-black text-[#8fd6cc]">預估製作方向</p>
               <p className="mt-2 text-sm font-bold leading-7 text-white/80">{(result || previewResult).direction}</p>
             </div>
             <div className="rounded-xl bg-white/10 p-4">
-              <p className="text-xs font-black text-[#8fd6cc]">風險提醒</p>
+              <p className="text-xs font-black text-[#8fd6cc]">下一步</p>
               <div className="mt-3 grid gap-2 text-sm font-bold leading-6 text-white/80">
-                {(result || previewResult).risks.map((item) => (
-                  <span key={item}>・{item}</span>
-                ))}
-              </div>
-            </div>
-            <div className="rounded-xl bg-white/10 p-4">
-              <p className="text-xs font-black text-[#8fd6cc]">下一步建議</p>
-              <div className="mt-3 grid gap-2 text-sm font-bold leading-6 text-white/80">
-                {(result || previewResult).nextSteps.map((item) => (
+                {(result || previewResult).nextSteps.slice(0, 3).map((item) => (
                   <span key={item}>・{item}</span>
                 ))}
               </div>

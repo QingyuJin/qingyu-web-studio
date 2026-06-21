@@ -114,6 +114,7 @@ function LineBotMission() {
   const [status, setStatus] = useState("選擇一種 Bot 處理方式，觀察 LINE 對話與後台如何同步。")
   const [history, setHistory] = useState([])
   const [mobileTab, setMobileTab] = useState("chat")
+  const [lastStrategy, setLastStrategy] = useState("")
 
   const currentScenario = scenarios[scenarioIndex]
   const completed = scenarioIndex >= scenarios.length
@@ -153,6 +154,7 @@ function LineBotMission() {
     setMessages((current) => [
       ...current,
       { role: "bot", text: reply, tag: effect.badge },
+      { role: "system", text: `${currentScenario.category}｜${effect.badge}` },
     ])
     if (shouldCreateCase) setCases((current) => [nextCase, ...current])
     setHistory((current) => [
@@ -160,6 +162,7 @@ function LineBotMission() {
       `${currentScenario.category} → ${strategyLabels[key]} → ${effect.badge}`,
     ])
     setStatus(key === currentScenario.best ? `處理順暢 ${getMood(nextMetrics).mark}` : `可用，但還能更精準 ${getMood(nextMetrics).mark}`)
+    setLastStrategy(key)
     setMobileTab("chat")
 
     const nextIndex = scenarioIndex + 1
@@ -182,6 +185,7 @@ function LineBotMission() {
     setStatus("選擇一種 Bot 處理方式，觀察 LINE 對話與後台如何同步。")
     setHistory([])
     setMobileTab("chat")
+    setLastStrategy("")
   }
 
   return (
@@ -259,7 +263,7 @@ function LineBotMission() {
           </div>
           <div className="mt-5">
             {mobileTab === "chat" ? <LinePhone messages={messages} /> : null}
-            {mobileTab === "handle" ? <StrategyPanel scenario={currentScenario} completed={completed} status={status} onChoose={handleStrategy} onReset={resetDemo} /> : null}
+            {mobileTab === "handle" ? <StrategyPanel scenario={currentScenario} completed={completed} status={status} lastStrategy={lastStrategy} onChoose={handleStrategy} onReset={resetDemo} /> : null}
             {mobileTab === "dashboard" || mobileTab === "result" ? (
               <DashboardPanel
                 metrics={metrics}
@@ -276,7 +280,7 @@ function LineBotMission() {
 
         <div className="hidden gap-5 lg:grid lg:grid-cols-[0.9fr_0.92fr_1fr]">
           <LinePhone messages={messages} />
-          <StrategyPanel scenario={currentScenario} completed={completed} status={status} onChoose={handleStrategy} onReset={resetDemo} />
+          <StrategyPanel scenario={currentScenario} completed={completed} status={status} lastStrategy={lastStrategy} onChoose={handleStrategy} onReset={resetDemo} />
           <DashboardPanel
             metrics={metrics}
             mood={mood}
@@ -359,16 +363,16 @@ function LinePhone({ messages }) {
 
 function Bubble({ role, text }) {
   if (role === "system") {
-    return <div className="mx-auto max-w-[86%] rounded-full bg-white/70 px-3 py-1 text-center text-[11px] font-black text-[#52605c]">{text}</div>
+    return <div className="mx-auto max-w-[86%] rounded-full bg-white/70 px-3 py-1 text-center text-[11px] font-black text-[#52605c] transition">{text}</div>
   }
   return (
-    <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm font-bold leading-6 transition ${role === "bot" ? "ml-auto bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"}`}>
+    <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm font-bold leading-6 shadow-sm transition duration-300 ${role === "bot" ? "ml-auto bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"}`}>
       {text}
     </div>
   )
 }
 
-function StrategyPanel({ scenario, completed, status, onChoose, onReset }) {
+function StrategyPanel({ scenario, completed, status, lastStrategy, onChoose, onReset }) {
   return (
     <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
       <div className="flex items-start justify-between gap-3">
@@ -393,9 +397,12 @@ function StrategyPanel({ scenario, completed, status, onChoose, onReset }) {
           </div>
           <div className="mt-5 grid gap-3">
             {Object.entries(strategyLabels).map(([key, label]) => (
-              <button key={key} type="button" onClick={() => onChoose(key)} className="rounded-2xl border border-[#e3ded3] bg-white p-4 text-left transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md">
-                <span className="text-xs font-black text-[#0d6b62]">{key === scenario.best ? "建議" : "選項"}</span>
+              <button key={key} type="button" onClick={() => onChoose(key)} className={`rounded-2xl border p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md ${lastStrategy === key ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
+                <span className="text-xs font-black text-[#0d6b62]">{key === scenario.best ? "建議" : lastStrategy === key ? "已選" : "選項"}</span>
                 <span className="mt-1 block text-sm font-black text-[#111c22]">{label}</span>
+                <span className="mt-2 block text-xs font-bold leading-5 text-[#52605c]">
+                  {key === "auto" ? "快速回覆，適合簡單問題。" : key === "ask" ? "先收集產業、功能與預算。" : key === "case" ? "同步建立後台案件。" : "保留人味，交給人工確認。"}
+                </span>
               </button>
             ))}
           </div>
@@ -426,6 +433,12 @@ function DashboardPanel({ metrics, mood, cases, history, suggestedFeatures, comp
           </div>
           <p className="text-4xl font-black">{mood.score}</p>
         </div>
+      </div>
+      <div className="mt-5 rounded-2xl bg-white/10 p-4">
+        <p className="text-xs font-black text-[#8fd6cc]">最新同步</p>
+        <p className="mt-2 text-sm font-bold leading-6 text-white/78">
+          {cases[0] ? `${cases[0].title} 已同步到後台，狀態：${cases[0].status}` : "選擇處理方式後，這裡會顯示同步結果。"}
+        </p>
       </div>
 
       <div className="mt-5 rounded-2xl bg-white/10 p-4">
