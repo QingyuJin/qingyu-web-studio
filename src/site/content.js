@@ -12,7 +12,7 @@ export const seo = {
     path: "/",
     title: "Qingyu Web Studio｜台灣網站製作、AI 工具與 LINE Bot 開發",
     description:
-      "協助台灣個人品牌、小型店家、工作室與學生製作網站、作品集、AI 工具、LINE Bot、API 串接與簡易管理系統。",
+      "協助台灣小型店家、工作室、工程行與個人品牌製作漂亮網站，並串接 LINE Bot、AI 工具、表單、API 與小型後台流程。",
   },
   works: {
     path: "/works",

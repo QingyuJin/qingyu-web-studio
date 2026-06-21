@@ -57,30 +57,6 @@ const interactiveDemos = [
   },
 ]
 
-const toolCards = [
-  {
-    title: "Project Planner",
-    text: "判斷適合做網站、LINE Bot 還是系統。",
-    to: "/tools/project-planner#demo",
-    label: "開始診斷",
-    chips: ["需求診斷", "方案建議"],
-  },
-  {
-    title: "AI Audit",
-    text: "檢查網站 CTA、SEO 與聯絡流程。",
-    to: "/works/ai-audit#demo",
-    label: "看 AI 報告",
-    chips: ["SEO", "CTA"],
-  },
-  {
-    title: "API Automation",
-    text: "表單送出後，自動進 API、通知與後台。",
-    to: "/works/api-automation#demo",
-    label: "看 API 流程",
-    chips: ["Form", "Dashboard"],
-  },
-]
-
 const serviceCards = [
   ["網站製作", "把服務、作品與聯絡入口整理清楚。"],
   ["LINE Bot", "讓 LINE 詢問變成可追蹤需求。"],
@@ -102,12 +78,14 @@ function StudioHome() {
             </h1>
             <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-lg md:leading-8">
               <span className="md:hidden">把你的服務整理成漂亮、清楚、可以聯絡的網站。</span>
-              <span className="hidden md:inline">把你的服務整理成漂亮網站，並串接表單、LINE、AI 與後台流程。</span>
+              <span className="hidden md:inline">把你的服務整理成漂亮、清楚、可以聯絡的線上入口。</span>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/#interactive-lab" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
-                <span className="md:hidden">查看作品</span>
-                <span className="hidden md:inline">查看互動展示</span>
+              <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b] md:hidden">
+                查看作品
+              </Link>
+              <Link to="/#interactive-lab" className="hidden min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b] md:inline-flex">
+                查看互動展示
               </Link>
               <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                 聯絡我
@@ -123,7 +101,6 @@ function StudioHome() {
       <PathNavigation />
       <InteractiveLab />
       <CompleteCase />
-      <ToolShelf />
       <ServiceAbility />
       <ContactCta />
     </SiteLayout>
@@ -199,40 +176,6 @@ function CompleteCase() {
           </div>
         </div>
         <BuildFlowCaseMockup />
-      </div>
-    </section>
-  )
-}
-
-function ToolShelf() {
-  return (
-    <section className="hidden border-b border-[#e6e0d5] bg-white md:block">
-      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="AI / API Tools" title="AI / API 工具" text="把需求、分析與資料流程做成可操作介面。" />
-        <div className="grid gap-4 md:grid-cols-3">
-          {toolCards.map((tool) => (
-            <article key={tool.title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
-              <div className="mb-5 rounded-2xl bg-[#111c22] p-4 text-white">
-                <div className="flex items-center justify-between gap-3">
-                  <p className="text-sm font-black">{tool.title}</p>
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-[#8fd6cc]">Demo</span>
-                </div>
-                <div className="mt-4 flex gap-2">
-                  {tool.chips.map((chip) => (
-                    <span key={chip} className="rounded-lg bg-white/10 px-3 py-2 text-[11px] font-black text-white/80">
-                      {chip}
-                    </span>
-                  ))}
-                </div>
-              </div>
-              <h3 className="text-xl font-black">{tool.title}</h3>
-              <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{tool.text}</p>
-              <Link to={tool.to} className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white md:w-auto">
-                {tool.label}
-              </Link>
-            </article>
-          ))}
-        </div>
       </div>
     </section>
   )
