@@ -1,60 +1,94 @@
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
-import { audience, contact, pricing, processSteps, projects, seo, serviceCategories, techStack } from "./site/content"
+import { contact, seo } from "./site/content"
+
+const pathCards = [
+  {
+    title: "我要做網站",
+    text: "看網站整理、版面優化與主站案例。",
+    to: "/tools/website-rescue#demo",
+    label: "看網站展示",
+    preview: ["Website Rescue", "Qingyu Web"],
+  },
+  {
+    title: "我要接 LINE 客戶",
+    text: "看 LINE Bot 如何回覆、整理需求與同步後台。",
+    to: "/tools/linebot-mission#demo",
+    label: "看 LINE Bot",
+    preview: ["LINE Chat", "Dashboard"],
+  },
+  {
+    title: "我要管理案件",
+    text: "看案件、報價、照片與 LINE 回報流程。",
+    to: "/works/buildflow#demo",
+    label: "看 BuildFlow",
+    preview: ["Case", "Quote", "LINE"],
+  },
+  {
+    title: "我要 AI 或 API 工具",
+    text: "看 AI 分析、API 串接與自動化流程。",
+    to: "/works/ai-audit#demo",
+    label: "看 AI / API",
+    preview: ["AI Audit", "API Flow"],
+  },
+]
 
 const interactiveDemos = [
   {
     slug: "website-rescue",
     title: "網站救援互動 Demo",
     label: "Website Rescue",
-    summary: "點選改善項目，看看 CTA、SEO、手機版與信任感如何改變網站狀態。",
+    summary: "點選改善項目，查看網站狀態變化。",
     livePath: "/tools/website-rescue#demo",
     techPath: "/tools/website-rescue#tech",
-    liveLabel: "開始互動",
-    stat: "42 → 92",
-    chips: ["CTA", "SEO", "手機版", "信任感"],
+    liveLabel: "開始體驗",
     tone: "rescue",
   },
   {
     slug: "linebot-mission",
     title: "LINE Bot 接待模擬",
     label: "LINE Bot Reception",
-    summary: "模擬 LINE 客戶訊息，看看 Bot 如何回覆、整理需求並同步到後台。",
+    summary: "模擬 LINE 客戶訊息與後台同步。",
     livePath: "/tools/linebot-mission#demo",
     techPath: "/tools/linebot-mission#tech",
-    liveLabel: "開始模擬",
-    stat: "5 則訊息",
-    chips: ["LINE Bot", "Webhook", "需求分類", "Dashboard"],
+    liveLabel: "開始體驗",
     tone: "line",
   },
 ]
 
-const businessValues = {
-  "ai-audit": "找出網站為什麼沒人聯絡。",
-  linebot: "讓 LINE 對話自動整理成需求。",
-  buildflow: "把工程案變成可追蹤案件。",
-  "api-automation": "表單送出後，自動進 API、通知與後台。",
-  "project-planner": "先判斷該做網站、LINE Bot 還是系統。",
-  "qingyu-web": "展示服務、作品、工具與聯絡流程。",
-  xinjiang: "工程網站如何接到 BuildFlow 後台。",
-}
+const toolCards = [
+  {
+    title: "Project Planner",
+    text: "判斷適合做網站、LINE Bot 還是系統。",
+    to: "/tools/project-planner#demo",
+    label: "開始診斷",
+    chips: ["需求診斷", "方案建議"],
+  },
+  {
+    title: "AI Audit",
+    text: "檢查網站 CTA、SEO 與聯絡流程。",
+    to: "/works/ai-audit#demo",
+    label: "看 AI 報告",
+    chips: ["SEO", "CTA"],
+  },
+  {
+    title: "API Automation",
+    text: "表單送出後，自動進 API、通知與後台。",
+    to: "/works/api-automation#demo",
+    label: "看 API 流程",
+    chips: ["Form", "Dashboard"],
+  },
+]
+
+const serviceCards = [
+  ["網站製作", "把服務、作品與聯絡入口整理清楚。"],
+  ["LINE Bot", "讓 LINE 詢問變成可追蹤需求。"],
+  ["AI 工具", "把分析、產出與報告包成好用介面。"],
+  ["小型後台 / API", "把表單、通知與資料流程接起來。"],
+]
 
 function StudioHome() {
-  const featuredProjects = projects.filter((project) => project.featured !== false)
-  const plannerCard = {
-    slug: "project-planner",
-    title: "網站需求診斷",
-    category: "互動工具",
-    summary: "回答幾個問題，快速判斷適合網站、LINE Bot、AI 工具還是小型系統。",
-    livePath: "/tools/project-planner#demo",
-    liveLabel: "開始診斷",
-    secondaryPath: "/tools/project-planner#tech",
-    secondaryLabel: "技術拆解",
-    tags: ["Rule-based", "OpenAI optional", "Vercel API", "Recommendation UI"],
-  }
-  const featuredCards = [...featuredProjects, plannerCard]
-
   return (
     <SiteLayout>
       <Seo page={seo.home} />
@@ -63,21 +97,18 @@ function StudioHome() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[1fr_0.78fr] md:items-center md:py-20">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Qingyu Web Studio</p>
-            <h1 className="mt-5 max-w-2xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.5rem,8vw,5rem)]">
-              網站、LINE Bot、AI 工具與小系統
+            <h1 className="mt-5 max-w-3xl text-[clamp(1.9rem,8vw,2.25rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.65rem,7vw,5rem)]">
+              網站、LINE Bot、AI 工具與小型後台
             </h1>
-            <p className="mt-6 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
-              把你的服務整理成清楚、漂亮、可以聯絡、可以互動的網站。
+            <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
+              把你的服務整理成漂亮網站，並串接表單、LINE、AI 與後台流程。
             </p>
-            <div className="mt-5 inline-flex max-w-full rounded-full border border-[#d8e2dc] bg-[#f5faf7] px-4 py-2 text-sm font-black text-[#0d6b62] shadow-sm">
-              不只做網站，也能把表單、LINE、AI、API 與後台流程接起來。
-            </div>
             <div className="mt-8 flex flex-wrap gap-3">
-              <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
-                看作品
+              <Link to="/#interactive-lab" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
+                查看互動展示
               </Link>
-              <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
-                需求診斷
+              <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                聯絡我
               </Link>
             </div>
           </div>
@@ -87,163 +118,55 @@ function StudioHome() {
         </div>
       </section>
 
+      <PathNavigation />
       <InteractiveLab />
+      <CompleteCase />
+      <ToolShelf />
+      <ServiceAbility />
+      <ContactCta />
+    </SiteLayout>
+  )
+}
 
-      <Section eyebrow="Works" title="精選作品">
-        <div className="grid gap-4 md:grid-cols-2">
-          {featuredCards.map((project) => (
-            <article
-              key={project.slug}
-              className="rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg md:p-5"
+function PathNavigation() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+      <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+        <SectionHeading eyebrow="Start Here" title="你想看哪一種？" text="先選方向，再進互動 Demo 或完整案例。" />
+        <div className="grid gap-3 md:grid-cols-4">
+          {pathCards.map((card) => (
+            <Link
+              key={card.title}
+              to={card.to}
+              className="group rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
             >
-              <ProjectPreview project={project} />
-              <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
-              <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
-              <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
-                {businessValues[project.slug] || "把流程做成客戶看得懂、老闆管得住的網站系統。"}
-              </p>
-              <div className="mt-4 hidden flex-wrap gap-2 md:flex">
-                {project.tags.slice(0, 4).map((tag) => (
-                  <span key={tag} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
-                    {tag}
+              <div className="mb-4 grid grid-cols-2 gap-2">
+                {card.preview.map((item) => (
+                  <span key={item} className="rounded-lg bg-[#faf8f3] px-3 py-2 text-[11px] font-black text-[#40504c]">
+                    {item}
                   </span>
                 ))}
               </div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white hover:bg-[#26343b] md:min-h-10 md:w-auto">
-                  {project.liveLabel}
-                </Link>
-                <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="hidden min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62] md:inline-flex">
-                  {project.secondaryLabel || "技術拆解"}
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </Section>
-
-      <Section eyebrow="Services" title="我可以幫你做">
-        <div className="grid gap-3 md:grid-cols-5">
-          {serviceCategories.map(([title, text]) => (
-            <article key={title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
-              <h3 className="text-lg font-black">{title}</h3>
-              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
-            </article>
-          ))}
-        </div>
-        <div className="mt-8 rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5 md:flex md:items-center md:justify-between">
-          <div>
-            <h3 className="text-xl font-black">不知道該做哪種網站？</h3>
-            <p className="mt-2 max-w-2xl text-sm font-bold leading-7 text-[#5a6461]">
-              用 1 分鐘回答幾個問題，我會幫你判斷適合品牌網站、作品集、LINE Bot、AI 工具還是小型系統。
-            </p>
-          </div>
-          <Link to="/tools/project-planner#demo" className="mt-4 inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white md:mt-0">
-            開始需求診斷
-          </Link>
-        </div>
-      </Section>
-
-      <section className="hidden border-y border-[#e6e0d5] bg-[#f2efe7] md:block">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 md:grid-cols-[0.78fr_1.22fr] md:items-center">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Technical</p>
-            <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">不只做版面</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#5a6461]">
-              前端畫面、API、LINE、AI 與後台狀態，可以被包裝成清楚、漂亮、能展示的產品體驗。
-            </p>
-          </div>
-          <div className="grid gap-2 sm:grid-cols-2 lg:grid-cols-3">
-            {techStack.map((item) => (
-              <div key={item} className="rounded-lg border border-[#ddd6c9] bg-white px-4 py-3 text-sm font-black text-[#2f3c3b]">
-                {item}
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <div className="hidden md:block">
-        <Section eyebrow="Process" title="製作流程">
-          <div className="grid gap-4 md:grid-cols-4">
-            {processSteps.map(([num, title, text]) => (
-              <article key={num} className="rounded-xl border border-[#e3ded3] bg-white p-5">
-                <p className="text-xs font-black text-[#0d6b62]">{num}</p>
-                <h3 className="mt-3 text-xl font-black">{title}</h3>
-                <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
-              </article>
-            ))}
-          </div>
-        </Section>
-      </div>
-
-      <div className="hidden md:block">
-        <Section eyebrow="For Taiwan Clients" title="適合對象">
-          <div className="flex flex-wrap gap-2">
-            {audience.map((item) => (
-              <span key={item} className="rounded-full border border-[#ddd6c9] bg-white px-4 py-2 text-sm font-black text-[#2f3c3b]">
-                {item}
-              </span>
-            ))}
-          </div>
-        </Section>
-      </div>
-
-      <section className="hidden border-y border-[#e6e0d5] bg-white md:block">
-        <div className="mx-auto max-w-6xl px-4 py-16">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Pricing</p>
-          <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">簡單好懂的方案</h2>
-          <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-[#5a6461]">
-            小型網站可從基礎方案開始；系統、AI 工具與 LINE Bot 依需求估價。
-          </p>
-          <div className="mt-8 grid gap-4 md:grid-cols-3">
-            {pricing.map(([name, price, text]) => (
-              <article key={name} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5">
-                <h3 className="text-xl font-black">{name}</h3>
-                <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
-                <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
-              </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="bg-[#111c22] text-white">
-        <div className="mx-auto grid max-w-6xl gap-6 px-4 py-16 md:grid-cols-[1fr_auto] md:items-end">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Contact</p>
-            <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">先聊聊你的網站</h2>
-            <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-white/70">
-              告訴我你的服務、客戶來源與卡住的流程，我可以幫你判斷適合網站、LINE Bot、AI 工具還是小型後台。
-            </p>
-          </div>
-          <div className="grid gap-3">
-            <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22] hover:bg-[#f3efe7]">
-              聯絡我
+              <h3 className="text-lg font-black text-[#111c22]">{card.title}</h3>
+              <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{card.text}</p>
+              <span className="mt-4 inline-flex text-sm font-black text-[#0d6b62]">{card.label}</span>
             </Link>
-            <a href={`mailto:${contact.email}`} className="text-sm font-black text-white/70 hover:text-white">
-              {contact.email}
-            </a>
-          </div>
+          ))}
         </div>
-      </section>
-    </SiteLayout>
+      </div>
+    </section>
   )
 }
 
 function InteractiveLab() {
   return (
-    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+    <section id="interactive-lab" className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="mb-7 max-w-3xl">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Lab</p>
-          <h2 className="mt-3 text-[clamp(2.1rem,6vw,3.6rem)] font-black tracking-tight">
-            互動實驗室
-          </h2>
-          <p className="mt-4 text-sm font-bold leading-7 text-[#52605c] md:text-base">
-            直接操作幾個小型 Demo，看看網站、LINE Bot 與後台流程怎麼動起來。
-          </p>
-        </div>
+        <SectionHeading
+          eyebrow="Interactive Lab"
+          title="互動實驗室"
+          text="直接操作小型 Demo，看看網站、LINE Bot 與後台流程怎麼動起來。"
+        />
         <div className="grid gap-5 lg:grid-cols-2">
           {interactiveDemos.map((demo) => (
             <InteractiveDemoCard key={demo.slug} demo={demo} />
@@ -254,31 +177,139 @@ function InteractiveLab() {
   )
 }
 
+function CompleteCase() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-[0.82fr_1.18fr] md:items-center md:py-16">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Full Case</p>
+          <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">從網站詢價到後台管理</h2>
+          <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#52605c]">
+            以工程行情境展示案件、報價、照片、施工狀態與 LINE 回報流程。
+          </p>
+          <div className="mt-6 flex flex-wrap gap-3">
+            <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看 BuildFlow
+            </Link>
+            <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看鑫匠案例
+            </Link>
+          </div>
+        </div>
+        <BuildFlowCaseMockup />
+      </div>
+    </section>
+  )
+}
+
+function ToolShelf() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <SectionHeading eyebrow="AI / API Tools" title="AI / API 工具" text="把需求、分析與資料流程做成可操作介面。" />
+        <div className="grid gap-4 md:grid-cols-3">
+          {toolCards.map((tool) => (
+            <article key={tool.title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
+              <div className="mb-5 rounded-2xl bg-[#111c22] p-4 text-white">
+                <div className="flex items-center justify-between gap-3">
+                  <p className="text-sm font-black">{tool.title}</p>
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-[#8fd6cc]">Demo</span>
+                </div>
+                <div className="mt-4 flex gap-2">
+                  {tool.chips.map((chip) => (
+                    <span key={chip} className="rounded-lg bg-white/10 px-3 py-2 text-[11px] font-black text-white/80">
+                      {chip}
+                    </span>
+                  ))}
+                </div>
+              </div>
+              <h3 className="text-xl font-black">{tool.title}</h3>
+              <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{tool.text}</p>
+              <Link to={tool.to} className="mt-5 inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white md:w-auto">
+                {tool.label}
+              </Link>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ServiceAbility() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <SectionHeading eyebrow="Services" title="服務能力" text="從網站到後台流程，先做清楚、再做漂亮、最後做得能被使用。" />
+        <div className="grid gap-3 md:grid-cols-4">
+          {serviceCards.map(([title, text]) => (
+            <article key={title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
+              <div className="mb-4 h-10 w-10 rounded-xl bg-[#eef7f4]" />
+              <h3 className="text-lg font-black">{title}</h3>
+              <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+            </article>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function ContactCta() {
+  return (
+    <section className="bg-[#111c22] text-white">
+      <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 md:grid-cols-[1fr_auto] md:items-end md:py-16">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Contact</p>
+          <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">想做網站、LINE Bot、AI 工具或小系統？</h2>
+          <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-white/70">
+            可以先聊聊方向，我會幫你判斷適合哪一種做法。
+          </p>
+        </div>
+        <div className="grid gap-3">
+          <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22] hover:bg-[#f3efe7]">
+            聯絡我
+          </Link>
+          <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-white/20 px-5 text-sm font-black text-white hover:bg-white/10">
+            開始需求診斷
+          </Link>
+          <a href={`mailto:${contact.email}`} className="text-sm font-black text-white/70 hover:text-white">
+            {contact.email}
+          </a>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+function SectionHeading({ eyebrow, title, text }) {
+  return (
+    <div className="mb-7 max-w-3xl">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
+      <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">{title}</h2>
+      {text ? <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base">{text}</p> : null}
+    </div>
+  )
+}
+
 function InteractiveDemoCard({ demo }) {
   return (
     <article className="group overflow-hidden rounded-[1.65rem] border border-[#ded8cb] bg-white shadow-xl shadow-[#111c22]/5 transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#111c22]/10">
-      <div className="grid gap-0 md:grid-cols-[1.05fr_0.95fr]">
+      <div className="grid gap-0 md:grid-cols-[1.02fr_0.98fr]">
         <div className="p-5 md:p-6">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">{demo.label}</p>
           <h3 className="mt-3 text-2xl font-black tracking-tight md:text-3xl">{demo.title}</h3>
           <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{demo.summary}</p>
-          <div className="mt-4 hidden flex-wrap gap-2 md:flex">
-            {demo.chips.map((chip) => (
-              <span key={chip} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
-                {chip}
-              </span>
-            ))}
-          </div>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to={demo.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
               {demo.liveLabel}
             </Link>
-            <Link to={demo.techPath} className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+            <Link to={demo.techPath} className="hidden min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62] md:inline-flex">
               技術拆解
             </Link>
           </div>
         </div>
-        <div className="min-h-52 bg-[#111c22] p-4 text-white md:min-h-72 md:p-5">
+        <div className="min-h-56 bg-[#111c22] p-4 text-white md:min-h-80 md:p-5">
           {demo.tone === "rescue" ? <WebsiteRescuePreview /> : <LineMissionPreview />}
         </div>
       </div>
@@ -290,15 +321,18 @@ function WebsiteRescuePreview() {
   return (
     <div className="flex h-full flex-col justify-between rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4">
       <div className="flex items-center justify-between">
-        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">Rescue Score</span>
-        <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b171b]">42 → 92</span>
+        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">Website Status</span>
+        <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b171b]">○v○ 82</span>
       </div>
       <div className="mt-5 rounded-2xl bg-white p-4 text-[#111c22]">
-        <div className="h-3 w-3/4 rounded-full bg-[#111c22]" />
+        <div className="flex items-center justify-between">
+          <div className="h-3 w-2/3 rounded-full bg-[#111c22]" />
+          <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">CTA</span>
+        </div>
         <div className="mt-3 h-2 w-1/2 rounded-full bg-[#d8d2c5]" />
         <div className="mt-5 grid gap-2">
           <div className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-3">
-            <p className="text-xs font-black text-[#0d6b62]">CTA 修復成功</p>
+            <p className="text-xs font-black text-[#0d6b62]">改善項目</p>
             <div className="mt-2 h-2 rounded-full bg-[#dce7e2]">
               <div className="h-full w-[82%] rounded-full bg-[#0d6b62]" />
             </div>
@@ -310,7 +344,7 @@ function WebsiteRescuePreview() {
         </div>
       </div>
       <div className="mt-4 grid grid-cols-3 gap-2 text-center text-[11px] font-black text-white/80">
-        {["Before", "Fix", "Report"].map((item) => (
+        {["Preview", "Fix", "Report"].map((item) => (
           <span key={item} className="rounded-lg bg-white/10 py-2">
             {item}
           </span>
@@ -322,16 +356,16 @@ function WebsiteRescuePreview() {
 
 function LineMissionPreview() {
   return (
-    <div className="grid h-full gap-3 sm:grid-cols-[0.92fr_1.08fr]">
+    <div className="grid h-full gap-3 sm:grid-cols-[0.9fr_1.1fr]">
       <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.04] p-3">
         <div className="rounded-[1.15rem] bg-[#e9f7ef] p-3 text-[#10201c]">
           <div className="mb-3 flex justify-center">
             <span className="rounded-full bg-[#08bf5b] px-3 py-1 text-[11px] font-black text-white">LINE</span>
           </div>
           <div className="grid gap-2 text-[11px] font-black">
-            <div className="rounded-2xl bg-white px-3 py-2">請問網站大概多少？</div>
-            <div className="ml-auto rounded-2xl bg-[#9bf4b6] px-3 py-2">先幫你整理需求。</div>
-            <div className="rounded-2xl bg-white px-3 py-2">想做預約和菜單查詢。</div>
+            <div className="rounded-2xl bg-white px-3 py-2">想做預約功能</div>
+            <div className="ml-auto rounded-2xl bg-[#9bf4b6] px-3 py-2">我先整理需求</div>
+            <div className="rounded-2xl bg-white px-3 py-2">需要菜單查詢</div>
           </div>
         </div>
       </div>
@@ -346,28 +380,48 @@ function LineMissionPreview() {
           </div>
         </div>
         <div className="rounded-2xl bg-white p-4 text-[#111c22]">
-          <p className="text-xs font-black text-[#0d6b62]">後台同步</p>
+          <p className="text-xs font-black text-[#0d6b62]">後台案件</p>
           <p className="mt-2 text-sm font-black">店家 LINE Bot 需求</p>
-          <p className="mt-1 text-xs font-bold text-[#52605c]">狀態：已整理需求</p>
-        </div>
-        <div className="grid grid-cols-2 gap-2 text-center text-[11px] font-black">
-          <span className="rounded-lg bg-white/10 py-2">Cases +3</span>
-          <span className="rounded-lg bg-white/10 py-2">Time -24m</span>
+          <p className="mt-1 text-xs font-bold text-[#52605c]">狀態：已整理</p>
         </div>
       </div>
     </div>
   )
 }
 
-function Section({ eyebrow, title, children }) {
+function BuildFlowCaseMockup() {
   return (
-    <section className="mx-auto max-w-6xl px-4 py-16">
-      <div className="mb-8 max-w-2xl">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
-        <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">{title}</h2>
+    <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-white p-4 shadow-xl shadow-[#111c22]/8">
+      <div className="rounded-[1.35rem] bg-[#111c22] p-4 text-white">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm font-black">BuildFlow Dashboard</p>
+          <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">施工中</span>
+        </div>
+        <div className="mt-4 grid gap-3 md:grid-cols-[0.95fr_1.05fr]">
+          <div className="grid gap-2">
+            {["BF-001 屋頂防水", "BF-002 地坪修繕", "BF-003 外牆補漏"].map((item, index) => (
+              <div key={item} className={`rounded-xl px-3 py-3 text-xs font-black ${index === 0 ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/10 text-white/78"}`}>
+                {item}
+              </div>
+            ))}
+          </div>
+          <div className="rounded-2xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between">
+              <p className="text-sm font-black">鑫匠工程案例</p>
+              <span className="text-xs font-black text-[#0d6b62]">75%</span>
+            </div>
+            <div className="mt-3 h-2 rounded-full bg-[#e4e9e6]">
+              <div className="h-full w-3/4 rounded-full bg-[#0d6b62]" />
+            </div>
+            <div className="mt-4 grid gap-2 text-xs font-black text-[#52605c]">
+              <span>報價單 Preview</span>
+              <span>LINE 回報已同步</span>
+              <span>現場照片 3 張</span>
+            </div>
+          </div>
+        </div>
       </div>
-      {children}
-    </section>
+    </div>
   )
 }
 
@@ -381,136 +435,25 @@ function HeroMockup() {
             <span className="h-2.5 w-2.5 rounded-full bg-[#ffd166]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#8fd6cc]" />
           </div>
-          <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">Live System</span>
+          <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">Digital Flow</span>
         </div>
         <div className="grid gap-3 p-4">
-          <div className="rounded-2xl bg-[#111c22] p-4 text-white">
-            <div className="flex items-center justify-between gap-3">
-              <p className="text-sm font-black">LINE 詢問</p>
-              <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-[#8fd6cc]">parsed</span>
-            </div>
-            <div className="mt-4 grid gap-2 text-xs font-black">
-              {["客戶傳照片", "想看報價", "已整理成需求"].map((item, index) => (
-                <div key={item} className={`rounded-xl px-3 py-2 ${index === 1 ? "ml-auto bg-[#0d6b62] text-white" : "bg-white/10 text-white/84"}`}>
-                  {item}
-                </div>
-              ))}
-            </div>
-          </div>
-          <div className="grid gap-3 sm:grid-cols-2">
-            <div className="rounded-2xl border border-[#eee9df] bg-[#faf8f3] p-4">
+          {[
+            ["被看到", "網站 / SEO"],
+            ["被詢問", "表單 / LINE"],
+            ["留下需求", "AI / API"],
+            ["後台管理", "Dashboard"],
+            ["回覆客戶", "LINE / Email"],
+          ].map(([title, text], index) => (
+            <div key={title} className={`rounded-2xl p-4 ${index === 3 ? "bg-[#111c22] text-white" : "border border-[#eee9df] bg-[#faf8f3]"}`}>
               <div className="flex items-center justify-between gap-3">
-                <p className="text-sm font-black">BuildFlow 案件</p>
-                <span className="text-xs font-black text-[#0d6b62]">75%</span>
+                <p className="text-sm font-black">{title}</p>
+                <span className={`rounded-full px-3 py-1 text-[11px] font-black ${index === 3 ? "bg-white/10 text-[#8fd6cc]" : "bg-white text-[#0d6b62]"}`}>{text}</span>
               </div>
-              <div className="mt-3 h-2 rounded-full bg-[#e4e9e6]">
-                <div className="h-full w-3/4 rounded-full bg-[#0d6b62]" />
-              </div>
-              <p className="mt-3 text-xs font-black text-[#52605c]">施工回報中</p>
             </div>
-            <div className="rounded-2xl border border-[#eee9df] bg-white p-4">
-              <p className="text-sm font-black">AI 分析</p>
-              <p className="mt-2 text-2xl font-black text-[#0d6b62]">79.26%</p>
-              <p className="mt-1 text-xs font-black text-[#52605c]">CSV / 題庫 / 影像分類</p>
-            </div>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {["LINE Bot", "Supabase", "Webhook", "Vercel", "RWD"].map((item) => (
-              <span key={item} className="rounded-full border border-[#e1dbcf] bg-white px-3 py-1 text-[11px] font-black text-[#40504c]">
-                {item}
-              </span>
-            ))}
-          </div>
+          ))}
         </div>
       </div>
-    </div>
-  )
-}
-
-function ProjectPreview({ project }) {
-  const isBuildFlow = project.slug === "buildflow"
-  const isLineBot = project.slug === "linebot"
-  const isAudit = project.slug === "ai-audit"
-  const isApi = project.slug === "api-automation"
-  const isXinjiang = project.slug === "xinjiang"
-  const isQingyu = project.slug === "qingyu-web"
-  const isPlanner = project.slug === "project-planner"
-
-  return (
-    <div className="mb-4 min-h-36 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-3 md:mb-5 md:min-h-52 md:p-4">
-      <div className="flex items-center justify-between gap-3">
-        <span className="text-xs font-black text-[#0d6b62]">{project.category}</span>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#53605d]">Demo Preview</span>
-      </div>
-
-      {isBuildFlow ? (
-        <div className="mt-4 space-y-3">
-          <div className="rounded-xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
-            <div className="flex items-center justify-between gap-3 text-xs font-black">
-              <span>q-001 工程案件</span>
-              <span className="text-[#8fd6cc]">75%</span>
-            </div>
-            <div className="mt-3 h-2 rounded-full bg-white/15">
-              <div className="h-full w-3/4 rounded-full bg-[#8fd6cc]" />
-            </div>
-          </div>
-          <PreviewChips items={["LINE 回報", "報價單", "施工狀態"]} />
-        </div>
-      ) : isLineBot ? (
-        <SimplePreview items={["LINE 對話", "Webhook", "後台收件"]} />
-      ) : isAudit ? (
-        <SimplePreview items={["SEO 82", "CTA 建議", "手機版檢查"]} />
-      ) : isApi ? (
-        <div className="mt-4 space-y-3">
-          <PreviewChips items={["Form", "API", "Notify"]} />
-          <div className="rounded-xl bg-[#111c22] p-4 text-xs font-black text-white shadow-lg shadow-[#111c22]/10">
-            <div className="flex justify-between">
-              <span>Status</span>
-              <span className="text-[#8fd6cc]">synced</span>
-            </div>
-          </div>
-        </div>
-      ) : isXinjiang ? (
-        <SimplePreview items={["估價入口", "工程案例", "BuildFlow"]} />
-      ) : isQingyu ? (
-        <SimplePreview items={["RWD layout", "SEO / OG", "Contact CTA"]} />
-      ) : isPlanner ? (
-        <div className="mt-4 space-y-3">
-          <div className="rounded-xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
-            <div className="flex items-center justify-between gap-3 text-xs font-black">
-              <span>推薦方案</span>
-              <span className="text-[#8fd6cc]">LINE Bot 詢價</span>
-            </div>
-          </div>
-          <PreviewChips items={["5 steps", "AI plan", "Contact CTA"]} />
-        </div>
-      ) : (
-        <SimplePreview items={["RWD", "SEO", "CTA"]} />
-      )}
-    </div>
-  )
-}
-
-function SimplePreview({ items }) {
-  return (
-    <div className="mt-4 grid gap-2">
-      {items.map((item) => (
-        <div key={item} className="rounded-lg border border-[#e1dbcf] bg-white px-3 py-2 text-xs font-black text-[#40504c]">
-          {item}
-        </div>
-      ))}
-    </div>
-  )
-}
-
-function PreviewChips({ items }) {
-  return (
-    <div className="grid grid-cols-3 gap-2 text-center text-[11px] font-black text-[#44504d]">
-      {items.map((item) => (
-        <span key={item} className="rounded-md border border-[#e1dbcf] bg-white py-2">
-          {item}
-        </span>
-      ))}
     </div>
   )
 }

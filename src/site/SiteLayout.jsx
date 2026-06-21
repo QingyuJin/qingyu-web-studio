@@ -2,10 +2,10 @@ import { Link, NavLink } from "react-router-dom"
 import { contact } from "./content"
 
 const navItems = [
+  ["首頁", "/"],
   ["作品", "/works"],
-  ["服務", "/services"],
-  ["價格", "/pricing"],
-  ["健檢", "/free-audit"],
+  ["互動展示", "/#interactive-lab"],
+  ["需求診斷", "/tools/project-planner#demo"],
   ["聯絡", "/contact"],
 ]
 

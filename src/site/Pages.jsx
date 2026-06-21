@@ -196,7 +196,6 @@ const conciseWorkValues = {
 }
 
 export function WorksPage() {
-  const categories = ["網站", "系統", "AI 工具", "LINE Bot", "工程流程系統"]
   const plannerProject = {
     slug: "project-planner",
     title: "網站需求診斷工具",
@@ -236,39 +235,67 @@ export function WorksPage() {
     visuals: ["LINE Chat", "Mission Score", "Case Dashboard"],
     demo: ["任務策略", "指標變化", "後台同步"],
   }
-  const workCards = [...projects, plannerProject, rescueProject, lineBotMissionProject]
+  const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
+  const sections = [
+    {
+      title: "主打互動",
+      text: "先動手體驗網站整理與 LINE Bot 接待。",
+      items: [rescueProject, lineBotMissionProject],
+    },
+    {
+      title: "完整案例",
+      text: "從網站詢價一路串到後台流程。",
+      items: [projectBySlug.buildflow, projectBySlug.xinjiang].filter(Boolean),
+    },
+    {
+      title: "AI / API 工具",
+      text: "把分析、診斷、表單與 API 流程做成產品介面。",
+      items: [plannerProject, projectBySlug["ai-audit"], projectBySlug["api-automation"]].filter(Boolean),
+    },
+    {
+      title: "主站案例",
+      text: "這個網站本身的規劃、SEO、Demo Lab 與聯絡流程。",
+      items: [projectBySlug["qingyu-web"]].filter(Boolean),
+    },
+  ]
 
   return (
-    <PageShell page={seo.works} title="作品案例" intro="精選網站、LINE Bot、AI 工具與後台系統 Demo，展示從前端畫面到資料流程的完整製作能力。">
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="mb-8 flex flex-wrap gap-2">
-          {categories.map((category) => (
-            <span key={category} className="rounded-full border border-[#ddd6c9] bg-white px-4 py-2 text-sm font-black text-[#2f3c3b]">
-              {category}
-            </span>
-          ))}
-        </div>
-        <div className="grid gap-4 md:grid-cols-2">
-          {workCards.map((project) => (
-            <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
-              <WorkPreview project={project} />
-              <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
-              <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
-              <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
-                {conciseWorkValues[project.slug] || workBusinessValues[project.slug] || project.summary}
-              </p>
-              <div className="mt-4">
-                <Tags items={project.tags.slice(0, 4)} />
+    <PageShell page={seo.works} title="作品案例" intro="互動展示、完整案例與 AI / API 工具，依照客戶最容易理解的方式分類。">
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="grid gap-10">
+          {sections.map((section) => (
+            <div key={section.title}>
+              <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Works</p>
+                  <h2 className="mt-2 text-2xl font-black md:text-3xl">{section.title}</h2>
+                </div>
+                <p className="max-w-xl text-sm font-bold leading-6 text-[#52605c]">{section.text}</p>
               </div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link to={project.livePath} className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
-                  {project.liveLabel}
-                </Link>
-                <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22]">
-                  {project.secondaryLabel}
-                </Link>
+              <div className={`grid gap-4 ${section.items.length === 1 ? "md:grid-cols-1" : "md:grid-cols-2"}`}>
+                {section.items.map((project) => (
+                  <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg md:p-5">
+                    <WorkPreview project={project} />
+                    <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
+                    <h3 className="mt-3 text-2xl font-black">{project.title}</h3>
+                    <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
+                      {conciseWorkValues[project.slug] || workBusinessValues[project.slug] || project.summary}
+                    </p>
+                    <div className="mt-4 hidden md:block">
+                      <Tags items={(project.tags || []).slice(0, 3)} />
+                    </div>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <Link to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white md:min-h-10 md:w-auto">
+                        {project.liveLabel}
+                      </Link>
+                      <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="hidden min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22] md:inline-flex">
+                        {project.secondaryLabel || "技術拆解"}
+                      </Link>
+                    </div>
+                  </article>
+                ))}
               </div>
-            </article>
+            </div>
           ))}
         </div>
       </section>
