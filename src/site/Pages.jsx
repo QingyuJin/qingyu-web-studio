@@ -81,11 +81,11 @@ function WorkPreview({ project }) {
   }
   const toolPreviewFallback = {
     "website-rescue": {
-      items: ["Score 42 → 92", "CTA / SEO", "Result Report"],
-      meta: { status: "Rescue Game", metric: "Score +50", summary: "Before / After / CTA" },
+      items: ["網站分數", "CTA / SEO", "改善報告"],
+      meta: { status: "Interactive Demo", metric: "Score +50", summary: "Before / After / CTA" },
     },
     "linebot-mission": {
-      items: ["LINE Chat", "Reception Score", "Case Dashboard"],
+      items: ["LINE Chat", "接待狀態", "Case Dashboard"],
       meta: { status: "Reception", metric: "5 則訊息", summary: "LINE Bot → Dashboard" },
     },
   }
@@ -232,8 +232,8 @@ export function WorksPage() {
     secondaryPath: "/tools/linebot-mission#tech",
     secondaryLabel: "技術拆解",
     tags: ["React", "LINE Bot", "State Machine", "Dashboard UI"],
-    visuals: ["LINE Chat", "Mission Score", "Case Dashboard"],
-    demo: ["任務策略", "指標變化", "後台同步"],
+    visuals: ["LINE Chat", "接待狀態", "Case Dashboard"],
+    demo: ["處理策略", "指標變化", "後台同步"],
   }
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
   const sections = [
