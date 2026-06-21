@@ -6,151 +6,107 @@ import { seo } from "./content"
 
 const baseScore = 42
 
-const rescueIssues = [
-  {
-    id: "headline",
-    title: "首頁標題太長",
-    points: 8,
-    preview: "標題改短，第一眼看得懂服務。",
-    options: [
-      ["把標題縮成一句清楚承諾", true],
-      ["再塞更多服務關鍵字", false],
-      ["不處理", false],
-    ],
-    report: "首頁標題已縮短，訪客更快知道你能幫他解決什麼。",
-  },
+const improvements = [
   {
     id: "cta",
-    title: "CTA 不明顯",
+    title: "改善 CTA",
+    short: "把模糊按鈕改成明確行動。",
     points: 10,
-    preview: "第一屏加入主要行動按鈕。",
-    options: [
-      ["加上「聯絡我」", true],
-      ["加上「開始需求診斷」", true],
-      ["不處理", false],
-    ],
-    report: "CTA 已放到第一屏，訪客看完能直接行動。",
-  },
-  {
-    id: "mobile",
-    title: "手機版按鈕太小",
-    points: 8,
-    preview: "按鈕變大，手機更好點。",
-    options: [
-      ["提高按鈕高度與間距", true],
-      ["把按鈕縮成小字連結", false],
-      ["不處理", false],
-    ],
-    report: "手機按鈕與間距已優化，降低誤觸與放棄率。",
+    after: "主按鈕改為「開始需求診斷」，客戶知道下一步要做什麼。",
+    report: "CTA 從普通連結改成明確行動，降低客戶猶豫。",
   },
   {
     id: "line",
-    title: "沒有 LINE 聯絡入口",
+    title: "加入 LINE 聯絡入口",
+    short: "讓客戶不用找半天才知道怎麼聯絡。",
     points: 9,
-    preview: "加入 LINE 與 Email 聯絡卡。",
-    options: [
-      ["加入 LINE ID 與複製按鈕", true],
-      ["只留表單，不放 LINE", false],
-      ["不處理", false],
-    ],
-    report: "聯絡入口更直覺，台灣客戶能用熟悉的 LINE 開始詢問。",
+    after: "首頁加入 LINE ID 與 Email 入口，聯絡路徑更短。",
+    report: "聯絡入口前移，讓台灣客戶可以直接用熟悉的 LINE 詢問。",
   },
   {
-    id: "seo",
-    title: "SEO description 太空泛",
-    points: 7,
-    preview: "搜尋摘要說清楚服務與對象。",
-    options: [
-      ["補上服務、對象與地區描述", true],
-      ["只寫歡迎來到本站", false],
-      ["不處理", false],
-    ],
-    report: "SEO 摘要已具體化，搜尋結果更容易讓人點進來。",
+    id: "mobile",
+    title: "優化手機版按鈕",
+    short: "按鈕放大、間距加開，手機更好點。",
+    points: 8,
+    after: "手機版 CTA 高度與間距提升，第一屏更容易操作。",
+    report: "手機版操作阻力降低，適合從社群或 LINE 點進來的客戶。",
   },
   {
     id: "works",
-    title: "缺少作品案例",
+    title: "加入作品案例",
+    short: "用案例讓客戶知道你真的做得出來。",
     points: 8,
-    preview: "作品區加入產品 mockup。",
-    options: [
-      ["放大作品 mockup 與 Demo 入口", true],
-      ["只放文字清單", false],
-      ["不處理", false],
-    ],
-    report: "作品案例變成可理解的產品展示，而不是純文字介紹。",
+    after: "新增作品 mockup 與 Demo 入口，技術能力變得可視化。",
+    report: "作品案例補上後，客戶更容易理解服務成果。",
+  },
+  {
+    id: "seo",
+    title: "補 SEO 描述",
+    short: "搜尋摘要從空泛改成具體服務。",
+    points: 7,
+    after: "描述改成網站、LINE Bot、AI 工具與後台流程。",
+    report: "SEO 描述更清楚，搜尋結果不再像一般模板站。",
   },
   {
     id: "trust",
-    title: "缺少信任元素",
+    title: "加入信任元素",
+    short: "補上流程、聯絡方式與技術標籤。",
     points: 8,
-    preview: "加入流程、技術與聯絡方式。",
-    options: [
-      ["補上流程、技術標籤與聯絡 CTA", true],
-      ["只放漂亮背景圖", false],
-      ["不處理", false],
-    ],
-    report: "信任元素已補強，訪客能看見你的能力、流程與下一步。",
+    after: "加入製作流程、技術標籤與聯絡 CTA。",
+    report: "信任元素補齊後，客戶更能判斷是否適合合作。",
   },
 ]
-
-function getLevel(score) {
-  if (score <= 50) return "需要整理"
-  if (score <= 75) return "可以上線但還能更好"
-  if (score <= 90) return "具備成交基礎"
-  return "高轉換網站雛形"
-}
 
 function scrollToSection(id) {
   if (typeof document === "undefined") return
   document.getElementById(id)?.scrollIntoView({ behavior: "smooth", block: "start" })
 }
 
+function getMood(score) {
+  if (score <= 50) return { mark: "(><)", label: "需要整理" }
+  if (score <= 75) return { mark: "(._.)", label: "可以上線，但還能更好" }
+  if (score <= 90) return { mark: "○v○", label: "具備成交基礎" }
+  return { mark: "○✨", label: "高轉換網站雛形" }
+}
+
 function WebsiteRescue() {
   const [fixedIds, setFixedIds] = useState([])
-  const [activeIssueId, setActiveIssueId] = useState(rescueIssues[1].id)
+  const [activeId, setActiveId] = useState("cta")
   const [toast, setToast] = useState("")
-  const [report, setReport] = useState([])
 
-  const activeIssue = rescueIssues.find((issue) => issue.id === activeIssueId) || rescueIssues[0]
-  const fixedIssues = rescueIssues.filter((issue) => fixedIds.includes(issue.id))
-  const remainingIssues = rescueIssues.filter((issue) => !fixedIds.includes(issue.id))
-  const score = Math.min(100, baseScore + fixedIssues.reduce((sum, issue) => sum + issue.points, 0))
-  const level = getLevel(score)
-  const progress = Math.round((fixedIds.length / rescueIssues.length) * 100)
+  const fixedItems = improvements.filter((item) => fixedIds.includes(item.id))
+  const activeItem = improvements.find((item) => item.id === activeId) || improvements[0]
+  const score = Math.min(100, baseScore + fixedItems.reduce((sum, item) => sum + item.points, 0))
+  const progress = Math.round((fixedIds.length / improvements.length) * 100)
+  const mood = getMood(score)
 
-  const previewState = useMemo(() => {
+  const preview = useMemo(() => {
     const has = (id) => fixedIds.includes(id)
     return {
-      title: has("headline") ? "讓你的服務被看懂" : "我們提供完整多元跨平台專業服務方案",
-      cta: has("cta") ? "開始需求診斷" : "更多資訊",
-      mobile: has("mobile"),
+      title: has("cta") ? "讓你的服務被看懂" : "我們提供專業服務與完整解決方案",
+      cta: has("cta") ? "開始需求診斷" : "了解更多",
       line: has("line"),
-      seo: has("seo") ? "台灣小型網站、LINE Bot 與後台系統製作" : "這是一個網站",
+      mobile: has("mobile"),
       works: has("works"),
+      seo: has("seo"),
       trust: has("trust"),
     }
   }, [fixedIds])
 
-  function chooseFix(option) {
-    const [, isCorrect] = option
-    if (!isCorrect) {
-      setToast("這個選項不會改善轉換，試試更直接的修法。")
+  function applyImprovement(item) {
+    setActiveId(item.id)
+    if (fixedIds.includes(item.id)) {
+      setToast("這項已改善，狀態維持穩定 ○w○")
       return
     }
-    if (fixedIds.includes(activeIssue.id)) {
-      setToast("這個問題已經修好了。")
-      return
-    }
-    setFixedIds((current) => [...current, activeIssue.id])
-    setReport((current) => [...current, activeIssue.report])
-    setToast(`改善成功：${activeIssue.preview}`)
+    setFixedIds((current) => [...current, item.id])
+    setToast(`${item.title} 已套用，網站狀態改善中 ○v○`)
   }
 
-  function resetGame() {
+  function resetDemo() {
     setFixedIds([])
-    setActiveIssueId(rescueIssues[1].id)
+    setActiveId("cta")
     setToast("")
-    setReport([])
   }
 
   return (
@@ -161,136 +117,69 @@ function WebsiteRescue() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Demo</p>
-            <h1 className="mt-4 text-[clamp(2.4rem,8vw,4.8rem)] font-black leading-[1.04] tracking-tight">網站救援小遊戲</h1>
-            <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">
-              點出爛網站問題，修復 CTA、SEO、手機版與信任感，看看網站分數能提升多少。
+            <h1 className="mt-4 text-[clamp(2.4rem,8vw,4.8rem)] font-black leading-[1.04] tracking-tight">
+              網站救援互動 Demo
+            </h1>
+            <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
+              點選改善項目，觀察 CTA、SEO、手機版與信任感如何改變網站狀態。
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-                開始救援
+                開始改善
               </button>
               <button type="button" onClick={() => scrollToSection("tech")} className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
                 查看技術拆解
               </button>
             </div>
           </div>
-          <RescueHeroPreview score={score} level={level} progress={progress} />
+          <RescueHero score={score} progress={progress} mood={mood} />
         </div>
       </section>
 
       <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-16">
-        <div className="grid gap-5 lg:grid-cols-[1fr_0.86fr_0.88fr]">
-          <WebsitePreview state={previewState} />
-
-          <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
-            <div className="flex items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Issues</p>
-                <h2 className="mt-2 text-2xl font-black">點一個問題修復</h2>
-              </div>
-              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{fixedIds.length} / {rescueIssues.length}</span>
-            </div>
-            <div className="mt-5 grid gap-2">
-              {rescueIssues.map((issue) => {
-                const fixed = fixedIds.includes(issue.id)
-                const active = activeIssueId === issue.id
-                return (
-                  <button
-                    key={issue.id}
-                    type="button"
-                    onClick={() => setActiveIssueId(issue.id)}
-                    className={`rounded-xl border px-4 py-3 text-left text-sm font-black transition ${
-                      active ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62]" : fixed ? "border-[#d8e2dc] bg-[#f7fbf8] text-[#52605c]" : "border-[#e3ded3] bg-white text-[#111c22] hover:border-[#0d6b62]"
-                    }`}
-                  >
-                    <span className="flex items-center justify-between gap-3">
-                      <span>{issue.title}</span>
-                      <span className="text-xs">{fixed ? "已修復" : `+${issue.points}`}</span>
-                    </span>
-                  </button>
-                )
-              })}
-            </div>
-            <div className="mt-5 rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
-              <p className="text-sm font-black">{activeIssue.title}</p>
-              <div className="mt-3 grid gap-2">
-                {activeIssue.options.map((option) => (
-                  <button key={option[0]} type="button" onClick={() => chooseFix(option)} className="min-h-11 rounded-lg border border-[#ddd6c9] bg-white px-4 text-left text-sm font-bold text-[#40504c] hover:border-[#0d6b62]">
-                    {option[0]}
-                  </button>
-                ))}
-              </div>
-              {toast ? <p className="mt-3 rounded-lg bg-[#eef7f4] px-3 py-2 text-sm font-black text-[#0d6b62]">{toast}</p> : null}
-            </div>
-          </div>
-
-          <ScoreReport
+        <div className="grid gap-5 lg:grid-cols-[1fr_0.9fr_0.88fr]">
+          <WebsitePreview preview={preview} />
+          <ImprovementPanel
+            items={improvements}
+            activeId={activeId}
+            fixedIds={fixedIds}
+            toast={toast}
+            onApply={applyImprovement}
+          />
+          <ScorePanel
             score={score}
-            level={level}
-            report={report}
-            remainingIssues={remainingIssues}
-            completed={fixedIds.length === rescueIssues.length}
-            onReset={resetGame}
+            mood={mood}
+            progress={progress}
+            fixedItems={fixedItems}
+            activeItem={activeItem}
+            onReset={resetDemo}
           />
         </div>
       </section>
 
-      <section id="tech" className="scroll-mt-24 border-y border-[#e6e0d5] bg-[#f2efe7]">
-        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.82fr_1.18fr]">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
-            <h2 className="mt-3 text-3xl font-black">互動邏輯怎麼做</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c] md:line-clamp-2">
-              用前端狀態管理，把網站問題、修復選項、分數與結果報告串成一個可展示的網站健檢體驗。
-            </p>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            {[
-              ["Frontend", "React / Tailwind"],
-              ["Interaction", "State Machine"],
-              ["Scoring", "Rule-based Scoring"],
-              ["UX", "Before / After Preview"],
-              ["Conversion", "Result Report + CTA"],
-              ["Deploy", "Vercel"],
-            ].map(([label, text]) => (
-              <div key={label} className="rounded-2xl border border-[#ddd6c9] bg-white p-4">
-                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{label}</p>
-                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
-              </div>
-            ))}
-            <div className="rounded-2xl border border-[#ddd6c9] bg-[#111c22] p-4 text-white md:col-span-2">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">Flow</p>
-              <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
-                {["Issue Select", "Fix Option", "Score Update", "Preview Change", "Report CTA"].map((item) => (
-                  <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-white/84">{item}</span>
-                ))}
-              </div>
-            </div>
-          </div>
-        </div>
-      </section>
+      <TechSection />
     </SiteLayout>
   )
 }
 
-function RescueHeroPreview({ score, level, progress }) {
+function RescueHero({ score, progress, mood }) {
   return (
     <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-2xl shadow-[#111c22]/15">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
-        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Rescue Score</span>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Interactive</span>
+        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Website Status</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">{mood.mark}</span>
       </div>
       <div className="mt-5 grid gap-4 sm:grid-cols-[0.72fr_1fr]">
         <div className="rounded-2xl bg-white p-4 text-[#111c22]">
           <p className="text-xs font-black text-[#0d6b62]">目前分數</p>
           <p className="mt-2 text-5xl font-black">{score}</p>
-          <p className="mt-2 text-xs font-black text-[#52605c]">{level}</p>
+          <p className="mt-2 text-xs font-black text-[#52605c]">{mood.label}</p>
           <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
-            <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${score}%` }} />
+            <div className="h-full rounded-full bg-[#0d6b62] transition-all duration-500" style={{ width: `${score}%` }} />
           </div>
         </div>
         <div className="grid gap-2">
-          {["CTA 修復", "SEO 摘要", "手機按鈕", "LINE 入口"].map((item, index) => (
+          {["CTA", "LINE 聯絡", "手機版", "SEO 摘要"].map((item, index) => (
             <div key={item} className="rounded-xl bg-white/10 px-3 py-2 text-sm font-black text-white/86">
               <span className="text-[#8fd6cc]">0{index + 1}</span> {item}
             </div>
@@ -298,22 +187,22 @@ function RescueHeroPreview({ score, level, progress }) {
         </div>
       </div>
       <div className="mt-4 h-2 rounded-full bg-white/15">
-        <div className="h-full rounded-full bg-[#8fd6cc]" style={{ width: `${progress || 12}%` }} />
+        <div className="h-full rounded-full bg-[#8fd6cc] transition-all duration-500" style={{ width: `${Math.max(progress, 10)}%` }} />
       </div>
     </div>
   )
 }
 
-function WebsitePreview({ state }) {
+function WebsitePreview({ preview }) {
   return (
     <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
       <div className="flex items-center justify-between gap-3">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Website Preview</p>
-          <h2 className="mt-2 text-2xl font-black">問題網站</h2>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Before / After</p>
+          <h2 className="mt-2 text-2xl font-black">網站 Preview</h2>
         </div>
-        <span className={`rounded-full px-3 py-1 text-xs font-black ${state.trust ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
-          {state.trust ? "信任感提升" : "待整理"}
+        <span className={`rounded-full px-3 py-1 text-xs font-black ${preview.trust ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
+          {preview.trust ? "○w○ 穩定" : "(><) 待整理"}
         </span>
       </div>
       <div className="mt-5 overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3]">
@@ -323,26 +212,22 @@ function WebsitePreview({ state }) {
             <span className="h-2.5 w-2.5 rounded-full bg-[#ffd166]" />
             <span className="h-2.5 w-2.5 rounded-full bg-[#8fd6cc]" />
           </div>
-          <span className="text-xs font-black text-[#52605c]">{state.seo}</span>
+          <span className="truncate text-xs font-black text-[#52605c]">
+            {preview.seo ? "台灣網站製作、LINE Bot 與後台系統" : "專業服務與解決方案"}
+          </span>
         </div>
         <div className="p-5">
           <p className="text-xs font-black text-[#0d6b62]">Hero</p>
-          <h3 className="mt-2 text-3xl font-black leading-tight">{state.title}</h3>
+          <h3 className="mt-2 text-3xl font-black leading-tight">{preview.title}</h3>
           <div className="mt-4 flex flex-wrap gap-2">
-            <span className={`inline-flex min-h-10 items-center rounded-md px-4 text-sm font-black ${state.mobile ? "bg-[#111c22] text-white" : "bg-[#d8d2c5] text-[#52605c]"}`}>
-              {state.cta}
+            <span className={`inline-flex min-h-10 items-center rounded-md px-4 text-sm font-black ${preview.mobile ? "bg-[#111c22] text-white" : "bg-[#d8d2c5] text-[#52605c]"}`}>
+              {preview.cta}
             </span>
-            {state.line ? <span className="inline-flex min-h-10 items-center rounded-md border border-[#0d6b62] bg-white px-4 text-sm font-black text-[#0d6b62]">LINE 聯絡</span> : null}
+            {preview.line ? <span className="inline-flex min-h-10 items-center rounded-md border border-[#0d6b62] bg-white px-4 text-sm font-black text-[#0d6b62]">LINE 聯絡</span> : null}
           </div>
           <div className="mt-5 grid gap-2 sm:grid-cols-2">
-            <div className="rounded-xl bg-white p-4">
-              <p className="text-sm font-black">{state.works ? "作品案例" : "關於我們"}</p>
-              <p className="mt-2 text-xs font-bold leading-5 text-[#52605c]">{state.works ? "Demo / 案例 / 技術拆解" : "文字很多，但不知道能做什麼"}</p>
-            </div>
-            <div className="rounded-xl bg-white p-4">
-              <p className="text-sm font-black">{state.trust ? "信任元素" : "缺少證據"}</p>
-              <p className="mt-2 text-xs font-bold leading-5 text-[#52605c]">{state.trust ? "流程、技術、聯絡方式清楚" : "沒有案例、流程或明確下一步"}</p>
-            </div>
+            <PreviewCard title={preview.works ? "作品案例" : "服務介紹"} text={preview.works ? "Demo / 系統 / 技術拆解" : "內容還不夠像成果展示"} />
+            <PreviewCard title={preview.trust ? "信任元素" : "缺少信任感"} text={preview.trust ? "流程、技術與聯絡入口完整" : "客戶還不知道能不能放心詢問"} />
           </div>
         </div>
       </div>
@@ -350,7 +235,54 @@ function WebsitePreview({ state }) {
   )
 }
 
-function ScoreReport({ score, level, report, remainingIssues, completed, onReset }) {
+function PreviewCard({ title, text }) {
+  return (
+    <div className="rounded-xl bg-white p-4">
+      <p className="text-sm font-black">{title}</p>
+      <p className="mt-2 text-xs font-bold leading-5 text-[#52605c]">{text}</p>
+    </div>
+  )
+}
+
+function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
+  return (
+    <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+      <div className="flex items-center justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Improve Panel</p>
+          <h2 className="mt-2 text-2xl font-black">改善項目</h2>
+        </div>
+        <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{fixedIds.length} / {items.length}</span>
+      </div>
+      <div className="mt-5 grid gap-3">
+        {items.map((item) => {
+          const fixed = fixedIds.includes(item.id)
+          const active = activeId === item.id
+          return (
+            <button
+              key={item.id}
+              type="button"
+              onClick={() => onApply(item)}
+              className={`rounded-2xl border p-4 text-left transition ${active ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white hover:border-[#0d6b62]"}`}
+            >
+              <span className="flex items-center justify-between gap-3">
+                <span className="text-sm font-black text-[#111c22]">{item.title}</span>
+                <span className={`rounded-full px-3 py-1 text-xs font-black ${fixed ? "bg-[#0d6b62] text-white" : "bg-[#faf8f3] text-[#52605c]"}`}>
+                  {fixed ? "已改善 ○w○" : `+${item.points}`}
+                </span>
+              </span>
+              <span className="mt-2 block text-xs font-bold leading-5 text-[#52605c]">{item.short}</span>
+            </button>
+          )
+        })}
+      </div>
+      {toast ? <p className="mt-4 rounded-xl bg-[#eef7f4] px-4 py-3 text-sm font-black text-[#0d6b62]">{toast}</p> : null}
+    </div>
+  )
+}
+
+function ScorePanel({ score, mood, progress, fixedItems, activeItem, onReset }) {
+  const completed = fixedItems.length === improvements.length
   return (
     <aside className="rounded-2xl border border-[#233139] bg-[#111c22] p-5 text-white">
       <div className="flex items-start justify-between gap-4">
@@ -363,27 +295,39 @@ function ScoreReport({ score, level, report, remainingIssues, completed, onReset
         </button>
       </div>
       <div className="mt-5 rounded-2xl bg-white p-4 text-[#111c22]">
-        <p className="text-xs font-black text-[#0d6b62]">目前分數</p>
-        <div className="mt-2 flex items-end gap-3">
-          <p className="text-5xl font-black">{score}</p>
-          <p className="pb-2 text-xs font-black text-[#52605c]">/ 100</p>
+        <div className="flex items-end justify-between gap-3">
+          <div>
+            <p className="text-xs font-black text-[#0d6b62]">目前分數</p>
+            <p className="mt-2 text-5xl font-black">{score}</p>
+          </div>
+          <p className="pb-2 text-sm font-black text-[#52605c]">{mood.mark}</p>
         </div>
-        <p className="mt-2 text-sm font-black text-[#52605c]">{level}</p>
+        <p className="mt-2 text-sm font-black text-[#52605c]">{mood.label}</p>
+        <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
+          <div className="h-full rounded-full bg-[#0d6b62] transition-all duration-500" style={{ width: `${progress}%` }} />
+        </div>
       </div>
-
+      <div className="mt-5 rounded-2xl bg-white/10 p-4">
+        <p className="text-xs font-black text-[#8fd6cc]">目前觀察</p>
+        <p className="mt-2 text-sm font-bold leading-6 text-white/82">{activeItem.after}</p>
+      </div>
       <div className="mt-5 grid gap-3">
-        <ReportBlock title="修復項目" items={report.length ? report : ["先點選中間的問題，選擇正確修法。"]} />
-        <ReportBlock title="剩餘問題" items={remainingIssues.length ? remainingIssues.slice(0, 3).map((issue) => issue.title) : ["所有核心問題都已修復。"]} />
-        <ReportBlock title="適合服務" items={["一頁式網站", "品牌網站", "LINE 串接", "SEO 基礎", "Project Planner"]} />
+        {fixedItems.length ? fixedItems.map((item) => (
+          <div key={item.id} className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82">
+            {item.report}
+          </div>
+        )) : (
+          <div className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82">
+            先點一個改善項目，報告會即時更新。
+          </div>
+        )}
       </div>
-
       {completed ? (
         <div className="mt-5 rounded-2xl bg-[#eef7f4] p-4 text-[#111c22]">
-          <p className="text-sm font-black text-[#0d6b62]">你的網站救援結果</p>
-          <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">已具備成交基礎，可以進一步規劃實際網站或流程系統。</p>
+          <p className="text-sm font-black text-[#0d6b62]">網站狀態已完成 ○✨</p>
+          <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">可以進一步規劃一頁式網站、品牌網站、LINE 串接或 SEO 基礎整理。</p>
         </div>
       ) : null}
-
       <div className="mt-5 flex flex-wrap gap-3">
         <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
           開始需求診斷
@@ -396,18 +340,43 @@ function ScoreReport({ score, level, report, remainingIssues, completed, onReset
   )
 }
 
-function ReportBlock({ title, items }) {
+function TechSection() {
+  const tech = [
+    ["Frontend", "React / Tailwind"],
+    ["Interaction", "State-driven improvement panel"],
+    ["Scoring", "Rule-based scoring"],
+    ["UX", "Before / After preview"],
+    ["Conversion", "Result report + CTA"],
+    ["Deploy", "Vercel"],
+  ]
   return (
-    <div className="rounded-2xl bg-white/10 p-4">
-      <p className="text-xs font-black text-[#8fd6cc]">{title}</p>
-      <div className="mt-3 grid gap-2">
-        {items.map((item) => (
-          <span key={item} className="rounded-lg bg-white/10 px-3 py-2 text-xs font-bold leading-5 text-white/82">
-            {item}
-          </span>
-        ))}
+    <section id="tech" className="scroll-mt-24 border-y border-[#e6e0d5] bg-[#f2efe7]">
+      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.82fr_1.18fr]">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
+          <h2 className="mt-3 text-3xl font-black">互動怎麼做</h2>
+          <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
+            用狀態管理把「點選改善」轉成 Preview、分數、報告與 CTA，讓客戶直接感受到網站優化價值。
+          </p>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {tech.map(([label, text]) => (
+            <div key={label} className="rounded-2xl border border-[#ddd6c9] bg-white p-4">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{label}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+            </div>
+          ))}
+          <div className="rounded-2xl border border-[#ddd6c9] bg-[#111c22] p-4 text-white md:col-span-2">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">Flow</p>
+            <div className="mt-4 flex flex-wrap gap-2 text-xs font-black">
+              {["Select issue", "Apply improvement", "Score update", "Preview change", "Report CTA"].map((item) => (
+                <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-white/84">{item}</span>
+              ))}
+            </div>
+          </div>
+        </div>
       </div>
-    </div>
+    </section>
   )
 }
 

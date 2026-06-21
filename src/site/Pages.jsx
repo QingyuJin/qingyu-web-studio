@@ -85,8 +85,8 @@ function WorkPreview({ project }) {
       meta: { status: "Rescue Game", metric: "Score +50", summary: "Before / After / CTA" },
     },
     "linebot-mission": {
-      items: ["LINE Chat", "Mission Score", "Case Dashboard"],
-      meta: { status: "Mission", metric: "5 rounds", summary: "LINE Bot → Dashboard" },
+      items: ["LINE Chat", "Reception Score", "Case Dashboard"],
+      meta: { status: "Reception", metric: "5 則訊息", summary: "LINE Bot → Dashboard" },
     },
   }
   const fallbackPreview = toolPreviewFallback[project.slug]
@@ -200,11 +200,11 @@ export function WorksPage() {
   }
   const rescueProject = {
     slug: "website-rescue",
-    title: "網站救援小遊戲",
+    title: "網站救援互動 Demo",
     category: "互動工具",
-    summary: "修復問題網站，體驗 CTA、SEO、手機版與信任感如何拉高成交分數。",
+    summary: "點選改善項目，觀察 CTA、SEO、手機版與信任感如何改變網站狀態。",
     livePath: "/tools/website-rescue#demo",
-    liveLabel: "開始遊玩",
+    liveLabel: "開始改善",
     secondaryPath: "/tools/website-rescue#tech",
     secondaryLabel: "技術拆解",
     tags: ["React", "State Machine", "Scoring UI", "Conversion CTA"],
@@ -213,11 +213,11 @@ export function WorksPage() {
   }
   const lineBotMissionProject = {
     slug: "linebot-mission",
-    title: "LINE Bot 任務模擬器",
+    title: "LINE Bot 接待模擬",
     category: "互動工具",
-    summary: "模擬客戶從 LINE 詢問、預約、估價，看看 Bot 如何自動整理需求並同步到後台。",
+    summary: "模擬 LINE 客戶訊息，看看 Bot 如何回覆、整理需求並同步到後台。",
     livePath: "/tools/linebot-mission#demo",
-    liveLabel: "開始任務",
+    liveLabel: "開始模擬",
     secondaryPath: "/tools/linebot-mission#tech",
     secondaryLabel: "技術拆解",
     tags: ["React", "LINE Bot", "State Machine", "Dashboard UI"],

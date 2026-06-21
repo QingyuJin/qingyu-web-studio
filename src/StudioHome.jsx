@@ -6,9 +6,9 @@ import { audience, contact, pricing, processSteps, projects, seo, serviceCategor
 const interactiveDemos = [
   {
     slug: "website-rescue",
-    title: "Website Rescue Game",
-    label: "網站救援小遊戲",
-    summary: "修復一個問題網站，看看 CTA、SEO、手機版與信任感如何拉高分數。",
+    title: "網站救援互動 Demo",
+    label: "Website Rescue",
+    summary: "點選改善項目，看看 CTA、SEO、手機版與信任感如何改變網站狀態。",
     livePath: "/tools/website-rescue#demo",
     techPath: "/tools/website-rescue#tech",
     liveLabel: "開始互動",
@@ -18,13 +18,13 @@ const interactiveDemos = [
   },
   {
     slug: "linebot-mission",
-    title: "LINE Bot Mission Simulator",
-    label: "LINE Bot 任務模擬器",
-    summary: "模擬客戶從 LINE 詢問、預約、估價，Bot 如何整理需求並同步後台。",
+    title: "LINE Bot 接待模擬",
+    label: "LINE Bot Reception",
+    summary: "模擬 LINE 客戶訊息，看看 Bot 如何回覆、整理需求並同步到後台。",
     livePath: "/tools/linebot-mission#demo",
     techPath: "/tools/linebot-mission#tech",
-    liveLabel: "開始任務",
-    stat: "5 rounds",
+    liveLabel: "開始模擬",
+    stat: "5 則訊息",
     chips: ["LINE Bot", "Webhook", "需求分類", "Dashboard"],
     tone: "line",
   },
@@ -239,7 +239,7 @@ function InteractiveLab() {
             兩個招牌互動 Demo
           </h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#52605c] md:text-base">
-            不是附屬作品，是 Qingyu Web Studio 的差異化武器：讓客戶直接玩到網站優化與 LINE Bot 自動化的價值。
+            不是只看作品，也可以直接操作幾個小型互動 Demo，感受網站、LINE Bot 與後台流程怎麼動起來。
           </p>
         </div>
         <div className="grid gap-5 lg:grid-cols-2">

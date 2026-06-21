@@ -46,13 +46,13 @@ export const seo = {
   },
   websiteRescue: {
     path: "/tools/website-rescue",
-    title: "網站救援小遊戲｜互動式網站健檢 Demo｜Qingyu Web Studio",
-    description: "透過互動小遊戲修復網站 CTA、SEO、手機版與信任感問題，體驗網站優化如何提升成交分數。",
+    title: "網站救援互動 Demo｜網站健檢與優化展示｜Qingyu Web Studio",
+    description: "透過高質感互動 Demo 點選改善項目，觀察 CTA、SEO、手機版與信任感如何影響網站狀態。",
   },
   lineBotMission: {
     path: "/tools/linebot-mission",
-    title: "LINE Bot 任務模擬器｜互動式 LINE Bot Demo｜Qingyu Web Studio",
-    description: "透過任務型互動 Demo 體驗 LINE Bot 如何處理詢問、預約、估價、需求分類與後台同步。",
+    title: "LINE Bot 接待模擬｜互動式 LINE Bot Demo｜Qingyu Web Studio",
+    description: "透過互動 Demo 體驗 LINE Bot 如何回覆客戶訊息、整理需求、建立案件並同步到後台。",
   },
 }
 
