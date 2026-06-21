@@ -498,7 +498,7 @@ function AiAuditProductDemo() {
             </button>
           </div>
           {loading ? (
-            <div className="mt-4 rounded-lg border border-[#e3ded3] bg-white p-3">
+            <div className="mt-4 rounded-lg border border-[#e3ded3] bg-white p-3 interaction-pop">
               <p className="mb-3 text-xs font-black text-[#0d6b62]">正在檢查 SEO、CTA、信任感與手機版...</p>
               <LoadingBars />
             </div>
@@ -509,7 +509,7 @@ function AiAuditProductDemo() {
               <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{tag}</span>
             ))}
           </div>
-          <p className="mt-4 rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">{auditNotice}</p>
+          <p key={auditNotice} className="mt-4 rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62] interaction-pop">{auditNotice}</p>
         </MiniCard>
 
         <div className="grid gap-4">
@@ -518,7 +518,7 @@ function AiAuditProductDemo() {
               <div className="grid h-32 w-32 place-items-center rounded-full p-2" style={scoreStyle}>
                 <div className="grid h-full w-full place-items-center rounded-full bg-[#111c22]">
                   <div className="text-center">
-                    <p className="text-4xl font-black">{displayedReport.score}</p>
+                    <p key={displayedReport.score} className="text-4xl font-black score-pulse">{displayedReport.score}</p>
                     <p className="text-[11px] font-black uppercase tracking-[0.18em] text-white/45">score</p>
                   </div>
                 </div>
@@ -554,7 +554,7 @@ function AiAuditProductDemo() {
           <MiniCard title={`${auditTabs.find(([key]) => key === activeTab)?.[1]}建議清單`}>
             <div className="grid gap-2">
               {tabItems.map((item, index) => (
-                <div key={item} className="flex gap-3 rounded-lg bg-white px-3 py-2 text-sm font-bold leading-6 text-[#52605c]">
+                <div key={item} className="flex gap-3 rounded-lg bg-white px-3 py-2 text-sm font-bold leading-6 text-[#52605c] interaction-pop">
                   <span className="font-black text-[#0d6b62]">0{index + 1}</span>
                   <span>{item}</span>
                 </div>
@@ -1592,13 +1592,13 @@ function BuildFlowDemo() {
         </span>
         <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">案件資料流程</span>
         <span className="hidden rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c] md:inline-flex">最近 LINE：{lastLineMessage}</span>
-        <span className="line-clamp-2 w-full rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">最新操作：{actionNotice}</span>
+        <span key={actionNotice} className="line-clamp-2 w-full rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62] interaction-pop">最新操作：{actionNotice}</span>
         {apiError ? <p className="w-full text-xs font-black text-[#b45309]">{apiError}</p> : null}
       </div>
       <div className="mb-4 hidden gap-3 xl:grid xl:grid-cols-4">
         {metrics.map(([label, value]) => (
           <MiniCard key={label} title={label}>
-            <p className="text-3xl font-black text-[#111c22]">{value}</p>
+            <p key={value} className="text-3xl font-black text-[#111c22] score-pulse">{value}</p>
           </MiniCard>
         ))}
       </div>
@@ -1659,7 +1659,7 @@ function BuildFlowDemo() {
                     setSelected(item.id)
                     setMobileTab("detail")
                   }}
-                  className={`rounded-xl border p-4 text-left ${selected === item.id ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}
+                  className={`rounded-xl border p-4 text-left transition ${selected === item.id ? "border-[#0d6b62] bg-[#eef7f4] shadow-sm interaction-pop" : "border-[#e3ded3] bg-white hover:border-[#0d6b62]"}`}
                 >
                   <div className="flex items-start justify-between gap-2">
                     <div className="min-w-0">
@@ -1795,7 +1795,7 @@ function BuildFlowDemo() {
               key={item.id}
               type="button"
               onClick={() => setSelected(item.id)}
-              className={`rounded-xl border p-4 text-left ${selected === item.id ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}
+                  className={`rounded-xl border p-4 text-left transition ${selected === item.id ? "border-[#0d6b62] bg-[#eef7f4] shadow-sm interaction-pop" : "border-[#e3ded3] bg-white hover:border-[#0d6b62]"}`}
             >
               <div className="flex flex-wrap items-start justify-between gap-2">
                 <div>
@@ -2262,7 +2262,7 @@ function ApiAutomationDemo() {
               const status = flowStatus(index)
               const active = status !== "Waiting"
               return (
-                <MiniCard key={item} title={`0${index + 1}`}>
+                <MiniCard key={`${item}-${status}`} title={`0${index + 1}`}>
                   <div className={`mb-3 flex h-9 w-9 items-center justify-center rounded-full text-xs font-black ${active ? "bg-[#0d6b62] text-white" : "bg-white text-[#52605c]"}`}>
                     {index + 1}
                   </div>
@@ -2281,7 +2281,7 @@ function ApiAutomationDemo() {
               ].map(([label, value]) => (
                 <div key={label} className="rounded-xl border border-[#e3ded3] bg-[#faf7ef] p-3">
                   <p className="text-xs font-black uppercase tracking-[0.14em] text-[#0d6b62]">{label}</p>
-                  <p className="mt-2 break-words text-sm font-black text-[#111c22]">{value}</p>
+                  <p key={value} className="mt-2 break-words text-sm font-black text-[#111c22] score-pulse">{value}</p>
                 </div>
               ))}
             </div>
@@ -2291,7 +2291,7 @@ function ApiAutomationDemo() {
             <div className="grid gap-3">
               {dashboardItems.length ? (
                 dashboardItems.map((item) => (
-                  <button key={item.id} type="button" onClick={() => setDetailLead(item)} className="rounded-xl border border-white/10 bg-white/10 p-3 text-left transition hover:bg-white/15">
+                  <button key={item.id} type="button" onClick={() => setDetailLead(item)} className="rounded-xl border border-white/10 bg-white/10 p-3 text-left transition hover:bg-white/15 interaction-pop">
                     <div className="flex flex-wrap items-center justify-between gap-2">
                       <p className="text-sm font-black text-white">{item.name}</p>
                       <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#111c22]">{item.status}</span>

@@ -252,7 +252,7 @@ function RescueHero({ score, progress, mood, fixedIds, latestItem }) {
       <div className="mt-5 grid gap-4 sm:grid-cols-[0.72fr_1fr]">
         <div className="rounded-2xl bg-white p-4 text-[#111c22]">
           <p className="text-xs font-black text-[#0d6b62]">目前分數</p>
-          <p className="mt-2 text-5xl font-black">{score}</p>
+          <p key={score} className="mt-2 text-5xl font-black score-pulse">{score}</p>
           <p className="mt-2 text-xs font-black text-[#52605c]">{mood.label}</p>
           <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
             <div className="h-full rounded-full bg-[#0d6b62] transition-all duration-500" style={{ width: `${score}%` }} />
@@ -296,7 +296,7 @@ function WebsitePreview({ preview, activeItem, fixedCount }) {
           {preview.trust ? "○w○ 穩定" : "(><) 待整理"}
         </span>
       </div>
-      <div className="mt-5 overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] shadow-sm transition duration-300">
+      <div key={`${activeItem?.id || "idle"}-${fixedCount}`} className="mt-5 overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] shadow-sm transition duration-300 interaction-pop">
         <div className="flex items-center justify-between border-b border-[#e3ded3] bg-white px-4 py-3">
           <div className="flex gap-1.5">
             <span className="h-2.5 w-2.5 rounded-full bg-[#ffb4a2]" />
@@ -385,7 +385,7 @@ function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
           )
         })}
       </div>
-      {toast ? <p className="mt-4 rounded-xl bg-[#eef7f4] px-4 py-3 text-sm font-black text-[#0d6b62] shadow-sm">{toast}</p> : null}
+      {toast ? <p key={toast} className="mt-4 rounded-xl bg-[#eef7f4] px-4 py-3 text-sm font-black text-[#0d6b62] shadow-sm interaction-pop">{toast}</p> : null}
     </div>
   )
 }
@@ -407,7 +407,7 @@ function ScorePanel({ score, mood, progress, fixedItems, activeItem, onReset }) 
         <div className="flex items-end justify-between gap-3">
           <div>
             <p className="text-xs font-black text-[#0d6b62]">目前分數</p>
-            <p className="mt-2 text-5xl font-black">{score}</p>
+            <p key={score} className="mt-2 text-5xl font-black score-pulse">{score}</p>
           </div>
           <p className="pb-2 text-sm font-black text-[#52605c]">{mood.mark}</p>
         </div>
@@ -422,7 +422,7 @@ function ScorePanel({ score, mood, progress, fixedItems, activeItem, onReset }) 
       </div>
       <div className="mt-5 grid gap-3">
         {fixedItems.length ? fixedItems.map((item) => (
-          <div key={item.id} className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82 transition">
+          <div key={item.id} className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82 transition interaction-pop">
             {item.report}
           </div>
         )) : (
@@ -432,7 +432,7 @@ function ScorePanel({ score, mood, progress, fixedItems, activeItem, onReset }) 
         )}
       </div>
       {completed ? (
-        <div className="mt-5 rounded-2xl bg-[#eef7f4] p-4 text-[#111c22]">
+        <div className="mt-5 rounded-2xl bg-[#eef7f4] p-4 text-[#111c22] interaction-pop">
           <p className="text-sm font-black text-[#0d6b62]">網站狀態已完成 ○✨</p>
           <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">可以進一步規劃一頁式網站、品牌網站、LINE 串接或 SEO 基礎整理。</p>
         </div>

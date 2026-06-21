@@ -54,9 +54,11 @@ function OptionButton({ option, active, onClick }) {
   return (
     <button
       type="button"
+      data-pressed={active ? "true" : undefined}
+      aria-pressed={active}
       onClick={onClick}
       className={`min-h-11 rounded-full border px-3 text-[13px] font-black transition duration-200 md:px-4 md:text-sm ${
-        active ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62] shadow-sm" : "border-[#ddd6c9] bg-white text-[#52605c] hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-sm"
+        active ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62] shadow-sm interaction-pop" : "border-[#ddd6c9] bg-white text-[#52605c] hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-sm"
       }`}
     >
       {active ? "✓ " : ""}{option}

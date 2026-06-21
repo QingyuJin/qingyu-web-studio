@@ -282,8 +282,10 @@ function LineBotMission() {
                         <button
                           key={key}
                           type="button"
+                          data-pressed={lastStrategy === key ? "true" : undefined}
+                          aria-pressed={lastStrategy === key}
                           onClick={() => handleStrategy(key)}
-                          className={`min-h-11 rounded-xl border px-3 text-xs font-black transition ${lastStrategy === key ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62]" : "border-[#d8d2c5] bg-white text-[#40504c]"}`}
+                          className={`min-h-11 rounded-xl border px-3 text-xs font-black transition ${lastStrategy === key ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62] shadow-sm" : "border-[#d8d2c5] bg-white text-[#40504c]"}`}
                         >
                           {label}
                         </button>
@@ -393,10 +395,10 @@ function LinePhone({ messages }) {
 
 function Bubble({ role, text }) {
   if (role === "system") {
-    return <div className="mx-auto max-w-[86%] rounded-full bg-white/70 px-3 py-1 text-center text-[11px] font-black text-[#52605c] transition">{text}</div>
+    return <div className="mx-auto max-w-[86%] rounded-full bg-white/70 px-3 py-1 text-center text-[11px] font-black text-[#52605c] transition message-slide-in">{text}</div>
   }
   return (
-    <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm font-bold leading-6 shadow-sm transition duration-300 ${role === "bot" ? "ml-auto bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"}`}>
+    <div className={`max-w-[88%] rounded-2xl px-4 py-3 text-sm font-bold leading-6 shadow-sm transition duration-300 message-slide-in ${role === "bot" ? "ml-auto bg-[#0d6b62] text-white" : "bg-white text-[#111c22]"}`}>
       {text}
     </div>
   )
@@ -427,7 +429,7 @@ function StrategyPanel({ scenario, completed, status, lastStrategy, onChoose, on
           </div>
           <div className="mt-5 grid gap-3">
             {Object.entries(strategyLabels).map(([key, label]) => (
-              <button key={key} type="button" onClick={() => onChoose(key)} className={`rounded-2xl border p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md ${lastStrategy === key ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
+              <button key={key} type="button" data-pressed={lastStrategy === key ? "true" : undefined} aria-pressed={lastStrategy === key} onClick={() => onChoose(key)} className={`rounded-2xl border p-4 text-left transition duration-200 hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md ${lastStrategy === key ? "border-[#0d6b62] bg-[#eef7f4] shadow-sm" : "border-[#e3ded3] bg-white"}`}>
                 <span className="text-xs font-black text-[#0d6b62]">{key === scenario.best ? "建議" : lastStrategy === key ? "已選" : "選項"}</span>
                 <span className="mt-1 block text-sm font-black text-[#111c22]">{label}</span>
                 <span className="mt-2 block text-xs font-bold leading-5 text-[#52605c]">
@@ -438,7 +440,7 @@ function StrategyPanel({ scenario, completed, status, lastStrategy, onChoose, on
           </div>
         </>
       )}
-      <p className="mt-5 rounded-2xl bg-[#faf8f3] px-4 py-3 text-sm font-black leading-6 text-[#40504c]">{status}</p>
+      <p key={status} className="mt-5 rounded-2xl bg-[#faf8f3] px-4 py-3 text-sm font-black leading-6 text-[#40504c] interaction-pop">{status}</p>
     </div>
   )
 }
@@ -475,7 +477,7 @@ function DashboardPanel({ metrics, mood, cases, history, suggestedFeatures, comp
         <p className="text-xs font-black text-[#8fd6cc]">案件列表</p>
         <div className="mt-3 grid gap-2">
           {cases.length ? cases.slice(0, 4).map((item) => (
-            <div key={item.id} className="rounded-xl bg-white px-3 py-3 text-[#111c22]">
+            <div key={item.id} className="rounded-xl bg-white px-3 py-3 text-[#111c22] interaction-pop">
               <div className="flex items-center justify-between gap-3">
                 <p className="text-sm font-black">{item.title}</p>
                 <span className="rounded-full bg-[#eef7f4] px-2 py-1 text-[11px] font-black text-[#0d6b62]">{item.status}</span>
@@ -492,7 +494,7 @@ function DashboardPanel({ metrics, mood, cases, history, suggestedFeatures, comp
         <p className="text-xs font-black text-[#8fd6cc]">處理紀錄</p>
         <div className="mt-3 grid gap-2">
           {history.length ? history.slice(-3).map((item) => (
-            <span key={item} className="rounded-lg bg-white/10 px-3 py-2 text-xs font-bold leading-5 text-white/80">
+            <span key={item} className="rounded-lg bg-white/10 px-3 py-2 text-xs font-bold leading-5 text-white/80 interaction-pop">
               {item}
             </span>
           )) : <span className="text-sm font-bold text-white/70">尚未處理客戶訊息。</span>}
@@ -528,7 +530,7 @@ function Metric({ label, value, wide = false }) {
   return (
     <div className={`rounded-2xl bg-white/10 p-4 ${wide ? "sm:col-span-2" : ""}`}>
       <p className="text-xs font-black text-[#8fd6cc]">{label}</p>
-      <p className="mt-2 text-2xl font-black">{value}</p>
+      <p key={value} className="mt-2 text-2xl font-black score-pulse">{value}</p>
     </div>
   )
 }
