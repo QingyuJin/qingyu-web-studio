@@ -480,20 +480,20 @@ function AiAuditProductDemo() {
               </select>
             </label>
           </div>
-          <div className="mt-4 flex flex-wrap gap-2">
-            <button type="button" onClick={() => runAudit(false)} disabled={loading} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
+          <div className="mt-4 grid grid-cols-2 gap-2 md:flex md:flex-wrap">
+            <button type="button" onClick={() => runAudit(false)} disabled={loading} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
               {loading ? "分析中..." : "開始分析"}
             </button>
-            <button type="button" onClick={() => runAudit(true)} disabled={loading} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
+            <button type="button" onClick={() => runAudit(true)} disabled={loading} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] disabled:cursor-not-allowed disabled:opacity-60">
               查看範例報告
             </button>
-            <button type="button" onClick={copyAdvice} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
+            <button type="button" onClick={copyAdvice} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex md:items-center">
               {copied ? "已複製" : "複製建議"}
             </button>
-            <button type="button" onClick={clearAudit} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
+            <button type="button" onClick={clearAudit} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex md:items-center">
               清空
             </button>
-            <button type="button" onClick={() => scrollToSection("tech")} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
+            <button type="button" onClick={() => scrollToSection("tech")} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex md:items-center">
               技術拆解
             </button>
           </div>
@@ -1591,11 +1591,11 @@ function BuildFlowDemo() {
           API 狀態：{apiMode}
         </span>
         <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">案件資料流程</span>
-        <span className="rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c]">最近 LINE：{lastLineMessage}</span>
-        <span className="w-full rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">最新操作：{actionNotice}</span>
+        <span className="hidden rounded-full bg-[#faf7ef] px-3 py-1 text-xs font-black text-[#52605c] md:inline-flex">最近 LINE：{lastLineMessage}</span>
+        <span className="line-clamp-2 w-full rounded-lg bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">最新操作：{actionNotice}</span>
         {apiError ? <p className="w-full text-xs font-black text-[#b45309]">{apiError}</p> : null}
       </div>
-      <div className="mb-4 grid gap-3 sm:grid-cols-4">
+      <div className="mb-4 hidden gap-3 xl:grid xl:grid-cols-4">
         {metrics.map(([label, value]) => (
           <MiniCard key={label} title={label}>
             <p className="text-3xl font-black text-[#111c22]">{value}</p>
@@ -1643,7 +1643,7 @@ function BuildFlowDemo() {
                   新增案件
                 </button>
               </div>
-              <div className="grid grid-cols-2 gap-2">
+              <div className="hidden grid-cols-2 gap-2">
                 {metrics.map(([label, value]) => (
                   <div key={label} className="rounded-xl border border-[#e3ded3] bg-white p-3">
                     <p className="text-xs font-black text-[#0d6b62]">{label}</p>
@@ -2215,26 +2215,26 @@ function ApiAutomationDemo() {
               <textarea value={form.note} onChange={(event) => updateField("note", event.target.value)} rows={4} className="rounded-lg border border-[#d8d2c5] px-3 py-2 text-sm font-bold leading-6 outline-none focus:border-[#0d6b62]" />
             </label>
           </div>
-          <div className="mt-3 flex flex-wrap gap-2">
-            <button type="button" onClick={runFlow} disabled={flowRunning} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60">
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
+            <button type="button" onClick={runFlow} disabled={flowRunning} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white disabled:cursor-not-allowed disabled:opacity-60">
               {flowRunning ? "傳送中..." : "送出表單"}
             </button>
-            <button type="button" onClick={() => setShowPayload((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={() => setShowPayload((current) => !current)} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               查看 API Payload
             </button>
-            <button type="button" onClick={() => setShowResponse((current) => !current)} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={() => setShowResponse((current) => !current)} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] sm:inline-flex sm:items-center">
               查看 API Response
             </button>
-            <button type="button" onClick={resendFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
+            <button type="button" onClick={resendFlow} disabled={flowRunning} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60 sm:inline-flex sm:items-center">
               重送一次
             </button>
-            <button type="button" onClick={replayFlow} disabled={flowRunning} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60">
+            <button type="button" onClick={replayFlow} disabled={flowRunning} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-60 sm:inline-flex sm:items-center">
               重播流程
             </button>
-            <button type="button" onClick={() => scrollToSection("tech")} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={() => scrollToSection("tech")} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] sm:inline-flex sm:items-center">
               技術拆解
             </button>
-            <button type="button" onClick={clearDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <button type="button" onClick={clearDemo} className="hidden min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] sm:inline-flex sm:items-center">
               清空
             </button>
           </div>

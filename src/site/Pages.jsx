@@ -11,15 +11,15 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
     <SiteLayout>
       <Seo page={page} />
       <section className="border-b border-[#e6e0d5] bg-white">
-        <div className={`mx-auto grid max-w-6xl gap-8 px-4 py-14 md:py-20 ${heroVisual ? "lg:grid-cols-[0.95fr_1.05fr] lg:items-center" : ""}`}>
+        <div className={`mx-auto grid max-w-6xl gap-8 px-4 py-12 md:py-20 ${heroVisual ? "lg:grid-cols-[0.95fr_1.05fr] lg:items-center" : ""}`}>
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
-            <h1 className="mt-4 max-w-3xl text-[clamp(2.35rem,8vw,4.7rem)] font-black leading-[1.04] tracking-tight">
+            <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] tracking-tight md:text-[clamp(2.35rem,8vw,4.7rem)] md:leading-[1.04]">
               {title}
             </h1>
-            <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">{intro}</p>
+            <p className="mt-5 line-clamp-2 max-w-3xl text-sm font-bold leading-7 text-[#52605c] md:text-base md:leading-8">{intro}</p>
             {actions ? (
-              <div className="mt-7 flex flex-wrap gap-3">
+              <div className="mt-7 flex flex-wrap gap-2 md:gap-3">
                 {actions}
                 {page?.path?.startsWith("/works/") ? (
                   <Link
@@ -94,7 +94,7 @@ function WorkPreview({ project }) {
   const meta = previewMeta[project.slug] || fallbackPreview?.meta || { status: "Live", metric: "Demo", summary: project.category }
 
   return (
-    <div className="mb-5 min-h-56 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
+    <div className="mb-5 min-h-48 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4 md:min-h-56">
       <div className="flex items-center justify-between gap-3">
         <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Product Mockup</span>
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{meta.status}</span>
@@ -109,7 +109,7 @@ function WorkPreview({ project }) {
         </div>
         <p className="mt-3 rounded-lg bg-white/10 px-3 py-2 text-xs font-black text-white/80">{meta.summary}</p>
       </div>
-      <div className="mt-3 grid gap-2 sm:grid-cols-3">
+      <div className="mt-3 hidden gap-2 sm:grid sm:grid-cols-3">
         {items.map((item) => (
           <div key={item} className="rounded-lg border border-[#e1dbcf] bg-white px-3 py-2 text-xs font-black text-[#40504c]">
             {item}
@@ -277,7 +277,7 @@ export function WorksPage() {
                   <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg md:p-5">
                     <WorkPreview project={project} />
                     <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
-                    <h3 className="mt-3 text-2xl font-black">{project.title}</h3>
+                    <h3 className="mt-3 text-xl font-black md:text-2xl">{project.title}</h3>
                     <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
                       {conciseWorkValues[project.slug] || workBusinessValues[project.slug] || project.summary}
                     </p>

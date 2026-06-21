@@ -141,7 +141,7 @@ function WebsiteRescue() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-10 md:py-16">
+      <section id="demo" className="mx-auto min-h-svh max-w-6xl scroll-mt-24 px-4 py-8 md:min-h-0 md:py-16">
         <div className="lg:hidden">
           <div className="sticky top-[64px] z-20 -mx-4 border-y border-[#e6e0d5] bg-[#faf8f3]/95 px-4 py-3 backdrop-blur">
             <div className="flex items-center justify-between gap-3">
@@ -286,11 +286,11 @@ function RescueHero({ score, progress, mood, fixedIds, latestItem }) {
 
 function WebsitePreview({ preview, activeItem, fixedCount }) {
   return (
-    <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+    <div className="rounded-2xl border border-[#e3ded3] bg-white p-4 md:p-5">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Before / After</p>
-          <h2 className="mt-2 text-2xl font-black">網站 Preview</h2>
+          <h2 className="mt-2 text-xl font-black md:text-2xl">網站 Preview</h2>
         </div>
         <span className={`rounded-full px-3 py-1 text-xs font-black ${preview.trust ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
           {preview.trust ? "○w○ 穩定" : "(><) 待整理"}
@@ -307,20 +307,20 @@ function WebsitePreview({ preview, activeItem, fixedCount }) {
             {preview.seo ? "台灣網站製作、LINE Bot 與後台系統" : "專業服務與解決方案"}
           </span>
         </div>
-        <div className="p-5">
+        <div className="p-4 md:p-5">
           <p className="text-xs font-black text-[#0d6b62]">Hero</p>
-          <h3 className="mt-2 text-3xl font-black leading-tight">{preview.title}</h3>
+          <h3 className="mt-2 text-xl font-black leading-tight md:text-3xl">{preview.title}</h3>
           <div className="mt-4 flex flex-wrap gap-2">
             <span className={`inline-flex min-h-10 items-center rounded-md px-4 text-sm font-black transition ${preview.mobile || activeItem?.id === "cta" ? "bg-[#111c22] text-white shadow-md shadow-[#111c22]/12" : "bg-[#d8d2c5] text-[#52605c]"}`}>
               {preview.cta}
             </span>
             {preview.line ? <span className="inline-flex min-h-10 items-center rounded-md border border-[#0d6b62] bg-white px-4 text-sm font-black text-[#0d6b62] shadow-sm">LINE 聯絡</span> : null}
           </div>
-          <div className="mt-5 grid gap-2 sm:grid-cols-2">
+          <div className="mt-5 hidden gap-2 sm:grid sm:grid-cols-2">
             <PreviewCard title={preview.works ? "作品案例" : "服務介紹"} text={preview.works ? "Demo / 系統 / 技術拆解" : "內容還不夠像成果展示"} />
             <PreviewCard title={preview.trust ? "信任元素" : "缺少信任感"} text={preview.trust ? "流程、技術與聯絡入口完整" : "客戶還不知道能不能放心詢問"} />
           </div>
-          <div className="mt-3 grid gap-2 sm:grid-cols-2">
+          <div className="mt-3 hidden gap-2 sm:grid sm:grid-cols-2">
             <div className={`rounded-xl border p-3 transition ${preview.seo ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
               <p className="text-xs font-black text-[#0d6b62]">SEO 摘要</p>
               <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-[#52605c]">
@@ -355,11 +355,11 @@ function PreviewCard({ title, text }) {
 
 function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
   return (
-    <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+    <div className="rounded-2xl border border-[#e3ded3] bg-white p-4 md:p-5">
       <div className="flex items-center justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Improve Panel</p>
-          <h2 className="mt-2 text-2xl font-black">改善項目</h2>
+          <h2 className="mt-2 text-xl font-black md:text-2xl">改善項目</h2>
         </div>
         <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{fixedIds.length} / {items.length}</span>
       </div>
@@ -372,7 +372,7 @@ function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
               key={item.id}
               type="button"
               onClick={() => onApply(item)}
-              className={`rounded-2xl border p-4 text-left transition duration-200 ${fixed ? "border-[#0d6b62] bg-[#eef7f4] shadow-sm" : active ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md"}`}
+              className={`rounded-2xl border p-3 text-left transition duration-200 md:p-4 ${fixed ? "border-[#0d6b62] bg-[#eef7f4] shadow-sm" : active ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-md"}`}
             >
               <span className="flex items-center justify-between gap-3">
                 <span className="text-sm font-black text-[#111c22]">{item.title}</span>
@@ -380,7 +380,7 @@ function ImprovementPanel({ items, activeId, fixedIds, toast, onApply }) {
                   {fixed ? "已改善 ○w○" : `+${item.points}`}
                 </span>
               </span>
-              <span className="mt-2 block text-xs font-bold leading-5 text-[#52605c]">{item.short}</span>
+              <span className="mt-2 hidden text-xs font-bold leading-5 text-[#52605c] md:block">{item.short}</span>
             </button>
           )
         })}

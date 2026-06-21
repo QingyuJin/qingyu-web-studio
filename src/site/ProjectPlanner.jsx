@@ -55,7 +55,7 @@ function OptionButton({ option, active, onClick }) {
     <button
       type="button"
       onClick={onClick}
-      className={`min-h-11 rounded-full border px-4 text-sm font-black transition duration-200 ${
+      className={`min-h-11 rounded-full border px-3 text-[13px] font-black transition duration-200 md:px-4 md:text-sm ${
         active ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62] shadow-sm" : "border-[#ddd6c9] bg-white text-[#52605c] hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-sm"
       }`}
     >
@@ -396,8 +396,8 @@ function ProjectPlanner() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto grid max-w-6xl scroll-mt-24 gap-5 px-4 py-10 md:py-16 lg:grid-cols-[1fr_0.88fr]">
-        <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6 lg:min-h-0">
+      <section id="demo" className="mx-auto grid min-h-svh max-w-6xl scroll-mt-24 gap-5 px-4 py-8 md:min-h-0 md:py-16 lg:grid-cols-[1fr_0.88fr]">
+        <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 pb-24 md:p-6 lg:min-h-0 lg:pb-6">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Step {stepIndex + 1} / {steps.length}</p>
@@ -435,7 +435,7 @@ function ProjectPlanner() {
             </p>
           ) : null}
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-6 hidden flex-wrap gap-2 lg:flex">
             <button type="button" onClick={previousStep} disabled={stepIndex === 0} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-40">
               上一步
             </button>
@@ -454,6 +454,20 @@ function ProjectPlanner() {
             <button type="button" onClick={copyRecommendation} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               {copied ? "已複製" : "複製建議"}
             </button>
+          </div>
+          <div className="sticky bottom-0 z-20 -mx-5 mt-6 grid grid-cols-2 gap-2 border-t border-[#e6e0d5] bg-white/95 p-3 backdrop-blur lg:hidden">
+            <button type="button" onClick={previousStep} disabled={stepIndex === 0} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] disabled:cursor-not-allowed disabled:opacity-40">
+              上一步
+            </button>
+            {stepIndex < steps.length - 1 ? (
+              <button type="button" onClick={nextStep} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                下一步
+              </button>
+            ) : (
+              <button type="button" onClick={generatePlan} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                產生建議
+              </button>
+            )}
           </div>
         </div>
 

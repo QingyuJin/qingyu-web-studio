@@ -94,18 +94,20 @@ function StudioHome() {
       <Seo page={seo.home} />
 
       <section className="border-b border-[#e6e0d5] bg-white">
-        <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[1fr_0.78fr] md:items-center md:py-20">
+        <div className="mx-auto grid min-h-[calc(100svh-64px)] max-w-6xl gap-8 px-4 py-10 md:min-h-0 md:grid-cols-[1fr_0.78fr] md:items-center md:py-20">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Qingyu Web Studio</p>
-            <h1 className="mt-5 max-w-3xl text-[clamp(1.9rem,8vw,2.25rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.65rem,7vw,5rem)]">
+            <h1 className="mt-5 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] tracking-tight md:text-[clamp(2.65rem,7vw,5rem)] md:leading-[1.08]">
               網站、LINE Bot、AI 工具與小型後台
             </h1>
-            <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
-              把你的服務整理成漂亮網站，並串接表單、LINE、AI 與後台流程。
+            <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-lg md:leading-8">
+              <span className="md:hidden">把你的服務整理成漂亮、清楚、可以聯絡的網站。</span>
+              <span className="hidden md:inline">把你的服務整理成漂亮網站，並串接表單、LINE、AI 與後台流程。</span>
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
               <Link to="/#interactive-lab" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
-                查看互動展示
+                <span className="md:hidden">查看作品</span>
+                <span className="hidden md:inline">查看互動展示</span>
               </Link>
               <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                 聯絡我
@@ -130,7 +132,7 @@ function StudioHome() {
 
 function PathNavigation() {
   return (
-    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+    <section className="hidden border-b border-[#e6e0d5] bg-[#faf8f3] md:block">
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
         <SectionHeading eyebrow="Start Here" title="你想看哪一種？" text="先選方向，再進互動 Demo 或完整案例。" />
         <div className="grid gap-3 md:grid-cols-4">
@@ -183,7 +185,7 @@ function CompleteCase() {
       <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-[0.82fr_1.18fr] md:items-center md:py-16">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Full Case</p>
-          <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">從網站詢價到後台管理</h2>
+          <h2 className="mt-3 text-[clamp(1.35rem,6vw,1.5rem)] font-black tracking-tight md:text-[clamp(2rem,6vw,3.2rem)]">從網站詢價到後台管理</h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#52605c]">
             以工程行情境展示案件、報價、照片、施工狀態與 LINE 回報流程。
           </p>
@@ -191,7 +193,7 @@ function CompleteCase() {
             <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               查看 BuildFlow
             </Link>
-            <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            <Link to="/works/xinjiang" className="hidden min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] md:inline-flex">
               查看鑫匠案例
             </Link>
           </div>
@@ -204,7 +206,7 @@ function CompleteCase() {
 
 function ToolShelf() {
   return (
-    <section className="border-b border-[#e6e0d5] bg-white">
+    <section className="hidden border-b border-[#e6e0d5] bg-white md:block">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <SectionHeading eyebrow="AI / API Tools" title="AI / API 工具" text="把需求、分析與資料流程做成可操作介面。" />
         <div className="grid gap-4 md:grid-cols-3">
@@ -261,7 +263,7 @@ function ContactCta() {
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-14 md:grid-cols-[1fr_auto] md:items-end md:py-16">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Contact</p>
-          <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">想做網站、LINE Bot、AI 工具或小系統？</h2>
+          <h2 className="mt-3 text-[clamp(1.35rem,6vw,1.5rem)] font-black tracking-tight md:text-[clamp(2rem,6vw,3.2rem)]">想做網站、LINE Bot、AI 工具或小系統？</h2>
           <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-white/70">
             可以先聊聊方向，我會幫你判斷適合哪一種做法。
           </p>
@@ -286,8 +288,8 @@ function SectionHeading({ eyebrow, title, text }) {
   return (
     <div className="mb-7 max-w-3xl">
       <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
-      <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">{title}</h2>
-      {text ? <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base">{text}</p> : null}
+      <h2 className="mt-3 text-[clamp(1.35rem,6vw,1.5rem)] font-black tracking-tight md:text-[clamp(2rem,6vw,3.2rem)]">{title}</h2>
+      {text ? <p className="mt-3 line-clamp-2 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base">{text}</p> : null}
     </div>
   )
 }
@@ -298,7 +300,7 @@ function InteractiveDemoCard({ demo }) {
       <div className="grid gap-0 md:grid-cols-[1.02fr_0.98fr]">
         <div className="p-5 md:p-6">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">{demo.label}</p>
-          <h3 className="mt-3 text-2xl font-black tracking-tight md:text-3xl">{demo.title}</h3>
+          <h3 className="mt-3 text-xl font-black tracking-tight md:text-3xl">{demo.title}</h3>
           <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{demo.summary}</p>
           <div className="mt-6 flex flex-wrap gap-3">
             <Link to={demo.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
@@ -309,7 +311,7 @@ function InteractiveDemoCard({ demo }) {
             </Link>
           </div>
         </div>
-        <div className="min-h-56 bg-[#111c22] p-4 text-white md:min-h-80 md:p-5">
+        <div className="min-h-48 bg-[#111c22] p-4 text-white md:min-h-80 md:p-5">
           {demo.tone === "rescue" ? <WebsiteRescuePreview /> : <LineMissionPreview />}
         </div>
       </div>

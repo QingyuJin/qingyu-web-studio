@@ -218,7 +218,7 @@ function LineBotMission() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-10 md:py-16">
+      <section id="demo" className="mx-auto min-h-svh max-w-6xl scroll-mt-24 px-4 py-8 md:min-h-0 md:py-16">
         <div className="mb-5 rounded-2xl border border-[#e3ded3] bg-white p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -262,7 +262,37 @@ function LineBotMission() {
             </div>
           </div>
           <div className="mt-5">
-            {mobileTab === "chat" ? <LinePhone messages={messages} /> : null}
+            {mobileTab === "chat" ? (
+              <div className="grid gap-3">
+                <LinePhone messages={messages} />
+                <div className="rounded-2xl border border-[#e3ded3] bg-white p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-black text-[#111c22]">{completed ? "接待已完成" : "選擇處理方式"}</p>
+                    <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">
+                      {completed ? "○✨" : "○v○"}
+                    </span>
+                  </div>
+                  {completed ? (
+                    <button type="button" onClick={() => setMobileTab("result")} className="mt-3 min-h-11 w-full rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                      查看結果
+                    </button>
+                  ) : (
+                    <div className="mt-3 grid grid-cols-2 gap-2">
+                      {Object.entries(strategyLabels).map(([key, label]) => (
+                        <button
+                          key={key}
+                          type="button"
+                          onClick={() => handleStrategy(key)}
+                          className={`min-h-11 rounded-xl border px-3 text-xs font-black transition ${lastStrategy === key ? "border-[#0d6b62] bg-[#eef7f4] text-[#0d6b62]" : "border-[#d8d2c5] bg-white text-[#40504c]"}`}
+                        >
+                          {label}
+                        </button>
+                      ))}
+                    </div>
+                  )}
+                </div>
+              </div>
+            ) : null}
             {mobileTab === "handle" ? <StrategyPanel scenario={currentScenario} completed={completed} status={status} lastStrategy={lastStrategy} onChoose={handleStrategy} onReset={resetDemo} /> : null}
             {mobileTab === "dashboard" || mobileTab === "result" ? (
               <DashboardPanel
@@ -341,14 +371,14 @@ function HeroMetric({ label, value }) {
 
 function LinePhone({ messages }) {
   return (
-    <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+    <div className="rounded-2xl border border-[#e3ded3] bg-white p-4 md:p-5">
       <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">LINE Mockup</p>
       <div className="mt-4 rounded-[2rem] border border-[#d8e2dc] bg-[#dff1e8] p-4 shadow-xl shadow-[#111c22]/10">
         <div className="mb-4 flex items-center justify-between rounded-full bg-white px-4 py-2">
           <span className="text-sm font-black text-[#111c22]">Qingyu Bot</span>
           <span className="text-xs font-black text-[#0d6b62]">online</span>
         </div>
-        <div className="max-h-[48svh] min-h-[320px] space-y-3 overflow-y-auto pr-1 sm:min-h-[420px] lg:max-h-[560px]">
+        <div className="max-h-[42svh] min-h-[250px] space-y-3 overflow-y-auto pr-1 sm:min-h-[420px] lg:max-h-[560px]">
           {messages.map((message, index) => (
             <div key={`${message.text}-${index}`}>
               <Bubble role={message.role} text={message.text} />
