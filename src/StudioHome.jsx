@@ -64,10 +64,10 @@ function StudioHome() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Qingyu Web Studio</p>
             <h1 className="mt-5 max-w-2xl text-[clamp(2.5rem,8vw,5rem)] font-black leading-[1.02] tracking-tight">
-              讓你的服務被看懂
+              網站、LINE Bot、AI 工具與小系統
             </h1>
             <p className="mt-6 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
-              我協助台灣個人品牌、小型店家、工作室與學生，製作乾淨好懂的網站、互動功能、LINE Bot、AI 工具與簡易管理系統。
+              把你的服務整理成清楚、漂亮、可以聯絡、可以互動的網站。
             </p>
             <div className="mt-5 inline-flex max-w-full rounded-full border border-[#d8e2dc] bg-[#f5faf7] px-4 py-2 text-sm font-black text-[#0d6b62] shadow-sm">
               不只做網站，也能把表單、LINE、AI、API 與後台流程接起來。
@@ -78,9 +78,6 @@ function StudioHome() {
               </Link>
               <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                 需求診斷
-              </Link>
-              <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
-                聊聊需求
               </Link>
             </div>
           </div>
@@ -122,7 +119,6 @@ function StudioHome() {
               <ProjectPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
-              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{project.summary}</p>
               <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
                 {businessValues[project.slug] || "把流程做成客戶看得懂、老闆管得住的網站系統。"}
               </p>
@@ -236,10 +232,10 @@ function InteractiveLab() {
         <div className="mb-7 max-w-3xl">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Lab</p>
           <h2 className="mt-3 text-[clamp(2.1rem,6vw,3.6rem)] font-black tracking-tight">
-            兩個招牌互動 Demo
+            互動實驗室
           </h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#52605c] md:text-base">
-            不是只看作品，也可以直接操作幾個小型互動 Demo，感受網站、LINE Bot 與後台流程怎麼動起來。
+            直接操作幾個小型 Demo，看看網站、LINE Bot 與後台流程怎麼動起來。
           </p>
         </div>
         <div className="grid gap-5 lg:grid-cols-2">

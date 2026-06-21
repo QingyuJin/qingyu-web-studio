@@ -358,7 +358,7 @@ function ProjectPlanner() {
               網站需求診斷
             </h1>
             <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">
-              不知道該做網站、LINE Bot、AI 工具還是小系統？回答幾個問題，我會幫你整理適合的方案、功能與技術方向。
+              回答幾個問題，產生適合的網站、LINE Bot 或系統方向。
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -554,7 +554,7 @@ function ProjectPlanner() {
               </div>
             ) : (
               <p className="mt-4 text-sm font-bold leading-7 text-white/70">
-                完成左側診斷後，可以用 AI 顧問模式產生更完整的功能、技術、時程與風險建議。沒有後端 AI 金鑰時會自動使用 Demo 規劃。
+                完成診斷後，可產生更完整的規劃。
               </p>
             )}
           </div>
@@ -610,7 +610,7 @@ function ProjectPlanner() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
             <h2 className="mt-3 text-3xl font-black">診斷邏輯怎麼做</h2>
             <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-              這版是前端 rule-based recommendation，未來可以升級成 OpenAI API 顧問，或改造成你的店家需求表單。
+              前端診斷邏輯，可升級 AI 顧問或客製成需求表單。
             </p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">

@@ -183,6 +183,18 @@ const workBusinessValues = {
   xinjiang: "把工程網站的估價入口接到案件管理流程。",
 }
 
+const conciseWorkValues = {
+  "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
+  linebot: "讓 LINE 訊息自動整理成需求。",
+  buildflow: "管理案件、報價、照片與 LINE 回報。",
+  "api-automation": "表單送出後，自動進 API、通知與後台。",
+  "project-planner": "判斷適合做網站、LINE Bot 還是系統。",
+  "website-rescue": "點選改善項目，查看網站狀態變化。",
+  "linebot-mission": "模擬 LINE 接待與後台同步。",
+  "qingyu-web": "展示主站、作品、工具與聯絡流程。",
+  xinjiang: "工程網站如何串到 BuildFlow 後台。",
+}
+
 export function WorksPage() {
   const categories = ["網站", "系統", "AI 工具", "LINE Bot", "工程流程系統"]
   const plannerProject = {
@@ -242,9 +254,8 @@ export function WorksPage() {
               <WorkPreview project={project} />
               <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
               <h2 className="mt-3 text-2xl font-black">{project.title}</h2>
-              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
               <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
-                {workBusinessValues[project.slug] || "用遊戲化體驗讓客戶看懂網站優化價值。"}
+                {conciseWorkValues[project.slug] || workBusinessValues[project.slug] || project.summary}
               </p>
               <div className="mt-4">
                 <Tags items={project.tags.slice(0, 4)} />
@@ -302,7 +313,7 @@ export function WorkDetailPage() {
       page={projectSeo}
       eyebrow={project.category}
       title={project.title}
-      intro={project.summary}
+      intro={conciseWorkValues[project.slug] || project.summary}
       actions={
         isLineBotProject ? (
           <>
@@ -389,7 +400,7 @@ export function WorkDetailPage() {
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Live Demo</p>
                 <h2 className="mt-2 text-2xl font-black">Demo 操作台</h2>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
-                  下方可以直接操作這個案例的核心流程，包含畫面狀態、資料結果與技術拆解。
+                  直接操作核心流程，看畫面與資料怎麼變化。
                 </p>
               </div>
               {isInternalDemoPath ? (
@@ -419,7 +430,7 @@ export function WorkDetailPage() {
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Main Site Case Study</p>
                 <h2 className="mt-3 text-3xl font-black">主站如何把作品變成詢問</h2>
                 <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-                  這個網站不是只放作品，而是把服務定位、Demo Lab、需求診斷、聯絡頁、SEO 與部署狀態整理成一條轉換路徑。
+                  主站把服務、作品、工具與聯絡串成一條路徑。
                 </p>
               </div>
               <div className="grid gap-3 md:grid-cols-2">
@@ -472,11 +483,11 @@ export function WorkDetailPage() {
         <div className="grid gap-4 lg:grid-cols-3">
           <Card>
             <h2 className="text-xl font-black">問題</h2>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.problem}</p>
+            <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.problem}</p>
           </Card>
           <Card>
             <h2 className="text-xl font-black">解法</h2>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.solution}</p>
+            <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.solution}</p>
           </Card>
           <Card dark>
             <h2 className="text-xl font-black">畫面展示</h2>
@@ -620,7 +631,7 @@ export function WorkDetailPage() {
           </Card>
           <Card>
             <h2 className="text-2xl font-black">未來可擴充</h2>
-            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c]">
+            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c] md:grid-cols-2">
               {project.future.map((item) => (
                 <li key={item}>・{item}</li>
               ))}
@@ -634,7 +645,7 @@ export function WorkDetailPage() {
               <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先看 Demo，再把你的流程改成可上線的版本。
+              先看 Demo，再整理你的流程。
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -653,7 +664,7 @@ export function WorkDetailPage() {
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            我可以先幫你判斷適合網站、LINE Bot、AI 工具還是小型後台。
+            先診斷方向，再決定做網站、LINE Bot 或小後台。
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -947,10 +958,10 @@ export function ContactPage() {
   return (
       <PageShell
         page={seo.contact}
-        title="先聊聊你的網站"
-        intro="把產業、想做的功能、預算與時程先丟給我，我會幫你判斷適合網站、LINE Bot、AI 工具還是小系統。"
+        title="聊聊你想做的網站或系統"
+        intro="可以先傳產業、功能、預算與希望上線時間。"
       >
-        <section className="mx-auto grid max-w-6xl gap-5 px-4 py-14 md:grid-cols-[0.82fr_1.18fr]">
+        <section className="hidden">
           <Card>
             <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">可以先傳產業、功能、預算與希望上線時間。</p>
