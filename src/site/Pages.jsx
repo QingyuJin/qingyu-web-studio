@@ -19,7 +19,7 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
             </h1>
             <p className="mt-5 line-clamp-2 max-w-3xl text-sm font-bold leading-7 text-[#52605c] md:text-base md:leading-8">{intro}</p>
             {actions ? (
-              <div className="mt-7 flex flex-wrap gap-2 md:gap-3">
+              <div className="mt-7 grid gap-2 sm:flex sm:flex-wrap md:gap-3">
                 {actions}
                 {page?.path?.startsWith("/works/") ? (
                   <Link

@@ -70,7 +70,7 @@ function StudioHome() {
       <Seo page={seo.home} />
 
       <section className="border-b border-[#e6e0d5] bg-white">
-        <div className="mx-auto grid min-h-[calc(100svh-64px)] max-w-6xl gap-8 px-4 py-10 md:min-h-0 md:grid-cols-[1fr_0.78fr] md:items-center md:py-20">
+        <div className="mx-auto grid min-h-[calc(76svh-56px)] max-w-6xl gap-8 px-4 py-9 md:min-h-0 md:grid-cols-[1fr_0.78fr] md:items-center md:py-20">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Qingyu Web Studio</p>
             <h1 className="mt-5 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] tracking-tight md:text-[clamp(2.65rem,7vw,5rem)] md:leading-[1.08]">

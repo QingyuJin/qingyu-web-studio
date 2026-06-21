@@ -175,7 +175,7 @@ function WebsiteRescue() {
               ))}
             </div>
           </div>
-          <div className="mt-5">
+          <div className="mt-5 max-h-[calc(100svh-188px)] overflow-y-auto pr-1">
             {mobileTab === "preview" ? (
               <div className="grid gap-4">
                 <WebsitePreview preview={preview} activeItem={activeItem} fixedCount={fixedIds.length} />

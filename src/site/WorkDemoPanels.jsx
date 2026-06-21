@@ -1632,7 +1632,7 @@ function BuildFlowDemo() {
           </div>
         </div>
 
-        <div className="mt-5">
+        <div className="mt-5 max-h-[calc(100svh-188px)] overflow-y-auto pr-1">
           {mobileTab === "cases" ? (
             <div className="grid gap-3">
               <div className="grid grid-cols-2 gap-2">

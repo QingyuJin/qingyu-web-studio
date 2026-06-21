@@ -72,7 +72,7 @@ function ContactLeadSection() {
 
   return (
     <section id="contact" className="bg-[#172026] text-white">
-      <div className="mx-auto grid max-w-6xl gap-8 px-4 py-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
+      <div className="mx-auto grid max-w-6xl gap-7 px-4 py-10 md:py-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
@@ -87,20 +87,20 @@ function ContactLeadSection() {
             <ContactLine label="Email" value={email} />
           </div>
 
-          <div className="mt-5 flex flex-wrap gap-3">
-            <button type="button" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 items-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026]">
+          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
+            <button type="button" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] sm:w-auto">
               複製 LINE ID
             </button>
-            <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 items-center rounded-md border border-white/16 px-5 text-sm font-black text-white">
+            <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               複製 Email
             </button>
-            <a href={`mailto:${email}?subject=${encodeURIComponent("網站或系統需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 items-center rounded-md border border-white/16 px-5 text-sm font-black text-white">
+            <a href={`mailto:${email}?subject=${encodeURIComponent("網站或系統需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               用 Email 傳送需求
             </a>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-lg border border-white/12 bg-white/[0.07] p-5">
+        <form onSubmit={handleSubmit} className="rounded-lg border border-white/12 bg-white/[0.07] p-4 md:p-5">
           <div className="grid gap-4 sm:grid-cols-2">
             <Input label="姓名 / 稱呼" value={form.name} onChange={(value) => updateForm("name", value)} required />
             <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 電話" required />
@@ -124,15 +124,15 @@ function ContactLeadSection() {
             </p>
           ) : null}
 
-          <div className="mt-5 flex flex-wrap gap-3">
+          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
             <button
               type="submit"
               disabled={submitting}
-              className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] transition hover:bg-[#ffd785] disabled:cursor-not-allowed disabled:opacity-60"
+              className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] transition hover:bg-[#ffd785] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
               {submitting ? "整理中..." : "整理需求"}
             </button>
-            <button type="button" onClick={resetForm} className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white transition hover:bg-white/10">
+            <button type="button" onClick={resetForm} className="inline-flex min-h-12 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white transition hover:bg-white/10 sm:w-auto">
               清空
             </button>
           </div>
