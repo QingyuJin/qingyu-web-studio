@@ -73,6 +73,7 @@ function WebsiteRescue() {
   const [fixedIds, setFixedIds] = useState([])
   const [activeId, setActiveId] = useState("cta")
   const [toast, setToast] = useState("")
+  const [mobileTab, setMobileTab] = useState("preview")
 
   const fixedItems = improvements.filter((item) => fixedIds.includes(item.id))
   const activeItem = improvements.find((item) => item.id === activeId) || improvements[0]
@@ -97,16 +98,19 @@ function WebsiteRescue() {
     setActiveId(item.id)
     if (fixedIds.includes(item.id)) {
       setToast("這項已改善，狀態維持穩定 ○w○")
+      setMobileTab("report")
       return
     }
     setFixedIds((current) => [...current, item.id])
     setToast(`${item.title} 已套用，網站狀態改善中 ○v○`)
+    setMobileTab("preview")
   }
 
   function resetDemo() {
     setFixedIds([])
     setActiveId("cta")
     setToast("")
+    setMobileTab("preview")
   }
 
   return (
@@ -117,7 +121,7 @@ function WebsiteRescue() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Demo</p>
-            <h1 className="mt-4 text-[clamp(2.4rem,8vw,4.8rem)] font-black leading-[1.04] tracking-tight">
+            <h1 className="mt-4 text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.4rem,8vw,4.8rem)] md:leading-[1.04]">
               網站救援互動 Demo
             </h1>
             <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
@@ -136,8 +140,76 @@ function WebsiteRescue() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-16">
-        <div className="grid gap-5 lg:grid-cols-[1fr_0.9fr_0.88fr]">
+      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-10 md:py-16">
+        <div className="lg:hidden">
+          <div className="sticky top-[64px] z-20 -mx-4 border-y border-[#e6e0d5] bg-[#faf8f3]/95 px-4 py-3 backdrop-blur">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0d6b62]">Score</p>
+                <p className="text-xl font-black text-[#111c22]">
+                  {score} <span className="text-sm text-[#52605c]">{mood.mark}</span>
+                </p>
+              </div>
+              <div className="w-32">
+                <div className="h-2 rounded-full bg-[#e4e9e6]">
+                  <div className="h-full rounded-full bg-[#0d6b62] transition-all duration-500" style={{ width: `${progress}%` }} />
+                </div>
+                <p className="mt-1 text-right text-[11px] font-black text-[#52605c]">{fixedIds.length} / {improvements.length}</p>
+              </div>
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {[
+                ["preview", "預覽"],
+                ["improve", "改善"],
+                ["report", "報告"],
+              ].map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setMobileTab(key)}
+                  className={`min-h-10 rounded-full text-xs font-black transition ${mobileTab === key ? "bg-[#111c22] text-white" : "border border-[#d8d2c5] bg-white text-[#40504c]"}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mt-5">
+            {mobileTab === "preview" ? (
+              <div className="grid gap-4">
+                <WebsitePreview preview={preview} />
+                <button
+                  type="button"
+                  onClick={() => setMobileTab("improve")}
+                  className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white"
+                >
+                  選擇改善項目
+                </button>
+              </div>
+            ) : null}
+            {mobileTab === "improve" ? (
+              <ImprovementPanel
+                items={improvements}
+                activeId={activeId}
+                fixedIds={fixedIds}
+                toast={toast}
+                onApply={applyImprovement}
+              />
+            ) : null}
+            {mobileTab === "report" ? (
+              <ScorePanel
+                score={score}
+                mood={mood}
+                progress={progress}
+                fixedItems={fixedItems}
+                activeItem={activeItem}
+                onReset={resetDemo}
+              />
+            ) : null}
+          </div>
+        </div>
+
+        <div className="hidden gap-5 lg:grid lg:grid-cols-[1fr_0.9fr_0.88fr]">
           <WebsitePreview preview={preview} />
           <ImprovementPanel
             items={improvements}

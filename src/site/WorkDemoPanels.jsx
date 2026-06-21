@@ -1207,6 +1207,7 @@ function BuildFlowDemo() {
   const [showResponse, setShowResponse] = useState(false)
   const [apiError, setApiError] = useState("")
   const [lastLineMessage, setLastLineMessage] = useState(lineMessageByStatus["待估價"])
+  const [mobileTab, setMobileTab] = useState("cases")
   const current = cases.find((item) => item.id === selected) || cases[0]
   const metrics = [
     ["今日新案", cases.filter((item) => item.createdAt.includes("2026-06-20") || item.createdAt.includes("剛剛")).length],
@@ -1375,6 +1376,7 @@ function BuildFlowDemo() {
       setApiMode("Connected")
       setApiError("")
       applyCaseUpdate(data.case, data)
+      setMobileTab("detail")
     } catch (error) {
       console.warn("buildflow add case fallback", error.message)
       const fallbackCase = createFallbackCase()
@@ -1384,6 +1386,7 @@ function BuildFlowDemo() {
       setApiError("新增案件 API 暫時無法連線，已用 Demo 模式新增。")
       setApiResponse({ ok: true, source: "demo_mode", case: fallbackCase })
       setLastLineMessage(lineMessageByStatus["待估價"])
+      setMobileTab("detail")
     }
   }
 
@@ -1414,6 +1417,7 @@ function BuildFlowDemo() {
         lineMessage: "已收到來自鑫匠工程網站的估價需求，等待初步估價。",
       })
       setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
+      setMobileTab("detail")
     } catch (error) {
       console.warn("buildflow xinjiang case fallback", error.message)
       const fallbackCase = mapXinjiangCaseToUi({
@@ -1432,6 +1436,7 @@ function BuildFlowDemo() {
       setApiError("鑫匠案例 API 暫時無法連線，已用 Demo 模式新增。")
       setApiResponse({ ok: true, source: "demo_mode", scenario: "xinjiang_case", case: fallbackCase })
       setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
+      setMobileTab("detail")
     }
   }
 
@@ -1449,6 +1454,7 @@ function BuildFlowDemo() {
       setApiMode("Connected")
       setApiError("")
       applyCaseUpdate(data.case, data)
+      setMobileTab("line")
     } catch (error) {
       console.warn("buildflow update case fallback", error.message)
       const lineMessage = lineMessageByStatus[status]
@@ -1466,6 +1472,7 @@ function BuildFlowDemo() {
       setApiError("更新狀態 API 暫時無法連線，已用 Demo 模式更新。")
       setApiResponse({ ok: true, source: "demo_mode", lineMessage, caseId: current.id, status })
       setLastLineMessage(lineMessage)
+      setMobileTab("line")
     }
   }
 
@@ -1479,6 +1486,7 @@ function BuildFlowDemo() {
     setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
     setApiError("Demo 已重置為初始資料。")
     setLastLineMessage(lineMessageByStatus["待估價"])
+    setMobileTab("cases")
   }
 
   return (
@@ -1574,7 +1582,162 @@ function BuildFlowDemo() {
           </MiniCard>
         ))}
       </div>
-      <div className="grid gap-4 xl:grid-cols-[0.72fr_1.05fr_0.78fr]">
+      <div className="xl:hidden">
+        <div className="sticky top-[64px] z-20 -mx-4 border-y border-[#e6e0d5] bg-[#faf8f3]/95 px-4 py-3 backdrop-blur">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0d6b62]">BuildFlow</p>
+              <p className="text-sm font-black text-[#111c22]">{current.id}｜{current.status}</p>
+            </div>
+            <span className={`shrink-0 rounded-full px-3 py-1 text-xs font-black ${apiMode === "Connected" ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff7ed] text-[#b45309]"}`}>
+              {apiMode}
+            </span>
+          </div>
+          <div className="mt-3 grid grid-cols-4 gap-2">
+            {[
+              ["cases", "案件"],
+              ["detail", "詳情"],
+              ["quote", "報價"],
+              ["line", "LINE"],
+            ].map(([key, label]) => (
+              <button
+                key={key}
+                type="button"
+                onClick={() => setMobileTab(key)}
+                className={`min-h-10 rounded-full text-xs font-black transition ${mobileTab === key ? "bg-[#111c22] text-white" : "border border-[#d8d2c5] bg-white text-[#40504c]"}`}
+              >
+                {label}
+              </button>
+            ))}
+          </div>
+        </div>
+
+        <div className="mt-5">
+          {mobileTab === "cases" ? (
+            <div className="grid gap-3">
+              <div className="grid grid-cols-2 gap-2">
+                <button type="button" onClick={loadCases} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-3 text-sm font-black text-[#111c22]">
+                  重新載入
+                </button>
+                <button type="button" onClick={addDemoCase} className="min-h-11 rounded-md bg-[#111c22] px-3 text-sm font-black text-white">
+                  新增案件
+                </button>
+              </div>
+              <div className="grid grid-cols-2 gap-2">
+                {metrics.map(([label, value]) => (
+                  <div key={label} className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                    <p className="text-xs font-black text-[#0d6b62]">{label}</p>
+                    <p className="mt-1 text-2xl font-black text-[#111c22]">{value}</p>
+                  </div>
+                ))}
+              </div>
+              {cases.map((item) => (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => {
+                    setSelected(item.id)
+                    setMobileTab("detail")
+                  }}
+                  className={`rounded-xl border p-4 text-left ${selected === item.id ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}
+                >
+                  <div className="flex items-start justify-between gap-2">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black">{item.id}｜{item.name}</p>
+                      <p className="mt-1 truncate text-xs font-bold text-[#52605c]">{item.customer}・{item.type}</p>
+                    </div>
+                    <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{item.status}</span>
+                  </div>
+                  <div className="mt-3"><Progress value={item.progress} /></div>
+                </button>
+              ))}
+            </div>
+          ) : null}
+
+          {mobileTab === "detail" ? (
+            <MiniCard title="案件詳情 / Dashboard UI" tone="dark">
+              <div className="grid gap-3">
+                <div className="flex flex-wrap items-center gap-2">
+                  <h3 className="text-xl font-black">{current.id}</h3>
+                  <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">{current.status}</span>
+                </div>
+                <div className="grid gap-2 text-sm font-black text-white/75">
+                  <p>客戶：{current.customer}</p>
+                  <p>工程：{current.type}</p>
+                  <p>預估：{current.budget}</p>
+                  <p>來源：{current.source}</p>
+                </div>
+                <Progress value={current.progress} />
+                <div className="grid grid-cols-3 gap-2">
+                  {current.photos.map((item) => (
+                    <div key={item} className="aspect-square rounded-lg bg-white/10 p-2 text-[11px] font-black text-white/70">
+                      {item}
+                    </div>
+                  ))}
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button type="button" onClick={updateConstructionStatus} className="min-h-11 rounded-md bg-white px-3 text-sm font-black text-[#111c22]">
+                    更新狀態
+                  </button>
+                  <button type="button" onClick={() => setShowDetail(true)} className="min-h-11 rounded-md border border-white/20 px-3 text-sm font-black text-white">
+                    查看詳情
+                  </button>
+                </div>
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {mobileTab === "quote" ? (
+            <MiniCard title="報價 Preview">
+              <div className="grid gap-3">
+                <div className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                  <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Quotation</p>
+                  <p className="mt-2 text-3xl font-black text-[#111c22]">{current.budget}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">{current.quoteStatus}</p>
+                </div>
+                {quoteItems(current).slice(0, 3).map((item) => (
+                  <div key={item.name} className="flex justify-between gap-3 rounded-lg bg-[#faf7ef] px-3 py-2 text-xs font-bold text-[#52605c]">
+                    <span>{item.name}</span>
+                    <span>NT${item.subtotal.toLocaleString("zh-TW")}</span>
+                  </div>
+                ))}
+                <button type="button" onClick={() => setShowQuote(true)} className="min-h-11 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                  產生報價單
+                </button>
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {mobileTab === "line" ? (
+            <MiniCard title="LINE 回報">
+              <div className="grid gap-3">
+                <div className="rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
+                  <div className="mb-2 flex items-center justify-between gap-2">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE Message</p>
+                    {copied ? <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{copied}</span> : null}
+                  </div>
+                  <p className="text-sm font-bold leading-7 text-[#52605c]">{current.reports[0]?.replace("LINE：", "")}</p>
+                </div>
+                <div className="grid grid-cols-2 gap-2">
+                  <button type="button" onClick={copyLineReport} className="min-h-11 rounded-md bg-[#111c22] px-3 text-sm font-black text-white">
+                    複製回報
+                  </button>
+                  <button type="button" onClick={() => setShowResponse((currentValue) => !currentValue)} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-3 text-sm font-black text-[#111c22]">
+                    API 回應
+                  </button>
+                </div>
+                {showResponse ? (
+                  <pre className="max-h-[42svh] overflow-auto rounded-xl bg-[#111c22] p-3 text-xs font-bold leading-6 text-white">
+                    {JSON.stringify(apiResponse || { message: "尚未呼叫 BuildFlow API。" }, null, 2)}
+                  </pre>
+                ) : null}
+              </div>
+            </MiniCard>
+          ) : null}
+        </div>
+      </div>
+
+      <div className="hidden gap-4 xl:grid xl:grid-cols-[0.72fr_1.05fr_0.78fr]">
         <div className="grid gap-3">
           <div className="flex flex-wrap gap-2">
             <button type="button" onClick={loadCases} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">

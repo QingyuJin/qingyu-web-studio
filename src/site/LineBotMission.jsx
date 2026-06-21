@@ -113,6 +113,7 @@ function LineBotMission() {
   const [cases, setCases] = useState([])
   const [status, setStatus] = useState("選擇一種 Bot 處理方式，觀察 LINE 對話與後台如何同步。")
   const [history, setHistory] = useState([])
+  const [mobileTab, setMobileTab] = useState("chat")
 
   const currentScenario = scenarios[scenarioIndex]
   const completed = scenarioIndex >= scenarios.length
@@ -159,6 +160,7 @@ function LineBotMission() {
       `${currentScenario.category} → ${strategyLabels[key]} → ${effect.badge}`,
     ])
     setStatus(key === currentScenario.best ? `處理順暢 ${getMood(nextMetrics).mark}` : `可用，但還能更精準 ${getMood(nextMetrics).mark}`)
+    setMobileTab("chat")
 
     const nextIndex = scenarioIndex + 1
     setScenarioIndex(nextIndex)
@@ -179,6 +181,7 @@ function LineBotMission() {
     setCases([])
     setStatus("選擇一種 Bot 處理方式，觀察 LINE 對話與後台如何同步。")
     setHistory([])
+    setMobileTab("chat")
   }
 
   return (
@@ -189,7 +192,7 @@ function LineBotMission() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Demo</p>
-            <h1 className="mt-4 text-[clamp(2.4rem,8vw,4.8rem)] font-black leading-[1.04] tracking-tight">
+            <h1 className="mt-4 text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.4rem,8vw,4.8rem)] md:leading-[1.04]">
               LINE Bot 接待模擬
             </h1>
             <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
@@ -211,7 +214,7 @@ function LineBotMission() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-16">
+      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 py-10 md:py-16">
         <div className="mb-5 rounded-2xl border border-[#e3ded3] bg-white p-5">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
@@ -225,7 +228,53 @@ function LineBotMission() {
           </div>
         </div>
 
-        <div className="grid gap-5 lg:grid-cols-[0.9fr_0.92fr_1fr]">
+        <div className="lg:hidden">
+          <div className="sticky top-[64px] z-20 -mx-4 border-y border-[#e6e0d5] bg-[#faf8f3]/95 px-4 py-3 backdrop-blur">
+            <div className="flex items-center justify-between gap-3">
+              <div>
+                <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#0d6b62]">Status</p>
+                <p className="text-sm font-black text-[#111c22]">{status}</p>
+              </div>
+              <span className="shrink-0 rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
+                {mood.score} {mood.mark}
+              </span>
+            </div>
+            <div className="mt-3 grid grid-cols-4 gap-2">
+              {[
+                ["chat", "對話"],
+                ["handle", "處理"],
+                ["dashboard", "後台"],
+                ["result", "結果"],
+              ].map(([key, label]) => (
+                <button
+                  key={key}
+                  type="button"
+                  onClick={() => setMobileTab(key)}
+                  className={`min-h-10 rounded-full text-xs font-black transition ${mobileTab === key ? "bg-[#111c22] text-white" : "border border-[#d8d2c5] bg-white text-[#40504c]"}`}
+                >
+                  {label}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mt-5">
+            {mobileTab === "chat" ? <LinePhone messages={messages} /> : null}
+            {mobileTab === "handle" ? <StrategyPanel scenario={currentScenario} completed={completed} status={status} onChoose={handleStrategy} onReset={resetDemo} /> : null}
+            {mobileTab === "dashboard" || mobileTab === "result" ? (
+              <DashboardPanel
+                metrics={metrics}
+                mood={mood}
+                cases={cases}
+                history={history}
+                suggestedFeatures={suggestedFeatures}
+                completed={completed}
+                onReset={resetDemo}
+              />
+            ) : null}
+          </div>
+        </div>
+
+        <div className="hidden gap-5 lg:grid lg:grid-cols-[0.9fr_0.92fr_1fr]">
           <LinePhone messages={messages} />
           <StrategyPanel scenario={currentScenario} completed={completed} status={status} onChoose={handleStrategy} onReset={resetDemo} />
           <DashboardPanel
@@ -295,7 +344,7 @@ function LinePhone({ messages }) {
           <span className="text-sm font-black text-[#111c22]">Qingyu Bot</span>
           <span className="text-xs font-black text-[#0d6b62]">online</span>
         </div>
-        <div className="max-h-[560px] min-h-[420px] space-y-3 overflow-y-auto pr-1">
+        <div className="max-h-[48svh] min-h-[320px] space-y-3 overflow-y-auto pr-1 sm:min-h-[420px] lg:max-h-[560px]">
           {messages.map((message, index) => (
             <div key={`${message.text}-${index}`}>
               <Bubble role={message.role} text={message.text} />

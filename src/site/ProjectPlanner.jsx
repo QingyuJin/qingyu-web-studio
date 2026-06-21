@@ -375,7 +375,7 @@ function ProjectPlanner() {
               </Link>
             </div>
           </div>
-          <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white shadow-xl shadow-[#111c22]/10">
+          <div className="hidden rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white shadow-xl shadow-[#111c22]/10 lg:block">
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Instant Result</p>
             <div className="mt-5 grid gap-3 sm:grid-cols-2">
               {["推薦方案", "技術複雜度", "建議功能", "下一步"].map((item) => (
@@ -396,8 +396,8 @@ function ProjectPlanner() {
         </div>
       </section>
 
-      <section id="demo" className="mx-auto grid max-w-6xl scroll-mt-24 gap-5 px-4 py-16 lg:grid-cols-[1fr_0.88fr]">
-        <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+      <section id="demo" className="mx-auto grid max-w-6xl scroll-mt-24 gap-5 px-4 py-10 md:py-16 lg:grid-cols-[1fr_0.88fr]">
+        <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6 lg:min-h-0">
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Step {stepIndex + 1} / {steps.length}</p>
@@ -409,7 +409,7 @@ function ProjectPlanner() {
             <div className="h-full rounded-full bg-[#0d6b62] transition-all duration-300" style={{ width: `${progress}%` }} />
           </div>
 
-          <div className="mt-6 flex flex-wrap gap-2">
+          <div className="mt-6 grid grid-cols-2 gap-2 sm:flex sm:flex-wrap">
             {currentStep.options.map((option) => {
               const active = currentStep.type === "multi" ? answers.features.includes(option) : answers[currentStep.key] === option
               return (
@@ -457,7 +457,42 @@ function ProjectPlanner() {
           </div>
         </div>
 
-        <aside className="rounded-2xl border border-[#233139] bg-[#111c22] p-5 text-white md:p-6">
+        {result ? (
+          <div className="rounded-2xl border border-[#233139] bg-[#111c22] p-5 text-white lg:hidden">
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Result</p>
+            <h2 className="mt-2 text-2xl font-black">{result.planName}</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-white/72">{result.direction}</p>
+            <div className="mt-4 grid gap-2">
+              <div className="rounded-xl bg-white/10 p-3">
+                <p className="text-xs font-black text-[#8fd6cc]">複雜度</p>
+                <p className="mt-1 text-xl font-black">{result.complexity}</p>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                {result.recommendedFeatures.slice(0, 4).map((item) => (
+                  <span key={item} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div className="mt-5 grid gap-2">
+              <button type="button" onClick={requestAiPlan} disabled={aiLoading} className="min-h-11 rounded-md bg-white px-5 text-sm font-black text-[#111c22] disabled:opacity-60">
+                {aiLoading ? "AI 規劃中..." : "用 AI 產生完整規劃"}
+              </button>
+              <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-white/20 px-5 text-sm font-black text-white">
+                聊聊需求
+              </Link>
+            </div>
+            {aiPlan ? (
+              <div className="mt-4 rounded-xl bg-white/10 p-4">
+                <p className="text-xs font-black text-[#8fd6cc]">AI 完整規劃</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-white/78">{aiPlan.summary}</p>
+              </div>
+            ) : null}
+          </div>
+        ) : null}
+
+        <aside className="hidden rounded-2xl border border-[#233139] bg-[#111c22] p-5 text-white md:p-6 lg:block">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Result</p>
           <h2 className="mt-3 text-3xl font-black">快速建議</h2>
           <p className="mt-2 text-sm font-bold leading-6 text-white/70">{result ? result.planName : "完成選項後產生建議"}</p>

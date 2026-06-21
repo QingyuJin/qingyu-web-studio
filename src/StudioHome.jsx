@@ -63,7 +63,7 @@ function StudioHome() {
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-12 md:grid-cols-[1fr_0.78fr] md:items-center md:py-20">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Qingyu Web Studio</p>
-            <h1 className="mt-5 max-w-2xl text-[clamp(2.5rem,8vw,5rem)] font-black leading-[1.02] tracking-tight">
+            <h1 className="mt-5 max-w-2xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.5rem,8vw,5rem)]">
               網站、LINE Bot、AI 工具與小系統
             </h1>
             <p className="mt-6 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
@@ -81,11 +81,46 @@ function StudioHome() {
               </Link>
             </div>
           </div>
-          <HeroMockup />
+          <div className="hidden md:block">
+            <HeroMockup />
+          </div>
         </div>
       </section>
 
       <InteractiveLab />
+
+      <Section eyebrow="Works" title="精選作品">
+        <div className="grid gap-4 md:grid-cols-2">
+          {featuredCards.map((project) => (
+            <article
+              key={project.slug}
+              className="rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg md:p-5"
+            >
+              <ProjectPreview project={project} />
+              <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
+              <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
+              <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
+                {businessValues[project.slug] || "把流程做成客戶看得懂、老闆管得住的網站系統。"}
+              </p>
+              <div className="mt-4 hidden flex-wrap gap-2 md:flex">
+                {project.tags.slice(0, 4).map((tag) => (
+                  <span key={tag} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+              <div className="mt-5 flex flex-wrap gap-3">
+                <Link to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white hover:bg-[#26343b] md:min-h-10 md:w-auto">
+                  {project.liveLabel}
+                </Link>
+                <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="hidden min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62] md:inline-flex">
+                  {project.secondaryLabel || "技術拆解"}
+                </Link>
+              </div>
+            </article>
+          ))}
+        </div>
+      </Section>
 
       <Section eyebrow="Services" title="我可以幫你做">
         <div className="grid gap-3 md:grid-cols-5">
@@ -109,40 +144,7 @@ function StudioHome() {
         </div>
       </Section>
 
-      <Section eyebrow="Works" title="精選作品">
-        <div className="grid gap-4 md:grid-cols-2">
-          {featuredCards.map((project) => (
-            <article
-              key={project.slug}
-              className="rounded-xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
-            >
-              <ProjectPreview project={project} />
-              <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
-              <h3 className="mt-3 text-2xl font-black tracking-tight">{project.title}</h3>
-              <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
-                {businessValues[project.slug] || "把流程做成客戶看得懂、老闆管得住的網站系統。"}
-              </p>
-              <div className="mt-4 flex flex-wrap gap-2">
-                {project.tags.slice(0, 4).map((tag) => (
-                  <span key={tag} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
-                    {tag}
-                  </span>
-                ))}
-              </div>
-              <div className="mt-5 flex flex-wrap gap-3">
-                <Link to={project.livePath} className="inline-flex min-h-10 items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white hover:bg-[#26343b]">
-                  {project.liveLabel}
-                </Link>
-                <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-10 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
-                  {project.secondaryLabel || "技術拆解"}
-                </Link>
-              </div>
-            </article>
-          ))}
-        </div>
-      </Section>
-
-      <section className="border-y border-[#e6e0d5] bg-[#f2efe7]">
+      <section className="hidden border-y border-[#e6e0d5] bg-[#f2efe7] md:block">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 md:grid-cols-[0.78fr_1.22fr] md:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Technical</p>
@@ -161,29 +163,33 @@ function StudioHome() {
         </div>
       </section>
 
-      <Section eyebrow="Process" title="製作流程">
-        <div className="grid gap-4 md:grid-cols-4">
-          {processSteps.map(([num, title, text]) => (
-            <article key={num} className="rounded-xl border border-[#e3ded3] bg-white p-5">
-              <p className="text-xs font-black text-[#0d6b62]">{num}</p>
-              <h3 className="mt-3 text-xl font-black">{title}</h3>
-              <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
-            </article>
-          ))}
-        </div>
-      </Section>
+      <div className="hidden md:block">
+        <Section eyebrow="Process" title="製作流程">
+          <div className="grid gap-4 md:grid-cols-4">
+            {processSteps.map(([num, title, text]) => (
+              <article key={num} className="rounded-xl border border-[#e3ded3] bg-white p-5">
+                <p className="text-xs font-black text-[#0d6b62]">{num}</p>
+                <h3 className="mt-3 text-xl font-black">{title}</h3>
+                <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#5a6461]">{text}</p>
+              </article>
+            ))}
+          </div>
+        </Section>
+      </div>
 
-      <Section eyebrow="For Taiwan Clients" title="適合對象">
-        <div className="flex flex-wrap gap-2">
-          {audience.map((item) => (
-            <span key={item} className="rounded-full border border-[#ddd6c9] bg-white px-4 py-2 text-sm font-black text-[#2f3c3b]">
-              {item}
-            </span>
-          ))}
-        </div>
-      </Section>
+      <div className="hidden md:block">
+        <Section eyebrow="For Taiwan Clients" title="適合對象">
+          <div className="flex flex-wrap gap-2">
+            {audience.map((item) => (
+              <span key={item} className="rounded-full border border-[#ddd6c9] bg-white px-4 py-2 text-sm font-black text-[#2f3c3b]">
+                {item}
+              </span>
+            ))}
+          </div>
+        </Section>
+      </div>
 
-      <section className="border-y border-[#e6e0d5] bg-white">
+      <section className="hidden border-y border-[#e6e0d5] bg-white md:block">
         <div className="mx-auto max-w-6xl px-4 py-16">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Pricing</p>
           <h2 className="mt-3 text-[clamp(2rem,6vw,3.2rem)] font-black tracking-tight">簡單好懂的方案</h2>
@@ -255,8 +261,8 @@ function InteractiveDemoCard({ demo }) {
         <div className="p-5 md:p-6">
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">{demo.label}</p>
           <h3 className="mt-3 text-2xl font-black tracking-tight md:text-3xl">{demo.title}</h3>
-          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{demo.summary}</p>
-          <div className="mt-4 flex flex-wrap gap-2">
+          <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{demo.summary}</p>
+          <div className="mt-4 hidden flex-wrap gap-2 md:flex">
             {demo.chips.map((chip) => (
               <span key={chip} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
                 {chip}
@@ -272,7 +278,7 @@ function InteractiveDemoCard({ demo }) {
             </Link>
           </div>
         </div>
-        <div className="min-h-72 bg-[#111c22] p-4 text-white md:p-5">
+        <div className="min-h-52 bg-[#111c22] p-4 text-white md:min-h-72 md:p-5">
           {demo.tone === "rescue" ? <WebsiteRescuePreview /> : <LineMissionPreview />}
         </div>
       </div>
@@ -431,7 +437,7 @@ function ProjectPreview({ project }) {
   const isPlanner = project.slug === "project-planner"
 
   return (
-    <div className="mb-5 min-h-52 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4">
+    <div className="mb-4 min-h-36 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-3 md:mb-5 md:min-h-52 md:p-4">
       <div className="flex items-center justify-between gap-3">
         <span className="text-xs font-black text-[#0d6b62]">{project.category}</span>
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#53605d]">Demo Preview</span>
