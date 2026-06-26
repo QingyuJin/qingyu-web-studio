@@ -8,8 +8,8 @@ function isExternalUrl(to) {
 const navItems = [
   ["首頁", "/"],
   ["服務", "/services"],
-  ["AI 技術任務", "https://ai-tech-quest.vercel.app"],
   ["作品", "/works"],
+  ["AI 技術任務", "https://ai-tech-quest.vercel.app"],
   ["需求診斷", "/tools/project-planner#demo"],
   ["聯絡", "/contact"],
 ]
@@ -57,7 +57,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              AI 應用、互動式產品展示、LINE Bot、API 串接與店家自動化系統。
+              網站、LINE Bot、自動回覆、接案表單、報價流程與小型後台製作。
             </p>
           </div>
           <a href={`mailto:${contact.email}`} className="text-sm font-black text-[#0d6b62]">

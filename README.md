@@ -27,13 +27,13 @@ https://你的網域/api/line-webhook
 
 正式部署時，`OPENAI_API_KEY`、`LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET` 只能放在 Vercel 後端環境變數，不可放到 `src` 前端程式。
 
-AI 應用、互動式產品展示、LINE Bot、API 串接與店家自動化系統的接案主站。
+我幫小型店家、工作室、工程行與個人品牌製作可使用的網站與 AI 工具。從一頁式網站、LINE Bot、自動回覆，到接案表單、報價流程與小型後台，把零散流程整理成清楚、可操作、可展示的系統。
 
 主網站現在負責三件事：
 
-1. 讓訪客快速理解可以委託哪些產品型服務。
-2. 展示 AI Tech Quest、BuildFlow、LINE Bot 與 API 自動化等可實測作品。
-3. 把有興趣的訪客導到需求診斷、聯絡表單或 Email / LINE 討論。
+1. 讓一般客戶快速理解可以委託哪些網站、LINE Bot、自動回覆與後台服務。
+2. 用 BuildFlow、AI 技術任務、店家 AI 助手與文件問答產品展示實作能力。
+3. 把有興趣的訪客導到服務方案、作品案例、需求診斷、聯絡表單或 Email / LINE 討論。
 
 ## 對外展示入口
 
@@ -45,23 +45,24 @@ AI 應用、互動式產品展示、LINE Bot、API 串接與店家自動化系�
 
 ## 建議展示順序
 
-1. 先開 `https://www.qingyuweb.com/services`，說明可以委託的 AI 自動化服務。
-2. 開 `https://ai-tech-quest.vercel.app/demo`，用 3 分鐘展示 RAG、ML、店家 AI 助手。
-3. 回到主站 `/works`，展示 AI 技術任務與 BuildFlow 都是可實測作品。
-4. 最後進 `/contact`，說明客戶可以提供產業、資料來源、常見問題與想自動化流程。
+1. 先開 `https://www.qingyuweb.com/`，用首頁說明「網站、LINE Bot、自動回覆、接案流程」可以怎麼幫客戶。
+2. 進 `/works`，第一張展示 BuildFlow 工程行接案與派工管理系統。
+3. 再開 `https://ai-tech-quest.vercel.app`，用 AI 技術任務展示文件問答、模型分類、店家 AI 助手與產品展示室。
+4. 最後進 `/contact`，說明客戶可以提供產業、目前流程、常見問題、預算與上線時間。
 
 ## 可接案服務
 
-- 店家 AI 助手 / LINE Bot。
-- 繁體中文文件問答系統。
 - BuildFlow / 小型後台。
-- 互動式 AI 產品展示。
 - 網站 / 作品集與接案主站整理。
+- 店家 AI 助手 / LINE Bot。
+- 自動回覆與 FAQ 後台。
+- 繁體中文文件問答系統。
+- 互動式技術展示與專題作品包裝。
 
 ## 路由
 
-- `/`：Qingyu Web Studio 作品入口
-- `/services`：AI 自動化與小型系統接案服務
+- `/`：Qingyu Web Studio 接案主站
+- `/services`：網站、LINE Bot、自動回覆與小型後台接案服務
 - `/engineering`：工程行作品集
 - `/contractor-site`：工程接案前台
 - `/buildflow`：BuildFlow 工程後台
@@ -154,7 +155,7 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 
 注意：目前管理頁仍使用本專案的輕量 localStorage 登入。`mvp_schema.sql` 為了快速可用，讓 anon 可以讀取與更新 `contact_requests`。正式收真實客戶資料前，應改成 Supabase Auth + admin RLS。
 
-## AI Tech Quest / AI 技術任務入口
+## 互動式技術展示：AI 技術任務入口
 
 Qingyu Web Studio 現在作為作品與接案主站，同時提供 AI 技術任務的外部實測入口。
 
@@ -162,4 +163,4 @@ Qingyu Web Studio 現在作為作品與接案主站，同時提供 AI 技術任�
 - GitHub 原始碼：https://github.com/QingyuJin/ai-tech-quest
 - 主站入口：首頁「互動實驗室」與 `/works` 作品案例頁
 
-AI 技術任務是一個互動式 AI 產品展示遊戲，使用者可以體驗文件問答、模型分類、店家 AI 助手與產品展示室。這個作品用來展示 RAG、ML、全端 API 與未來 Unity WebGL 關卡的整合能力。
+AI 技術任務是一個互動式技術展示 Demo，使用者可以體驗文件問答、模型分類、店家 AI 助手與產品展示室。這個作品用來展示文件檢索增強生成（RAG）、機器學習（ML）、全端開發（Full-stack）與未來 Unity WebGL 關卡的整合能力。

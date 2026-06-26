@@ -24,48 +24,45 @@ function SmartLink({ to, children, ...props }) {
 }
 const pathCards = [
   {
-    title: "我要看 AI 技術任務",
-    text: "直接試玩 RAG、ML 與店家 AI 助手任務。",
-    to: "/works",
-    label: "看 AI 作品入口",
-    preview: ["文件問答", "模型分類", "AI 助手"],
-  },
-  {
     title: "我要做網站",
-    text: "看網站整理、版面優化與主站案例。",
-    to: "/tools/website-rescue#demo",
-    label: "看網站展示",
-    preview: ["網站救援", "主站案例"],
+    text: "適合小店、工作室、個人品牌。",
+    detail: "一頁式網站、手機版 RWD、LINE / IG / Google Map、表單收單。",
+    to: "/services",
+    label: "看網站服務",
+    preview: ["一頁式網站", "手機版 RWD", "表單收單"],
   },
   {
-    title: "我要接 LINE 客戶",
-    text: "看 LINE Bot 如何回覆、整理需求與同步後台。",
+    title: "我要自動回覆客人",
+    text: "適合常被問營業時間、價目表、預約方式的店家。",
+    detail: "FAQ 助手、LINE Bot、自動回覆、問題紀錄。",
     to: "/tools/linebot-mission#demo",
-    label: "看 LINE Bot",
-    preview: ["LINE 對話", "後台同步"],
+    label: "看自動回覆 Demo",
+    preview: ["FAQ 助手", "LINE Bot", "問題紀錄"],
   },
   {
-    title: "我要管理案件",
-    text: "看案件、報價、照片與 LINE 回報流程。",
-    to: "/works/buildflow#demo",
-    label: "看 BuildFlow",
-    preview: ["案件", "報價", "LINE"],
+    title: "我要整理接案流程",
+    text: "適合工程行、水電、防水、裝修、維修服務團隊。",
+    detail: "需求表單、報價、派工、師傅回報、後台、LINE 查詢。",
+    to: "/buildflow",
+    label: "看 BuildFlow 案例",
+    preview: ["需求表單", "報價派工", "LINE 查詢"],
   },
   {
-    title: "我要 AI 或 API 工具",
-    text: "看 AI 分析、API 串接與自動化流程。",
-    to: "/works/ai-audit#demo",
-    label: "看 AI / API",
-    preview: ["AI 健檢", "API 流程"],
+    title: "我要展示專題或作品",
+    text: "適合學生專題、AI 專案、求職作品集。",
+    detail: "互動式 Demo、作品集網站、GitHub README、AI / ML / RAG 展示頁。",
+    to: "https://ai-tech-quest.vercel.app",
+    label: "體驗 AI 技術任務",
+    preview: ["互動 Demo", "作品集網站", "技術展示"],
   },
 ]
 
 const interactiveDemos = [
   {
     slug: "ai-tech-quest",
-    title: "AI 技術任務",
-    label: "AI 產品任務",
-    summary: "用任務形式體驗文件問答、模型分類與店家 AI 助手。",
+    title: "互動式技術展示：AI 技術任務",
+    label: "技術展示 Demo",
+    summary: "展示文件問答、模型分類、店家 AI 助手與全端開發能力的互動 Demo。",
     livePath: "https://ai-tech-quest.vercel.app",
     techPath: "https://github.com/QingyuJin/ai-tech-quest",
     liveLabel: "線上實測",
@@ -97,40 +94,73 @@ const interactiveDemos = [
 
 const featuredProducts = [
   {
-    name: "AI 技術任務",
-    label: "主打 AI 產品",
-    description: "互動式 AI 產品展示遊戲，使用者可以體驗文件問答、模型分類、店家 AI 助手與產品展示室。",
-    users: "面試官、接案客戶、想快速理解 AI 產品能力的人",
-    problem: "AI 作品常只剩 GitHub、notebook 或技術名詞，非工程背景的人很難直接理解價值。",
-    monetization: "可包裝成互動式履歷、AI Demo 展示站、教育訓練關卡或企業內部技術展示。",
-    tech: ["文件檢索增強生成（RAG）", "模型評估（Model Evaluation）", "全端開發（Full-stack）"],
-    links: [
-      { label: "立即體驗", to: "https://ai-tech-quest.vercel.app", primary: true },
-      { label: "GitHub 原始碼", to: "https://github.com/QingyuJin/ai-tech-quest" },
-    ],
-    preview: ["文件問答調查員", "模型分類挑戰", "店家 AI 助手", "產品展示室"],
-  },
-  {
     name: "BuildFlow",
-    label: "商業流程產品",
-    description: "工程行接案與派工管理系統，整理需求、報價、派工、回報與 LINE Bot 查詢流程。",
-    users: "工程行、統包、維修團隊、需要追蹤現場進度的服務業者",
-    problem: "案件照片、報價、施工回報與客戶訊息散在 LINE 裡，案件一多就容易漏追蹤。",
-    monetization: "可延伸成工程行接案系統、內部派工後台、LINE 查詢服務與月費維護方案。",
+    label: "工程行案例",
+    description: "案例：工程行接案與派工管理系統。工程行需求、報價、派工、回報、LINE 查詢整合案例。",
+    facts: [
+      {
+        title: "問題",
+        text: "工程案常散在 LINE、口頭、Excel、紙本，老闆很難追需求、報價、派工與現場回報。",
+      },
+      {
+        title: "解法",
+        text: "建立前台需求表單、後台案件管理、派工回報與 LINE Bot 查詢流程。",
+      },
+      {
+        title: "適合",
+        text: "工程行、防水、水電、裝修、維修服務團隊。",
+      },
+    ],
     tech: ["全端開發（Full-stack）", "Supabase MVP 後端", "LINE Bot 流程整合"],
     links: [
       { label: "查看 BuildFlow", to: "/buildflow", primary: true },
       { label: "GitHub 原始碼", to: "https://github.com/QingyuJin/qingyu-web-studio" },
     ],
-    preview: ["需求進件", "案件狀態", "報價與派工", "LINE Bot 查詢"],
+    preview: ["需求表單", "報價流程", "派工回報", "LINE 查詢"],
+  },
+  {
+    name: "互動式技術展示：AI 技術任務",
+    label: "技術展示 Demo",
+    description: "這是我用來展示 AI 文件問答、模型分類、店家助手與全端開發能力的互動 Demo。適合想了解我技術能力的客戶、團隊與面試官。",
+    facts: [
+      {
+        title: "這是什麼產品",
+        text: "互動式 AI 技術展示 Demo，展示文件問答、模型分類、店家 AI 助手與產品展示室。",
+      },
+      {
+        title: "誰會用",
+        text: "想了解技術能力的客戶、團隊、面試官與需要 Demo 包裝的專題團隊。",
+      },
+      {
+        title: "可以怎麼變現",
+        text: "可延伸成互動式作品集、教育訓練展示、AI Demo 展示站與技術提案頁。",
+      },
+    ],
+    tech: ["文件檢索增強生成（RAG）", "模型評估（Model Evaluation）", "全端開發（Full-stack）"],
+    links: [
+      { label: "立即體驗", to: "https://ai-tech-quest.vercel.app", primary: true },
+      { label: "GitHub 原始碼", to: "https://github.com/QingyuJin/ai-tech-quest" },
+    ],
+    preview: ["文件問答", "模型分類", "店家 AI 助手", "產品展示室"],
   },
   {
     name: "店家 AI 助手",
     label: "接案變現產品",
     description: "小型店家 FAQ 與自動回覆產品，可延伸成 LINE Bot、補習班 FAQ 助手、工作室客服系統。",
-    users: "咖啡店、補習班、工作室、活動團隊與需要重複回覆問題的小型組織",
-    problem: "店家常重複回答營業時間、預約、價格、課程與服務問題，人工回覆耗時也容易漏訊息。",
-    monetization: "可做成 LINE Bot 建置案、FAQ 後台、客服知識庫與每月維護服務。",
+    facts: [
+      {
+        title: "這是什麼產品",
+        text: "把常見問答、預約方式、價目表與店家規則整理成可管理、可查詢的回覆流程。",
+      },
+      {
+        title: "解決什麼問題",
+        text: "減少重複回覆與漏訊息，讓店家在忙碌時也能維持一致的顧客服務。",
+      },
+      {
+        title: "可以怎麼變現",
+        text: "可做成 LINE Bot 建置案、FAQ 後台、客服知識庫與每月維護服務。",
+      },
+    ],
     tech: ["語意向量（Embedding）", "向量搜尋（Vector Search）", "店家自動化（Business Automation）"],
     links: [
       { label: "查看規劃", to: "/works/linebot#demo", primary: true },
@@ -138,27 +168,77 @@ const featuredProducts = [
     ],
     preview: ["FAQ 後台", "自動回覆", "LINE Bot", "客服知識庫"],
   },
+  {
+    name: "繁體中文文件問答系統",
+    label: "文件查詢產品",
+    description: "文件檢索增強生成（RAG）文件查詢產品，支援來源引用、文件搜尋與不知道就回答不知道的安全回覆流程。",
+    facts: [
+      {
+        title: "這是什麼產品",
+        text: "把 PDF、課程資料、公司文件或活動規範變成可查詢的問答系統。",
+      },
+      {
+        title: "誰會用",
+        text: "補習班、學生團隊、小公司、工程行、文件很多的工作室。",
+      },
+      {
+        title: "可以怎麼變現",
+        text: "可包裝成文件客服、內部知識庫、補習班 FAQ 與專案資料查詢工具。",
+      },
+    ],
+    tech: ["文件檢索增強生成（RAG）", "語意向量（Embedding）", "向量搜尋（Vector Search）"],
+    links: [
+      { label: "查看 Demo", to: "https://ai-tech-quest.vercel.app/missions/rag", primary: true },
+      { label: "了解服務", to: "/contact" },
+    ],
+    preview: ["文件上傳", "來源引用", "安全回覆", "簡易評測"],
+  },
+  {
+    name: "Unity AI 學習關卡",
+    label: "互動式學習展示",
+    description: "用 Unity 做互動式學習任務，讓學生透過拖拉、試錯與 AI 提示理解抽象概念。",
+    facts: [
+      {
+        title: "這是什麼產品",
+        text: "互動式學習展示，第一個規劃關卡是 Digital Logic Gate Lab。",
+      },
+      {
+        title: "誰會用",
+        text: "需要展示教材、專題、教育產品或互動式訓練流程的團隊。",
+      },
+      {
+        title: "可以怎麼變現",
+        text: "可延伸成教學關卡、展場互動展示、WebGL Demo 與教育訓練產品。",
+      },
+    ],
+    tech: ["Unity 2D", "C#", "WebGL Build"],
+    links: [
+      { label: "查看規劃", to: "/works", primary: true },
+      { label: "聯絡討論", to: "/contact" },
+    ],
+    preview: ["拖拉互動", "AI 提示", "關卡設計", "WebGL"],
+  },
 ]
 const serviceCards = [
   {
-    title: "店家 AI 助手",
+    title: "網站與表單",
+    text: "把服務介紹、手機版頁面、LINE / IG / Google Map 與表單收單整理好。",
+    examples: ["一頁式網站", "手機版 RWD", "表單收單"],
+  },
+  {
+    title: "自動回覆與 LINE Bot",
     text: "把 FAQ、預約、價格與常見問題變成可回覆流程。",
     examples: ["LINE Bot", "網站客服", "FAQ 後台"],
   },
   {
-    title: "文件問答系統",
-    text: "讓 PDF、課程資料與公司文件可以查詢並引用來源。",
-    examples: ["RAG", "來源引用", "文件搜尋"],
-  },
-  {
-    title: "BuildFlow 後台",
+    title: "接案流程後台",
     text: "把案件、報價、派工與 LINE 回報整理成可追蹤流程。",
     examples: ["案件狀態", "Supabase", "LINE 回報"],
   },
   {
-    title: "互動式 AI Demo",
-    text: "把 AI 技術做成可試用、可展示、可部署的產品入口。",
-    examples: ["AI 技術任務", "Vercel", "Demo 腳本"],
+    title: "作品與專題展示",
+    text: "把 AI、ML、RAG 或作品集做成可試用、可展示、可部署的 Demo。",
+    examples: ["互動 Demo", "GitHub README", "Vercel"],
   },
 ]
 
@@ -172,22 +252,21 @@ function StudioHome() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Qingyu Web Studio</p>
             <h1 className="mt-5 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] tracking-tight md:text-[clamp(2.35rem,5vw,4rem)] md:leading-[1.08]">
-              我製作 AI 應用、互動式產品展示與店家自動化系統
+              我幫你做出能真正使用的網站與 AI 工具
             </h1>
             <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-lg md:leading-8">
-              <span className="md:hidden">從 AI 技術展示、文件問答，到店家自動化系統，我把想法做成可以試用的產品。</span>
-              <span className="hidden md:inline">從互動式 AI 技術展示、RAG 文件問答，到工程行流程系統與店家 FAQ 助手，我把想法做成可使用、可展示、可接案的產品。</span>
+              適合小型店家、工作室、工程行與個人品牌。從網站、LINE Bot、自動回覆，到接案流程與小型後台，把零散需求整理成清楚可用的系統。
             </p>
             <div className="mt-8 flex flex-wrap gap-3">
-              <SmartLink to="https://ai-tech-quest.vercel.app" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
-                立即體驗 AI 技術任務
+              <Link to="/services" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
+                看服務方案
+              </Link>
+              <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                查看作品案例
+              </Link>
+              <SmartLink to="https://ai-tech-quest.vercel.app" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                體驗 AI 技術任務
               </SmartLink>
-              <Link to="/services" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
-                查看接案服務
-              </Link>
-              <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
-                聊聊需求
-              </Link>
             </div>
           </div>
           <div className="hidden md:block">
@@ -196,8 +275,8 @@ function StudioHome() {
         </div>
       </section>
 
-      <FeaturedProducts />
       <PathNavigation />
+      <FeaturedProducts />
       <InteractiveLab />
       <CompleteCase />
       <ServiceAbility />
@@ -213,8 +292,8 @@ function FeaturedProducts() {
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <SectionHeading
           eyebrow="主打產品"
-          title="主打產品"
-          text="這裡不是單純作品列表，而是可以實測、可以講商業價值，也可以延伸成接案服務的產品入口。"
+          title="主打案例與產品入口"
+          text="先看可落地的商業流程案例，再看 AI 技術任務與可延伸的自動化產品。"
         />
         <div className="grid gap-5 lg:grid-cols-3">
           {featuredProducts.map((product, index) => (
@@ -227,9 +306,9 @@ function FeaturedProducts() {
               <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{product.description}</p>
 
               <div className="mt-5 grid gap-3">
-                <ProductInfo title="誰會用" text={product.users} />
-                <ProductInfo title="解決什麼問題" text={product.problem} />
-                <ProductInfo title="可以怎麼變現" text={product.monetization} />
+                {product.facts.map((fact) => (
+                  <ProductInfo key={fact.title} title={fact.title} text={fact.text} />
+                ))}
               </div>
 
               <div className="mt-5 flex flex-wrap gap-2">
@@ -280,12 +359,12 @@ function ProductInfo({ title, text }) {
 }
 function PathNavigation() {
   return (
-    <section className="hidden border-b border-[#e6e0d5] bg-[#faf8f3] md:block">
+    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
-        <SectionHeading eyebrow="開始選擇" title="你想看哪一種？" text="先選方向，再進互動 Demo 或完整案例。" />
-        <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
+        <SectionHeading eyebrow="開始選擇" title="你想解決什麼問題？" text="不用先懂技術，先從你遇到的問題開始看適合的做法。" />
+        <div className="grid gap-3 md:grid-cols-2 xl:grid-cols-4">
           {pathCards.map((card) => (
-            <Link
+            <SmartLink
               key={card.title}
               to={card.to}
               className="group rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg"
@@ -298,9 +377,10 @@ function PathNavigation() {
                 ))}
               </div>
               <h3 className="text-lg font-black text-[#111c22]">{card.title}</h3>
-              <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{card.text}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{card.text}</p>
+              <p className="mt-2 text-xs font-bold leading-5 text-[#697572]">{card.detail}</p>
               <span className="mt-4 inline-flex text-sm font-black text-[#0d6b62]">{card.label}</span>
-            </Link>
+            </SmartLink>
           ))}
         </div>
       </div>

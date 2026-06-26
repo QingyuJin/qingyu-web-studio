@@ -90,6 +90,9 @@ function ActionLink({ to, children, ...props }) {
 function WorkPreview({ project }) {
   const panels = {
     "ai-tech-quest": ["RAG 任務", "ML 分類", "產品展示室"],
+    "ai-business-assistant": ["FAQ 後台", "自動回覆", "問答紀錄"],
+    "tw-civic-rag": ["文件切分", "來源引用", "安全回答"],
+    "unity-ai-tutor": ["Unity 2D", "AI 提示", "WebGL"],
     "ai-audit": ["SEO 82", "CTA 建議", "手機版檢查"],
     linebot: ["LINE 對話", "Webhook", "後台收件"],
     buildflow: ["案件列表", "報價單", "LINE 回報"],
@@ -99,7 +102,10 @@ function WorkPreview({ project }) {
     "qingyu-web": ["RWD", "SEO / OG", "聯絡 CTA"],
   }
   const previewMeta = {
-    "ai-tech-quest": { status: "AI 任務", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
+    "ai-tech-quest": { status: "技術展示", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
+    "ai-business-assistant": { status: "店家助手", metric: "FAQ", summary: "FAQ → matching → 自動回覆" },
+    "tw-civic-rag": { status: "文件問答", metric: "RAG", summary: "文件檢索增強生成（RAG）+ 來源引用" },
+    "unity-ai-tutor": { status: "學習關卡", metric: "WebGL", summary: "Unity 互動學習展示" },
     "ai-audit": { status: "AI 報告", metric: "分數 82", summary: "SEO / CTA / 信任感" },
     linebot: { status: "Webhook", metric: "3 則訊息", summary: "LINE → 回覆 → 收件匣" },
     buildflow: { status: "後台", metric: "75%", summary: "案件 / 報價 / LINE" },
@@ -205,7 +211,11 @@ const defaultConversionProfile = {
 const workBusinessValues = {
   "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
   linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
-  buildflow: "把工程案從 LINE 對話變成可追蹤案件。",
+  buildflow: "工程行需求、報價、派工、回報、LINE 查詢整合案例。",
+  "ai-tech-quest": "互動式 AI 技術展示 Demo，展示文件問答、模型分類、店家 AI 助手與產品展示室。",
+  "ai-business-assistant": "小型店家 FAQ 與自動回覆產品。",
+  "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
+  "unity-ai-tutor": "互動式學習展示。",
   "api-automation": "表單送出後，自動進 API、通知與後台。",
   "project-planner": "客戶不知道要做什麼時，先用診斷工具分類需求。",
   "qingyu-web": "展示主站如何把服務、作品、工具與聯絡流程串成成交路徑。",
@@ -215,7 +225,11 @@ const workBusinessValues = {
 const conciseWorkValues = {
   "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
   linebot: "讓 LINE 訊息自動整理成需求。",
-  buildflow: "管理案件、報價、照片與 LINE 回報。",
+  buildflow: "案例：工程行接案與派工管理系統。",
+  "ai-tech-quest": "這是展示 AI 文件問答、模型分類、店家助手與全端開發能力的互動 Demo。",
+  "ai-business-assistant": "小型店家 FAQ 與自動回覆產品。",
+  "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
+  "unity-ai-tutor": "互動式學習展示。",
   "api-automation": "表單送出後，自動進 API、通知與後台。",
   "project-planner": "判斷適合做網站、LINE Bot 還是系統。",
   "website-rescue": "點選改善項目，查看網站狀態變化。",
@@ -265,36 +279,33 @@ export function WorksPage() {
     demo: ["處理策略", "指標變化", "後台同步"],
   }
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
+  const primaryProducts = [
+    projectBySlug.buildflow,
+    projectBySlug["ai-tech-quest"],
+    projectBySlug["ai-business-assistant"],
+    projectBySlug["tw-civic-rag"],
+    projectBySlug["unity-ai-tutor"],
+  ].filter(Boolean)
   const sections = [
     {
-      title: "AI 產品展示",
-      text: "用互動任務讓客戶與面試官直接理解 AI、RAG、ML 與全端能力。",
-      items: [projectBySlug["ai-tech-quest"]].filter(Boolean),
+      title: "接案案例與產品展示",
+      text: "依照客戶最容易理解的順序：先看商業流程案例，再看技術展示與可延伸產品。",
+      items: primaryProducts,
     },
     {
-      title: "主打互動",
-      text: "先動手體驗網站整理與 LINE Bot 接待。",
-      items: [rescueProject, lineBotMissionProject],
+      title: "互動工具與其他案例",
+      text: "可以用來診斷需求、展示 LINE Bot 接待或補充既有網站案例。",
+      items: [rescueProject, lineBotMissionProject, plannerProject, projectBySlug.xinjiang].filter(Boolean),
     },
     {
-      title: "完整案例",
-      text: "從網站詢價一路串到後台流程。",
-      items: [projectBySlug.buildflow, projectBySlug.xinjiang].filter(Boolean),
-    },
-    {
-      title: "AI / API 工具",
-      text: "把分析、診斷、表單與 API 流程做成產品介面。",
-      items: [plannerProject, projectBySlug["ai-audit"], projectBySlug["api-automation"]].filter(Boolean),
-    },
-    {
-      title: "主站案例",
-      text: "這個網站本身的規劃、SEO、互動展示區 與聯絡流程。",
-      items: [projectBySlug["qingyu-web"]].filter(Boolean),
+      title: "網站與自動化工具",
+      text: "把網站健檢、表單、API 與主站本身整理成可委託的服務能力。",
+      items: [projectBySlug["ai-audit"], projectBySlug["api-automation"], projectBySlug["qingyu-web"]].filter(Boolean),
     },
   ]
 
   return (
-    <PageShell page={seo.works} title="作品案例" intro="互動展示、完整案例與 AI、API 工具，依照客戶最容易理解的方式分類。">
+    <PageShell page={seo.works} title="作品案例" intro="從工程行接案流程、AI 技術展示，到店家自動回覆與文件問答產品，這裡整理成客戶看得懂的案例入口。">
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-10">
           {sections.map((section) => (
@@ -315,6 +326,7 @@ export function WorksPage() {
                     <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
                       {conciseWorkValues[project.slug] || workBusinessValues[project.slug] || project.summary}
                     </p>
+                    {project.slug === "buildflow" ? <BuildFlowCaseFacts /> : null}
                     <div className="mt-4 hidden md:block">
                       <Tags items={(project.tags || []).slice(0, 3)} />
                     </div>
@@ -334,6 +346,34 @@ export function WorksPage() {
         </div>
       </section>
     </PageShell>
+  )
+}
+
+function BuildFlowCaseFacts() {
+  const facts = [
+    {
+      title: "問題",
+      text: "工程案常散在 LINE、口頭、Excel、紙本，老闆很難追需求、報價、派工與現場回報。",
+    },
+    {
+      title: "解法",
+      text: "建立前台需求表單、後台案件管理、派工回報與 LINE Bot 查詢流程。",
+    },
+    {
+      title: "適合",
+      text: "工程行、防水、水電、裝修、維修服務團隊。",
+    },
+  ]
+
+  return (
+    <div className="mt-4 grid gap-3 md:grid-cols-3">
+      {facts.map((fact) => (
+        <div key={fact.title} className="rounded-lg border border-[#e3ded3] bg-white px-3 py-3">
+          <p className="text-xs font-black text-[#0d6b62]">{fact.title}</p>
+          <p className="mt-2 text-xs font-bold leading-5 text-[#52605c]">{fact.text}</p>
+        </div>
+      ))}
+    </div>
   )
 }
 
