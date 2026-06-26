@@ -10,9 +10,9 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜網站、LINE Bot、自動回覆與小型後台製作",
+    title: "Qingyu Web Studio｜直接看網站、LINE Bot、後台系統與 AI Demo 成品",
     description:
-      "協助小型店家、工作室、工程行與個人品牌製作可使用的網站、LINE Bot、自動回覆、接案流程與小型後台。",
+      "直接查看 Qingyu Web Studio 已做出的 BuildFlow 工程行系統、工程行網站案例、LINE Bot 自動回覆、網站救援 Demo 與 AI 技術任務。",
   },
   works: {
     path: "/works",

@@ -7,10 +7,10 @@ function isExternalUrl(to) {
 
 const navItems = [
   ["首頁", "/"],
-  ["服務", "/services"],
-  ["作品", "/works"],
+  ["BuildFlow", "/buildflow"],
+  ["網站案例", "/contractor-site"],
+  ["LINE Bot", "/tools/linebot-mission#demo"],
   ["AI 技術任務", "https://ai-tech-quest.vercel.app"],
-  ["需求診斷", "/tools/project-planner#demo"],
   ["聯絡", "/contact"],
 ]
 
