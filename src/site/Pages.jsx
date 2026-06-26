@@ -86,38 +86,38 @@ function WorkPreview({ project }) {
     linebot: ["LINE 對話", "Webhook", "後台收件"],
     buildflow: ["案件列表", "報價單", "LINE 回報"],
     "api-automation": ["Form", "API", "Notify"],
-    "project-planner": ["5 步驟", "AI 規劃", "Contact CTA"],
+    "project-planner": ["5 步驟", "AI 規劃", "聯絡 CTA"],
     xinjiang: ["服務頁", "估價入口", "案例"],
-    "qingyu-web": ["RWD", "SEO / OG", "Contact CTA"],
+    "qingyu-web": ["RWD", "SEO / OG", "聯絡 CTA"],
   }
   const previewMeta = {
-    "ai-tech-quest": { status: "AI Quest", metric: "5 missions", summary: "RAG / ML / SaaS" },
-    "ai-audit": { status: "AI Report", metric: "Score 82", summary: "SEO / CTA / Trust" },
-    linebot: { status: "Webhook", metric: "3 messages", summary: "LINE → Reply → Inbox" },
-    buildflow: { status: "Dashboard", metric: "75%", summary: "Case / Quote / LINE" },
-    "api-automation": { status: "API Flow", metric: "ok: true", summary: "Payload → Response" },
-    "project-planner": { status: "Planner", metric: "Step 1 / 5", summary: "Rule-based + AI plan" },
-    xinjiang: { status: "Case Study", metric: "Estimate", summary: "Website → BuildFlow" },
-    "qingyu-web": { status: "SEO Ready", metric: "RWD", summary: "Demo Lab → Contact" },
+    "ai-tech-quest": { status: "AI 任務", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
+    "ai-audit": { status: "AI 報告", metric: "分數 82", summary: "SEO / CTA / 信任感" },
+    linebot: { status: "Webhook", metric: "3 則訊息", summary: "LINE → 回覆 → 收件匣" },
+    buildflow: { status: "後台", metric: "75%", summary: "案件 / 報價 / LINE" },
+    "api-automation": { status: "API 流程", metric: "ok: true", summary: "資料送出 → 回應" },
+    "project-planner": { status: "需求診斷", metric: "步驟 1 / 5", summary: "規則判斷 + AI 規劃" },
+    xinjiang: { status: "案例", metric: "估價", summary: "網站 → BuildFlow" },
+    "qingyu-web": { status: "SEO 已整理", metric: "RWD", summary: "展示區 → 聯絡" },
   }
   const toolPreviewFallback = {
     "website-rescue": {
       items: ["網站分數", "CTA / SEO", "改善報告"],
-      meta: { status: "Interactive Demo", metric: "Score +50", summary: "Before / After / CTA" },
+      meta: { status: "互動展示", metric: "分數 +50", summary: "改善前 / 改善後 / CTA" },
     },
     "linebot-mission": {
-      items: ["LINE Chat", "接待狀態", "Case Dashboard"],
-      meta: { status: "Reception", metric: "5 則訊息", summary: "LINE Bot → Dashboard" },
+      items: ["LINE 對話", "接待狀態", "案件後台"],
+      meta: { status: "接待模擬", metric: "5 則訊息", summary: "LINE Bot → 後台" },
     },
   }
   const fallbackPreview = toolPreviewFallback[project.slug]
   const items = panels[project.slug] || fallbackPreview?.items || project.visuals.slice(0, 3)
-  const meta = previewMeta[project.slug] || fallbackPreview?.meta || { status: "Live", metric: "Demo", summary: project.category }
+  const meta = previewMeta[project.slug] || fallbackPreview?.meta || { status: "可操作", metric: "展示", summary: project.category }
 
   return (
     <div className="mb-5 min-h-48 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4 md:min-h-56">
       <div className="flex items-center justify-between gap-3">
-        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Product Mockup</span>
+        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">產品預覽</span>
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{meta.status}</span>
       </div>
       <div className="mt-4 rounded-2xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
@@ -165,7 +165,7 @@ const conversionProfiles = {
   },
   "api-automation": {
     audience: ["有表單收件需求的團隊", "需要通知流程的店家", "想把資料進後台的工作室"],
-    custom: ["API Payload", "驗證規則", "通知節點", "Dashboard 欄位"],
+    custom: ["API Payload", "驗證規則", "通知節點", "後台欄位"],
     problems: ["表單送出後沒人追", "資料要手動複製到表格", "通知與後台狀態沒有串接"],
     scenario: "適合把表單送出後的 API、資料驗證、通知與後台狀態串起來。",
     next: "先確認表單欄位與通知對象，再設計 API、資料流程與後台狀態。",
@@ -175,7 +175,7 @@ const conversionProfiles = {
     custom: ["首頁架構", "作品頁", "需求診斷工具", "SEO / Open Graph"],
     problems: ["服務說不清楚", "作品沒有導到詢問", "客戶不知道下一步該怎麼聯絡"],
     scenario: "適合把服務、作品、技術展示與聯絡轉換整合成一個能接案的主站。",
-    next: "先定義服務分類與作品入口，再把需求診斷與 Contact 串成成交路徑。",
+    next: "先定義服務分類與作品入口，再把需求診斷與 聯絡流程串成成交路徑。",
   },
   xinjiang: {
     audience: ["工程服務業", "需要形象網站的店家", "想把詢價接到後台的團隊"],
@@ -226,7 +226,7 @@ export function WorksPage() {
     liveLabel: "查看互動 Demo",
     secondaryPath: "/tools/project-planner#tech",
     secondaryLabel: "技術拆解",
-    tags: ["React", "Rule-based", "OpenAI optional", "Contact CTA"],
+    tags: ["React", "Rule-based", "OpenAI optional", "聯絡 CTA"],
     visuals: ["5-step form", "Recommendation UI", "AI plan"],
     demo: ["需求表單", "快速建議", "AI 完整規劃"],
   }
@@ -240,7 +240,7 @@ export function WorksPage() {
     secondaryPath: "/tools/website-rescue#tech",
     secondaryLabel: "技術拆解",
     tags: ["React", "State Machine", "Scoring UI", "Conversion CTA"],
-    visuals: ["Score UI", "Before / After", "Result Report"],
+    visuals: ["分數介面", "改善前 / 改善後", "結果報告"],
     demo: ["問題清單", "修正選項", "改善報告"],
   }
   const lineBotMissionProject = {
@@ -252,8 +252,8 @@ export function WorksPage() {
     liveLabel: "開始模擬",
     secondaryPath: "/tools/linebot-mission#tech",
     secondaryLabel: "技術拆解",
-    tags: ["React", "LINE Bot", "State Machine", "Dashboard UI"],
-    visuals: ["LINE Chat", "接待狀態", "Case Dashboard"],
+    tags: ["React", "LINE Bot", "State Machine", "後台介面"],
+    visuals: ["LINE 對話", "接待狀態", "案件後台"],
     demo: ["處理策略", "指標變化", "後台同步"],
   }
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
@@ -280,20 +280,20 @@ export function WorksPage() {
     },
     {
       title: "主站案例",
-      text: "這個網站本身的規劃、SEO、Demo Lab 與聯絡流程。",
+      text: "這個網站本身的規劃、SEO、互動展示區 與聯絡流程。",
       items: [projectBySlug["qingyu-web"]].filter(Boolean),
     },
   ]
 
   return (
-    <PageShell page={seo.works} title="作品案例" intro="互動展示、完整案例與 AI / API 工具，依照客戶最容易理解的方式分類。">
+    <PageShell page={seo.works} title="作品案例" intro="互動展示、完整案例與 AI、API 工具，依照客戶最容易理解的方式分類。">
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-10">
           {sections.map((section) => (
             <div key={section.title}>
               <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Works</p>
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">作品</p>
                   <h2 className="mt-2 text-2xl font-black md:text-3xl">{section.title}</h2>
                 </div>
                 <p className="max-w-xl text-sm font-bold leading-6 text-[#52605c]">{section.text}</p>
@@ -343,22 +343,22 @@ export function WorkDetailPage() {
   const projectSeo = {
     path: `/works/${project.slug}`,
     title: isQingyuWebProject
-      ? "Qingyu Web Studio 主站案例｜網站服務、Demo Lab 與 SEO 架構"
+      ? "Qingyu Web Studio 主站案例｜網站服務、互動展示區 與 SEO 架構"
       : isBuildFlowProject
-      ? "BuildFlow 工程行案件管理系統 Demo｜鑫匠工程案例｜Qingyu Web Studio"
+      ? "BuildFlow 工程行案件管理系統展示｜鑫匠工程案例｜Qingyu Web Studio"
       : isXinjiangProject
       ? "鑫匠工程案例｜工程網站與 BuildFlow 案件管理展示｜Qingyu Web Studio"
       : isApiAutomationProject
-        ? "API 自動化流程 Demo｜表單、API、通知與後台展示｜Qingyu Web Studio"
+        ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
     description: isQingyuWebProject
-      ? "展示 Qingyu Web Studio 主站如何整合網站服務、作品展示、需求診斷工具、SEO metadata、Vercel 部署與聯絡轉換。"
+      ? "展示 Qingyu Web Studio 主站如何整合網站服務、作品展示、需求診斷工具、SEO metadata 設定、Vercel 部署與聯絡轉換。"
       : isBuildFlowProject
       ? "以鑫匠工程為案例，展示工程服務業如何用 BuildFlow 整合網站詢價、案件管理、現場照片、報價單、施工狀態與 LINE 回報流程。"
       : isXinjiangProject
       ? "展示鑫匠工程網站如何結合 BuildFlow 案件管理流程，串接估價入口、工程案例、報價狀態與 LINE 回報。"
       : isApiAutomationProject
-        ? "展示如何將客戶表單、API、資料驗證、通知流程與後台 Dashboard 串接成完整小型系統。"
+        ? "展示如何將客戶表單、API、資料驗證、通知流程與後台管理介面 串接成完整小型系統。"
         : project.summary,
   }
 
@@ -463,8 +463,8 @@ export function WorkDetailPage() {
           <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
             <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Live Demo</p>
-                <h2 className="mt-2 text-2xl font-black">Demo 操作台</h2>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">線上展示</p>
+                <h2 className="mt-2 text-2xl font-black">展示操作台</h2>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
                   直接操作核心流程，看畫面與資料怎麼變化。
                 </p>
@@ -493,7 +493,7 @@ export function WorkDetailPage() {
           <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
             <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Main Site Case Study</p>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Main Site 案例說明</p>
                 <h2 className="mt-3 text-3xl font-black">主站如何把作品變成詢問</h2>
                 <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
                   主站把服務、作品、工具與聯絡串成一條路徑。
@@ -503,9 +503,9 @@ export function WorkDetailPage() {
                 {[
                   ["解決什麼問題", "讓台灣客戶先看懂服務，再透過作品與工具判斷能不能合作。"],
                   ["首頁如何導流", "Hero 先講定位，服務區說明能做什麼，作品區導向可互動 Demo。"],
-                  ["Demo Lab 展示技術", "AI Audit、LINE Bot、BuildFlow、API Automation 都有可操作畫面。"],
-                  ["Project Planner 收需求", "用問答整理身份、需求、功能、預算與時程，降低第一次溝通成本。"],
-                  ["Contact 如何轉換", "Email、LINE ID 複製、需求表單與 mailto 都能把詢問送出去。"],
+                  ["互動展示區 展示技術", "AI Audit、LINE Bot、BuildFlow、API 自動化 都有可操作畫面。"],
+                  ["需求診斷收需求", "用問答整理身份、需求、功能、預算與時程，降低第一次溝通成本。"],
+                  ["聯絡如何轉換", "Email、LINE ID 複製、需求表單與 mailto 都能把詢問送出去。"],
                   ["SEO / 部署", "每頁 metadata、Open Graph、canonical、sitemap、robots 與 Vercel 部署。"],
                 ].map(([title, text]) => (
                   <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
@@ -519,13 +519,13 @@ export function WorkDetailPage() {
               <div className="grid gap-5 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
                 <div>
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">CTA Flow</p>
-                  <h3 className="mt-3 text-2xl font-black">Visitor → Homepage → Demo Lab → Project Planner → Contact</h3>
+                  <h3 className="mt-3 text-2xl font-black">訪客 → 首頁 → 展示區 → 需求診斷 → 聯絡</h3>
                   <p className="mt-3 text-sm font-bold leading-7 text-white/70">
                     首頁先建立信任，作品頁展示技術，需求診斷整理問題，最後把客戶帶到 LINE / Email 討論。
                   </p>
                 </div>
                 <div className="grid gap-2">
-                  {["首頁定位", "Demo Lab 技術展示", "Project Planner 收需求", "Contact 轉換", "SEO / sitemap / robots / Vercel"].map((item, index) => (
+                  {["首頁定位", "互動展示區", "需求診斷收需求", "聯絡轉換", "SEO / sitemap / robots / Vercel"].map((item, index) => (
                     <div key={item} className="flex items-center gap-3 rounded-xl bg-white/10 p-3">
                       <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8fd6cc] text-xs font-black text-[#0b2724]">{index + 1}</span>
                       <span className="text-sm font-black text-white/86">{item}</span>
@@ -534,7 +534,7 @@ export function WorkDetailPage() {
                 </div>
               </div>
               <div className="mt-5 flex flex-wrap gap-2">
-                {["React", "Vite", "Tailwind", "React Router", "SEO metadata", "Open Graph", "sitemap.xml", "robots.txt", "Vercel"].map((item) => (
+                {["React", "Vite", "Tailwind", "React Router", "SEO metadata 設定", "Open Graph", "sitemap.xml", "robots.txt", "Vercel"].map((item) => (
                   <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                     {item}
                   </span>
@@ -596,7 +596,7 @@ export function WorkDetailPage() {
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
                 <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Architecture</p>
                 <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
-                  LINE User → LINE Platform → /api/line-webhook → OpenAI / Demo → LINE Reply → Dashboard
+                  LINE 使用者 → LINE 平台 → /api/line-webhook → OpenAI / 展示回覆 → LINE 回覆 → 後台
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
                   {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Demo 模式"].map((item) => (
@@ -609,12 +609,12 @@ export function WorkDetailPage() {
             ) : null}
             {isBuildFlowProject ? (
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">BuildFlow Architecture</p>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">BuildFlow 架構</p>
                 <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
-                  Case List → Case Detail → Status Update → LINE Report Timeline → Photo / Quote Modal
+                  案件列表 → 案件詳情 → 狀態更新 → LINE 回報時間軸 → 照片 / 報價視窗
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["React / Tailwind", "Case Status Management", "Dashboard UI", "LINE 回報", "Supabase-ready", "報價單 PDF future"].map((item) => (
+                  {["React / Tailwind", "案件狀態管理", "後台介面", "LINE 回報", "Supabase-ready", "報價單 未來 PDF 匯出"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -624,12 +624,12 @@ export function WorkDetailPage() {
             ) : null}
             {isQingyuWebProject ? (
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Site Conversion Flow</p>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">主站轉換流程</p>
                 <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
-                  Visitor → Homepage → Demo Lab → Project Planner → Contact → Case Study
+                  訪客 → 首頁 → 展示區 → 需求診斷 → 聯絡 → Case Study
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["React / Vite / Tailwind", "React Router", "Vercel Deploy", "SEO metadata", "Open Graph", "Contact CTA"].map((item) => (
+                  {["React / Vite / Tailwind", "React Router", "Vercel 部署", "SEO metadata 設定", "Open Graph", "聯絡 CTA"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -639,7 +639,7 @@ export function WorkDetailPage() {
             ) : null}
             {isApiAutomationProject ? (
               <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Automation Architecture</p>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">自動化架構</p>
                 <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
                   客戶表單 → 資料檢查 → 需求建立 → 通知紀錄 → 後台追蹤
                 </div>
@@ -659,7 +659,7 @@ export function WorkDetailPage() {
       <section className="mx-auto max-w-6xl px-4 py-10">
         <details className="rounded-2xl border border-[#e3ded3] bg-white p-5">
           <summary className="cursor-pointer list-none">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Design Details</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">功能細節</p>
             <h2 className="mt-2 text-2xl font-black">功能展示細節</h2>
           </summary>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -675,13 +675,13 @@ export function WorkDetailPage() {
       <section className="mx-auto max-w-6xl px-4 py-10">
         <details className="rounded-2xl border border-[#e3ded3] bg-white p-5">
           <summary className="cursor-pointer list-none">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Workflow</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">使用流程</p>
             <h2 className="mt-2 text-2xl font-black">使用流程</h2>
           </summary>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {project.steps.map((step, index) => (
               <Card key={step}>
-                <p className="text-xs font-black text-[#0d6b62]">Step {index + 1}</p>
+                <p className="text-xs font-black text-[#0d6b62]">步驟 {index + 1}</p>
                 <p className="mt-3 text-lg font-black">{step}</p>
               </Card>
             ))}
@@ -707,7 +707,7 @@ export function WorkDetailPage() {
         <div className="mt-10">
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Use Case</p>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">應用情境</p>
               <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
@@ -756,7 +756,7 @@ function HeroPreview({ project }) {
   return (
     <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-2xl shadow-[#111c22]/15 md:p-5">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
-        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Product Preview</span>
+        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">產品預覽</span>
         <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Demo-ready</span>
       </div>
 
@@ -781,7 +781,7 @@ function HeroPreview({ project }) {
               </div>
               <p className="mt-3 text-xs font-bold leading-5 text-[#52605c]">來源 LINE · 建議方案：LINE Bot + 表單 + 小型後台</p>
             </div>
-            <HeroPreviewList items={["Webhook 接收", "Signature Verify", "AI 回覆", "Dashboard Saved"]} />
+            <HeroPreviewList items={["Webhook 接收", "簽章驗證", "AI 回覆", "後台已儲存"]} />
           </div>
         </div>
       ) : isBuildFlow ? (
@@ -807,7 +807,7 @@ function HeroPreview({ project }) {
               ))}
             </div>
           </div>
-          <HeroPreviewList items={["案件列表 + 狀態", "現場照片", "報價單 Preview", "LINE 回報可複製"]} />
+          <HeroPreviewList items={["案件列表 + 狀態", "現場照片", "報價單預覽", "LINE 回報可複製"]} />
         </div>
       ) : isAudit ? (
         <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
@@ -834,7 +834,7 @@ function HeroPreview({ project }) {
               ))}
             </div>
           </div>
-          <HeroPreviewList items={["首頁標題建議", "CTA 動線", "SEO Description", "手機版問題"]} />
+          <HeroPreviewList items={["首頁標題建議", "CTA 動線", "SEO 描述", "手機版問題"]} />
         </div>
       ) : isApi ? (
         <div className="mt-5 grid gap-4">
@@ -856,7 +856,7 @@ function HeroPreview({ project }) {
             </div>
           </div>
           <div className="grid gap-2 sm:grid-cols-3">
-            {["Form → API", "Validation → Lead Object", "Notification → Dashboard"].map((item) => (
+            {["表單 → API", "驗證 → 需求資料", "通知 → 後台"].map((item) => (
               <div key={item} className="rounded-xl bg-white/10 p-3 text-sm font-black text-white/86">
                 {item}
               </div>
@@ -873,8 +873,8 @@ function HeroPreview({ project }) {
             <div className="mt-4 grid gap-2">
               {[
                 ["Hero", "讓你的服務被看懂"],
-                ["Demo Lab", "AI / LINE Bot / BuildFlow"],
-                ["CTA", "Project Planner → Contact"],
+                ["互動展示區", "AI / LINE Bot / BuildFlow"],
+                ["CTA", "需求診斷 → 聯絡"],
               ].map(([label, value]) => (
                 <div key={label} className="rounded-lg bg-[#faf8f3] px-3 py-2">
                   <p className="text-[11px] font-black text-[#0d6b62]">{label}</p>
@@ -883,7 +883,7 @@ function HeroPreview({ project }) {
               ))}
             </div>
           </div>
-          <HeroPreviewList items={["RWD mockup", "Open Graph", "sitemap.xml", "robots.txt"]} />
+          <HeroPreviewList items={["RWD 預覽", "Open Graph", "sitemap.xml", "robots.txt"]} />
         </div>
       ) : (
         <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
@@ -914,7 +914,7 @@ function WorkShowcase({ project }) {
   return (
     <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
       <div className="rounded-2xl border border-[#e3ded3] bg-white p-6">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Case Study</p>
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">案例說明</p>
         <h2 className="mt-3 text-3xl font-black">{project.title}</h2>
         <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
         <div className="mt-5">

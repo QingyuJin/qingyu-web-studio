@@ -1,13 +1,34 @@
 import { Link, NavLink } from "react-router-dom"
 import { contact } from "./content"
 
+function isExternalUrl(to) {
+  return typeof to === "string" && /^https?:\/\//.test(to)
+}
+
 const navItems = [
   ["首頁", "/"],
+  ["AI 技術任務", "https://ai-tech-quest.vercel.app"],
   ["作品", "/works"],
-  ["互動展示", "/#interactive-lab"],
+  ["互動實驗室", "/#interactive-lab"],
   ["需求診斷", "/tools/project-planner#demo"],
   ["聯絡", "/contact"],
 ]
+
+function NavItem({ label, path }) {
+  if (isExternalUrl(path)) {
+    return (
+      <a href={path} target="_blank" rel="noreferrer" className="text-[#0d6b62] hover:text-[#0a514b]">
+        {label}
+      </a>
+    )
+  }
+
+  return (
+    <NavLink key={path} to={path} className={({ isActive }) => (isActive ? "text-[#0d6b62]" : "hover:text-[#0d6b62]")}>
+      {label}
+    </NavLink>
+  )
+}
 
 function SiteLayout({ children }) {
   return (
@@ -17,11 +38,9 @@ function SiteLayout({ children }) {
           <Link to="/" className="shrink-0 text-sm font-black tracking-tight md:text-base">
             Qingyu Web Studio
           </Link>
-          <nav className="hidden items-center gap-5 text-sm font-bold text-[#5a6461] md:flex">
+          <nav className="hidden items-center gap-4 text-xs font-bold text-[#5a6461] lg:flex lg:gap-5 lg:text-sm">
             {navItems.map(([label, path]) => (
-              <NavLink key={path} to={path} className={({ isActive }) => (isActive ? "text-[#0d6b62]" : "hover:text-[#0d6b62]")}>
-                {label}
-              </NavLink>
+              <NavItem key={path} label={label} path={path} />
             ))}
           </nav>
           <Link
@@ -38,7 +57,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              台灣網站製作、AI 工具、LINE Bot、API 串接與簡易管理系統。
+              AI 應用、互動式產品展示、LINE Bot、API 串接與店家自動化系統。
             </p>
           </div>
           <a href={`mailto:${contact.email}`} className="text-sm font-black text-[#0d6b62]">
