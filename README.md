@@ -35,6 +35,29 @@ AI 應用、互動式產品展示、LINE Bot、API 串接與店家自動化系�
 2. 展示 AI Tech Quest、BuildFlow、LINE Bot 與 API 自動化等可實測作品。
 3. 把有興趣的訪客導到需求診斷、聯絡表單或 Email / LINE 討論。
 
+## 對外展示入口
+
+- 主站：https://www.qingyuweb.com
+- 接案服務頁：https://www.qingyuweb.com/services
+- AI 技術任務：https://ai-tech-quest.vercel.app
+- AI 技術任務展示模式：https://ai-tech-quest.vercel.app/demo
+- BuildFlow：https://www.qingyuweb.com/buildflow
+
+## 建議展示順序
+
+1. 先開 `https://www.qingyuweb.com/services`，說明可以委託的 AI 自動化服務。
+2. 開 `https://ai-tech-quest.vercel.app/demo`，用 3 分鐘展示 RAG、ML、店家 AI 助手。
+3. 回到主站 `/works`，展示 AI 技術任務與 BuildFlow 都是可實測作品。
+4. 最後進 `/contact`，說明客戶可以提供產業、資料來源、常見問題與想自動化流程。
+
+## 可接案服務
+
+- 店家 AI 助手 / LINE Bot。
+- 繁體中文文件問答系統。
+- BuildFlow / 小型後台。
+- 互動式 AI 產品展示。
+- 網站 / 作品集與接案主站整理。
+
 ## 路由
 
 - `/`：Qingyu Web Studio 作品入口
