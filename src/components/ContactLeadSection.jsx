@@ -7,12 +7,19 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  service_type: "網站",
+  service_type: "店家 AI 助手 / LINE Bot",
   budget_range: "還不確定",
   message: "",
 }
 
-const serviceOptions = ["網站", "LINE Bot", "AI 工具", "小系統", "不確定"]
+const serviceOptions = [
+  "店家 AI 助手 / LINE Bot",
+  "繁體中文文件問答系統",
+  "BuildFlow / 小型後台",
+  "互動式 AI Demo",
+  "網站 / 作品集",
+  "不確定，想先討論",
+]
 const budgetOptions = ["還不確定", "NT$3,000-5,000", "NT$6,000-12,000", "NT$15,000-30,000", "NT$30,000 以上"]
 
 function ContactLeadSection() {
@@ -22,7 +29,7 @@ function ContactLeadSection() {
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好，我想討論網站或系統需求。",
+      "你好，我想討論 AI 自動化、網站或系統需求。",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
       `項目：${form.service_type}`,
@@ -76,10 +83,10 @@ function ContactLeadSection() {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-            聊聊你想做的網站或系統
+            聊聊你想做的 AI 自動化、網站或系統
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            可以先傳產業、功能、預算與希望上線時間。
+            可以先傳產業、常見問題、資料來源、想自動化的流程、預算與希望上線時間。
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -94,7 +101,7 @@ function ContactLeadSection() {
             <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               複製 Email
             </button>
-            <a href={`mailto:${email}?subject=${encodeURIComponent("網站或系統需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
+            <a href={`mailto:${email}?subject=${encodeURIComponent("AI 自動化或系統需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               用 Email 傳送需求
             </a>
           </div>
@@ -112,7 +119,7 @@ function ContactLeadSection() {
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="簡單寫你想做什麼。"
+                placeholder="例如：我想把店家 FAQ 做成 LINE Bot，或把 PDF 文件做成可查詢問答系統。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>

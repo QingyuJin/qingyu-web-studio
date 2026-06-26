@@ -21,8 +21,9 @@ export const seo = {
   },
   services: {
     path: "/services",
-    title: "服務項目｜網站製作、AI 工具、LINE Bot 與 API 串接｜Qingyu Web Studio",
-    description: "提供品牌網站、作品集網站、小型系統、AI 工具、LINE Bot 與 API 串接服務。",
+    title: "AI 自動化接案服務｜店家 AI 助手、RAG 文件問答、LINE Bot 與小型後台｜Qingyu Web Studio",
+    description:
+      "提供店家 AI 助手、繁體中文文件問答系統、LINE Bot、自動化後台、BuildFlow 流程系統與互動式 AI Demo 製作服務。",
   },
   pricing: {
     path: "/pricing",
@@ -57,11 +58,65 @@ export const seo = {
 }
 
 export const serviceCategories = [
-  ["品牌網站", "讓服務、作品與聯絡方式清楚被看懂。"],
-  ["作品集網站", "整理專題、履歷、GitHub 與作品脈絡。"],
-  ["小型系統", "把表單、列表、搜尋、狀態與後台流程做成可操作 Demo。"],
-  ["AI 工具", "把圖片、PDF、CSV 或文字流程包成好懂的前端工具。"],
-  ["LINE Bot / API 串接", "把 LINE 訊息、表單、Webhook 與資料流程接起來。"],
+  ["店家 AI 助手", "把常見問題、預約、價格、課程與服務資訊整理成可自動回覆流程。"],
+  ["文件問答系統", "把 PDF、文件與內部資料做成可查詢、可引用來源的問答工具。"],
+  ["LINE Bot / API 串接", "把 LINE 訊息、表單、Webhook、通知與後台流程接起來。"],
+  ["小型後台", "把需求、案件、報價、狀態與紀錄整理成可管理介面。"],
+  ["互動式 AI Demo", "把抽象 AI 技術包裝成客戶與面試官能直接試用的產品展示。"],
+]
+
+export const serviceOfferings = [
+  {
+    id: "business-ai-assistant",
+    name: "店家 AI 助手 / LINE Bot",
+    label: "最適合接案",
+    summary: "把店家 FAQ、預約方式、價格規則與常見問題變成網站客服或 LINE Bot 自動回覆。",
+    targetUsers: "咖啡店、補習班、工作室、活動團隊、個人服務業",
+    problem: "顧客一直問營業時間、價格、預約、地址與課程資訊，店家靠人工回覆很花時間，也容易漏訊息。",
+    deliverables: ["FAQ 後台", "顧客提問介面", "LINE Bot 流程", "問答紀錄", "店家語氣設定"],
+    demoPath: "https://ai-tech-quest.vercel.app/missions/business",
+    proof: "AI 技術任務 Level 3 已可互動試用，展示 FAQ matching、回答紀錄與品牌語氣 fallback。",
+  },
+  {
+    id: "tw-rag",
+    name: "繁體中文文件問答系統",
+    label: "高技術力服務",
+    summary: "把 PDF、課程資料、公司文件或活動規範做成可查詢問答系統，回答時附來源引用。",
+    targetUsers: "補習班、學生團隊、小公司、工程行、文件很多的工作室",
+    problem: "資料很多但不好找，大家一直重複問同樣問題，AI 如果沒有來源又容易亂答。",
+    deliverables: ["文件上傳規劃", "文件切分", "來源引用", "不知道就回答不知道", "簡易評測"],
+    demoPath: "https://ai-tech-quest.vercel.app/missions/rag",
+    proof: "AI 技術任務 Level 1 已可展示文件問答、引用來源、信心分數與幽默但有邊界的回答。",
+  },
+  {
+    id: "workflow-dashboard",
+    name: "BuildFlow / 小型後台",
+    label: "商業流程產品",
+    summary: "把詢價、案件、報價、派工、照片、狀態與 LINE 回報整理成一套可追蹤流程。",
+    targetUsers: "工程行、維修團隊、接案工作室、需要案件追蹤的小公司",
+    problem: "需求散在 LINE、表單、照片與口頭紀錄裡，案件一多就不知道誰負責、進度到哪裡。",
+    deliverables: ["案件列表", "狀態管理", "報價資料", "LINE 回報流程", "Supabase MVP 後端"],
+    demoPath: "/buildflow",
+    proof: "BuildFlow 已有可操作後台，能展示案件管理、工程流程與 LINE Bot 整合方向。",
+  },
+  {
+    id: "interactive-ai-demo",
+    name: "互動式 AI 產品展示",
+    label: "展示 / 履歷 / 教育",
+    summary: "把 AI、ML、RAG 或產品概念做成可玩的 Demo，讓非工程背景的人也能快速理解價值。",
+    targetUsers: "新創團隊、求職作品集、教育訓練、技術展示、公司內部 Demo",
+    problem: "技術作品如果只剩簡報、notebook 或 GitHub，客戶與面試官很難理解實際體驗。",
+    deliverables: ["互動流程設計", "產品展示頁", "任務式體驗", "Demo 腳本", "GitHub / Vercel 部署"],
+    demoPath: "https://ai-tech-quest.vercel.app/demo",
+    proof: "AI 技術任務已上線展示模式，可用 3 分鐘講完產品定位、RAG、ML、店家助手與產品展示室。",
+  },
+]
+
+export const serviceWorkflow = [
+  ["01", "釐清場景", "先確認你的使用者、常見問題、資料來源與希望自動化的流程。"],
+  ["02", "做可試 MVP", "先做能展示、能測試、能收回饋的版本，不一開始堆過度複雜功能。"],
+  ["03", "接資料與通知", "依需求接 Supabase、LINE Bot、API、Email 或後台權限。"],
+  ["04", "上線與迭代", "部署到 Vercel / Render，整理測試腳本、操作說明與下一版功能。"],
 ]
 
 export const techStack = [

@@ -27,13 +27,18 @@ https://你的網域/api/line-webhook
 
 正式部署時，`OPENAI_API_KEY`、`LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET` 只能放在 Vercel 後端環境變數，不可放到 `src` 前端程式。
 
-作品入口網站。
+AI 應用、互動式產品展示、LINE Bot、API 串接與店家自動化系統的接案主站。
 
-主網站保持簡潔，之後可以陸續放不同作品。目前主作品是工程行作品集。
+主網站現在負責三件事：
+
+1. 讓訪客快速理解可以委託哪些產品型服務。
+2. 展示 AI Tech Quest、BuildFlow、LINE Bot 與 API 自動化等可實測作品。
+3. 把有興趣的訪客導到需求診斷、聯絡表單或 Email / LINE 討論。
 
 ## 路由
 
 - `/`：Qingyu Web Studio 作品入口
+- `/services`：AI 自動化與小型系統接案服務
 - `/engineering`：工程行作品集
 - `/contractor-site`：工程接案前台
 - `/buildflow`：BuildFlow 工程後台

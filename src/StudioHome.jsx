@@ -140,10 +140,26 @@ const featuredProducts = [
   },
 ]
 const serviceCards = [
-  ["網站製作", "把服務、作品與聯絡入口整理清楚。"],
-  ["LINE Bot", "讓 LINE 詢問變成可追蹤需求。"],
-  ["AI 工具", "把分析、產出與報告包成好用介面。"],
-  ["小型後台 / API", "把表單、通知與資料流程接起來。"],
+  {
+    title: "店家 AI 助手",
+    text: "把 FAQ、預約、價格與常見問題變成可回覆流程。",
+    examples: ["LINE Bot", "網站客服", "FAQ 後台"],
+  },
+  {
+    title: "文件問答系統",
+    text: "讓 PDF、課程資料與公司文件可以查詢並引用來源。",
+    examples: ["RAG", "來源引用", "文件搜尋"],
+  },
+  {
+    title: "BuildFlow 後台",
+    text: "把案件、報價、派工與 LINE 回報整理成可追蹤流程。",
+    examples: ["案件狀態", "Supabase", "LINE 回報"],
+  },
+  {
+    title: "互動式 AI Demo",
+    text: "把 AI 技術做成可試用、可展示、可部署的產品入口。",
+    examples: ["AI 技術任務", "Vercel", "Demo 腳本"],
+  },
 ]
 
 function StudioHome() {
@@ -166,8 +182,8 @@ function StudioHome() {
               <SmartLink to="https://ai-tech-quest.vercel.app" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
                 立即體驗 AI 技術任務
               </SmartLink>
-              <Link to="/#featured-products" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
-                查看主打產品
+              <Link to="/services" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
+                查看接案服務
               </Link>
               <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62]">
                 聊聊需求
@@ -340,13 +356,31 @@ function ServiceAbility() {
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="服務能力" title="服務能力" text="從網站到後台流程，先做清楚、再做漂亮、最後做得能被使用。" />
-        <div className="grid gap-3 md:grid-cols-4">
-          {serviceCards.map(([title, text]) => (
-            <article key={title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
-              <div className="mb-4 h-10 w-10 rounded-xl bg-[#eef7f4]" />
-              <h3 className="text-lg font-black">{title}</h3>
-              <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <SectionHeading
+            eyebrow="接案服務"
+            title="可以委託我做什麼"
+            text="從店家自動回覆、文件問答到後台流程，先做出可試用版本，再依資料與流程逐步升級。"
+          />
+          <Link to="/services" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
+            查看服務細節
+          </Link>
+        </div>
+        <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
+          {serviceCards.map((service) => (
+            <article key={service.title} className="rounded-xl border border-[#e3ded3] bg-white p-5">
+              <div className="mb-4 grid h-10 w-10 place-items-center rounded-xl bg-[#eef7f4] text-sm font-black text-[#0d6b62]">
+                AI
+              </div>
+              <h3 className="text-lg font-black">{service.title}</h3>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{service.text}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {service.examples.map((item) => (
+                  <span key={item} className="rounded-md bg-[#faf8f3] px-2.5 py-1 text-xs font-black text-[#40504c]">
+                    {item}
+                  </span>
+                ))}
+              </div>
             </article>
           ))}
         </div>
