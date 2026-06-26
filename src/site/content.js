@@ -17,7 +17,7 @@ export const seo = {
   works: {
     path: "/works",
     title: "作品案例｜網站、AI 工具、LINE Bot 與後台系統｜Qingyu Web Studio",
-    description: "查看 Qingyu Web Studio 的精選作品，包含 AI 網站健檢、LINE Bot、工程案件管理系統與工作室主站。",
+    description: "查看 Qingyu Web Studio 的精選作品，包含 AI 技術任務、AI 網站健檢、LINE Bot、工程案件管理系統與工作室主站。",
   },
   services: {
     path: "/services",
@@ -94,6 +94,34 @@ export const pricing = [
 ]
 
 export const projects = [
+  {
+    slug: "ai-tech-quest",
+    title: "AI 技術任務",
+    category: "互動式 AI 產品展示",
+    summary: "用遊戲式任務展示文件問答、模型分類、店家 AI 助手、BuildFlow 與 Unity AI 學習關卡預告，讓使用者直接操作 AI 產品能力。",
+    featured: true,
+    livePath: "https://ai-tech-quest.vercel.app",
+    liveLabel: "線上實測",
+    secondaryPath: "https://github.com/QingyuJin/ai-tech-quest",
+    secondaryLabel: "GitHub 原始碼",
+    tags: ["React", "Vite", "Tailwind CSS", "Zustand", "FastAPI", "Vercel"],
+    problem: "AI / ML / RAG 作品常停留在技術清單、notebook 或截圖，客戶與面試官很難快速理解它能解決什麼問題。",
+    solution: "把文件問答、模型分類、店家 AI 助手與作品展示室設計成可操作任務，讓使用者一邊互動一邊理解產品價值。",
+    features: ["任務選擇", "文件問答調查員", "模型分類挑戰", "店家 AI 助手", "產品展示室", "GitHub 入口"],
+    architecture: ["React", "Vite", "Tailwind CSS", "Zustand localStorage", "FastAPI mock API", "Vercel Deploy"],
+    stack: {
+      Frontend: "React / Vite / Tailwind CSS / Framer Motion / Zustand",
+      Backend: "FastAPI / Pydantic / routers-services-schemas 分層",
+      AI: "文件檢索增強生成（RAG）、模型分類、店家 FAQ matching 目前以 mock 展示",
+      Deploy: "Vercel 前端部署，後端可接 Render 或其他 API hosting",
+      Repository: "https://github.com/QingyuJin/ai-tech-quest",
+    },
+    visuals: ["任務選擇頁", "RAG 問答流程", "ML scatter plot", "店家 AI 助手", "產品展示室"],
+    demo: ["Start Quest", "完成 RAG / ML / 店家 AI 任務", "解鎖產品展示室", "點 GitHub / Demo placeholder"],
+    steps: ["進入 AI 技術任務", "選擇一個互動關卡", "完成任務並累積進度", "解鎖完整產品展示室"],
+    mobile: "手機版保留任務卡、進度條與 AI 導覽員，讓訪客不用看密集技術表也能試玩。",
+    future: ["接真正 RAG pipeline", "接 sklearn / FastAPI 模型", "接店家 FAQ 資料庫", "串 Unity WebGL 關卡", "加入作品集 case study"],
+  },
   {
     slug: "ai-audit",
     title: "AI 網站健檢",

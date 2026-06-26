@@ -3,7 +3,33 @@ import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
 import { contact, seo } from "./site/content"
 
+function isExternalUrl(to) {
+  return typeof to === "string" && /^https?:\/\//.test(to)
+}
+
+function SmartLink({ to, children, ...props }) {
+  if (isExternalUrl(to)) {
+    return (
+      <a href={to} target="_blank" rel="noreferrer" {...props}>
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <Link to={to} {...props}>
+      {children}
+    </Link>
+  )
+}
 const pathCards = [
+  {
+    title: "我要看 AI 技術任務",
+    text: "直接試玩 RAG、ML 與店家 AI 助手任務。",
+    to: "/works",
+    label: "看 AI 作品入口",
+    preview: ["RAG", "ML", "AI 助手"],
+  },
   {
     title: "我要做網站",
     text: "看網站整理、版面優化與主站案例。",
@@ -35,6 +61,17 @@ const pathCards = [
 ]
 
 const interactiveDemos = [
+  {
+    slug: "ai-tech-quest",
+    title: "AI 技術任務",
+    label: "AI Product Quest",
+    summary: "用任務形式體驗文件問答、模型分類與店家 AI 助手。",
+    livePath: "https://ai-tech-quest.vercel.app",
+    techPath: "https://github.com/QingyuJin/ai-tech-quest",
+    liveLabel: "線上實測",
+    techLabel: "GitHub 原始碼",
+    tone: "quest",
+  },
   {
     slug: "website-rescue",
     title: "網站救援互動 Demo",
@@ -112,7 +149,7 @@ function PathNavigation() {
     <section className="hidden border-b border-[#e6e0d5] bg-[#faf8f3] md:block">
       <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
         <SectionHeading eyebrow="Start Here" title="你想看哪一種？" text="先選方向，再進互動 Demo 或完整案例。" />
-        <div className="grid gap-3 md:grid-cols-4">
+        <div className="grid gap-3 md:grid-cols-3 lg:grid-cols-5">
           {pathCards.map((card) => (
             <Link
               key={card.title}
@@ -146,7 +183,7 @@ function InteractiveLab() {
           title="互動實驗室"
           text="直接操作小型 Demo，看看網站、LINE Bot 與後台流程怎麼動起來。"
         />
-        <div className="grid gap-5 lg:grid-cols-2">
+        <div className="grid gap-5 lg:grid-cols-3">
           {interactiveDemos.map((demo) => (
             <InteractiveDemoCard key={demo.slug} demo={demo} />
           ))}
@@ -246,22 +283,47 @@ function InteractiveDemoCard({ demo }) {
           <h3 className="mt-3 text-xl font-black tracking-tight md:text-3xl">{demo.title}</h3>
           <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{demo.summary}</p>
           <div className="mt-6 flex flex-wrap gap-3">
-            <Link to={demo.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
+            <SmartLink to={demo.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white hover:bg-[#26343b]">
               {demo.liveLabel}
-            </Link>
-            <Link to={demo.techPath} className="hidden min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62] md:inline-flex">
-              技術拆解
-            </Link>
+            </SmartLink>
+            <SmartLink to={demo.techPath} className="hidden min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] hover:border-[#0d6b62] hover:text-[#0d6b62] md:inline-flex">
+              {demo.techLabel || "技術拆解"}
+            </SmartLink>
           </div>
         </div>
         <div className="min-h-48 bg-[#111c22] p-4 text-white md:min-h-80 md:p-5">
-          {demo.tone === "rescue" ? <WebsiteRescuePreview /> : <LineMissionPreview />}
+          {demo.tone === "quest" ? <AiQuestPreview /> : demo.tone === "rescue" ? <WebsiteRescuePreview /> : <LineMissionPreview />}
         </div>
       </div>
     </article>
   )
 }
-
+function AiQuestPreview() {
+  return (
+    <div className="flex h-full flex-col justify-between rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4">
+      <div className="flex items-center justify-between">
+        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">AI Quest</span>
+        <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b171b]">5 missions</span>
+      </div>
+      <div className="mt-5 grid gap-3">
+        {["文件問答調查員", "模型分類挑戰", "店家 AI 助手"].map((item, index) => (
+          <div key={item} className="rounded-xl bg-white p-3 text-[#111c22]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-black text-[#0d6b62]">Level {index + 1}</p>
+              <span className="h-2 w-16 rounded-full bg-[#dce7e2]">
+                <span className="block h-full rounded-full bg-[#0d6b62]" style={{ width: `${58 + index * 14}%` }} />
+              </span>
+            </div>
+            <p className="mt-2 text-sm font-black">{item}</p>
+          </div>
+        ))}
+      </div>
+      <div className="mt-4 rounded-xl border border-white/10 bg-white/10 px-4 py-3 text-xs font-black text-white/78">
+        Vercel 實測版已上線，可從主站直接開啟。
+      </div>
+    </div>
+  )
+}
 function WebsiteRescuePreview() {
   return (
     <div className="flex h-full flex-col justify-between rounded-[1.25rem] border border-white/10 bg-white/[0.04] p-4">

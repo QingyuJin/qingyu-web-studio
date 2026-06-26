@@ -1,6 +1,28 @@
 import { Link } from "react-router-dom"
 import { portfolioProjects } from "../data/portfolioContent"
 
+function isExternalUrl(to) {
+  return typeof to === "string" && /^https?:\/\//.test(to)
+}
+
+function ProjectAction({ project }) {
+  const className = "mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-[#0f766e] px-5 text-sm font-black text-white hover:bg-[#115e59]"
+
+  if (project.external || isExternalUrl(project.demoPath)) {
+    return (
+      <a href={project.demoPath} target="_blank" rel="noreferrer" className={className}>
+        {project.cta}
+      </a>
+    )
+  }
+
+  return (
+    <Link to={project.demoPath} className={className}>
+      {project.cta}
+    </Link>
+  )
+}
+
 function PortfolioSection() {
   return (
     <section id="works" className="border-y border-[#dedbd1] bg-[#ebe8df]">
@@ -65,12 +87,7 @@ function PortfolioSection() {
                   ))}
                 </div>
 
-                <Link
-                  to={project.demoPath}
-                  className="mt-6 inline-flex min-h-11 items-center justify-center rounded-md bg-[#0f766e] px-5 text-sm font-black text-white hover:bg-[#115e59]"
-                >
-                  {project.cta}
-                </Link>
+                <ProjectAction project={project} />
               </div>
 
               <PhonePreview project={project} />

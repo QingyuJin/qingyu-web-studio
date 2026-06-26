@@ -60,8 +60,28 @@ function Tags({ items }) {
   )
 }
 
+function isExternalUrl(to) {
+  return typeof to === "string" && /^https?:\/\//.test(to)
+}
+
+function ActionLink({ to, children, ...props }) {
+  if (isExternalUrl(to)) {
+    return (
+      <a href={to} target="_blank" rel="noreferrer" {...props}>
+        {children}
+      </a>
+    )
+  }
+
+  return (
+    <Link to={to} {...props}>
+      {children}
+    </Link>
+  )
+}
 function WorkPreview({ project }) {
   const panels = {
+    "ai-tech-quest": ["RAG 任務", "ML 分類", "產品展示室"],
     "ai-audit": ["SEO 82", "CTA 建議", "手機版檢查"],
     linebot: ["LINE 對話", "Webhook", "後台收件"],
     buildflow: ["案件列表", "報價單", "LINE 回報"],
@@ -71,6 +91,7 @@ function WorkPreview({ project }) {
     "qingyu-web": ["RWD", "SEO / OG", "Contact CTA"],
   }
   const previewMeta = {
+    "ai-tech-quest": { status: "AI Quest", metric: "5 missions", summary: "RAG / ML / SaaS" },
     "ai-audit": { status: "AI Report", metric: "Score 82", summary: "SEO / CTA / Trust" },
     linebot: { status: "Webhook", metric: "3 messages", summary: "LINE → Reply → Inbox" },
     buildflow: { status: "Dashboard", metric: "75%", summary: "Case / Quote / LINE" },
@@ -238,6 +259,11 @@ export function WorksPage() {
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
   const sections = [
     {
+      title: "AI 產品展示",
+      text: "用互動任務讓客戶與面試官直接理解 AI、RAG、ML 與全端能力。",
+      items: [projectBySlug["ai-tech-quest"]].filter(Boolean),
+    },
+    {
       title: "主打互動",
       text: "先動手體驗網站整理與 LINE Bot 接待。",
       items: [rescueProject, lineBotMissionProject],
@@ -285,12 +311,12 @@ export function WorksPage() {
                       <Tags items={(project.tags || []).slice(0, 3)} />
                     </div>
                     <div className="mt-5 flex flex-wrap gap-3">
-                      <Link to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white md:min-h-10 md:w-auto">
+                      <ActionLink to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white md:min-h-10 md:w-auto">
                         {project.liveLabel}
-                      </Link>
-                      <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="hidden min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22] md:inline-flex">
+                      </ActionLink>
+                      <ActionLink to={project.secondaryPath || `/works/${project.slug}#tech`} className="hidden min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22] md:inline-flex">
                         {project.secondaryLabel || "技術拆解"}
-                      </Link>
+                      </ActionLink>
                     </div>
                   </article>
                 ))}
@@ -311,6 +337,7 @@ export function WorkDetailPage() {
   const isApiAutomationProject = project.slug === "api-automation"
   const isQingyuWebProject = project.slug === "qingyu-web"
   const isXinjiangProject = project.slug === "xinjiang"
+  const isAiTechQuestProject = project.slug === "ai-tech-quest"
   const isInternalDemoPath = project.livePath === `/works/${project.slug}#demo`
   const conversionProfile = conversionProfiles[project.slug] || defaultConversionProfile
   const projectSeo = {
@@ -342,7 +369,19 @@ export function WorkDetailPage() {
       title={project.title}
       intro={conciseWorkValues[project.slug] || project.summary}
       actions={
-        isLineBotProject ? (
+        isAiTechQuestProject ? (
+          <>
+            <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              線上實測
+            </ActionLink>
+            <ActionLink to={project.secondaryPath} className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              GitHub 原始碼
+            </ActionLink>
+            <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              討論類似 AI Demo
+            </Link>
+          </>
+        ) : isLineBotProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               查看互動 Demo
@@ -439,9 +478,9 @@ export function WorkDetailPage() {
                   ))}
                 </div>
               ) : (
-                <Link to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-                  {project.liveLabel}
-                </Link>
+                <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            {project.liveLabel}
+          </ActionLink>
               )}
             </div>
           </div>
@@ -882,12 +921,12 @@ function WorkShowcase({ project }) {
           <Tags items={project.tags} />
         </div>
         <div className="mt-6 flex flex-wrap gap-3">
-          <Link to={project.livePath} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+          <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
             {project.liveLabel}
-          </Link>
-          <Link to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+          </ActionLink>
+          <ActionLink to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
             {project.secondaryLabel}
-          </Link>
+          </ActionLink>
         </div>
       </div>
       <div className="rounded-2xl border border-[#d8d2c5] bg-[#faf8f3] p-5">

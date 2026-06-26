@@ -125,3 +125,13 @@ VITE_SUPABASE_ANON_KEY=your-anon-key
 4. 管理頁 `/admin` 可查看需求列表、更新狀態與管理備註。
 
 注意：目前管理頁仍使用本專案的輕量 localStorage 登入。`mvp_schema.sql` 為了快速可用，讓 anon 可以讀取與更新 `contact_requests`。正式收真實客戶資料前，應改成 Supabase Auth + admin RLS。
+
+## AI Tech Quest / AI 技術任務入口
+
+Qingyu Web Studio 現在作為作品與接案主站，同時提供 AI 技術任務的外部實測入口。
+
+- 線上實測：https://ai-tech-quest.vercel.app
+- GitHub 原始碼：https://github.com/QingyuJin/ai-tech-quest
+- 主站入口：首頁「互動實驗室」與 `/works` 作品案例頁
+
+AI 技術任務是一個互動式 AI 產品展示遊戲，使用者可以體驗文件問答、模型分類、店家 AI 助手與產品展示室。這個作品用來展示 RAG、ML、全端 API 與未來 Unity WebGL 關卡的整合能力。

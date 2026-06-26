@@ -1,5 +1,22 @@
 export const portfolioProjects = [
   {
+    id: "ai-tech-quest",
+    name: "AI 技術任務",
+    audience: "面試官、接案客戶、想了解 AI 產品能力的人",
+    positioning: "互動式 AI 產品展示遊戲",
+    problem: "AI 作品如果只放 GitHub 或 notebook，非工程背景的人很難理解使用情境與產品價值。",
+    features: ["任務選擇", "文件問答", "模型分類", "店家 AI 助手", "產品展示室", "GitHub 入口"],
+    techStack: ["React", "Vite", "Tailwind CSS", "Zustand", "FastAPI-ready"],
+    demoPath: "https://ai-tech-quest.vercel.app",
+    external: true,
+    cta: "線上實測",
+    preview: {
+      title: "AI 技術任務",
+      metric: "5 missions",
+      rows: ["文件問答調查員", "模型分類挑戰", "店家 AI 助手"],
+    },
+  },
+  {
     id: "buildflow",
     name: "BuildFlow 工程資料管理系統",
     audience: "工程行、統包、維修團隊",
