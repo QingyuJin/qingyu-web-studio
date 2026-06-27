@@ -228,12 +228,12 @@ const workBusinessValues = {
 const conciseWorkValues = {
   "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
   linebot: "讓 LINE 訊息自動整理成需求。",
-  buildflow: "案例：工程行接案與派工管理系統。",
-  "interactive-quiz": "教育訓練與測驗題庫網頁。",
-  "ai-tech-quest": "這是展示 AI 文件問答、模型分類、店家助手與全端開發能力的互動 Demo。",
-  "ai-business-assistant": "小型店家 FAQ 與自動回覆產品。",
-  "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
-  "unity-ai-tutor": "互動式學習展示。",
+  buildflow: "工程行流程管理成品：需求、報價、派工、回報與 LINE 查詢。",
+  "interactive-quiz": "互動測驗成品：題目、作答、解析、結果頁與題庫維護。",
+  "ai-tech-quest": "可玩的 AI 技術展示成品：文件問答、模型分類、店家助手與產品展示室。",
+  "ai-business-assistant": "店家自動回覆成品：FAQ、回答紀錄與 LINE Bot 延伸。",
+  "tw-civic-rag": "文件問答成品：文件檢索增強生成（RAG）、來源引用與文件查詢。",
+  "unity-ai-tutor": "互動學習成品：用 Unity 做可操作的學習關卡。",
   "api-automation": "表單送出後，自動進 API、通知與後台。",
   "project-planner": "判斷適合做網站、LINE Bot 還是系統。",
   "website-rescue": "點選改善項目，查看網站狀態變化。",
@@ -292,8 +292,8 @@ export function WorksPage() {
   ].filter(Boolean)
   const sections = [
     {
-      title: "接案案例與產品展示",
-      text: "依照接案展示優先：先看商業流程與互動測驗，再看技術展示與可延伸產品。",
+      title: "可展示成品與商品包",
+      text: "直接點卡片看實物：先看可落地的工程行系統與互動測驗，再看 AI 技術展示與可延伸產品。",
       items: primaryProducts,
     },
     {
@@ -309,7 +309,7 @@ export function WorksPage() {
   ]
 
   return (
-    <PageShell page={seo.works} title="作品案例" intro="從工程行接案流程、互動測驗頁、AI 技術展示，到店家自動回覆與文件問答產品，這裡整理成客戶看得懂的案例入口。">
+    <PageShell page={seo.works} title="作品案例與成品入口" intro="這裡不是技術清單，而是可以直接打開、試用、理解用途的成品入口。從工程行接案流程、互動測驗頁，到 AI 技術展示與店家自動回覆產品。">
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-10">
           {sections.map((section) => (
@@ -1000,8 +1000,8 @@ export function ServicesPage() {
     <PageShell
       page={seo.services}
       eyebrow="接案服務"
-      title="網站、互動測驗、LINE Bot 與小型後台"
-      intro="我協助小型店家、工作室、補習班與工程行，把網站、測驗頁、FAQ、LINE 訊息、表單與後台流程整理成可展示、可上線、可逐步擴充的產品。"
+      title="網站、互動測驗、LINE Bot 與小型後台商品包"
+      intro="我協助小型店家、工作室、補習班與工程行，把零散需求整理成可交付、可上線、可逐步擴充的完整成品。"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -1125,7 +1125,7 @@ function ServiceFact({ title, text }) {
 
 export function PricingPage() {
   return (
-    <PageShell page={seo.pricing} title="小型專案參考價" intro="以下為早期合作參考價，實際依頁數、功能、資料整理程度與維護需求調整。">
+    <PageShell page={seo.pricing} title="小型專案商品包參考價" intro="先選你想拿到哪一種成品，再依頁數、資料整理程度、串接與維護需求調整。以下為早期合作參考價。">
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {pricing.map(([name, price, text]) => (

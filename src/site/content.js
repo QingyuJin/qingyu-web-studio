@@ -10,9 +10,9 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜網站、互動測驗、LINE Bot 與小型後台接案服務",
+    title: "Qingyu Web Studio｜網站、互動測驗、LINE Bot 與小型後台商品包",
     description:
-      "協助小型店家、工作室與團隊製作一頁式網站、互動測驗頁、LINE Bot、自動回覆、接案表單與小型後台。",
+      "協助小型店家、工作室與團隊製作可交付、可上線、可展示的網站、互動測驗、LINE Bot、自動回覆、接案表單與小型後台商品包。",
   },
   works: {
     path: "/works",
@@ -21,14 +21,14 @@ export const seo = {
   },
   services: {
     path: "/services",
-    title: "網站、互動測驗、LINE Bot 與小型後台接案服務｜Qingyu Web Studio",
+    title: "網站、互動測驗、LINE Bot 與小型後台商品包｜Qingyu Web Studio",
     description:
-      "提供一頁式網站、互動測驗頁、店家網站、LINE Bot、自動回覆、接案表單、報價流程、小型後台與文件檢索增強生成（RAG）展示服務。",
+      "提供小店上線網站包、互動測驗商品包、店家自動回覆包、工程行流程管理包、小型後台包與文件檢索增強生成（RAG）展示服務。",
   },
   pricing: {
     path: "/pricing",
-    title: "小型專案參考價｜Qingyu Web Studio",
-    description: "一頁式網站、店家網站、互動測驗頁、LINE Bot、小型後台與接案流程系統的早期合作參考價。",
+    title: "小型專案商品包參考價｜Qingyu Web Studio",
+    description: "小店上線網站包、互動測驗商品包、店家自動回覆包、小型後台包與工程行流程管理包的早期合作參考價。",
   },
   audit: {
     path: "/free-audit",
@@ -68,9 +68,9 @@ export const serviceCategories = [
 export const serviceOfferings = [
   {
     id: "business-ai-assistant",
-    name: "店家 AI 助手 / LINE Bot",
-    label: "最適合接案",
-    summary: "把店家 FAQ、預約方式、價格規則與常見問題變成網站客服或 LINE Bot 自動回覆。",
+    name: "店家自動回覆包",
+    label: "店家 FAQ / LINE Bot",
+    summary: "交付一套可回覆常見問題、記錄顧客提問，未來可延伸成 LINE Bot 的店家助手。",
     targetUsers: "咖啡店、補習班、工作室、活動團隊、個人服務業",
     problem: "顧客一直問營業時間、價格、預約、地址與課程資訊，店家靠人工回覆很花時間，也容易漏訊息。",
     deliverables: ["FAQ 後台", "顧客提問介面", "LINE Bot 流程", "問答紀錄", "店家語氣設定"],
@@ -79,9 +79,9 @@ export const serviceOfferings = [
   },
   {
     id: "tw-rag",
-    name: "繁體中文文件問答系統",
+    name: "繁體中文文件問答包",
     label: "高技術力服務",
-    summary: "把 PDF、課程資料、公司文件或活動規範做成可查詢問答系統，回答時附來源引用。",
+    summary: "交付一套可查文件、顯示來源引用，並在資料不足時回答不知道的文件問答工具。",
     targetUsers: "補習班、學生團隊、小公司、工程行、文件很多的工作室",
     problem: "資料很多但不好找，大家一直重複問同樣問題，AI 如果沒有來源又容易亂答。",
     deliverables: ["文件上傳規劃", "文件切分", "來源引用", "不知道就回答不知道", "簡易評測"],
@@ -90,9 +90,9 @@ export const serviceOfferings = [
   },
   {
     id: "workflow-dashboard",
-    name: "BuildFlow / 小型後台",
-    label: "商業流程產品",
-    summary: "把詢價、案件、報價、派工、照片、狀態與 LINE 回報整理成一套可追蹤流程。",
+    name: "工程行流程管理包",
+    label: "BuildFlow 商業流程產品",
+    summary: "交付一套把詢價、案件、報價、派工、照片、狀態與 LINE 回報整理好的流程系統。",
     targetUsers: "工程行、維修團隊、接案工作室、需要案件追蹤的小公司",
     problem: "需求散在 LINE、表單、照片與口頭紀錄裡，案件一多就不知道誰負責、進度到哪裡。",
     deliverables: ["案件列表", "狀態管理", "報價資料", "LINE 回報流程", "Supabase MVP 後端"],
@@ -101,9 +101,9 @@ export const serviceOfferings = [
   },
   {
     id: "interactive-quiz",
-    name: "互動測驗頁",
+    name: "互動測驗商品包",
     label: "教育訓練 / 活動測驗",
-    summary: "把題目、選項、答案解析與結果頁做成手機可用的互動測驗，可用 JSON、Google Sheet 或簡易後台維護題庫。",
+    summary: "交付一個手機可作答、能看解析、能產生結果頁的互動測驗成品。",
     targetUsers: "教育訓練、補習班、課程、公司內訓、活動測驗、學生專題",
     problem: "測驗內容散在簡報或表單裡，不好展示，也不容易做成品牌化、可分享的互動頁。",
     deliverables: ["題目頁", "選項作答", "答案解析", "結果頁", "圖片素材", "題庫資料結構"],
@@ -112,13 +112,13 @@ export const serviceOfferings = [
   },
   {
     id: "interactive-ai-demo",
-    name: "互動式 AI 產品展示",
+    name: "互動式技術展示包",
     label: "展示 / 履歷 / 教育",
-    summary: "把 AI、ML、RAG 或產品概念做成可玩的 Demo，讓非工程背景的人也能快速理解價值。",
+    summary: "交付一個可玩的 Demo，把 AI、機器學習（ML）、文件檢索增強生成（RAG）或產品概念變成可展示的成品。",
     targetUsers: "新創團隊、求職作品集、教育訓練、技術展示、公司內部 Demo",
     problem: "技術作品如果只剩簡報、notebook 或 GitHub，客戶與面試官很難理解實際體驗。",
     deliverables: ["互動流程設計", "產品展示頁", "任務式體驗", "Demo 腳本", "GitHub / Vercel 部署"],
-    demoPath: "https://ai-tech-quest.vercel.app/demo",
+    demoPath: "https://ai-tech-quest.vercel.app",
     proof: "AI 技術任務已上線展示模式，可用 3 分鐘講完產品定位、RAG、ML、店家助手與產品展示室。",
   },
 ]
@@ -156,15 +156,15 @@ export const processSteps = [
 export const audience = ["個人品牌", "小型店家", "工作室", "學生", "新創", "工程服務業"]
 
 export const pricing = [
-  ["一頁式網站", "5,000 元起", "適合個人品牌、小店開張、活動頁，需要清楚介紹服務與聯絡方式。"],
-  ["店家網站", "8,000 元起", "適合服務介紹、案例、地圖、LINE / IG 入口與表單收單。"],
-  ["舊站優化 / 手機版調整", "3,000 元起", "適合已有網站，但手機不好讀、CTA 不明顯、內容需要整理。"],
-  ["互動測驗頁基本版", "6,000 元起", "適合課程測驗、活動問答、教育訓練或簡單結果頁。"],
-  ["Google Sheet 題庫測驗版", "10,000 元起", "適合題目會更新、想用表格維護題庫的測驗頁。"],
-  ["LINE Bot / FAQ 自動回覆", "8,000 元起", "適合常被問營業時間、價目表、預約方式與課程資訊的店家。"],
-  ["小型後台", "20,000 元起", "適合需要管理資料、案件、FAQ、表單收件或簡單狀態的團隊。"],
-  ["接案流程系統", "30,000 元起", "適合工程行、維修、裝修等需要需求、報價、派工與回報流程的服務業。"],
-  ["月維護", "800 元起", "適合需要小修改、上線後協助、備份檢查或第三方服務設定支援的專案。"],
+  ["小店上線網站包", "5,000 元起", "交付一個手機好讀、可放 LINE / IG / Google Map、能收表單的一頁式網站。"],
+  ["店家形象網站包", "8,000 元起", "交付服務介紹、案例、地圖、聯絡入口與基本搜尋整理，適合店家正式對外使用。"],
+  ["舊站救援包", "3,000 元起", "把既有網站整理成手機可讀、CTA 明確、資訊不混亂的版本。"],
+  ["互動測驗基本包", "6,000 元起", "交付題目頁、作答流程、答案解析與結果頁，適合課程、活動與教育訓練。"],
+  ["題庫測驗升級包", "10,000 元起", "交付可用 JSON 或 Google Sheet 維護題目的測驗頁，適合題目會持續更新的團隊。"],
+  ["店家自動回覆包", "8,000 元起", "交付 FAQ、自動回覆流程與問題紀錄，可延伸成 LINE Bot。"],
+  ["小型後台包", "20,000 元起", "交付可管理資料、案件、FAQ、表單收件或簡單狀態的小後台。"],
+  ["工程行流程管理包", "30,000 元起", "交付需求表單、案件列表、報價紀錄、派工回報與 LINE 查詢流程。"],
+  ["月維護安心包", "800 元起", "交付小修改、上線協助、備份檢查與第三方服務設定支援。"],
 ]
 
 export const projects = [
@@ -172,7 +172,7 @@ export const projects = [
     slug: "ai-tech-quest",
     title: "互動式技術展示：AI 技術任務",
     category: "互動式 AI 技術展示 Demo",
-    summary: "這是我用來展示 AI 文件問答、模型分類、店家助手與全端開發能力的互動 Demo。適合想了解我技術能力的客戶、團隊與面試官。",
+    summary: "完整可玩的技術展示成品，讓客戶、團隊與面試官直接體驗文件問答、模型分類、店家 AI 助手與產品展示室。",
     featured: true,
     livePath: "https://ai-tech-quest.vercel.app",
     liveLabel: "線上實測",
@@ -254,7 +254,7 @@ export const projects = [
     slug: "buildflow",
     title: "BuildFlow",
     category: "案例：工程行接案與派工管理系統",
-    summary: "工程行需求、報價、派工、回報、LINE 查詢整合案例。",
+    summary: "工程行流程管理成品，整合需求表單、案件列表、報價紀錄、派工回報與 LINE 查詢。",
     featured: true,
     livePath: "/buildflow",
     liveLabel: "查看 BuildFlow",
@@ -286,7 +286,7 @@ export const projects = [
     slug: "interactive-quiz",
     title: "互動測驗頁",
     category: "教育訓練與測驗題庫網頁",
-    summary: "可做題目、選項、答案解析、結果頁，題庫可用 JSON、Google Sheet 或簡易後台維護。",
+    summary: "教育訓練與活動測驗成品，可交付題目、選項、答案解析、結果頁與題庫維護方式。",
     featured: true,
     livePath: "/works/interactive-quiz#demo",
     liveLabel: "查看測驗規劃",
@@ -313,7 +313,7 @@ export const projects = [
     slug: "ai-business-assistant",
     title: "店家 AI 助手",
     category: "小型店家 FAQ 與自動回覆產品",
-    summary: "小型店家 FAQ 與自動回覆產品，可延伸成 LINE Bot、補習班 FAQ 助手、工作室客服系統。",
+    summary: "店家自動回覆成品，可把 FAQ、常見提問、回答語氣與問題紀錄整理成可使用的客服入口。",
     featured: true,
     livePath: "https://ai-tech-quest.vercel.app/missions/business",
     liveLabel: "查看 Demo",

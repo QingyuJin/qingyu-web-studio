@@ -97,22 +97,62 @@ const problemCards = [
 ]
 
 const pricePlans = [
-  ["一頁式網站", "5,000 元起", "適合個人品牌、小店開張、活動頁，需要清楚介紹服務與聯絡方式。"],
-  ["店家網站", "8,000 元起", "適合需要服務介紹、案例、地圖、LINE / IG 入口與表單收單的店家。"],
-  ["舊站優化 / 手機版調整", "3,000 元起", "適合已有網站，但手機不好讀、CTA 不明顯、內容需要整理。"],
-  ["互動測驗頁基本版", "6,000 元起", "適合課程測驗、活動問答、教育訓練或簡單結果頁。"],
-  ["Google Sheet 題庫測驗版", "10,000 元起", "適合題目會更新、想用表格維護題庫的測驗頁。"],
-  ["LINE Bot / FAQ 自動回覆", "8,000 元起", "適合常被問營業時間、價目表、預約方式與課程資訊的店家。"],
-  ["小型後台", "20,000 元起", "適合需要管理資料、案件、FAQ、表單收件或簡單狀態的團隊。"],
-  ["接案流程系統", "30,000 元起", "適合工程行、維修、裝修等需要需求、報價、派工與回報流程的服務業。"],
-  ["月維護", "800 元起", "適合需要小修改、上線後協助、備份檢查或第三方服務設定支援的專案。"],
+  ["小店上線網站包", "5,000 元起", "交付一個手機好讀、可放 LINE / IG / Google Map、能收表單的一頁式網站。"],
+  ["店家形象網站包", "8,000 元起", "交付服務介紹、案例、地圖、聯絡入口與基本搜尋整理，適合店家正式對外使用。"],
+  ["舊站救援包", "3,000 元起", "把既有網站整理成手機可讀、CTA 明確、資訊不混亂的版本。"],
+  ["互動測驗基本包", "6,000 元起", "交付題目頁、作答流程、答案解析與結果頁，適合課程、活動與教育訓練。"],
+  ["題庫測驗升級包", "10,000 元起", "交付可用 JSON 或 Google Sheet 維護題目的測驗頁，適合題目會持續更新的團隊。"],
+  ["店家自動回覆包", "8,000 元起", "交付 FAQ、自動回覆流程與問題紀錄，可延伸成 LINE Bot。"],
+  ["小型後台包", "20,000 元起", "交付可管理資料、案件、FAQ、表單收件或簡單狀態的小後台。"],
+  ["工程行流程管理包", "30,000 元起", "交付需求表單、案件列表、報價紀錄、派工回報與 LINE 查詢流程。"],
+  ["月維護安心包", "800 元起", "交付小修改、上線協助、備份檢查與第三方服務設定支援。"],
+]
+
+const productPackages = [
+  {
+    title: "小店上線網站包",
+    price: "5,000 元起",
+    fit: "適合小店、工作室、個人品牌。",
+    outcome: "一個能介紹服務、放地圖與聯絡方式、手機好讀、可直接拿去對外分享的網站。",
+    includes: ["一頁式首頁", "手機版 RWD", "LINE / IG / Google Map", "表單收單", "基本 SEO"],
+    to: "/services",
+    action: "看網站方案",
+  },
+  {
+    title: "互動測驗商品包",
+    price: "6,000 元起",
+    fit: "適合教育訓練、補習班、課程、活動測驗。",
+    outcome: "一個使用者可以作答、看解析、拿到結果的互動測驗成品。",
+    includes: ["題目頁", "選項作答", "答案解析", "結果頁", "JSON / Google Sheet 題庫"],
+    to: "/works/interactive-quiz",
+    action: "看測驗成品",
+  },
+  {
+    title: "店家自動回覆包",
+    price: "8,000 元起",
+    fit: "適合常被問營業時間、價目表、預約方式的店家。",
+    outcome: "一個能回覆常見問題、記錄顧客提問、未來可接 LINE Bot 的店家助手。",
+    includes: ["FAQ 整理", "自動回覆", "問題紀錄", "店家語氣", "LINE Bot 延伸"],
+    to: "/tools/linebot-mission#demo",
+    action: "看自動回覆 Demo",
+  },
+  {
+    title: "工程行流程管理包",
+    price: "30,000 元起",
+    fit: "適合工程行、防水、水電、裝修與維修服務團隊。",
+    outcome: "一套把需求、報價、派工、現場回報與 LINE 查詢串起來的流程系統。",
+    includes: ["需求表單", "案件列表", "報價紀錄", "派工回報", "LINE 查詢"],
+    to: "/buildflow",
+    action: "打開 BuildFlow",
+    featured: true,
+  },
 ]
 
 const caseCards = [
   {
     title: "BuildFlow",
     label: "案例：工程行接案與派工管理系統",
-    text: "工程行需求、報價、派工、回報、LINE 查詢整合案例。",
+    text: "完整流程案例：前台需求表單、後台案件管理、報價紀錄、派工回報與 LINE 查詢。",
     to: "/buildflow",
     action: "查看 BuildFlow",
     primary: true,
@@ -120,7 +160,7 @@ const caseCards = [
   {
     title: "互動測驗頁",
     label: "教育訓練與測驗題庫網頁",
-    text: "可做題目、選項、答案解析、結果頁，題庫可用 JSON、Google Sheet 或簡易後台維護。",
+    text: "可交付成測驗商品：題目、選項、答案解析、結果頁，題庫可用 JSON、Google Sheet 或簡易後台維護。",
     to: "/works/interactive-quiz",
     action: "查看測驗規劃",
   },
@@ -217,6 +257,7 @@ function StudioHome() {
       </section>
 
       <ProblemSection />
+      <ProductPackageSection />
       <PricingSection />
       <CaseSection />
       <ProcessSection />
@@ -245,6 +286,55 @@ function ProblemSection() {
   )
 }
 
+function ProductPackageSection() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <SectionHeading
+          eyebrow="完整商品包"
+          title="不要只看功能，直接看你會拿到什麼成品"
+          text="每個方塊都是可以討論、報價、交付與上線的商品包。功能只是材料，最後要交到你手上的，是能被客戶使用的完整成品。"
+        />
+        <div className="grid gap-4 lg:grid-cols-2">
+          {productPackages.map((item) => (
+            <SmartLink
+              key={item.title}
+              to={item.to}
+              className={`rounded-xl border p-5 transition hover:-translate-y-0.5 hover:shadow-lg ${
+                item.featured ? "border-[#0d6b62] bg-[#111c22] text-white" : "border-[#e3ded3] bg-[#faf8f3] text-[#111c22]"
+              }`}
+            >
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <p className={`text-xs font-black uppercase tracking-[0.18em] ${item.featured ? "text-[#8fd6cc]" : "text-[#0d6b62]"}`}>
+                    可交付商品
+                  </p>
+                  <h3 className="mt-3 text-2xl font-black">{item.title}</h3>
+                </div>
+                <p className={`rounded-full px-3 py-1 text-sm font-black ${item.featured ? "bg-white text-[#111c22]" : "bg-white text-[#0d6b62]"}`}>
+                  {item.price}
+                </p>
+              </div>
+              <p className={`mt-4 text-sm font-black ${item.featured ? "text-[#8fd6cc]" : "text-[#0d6b62]"}`}>{item.fit}</p>
+              <p className={`mt-3 text-sm font-bold leading-7 ${item.featured ? "text-white/75" : "text-[#52605c]"}`}>{item.outcome}</p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {item.includes.map((part) => (
+                  <span key={part} className={`rounded-full px-3 py-1 text-xs font-black ${item.featured ? "bg-white/10 text-white" : "bg-white text-[#52605c]"}`}>
+                    {part}
+                  </span>
+                ))}
+              </div>
+              <span className={`mt-5 inline-flex min-h-10 items-center rounded-md px-4 text-sm font-black ${item.featured ? "bg-white text-[#111c22]" : "bg-[#111c22] text-white"}`}>
+                {item.action}
+              </span>
+            </SmartLink>
+          ))}
+        </div>
+      </div>
+    </section>
+  )
+}
+
 function PricingSection() {
   return (
     <section id="pricing" className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
@@ -252,7 +342,7 @@ function PricingSection() {
         <SectionHeading
           eyebrow="服務與參考價格"
           title="小型專案參考價"
-          text="以下為早期合作參考價，實際依頁數、功能、資料整理程度與維護需求調整。"
+          text="價格以商品包思考：先確認你要拿到哪一種成品，再依頁數、資料整理程度、串接與維護需求調整。"
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {pricePlans.map(([name, price, text]) => (
@@ -272,7 +362,7 @@ function CaseSection() {
   return (
     <section id="cases" className="scroll-mt-20 border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="作品案例" title="先看我做過或已規劃好的成品" text="排序依照接案展示優先：先看商業流程，再看測驗頁與技術展示。" />
+        <SectionHeading eyebrow="作品案例" title="直接看實物與成品" text="排序依照接案展示優先：先看可落地的商業流程與測驗商品，再看 AI 技術展示。" />
         <div className="grid gap-4 lg:grid-cols-2">
           {caseCards.map((item) => (
             <SmartLink

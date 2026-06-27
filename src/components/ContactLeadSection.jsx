@@ -7,18 +7,20 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  service_type: "網站 / 一頁式網站",
+  service_type: "小店上線網站包",
   budget_range: "還不確定",
   message: "",
 }
 
 const serviceOptions = [
-  "網站 / 一頁式網站",
-  "互動測驗頁",
-  "自動回覆 / LINE Bot",
-  "接案流程 / 小型後台",
-  "專題或作品展示",
-  "AI 工具 / 文件問答",
+  "小店上線網站包",
+  "店家形象網站包",
+  "互動測驗商品包",
+  "店家自動回覆包",
+  "工程行流程管理包",
+  "小型後台包",
+  "文件問答商品包",
+  "互動式技術展示包",
   "不確定，想先討論",
 ]
 const budgetOptions = ["還不確定", "3,000-5,000 元", "6,000-10,000 元", "10,000-20,000 元", "20,000-30,000 元", "30,000 元以上"]
@@ -30,7 +32,7 @@ function ContactLeadSection() {
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好，我想討論網站、互動測驗、LINE Bot、自動回覆或小型後台需求。",
+      "你好，我想討論一個可交付的網站、互動測驗、LINE Bot、自動回覆或小型後台商品包。",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
       `項目：${form.service_type}`,
@@ -84,10 +86,10 @@ function ContactLeadSection() {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-            聊聊你想做的網站、測驗頁、AI 工具或接案流程
+            聊聊你想做的成品
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            可以先傳產業、想解決的問題、常見客戶訊息、目前怎麼收單，以及預算與希望上線時間。
+            可以先傳產業、想解決的問題、目前怎麼收單、想要哪一種商品包，以及預算與希望上線時間。
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -120,7 +122,7 @@ function ContactLeadSection() {
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：我想做一頁式網站、互動測驗頁、LINE Bot 自動回覆，或把接案流程整理成小型後台。"
+                placeholder="例如：我想做小店上線網站包、互動測驗商品包、店家自動回覆包，或把工程接案流程整理成小型後台。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>
