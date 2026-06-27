@@ -14,13 +14,14 @@ const initialForm = {
 
 const serviceOptions = [
   "網站 / 一頁式網站",
+  "互動測驗頁",
   "自動回覆 / LINE Bot",
   "接案流程 / 小型後台",
   "專題或作品展示",
   "AI 工具 / 文件問答",
   "不確定，想先討論",
 ]
-const budgetOptions = ["還不確定", "NT$3,000-5,000", "NT$6,000-12,000", "NT$15,000-30,000", "NT$30,000 以上"]
+const budgetOptions = ["還不確定", "3,000-5,000 元", "6,000-10,000 元", "10,000-20,000 元", "20,000-30,000 元", "30,000 元以上"]
 
 function ContactLeadSection() {
   const [form, setForm] = useState(initialForm)
@@ -29,7 +30,7 @@ function ContactLeadSection() {
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好，我想討論網站、LINE Bot、自動回覆或小型後台需求。",
+      "你好，我想討論網站、互動測驗、LINE Bot、自動回覆或小型後台需求。",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
       `項目：${form.service_type}`,
@@ -83,7 +84,7 @@ function ContactLeadSection() {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
           <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-            聊聊你想做的網站、AI 工具或接案流程
+            聊聊你想做的網站、測驗頁、AI 工具或接案流程
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
             可以先傳產業、想解決的問題、常見客戶訊息、目前怎麼收單，以及預算與希望上線時間。
@@ -119,7 +120,7 @@ function ContactLeadSection() {
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：我想做一頁式網站、LINE Bot 自動回覆，或把接案流程整理成小型後台。"
+                placeholder="例如：我想做一頁式網站、互動測驗頁、LINE Bot 自動回覆，或把接案流程整理成小型後台。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>

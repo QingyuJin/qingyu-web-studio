@@ -90,6 +90,7 @@ function ActionLink({ to, children, ...props }) {
 function WorkPreview({ project }) {
   const panels = {
     "ai-tech-quest": ["RAG 任務", "ML 分類", "產品展示室"],
+    "interactive-quiz": ["題目頁", "答案解析", "結果頁"],
     "ai-business-assistant": ["FAQ 後台", "自動回覆", "問答紀錄"],
     "tw-civic-rag": ["文件切分", "來源引用", "安全回答"],
     "unity-ai-tutor": ["Unity 2D", "AI 提示", "WebGL"],
@@ -103,6 +104,7 @@ function WorkPreview({ project }) {
   }
   const previewMeta = {
     "ai-tech-quest": { status: "技術展示", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
+    "interactive-quiz": { status: "測驗頁", metric: "RWD", summary: "題目 → 作答 → 解析 → 結果" },
     "ai-business-assistant": { status: "店家助手", metric: "FAQ", summary: "FAQ → matching → 自動回覆" },
     "tw-civic-rag": { status: "文件問答", metric: "RAG", summary: "文件檢索增強生成（RAG）+ 來源引用" },
     "unity-ai-tutor": { status: "學習關卡", metric: "WebGL", summary: "Unity 互動學習展示" },
@@ -213,6 +215,7 @@ const workBusinessValues = {
   linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
   buildflow: "工程行需求、報價、派工、回報、LINE 查詢整合案例。",
   "ai-tech-quest": "互動式 AI 技術展示 Demo，展示文件問答、模型分類、店家 AI 助手與產品展示室。",
+  "interactive-quiz": "教育訓練與測驗題庫網頁，可做題目、選項、答案解析與結果頁。",
   "ai-business-assistant": "小型店家 FAQ 與自動回覆產品。",
   "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
   "unity-ai-tutor": "互動式學習展示。",
@@ -226,6 +229,7 @@ const conciseWorkValues = {
   "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
   linebot: "讓 LINE 訊息自動整理成需求。",
   buildflow: "案例：工程行接案與派工管理系統。",
+  "interactive-quiz": "教育訓練與測驗題庫網頁。",
   "ai-tech-quest": "這是展示 AI 文件問答、模型分類、店家助手與全端開發能力的互動 Demo。",
   "ai-business-assistant": "小型店家 FAQ 與自動回覆產品。",
   "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
@@ -281,15 +285,15 @@ export function WorksPage() {
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
   const primaryProducts = [
     projectBySlug.buildflow,
+    projectBySlug["interactive-quiz"],
     projectBySlug["ai-tech-quest"],
     projectBySlug["ai-business-assistant"],
     projectBySlug["tw-civic-rag"],
-    projectBySlug["unity-ai-tutor"],
   ].filter(Boolean)
   const sections = [
     {
       title: "接案案例與產品展示",
-      text: "依照客戶最容易理解的順序：先看商業流程案例，再看技術展示與可延伸產品。",
+      text: "依照接案展示優先：先看商業流程與互動測驗，再看技術展示與可延伸產品。",
       items: primaryProducts,
     },
     {
@@ -305,7 +309,7 @@ export function WorksPage() {
   ]
 
   return (
-    <PageShell page={seo.works} title="作品案例" intro="從工程行接案流程、AI 技術展示，到店家自動回覆與文件問答產品，這裡整理成客戶看得懂的案例入口。">
+    <PageShell page={seo.works} title="作品案例" intro="從工程行接案流程、互動測驗頁、AI 技術展示，到店家自動回覆與文件問答產品，這裡整理成客戶看得懂的案例入口。">
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-10">
           {sections.map((section) => (
@@ -995,17 +999,17 @@ export function ServicesPage() {
   return (
     <PageShell
       page={seo.services}
-      eyebrow="AI 自動化接案服務"
-      title="把重複回答、文件查詢與案件流程做成可使用的 AI 產品"
-      intro="我協助小型店家、工作室、補習班與工程行，把 FAQ、文件、LINE 訊息、表單與後台流程整理成可展示、可上線、可逐步擴充的產品。"
+      eyebrow="接案服務"
+      title="網站、互動測驗、LINE Bot 與小型後台"
+      intro="我協助小型店家、工作室、補習班與工程行，把網站、測驗頁、FAQ、LINE 訊息、表單與後台流程整理成可展示、可上線、可逐步擴充的產品。"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
             討論我的需求
           </Link>
-          <ActionLink to="https://ai-tech-quest.vercel.app/demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-            看 3 分鐘 AI Demo
-          </ActionLink>
+          <Link to="/pricing" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            看參考價格
+          </Link>
         </>
       }
     >
@@ -1025,10 +1029,10 @@ export function ServicesPage() {
           <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">可委託項目</p>
-              <h2 className="mt-3 text-3xl font-black md:text-4xl">從 Demo 到可上線 MVP</h2>
+              <h2 className="mt-3 text-3xl font-black md:text-4xl">先做能用版本，再逐步升級</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              每個服務都先做可試用版本，再依你的資料量、預算與使用場景決定是否接資料庫、LINE Bot 或 AI API。
+              每個服務都先把範圍與交付講清楚，再依你的資料量、預算與使用場景決定是否接資料庫、LINE Bot 或 AI API。
             </p>
           </div>
 
@@ -1121,9 +1125,9 @@ function ServiceFact({ title, text }) {
 
 export function PricingPage() {
   return (
-    <PageShell page={seo.pricing} title="簡單好懂的方案" intro="小型網站可從基礎方案開始，系統、AI 工具與 LINE Bot 依需求估價。">
+    <PageShell page={seo.pricing} title="小型專案參考價" intro="以下為早期合作參考價，實際依頁數、功能、資料整理程度與維護需求調整。">
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-4 md:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {pricing.map(([name, price, text]) => (
             <Card key={name}>
               <h2 className="text-2xl font-black">{name}</h2>

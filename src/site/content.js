@@ -10,25 +10,25 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜直接看網站、LINE Bot、後台系統與 AI Demo 成品",
+    title: "Qingyu Web Studio｜網站、互動測驗、LINE Bot 與小型後台接案服務",
     description:
-      "直接查看 Qingyu Web Studio 已做出的 BuildFlow 工程行系統、工程行網站案例、LINE Bot 自動回覆、網站救援 Demo 與 AI 技術任務。",
+      "協助小型店家、工作室與團隊製作一頁式網站、互動測驗頁、LINE Bot、自動回覆、接案表單與小型後台。",
   },
   works: {
     path: "/works",
-    title: "作品案例｜BuildFlow、AI 技術任務、店家 AI 助手與網站系統｜Qingyu Web Studio",
-    description: "查看 Qingyu Web Studio 的精選案例，包含 BuildFlow 工程行接案與派工管理系統、AI 技術任務、店家 AI 助手與文件問答產品。",
+    title: "作品案例｜BuildFlow、互動測驗頁、AI 技術任務與店家 AI 助手｜Qingyu Web Studio",
+    description: "查看 Qingyu Web Studio 的精選案例，包含 BuildFlow 工程行系統、互動測驗頁、AI 技術任務、店家 AI 助手與文件問答產品。",
   },
   services: {
     path: "/services",
-    title: "網站與 AI 工具接案服務｜LINE Bot、自動回覆、接案流程與小型後台｜Qingyu Web Studio",
+    title: "網站、互動測驗、LINE Bot 與小型後台接案服務｜Qingyu Web Studio",
     description:
-      "提供一頁式網站、LINE Bot、自動回覆、接案表單、報價流程、小型後台、文件檢索增強生成（RAG）與互動式 Demo 製作服務。",
+      "提供一頁式網站、互動測驗頁、店家網站、LINE Bot、自動回覆、接案表單、報價流程、小型後台與文件檢索增強生成（RAG）展示服務。",
   },
   pricing: {
     path: "/pricing",
-    title: "價格方案｜Qingyu Web Studio",
-    description: "小型網站可從基礎方案開始，系統與 AI 工具依需求估價。",
+    title: "小型專案參考價｜Qingyu Web Studio",
+    description: "一頁式網站、店家網站、互動測驗頁、LINE Bot、小型後台與接案流程系統的早期合作參考價。",
   },
   audit: {
     path: "/free-audit",
@@ -58,11 +58,11 @@ export const seo = {
 }
 
 export const serviceCategories = [
-  ["網站與品牌入口", "一頁式網站、手機版 RWD、LINE / IG / Google Map、表單收單。"],
+  ["網站與品牌入口", "一頁式網站、手機版 RWD、LINE / IG / Google Map、表單收單、基本 SEO。"],
+  ["互動測驗頁", "題目頁、選項作答、答案解析、結果頁、JSON / Google Sheet 題庫。"],
   ["自動回覆與 LINE Bot", "把常見問題、預約、價格、課程與服務資訊整理成可自動回覆流程。"],
   ["接案流程與小型後台", "把需求、案件、報價、狀態、照片與紀錄整理成可管理介面。"],
   ["文件問答系統", "把 PDF、文件與內部資料做成可查詢、可引用來源的問答工具。"],
-  ["互動式 Demo 與作品展示", "把專題、作品集、AI / ML / RAG 概念包裝成可試用的展示頁。"],
 ]
 
 export const serviceOfferings = [
@@ -100,6 +100,17 @@ export const serviceOfferings = [
     proof: "BuildFlow 已有可操作後台，能展示案件管理、工程流程與 LINE Bot 整合方向。",
   },
   {
+    id: "interactive-quiz",
+    name: "互動測驗頁",
+    label: "教育訓練 / 活動測驗",
+    summary: "把題目、選項、答案解析與結果頁做成手機可用的互動測驗，可用 JSON、Google Sheet 或簡易後台維護題庫。",
+    targetUsers: "教育訓練、補習班、課程、公司內訓、活動測驗、學生專題",
+    problem: "測驗內容散在簡報或表單裡，不好展示，也不容易做成品牌化、可分享的互動頁。",
+    deliverables: ["題目頁", "選項作答", "答案解析", "結果頁", "圖片素材", "題庫資料結構"],
+    demoPath: "/works/interactive-quiz",
+    proof: "可先用前端資料或 Google Sheet 題庫做 MVP，再依需求接後台管理。",
+  },
+  {
     id: "interactive-ai-demo",
     name: "互動式 AI 產品展示",
     label: "展示 / 履歷 / 教育",
@@ -113,10 +124,12 @@ export const serviceOfferings = [
 ]
 
 export const serviceWorkflow = [
-  ["01", "釐清場景", "先確認你的使用者、常見問題、資料來源與希望自動化的流程。"],
-  ["02", "做可試 MVP", "先做能展示、能測試、能收回饋的版本，不一開始堆過度複雜功能。"],
-  ["03", "接資料與通知", "依需求接 Supabase、LINE Bot、API、Email 或後台權限。"],
-  ["04", "上線與迭代", "部署到 Vercel / Render，整理測試腳本、操作說明與下一版功能。"],
+  ["01", "初步討論需求", "先確認要做網站、測驗頁、自動回覆，還是小型後台。"],
+  ["02", "確認範圍與報價", "把頁數、功能、資料整理程度與上線時間先講清楚。"],
+  ["03", "製作初版畫面", "先做能看的版本，讓你確認方向和使用流程。"],
+  ["04", "修改 1～2 次", "依討論範圍調整文案、版面、流程與小問題。"],
+  ["05", "上線交付", "部署到 Vercel 或約定平台，提供基本操作說明。"],
+  ["06", "後續維護另談", "錯誤修正與新增功能不同，第三方 API、主機、瀏覽器政策變動會另外討論維護方式。"],
 ]
 
 export const techStack = [
@@ -143,9 +156,15 @@ export const processSteps = [
 export const audience = ["個人品牌", "小型店家", "工作室", "學生", "新創", "工程服務業"]
 
 export const pricing = [
-  ["基礎", "NT$3,000～5,000", "適合作品集、一頁式網站、活動頁與簡單形象頁。"],
-  ["標準", "NT$6,000～12,000", "適合品牌網站、店家網站、服務頁與需要完整 CTA 的網站。"],
-  ["進階", "NT$15,000 起", "適合小型系統、AI 工具、LINE Bot、API 串接與後台 Demo。"],
+  ["一頁式網站", "5,000 元起", "適合個人品牌、小店開張、活動頁，需要清楚介紹服務與聯絡方式。"],
+  ["店家網站", "8,000 元起", "適合服務介紹、案例、地圖、LINE / IG 入口與表單收單。"],
+  ["舊站優化 / 手機版調整", "3,000 元起", "適合已有網站，但手機不好讀、CTA 不明顯、內容需要整理。"],
+  ["互動測驗頁基本版", "6,000 元起", "適合課程測驗、活動問答、教育訓練或簡單結果頁。"],
+  ["Google Sheet 題庫測驗版", "10,000 元起", "適合題目會更新、想用表格維護題庫的測驗頁。"],
+  ["LINE Bot / FAQ 自動回覆", "8,000 元起", "適合常被問營業時間、價目表、預約方式與課程資訊的店家。"],
+  ["小型後台", "20,000 元起", "適合需要管理資料、案件、FAQ、表單收件或簡單狀態的團隊。"],
+  ["接案流程系統", "30,000 元起", "適合工程行、維修、裝修等需要需求、報價、派工與回報流程的服務業。"],
+  ["月維護", "800 元起", "適合需要小修改、上線後協助、備份檢查或第三方服務設定支援的專案。"],
 ]
 
 export const projects = [
@@ -262,6 +281,33 @@ export const projects = [
     steps: ["客戶送出需求", "後台建立案件", "整理報價與派工", "師傅回報進度", "LINE 查詢案件狀態"],
     mobile: "手機版以案件卡、流程節點和重要 CTA 優先，不讓工程資訊變成密密麻麻表格。",
     future: ["Supabase 資料庫", "LINE 通知", "報價單 PDF", "客戶進度查詢"],
+  },
+  {
+    slug: "interactive-quiz",
+    title: "互動測驗頁",
+    category: "教育訓練與測驗題庫網頁",
+    summary: "可做題目、選項、答案解析、結果頁，題庫可用 JSON、Google Sheet 或簡易後台維護。",
+    featured: true,
+    livePath: "/works/interactive-quiz#demo",
+    liveLabel: "查看測驗規劃",
+    secondaryPath: "/contact",
+    secondaryLabel: "討論測驗頁",
+    tags: ["互動測驗", "JSON 題庫", "Google Sheet 題庫", "手機版 RWD", "結果頁"],
+    problem: "教育訓練、補習班、課程或活動測驗常散在簡報、表單或紙本，難以變成有品牌感、可分享、可展示的互動體驗。",
+    solution: "建立題目頁、選項作答、答案解析與結果頁，第一版可用 JSON 題庫，後續再接 Google Sheet 或簡易後台維護題庫。",
+    features: ["題目頁", "選項作答", "答案解析", "結果頁", "圖片素材", "手機版 RWD"],
+    architecture: ["React", "Vite", "Tailwind CSS", "JSON data", "Google Sheet-ready content model"],
+    stack: {
+      Frontend: "React / Vite / Tailwind",
+      Data: "JSON 題庫，未來可接 Google Sheet 或簡易後台",
+      UX: "題目流程、答案解析、結果頁與分享 CTA",
+      Deploy: "Vercel",
+    },
+    visuals: ["題目卡片", "選項作答", "答案解析", "結果頁"],
+    demo: ["選擇題目", "作答", "查看解析", "產生結果頁"],
+    steps: ["整理題庫", "設計測驗流程", "製作手機版畫面", "上線測試", "視需求接題庫維護方式"],
+    mobile: "互動測驗通常在手機上使用，版面會以大按鈕、清楚進度與短文字優先。",
+    future: ["接 Google Sheet 題庫", "加入圖片素材管理", "加入成績紀錄", "加入簡易後台"],
   },
   {
     slug: "ai-business-assistant",
