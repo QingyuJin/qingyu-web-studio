@@ -3,7 +3,7 @@ export const siteUrl = "https://www.qingyuweb.com"
 export const contact = {
   email: "a0988874324@gmail.com",
   lineId: "mulavuc",
-  line: "可以先傳產業、想做的功能、預算與希望上線時間。",
+  line: "傳產業、需求、預算、時程即可。",
   github: "https://github.com/QingyuJin/qingyu-web-studio",
 }
 
@@ -12,57 +12,57 @@ export const seo = {
     path: "/",
     title: "Qingyu Web Studio｜網站、互動測驗、LINE Bot 與小型後台商品包",
     description:
-      "協助小型店家、工作室與團隊製作可交付、可上線、可展示的網站、互動測驗、LINE Bot、自動回覆、接案表單與小型後台商品包。",
+      "網站、互動測驗、LINE Bot、小型後台。把想法做成能上線的成品。",
   },
   works: {
     path: "/works",
-    title: "作品案例｜BuildFlow、互動測驗頁、AI 技術任務與店家 AI 助手｜Qingyu Web Studio",
-    description: "查看 Qingyu Web Studio 的精選案例，包含 BuildFlow 工程行系統、互動測驗頁、AI 技術任務、店家 AI 助手與文件問答產品。",
+    title: "成品入口｜Qingyu Web Studio",
+    description: "直接打開 BuildFlow、互動測驗、AI 技術任務與自動回覆 Demo。",
   },
   services: {
     path: "/services",
-    title: "網站、互動測驗、LINE Bot 與小型後台商品包｜Qingyu Web Studio",
+    title: "服務｜Qingyu Web Studio",
     description:
-      "提供小店上線網站包、互動測驗商品包、店家自動回覆包、工程行流程管理包、小型後台包與文件檢索增強生成（RAG）展示服務。",
+      "網站、測驗、自動回覆、流程系統。",
   },
   pricing: {
     path: "/pricing",
-    title: "小型專案商品包參考價｜Qingyu Web Studio",
-    description: "小店上線網站包、互動測驗商品包、店家自動回覆包、小型後台包與工程行流程管理包的早期合作參考價。",
+    title: "價格｜Qingyu Web Studio",
+    description: "小型專案參考價。",
   },
   audit: {
     path: "/free-audit",
     title: "免費網站健檢｜Qingyu Web Studio",
-    description: "協助檢查手機版、首頁文案、CTA、SEO、版面信任感與網站轉換問題。",
+    description: "檢查手機版、CTA、SEO 與信任感。",
   },
   contact: {
     path: "/contact",
     title: "聯絡 Qingyu Web Studio｜網站製作、AI 工具與 LINE Bot 諮詢",
-    description: "聯絡 Qingyu Web Studio，討論網站、作品集、AI 工具、LINE Bot、API 串接與簡易管理系統。",
+    description: "留下需求，討論網站、LINE Bot 或小後台。",
   },
   planner: {
     path: "/tools/project-planner",
     title: "網站需求診斷工具｜Qingyu Web Studio",
-    description: "用互動式診斷工具判斷你的需求適合網站、作品集、LINE Bot、AI 工具或小型系統，並產生建議方案與技術方向。",
+    description: "快速判斷適合的網站或系統方案。",
   },
   websiteRescue: {
     path: "/tools/website-rescue",
     title: "網站救援互動 Demo｜網站健檢與優化展示｜Qingyu Web Studio",
-    description: "透過高質感互動 Demo 點選改善項目，觀察 CTA、SEO、手機版與信任感如何影響網站狀態。",
+    description: "點選改善項目，看網站狀態變化。",
   },
   lineBotMission: {
     path: "/tools/linebot-mission",
     title: "LINE Bot 接待模擬｜互動式 LINE Bot Demo｜Qingyu Web Studio",
-    description: "透過互動 Demo 體驗 LINE Bot 如何回覆客戶訊息、整理需求、建立案件並同步到後台。",
+    description: "體驗 LINE Bot 接待與後台同步。",
   },
 }
 
 export const serviceCategories = [
-  ["網站與品牌入口", "一頁式網站、手機版 RWD、LINE / IG / Google Map、表單收單、基本 SEO。"],
-  ["互動測驗頁", "題目頁、選項作答、答案解析、結果頁、JSON / Google Sheet 題庫。"],
-  ["自動回覆與 LINE Bot", "把常見問題、預約、價格、課程與服務資訊整理成可自動回覆流程。"],
-  ["接案流程與小型後台", "把需求、案件、報價、狀態、照片與紀錄整理成可管理介面。"],
-  ["文件問答系統", "把 PDF、文件與內部資料做成可查詢、可引用來源的問答工具。"],
+  ["網站", "首頁、地圖、表單、手機版。"],
+  ["測驗", "題目、解析、結果頁。"],
+  ["自動回覆", "FAQ、LINE Bot、紀錄。"],
+  ["流程系統", "需求、案件、報價、派工。"],
+  ["文件問答", "查文件、附來源。"],
 ]
 
 export const serviceOfferings = [
@@ -70,66 +70,66 @@ export const serviceOfferings = [
     id: "business-ai-assistant",
     name: "店家自動回覆包",
     label: "店家 FAQ / LINE Bot",
-    summary: "交付一套可回覆常見問題、記錄顧客提問，未來可延伸成 LINE Bot 的店家助手。",
-    targetUsers: "咖啡店、補習班、工作室、活動團隊、個人服務業",
-    problem: "顧客一直問營業時間、價格、預約、地址與課程資訊，店家靠人工回覆很花時間，也容易漏訊息。",
-    deliverables: ["FAQ 後台", "顧客提問介面", "LINE Bot 流程", "問答紀錄", "店家語氣設定"],
+    summary: "常見問題，自動回覆。",
+    targetUsers: "店家、補習班、工作室",
+    problem: "重複回訊息，很耗時。",
+    deliverables: ["FAQ", "提問介面", "LINE Bot", "紀錄"],
     demoPath: "https://ai-tech-quest.vercel.app/missions/business",
-    proof: "AI 技術任務 Level 3 已可互動試用，展示 FAQ matching、回答紀錄與品牌語氣 fallback。",
+    proof: "AI 技術任務 Level 3 可試用。",
   },
   {
     id: "tw-rag",
     name: "繁體中文文件問答包",
     label: "高技術力服務",
-    summary: "交付一套可查文件、顯示來源引用，並在資料不足時回答不知道的文件問答工具。",
-    targetUsers: "補習班、學生團隊、小公司、工程行、文件很多的工作室",
-    problem: "資料很多但不好找，大家一直重複問同樣問題，AI 如果沒有來源又容易亂答。",
-    deliverables: ["文件上傳規劃", "文件切分", "來源引用", "不知道就回答不知道", "簡易評測"],
+    summary: "查文件、附來源、不亂答。",
+    targetUsers: "補習班、小公司、文件多的團隊",
+    problem: "資料多，不好找。",
+    deliverables: ["文件整理", "來源引用", "不知道就回答不知道"],
     demoPath: "https://ai-tech-quest.vercel.app/missions/rag",
-    proof: "AI 技術任務 Level 1 已可展示文件問答、引用來源、信心分數與幽默但有邊界的回答。",
+    proof: "AI 技術任務 Level 1 可試用。",
   },
   {
     id: "workflow-dashboard",
     name: "工程行流程管理包",
     label: "BuildFlow 商業流程產品",
-    summary: "交付一套把詢價、案件、報價、派工、照片、狀態與 LINE 回報整理好的流程系統。",
-    targetUsers: "工程行、維修團隊、接案工作室、需要案件追蹤的小公司",
-    problem: "需求散在 LINE、表單、照片與口頭紀錄裡，案件一多就不知道誰負責、進度到哪裡。",
-    deliverables: ["案件列表", "狀態管理", "報價資料", "LINE 回報流程", "Supabase MVP 後端"],
+    summary: "需求、報價、派工、回報。",
+    targetUsers: "工程行、維修團隊",
+    problem: "案件散在 LINE、Excel、口頭。",
+    deliverables: ["案件", "狀態", "報價", "LINE 回報"],
     demoPath: "/buildflow",
-    proof: "BuildFlow 已有可操作後台，能展示案件管理、工程流程與 LINE Bot 整合方向。",
+    proof: "BuildFlow 可直接打開。",
   },
   {
     id: "interactive-quiz",
     name: "互動測驗商品包",
     label: "教育訓練 / 活動測驗",
-    summary: "交付一個手機可作答、能看解析、能產生結果頁的互動測驗成品。",
-    targetUsers: "教育訓練、補習班、課程、公司內訓、活動測驗、學生專題",
-    problem: "測驗內容散在簡報或表單裡，不好展示，也不容易做成品牌化、可分享的互動頁。",
-    deliverables: ["題目頁", "選項作答", "答案解析", "結果頁", "圖片素材", "題庫資料結構"],
+    summary: "題目、解析、結果頁。",
+    targetUsers: "課程、活動、教育訓練",
+    problem: "測驗不好看，不好分享。",
+    deliverables: ["題目", "作答", "解析", "結果"],
     demoPath: "/works/interactive-quiz",
-    proof: "可先用前端資料或 Google Sheet 題庫做 MVP，再依需求接後台管理。",
+    proof: "可先用 JSON 或 Google Sheet。",
   },
   {
     id: "interactive-ai-demo",
     name: "互動式技術展示包",
     label: "展示 / 履歷 / 教育",
-    summary: "交付一個可玩的 Demo，把 AI、機器學習（ML）、文件檢索增強生成（RAG）或產品概念變成可展示的成品。",
-    targetUsers: "新創團隊、求職作品集、教育訓練、技術展示、公司內部 Demo",
-    problem: "技術作品如果只剩簡報、notebook 或 GitHub，客戶與面試官很難理解實際體驗。",
-    deliverables: ["互動流程設計", "產品展示頁", "任務式體驗", "Demo 腳本", "GitHub / Vercel 部署"],
+    summary: "把技術變成可玩的 Demo。",
+    targetUsers: "作品集、簡報、技術展示",
+    problem: "只看 GitHub 很難懂。",
+    deliverables: ["互動流程", "展示頁", "Demo", "部署"],
     demoPath: "https://ai-tech-quest.vercel.app",
-    proof: "AI 技術任務已上線展示模式，可用 3 分鐘講完產品定位、RAG、ML、店家助手與產品展示室。",
+    proof: "AI 技術任務已上線。",
   },
 ]
 
 export const serviceWorkflow = [
-  ["01", "初步討論需求", "先確認要做網站、測驗頁、自動回覆，還是小型後台。"],
-  ["02", "確認範圍與報價", "把頁數、功能、資料整理程度與上線時間先講清楚。"],
-  ["03", "製作初版畫面", "先做能看的版本，讓你確認方向和使用流程。"],
-  ["04", "修改 1～2 次", "依討論範圍調整文案、版面、流程與小問題。"],
-  ["05", "上線交付", "部署到 Vercel 或約定平台，提供基本操作說明。"],
-  ["06", "後續維護另談", "錯誤修正與新增功能不同，第三方 API、主機、瀏覽器政策變動會另外討論維護方式。"],
+  ["01", "討論", "需求、預算、時程。"],
+  ["02", "報價", "確認範圍。"],
+  ["03", "初版", "先看畫面。"],
+  ["04", "修改", "調整 1～2 次。"],
+  ["05", "上線", "部署交付。"],
+  ["06", "維護", "另談後續。"],
 ]
 
 export const techStack = [
@@ -147,24 +147,24 @@ export const techStack = [
 ]
 
 export const processSteps = [
-  ["01", "釐清需求", "先確認目標客群、網站用途與最重要的 CTA。"],
-  ["02", "整理內容", "把服務、作品、案例與聯絡方式整理成清楚架構。"],
-  ["03", "設計與開發", "製作手機友善版面、互動元件與必要資料流程。"],
-  ["04", "部署上線", "Vercel 部署、SEO 基礎、Open Graph 與後續調整。"],
+  ["01", "需求", "目標與 CTA。"],
+  ["02", "內容", "服務與案例。"],
+  ["03", "製作", "畫面與流程。"],
+  ["04", "上線", "部署與檢查。"],
 ]
 
 export const audience = ["個人品牌", "小型店家", "工作室", "學生", "新創", "工程服務業"]
 
 export const pricing = [
-  ["小店上線網站包", "5,000 元起", "交付一個手機好讀、可放 LINE / IG / Google Map、能收表單的一頁式網站。"],
-  ["店家形象網站包", "8,000 元起", "交付服務介紹、案例、地圖、聯絡入口與基本搜尋整理，適合店家正式對外使用。"],
-  ["舊站救援包", "3,000 元起", "把既有網站整理成手機可讀、CTA 明確、資訊不混亂的版本。"],
-  ["互動測驗基本包", "6,000 元起", "交付題目頁、作答流程、答案解析與結果頁，適合課程、活動與教育訓練。"],
-  ["題庫測驗升級包", "10,000 元起", "交付可用 JSON 或 Google Sheet 維護題目的測驗頁，適合題目會持續更新的團隊。"],
-  ["店家自動回覆包", "8,000 元起", "交付 FAQ、自動回覆流程與問題紀錄，可延伸成 LINE Bot。"],
-  ["小型後台包", "20,000 元起", "交付可管理資料、案件、FAQ、表單收件或簡單狀態的小後台。"],
-  ["工程行流程管理包", "30,000 元起", "交付需求表單、案件列表、報價紀錄、派工回報與 LINE 查詢流程。"],
-  ["月維護安心包", "800 元起", "交付小修改、上線協助、備份檢查與第三方服務設定支援。"],
+  ["網站包", "5,000 元起", "首頁、手機版、表單。"],
+  ["店家網站", "8,000 元起", "服務、案例、地圖。"],
+  ["舊站整理", "3,000 元起", "手機版與 CTA。"],
+  ["互動測驗", "6,000 元起", "題目、解析、結果。"],
+  ["題庫測驗", "10,000 元起", "JSON / Google Sheet。"],
+  ["自動回覆", "8,000 元起", "FAQ、LINE、紀錄。"],
+  ["小型後台", "20,000 元起", "資料與狀態。"],
+  ["流程系統", "30,000 元起", "需求、報價、派工。"],
+  ["月維護", "800 元起", "小修改與支援。"],
 ]
 
 export const projects = [

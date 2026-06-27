@@ -7,11 +7,10 @@ function isExternalUrl(to) {
 
 const navItems = [
   ["首頁", "/"],
-  ["服務與價格", "/pricing"],
-  ["作品案例", "/works"],
+  ["價格", "/pricing"],
+  ["成品", "/works"],
   ["BuildFlow", "/buildflow"],
-  ["LINE Bot", "/tools/linebot-mission#demo"],
-  ["技術展示", "https://ai-tech-quest.vercel.app"],
+  ["AI 任務", "https://ai-tech-quest.vercel.app"],
   ["聯絡", "/contact"],
 ]
 
@@ -36,7 +35,7 @@ function SiteLayout({ children }) {
     <main className="min-h-screen bg-[#faf8f3] text-[#111c22]">
       <header className="sticky top-0 z-40 border-b border-[#e6e0d5] bg-[#faf8f3]/95 backdrop-blur">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 md:h-16">
-          <Link to="/" className="shrink-0 text-sm font-black tracking-tight md:text-base">
+          <Link to="/" className="shrink-0 text-sm font-black md:text-base">
             Qingyu Web Studio
           </Link>
           <nav className="hidden items-center gap-4 text-xs font-bold text-[#5a6461] lg:flex lg:gap-5 lg:text-sm">
@@ -48,7 +47,7 @@ function SiteLayout({ children }) {
             to="/contact"
             className="inline-flex min-h-9 items-center justify-center rounded-md bg-[#111c22] px-3 text-xs font-black text-white hover:bg-[#26343b] md:px-4 md:text-sm"
           >
-            聊聊需求
+            聯絡
           </Link>
         </div>
       </header>
@@ -58,7 +57,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              網站、LINE Bot、自動回覆、接案表單、報價流程與小型後台製作。
+              網站、測驗、LINE Bot、小後台。
             </p>
           </div>
           <a href={`mailto:${contact.email}`} className="text-sm font-black text-[#0d6b62]">

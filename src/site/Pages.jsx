@@ -21,8 +21,8 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
       <section className="border-b border-[#e6e0d5] bg-white">
         <div className={`mx-auto grid max-w-6xl gap-8 px-4 py-12 md:py-20 ${heroVisual ? "lg:grid-cols-[0.95fr_1.05fr] lg:items-center" : ""}`}>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
-            <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] tracking-tight md:text-[clamp(2.35rem,8vw,4.7rem)] md:leading-[1.04]">
+            <p className="text-xs font-black uppercase text-[#0d6b62]">{eyebrow}</p>
+            <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] md:text-[clamp(2.35rem,8vw,4.7rem)] md:leading-[1.04]">
               {title}
             </h1>
             <p className="mt-5 line-clamp-2 max-w-3xl text-sm font-bold leading-7 text-[#52605c] md:text-base md:leading-8">{intro}</p>
@@ -292,31 +292,31 @@ export function WorksPage() {
   ].filter(Boolean)
   const sections = [
     {
-      title: "可展示成品與商品包",
-      text: "直接點卡片看實物：先看可落地的工程行系統與互動測驗，再看 AI 技術展示與可延伸產品。",
+      title: "主打成品",
+      text: "直接打開。",
       items: primaryProducts,
     },
     {
-      title: "互動工具與其他案例",
-      text: "可以用來診斷需求、展示 LINE Bot 接待或補充既有網站案例。",
+      title: "互動工具",
+      text: "可試用。",
       items: [rescueProject, lineBotMissionProject, plannerProject, projectBySlug.xinjiang].filter(Boolean),
     },
     {
-      title: "網站與自動化工具",
-      text: "把網站健檢、表單、API 與主站本身整理成可委託的服務能力。",
+      title: "其他作品",
+      text: "補充案例。",
       items: [projectBySlug["ai-audit"], projectBySlug["api-automation"], projectBySlug["qingyu-web"]].filter(Boolean),
     },
   ]
 
   return (
-    <PageShell page={seo.works} title="作品案例與成品入口" intro="這裡不是技術清單，而是可以直接打開、試用、理解用途的成品入口。從工程行接案流程、互動測驗頁，到 AI 技術展示與店家自動回覆產品。">
+    <PageShell page={seo.works} title="成品入口" intro="點卡片，直接看實物。">
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-10">
           {sections.map((section) => (
             <div key={section.title}>
               <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">作品</p>
+                  <p className="text-xs font-black text-[#0d6b62]">作品</p>
                   <h2 className="mt-2 text-2xl font-black md:text-3xl">{section.title}</h2>
                 </div>
                 <p className="max-w-xl text-sm font-bold leading-6 text-[#52605c]">{section.text}</p>
@@ -999,16 +999,16 @@ export function ServicesPage() {
   return (
     <PageShell
       page={seo.services}
-      eyebrow="接案服務"
-      title="網站、互動測驗、LINE Bot 與小型後台商品包"
-      intro="我協助小型店家、工作室、補習班與工程行，把零散需求整理成可交付、可上線、可逐步擴充的完整成品。"
+      eyebrow="服務"
+      title="選服務"
+      intro="網站、測驗、LINE Bot、小後台。"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-            討論我的需求
+            聯絡
           </Link>
           <Link to="/pricing" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-            看參考價格
+            看價格
           </Link>
         </>
       }
@@ -1028,35 +1028,33 @@ export function ServicesPage() {
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">可委託項目</p>
-              <h2 className="mt-3 text-3xl font-black md:text-4xl">先做能用版本，再逐步升級</h2>
+              <p className="text-xs font-black text-[#0d6b62]">成品</p>
+              <h2 className="mt-3 text-3xl font-black md:text-4xl">可委託項目</h2>
             </div>
-            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              每個服務都先把範圍與交付講清楚，再依你的資料量、預算與使用場景決定是否接資料庫、LINE Bot 或 AI API。
-            </p>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">先做能用，再逐步升級。</p>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">
             {serviceOfferings.map((service) => (
-              <article key={service.id} className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-5">
+              <article key={service.id} className="rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-5">
                 <div className="flex flex-wrap items-center justify-between gap-3">
-                  <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+                  <span className="rounded-md bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
                     {service.label}
                   </span>
                   <ActionLink to={service.demoPath} className="text-sm font-black text-[#0d6b62]">
-                    看相關 Demo
+                    看 Demo
                   </ActionLink>
                 </div>
                 <h3 className="mt-4 text-2xl font-black text-[#111c22]">{service.name}</h3>
                 <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
 
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
-                  <ServiceFact title="適合誰" text={service.targetUsers} />
-                  <ServiceFact title="解決什麼問題" text={service.problem} />
+                  <ServiceFact title="適合" text={service.targetUsers} />
+                  <ServiceFact title="解決" text={service.problem} />
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-sm font-black text-[#40504c]">會交付什麼</p>
+                  <p className="text-sm font-black text-[#40504c]">交付</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {service.deliverables.map((item) => (
                       <span key={item} className="rounded-md bg-white px-3 py-2 text-xs font-black text-[#40504c]">
@@ -1066,7 +1064,7 @@ export function ServicesPage() {
                   </div>
                 </div>
 
-                <p className="mt-5 rounded-xl border border-[#d8d2c5] bg-white p-4 text-sm font-bold leading-7 text-[#52605c]">
+                <p className="mt-5 rounded-lg border border-[#d8d2c5] bg-white p-4 text-sm font-bold leading-7 text-[#52605c]">
                   {service.proof}
                 </p>
               </article>
@@ -1078,15 +1076,13 @@ export function ServicesPage() {
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">合作流程</p>
-            <h2 className="mt-3 text-3xl font-black">先求能用，再逐步升級</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-              接案不會一開始就把功能做滿，而是先用可展示 MVP 驗證流程，之後再接真資料、權限、付款或通知。
-            </p>
+            <p className="text-xs font-black text-[#0d6b62]">流程</p>
+            <h2 className="mt-3 text-3xl font-black">合作流程</h2>
+            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">範圍清楚，再開做。</p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
             {serviceWorkflow.map(([step, title, text]) => (
-              <div key={step} className="rounded-xl border border-[#e3ded3] bg-white p-5">
+              <div key={step} className="rounded-lg border border-[#e3ded3] bg-white p-5">
                 <p className="text-xs font-black text-[#0d6b62]">{step}</p>
                 <h3 className="mt-2 text-xl font-black">{title}</h3>
                 <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
@@ -1095,17 +1091,15 @@ export function ServicesPage() {
           </div>
         </div>
 
-        <div className="mt-10 rounded-2xl border border-[#e3ded3] bg-[#111c22] p-6 text-white">
+        <div className="mt-10 rounded-lg border border-[#e3ded3] bg-[#111c22] p-6 text-white">
           <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
             <div>
-              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">下一步</p>
-              <h2 className="mt-3 text-2xl font-black">你只要先給我一個想自動化的流程。</h2>
-              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">
-                例如：顧客常問問題、PDF 文件很多、LINE 訊息太散、工程案件不好追，或想把 AI 技術做成可展示 Demo。
-              </p>
+              <p className="text-xs font-black text-[#8fd6cc]">下一步</p>
+              <h2 className="mt-3 text-2xl font-black">給我一個想法即可。</h2>
+              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">我幫你整理成可做方案。</p>
             </div>
             <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
-              送出需求
+              聯絡
             </Link>
           </div>
         </div>
@@ -1116,7 +1110,7 @@ export function ServicesPage() {
 
 function ServiceFact({ title, text }) {
   return (
-    <div className="rounded-xl border border-[#e3ded3] bg-white p-4">
+    <div className="rounded-lg border border-[#e3ded3] bg-white p-4">
       <p className="text-sm font-black text-[#0d6b62]">{title}</p>
       <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
     </div>
@@ -1125,7 +1119,7 @@ function ServiceFact({ title, text }) {
 
 export function PricingPage() {
   return (
-    <PageShell page={seo.pricing} title="小型專案商品包參考價" intro="先選你想拿到哪一種成品，再依頁數、資料整理程度、串接與維護需求調整。以下為早期合作參考價。">
+    <PageShell page={seo.pricing} title="參考價" intro="實際依範圍調整。">
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {pricing.map(([name, price, text]) => (
