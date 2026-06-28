@@ -31,8 +31,9 @@ function App() {
     <Suspense fallback={<PageFallback />}>
       <Routes>
         <Route path="/" element={<StudioHome />} />
-        <Route path="/works" element={<WorksPage />} />
+        <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
+        <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/free-audit" element={<FreeAuditPage />} />
@@ -55,6 +56,7 @@ function App() {
         <Route path="/contractor-site" element={<ContractorSite />} />
 
         <Route path="/buildflow" element={<BuildFlow />} />
+        <Route path="/coachflow" element={<Navigate to="/works" replace />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
