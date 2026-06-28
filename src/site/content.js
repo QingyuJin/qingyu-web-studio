@@ -10,9 +10,9 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜網站、互動測驗、LINE Bot 與小型後台商品包",
+    title: "Qingyu Web Studio｜小型網站、測驗頁、LINE Bot、小後台製作",
     description:
-      "網站、互動測驗、LINE Bot、小型後台。把想法做成能上線的成品。",
+      "適合店家、工作室、工程行、個人品牌與學生專題。先從可用版本開始，再依需求擴充。",
   },
   works: {
     path: "/works",
@@ -21,9 +21,9 @@ export const seo = {
   },
   services: {
     path: "/services",
-    title: "服務｜Qingyu Web Studio",
+    title: "服務包｜Qingyu Web Studio",
     description:
-      "網站、測驗、自動回覆、流程系統。",
+      "網站快速包、互動測驗包、LINE 回覆包、小後台流程包。",
   },
   pricing: {
     path: "/pricing",
@@ -37,8 +37,8 @@ export const seo = {
   },
   contact: {
     path: "/contact",
-    title: "聯絡 Qingyu Web Studio｜網站製作、AI 工具與 LINE Bot 諮詢",
-    description: "留下需求，討論網站、LINE Bot 或小後台。",
+    title: "填需求表單｜Qingyu Web Studio",
+    description: "留下網站、測驗頁、LINE 回覆或小後台需求。",
   },
   planner: {
     path: "/tools/project-planner",
@@ -58,78 +58,69 @@ export const seo = {
 }
 
 export const serviceCategories = [
-  ["網站", "首頁、地圖、表單、手機版。"],
-  ["測驗", "題目、解析、結果頁。"],
-  ["自動回覆", "FAQ、LINE Bot、紀錄。"],
-  ["流程系統", "需求、案件、報價、派工。"],
-  ["文件問答", "查文件、附來源。"],
+  ["網站快速包", "一頁式網站、店家頁、作品集、手機版 RWD。"],
+  ["互動測驗包", "題目、選項、答案解析、結果頁。"],
+  ["LINE 回覆包", "常見問題、自動回覆、預約說明。"],
+  ["小後台流程包", "表單收件、案件列表、狀態管理。"],
 ]
 
 export const serviceOfferings = [
   {
-    id: "business-ai-assistant",
-    name: "店家自動回覆包",
-    label: "店家 FAQ / LINE Bot",
-    summary: "常見問題，自動回覆。",
-    targetUsers: "店家、補習班、工作室",
-    problem: "重複回訊息，很耗時。",
-    deliverables: ["FAQ", "提問介面", "LINE Bot", "紀錄"],
-    demoPath: "https://ai-tech-quest.vercel.app/missions/business",
-    proof: "AI 技術任務 Level 3 可試用。",
+    id: "website-fast",
+    name: "網站快速包",
+    label: "5,000 元起",
+    price: "5,000 元起",
+    summary: "一頁式網站、店家頁、作品集、手機版 RWD。",
+    targetUsers: "小店、工作室、個人品牌、活動頁。",
+    problem: "需要一個能上線、能被客人看懂的網站。",
+    deliverables: ["首頁或一頁式網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
+    demoPath: "/contractor-site",
+    proof: "先做可用版本，再依需求擴充。",
   },
   {
-    id: "tw-rag",
-    name: "繁體中文文件問答包",
-    label: "高技術力服務",
-    summary: "查文件、附來源、不亂答。",
-    targetUsers: "補習班、小公司、文件多的團隊",
-    problem: "資料多，不好找。",
-    deliverables: ["文件整理", "來源引用", "不知道就回答不知道"],
-    demoPath: "https://ai-tech-quest.vercel.app/missions/rag",
-    proof: "AI 技術任務 Level 1 可試用。",
-  },
-  {
-    id: "workflow-dashboard",
-    name: "工程行流程管理包",
-    label: "BuildFlow 商業流程產品",
-    summary: "需求、報價、派工、回報。",
-    targetUsers: "工程行、維修團隊",
-    problem: "案件散在 LINE、Excel、口頭。",
-    deliverables: ["案件", "狀態", "報價", "LINE 回報"],
-    demoPath: "/buildflow",
-    proof: "BuildFlow 可直接打開。",
-  },
-  {
-    id: "interactive-quiz",
-    name: "互動測驗商品包",
-    label: "教育訓練 / 活動測驗",
-    summary: "題目、解析、結果頁。",
-    targetUsers: "課程、活動、教育訓練",
-    problem: "測驗不好看，不好分享。",
-    deliverables: ["題目", "作答", "解析", "結果"],
+    id: "quiz-package",
+    name: "互動測驗包",
+    label: "6,000 元起",
+    price: "6,000 元起",
+    summary: "題目、選項、答案解析、結果頁。",
+    targetUsers: "教育訓練、課程複習、公司內訓、活動測驗。",
+    problem: "需要好操作、可展示、可更新的測驗頁。",
+    deliverables: ["題目與選項", "答案解析", "結果頁", "圖片素材", "JSON / Google Sheet 題庫"],
     demoPath: "/works/interactive-quiz",
-    proof: "可先用 JSON 或 Google Sheet。",
+    proof: "可先用 JSON，之後再接 Google Sheet。",
   },
   {
-    id: "interactive-ai-demo",
-    name: "互動式技術展示包",
-    label: "展示 / 履歷 / 教育",
-    summary: "把技術變成可玩的 Demo。",
-    targetUsers: "作品集、簡報、技術展示",
-    problem: "只看 GitHub 很難懂。",
-    deliverables: ["互動流程", "展示頁", "Demo", "部署"],
-    demoPath: "https://ai-tech-quest.vercel.app",
-    proof: "AI 技術任務已上線。",
+    id: "line-reply",
+    name: "LINE 回覆包",
+    label: "8,000 元起",
+    price: "8,000 元起",
+    summary: "常見問題、自動回覆、預約說明、價目表回覆。",
+    targetUsers: "常被問營業時間、價目表、預約方式的店家。",
+    problem: "重複回覆很耗時，也容易漏訊息。",
+    deliverables: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "常見問題資料"],
+    demoPath: "/tools/linebot-mission#demo",
+    proof: "先整理 FAQ，再做可展示回覆流程。",
+  },
+  {
+    id: "admin-flow",
+    name: "小後台流程包",
+    label: "20,000 元起",
+    price: "20,000 元起",
+    summary: "表單收件、案件列表、狀態管理、簡單資料後台。",
+    targetUsers: "工程行、工作室、小型服務業。",
+    problem: "資料散在表單、LINE、Excel，不好追蹤。",
+    deliverables: ["表單收件", "案件列表", "狀態管理", "簡單後台", "資料查詢"],
+    demoPath: "/buildflow",
+    proof: "可先做簡單後台，再逐步擴充。",
   },
 ]
 
 export const serviceWorkflow = [
-  ["01", "討論", "需求、預算、時程。"],
-  ["02", "報價", "確認範圍。"],
-  ["03", "初版", "先看畫面。"],
-  ["04", "修改", "調整 1～2 次。"],
-  ["05", "上線", "部署交付。"],
-  ["06", "維護", "另談後續。"],
+  ["01", "選服務包", "先選最接近的需求。"],
+  ["02", "填需求", "提供網站類型、預算、時程。"],
+  ["03", "確認報價", "確認頁數、功能與修改次數。"],
+  ["04", "製作與修改", "先給初版，再依約修改。"],
+  ["05", "上線交付", "部署網站，提供基本使用說明。"],
 ]
 
 export const techStack = [
@@ -156,15 +147,10 @@ export const processSteps = [
 export const audience = ["個人品牌", "小型店家", "工作室", "學生", "新創", "工程服務業"]
 
 export const pricing = [
-  ["網站包", "5,000 元起", "首頁、手機版、表單。"],
-  ["店家網站", "8,000 元起", "服務、案例、地圖。"],
-  ["舊站整理", "3,000 元起", "手機版與 CTA。"],
-  ["互動測驗", "6,000 元起", "題目、解析、結果。"],
-  ["題庫測驗", "10,000 元起", "JSON / Google Sheet。"],
-  ["自動回覆", "8,000 元起", "FAQ、LINE、紀錄。"],
-  ["小型後台", "20,000 元起", "資料與狀態。"],
-  ["流程系統", "30,000 元起", "需求、報價、派工。"],
-  ["月維護", "800 元起", "小修改與支援。"],
+  ["網站快速包", "5,000 元起", "一頁式網站、店家頁、作品集、手機版 RWD。"],
+  ["互動測驗包", "6,000 元起", "題目、選項、答案解析、結果頁。"],
+  ["LINE 回覆包", "8,000 元起", "常見問題、自動回覆、預約說明、價目表回覆。"],
+  ["小後台流程包", "20,000 元起", "表單收件、案件列表、狀態管理、簡單資料後台。"],
 ]
 
 export const projects = [

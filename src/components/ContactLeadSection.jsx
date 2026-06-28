@@ -7,23 +7,20 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  service_type: "小店上線網站包",
-  budget_range: "還不確定",
+  service_type: "網站快速包",
+  budget_range: "5,000～10,000",
+  deadline: "",
   message: "",
 }
 
 const serviceOptions = [
-  "小店上線網站包",
-  "店家形象網站包",
-  "互動測驗商品包",
-  "店家自動回覆包",
-  "工程行流程管理包",
-  "小型後台包",
-  "文件問答商品包",
-  "互動式技術展示包",
-  "不確定，想先討論",
+  "網站快速包",
+  "互動測驗包",
+  "LINE 回覆包",
+  "小後台流程包",
+  "還不確定",
 ]
-const budgetOptions = ["還不確定", "3,000-5,000 元", "6,000-10,000 元", "10,000-20,000 元", "20,000-30,000 元", "30,000 元以上"]
+const budgetOptions = ["5,000 以下", "5,000～10,000", "10,000～20,000", "20,000 以上"]
 
 function ContactLeadSection() {
   const [form, setForm] = useState(initialForm)
@@ -37,6 +34,7 @@ function ContactLeadSection() {
       `聯絡方式：${form.contact}`,
       `項目：${form.service_type}`,
       `預算：${form.budget_range}`,
+      `希望完成時間：${form.deadline}`,
       `需求：${form.message}`,
     ]
     return encodeURIComponent(lines.join("\n"))
@@ -62,7 +60,11 @@ function ContactLeadSection() {
     setNotice("")
 
     const result = await createContactRequest({
-      ...form,
+      name: form.name,
+      contact: form.contact,
+      service_type: form.service_type,
+      budget_range: form.budget_range,
+      message: `希望完成時間：${form.deadline}\n需求：${form.message}`,
       source: "contact-page",
       status: "new",
     })
@@ -70,8 +72,8 @@ function ContactLeadSection() {
     setSubmitting(false)
     setNotice(
       result.ok
-        ? "已整理需求。你可以用 Email 或 LINE 傳給我。"
-        : "已整理需求，請透過 Email 傳送給我。"
+        ? "已收到需求，我會先看內容，再回覆適合的做法與估價。"
+        : "已整理需求，請透過 Email 或 LINE 傳送給我。"
     )
   }
 
@@ -84,9 +86,9 @@ function ContactLeadSection() {
     <section id="contact" className="bg-[#172026] text-white">
       <div className="mx-auto grid max-w-6xl gap-7 px-4 py-10 md:py-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#83d4c8]">Contact</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">
-            留下需求
+          <p className="text-xs font-black text-[#83d4c8]">聯絡</p>
+          <h2 className="mt-3 text-3xl font-black md:text-4xl">
+            填需求表單
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
             傳產業、需求、預算、時程即可。
@@ -104,7 +106,7 @@ function ContactLeadSection() {
             <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               複製 Email
             </button>
-            <a href={`mailto:${email}?subject=${encodeURIComponent("網站與 AI 工具需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
+            <a href={`mailto:${email}?subject=${encodeURIComponent("接案需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               Email
             </a>
           </div>
@@ -116,13 +118,14 @@ function ContactLeadSection() {
             <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 電話" required />
             <Select label="想做的項目" value={form.service_type} onChange={(value) => updateForm("service_type", value)} options={serviceOptions} />
             <Select label="預算區間" value={form.budget_range} onChange={(value) => updateForm("budget_range", value)} options={budgetOptions} />
+            <Input label="希望完成時間" value={form.deadline} onChange={(value) => updateForm("deadline", value)} placeholder="例如：兩週內 / 下個月 / 不急" />
             <label className="grid gap-2 sm:col-span-2">
-              <span className="text-sm font-black text-[#d9e6e3]">需求描述</span>
+              <span className="text-sm font-black text-[#d9e6e3]">簡單描述需求</span>
               <textarea
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：我要做網站、測驗、LINE Bot 或小後台。"
+                placeholder="例如：我要做店家頁、測驗頁、LINE 回覆或小後台。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>
@@ -140,7 +143,7 @@ function ContactLeadSection() {
               disabled={submitting}
               className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] transition hover:bg-[#ffd785] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
             >
-              {submitting ? "整理中..." : "整理需求"}
+              {submitting ? "送出中..." : "送出需求"}
             </button>
             <button type="button" onClick={resetForm} className="inline-flex min-h-12 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white transition hover:bg-white/10 sm:w-auto">
               清空

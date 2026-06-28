@@ -9,7 +9,6 @@ import {
   pricing,
   projects,
   seo,
-  serviceCategories,
   serviceOfferings,
   serviceWorkflow,
 } from "./content"
@@ -996,16 +995,23 @@ function WorkShowcase({ project }) {
 }
 
 export function ServicesPage() {
+  const faqs = [
+    ["可以先做簡單版嗎？", "可以，先做可用版本，再慢慢擴充。"],
+    ["價格會變動嗎？", "會，依頁數、功能、資料整理程度調整。"],
+    ["修改包含幾次？", "一般包含 1～2 次小修改，超出另估。"],
+    ["有後續維護嗎？", "可以另談月維護或單次修改。"],
+  ]
+
   return (
     <PageShell
       page={seo.services}
-      eyebrow="服務"
-      title="選服務"
-      intro="網站、測驗、LINE Bot、小後台。"
+      eyebrow="服務包"
+      title="先選一個服務包"
+      intro="小型網站、測驗頁、LINE Bot、小後台。先做可用版本，再依需求擴充。"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-            聯絡
+            填需求表單
           </Link>
           <Link to="/pricing" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
             看價格
@@ -1014,12 +1020,16 @@ export function ServicesPage() {
       }
     >
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="grid gap-4 md:grid-cols-5">
-          {serviceCategories.map(([title, text]) => (
-            <Card key={title}>
-              <h2 className="text-lg font-black">{title}</h2>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
-            </Card>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {serviceOfferings.map((service) => (
+            <article key={service.id} className="rounded-lg border border-[#e3ded3] bg-white p-5">
+              <span className="inline-flex rounded-md bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{service.price}</span>
+              <h2 className="mt-4 text-xl font-black">{service.name}</h2>
+              <p className="mt-3 min-h-16 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
+              <ActionLink to={service.demoPath} className="mt-5 inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                看內容
+              </ActionLink>
+            </article>
           ))}
         </div>
       </section>
@@ -1028,10 +1038,10 @@ export function ServicesPage() {
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
-              <p className="text-xs font-black text-[#0d6b62]">成品</p>
-              <h2 className="mt-3 text-3xl font-black md:text-4xl">可委託項目</h2>
+              <p className="text-xs font-black text-[#0d6b62]">內容</p>
+              <h2 className="mt-3 text-3xl font-black md:text-4xl">服務包內容</h2>
             </div>
-            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">先做能用，再逐步升級。</p>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">短版範圍，細節報價確認。</p>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">
@@ -1050,11 +1060,11 @@ export function ServicesPage() {
 
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
                   <ServiceFact title="適合" text={service.targetUsers} />
-                  <ServiceFact title="解決" text={service.problem} />
+                  <ServiceFact title="參考價格" text={service.price} />
                 </div>
 
                 <div className="mt-5">
-                  <p className="text-sm font-black text-[#40504c]">交付</p>
+                  <p className="text-sm font-black text-[#40504c]">包含什麼</p>
                   <div className="mt-3 flex flex-wrap gap-2">
                     {service.deliverables.map((item) => (
                       <span key={item} className="rounded-md bg-white px-3 py-2 text-xs font-black text-[#40504c]">
@@ -1065,7 +1075,7 @@ export function ServicesPage() {
                 </div>
 
                 <p className="mt-5 rounded-lg border border-[#d8d2c5] bg-white p-4 text-sm font-bold leading-7 text-[#52605c]">
-                  {service.proof}
+                  交付內容：{service.proof}
                 </p>
               </article>
             ))}
@@ -1073,14 +1083,32 @@ export function ServicesPage() {
         </div>
       </section>
 
+      <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <div className="mb-7">
+            <p className="text-xs font-black text-[#0d6b62]">價格</p>
+            <h2 className="mt-3 text-3xl font-black">參考價格</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {pricing.map(([name, price, text]) => (
+              <Card key={name}>
+                <h3 className="text-xl font-black">{name}</h3>
+                <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <div className="grid gap-6 lg:grid-cols-[0.75fr_1.25fr] lg:items-start">
+        <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
           <div>
             <p className="text-xs font-black text-[#0d6b62]">流程</p>
             <h2 className="mt-3 text-3xl font-black">合作流程</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">範圍清楚，再開做。</p>
+            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">選包、填需求、確認報價。</p>
           </div>
-          <div className="grid gap-3 md:grid-cols-2">
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
             {serviceWorkflow.map(([step, title, text]) => (
               <div key={step} className="rounded-lg border border-[#e3ded3] bg-white p-5">
                 <p className="text-xs font-black text-[#0d6b62]">{step}</p>
@@ -1090,16 +1118,38 @@ export function ServicesPage() {
             ))}
           </div>
         </div>
+        <p className="mt-6 rounded-lg border border-[#e3ded3] bg-[#fffaf0] p-4 text-sm font-bold leading-7 text-[#5f4a2a]">
+          錯誤修正與新增功能分開計算，維護可另談。
+        </p>
+      </section>
 
+      <section className="border-y border-[#e6e0d5] bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <div className="mb-7">
+            <p className="text-xs font-black text-[#0d6b62]">FAQ</p>
+            <h2 className="mt-3 text-3xl font-black">常見問題</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {faqs.map(([question, answer]) => (
+              <Card key={question}>
+                <h3 className="text-lg font-black">Q：{question}</h3>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">A：{answer}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="mt-10 rounded-lg border border-[#e3ded3] bg-[#111c22] p-6 text-white">
           <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
             <div>
               <p className="text-xs font-black text-[#8fd6cc]">下一步</p>
-              <h2 className="mt-3 text-2xl font-black">給我一個想法即可。</h2>
-              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">我幫你整理成可做方案。</p>
+              <h2 className="mt-3 text-2xl font-black">填需求表單</h2>
+              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">我會先看內容，再回覆適合的做法與估價。</p>
             </div>
             <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
-              聯絡
+              填需求表單
             </Link>
           </div>
         </div>
