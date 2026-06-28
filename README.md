@@ -27,7 +27,7 @@ https://你的網域/api/line-webhook
 
 正式部署時，`OPENAI_API_KEY`、`LINE_CHANNEL_ACCESS_TOKEN`、`LINE_CHANNEL_SECRET` 只能放在 Vercel 後端環境變數，不可放到 `src` 前端程式。
 
-我幫小型店家、工作室、工程行與個人品牌製作可使用的網站與 AI 工具。從一頁式網站、LINE Bot、自動回覆，到接案表單、報價流程與小型後台，把零散流程整理成清楚、可操作、可展示的系統。
+我做漂亮網站，也能把 LINE、AI、表單、API 與後台流程接起來。從品牌網站、LINE Bot、自動回覆，到接案表單、報價流程與資料後台，把零散流程整理成清楚、可操作、可展示的系統。
 
 主網站現在負責三件事：
 
@@ -52,7 +52,7 @@ https://你的網域/api/line-webhook
 
 ## 可接案服務
 
-- BuildFlow / 小型後台。
+- BuildFlow / 後台流程。
 - 網站 / 作品集與接案主站整理。
 - 店家 AI 助手 / LINE Bot。
 - 自動回覆與 FAQ 後台。
@@ -62,7 +62,7 @@ https://你的網域/api/line-webhook
 ## 路由
 
 - `/`：Qingyu Web Studio 接案主站
-- `/services`：網站、LINE Bot、自動回覆與小型後台接案服務
+- `/services`：網站、LINE Bot、自動回覆與後台流程服務
 - `/engineering`：工程行作品集
 - `/contractor-site`：工程接案前台
 - `/buildflow`：BuildFlow 工程後台

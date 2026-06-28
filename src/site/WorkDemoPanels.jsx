@@ -84,7 +84,7 @@ function AiAuditDemo() {
 }
 
 export function LegacyAiAuditDemo() {
-  const [target, setTarget] = useState("小型店家想做一頁式網站，主要靠 LINE 接洽客戶。")
+  const [target, setTarget] = useState("店家想做服務入口網站，主要靠 LINE 接洽客戶。")
   const [report, setReport] = useState({
     source: "mock",
     summary: "這個網站方向可以成立，但首頁需要更快說清楚服務、客群與聯絡方式。",
@@ -94,7 +94,7 @@ export function LegacyAiAuditDemo() {
       { title: "首頁文案", finding: "副標需要說清楚服務對象與下一步。", suggestion: "用 1～2 句補充服務對象、可做項目與聯絡方式。" },
       { title: "CTA", finding: "聯絡入口可以更明顯。", suggestion: "第一屏保留主要 CTA「聊聊需求」。" },
       { title: "SEO", finding: "需要包含地區、服務與客群。", suggestion: "title 可加入「台灣網站製作、AI 工具、LINE Bot」。" },
-      { title: "信任感", finding: "小型客戶會先看案例與流程。", suggestion: "補作品、流程、價格方向與聯絡方式。" },
+      { title: "信任感", finding: "客戶會先看案例與流程。", suggestion: "補作品、流程、價格方向與聯絡方式。" },
     ],
     nextSteps: ["收斂首頁主標題", "補清楚 CTA", "整理精選作品", "確認手機版第一屏"],
   })
@@ -143,7 +143,7 @@ export function LegacyAiAuditDemo() {
   }
 
   async function showExampleReport() {
-    setTarget("範例：台灣小型店家，想做一頁式網站，主要希望客戶能看懂服務並透過 LINE 詢問。")
+    setTarget("範例：台灣店家，想做服務入口網站，主要希望客戶能看懂服務並透過 LINE 詢問。")
     setError("")
     setLoading(true)
     await wait(650)
@@ -295,9 +295,9 @@ const cleanAiAuditFallback = {
 }
 
 const cleanAiAuditExampleInput =
-  "我是台灣小型工作室，想做一個能介紹服務、放作品、讓客戶填表或加 LINE 的網站。希望手機版清楚，也想知道 SEO 和首頁文案怎麼寫。"
+  "我是台灣工作室，想做一個能介紹服務、放作品、讓客戶填表或加 LINE 的網站。希望手機版清楚，也想知道 SEO 和首頁文案怎麼寫。"
 
-const auditIndustries = ["店家", "個人品牌", "工作室", "工程服務", "學生作品集"]
+const auditIndustries = ["店家", "個人品牌", "工作室", "工程服務", "作品展示"]
 const auditGoals = ["增加詢問", "提升信任", "改善手機版", "SEO", "作品展示"]
 const auditTabs = [
   ["seo", "SEO"],
@@ -625,7 +625,7 @@ export function LegacyLineBotDemo() {
       id: "REQ-002",
       customer: "LINE 使用者",
       need: "店家網站",
-      detail: "使用者想做店家網站，需要判斷適合一般網站、LINE Bot 或小型管理系統。",
+      detail: "使用者想做店家網站，需要判斷適合一般網站、LINE Bot 或後台流程。",
       status: "新需求",
       source: "LINE",
       createdAt: "剛剛",
@@ -643,7 +643,7 @@ export function LegacyLineBotDemo() {
       return [
         ...current,
         { role: "customer", text: "我想做店家網站" },
-        { role: "bot", text: "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。" },
+        { role: "bot", text: "可以，我先幫你判斷適合網站、LINE Bot 還是後台流程。請提供產業、功能、預算、上線時間。" },
       ]
     })
     addSimulatedInquiry()
@@ -809,7 +809,7 @@ export function LegacyLineBotDemo() {
 const lineBotInitialMessages = [
   {
     role: "bot",
-    text: "你好，我是 Qingyu 詢價助理。你可以直接說想做什麼網站、LINE Bot 或小系統。",
+    text: "你好，我是 Qingyu 詢價助理。你可以直接說想做什麼網站、LINE Bot 或後台流程。",
   },
 ]
 
@@ -868,7 +868,7 @@ function LineBotProductDemo() {
       { role: "user", text: "我想做店家網站" },
       {
         role: "bot",
-        text: "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。",
+        text: "可以，我先幫你判斷適合網站、LINE Bot 還是後台流程。請提供產業、功能、預算、上線時間。",
       },
     ])
     upsertCase(nextCase)
@@ -880,7 +880,7 @@ function LineBotProductDemo() {
       ...createBaseCase("已整理需求"),
       customer: "咖啡店業主",
       summary: "咖啡店預約與菜單查詢",
-      suggestedService: "LINE Bot + 表單 + 小型後台",
+      suggestedService: "LINE Bot + 表單 + 後台流程",
       note: "需求已整理成店家 LINE Bot 與網站流程，可進一步確認預約欄位與菜單資料來源。",
       history: [
         "我想做店家網站",
@@ -894,7 +894,7 @@ function LineBotProductDemo() {
       { role: "user", text: "我想做店家網站" },
       {
         role: "bot",
-        text: "可以，我先幫你判斷適合網站、LINE Bot 還是小系統。請提供產業、功能、預算、上線時間。",
+        text: "可以，我先幫你判斷適合網站、LINE Bot 還是後台流程。請提供產業、功能、預算、上線時間。",
       },
       { role: "user", text: "我是咖啡店，想做預約和菜單查詢" },
       { role: "bot", text: "了解，我會記錄為店家 LINE Bot + 網站需求。" },
@@ -2199,7 +2199,7 @@ function ApiAutomationDemo() {
             <label className="grid gap-2 text-sm font-black text-[#111c22]">
               需求類型
               <select value={form.service} onChange={(event) => updateField("service", event.target.value)} className="min-h-11 rounded-lg border border-[#d8d2c5] px-3 text-sm font-bold outline-none focus:border-[#0d6b62]">
-                {["網站", "LINE Bot", "AI 工具", "小型系統"].map((item) => <option key={item}>{item}</option>)}
+                {["網站", "LINE Bot", "AI 工具", "後台流程"].map((item) => <option key={item}>{item}</option>)}
               </select>
               {errors.service ? <span className="text-xs font-black text-[#b45309]">{errors.service}</span> : null}
             </label>
@@ -2373,7 +2373,7 @@ function ApiAutomationDemo() {
 function QingyuWebDemo() {
   const siteBlocks = [
     ["Hero", "讓服務被看懂，第一屏放清楚定位與 CTA。"],
-    ["服務分類", "品牌網站、作品集、小型系統、AI 工具、LINE Bot。"],
+    ["服務分類", "品牌網站、作品展示、後台流程、AI 工具、LINE Bot。"],
     ["Demo Lab / 精選作品", "把技術作品變成可點、可看的案例入口。"],
     ["需求診斷 CTA", "引導客戶用 Project Planner 整理需求。"],
     ["技術能力", "展示 React、Vercel、SEO、API 串接能力。"],
@@ -2399,7 +2399,7 @@ function QingyuWebDemo() {
   ]
   const seoPanel = [
     ["title", "Qingyu Web Studio｜台灣網站製作、AI 工具與 LINE Bot 開發"],
-    ["description", "網站、作品集、AI 工具、LINE Bot、API 串接與簡易管理系統。"],
+    ["description", "網站、作品展示、AI 工具、LINE Bot、API 串接與後台流程。"],
     ["Open Graph", "社群分享標題、描述與預覽圖。"],
     ["sitemap.xml", "收錄首頁、作品頁、工具頁。"],
     ["robots.txt", "允許搜尋引擎索引公開頁面。"],
@@ -2409,7 +2409,7 @@ function QingyuWebDemo() {
   const techTags = ["React", "Vite", "Tailwind", "React Router", "Vercel", "SEO", "Open Graph", "sitemap", "robots"]
 
   return (
-    <Shell title="Qingyu Web Studio 主站" desc="一個為台灣個人品牌、小型店家、工作室與學生設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。">
+    <Shell title="Qingyu Web Studio 主站" desc="一個為台灣個人品牌、店家、工作室與工程服務設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。">
       <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
         <MiniCard title="主站架構圖" tone="dark">
           <div className="grid gap-3">

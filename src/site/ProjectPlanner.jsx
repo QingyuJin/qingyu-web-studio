@@ -4,8 +4,8 @@ import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 import { seo } from "./content"
 
-const profileOptions = ["學生 / 作品集", "小型店家", "個人品牌", "工作室", "工程行", "想導入 AI 的團隊"]
-const goalOptions = ["網站", "作品集", "小型系統", "AI 工具", "LINE Bot", "API 串接", "不確定，想先請你判斷"]
+const profileOptions = ["店家 / 品牌", "個人品牌", "工作室", "工程行", "想導入 AI 的團隊", "其他服務"]
+const goalOptions = ["網站", "作品展示", "後台流程 / API", "AI 工具", "LINE Bot", "API 串接", "不確定，想先請你判斷"]
 const featureOptions = [
   "手機版 RWD",
   "聯絡表單",
@@ -38,7 +38,7 @@ const emptyAnswers = {
 }
 
 const exampleAnswers = {
-  profile: "小型店家",
+  profile: "店家 / 品牌",
   goal: "LINE Bot",
   features: ["手機版 RWD", "LINE Bot", "預約 / 詢價", "後台管理", "LINE 連結"],
   budget: "15,000～30,000",
@@ -85,9 +85,9 @@ function buildRecommendation(answers) {
   const features = answers.features
   const wantsLine = answers.goal === "LINE Bot" || features.includes("LINE Bot")
   const wantsAi = answers.goal === "AI 工具" || features.includes("AI 回覆") || answers.profile === "想導入 AI 的團隊"
-  const wantsSystem = answers.goal === "小型系統" || features.includes("後台管理") || features.includes("API 串接")
-  const wantsPortfolio = answers.goal === "作品集" || answers.profile === "學生 / 作品集"
-  const wantsBrandSite = answers.goal === "網站" || ["小型店家", "個人品牌", "工作室", "工程行"].includes(answers.profile)
+  const wantsSystem = answers.goal === "後台流程 / API" || features.includes("後台管理") || features.includes("API 串接")
+  const wantsPortfolio = answers.goal === "作品展示"
+  const wantsBrandSite = answers.goal === "網站" || ["店家 / 品牌", "個人品牌", "工作室", "工程行"].includes(answers.profile)
 
   let planName = "品牌網站方案"
   let complexity = "低"
@@ -108,9 +108,9 @@ function buildRecommendation(answers) {
     recommendedFeatures = ["LINE Bot", "預約 / 詢價", "後台管理", "LINE 連結"]
     tech = ["React", "Tailwind", "Vercel", "LINE Messaging API", "Supabase"]
   } else if (wantsSystem) {
-    planName = "小型系統方案"
+    planName = "後台流程方案"
     complexity = "中"
-    direction = "先建立表單、列表、狀態管理與簡易後台，讓日常流程可以被搜尋、追蹤與管理。"
+    direction = "先建立表單、列表、狀態管理與資料後台，讓日常流程可以被搜尋、追蹤與管理。"
     recommendedFeatures = ["後台管理", "聯絡表單", "API 串接", "資料列表"]
     tech = ["React", "Tailwind", "Vercel", "Supabase"]
   } else if (wantsPortfolio) {
@@ -171,7 +171,7 @@ function ProjectPlanner() {
   const previewResult = useMemo(() => result || buildRecommendation({
     ...answers,
     features: answers.features.length ? answers.features : ["手機版 RWD", "聯絡表單"],
-    profile: answers.profile || "小型店家",
+    profile: answers.profile || "店家 / 品牌",
     goal: answers.goal || "網站",
     budget: answers.budget || "還不確定",
     timeline: answers.timeline || "不急，想慢慢規劃",
@@ -248,7 +248,7 @@ function ProjectPlanner() {
     setAnswers(exampleAnswers)
     setStepIndex(4)
     setResult(buildRecommendation(exampleAnswers))
-    setMessage("已載入小型店家 + LINE Bot + 預約詢價範例。")
+    setMessage("已載入店家 + LINE Bot + 預約詢價範例。")
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -612,7 +612,7 @@ function ProjectPlanner() {
               <h2 className="mt-2 text-2xl font-black">診斷結果可以怎麼用？</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先整理方向，再決定要做網站、LINE Bot、AI 工具或小後台。
+              先整理方向，再決定要做網站、LINE Bot、AI 工具或後台流程。
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -631,7 +631,7 @@ function ProjectPlanner() {
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            我可以先幫你判斷適合網站、LINE Bot、AI 工具還是小型後台。
+            我可以先幫你判斷適合網站、LINE Bot、AI 工具還是後台流程。
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -659,7 +659,7 @@ function ProjectPlanner() {
               ["Logic", "Rule-based Recommendation"],
               ["API", "Vercel Serverless Function"],
               ["AI", "OpenAI API optional"],
-              ["Prompt Flow", "台灣網站與小系統顧問語氣"],
+              ["Prompt Flow", "台灣網站與流程系統顧問語氣"],
               ["Fallback", "Demo Plan"],
               ["State UI", "React State UI"],
               ["Future", "OpenAI API 可升級成 AI 顧問"],

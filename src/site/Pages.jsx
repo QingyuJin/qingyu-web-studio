@@ -158,14 +158,14 @@ function WorkPreview({ project }) {
 
 const conversionProfiles = {
   "ai-audit": {
-    audience: ["小型店家", "個人品牌", "工作室", "準備改版的網站"],
+    audience: ["店家", "個人品牌", "工作室", "準備改版的網站"],
     custom: ["健檢項目", "報告格式", "Prompt Flow", "Email 報告輸出"],
     problems: ["不知道網站哪裡不清楚", "客戶看完沒有聯絡", "首頁 CTA 與 SEO 不夠明確"],
     scenario: "適合在改版前快速找出首頁文案、CTA、SEO、信任感與手機版問題。",
     next: "先用健檢工具整理問題，再決定是改文案、調 CTA，還是重做一頁式網站。",
   },
   linebot: {
-    audience: ["小型店家", "預約型服務", "工作室", "需要 LINE 收需求的團隊"],
+    audience: ["店家", "預約型服務", "工作室", "需要 LINE 收需求的團隊"],
     custom: ["對話流程", "Webhook 欄位", "後台收件狀態", "LINE / Email 通知"],
     problems: ["LINE 訊息太散", "客戶需求沒有被整理", "店家回覆與追蹤靠人工記"],
     scenario: "適合把 LINE 詢問整理成可追蹤需求，減少訊息散落與人工整理。",
@@ -186,7 +186,7 @@ const conversionProfiles = {
     next: "先確認表單欄位與通知對象，再設計 API、資料流程與後台狀態。",
   },
   "qingyu-web": {
-    audience: ["個人品牌", "小型店家", "工作室", "學生作品集"],
+    audience: ["個人品牌", "店家", "工作室", "作品展示"],
     custom: ["首頁架構", "作品頁", "需求診斷工具", "SEO / Open Graph"],
     problems: ["服務說不清楚", "作品沒有導到詢問", "客戶不知道下一步該怎麼聯絡"],
     scenario: "適合把服務、作品、技術展示與聯絡轉換整合成一個能接案的主站。",
@@ -202,7 +202,7 @@ const conversionProfiles = {
 }
 
 const defaultConversionProfile = {
-  audience: ["小型店家", "個人品牌", "工作室"],
+  audience: ["店家", "個人品牌", "工作室"],
   custom: ["頁面架構", "互動流程", "資料欄位", "聯絡 CTA"],
   problems: ["服務不容易被理解", "客戶看完不知道怎麼詢問", "流程太靠人工整理"],
   scenario: "適合先用 Demo 驗證流程，再依實際需求客製成可上線版本。",
@@ -215,7 +215,7 @@ const workBusinessValues = {
   buildflow: "工程行需求、報價、派工、回報、LINE 查詢整合案例。",
   "ai-tech-quest": "互動式 AI 技術展示 Demo，展示文件問答、模型分類、店家 AI 助手與產品展示室。",
   "interactive-quiz": "教育訓練與測驗題庫網頁，可做題目、選項、答案解析與結果頁。",
-  "ai-business-assistant": "小型店家 FAQ 與自動回覆產品。",
+  "ai-business-assistant": "店家 FAQ 與自動回覆產品。",
   "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
   "unity-ai-tutor": "互動式學習展示。",
   "api-automation": "表單送出後，自動進 API、通知與後台。",
@@ -246,7 +246,7 @@ export function WorksPage() {
     slug: "project-planner",
     title: "網站需求診斷工具",
     category: "互動工具",
-    summary: "回答幾個問題，整理適合的網站、LINE Bot、AI 工具或小系統方向。",
+    summary: "回答幾個問題，整理適合的網站、LINE Bot、AI 工具或後台流程方向。",
     livePath: "/tools/project-planner#demo",
     liveLabel: "查看互動 Demo",
     secondaryPath: "/tools/project-planner#tech",
@@ -409,7 +409,7 @@ export function WorkDetailPage() {
       : isXinjiangProject
       ? "展示鑫匠工程網站如何結合 BuildFlow 案件管理流程，串接估價入口、工程案例、報價狀態與 LINE 回報。"
       : isApiAutomationProject
-        ? "展示如何將客戶表單、API、資料驗證、通知流程與後台管理介面 串接成完整小型系統。"
+        ? "展示如何將客戶表單、API、資料驗證、通知流程與後台管理介面串接成完整流程系統。"
         : project.summary,
   }
 
@@ -781,7 +781,7 @@ export function WorkDetailPage() {
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            先診斷方向，再決定做網站、LINE Bot 或小後台。
+            先診斷方向，再決定做網站、LINE Bot 或後台流程。
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -830,7 +830,7 @@ function HeroPreview({ project }) {
                 <p className="text-sm font-black">REQ-001 咖啡店需求</p>
                 <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">已整理需求</span>
               </div>
-              <p className="mt-3 text-xs font-bold leading-5 text-[#52605c]">來源 LINE · 建議方案：LINE Bot + 表單 + 小型後台</p>
+              <p className="mt-3 text-xs font-bold leading-5 text-[#52605c]">來源 LINE · 建議方案：LINE Bot + 表單 + 後台流程</p>
             </div>
             <HeroPreviewList items={["Webhook 接收", "簽章驗證", "AI 回覆", "後台已儲存"]} />
           </div>
@@ -1007,7 +1007,7 @@ export function ServicesPage() {
       page={seo.services}
       eyebrow="服務包"
       title="先選一個服務包"
-      intro="小型網站、測驗頁、LINE Bot、小後台。先做可用版本，再依需求擴充。"
+      intro="網站、互動工具、LINE Bot、後台流程。先做清楚版本，再依需求擴充。"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -1267,7 +1267,7 @@ export function ContactPage() {
               {emailCopied ? "已複製 Email" : "複製 Email"}
             </button>
             <a
-              href={`mailto:${contact.email}?subject=${encodeURIComponent("網站需求討論")}&body=${encodeURIComponent("你好，我想討論網站 / LINE Bot / AI 工具 / 小系統。\n產業：\n想做的功能：\n預算區間：\n希望上線時間：\nLINE ID：")}`}
+              href={`mailto:${contact.email}?subject=${encodeURIComponent("網站需求討論")}&body=${encodeURIComponent("你好，我想討論網站 / LINE Bot / AI 工具 / 後台流程。\n產業：\n想做的功能：\n預算區間：\n希望上線時間：\nLINE ID：")}`}
               className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
             >
               用 Email 傳送需求
@@ -1278,8 +1278,8 @@ export function ContactPage() {
           <h2 className="text-2xl font-black">先給我三件事</h2>
           <div className="mt-5 grid gap-3">
             {[
-              ["你是誰", "店家、工作室、學生或個人品牌"],
-              ["想做什麼", "網站、LINE Bot、AI 工具或小系統"],
+              ["你是誰", "店家、工作室、工程服務或個人品牌"],
+              ["想做什麼", "網站、LINE Bot、AI 工具或後台流程"],
               ["卡在哪裡", "詢問、報價、預約、回覆或後台整理"],
             ].map(([title, text]) => (
               <div key={title} className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">

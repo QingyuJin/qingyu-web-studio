@@ -7,7 +7,7 @@ function isExternalUrl(to) {
 
 const navItems = [
   ["首頁", "/"],
-  ["服務包", "/services"],
+  ["服務", "/services"],
   ["價格", "/pricing"],
   ["案例", "/works"],
   ["BuildFlow", "/buildflow"],
@@ -57,7 +57,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              網站、測驗、LINE Bot、小後台。
+              漂亮網站，也能把 LINE、AI、表單與後台流程接起來。
             </p>
           </div>
           <a href={`mailto:${contact.email}`} className="text-sm font-black text-[#0d6b62]">

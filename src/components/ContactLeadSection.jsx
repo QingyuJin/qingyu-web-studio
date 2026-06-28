@@ -7,17 +7,17 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  service_type: "網站快速包",
+  service_type: "網站製作",
   budget_range: "5,000～10,000",
   deadline: "",
   message: "",
 }
 
 const serviceOptions = [
-  "網站快速包",
-  "互動測驗包",
-  "LINE 回覆包",
-  "小後台流程包",
+  "網站製作",
+  "互動工具",
+  "LINE Bot 串接",
+  "後台流程 / API",
   "還不確定",
 ]
 const budgetOptions = ["5,000 以下", "5,000～10,000", "10,000～20,000", "20,000 以上"]
@@ -29,7 +29,7 @@ function ContactLeadSection() {
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好，我想討論一個小型專案。",
+      "你好，我想討論網站、LINE Bot、AI 工具或後台流程需求。",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
       `項目：${form.service_type}`,
@@ -125,7 +125,7 @@ function ContactLeadSection() {
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：我要做店家頁、測驗頁、LINE 回覆或小後台。"
+                placeholder="例如：我要做品牌網站、LINE Bot、AI 工具或後台流程。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>

@@ -26,29 +26,29 @@ function SmartLink({ to, children, ...props }) {
 const serviceCards = [
   {
     id: "website-fast",
-    title: "網站快速包",
-    description: "一頁式網站、店家頁、作品集、手機版 RWD。",
+    title: "網站製作",
+    description: "品牌網站、服務入口、作品展示與手機版 RWD。",
     price: "5,000 元起",
     button: "看內容",
   },
   {
     id: "quiz-package",
-    title: "互動測驗包",
-    description: "題目、選項、答案解析、結果頁，可用 JSON 或 Google Sheet 更新。",
+    title: "互動工具",
+    description: "測驗、診斷、表單與可操作 Demo，可依需求擴充。",
     price: "6,000 元起",
     button: "看內容",
   },
   {
     id: "line-reply",
-    title: "LINE 回覆包",
-    description: "常見問題、自動回覆、預約說明、價目表回覆。",
+    title: "LINE Bot 串接",
+    description: "自動回覆、預約詢問、需求整理與 LINE 流程。",
     price: "8,000 元起",
     button: "看內容",
   },
   {
     id: "admin-flow",
-    title: "小後台流程包",
-    description: "表單收件、案件列表、狀態管理、簡單資料後台。",
+    title: "後台流程 / API",
+    description: "表單收件、案件列表、狀態管理與資料同步。",
     price: "20,000 元起",
     button: "看內容",
   },
@@ -57,8 +57,8 @@ const serviceCards = [
 const serviceDetails = [
   {
     id: "website-fast",
-    title: "網站快速包",
-    fit: "小店、工作室、個人品牌、活動頁。",
+    title: "網站製作",
+    fit: "店家、工作室、工程服務、個人品牌與成長中的團隊。",
     includes: ["首頁或一頁式網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
     delivery: "可上線的網站頁面。",
     price: "5,000 元起",
@@ -66,7 +66,7 @@ const serviceDetails = [
   },
   {
     id: "quiz-package",
-    title: "互動測驗包",
+    title: "互動工具",
     fit: "教育訓練、課程複習、公司內訓、活動測驗。",
     includes: ["題目與選項", "答案解析", "結果頁", "圖片素材", "JSON / Google Sheet 題庫"],
     delivery: "可作答的測驗頁。",
@@ -75,34 +75,34 @@ const serviceDetails = [
   },
   {
     id: "line-reply",
-    title: "LINE 回覆包",
-    fit: "常被問營業時間、價目表、預約方式的店家。",
-    includes: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "常見問題資料"],
+    title: "LINE Bot 串接",
+    fit: "需要用 LINE 接客、預約、詢問或整理需求的服務。",
+    includes: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "需求整理流程"],
     delivery: "可展示的回覆流程。",
     price: "8,000 元起",
     cta: "我想做 LINE 回覆",
   },
   {
     id: "admin-flow",
-    title: "小後台流程包",
-    fit: "工程行、工作室、小型服務業。",
-    includes: ["表單收件", "案件列表", "狀態管理", "簡單後台", "資料查詢"],
-    delivery: "可管理資料的小後台。",
+    title: "後台流程 / API",
+    fit: "工程行、工作室、服務業與需要流程管理的團隊。",
+    includes: ["表單收件", "案件列表", "狀態管理", "資料後台", "API 串接"],
+    delivery: "可追蹤資料與流程的後台。",
     price: "20,000 元起",
-    cta: "我想做小後台",
+    cta: "我想做後台流程",
   },
 ]
 
 const processSteps = [
-  ["01", "選服務包", "先選最接近的需求。"],
-  ["02", "填需求", "提供網站類型、預算、時程。"],
+  ["01", "確認方向", "先整理最接近的需求。"],
+  ["02", "填需求", "提供服務類型、預算、時程。"],
   ["03", "確認報價", "確認頁數、功能與修改次數。"],
   ["04", "製作與修改", "先給初版，再依約修改。"],
   ["05", "上線交付", "部署網站，提供基本使用說明。"],
 ]
 
-const fitItems = ["小型網站", "店家頁", "活動頁", "測驗頁", "LINE Bot", "表單收件", "簡單後台", "學生專題展示"]
-const notFitItems = ["大型 ERP", "大型電商", "複雜會員系統", "高資安內部系統", "永久免費維護"]
+const fitItems = ["品牌網站", "活動頁", "互動工具", "LINE Bot", "表單收件", "API 串接", "後台流程", "AI 工具"]
+const flowItems = ["網站入口", "表單需求", "LINE 接待", "資料同步", "案件管理", "報價回報", "AI 分析", "後台追蹤"]
 
 const caseCards = [
   {
@@ -162,17 +162,17 @@ function HeroSection() {
         <div className="rounded-lg border border-white/55 bg-white/28 p-6 shadow-2xl shadow-[#071113]/20 backdrop-blur-xl md:p-8">
           <p className="text-xs font-black text-white/82">Qingyu Web Studio</p>
           <h1 className="mt-5 max-w-4xl text-[clamp(2rem,8vw,4.35rem)] font-black leading-[1.08] text-white drop-shadow">
-            小型網站、測驗頁、<span className="whitespace-nowrap">LINE Bot</span>、<span className="whitespace-nowrap">小後台製作</span>
+            網站、<span className="whitespace-nowrap">LINE Bot</span>、AI 工具與<span className="whitespace-nowrap">後台流程</span>
           </h1>
           <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-white/82 md:text-base">
-            適合店家、工作室、工程行、個人品牌與學生專題。先從可用版本開始，再依需求擴充。
+            我做漂亮網站，也能把 LINE、AI、表單、API 與後台流程接起來。
           </p>
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
             <a href="#cases" className="inline-flex min-h-12 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22] shadow-lg shadow-[#071113]/10 hover:bg-[#f5f1e9]">
               查看案例
             </a>
             <a href="#services" className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white shadow-lg shadow-[#071113]/10 hover:bg-[#26343b]">
-              看服務包
+              看服務能力
             </a>
             <Link to="/contact" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/55 bg-white/18 px-5 text-sm font-black text-white backdrop-blur hover:bg-white/25">
               填需求表單
@@ -203,7 +203,7 @@ function ServiceCardsSection() {
   return (
     <section id="services" className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="服務包" title="選一個你需要的服務" text="先選最接近的方向。" />
+        <SectionHeading eyebrow="服務能力" title="從網站到流程系統" text="先做清楚，再把需要的流程接起來。" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {serviceCards.map((item) => (
             <a key={item.id} href={`#${item.id}`} className="rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
@@ -225,7 +225,7 @@ function ServiceDetailsSection() {
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="內容" title="服務包內容" text="短版範圍，細節再報價確認。" />
+        <SectionHeading eyebrow="內容" title="服務能力內容" text="短版範圍，細節再報價確認。" />
         <div className="grid gap-4 lg:grid-cols-2">
           {serviceDetails.map((item) => (
             <article id={item.id} key={item.id} className="scroll-mt-24 rounded-lg border border-[#e3ded3] bg-white p-5">
@@ -297,10 +297,10 @@ function FitSection() {
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="範圍" title="適合什麼案子？" />
+        <SectionHeading eyebrow="流程串接" title="可以怎麼接起來？" text="漂亮網站是入口，後面可以串 LINE、表單、API 與後台。" />
         <div className="grid gap-5 md:grid-cols-2">
-          <FitList title="適合" items={fitItems} />
-          <FitList title="暫不適合" items={notFitItems} muted />
+          <FitList title="服務入口" items={fitItems} />
+          <FitList title="流程能力" items={flowItems} />
         </div>
       </div>
     </section>

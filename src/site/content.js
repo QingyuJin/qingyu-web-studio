@@ -10,9 +10,9 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜小型網站、測驗頁、LINE Bot、小後台製作",
+    title: "Qingyu Web Studio｜網站、LINE Bot、AI 工具與後台流程",
     description:
-      "適合店家、工作室、工程行、個人品牌與學生專題。先從可用版本開始，再依需求擴充。",
+      "製作漂亮網站，也能把 LINE、AI、表單、API 與後台流程接起來，協助服務被看懂、被詢問並被管理。",
   },
   works: {
     path: "/works",
@@ -21,14 +21,14 @@ export const seo = {
   },
   services: {
     path: "/services",
-    title: "服務包｜Qingyu Web Studio",
+    title: "服務能力｜Qingyu Web Studio",
     description:
-      "網站快速包、互動測驗包、LINE 回覆包、小後台流程包。",
+      "網站製作、LINE Bot、AI 工具、API 串接與後台流程規劃。",
   },
   pricing: {
     path: "/pricing",
     title: "價格｜Qingyu Web Studio",
-    description: "小型專案參考價。",
+    description: "依網站、LINE Bot、AI 工具、API 串接與後台流程範圍估價。",
   },
   audit: {
     path: "/free-audit",
@@ -38,7 +38,7 @@ export const seo = {
   contact: {
     path: "/contact",
     title: "填需求表單｜Qingyu Web Studio",
-    description: "留下網站、測驗頁、LINE 回覆或小後台需求。",
+    description: "留下網站、LINE Bot、AI 工具、API 串接或後台流程需求。",
   },
   planner: {
     path: "/tools/project-planner",
@@ -58,28 +58,28 @@ export const seo = {
 }
 
 export const serviceCategories = [
-  ["網站快速包", "一頁式網站、店家頁、作品集、手機版 RWD。"],
-  ["互動測驗包", "題目、選項、答案解析、結果頁。"],
-  ["LINE 回覆包", "常見問題、自動回覆、預約說明。"],
-  ["小後台流程包", "表單收件、案件列表、狀態管理。"],
+  ["網站製作", "品牌網站、服務入口、作品展示、手機版 RWD。"],
+  ["互動工具", "測驗、診斷、表單與可操作 Demo。"],
+  ["LINE Bot 串接", "自動回覆、預約詢問、需求整理。"],
+  ["後台流程 / API", "表單收件、案件列表、狀態同步。"],
 ]
 
 export const serviceOfferings = [
   {
     id: "website-fast",
-    name: "網站快速包",
+    name: "網站製作",
     label: "5,000 元起",
     price: "5,000 元起",
-    summary: "一頁式網站、店家頁、作品集、手機版 RWD。",
-    targetUsers: "小店、工作室、個人品牌、活動頁。",
-    problem: "需要一個能上線、能被客人看懂的網站。",
-    deliverables: ["首頁或一頁式網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
+    summary: "品牌網站、服務入口、作品展示與手機版 RWD。",
+    targetUsers: "店家、工作室、工程服務、個人品牌與成長中的團隊。",
+    problem: "需要一個漂亮、清楚、能被客戶聯絡的網站。",
+    deliverables: ["首頁或品牌網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
     demoPath: "/contractor-site",
-    proof: "先做可用版本，再依需求擴充。",
+    proof: "先做清楚版本，再依需求擴充。",
   },
   {
     id: "quiz-package",
-    name: "互動測驗包",
+    name: "互動工具",
     label: "6,000 元起",
     price: "6,000 元起",
     summary: "題目、選項、答案解析、結果頁。",
@@ -91,33 +91,33 @@ export const serviceOfferings = [
   },
   {
     id: "line-reply",
-    name: "LINE 回覆包",
+    name: "LINE Bot 串接",
     label: "8,000 元起",
     price: "8,000 元起",
-    summary: "常見問題、自動回覆、預約說明、價目表回覆。",
-    targetUsers: "常被問營業時間、價目表、預約方式的店家。",
-    problem: "重複回覆很耗時，也容易漏訊息。",
-    deliverables: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "常見問題資料"],
+    summary: "常見問題、自動回覆、預約詢問與需求整理。",
+    targetUsers: "需要用 LINE 接客、預約、詢問或整理需求的服務。",
+    problem: "重複回覆很耗時，需求也容易散在訊息裡。",
+    deliverables: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "需求整理流程"],
     demoPath: "/tools/linebot-mission#demo",
     proof: "先整理 FAQ，再做可展示回覆流程。",
   },
   {
     id: "admin-flow",
-    name: "小後台流程包",
+    name: "後台流程 / API",
     label: "20,000 元起",
     price: "20,000 元起",
-    summary: "表單收件、案件列表、狀態管理、簡單資料後台。",
-    targetUsers: "工程行、工作室、小型服務業。",
+    summary: "表單收件、案件列表、狀態管理與資料同步。",
+    targetUsers: "工程行、工作室、服務業與需要流程管理的團隊。",
     problem: "資料散在表單、LINE、Excel，不好追蹤。",
-    deliverables: ["表單收件", "案件列表", "狀態管理", "簡單後台", "資料查詢"],
+    deliverables: ["表單收件", "案件列表", "狀態管理", "資料後台", "API 串接"],
     demoPath: "/buildflow",
-    proof: "可先做簡單後台，再逐步擴充。",
+    proof: "可先做核心流程，再逐步擴充。",
   },
 ]
 
 export const serviceWorkflow = [
-  ["01", "選服務包", "先選最接近的需求。"],
-  ["02", "填需求", "提供網站類型、預算、時程。"],
+  ["01", "確認方向", "先整理最接近的需求。"],
+  ["02", "填需求", "提供服務類型、預算、時程。"],
   ["03", "確認報價", "確認頁數、功能與修改次數。"],
   ["04", "製作與修改", "先給初版，再依約修改。"],
   ["05", "上線交付", "部署網站，提供基本使用說明。"],
@@ -144,13 +144,13 @@ export const processSteps = [
   ["04", "上線", "部署與檢查。"],
 ]
 
-export const audience = ["個人品牌", "小型店家", "工作室", "學生", "新創", "工程服務業"]
+export const audience = ["個人品牌", "店家", "工作室", "工程服務業", "新創團隊", "成長型服務"]
 
 export const pricing = [
-  ["網站快速包", "5,000 元起", "一頁式網站、店家頁、作品集、手機版 RWD。"],
-  ["互動測驗包", "6,000 元起", "題目、選項、答案解析、結果頁。"],
-  ["LINE 回覆包", "8,000 元起", "常見問題、自動回覆、預約說明、價目表回覆。"],
-  ["小後台流程包", "20,000 元起", "表單收件、案件列表、狀態管理、簡單資料後台。"],
+  ["網站起步", "5,000 元起", "品牌網站、服務入口、作品展示與手機版 RWD。"],
+  ["互動工具", "6,000 元起", "診斷、測驗、表單與可操作 Demo。"],
+  ["LINE Bot 串接", "8,000 元起", "自動回覆、預約詢問、需求整理流程。"],
+  ["後台流程 / API", "20,000 元起", "表單收件、案件列表、狀態管理與資料同步。"],
 ]
 
 export const projects = [
@@ -192,7 +192,7 @@ export const projects = [
     liveLabel: "查看互動 Demo",
     secondaryLabel: "技術拆解",
     tags: ["OpenAI API", "React", "報告介面", "Vercel Function"],
-    problem: "很多小型網站不知道問題在哪，只覺得不夠專業或客人不會聯絡。",
+    problem: "很多網站不知道問題在哪，只覺得不夠專業或客人不會聯絡。",
     solution: "把網站檢查拆成手機版、文案、CTA、SEO 與信任感幾個明確面向，產出可執行建議。",
     features: ["健檢表單", "AI 報告", "SEO 檢查", "CTA 建議", "展示模式"],
     architecture: ["React UI", "Vercel API", "OpenAI API", "展示資料"],
@@ -280,12 +280,12 @@ export const projects = [
     secondaryLabel: "討論測驗頁",
     tags: ["互動測驗", "JSON 題庫", "Google Sheet 題庫", "手機版 RWD", "結果頁"],
     problem: "教育訓練、補習班、課程或活動測驗常散在簡報、表單或紙本，難以變成有品牌感、可分享、可展示的互動體驗。",
-    solution: "建立題目頁、選項作答、答案解析與結果頁，第一版可用 JSON 題庫，後續再接 Google Sheet 或簡易後台維護題庫。",
+    solution: "建立題目頁、選項作答、答案解析與結果頁，第一版可用 JSON 題庫，後續再接 Google Sheet 或題庫後台維護內容。",
     features: ["題目頁", "選項作答", "答案解析", "結果頁", "圖片素材", "手機版 RWD"],
     architecture: ["React", "Vite", "Tailwind CSS", "JSON data", "Google Sheet-ready content model"],
     stack: {
       Frontend: "React / Vite / Tailwind",
-      Data: "JSON 題庫，未來可接 Google Sheet 或簡易後台",
+      Data: "JSON 題庫，未來可接 Google Sheet 或題庫後台",
       UX: "題目流程、答案解析、結果頁與分享 CTA",
       Deploy: "Vercel",
     },
@@ -293,12 +293,12 @@ export const projects = [
     demo: ["選擇題目", "作答", "查看解析", "產生結果頁"],
     steps: ["整理題庫", "設計測驗流程", "製作手機版畫面", "上線測試", "視需求接題庫維護方式"],
     mobile: "互動測驗通常在手機上使用，版面會以大按鈕、清楚進度與短文字優先。",
-    future: ["接 Google Sheet 題庫", "加入圖片素材管理", "加入成績紀錄", "加入簡易後台"],
+    future: ["接 Google Sheet 題庫", "加入圖片素材管理", "加入成績紀錄", "加入題庫後台"],
   },
   {
     slug: "ai-business-assistant",
     title: "店家 AI 助手",
-    category: "小型店家 FAQ 與自動回覆產品",
+    category: "店家 FAQ 與自動回覆產品",
     summary: "店家自動回覆成品，可把 FAQ、常見提問、回答語氣與問題紀錄整理成可使用的客服入口。",
     featured: true,
     livePath: "https://ai-tech-quest.vercel.app/missions/business",
@@ -354,14 +354,14 @@ export const projects = [
     slug: "unity-ai-tutor",
     title: "Unity AI 學習關卡",
     category: "互動式學習展示",
-    summary: "用 Unity 做互動式學習任務，讓學生透過拖拉、試錯與 AI 提示理解抽象概念。",
+    summary: "用 Unity 做互動式學習任務，讓使用者透過拖拉、試錯與 AI 提示理解抽象概念。",
     featured: true,
     livePath: "https://ai-tech-quest.vercel.app",
     liveLabel: "查看預告",
     secondaryPath: "/contact",
     secondaryLabel: "討論互動展示",
     tags: ["Unity 2D", "C#", "WebGL", "AI Hint API"],
-    problem: "抽象概念如果只用文字或簡報說明，學生與客戶很難立刻理解，也缺少可以展示的互動體驗。",
+    problem: "抽象概念如果只用文字或簡報說明，使用者與客戶很難立刻理解，也缺少可以展示的互動體驗。",
     solution: "用 Unity WebGL 做可拖拉、可驗證、可提示的互動學習關卡，第一關規劃為 Digital Logic Gate Lab。",
     features: ["Drag and Drop", "Truth Table Checker", "AI Guide", "WebGL Build", "自繪角色 UI"],
     architecture: ["Unity 2D", "C#", "AI Hint API", "WebGL", "React landing entry"],
@@ -387,7 +387,7 @@ export const projects = [
     liveLabel: "查看互動 Demo",
     secondaryLabel: "技術拆解",
     tags: ["React", "Tailwind", "Vercel Function", "REST API", "JSON Payload", "後台介面"],
-    problem: "很多小型服務已經有表單或 LINE，但資料沒有進後台，通知與狀態也靠人工補。",
+    problem: "很多服務已經有表單或 LINE，但資料沒有進後台，通知與狀態也靠人工補。",
     solution: "設計從送出表單、API 接收、寫入資料庫、後台更新到 Email / LINE 通知的端到端流程。",
     features: ["表單送出", "API 接收", "資料庫寫入", "後台狀態", "通知流程", "狀態回傳"],
     architecture: ["REST API", "Webhook", "Supabase", "Serverless Function", "Notification Flow"],
@@ -440,7 +440,7 @@ export const projects = [
     slug: "qingyu-web",
     title: "Qingyu Web Studio 主站",
     category: "品牌網站",
-    summary: "一個為台灣個人品牌、小型店家、工作室與學生設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。",
+    summary: "一個為台灣個人品牌、店家、工作室與工程服務設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。",
     featured: true,
     livePath: "/works/qingyu-web#demo",
     liveLabel: "查看互動 Demo",
