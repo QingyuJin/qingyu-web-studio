@@ -138,11 +138,11 @@ function StudioHome() {
       <Seo page={seo.home} />
 
       <HeroSection />
+      <CaseSection />
       <ServiceCardsSection />
       <ServiceDetailsSection />
       <ProcessSection />
       <FitSection />
-      <CaseSection />
       <FinalCta />
     </SiteLayout>
   )
@@ -168,29 +168,29 @@ function HeroSection() {
             適合店家、工作室、工程行、個人品牌與學生專題。先從可用版本開始，再依需求擴充。
           </p>
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
-            <a href="#services" className="inline-flex min-h-12 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22] shadow-lg shadow-[#071113]/10 hover:bg-[#f5f1e9]">
-              看服務包
-            </a>
-            <Link to="/contact" className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white shadow-lg shadow-[#071113]/10 hover:bg-[#26343b]">
-              填需求表單
-            </Link>
-            <a href="#cases" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/55 bg-white/18 px-5 text-sm font-black text-white backdrop-blur hover:bg-white/25">
+            <a href="#cases" className="inline-flex min-h-12 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22] shadow-lg shadow-[#071113]/10 hover:bg-[#f5f1e9]">
               查看案例
             </a>
+            <a href="#services" className="inline-flex min-h-12 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white shadow-lg shadow-[#071113]/10 hover:bg-[#26343b]">
+              看服務包
+            </a>
+            <Link to="/contact" className="inline-flex min-h-12 items-center justify-center rounded-md border border-white/55 bg-white/18 px-5 text-sm font-black text-white backdrop-blur hover:bg-white/25">
+              填需求表單
+            </Link>
           </div>
         </div>
 
         <div className="rounded-lg border border-white/45 bg-white/22 p-4 shadow-2xl shadow-[#071113]/20 backdrop-blur-xl">
-          <p className="px-2 text-xs font-black text-white/82">快速選擇</p>
+          <p className="px-2 text-xs font-black text-white/82">範例實作</p>
           <div className="mt-3 grid gap-2">
-            {serviceCards.map((item) => (
-              <a key={item.id} href={`#${item.id}`} className="group flex min-h-16 items-center justify-between rounded-lg border border-white/35 bg-white/38 px-4 text-sm font-black text-[#132123] shadow-sm backdrop-blur transition hover:bg-white/62">
+            {caseCards.map((item) => (
+              <SmartLink key={item.title} to={item.to} className="group flex min-h-16 items-center justify-between rounded-lg border border-white/35 bg-white/38 px-4 text-sm font-black text-[#132123] shadow-sm backdrop-blur transition hover:bg-white/62">
                 <span>
                   <span className="block">{item.title}</span>
-                  <span className="mt-1 block text-xs font-bold text-[#4d5e5b]">{item.price}</span>
+                  <span className="mt-1 block text-xs font-bold text-[#4d5e5b]">{item.text}</span>
                 </span>
-                <span className="text-xs text-[#0d6b62] group-hover:text-[#083f3b]">選</span>
-              </a>
+                <span className="text-xs text-[#0d6b62] group-hover:text-[#083f3b]">{item.action}</span>
+              </SmartLink>
             ))}
           </div>
         </div>
@@ -326,7 +326,7 @@ function CaseSection() {
   return (
     <section id="cases" className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="案例" title="查看案例" />
+        <SectionHeading eyebrow="範例" title="先看實作" text="先看做出來的東西，再看服務內容。" />
         <div className="grid gap-4 md:grid-cols-2">
           {caseCards.map((item) => (
             <SmartLink
@@ -355,7 +355,7 @@ function FinalCta() {
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 md:grid-cols-[1fr_auto] md:items-center md:py-16">
         <div>
           <p className="text-xs font-black text-[#8fd6cc]">下一步</p>
-          <h2 className="mt-3 text-3xl font-black">不知道選哪個也可以。</h2>
+          <h2 className="mt-3 text-3xl font-black">看完範例，再填需求。</h2>
           <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">
             填需求，我先幫你整理適合的做法。
           </p>
