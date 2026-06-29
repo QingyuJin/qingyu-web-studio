@@ -9,44 +9,28 @@
     <priority>0.9</priority>
   </url>
   <url>
-    <loc>https://www.qingyuweb.com/works/company-site</loc>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.qingyuweb.com/works/tracking-system</loc>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.qingyuweb.com/works/memberhub</loc>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.qingyuweb.com/works/quiz-page</loc>
-    <priority>0.85</priority>
+    <loc>https://www.qingyuweb.com/works/ai-audit</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.qingyuweb.com/works/linebot</loc>
-    <priority>0.85</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.qingyuweb.com/works/buildflow</loc>
-    <priority>0.85</priority>
-  </url>
-  <url>
-    <loc>https://www.qingyuweb.com/works/xinjiang</loc>
-    <priority>0.75</priority>
-  </url>
-  <url>
-    <loc>https://www.qingyuweb.com/works/ai-audit</loc>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.qingyuweb.com/works/api-automation</loc>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.qingyuweb.com/works/xinjiang</loc>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.qingyuweb.com/works/qingyu-web</loc>
-    <priority>0.75</priority>
+    <priority>0.8</priority>
   </url>
   <url>
     <loc>https://www.qingyuweb.com/services</loc>
@@ -57,8 +41,12 @@
     <priority>0.7</priority>
   </url>
   <url>
+    <loc>https://www.qingyuweb.com/free-audit</loc>
+    <priority>0.7</priority>
+  </url>
+  <url>
     <loc>https://www.qingyuweb.com/contact</loc>
-    <priority>0.8</priority>
+    <priority>0.7</priority>
   </url>
   <url>
     <loc>https://www.qingyuweb.com/tools/project-planner</loc>

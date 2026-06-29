@@ -1,24 +1,43 @@
+import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import ContactLeadSection from "../components/ContactLeadSection"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 import WorkDemoPanel from "./WorkDemoPanels"
-import { contact, pricing, projects, seo, serviceOfferings, serviceWorkflow } from "./content"
+import {
+  contact,
+  pricing,
+  projects,
+  seo,
+  serviceOfferings,
+  serviceWorkflow,
+} from "./content"
 
 function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions, heroVisual, children }) {
   return (
     <SiteLayout>
       <Seo page={page} />
-      <section className="nature-section-soft relative overflow-hidden border-b border-white/50">
-        <div className="absolute inset-x-0 top-0 h-56 bg-[linear-gradient(180deg,#f5efe4,rgba(245,239,228,0))]" />
-        <div className={`relative mx-auto grid max-w-6xl gap-9 px-4 py-12 md:py-18 ${heroVisual ? "lg:grid-cols-[0.9fr_1.1fr] lg:items-center" : ""}`}>
+      <section className="border-b border-[#e6e0d5] bg-white">
+        <div className={`mx-auto grid max-w-6xl gap-8 px-4 py-12 md:py-20 ${heroVisual ? "lg:grid-cols-[0.95fr_1.05fr] lg:items-center" : ""}`}>
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">{eyebrow}</p>
-            <h1 className="mt-4 max-w-3xl text-[clamp(2rem,7vw,4.65rem)] font-black leading-[1.04] tracking-[-0.035em] text-[#111c22]">
+            <p className="text-xs font-black uppercase text-[#0d6b62]">{eyebrow}</p>
+            <h1 className="mt-4 max-w-3xl text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.1] md:text-[clamp(2.35rem,8vw,4.7rem)] md:leading-[1.04]">
               {title}
             </h1>
-            <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base md:leading-8">{intro}</p>
-            {actions ? <div className="mt-7 flex flex-col gap-3 sm:flex-row sm:flex-wrap">{actions}</div> : null}
+            <p className="mt-5 line-clamp-2 max-w-3xl text-sm font-bold leading-7 text-[#52605c] md:text-base md:leading-8">{intro}</p>
+            {actions ? (
+              <div className="mt-7 grid gap-2 sm:flex sm:flex-wrap md:gap-3">
+                {actions}
+                {page?.path?.startsWith("/works/") ? (
+                  <Link
+                    to="/contact"
+                    className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#0d6b62] bg-[#eef7f4] px-5 text-sm font-black text-[#0d6b62] transition hover:bg-[#dff1ec]"
+                  >
+                    找我做類似系統
+                  </Link>
+                ) : null}
+              </div>
+            ) : null}
           </div>
           {heroVisual ? <div>{heroVisual}</div> : null}
         </div>
@@ -28,11 +47,23 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
   )
 }
 
-function Card({ children, dark = false, className = "" }) {
+function Card({ children, dark = false }) {
   return (
-    <article className={`rounded-[1.35rem] border p-5 shadow-sm ${dark ? "border-[#233139] bg-[#111c22] text-white" : "qy-glass-card border-[#e6ded2] bg-white"} ${className}`}>
+    <article className={`rounded-xl border p-5 ${dark ? "border-[#233139] bg-[#111c22] text-white" : "border-[#e3ded3] bg-white"}`}>
       {children}
     </article>
+  )
+}
+
+function Tags({ items }) {
+  return (
+    <div className="flex flex-wrap gap-2">
+      {items.map((item) => (
+        <span key={item} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+          {item}
+        </span>
+      ))}
+    </div>
   )
 }
 
@@ -48,57 +79,269 @@ function ActionLink({ to, children, ...props }) {
       </a>
     )
   }
+
   return (
     <Link to={to} {...props}>
       {children}
     </Link>
   )
 }
+function WorkPreview({ project }) {
+  const panels = {
+    "ai-tech-quest": ["RAG 任務", "ML 分類", "產品展示室"],
+    "interactive-quiz": ["題目頁", "答案解析", "結果頁"],
+    "ai-business-assistant": ["FAQ 後台", "自動回覆", "問答紀錄"],
+    "tw-civic-rag": ["文件切分", "來源引用", "安全回答"],
+    "unity-ai-tutor": ["Unity 2D", "AI 提示", "WebGL"],
+    "ai-audit": ["SEO 82", "CTA 建議", "手機版檢查"],
+    linebot: ["LINE 對話", "Webhook", "後台收件"],
+    buildflow: ["案件列表", "報價單", "LINE 回報"],
+    "api-automation": ["Form", "API", "Notify"],
+    "project-planner": ["5 步驟", "AI 規劃", "聯絡 CTA"],
+    xinjiang: ["服務頁", "估價入口", "案例"],
+    "qingyu-web": ["RWD", "SEO / OG", "聯絡 CTA"],
+  }
+  const previewMeta = {
+    "ai-tech-quest": { status: "技術展示", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
+    "interactive-quiz": { status: "測驗頁", metric: "RWD", summary: "題目 → 作答 → 解析 → 結果" },
+    "ai-business-assistant": { status: "店家助手", metric: "FAQ", summary: "FAQ → matching → 自動回覆" },
+    "tw-civic-rag": { status: "文件問答", metric: "RAG", summary: "文件檢索增強生成（RAG）+ 來源引用" },
+    "unity-ai-tutor": { status: "學習關卡", metric: "WebGL", summary: "Unity 互動學習展示" },
+    "ai-audit": { status: "AI 報告", metric: "分數 82", summary: "SEO / CTA / 信任感" },
+    linebot: { status: "Webhook", metric: "3 則訊息", summary: "LINE → 回覆 → 收件匣" },
+    buildflow: { status: "後台", metric: "75%", summary: "案件 / 報價 / LINE" },
+    "api-automation": { status: "API 流程", metric: "ok: true", summary: "資料送出 → 回應" },
+    "project-planner": { status: "需求診斷", metric: "步驟 1 / 5", summary: "規則判斷 + AI 規劃" },
+    xinjiang: { status: "案例", metric: "估價", summary: "網站 → BuildFlow" },
+    "qingyu-web": { status: "SEO 已整理", metric: "RWD", summary: "展示區 → 聯絡" },
+  }
+  const toolPreviewFallback = {
+    "website-rescue": {
+      items: ["網站分數", "CTA / SEO", "改善報告"],
+      meta: { status: "互動展示", metric: "分數 +50", summary: "改善前 / 改善後 / CTA" },
+    },
+    "linebot-mission": {
+      items: ["LINE 對話", "接待狀態", "案件後台"],
+      meta: { status: "接待模擬", metric: "5 則訊息", summary: "LINE Bot → 後台" },
+    },
+  }
+  const fallbackPreview = toolPreviewFallback[project.slug]
+  const items = panels[project.slug] || fallbackPreview?.items || project.visuals.slice(0, 3)
+  const meta = previewMeta[project.slug] || fallbackPreview?.meta || { status: "可操作", metric: "展示", summary: project.category }
 
-function Tags({ items = [], max = 4 }) {
   return (
-    <div className="flex flex-wrap gap-2">
-      {items.slice(0, max).map((item) => (
-        <span key={item} className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
-          {item}
-        </span>
-      ))}
+    <div className="mb-5 min-h-48 overflow-hidden rounded-2xl border border-[#e6e0d5] bg-[#faf8f3] p-4 md:min-h-56">
+      <div className="flex items-center justify-between gap-3">
+        <span className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">產品預覽</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{meta.status}</span>
+      </div>
+      <div className="mt-4 rounded-2xl bg-[#111c22] p-4 text-white shadow-lg shadow-[#111c22]/10">
+        <div className="flex items-center justify-between gap-3">
+          <p className="text-sm font-black">{project.title}</p>
+          <span className="text-xs font-black text-[#8fd6cc]">{meta.metric}</span>
+        </div>
+        <div className="mt-3 h-2 rounded-full bg-white/15">
+          <div className="h-full w-4/5 rounded-full bg-[#8fd6cc]" />
+        </div>
+        <p className="mt-3 rounded-lg bg-white/10 px-3 py-2 text-xs font-black text-white/80">{meta.summary}</p>
+      </div>
+      <div className="mt-3 hidden gap-2 sm:grid sm:grid-cols-3">
+        {items.map((item) => (
+          <div key={item} className="rounded-lg border border-[#e1dbcf] bg-white px-3 py-2 text-xs font-black text-[#40504c]">
+            {item}
+          </div>
+        ))}
+      </div>
     </div>
   )
 }
 
-const sections = [
-  {
-    title: "可委託成品",
-    text: "可以改成你的公司、店家或流程。",
-    slugs: ["company-site", "tracking-system", "memberhub", "quiz-page", "buildflow", "linebot"],
+const conversionProfiles = {
+  "ai-audit": {
+    audience: ["店家", "個人品牌", "工作室", "準備改版的網站"],
+    custom: ["健檢項目", "報告格式", "Prompt Flow", "Email 報告輸出"],
+    problems: ["不知道網站哪裡不清楚", "客戶看完沒有聯絡", "首頁 CTA 與 SEO 不夠明確"],
+    scenario: "改版前先找問題。",
+    next: "先健檢，再改版。",
   },
-  {
-    title: "技術展示",
-    text: "AI、RAG、互動與自動化能力展示。",
-    slugs: ["ai-tech-quest", "tw-civic-rag", "ai-audit", "unity-ai-tutor"],
+  linebot: {
+    audience: ["店家", "預約型服務", "工作室", "需要 LINE 收需求的團隊"],
+    custom: ["對話流程", "Webhook 欄位", "後台收件狀態", "LINE / Email 通知"],
+    problems: ["LINE 訊息太散", "客戶需求沒有被整理", "店家回覆與追蹤靠人工記"],
+    scenario: "LINE 詢問變成可追蹤需求。",
+    next: "先整理問答與收件欄位。",
   },
-]
+  buildflow: {
+    audience: ["工程行", "修繕服務", "現場服務團隊", "需要照片與進度管理的公司"],
+    custom: ["案件欄位", "報價單", "LINE 回報", "Supabase / PDF Export"],
+    problems: ["照片與報價散在 LINE", "施工狀態不好追", "案件從詢價到完工沒有完整紀錄"],
+    scenario: "詢價、照片、報價進後台。",
+    next: "先定義案件狀態。",
+  },
+  "api-automation": {
+    audience: ["有表單收件需求的團隊", "需要通知流程的店家", "想把資料進後台的工作室"],
+    custom: ["API Payload", "驗證規則", "通知節點", "後台欄位"],
+    problems: ["表單送出後沒人追", "資料要手動複製到表格", "通知與後台狀態沒有串接"],
+    scenario: "表單送出後自動進後台。",
+    next: "先確認欄位與通知對象。",
+  },
+  "qingyu-web": {
+    audience: ["個人品牌", "店家", "工作室", "作品展示"],
+    custom: ["首頁架構", "作品頁", "需求診斷工具", "SEO / Open Graph"],
+    problems: ["服務說不清楚", "作品沒有導到詢問", "客戶不知道下一步該怎麼聯絡"],
+    scenario: "服務、作品、工具、聯絡整合。",
+    next: "先整理服務分類與作品入口。",
+  },
+  xinjiang: {
+    audience: ["工程服務業", "需要形象網站的店家", "想把詢價接到後台的團隊"],
+    custom: ["估價入口", "服務分類", "BuildFlow 串接", "LINE 回報流程"],
+    problems: ["客戶只看 LINE 或社群", "估價需求沒有進後台", "工程案例與案件管理分開"],
+    scenario: "工程網站串到案件管理。",
+    next: "先做好估價入口。",
+  },
+}
+
+const defaultConversionProfile = {
+  audience: ["店家", "個人品牌", "工作室"],
+  custom: ["頁面架構", "互動流程", "資料欄位", "聯絡 CTA"],
+  problems: ["服務不容易被理解", "客戶看完不知道怎麼詢問", "流程太靠人工整理"],
+  scenario: "先用 Demo 驗證流程。",
+  next: "先整理方向。",
+}
+
+const workBusinessValues = {
+  "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
+  linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
+  buildflow: "需求、報價、回報、LINE 查詢。",
+  "ai-tech-quest": "AI 技術互動展示。",
+  "interactive-quiz": "測驗、解析、結果頁。",
+  "ai-business-assistant": "店家 FAQ 與自動回覆產品。",
+  "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
+  "unity-ai-tutor": "互動式學習展示。",
+  "api-automation": "表單送出後，自動進 API、通知與後台。",
+  "project-planner": "用診斷工具分類需求。",
+  "qingyu-web": "服務、作品、工具與聯絡流程。",
+  xinjiang: "把工程網站的估價入口接到案件管理流程。",
+}
+
+const conciseWorkValues = {
+  "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
+  linebot: "讓 LINE 訊息自動整理成需求。",
+  buildflow: "需求、報價、回報與 LINE 查詢。",
+  "interactive-quiz": "題目、作答、解析、結果頁。",
+  "ai-tech-quest": "文件問答、模型分類、店家助手。",
+  "ai-business-assistant": "FAQ、回答紀錄、LINE Bot 延伸。",
+  "tw-civic-rag": "RAG、來源引用、文件查詢。",
+  "unity-ai-tutor": "Unity 互動學習關卡。",
+  "api-automation": "表單送出後，自動進 API、通知與後台。",
+  "project-planner": "判斷適合做網站、LINE Bot 還是系統。",
+  "website-rescue": "點選改善項目，查看網站狀態變化。",
+  "linebot-mission": "模擬 LINE 接待與後台同步。",
+  "qingyu-web": "展示主站、作品、工具與聯絡流程。",
+  xinjiang: "工程網站如何串到 BuildFlow 後台。",
+}
 
 export function WorksPage() {
+  const plannerProject = {
+    slug: "project-planner",
+    title: "網站需求診斷工具",
+    category: "互動工具",
+    summary: "回答幾題，整理方向。",
+    livePath: "/tools/project-planner#demo",
+    liveLabel: "查看互動 Demo",
+    secondaryPath: "/tools/project-planner#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "Rule-based", "OpenAI optional", "聯絡 CTA"],
+    visuals: ["5-step form", "Recommendation UI", "AI plan"],
+    demo: ["需求表單", "快速建議", "AI 完整規劃"],
+  }
+  const rescueProject = {
+    slug: "website-rescue",
+    title: "網站救援互動 Demo",
+    category: "互動工具",
+    summary: "點選改善項目，看網站狀態變化。",
+    livePath: "/tools/website-rescue#demo",
+    liveLabel: "開始改善",
+    secondaryPath: "/tools/website-rescue#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "State Machine", "Scoring UI", "Conversion CTA"],
+    visuals: ["分數介面", "改善前 / 改善後", "結果報告"],
+    demo: ["問題清單", "修正選項", "改善報告"],
+  }
+  const lineBotMissionProject = {
+    slug: "linebot-mission",
+    title: "LINE Bot 接待模擬",
+    category: "互動工具",
+    summary: "模擬 LINE 接待與後台同步。",
+    livePath: "/tools/linebot-mission#demo",
+    liveLabel: "開始模擬",
+    secondaryPath: "/tools/linebot-mission#tech",
+    secondaryLabel: "技術拆解",
+    tags: ["React", "LINE Bot", "State Machine", "後台介面"],
+    visuals: ["LINE 對話", "接待狀態", "案件後台"],
+    demo: ["處理策略", "指標變化", "後台同步"],
+  }
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
+  const primaryProducts = [
+    projectBySlug.buildflow,
+    projectBySlug["interactive-quiz"],
+    projectBySlug["ai-tech-quest"],
+    projectBySlug["ai-business-assistant"],
+    projectBySlug["tw-civic-rag"],
+  ].filter(Boolean)
+  const sections = [
+    {
+      title: "主打成品",
+      text: "直接打開。",
+      items: primaryProducts,
+    },
+    {
+      title: "互動工具",
+      text: "可試用。",
+      items: [rescueProject, lineBotMissionProject, plannerProject, projectBySlug.xinjiang].filter(Boolean),
+    },
+    {
+      title: "其他作品",
+      text: "補充案例。",
+      items: [projectBySlug["ai-audit"], projectBySlug["api-automation"], projectBySlug["qingyu-web"]].filter(Boolean),
+    },
+  ]
 
   return (
-    <PageShell page={seo.works} title="成品範例" intro="可以直接看畫面，再改成你的需求。">
-      <section className="mx-auto max-w-6xl px-4 py-14 md:py-18">
-        <div className="grid gap-14">
+    <PageShell page={seo.works} title="成品入口" intro="點卡片，直接看實物。">
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="grid gap-10">
           {sections.map((section) => (
             <div key={section.title}>
-              <div className="mb-6 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
+              <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
                 <div>
-                  <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Collection</p>
-                  <h2 className="mt-2 text-3xl font-black tracking-[-0.02em]">{section.title}</h2>
+                  <p className="text-xs font-black text-[#0d6b62]">作品</p>
+                  <h2 className="mt-2 text-2xl font-black md:text-3xl">{section.title}</h2>
                 </div>
                 <p className="max-w-xl text-sm font-bold leading-6 text-[#52605c]">{section.text}</p>
               </div>
-              <div className="grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-                {section.slugs.map((slug) => projectBySlug[slug]).filter(Boolean).map((project) => (
-                  <WorkCard key={project.slug} project={project} />
+              <div className={`grid gap-4 ${section.items.length === 1 ? "md:grid-cols-1" : "md:grid-cols-2"}`}>
+                {section.items.map((project) => (
+                  <article key={project.slug} className="rounded-xl border border-[#e3ded3] bg-white p-4 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg md:p-5">
+                    <WorkPreview project={project} />
+                    <p className="text-xs font-black text-[#0d6b62]">{project.category}</p>
+                    <h3 className="mt-3 text-xl font-black md:text-2xl">{project.title}</h3>
+                    <p className="mt-3 rounded-lg bg-[#faf8f3] px-3 py-2 text-sm font-black leading-6 text-[#40504c]">
+                      {conciseWorkValues[project.slug] || workBusinessValues[project.slug] || project.summary}
+                    </p>
+                    {project.slug === "buildflow" ? <BuildFlowCaseFacts /> : null}
+                    <div className="mt-4 hidden md:block">
+                      <Tags items={(project.tags || []).slice(0, 3)} />
+                    </div>
+                    <div className="mt-5 flex flex-wrap gap-3">
+                      <ActionLink to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white md:min-h-10 md:w-auto">
+                        {project.liveLabel}
+                      </ActionLink>
+                      <ActionLink to={project.secondaryPath || `/works/${project.slug}#tech`} className="hidden min-h-10 items-center rounded-md border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22] md:inline-flex">
+                        {project.secondaryLabel || "技術拆解"}
+                      </ActionLink>
+                    </div>
+                  </article>
                 ))}
               </div>
             </div>
@@ -109,44 +352,639 @@ export function WorksPage() {
   )
 }
 
-function WorkCard({ project }) {
+function BuildFlowCaseFacts() {
+  const facts = [
+    {
+      title: "問題",
+      text: "工程案常散在 LINE、口頭、Excel、紙本，老闆很難追需求、報價、派工與現場回報。",
+    },
+    {
+      title: "解法",
+      text: "建立前台需求表單、後台案件管理、派工回報與 LINE Bot 查詢流程。",
+    },
+    {
+      title: "適合",
+      text: "工程行、防水、水電、裝修、維修服務團隊。",
+    },
+  ]
+
   return (
-    <article className="qy-glass-card rounded-[1.55rem] border p-4 transition hover:-translate-y-1">
-      <WorkPreview project={project} />
-      <p className="mt-5 text-xs font-black text-[#0d6b62]">{project.price}</p>
-      <h3 className="mt-2 text-2xl font-black tracking-[-0.02em]">{project.title}</h3>
-      <p className="mt-3 line-clamp-2 min-h-12 text-sm font-bold leading-6 text-[#52605c]">{project.summary}</p>
-      <div className="mt-4 hidden md:block">
-        <Tags items={project.tags} max={2} />
-      </div>
-      <div className="mt-5 flex flex-wrap gap-3">
-        <ActionLink to={project.livePath} className="inline-flex min-h-11 w-full items-center justify-center rounded-full bg-[#111c22] px-4 text-sm font-black text-white md:w-auto">
-          {project.liveLabel || "查看成品"}
-        </ActionLink>
-        <ActionLink to={`/works/${project.slug}#tech`} className="hidden min-h-11 items-center rounded-full border border-[#d8d2c5] px-4 text-sm font-black text-[#111c22] md:inline-flex">
-          技術拆解
-        </ActionLink>
-      </div>
-    </article>
+    <div className="mt-4 grid gap-3 md:grid-cols-3">
+      {facts.map((fact) => (
+        <div key={fact.title} className="rounded-lg border border-[#e3ded3] bg-white px-3 py-3">
+          <p className="text-xs font-black text-[#0d6b62]">{fact.title}</p>
+          <p className="mt-2 text-xs font-bold leading-5 text-[#52605c]">{fact.text}</p>
+        </div>
+      ))}
+    </div>
   )
 }
 
-function WorkPreview({ project }) {
+export function WorkDetailPage() {
+  const { slug } = useParams()
+  const project = projects.find((item) => item.slug === slug) || projects[0]
+  const isLineBotProject = project.slug === "linebot"
+  const isBuildFlowProject = project.slug === "buildflow"
+  const isApiAutomationProject = project.slug === "api-automation"
+  const isQingyuWebProject = project.slug === "qingyu-web"
+  const isXinjiangProject = project.slug === "xinjiang"
+  const isAiTechQuestProject = project.slug === "ai-tech-quest"
+  const isInternalDemoPath = project.livePath === `/works/${project.slug}#demo`
+  const conversionProfile = conversionProfiles[project.slug] || defaultConversionProfile
+  const projectSeo = {
+    path: `/works/${project.slug}`,
+    title: isQingyuWebProject
+      ? "Qingyu Web Studio 主站案例｜網站服務、互動展示區 與 SEO 架構"
+      : isBuildFlowProject
+      ? "BuildFlow 工程行案件管理系統展示｜鑫匠工程案例｜Qingyu Web Studio"
+      : isXinjiangProject
+      ? "鑫匠工程案例｜工程網站與 BuildFlow 案件管理展示｜Qingyu Web Studio"
+      : isApiAutomationProject
+        ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
+        : `${project.title}｜Qingyu Web Studio`,
+    description: isQingyuWebProject
+      ? "展示主站、Demo、SEO 與聯絡轉換。"
+      : isBuildFlowProject
+      ? "以鑫匠工程為案例，展示詢價、案件、報價與 LINE 回報。"
+      : isXinjiangProject
+      ? "工程網站與 BuildFlow 案件流程案例。"
+      : isApiAutomationProject
+        ? "表單、API、通知與後台流程展示。"
+        : project.summary,
+  }
+
   return (
-    <div className="qy-glass-soft rounded-[1.25rem] border p-3">
-      <div className="flex items-center gap-1.5">
-        <span className="h-2.5 w-2.5 rounded-full bg-[#f0c36a]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#8fd6cc]" />
-        <span className="h-2.5 w-2.5 rounded-full bg-[#d8d2c5]" />
-      </div>
-      <div className="mt-4 min-h-44 rounded-2xl bg-[#111c22] p-4 text-white">
-        <div className="flex items-center justify-between gap-3">
-          <p className="text-sm font-black">{project.title}</p>
-          <span className="rounded-full bg-white/10 px-2.5 py-1 text-[11px] font-black text-white/68">{project.category}</span>
+    <PageShell
+      page={projectSeo}
+      eyebrow={project.category}
+      title={project.title}
+      intro={conciseWorkValues[project.slug] || project.summary}
+      actions={
+        isAiTechQuestProject ? (
+          <>
+            <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              線上實測
+            </ActionLink>
+            <ActionLink to={project.secondaryPath} className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              GitHub 原始碼
+            </ActionLink>
+            <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              討論類似 AI Demo
+            </Link>
+          </>
+        ) : isLineBotProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
+            </Link>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看後台 Demo
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isBuildFlowProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
+            </Link>
+            <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              看鑫匠案例
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isQingyuWebProject ? (
+          <>
+            <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看首頁
+            </Link>
+            <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              開始需求診斷
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isApiAutomationProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
+            </Link>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看 API Demo
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : isXinjiangProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
+            </Link>
+            <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              查看 BuildFlow 系統
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        ) : (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看互動 Demo
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術拆解
+            </Link>
+          </>
+        )
+      }
+      heroVisual={<HeroPreview project={project} />}
+    >
+      <section className="mx-auto max-w-6xl px-4 pt-14">
+        <WorkShowcase project={project} />
+      </section>
+
+      <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-8">
+        <div className="grid gap-5">
+          <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
+            <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">線上展示</p>
+                <h2 className="mt-2 text-2xl font-black">展示操作台</h2>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
+                  直接操作，看資料怎麼變。
+                </p>
+              </div>
+              {isInternalDemoPath ? (
+                <div className="flex flex-wrap gap-2 md:justify-end">
+                  {["可互動 Demo", "狀態會變化", "手機版可操作"].map((item) => (
+                    <span key={item} className="rounded-full border border-[#d7dfdb] bg-[#f7f4ec] px-3 py-2 text-xs font-black text-[#40504c]">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              ) : (
+                <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            {project.liveLabel}
+          </ActionLink>
+              )}
+            </div>
+          </div>
+          <WorkDemoPanel project={project} />
         </div>
-        <div className="mt-5 grid gap-2">
-          {(project.visuals || []).slice(0, 3).map((item) => (
-            <div key={item} className="rounded-xl bg-white/10 px-3 py-2 text-xs font-black text-white/78">
+      </section>
+
+      {isQingyuWebProject ? (
+        <section className="mx-auto max-w-6xl px-4 py-16">
+          <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+            <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Main Site 案例說明</p>
+                <h2 className="mt-3 text-3xl font-black">主站轉換流程</h2>
+                <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
+                  服務、作品、工具、聯絡串成一路。
+                </p>
+              </div>
+              <div className="grid gap-3 md:grid-cols-2">
+                {[
+                  ["問題", "服務要先被看懂。"],
+                  ["首頁", "定位、作品、CTA。"],
+                  ["互動", "Demo 可以直接操作。"],
+                  ["診斷", "先整理需求。"],
+                  ["聯絡", "LINE、Email、表單。"],
+                  ["SEO", "metadata、sitemap、robots。"],
+                ].map(([title, text]) => (
+                  <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                    <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+                    <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div className="mt-6 rounded-2xl bg-[#111c22] p-5 text-white">
+              <div className="grid gap-5 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+                <div>
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">CTA Flow</p>
+                  <h3 className="mt-3 text-2xl font-black">訪客 → 首頁 → 展示區 → 需求診斷 → 聯絡</h3>
+                  <p className="mt-3 text-sm font-bold leading-7 text-white/70">
+                    首頁建立信任，作品展示技術，最後導到聯絡。
+                  </p>
+                </div>
+                <div className="grid gap-2">
+                  {["首頁定位", "互動展示區", "需求診斷收需求", "聯絡轉換", "SEO / sitemap / robots / Vercel"].map((item, index) => (
+                    <div key={item} className="flex items-center gap-3 rounded-xl bg-white/10 p-3">
+                      <span className="flex h-8 w-8 items-center justify-center rounded-full bg-[#8fd6cc] text-xs font-black text-[#0b2724]">{index + 1}</span>
+                      <span className="text-sm font-black text-white/86">{item}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+              <div className="mt-5 flex flex-wrap gap-2">
+                {["React", "Vite", "Tailwind", "React Router", "SEO metadata 設定", "Open Graph", "sitemap.xml", "robots.txt", "Vercel"].map((item) => (
+                  <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                    {item}
+                  </span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </section>
+      ) : null}
+
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-4 lg:grid-cols-3">
+          <Card>
+            <h2 className="text-xl font-black">問題</h2>
+            <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.problem}</p>
+          </Card>
+          <Card>
+            <h2 className="text-xl font-black">解法</h2>
+            <p className="mt-3 line-clamp-2 text-sm font-bold leading-7 text-[#52605c]">{project.solution}</p>
+          </Card>
+          <Card dark>
+            <h2 className="text-xl font-black">畫面展示</h2>
+            <div className="mt-4 grid gap-2">
+              {project.visuals.map((item) => (
+                <div key={item} className="rounded-lg bg-white/10 px-3 py-2 text-sm font-black text-white/80">
+                  {item}
+                </div>
+              ))}
+            </div>
+          </Card>
+        </div>
+      </section>
+
+      <section id="tech" className="scroll-mt-24 border-y border-[#e6e0d5] bg-[#f2efe7]">
+        <div className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.9fr_1.1fr]">
+          <div>
+            <h2 className="text-3xl font-black">功能與技術架構</h2>
+            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
+              畫面、資料流、API 與部署拆開看。
+            </p>
+          </div>
+          <div className="grid gap-5">
+            <div>
+              <p className="mb-3 text-sm font-black text-[#0d6b62]">功能</p>
+              <Tags items={project.features} />
+            </div>
+            <div>
+              <p className="mb-3 text-sm font-black text-[#0d6b62]">技術架構</p>
+              <div className="grid gap-3">
+                {Object.entries(project.stack).map(([layer, detail]) => (
+                  <div key={layer} className="rounded-lg border border-[#ddd6c9] bg-white p-3">
+                    <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{layer}</p>
+                    <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{detail}</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+            {isLineBotProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Architecture</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  LINE 使用者 → LINE 平台 → /api/line-webhook → OpenAI / 展示回覆 → LINE 回覆 → 後台
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Demo 模式"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {isBuildFlowProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">BuildFlow 架構</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  案件列表 → 案件詳情 → 狀態更新 → LINE 回報時間軸 → 照片 / 報價視窗
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Tailwind", "案件狀態管理", "後台介面", "LINE 回報", "Supabase-ready", "報價單 未來 PDF 匯出"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {isQingyuWebProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">主站轉換流程</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  訪客 → 首頁 → 展示區 → 需求診斷 → 聯絡 → Case Study
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Vite / Tailwind", "React Router", "Vercel 部署", "SEO metadata 設定", "Open Graph", "聯絡 CTA"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+            {isApiAutomationProject ? (
+              <div className="rounded-xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">自動化架構</p>
+                <div className="mt-4 overflow-x-auto text-sm font-black leading-7">
+                  客戶表單 → 資料檢查 → 需求建立 → 通知紀錄 → 後台追蹤
+                </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {["React / Tailwind", "Vercel Serverless Function", "Request Body Check", "JSON Payload", "通知流程", "React State UI"].map((item) => (
+                    <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
+                      {item}
+                    </span>
+                  ))}
+                </div>
+              </div>
+            ) : null}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <details className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+          <summary className="cursor-pointer list-none">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">功能細節</p>
+            <h2 className="mt-2 text-2xl font-black">功能展示細節</h2>
+          </summary>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {project.demo.map((item) => (
+              <Card key={item}>
+                <p className="text-sm font-black leading-7">{item}</p>
+              </Card>
+            ))}
+          </div>
+        </details>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-10">
+        <details className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+          <summary className="cursor-pointer list-none">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">使用流程</p>
+            <h2 className="mt-2 text-2xl font-black">使用流程</h2>
+          </summary>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {project.steps.map((step, index) => (
+              <Card key={step}>
+                <p className="text-xs font-black text-[#0d6b62]">步驟 {index + 1}</p>
+                <p className="mt-3 text-lg font-black">{step}</p>
+              </Card>
+            ))}
+          </div>
+        </details>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-4 md:grid-cols-2">
+          <Card>
+            <h2 className="text-2xl font-black">手機版展示</h2>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{project.mobile}</p>
+          </Card>
+          <Card>
+            <h2 className="text-2xl font-black">未來可擴充</h2>
+            <ul className="mt-3 grid gap-2 text-sm font-bold leading-7 text-[#52605c] md:grid-cols-2">
+              {project.future.map((item) => (
+                <li key={item}>・{item}</li>
+              ))}
+            </ul>
+          </Card>
+        </div>
+        <div className="mt-10">
+          <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">應用情境</p>
+              <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
+            </div>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
+              先看 Demo，再整理流程。
+            </p>
+          </div>
+          <div className="mt-5 grid gap-3 md:grid-cols-3">
+            {[
+              ["適合誰", conversionProfile.audience.slice(0, 2).join("、")],
+              ["能做什麼", conversionProfile.custom.slice(0, 2).join("、")],
+              ["下一步", conversionProfile.next],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+                <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
+          <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
+          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
+            先診斷，再聯絡。
+          </p>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              開始需求診斷
+            </Link>
+            <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              找我做類似系統
+            </Link>
+          </div>
+        </div>
+      </section>
+    </PageShell>
+  )
+}
+
+function HeroPreview({ project }) {
+  const isLineBot = project.slug === "linebot"
+  const isBuildFlow = project.slug === "buildflow"
+  const isAudit = project.slug === "ai-audit"
+  const isApi = project.slug === "api-automation"
+  const isQingyuWeb = project.slug === "qingyu-web"
+
+  return (
+    <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-2xl shadow-[#111c22]/15 md:p-5">
+      <div className="flex items-center justify-between border-b border-white/10 pb-3">
+        <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">產品預覽</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Demo-ready</span>
+      </div>
+
+      {isLineBot ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.82fr_1fr]">
+          <div className="rounded-[1.8rem] border border-white/10 bg-[#dff1e8] p-3 text-[#111c22]">
+            {[
+              ["user", "我想做店家網站"],
+              ["bot", "請提供產業、功能、預算、上線時間"],
+              ["user", "我是咖啡店，想做預約和菜單查詢"],
+            ].map(([role, text]) => (
+              <div key={text} className={`mb-2 max-w-[88%] rounded-2xl px-3 py-2 text-xs font-black ${role === "bot" ? "bg-white" : "ml-auto bg-[#0d6b62] text-white"}`}>
+                {text}
+              </div>
+            ))}
+          </div>
+          <div className="grid gap-3">
+            <div className="rounded-xl bg-white p-4 text-[#111c22]">
+              <div className="flex items-center justify-between gap-3">
+                <p className="text-sm font-black">REQ-001 咖啡店需求</p>
+                <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">已整理需求</span>
+              </div>
+              <p className="mt-3 text-xs font-bold leading-5 text-[#52605c]">來源 LINE · 建議方案：LINE Bot + 表單 + 後台流程</p>
+            </div>
+            <HeroPreviewList items={["Webhook 接收", "簽章驗證", "AI 回覆", "後台已儲存"]} />
+          </div>
+        </div>
+      ) : isBuildFlow ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_0.82fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black">BF-001 屋頂防水</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">施工中</span>
+            </div>
+            <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
+              <div className="h-full w-3/4 rounded-full bg-[#0d6b62]" />
+            </div>
+            <div className="mt-4 grid gap-2">
+              {[
+                ["LINE 回報", "今日 2 人出工，照片已補"],
+                ["報價卡", "NT$28,000｜業主確認中"],
+                ["案件列表", "4 件進行中"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-[#faf8f3] px-3 py-2">
+                  <p className="text-[11px] font-black text-[#0d6b62]">{label}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <HeroPreviewList items={["案件列表 + 狀態", "現場照片", "報價單預覽", "LINE 回報可複製"]} />
+        </div>
+      ) : isAudit ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-black text-[#0d6b62]">AI Audit Score</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">Demo 模式可用</span>
+            </div>
+            <div className="mt-4 flex items-end gap-3">
+              <p className="text-5xl font-black">82</p>
+              <p className="pb-2 text-xs font-black text-[#52605c]">/ 100</p>
+            </div>
+            <div className="mt-4 grid gap-2">
+              {[["SEO", 78], ["CTA", 74], ["Trust", 88]].map(([label, value]) => (
+                <div key={label}>
+                  <div className="flex justify-between text-xs font-black">
+                    <span>{label}</span>
+                    <span>{value}%</span>
+                  </div>
+                  <div className="mt-1 h-2 rounded-full bg-[#e4e9e6]">
+                    <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${value}%` }} />
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+          <HeroPreviewList items={["首頁標題建議", "CTA 動線", "SEO 描述", "手機版問題"]} />
+        </div>
+      ) : isApi ? (
+        <div className="mt-5 grid gap-4">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-[#0d6b62]">表單自動化</p>
+                <p className="mt-2 text-sm font-black">客戶需求進件</p>
+              </div>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">已收到</span>
+            </div>
+            <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
+              <div className="h-full w-[84%] rounded-full bg-[#0d6b62]" />
+            </div>
+            <div className="mt-3 grid grid-cols-2 gap-2 text-xs font-black sm:grid-cols-3">
+              {["需求編號", "通知完成", "後台新增"].map((item) => (
+                <span key={item} className="rounded-md bg-[#faf8f3] px-2 py-2 text-center">{item}</span>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {["表單 → API", "驗證 → 需求資料", "通知 → 後台"].map((item) => (
+              <div key={item} className="rounded-xl bg-white/10 p-3 text-sm font-black text-white/86">
+                {item}
+              </div>
+            ))}
+          </div>
+        </div>
+      ) : isQingyuWeb ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[1fr_0.78fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black">Qingyu Web Studio</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">SEO Ready</span>
+            </div>
+            <div className="mt-4 grid gap-2">
+              {[
+                ["Hero", "讓你的服務被看懂"],
+                ["互動展示區", "AI / LINE Bot / BuildFlow"],
+                ["CTA", "需求診斷 → 聯絡"],
+              ].map(([label, value]) => (
+                <div key={label} className="rounded-lg bg-[#faf8f3] px-3 py-2">
+                  <p className="text-[11px] font-black text-[#0d6b62]">{label}</p>
+                  <p className="mt-1 text-xs font-bold text-[#52605c]">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <HeroPreviewList items={["RWD 預覽", "Open Graph", "sitemap.xml", "robots.txt"]} />
+        </div>
+      ) : (
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.9fr_1.1fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <p className="text-sm font-black">{project.title}</p>
+            <p className="mt-3 text-xs font-bold leading-6 text-[#52605c]">{project.summary}</p>
+          </div>
+          <HeroPreviewList items={project.visuals.slice(0, 4)} />
+        </div>
+      )}
+    </div>
+  )
+}
+
+function HeroPreviewList({ items }) {
+  return (
+    <div className="grid gap-2">
+      {items.map((item) => (
+        <div key={item} className="rounded-lg border border-white/10 bg-white/10 px-3 py-2 text-sm font-black text-white/82">
+          {item}
+        </div>
+      ))}
+    </div>
+  )
+}
+
+function WorkShowcase({ project }) {
+  return (
+    <div className="grid gap-6 lg:grid-cols-[1.1fr_0.9fr] lg:items-stretch">
+      <div className="rounded-2xl border border-[#e3ded3] bg-white p-6">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">案例說明</p>
+        <h2 className="mt-3 text-3xl font-black">{project.title}</h2>
+        <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">{project.summary}</p>
+        <div className="mt-5">
+          <Tags items={project.tags} />
+        </div>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            {project.liveLabel}
+          </ActionLink>
+          <ActionLink to={project.secondaryPath || `/works/${project.slug}#tech`} className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            {project.secondaryLabel}
+          </ActionLink>
+        </div>
+      </div>
+      <div className="rounded-2xl border border-[#d8d2c5] bg-[#faf8f3] p-5">
+        <p className="text-sm font-black text-[#0d6b62]">畫面展示</p>
+        <div className="mt-4 grid gap-3">
+          {project.visuals.map((item) => (
+            <div key={item} className="rounded-xl border border-[#e3ded3] bg-white p-4 text-sm font-black text-[#2f3c3b]">
               {item}
             </div>
           ))}
@@ -156,180 +994,163 @@ function WorkPreview({ project }) {
   )
 }
 
-export function WorkDetailPage({ slug: forcedSlug }) {
-  const params = useParams()
-  const slug = forcedSlug || params.slug
-  const project = projects.find((item) => item.slug === slug) || projects[0]
-  const projectSeo = {
-    path: `/works/${project.slug}`,
-    title: `${project.title}｜Qingyu Web Studio`,
-    description: project.summary,
-  }
-
-  return (
-    <PageShell
-      page={projectSeo}
-      eyebrow={project.category}
-      title={project.title}
-      intro={project.summary}
-      actions={
-        <>
-          <ActionLink to={project.livePath} className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#111c22] px-5 text-sm font-black text-white">
-            {project.liveLabel || "查看成品"}
-          </ActionLink>
-          <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8d2c5] bg-white px-5 text-sm font-black text-[#111c22]">
-            我想做類似的
-          </Link>
-          <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-full px-2 text-sm font-black text-[#0d6b62]">
-            回到成品列表
-          </Link>
-        </>
-      }
-      heroVisual={<HeroVisual project={project} />}
-    >
-      <section id="demo" className="nature-section scroll-mt-20 border-b border-white/50">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-18">
-          <WorkDemoPanel project={project} />
-        </div>
-      </section>
-
-      <section className="nature-section-soft border-b border-white/50">
-        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-14 md:grid-cols-3 md:py-18">
-          <InfoBlock title="適合誰" items={project.audience || []} />
-          <InfoBlock title="解決什麼" items={[project.problem, project.solution].filter(Boolean)} />
-          <InfoBlock title="可改內容" items={project.customizable || []} />
-        </div>
-      </section>
-
-      <section id="tech" className="nature-section scroll-mt-20 border-b border-white/50">
-        <div className="mx-auto grid max-w-6xl gap-7 px-4 py-14 md:grid-cols-[0.72fr_1.28fr] md:py-18">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Tech</p>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.02em]">技術拆解</h2>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">保留重點，細節依需求調整。</p>
-          </div>
-          <div className="grid gap-3 md:grid-cols-2">
-            {Object.entries(project.stack || {}).map(([label, value]) => (
-              <Card key={label}>
-                <p className="text-xs font-black text-[#0d6b62]">{label}</p>
-                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{value}</p>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="nature-section-soft">
-        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-14 md:grid-cols-3 md:py-18">
-          <Card>
-            <p className="text-sm font-black text-[#0d6b62]">參考價格</p>
-            <p className="mt-3 text-2xl font-black">{project.price}</p>
-          </Card>
-          <Card>
-            <p className="text-sm font-black text-[#0d6b62]">後續可加</p>
-            <div className="mt-3">
-              <Tags items={project.future || []} max={6} />
-            </div>
-          </Card>
-          <Card dark>
-            <p className="text-sm font-black text-[#8fd6cc]">Next</p>
-            <p className="mt-3 text-2xl font-black">想做類似版本？</p>
-            <div className="mt-5 grid gap-2">
-              <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full bg-white px-4 text-sm font-black text-[#111c22]">
-                我想做類似的
-              </Link>
-              <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/16 px-4 text-sm font-black text-white">
-                回到成品列表
-              </Link>
-            </div>
-          </Card>
-        </div>
-      </section>
-    </PageShell>
-  )
-}
-
-function HeroVisual({ project }) {
-  return (
-    <div className="qy-glass-card rounded-[1.75rem] border p-4">
-      <WorkPreview project={project} />
-      <div className="mt-4 grid gap-2 sm:grid-cols-3">
-        {(project.demo || []).slice(0, 3).map((item) => (
-          <div key={item} className="qy-glass-soft rounded-2xl border px-3 py-3 text-xs font-black text-[#40504c]">
-            {item}
-          </div>
-        ))}
-      </div>
-    </div>
-  )
-}
-
-function InfoBlock({ title, items }) {
-  return (
-    <Card>
-      <h2 className="text-xl font-black tracking-[-0.01em]">{title}</h2>
-      <div className="mt-4 flex flex-wrap gap-2">
-        {items.slice(0, 5).map((item) => (
-          <span key={item} className="rounded-full bg-[#fbfaf7] px-3 py-2 text-xs font-black text-[#40504c]">
-            {item}
-          </span>
-        ))}
-      </div>
-    </Card>
-  )
-}
-
 export function ServicesPage() {
+  const faqs = [
+    ["可以先做簡單版嗎？", "可以，先做可用版本，再慢慢擴充。"],
+    ["價格會變動嗎？", "會，依頁數、功能、資料整理程度調整。"],
+    ["修改包含幾次？", "一般包含 1～2 次小修改，超出另估。"],
+    ["有後續維護嗎？", "可以另談月維護或單次修改。"],
+  ]
+
   return (
     <PageShell
       page={seo.services}
-      title="服務與客製範圍"
-      intro="先看成品，再選客製範圍。"
+      eyebrow="服務包"
+      title="先選一個服務包"
+      intro="網站、互動工具、LINE Bot、後台流程。先做清楚版本，再依需求擴充。"
       actions={
         <>
-          <Link to="/works" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#111c22] px-5 text-sm font-black text-white">
-            查看成品
+          <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            填需求表單
           </Link>
-          <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8d2c5] bg-white px-5 text-sm font-black text-[#111c22]">
-            我想做類似的
+          <Link to="/pricing" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            看價格
           </Link>
         </>
       }
     >
-      <section className="mx-auto max-w-6xl px-4 py-14 md:py-18">
-        <div className="grid gap-5 lg:grid-cols-2">
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {serviceOfferings.map((service) => (
-            <article key={service.id} className="qy-glass-card rounded-[1.55rem] border p-5">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{service.price}</span>
-                <ActionLink to={service.demoPath} className="text-sm font-black text-[#0d6b62]">
-                  查看成品
-                </ActionLink>
-              </div>
-              <h2 className="mt-4 text-2xl font-black tracking-[-0.02em]">{service.name}</h2>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
-              <div className="mt-5">
-                <TagPanel title="交付重點" items={service.deliverables} />
-              </div>
+            <article key={service.id} className="rounded-lg border border-[#e3ded3] bg-white p-5">
+              <span className="inline-flex rounded-md bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{service.price}</span>
+              <h2 className="mt-4 text-xl font-black">{service.name}</h2>
+              <p className="mt-3 min-h-16 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
+              <ActionLink to={service.demoPath} className="mt-5 inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                看內容
+              </ActionLink>
             </article>
           ))}
         </div>
       </section>
 
-      <section className="nature-section-soft border-y border-white/50">
-        <div className="mx-auto max-w-6xl px-4 py-14 md:py-18">
-          <div className="mb-7">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Process</p>
-            <h2 className="mt-3 text-3xl font-black tracking-[-0.02em]">合作方式</h2>
+      <section className="border-y border-[#e6e0d5] bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
+            <div>
+              <p className="text-xs font-black text-[#0d6b62]">內容</p>
+              <h2 className="mt-3 text-3xl font-black md:text-4xl">服務包內容</h2>
+            </div>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">短版範圍，細節報價確認。</p>
           </div>
-          <div className="grid gap-3 md:grid-cols-4">
-            {serviceWorkflow.map(([step, title, text]) => (
-              <Card key={step}>
-                <p className="text-xs font-black text-[#0d6b62]">{step}</p>
-                <h3 className="mt-2 text-xl font-black">{title}</h3>
-                <p className="mt-3 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+
+          <div className="grid gap-5 lg:grid-cols-2">
+            {serviceOfferings.map((service) => (
+              <article key={service.id} className="rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-5">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <span className="rounded-md bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+                    {service.label}
+                  </span>
+                  <ActionLink to={service.demoPath} className="text-sm font-black text-[#0d6b62]">
+                    看 Demo
+                  </ActionLink>
+                </div>
+                <h3 className="mt-4 text-2xl font-black text-[#111c22]">{service.name}</h3>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
+
+                <div className="mt-5 grid gap-3 md:grid-cols-2">
+                  <ServiceFact title="適合" text={service.targetUsers} />
+                  <ServiceFact title="參考價格" text={service.price} />
+                </div>
+
+                <div className="mt-5">
+                  <p className="text-sm font-black text-[#40504c]">包含什麼</p>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {service.deliverables.map((item) => (
+                      <span key={item} className="rounded-md bg-white px-3 py-2 text-xs font-black text-[#40504c]">
+                        {item}
+                      </span>
+                    ))}
+                  </div>
+                </div>
+
+                <p className="mt-5 rounded-lg border border-[#d8d2c5] bg-white p-4 text-sm font-bold leading-7 text-[#52605c]">
+                  交付內容：{service.proof}
+                </p>
+              </article>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <div className="mb-7">
+            <p className="text-xs font-black text-[#0d6b62]">價格</p>
+            <h2 className="mt-3 text-3xl font-black">參考價格</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+            {pricing.map(([name, price, text]) => (
+              <Card key={name}>
+                <h3 className="text-xl font-black">{name}</h3>
+                <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="grid gap-6 lg:grid-cols-[0.72fr_1.28fr] lg:items-start">
+          <div>
+            <p className="text-xs font-black text-[#0d6b62]">流程</p>
+            <h2 className="mt-3 text-3xl font-black">合作流程</h2>
+            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">選包、填需求、確認報價。</p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
+            {serviceWorkflow.map(([step, title, text]) => (
+              <div key={step} className="rounded-lg border border-[#e3ded3] bg-white p-5">
+                <p className="text-xs font-black text-[#0d6b62]">{step}</p>
+                <h3 className="mt-2 text-xl font-black">{title}</h3>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <p className="mt-6 rounded-lg border border-[#e3ded3] bg-[#fffaf0] p-4 text-sm font-bold leading-7 text-[#5f4a2a]">
+          錯誤修正與新增功能分開計算，維護可另談。
+        </p>
+      </section>
+
+      <section className="border-y border-[#e6e0d5] bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <div className="mb-7">
+            <p className="text-xs font-black text-[#0d6b62]">FAQ</p>
+            <h2 className="mt-3 text-3xl font-black">常見問題</h2>
+          </div>
+          <div className="grid gap-4 md:grid-cols-2">
+            {faqs.map(([question, answer]) => (
+              <Card key={question}>
+                <h3 className="text-lg font-black">Q：{question}</h3>
+                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">A：{answer}</p>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+        <div className="mt-10 rounded-lg border border-[#e3ded3] bg-[#111c22] p-6 text-white">
+          <div className="grid gap-5 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="text-xs font-black text-[#8fd6cc]">下一步</p>
+              <h2 className="mt-3 text-2xl font-black">填需求表單</h2>
+              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">我會先看內容，再回覆適合的做法與估價。</p>
+            </div>
+            <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
+              填需求表單
+            </Link>
           </div>
         </div>
       </section>
@@ -337,89 +1158,137 @@ export function ServicesPage() {
   )
 }
 
-function TagPanel({ title, items }) {
+function ServiceFact({ title, text }) {
   return (
-    <div>
-      <p className="text-sm font-black text-[#40504c]">{title}</p>
-      <div className="mt-3 flex flex-wrap gap-2">
-        {items.map((item) => (
-          <span key={item} className="rounded-full bg-[#fbfaf7] px-3 py-2 text-xs font-black text-[#40504c]">
-            {item}
-          </span>
-        ))}
-      </div>
+    <div className="rounded-lg border border-[#e3ded3] bg-white p-4">
+      <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+      <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
     </div>
   )
 }
 
 export function PricingPage() {
   return (
-    <PageShell page={seo.pricing} title="價格參考" intro="實際價格依內容、功能、修改次數與維護需求調整。">
-      <section className="mx-auto max-w-6xl px-4 py-14 md:py-18">
+    <PageShell page={seo.pricing} title="參考價" intro="實際依範圍調整。">
+      <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {pricing.map(([name, price, text]) => (
             <Card key={name}>
-              <h2 className="text-xl font-black tracking-[-0.01em]">{name}</h2>
-              <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
-              <p className="mt-3 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+              <h2 className="text-2xl font-black">{name}</h2>
+              <p className="mt-2 text-3xl font-black text-[#0d6b62]">{price}</p>
+              <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
             </Card>
           ))}
         </div>
-        <p className="mt-6 rounded-2xl border border-[#e6ded2] bg-[#fffaf0] p-4 text-sm font-bold leading-7 text-[#5f4a2a]">
-          錯誤修正與新增功能分開計算，第三方平台費用另計。
-        </p>
       </section>
     </PageShell>
   )
 }
 
 export function FreeAuditPage() {
+  const auditItems = ["手機版是否好讀", "首頁標題是否清楚", "CTA 是否明顯", "SEO / Open Graph", "版面信任感", "下一步優化方向"]
+
   return (
-    <PageShell
-      page={seo.audit}
-      title="網站健檢"
-      intro="先看網站 CTA、SEO、手機版與聯絡流程。"
-      actions={
-        <>
-          <Link to="/works/ai-audit#demo" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#111c22] px-5 text-sm font-black text-white">
-            查看 AI 健檢
-          </Link>
-          <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-full border border-[#d8d2c5] bg-white px-5 text-sm font-black text-[#111c22]">
-            我想做類似的
-          </Link>
-        </>
-      }
-    >
-      <section className="mx-auto max-w-6xl px-4 py-14 md:py-18">
-        <div className="grid gap-4 md:grid-cols-3">
-          {["CTA", "SEO", "手機版"].map((item) => (
+    <PageShell page={seo.audit} title="免費網站健檢" intro="寄網址或想法，我看手機版、文案、CTA。">
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+          {auditItems.map((item) => (
             <Card key={item}>
-              <p className="text-2xl font-black">{item}</p>
+              <p className="text-lg font-black">{item}</p>
             </Card>
           ))}
         </div>
+        <a href={`mailto:${contact.email}?subject=免費網站健檢`} className="mt-8 inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+          開始健檢
+        </a>
       </section>
     </PageShell>
   )
 }
 
 export function ContactPage() {
+  const [lineCopied, setLineCopied] = useState(false)
+  const [emailCopied, setEmailCopied] = useState(false)
+
+  async function copyLineId() {
+    try {
+      await navigator.clipboard.writeText(contact.lineId)
+      setLineCopied(true)
+    } catch {
+      setLineCopied(true)
+    }
+  }
+
+  async function copyEmail() {
+    try {
+      await navigator.clipboard.writeText(contact.email)
+      setEmailCopied(true)
+    } catch {
+      setEmailCopied(true)
+    }
+  }
+
   return (
-    <PageShell page={seo.contact} title="我想做類似的成品" intro="告訴我你喜歡哪個成品、想改成什麼用途。">
-      <section className="nature-section border-b border-white/50">
-        <div className="mx-auto grid max-w-6xl gap-4 px-4 py-10 md:grid-cols-2 md:py-12">
+      <PageShell
+        page={seo.contact}
+        title="聊聊你想做的網站或系統"
+        intro="傳產業、功能、預算、時程。"
+      >
+        <section className="hidden">
           <Card>
-            <p className="text-sm font-black text-[#0d6b62]">LINE</p>
-            <p className="mt-2 text-2xl font-black">{contact.lineId}</p>
-            <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
-          </Card>
-          <Card>
-            <p className="text-sm font-black text-[#0d6b62]">Email</p>
-            <a href={`mailto:${contact.email}`} className="mt-2 block break-words text-2xl font-black text-[#111c22]">
-              {contact.email}
+            <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
+          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">LINE：{contact.lineId}。也可直接 Email。</p>
+          <div className="mt-5 grid gap-3">
+            <div className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE</p>
+              <p className="mt-2 text-2xl font-black text-[#111c22]">{contact.lineId}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
+            </div>
+            <div className="rounded-2xl border border-[#e3ded3] bg-white p-4">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Email</p>
+              <a href={`mailto:${contact.email}`} className="mt-2 block break-words text-lg font-black text-[#0d6b62]">
+                {contact.email}
+              </a>
+            </div>
+          </div>
+          <div className="mt-5 flex flex-wrap gap-3">
+            <button
+              type="button"
+              onClick={copyLineId}
+              className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white transition hover:bg-[#0d6b62]"
+            >
+              {lineCopied ? "已複製 LINE ID" : "複製 LINE ID"}
+            </button>
+            <button
+              type="button"
+              onClick={copyEmail}
+              className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
+            >
+              {emailCopied ? "已複製 Email" : "複製 Email"}
+            </button>
+            <a
+              href={`mailto:${contact.email}?subject=${encodeURIComponent("網站需求討論")}&body=${encodeURIComponent("你好，我想討論網站 / LINE Bot / AI 工具 / 後台流程。\n產業：\n想做的功能：\n預算區間：\n希望上線時間：\nLINE ID：")}`}
+              className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
+            >
+              用 Email 傳送需求
             </a>
-          </Card>
-        </div>
+          </div>
+        </Card>
+        <Card>
+          <h2 className="text-2xl font-black">先給我三件事</h2>
+          <div className="mt-5 grid gap-3">
+            {[
+              ["你是誰", "店家、工作室、工程服務或個人品牌"],
+              ["想做什麼", "網站、LINE Bot、AI 工具或後台流程"],
+              ["卡在哪裡", "詢問、報價、預約、回覆或後台整理"],
+            ].map(([title, text]) => (
+              <div key={title} className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                <p className="text-sm font-black text-[#0d6b62]">{title}</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </Card>
       </section>
       <ContactLeadSection />
     </PageShell>

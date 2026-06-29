@@ -7,23 +7,20 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  service_type: "公司一頁式官網",
-  budget_range: "10,000～20,000",
+  service_type: "網站製作",
+  budget_range: "5,000～10,000",
   deadline: "",
   message: "",
 }
 
 const serviceOptions = [
-  "公司一頁式官網",
-  "貨運查件系統",
-  "會員專區系統",
-  "互動測驗頁",
-  "工程行接案系統",
-  "LINE 自動回覆",
-  "其他 / 還不確定",
+  "網站製作",
+  "互動工具",
+  "LINE Bot 串接",
+  "後台流程 / API",
+  "還不確定",
 ]
-
-const budgetOptions = ["5,000 以下", "5,000～10,000", "10,000～20,000", "20,000～30,000", "30,000～60,000", "60,000 以上"]
+const budgetOptions = ["5,000 以下", "5,000～10,000", "10,000～20,000", "20,000 以上"]
 
 function ContactLeadSection() {
   const [form, setForm] = useState(initialForm)
@@ -32,13 +29,13 @@ function ContactLeadSection() {
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好，我想做類似的成品。",
-      `稱呼：${form.name}`,
+      "你好，我想討論網站、LINE Bot、AI 工具或後台流程需求。",
+      `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
-      `我想做類似：${form.service_type}`,
-      `預算區間：${form.budget_range}`,
+      `項目：${form.service_type}`,
+      `預算：${form.budget_range}`,
       `希望完成時間：${form.deadline}`,
-      `想改哪些內容：${form.message}`,
+      `需求：${form.message}`,
     ]
     return encodeURIComponent(lines.join("\n"))
   }, [form])
@@ -67,13 +64,17 @@ function ContactLeadSection() {
       contact: form.contact,
       service_type: form.service_type,
       budget_range: form.budget_range,
-      message: `希望完成時間：${form.deadline}\n想改哪些內容：${form.message}`,
-      source: "product-demo-contact",
+      message: `希望完成時間：${form.deadline}\n需求：${form.message}`,
+      source: "contact-page",
       status: "new",
     })
 
     setSubmitting(false)
-    setNotice(result.ok ? "已收到需求，我會先看內容，再回覆適合的做法與估價。" : "已整理需求，請透過 Email 傳送給我。")
+    setNotice(
+      result.ok
+        ? "已收到，我會回覆做法與估價。"
+        : "已整理，請用 Email 或 LINE 傳給我。"
+    )
   }
 
   function resetForm() {
@@ -82,13 +83,15 @@ function ContactLeadSection() {
   }
 
   return (
-    <section id="contact" className="bg-[#111c22] text-white">
+    <section id="contact" className="bg-[#172026] text-white">
       <div className="mx-auto grid max-w-6xl gap-7 px-4 py-10 md:py-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#83d4c8]">Contact</p>
-          <h2 className="mt-3 text-3xl font-black md:text-4xl">我想做類似的成品</h2>
+          <p className="text-xs font-black text-[#83d4c8]">聯絡</p>
+          <h2 className="mt-3 text-3xl font-black md:text-4xl">
+            填需求表單
+          </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            請告訴我你喜歡哪個成品、想改成什麼用途、需要哪些功能。
+            傳產業、功能、預算、時程。
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -103,26 +106,26 @@ function ContactLeadSection() {
             <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               複製 Email
             </button>
-            <a href={`mailto:${email}?subject=${encodeURIComponent("我想做類似的成品")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
-              用 Email 傳送需求
+            <a href={`mailto:${email}?subject=${encodeURIComponent("接案需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
+              Email
             </a>
           </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="rounded-xl border border-white/12 bg-white/[0.07] p-4 md:p-5">
+        <form onSubmit={handleSubmit} className="rounded-lg border border-white/12 bg-white/[0.07] p-4 md:p-5">
           <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="稱呼" value={form.name} onChange={(value) => updateForm("name", value)} required />
-            <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 手機" required />
-            <Select label="我想做類似" value={form.service_type} onChange={(value) => updateForm("service_type", value)} options={serviceOptions} />
+            <Input label="姓名 / 稱呼" value={form.name} onChange={(value) => updateForm("name", value)} required />
+            <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 電話" required />
+            <Select label="想做的項目" value={form.service_type} onChange={(value) => updateForm("service_type", value)} options={serviceOptions} />
             <Select label="預算區間" value={form.budget_range} onChange={(value) => updateForm("budget_range", value)} options={budgetOptions} />
-            <Input label="希望完成時間" value={form.deadline} onChange={(value) => updateForm("deadline", value)} placeholder="例如：兩週內 / 一個月內" />
+            <Input label="希望完成時間" value={form.deadline} onChange={(value) => updateForm("deadline", value)} placeholder="例如：兩週內 / 下個月 / 不急" />
             <label className="grid gap-2 sm:col-span-2">
-              <span className="text-sm font-black text-[#d9e6e3]">想改哪些內容</span>
+              <span className="text-sm font-black text-[#d9e6e3]">簡單描述需求</span>
               <textarea
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：想把公司一頁式官網改成顧問品牌頁，加入 LINE 聯絡與表單。"
+                placeholder="例如：品牌網站 + LINE Bot。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>
@@ -156,7 +159,7 @@ function ContactLine({ label, value }) {
   return (
     <div className="rounded-lg border border-white/12 bg-white/[0.07] p-4">
       <p className="text-xs font-black uppercase tracking-[0.18em] text-[#83d4c8]">{label}</p>
-      <p className="mt-2 break-words text-lg font-black">{value}</p>
+      <p className="mt-2 text-lg font-black">{value}</p>
     </div>
   )
 }
