@@ -643,7 +643,7 @@ export function LegacyLineBotDemo() {
       return [
         ...current,
         { role: "customer", text: "我想做店家網站" },
-        { role: "bot", text: "可以，我先幫你判斷適合網站、LINE Bot 還是後台流程。請提供產業、功能、預算、上線時間。" },
+        { role: "bot", text: "可以。請提供產業、功能、預算、時程。" },
       ]
     })
     addSimulatedInquiry()
@@ -868,7 +868,7 @@ function LineBotProductDemo() {
       { role: "user", text: "我想做店家網站" },
       {
         role: "bot",
-        text: "可以，我先幫你判斷適合網站、LINE Bot 還是後台流程。請提供產業、功能、預算、上線時間。",
+        text: "可以。請提供產業、功能、預算、時程。",
       },
     ])
     upsertCase(nextCase)
@@ -894,7 +894,7 @@ function LineBotProductDemo() {
       { role: "user", text: "我想做店家網站" },
       {
         role: "bot",
-        text: "可以，我先幫你判斷適合網站、LINE Bot 還是後台流程。請提供產業、功能、預算、上線時間。",
+        text: "可以。請提供產業、功能、預算、時程。",
       },
       { role: "user", text: "我是咖啡店，想做預約和菜單查詢" },
       { role: "bot", text: "了解，我會記錄為店家 LINE Bot + 網站需求。" },
@@ -1283,7 +1283,7 @@ function BuildFlowDemo() {
       name: "鑫匠工程 Demo 案件",
       quoteStatus: "待估價",
       construction: "網站估價需求已進入 BuildFlow，等待整理照片與初步估價。",
-      notes: "此案件示範從鑫匠工程網站估價入口進入 BuildFlow 後台，後續可接 LINE 回報與報價單 Preview。",
+      notes: "網站估價進 BuildFlow，後續接 LINE 回報與報價單。",
     }
   }
 
@@ -1509,14 +1509,14 @@ function BuildFlowDemo() {
   }
 
   return (
-    <Shell title="BuildFlow 案件管理" desc="把工程行的客戶需求、現場照片、報價狀態、施工進度與 LINE 回報整理成一套後台流程。">
+    <Shell title="BuildFlow 案件管理" desc="需求、照片、報價、進度與 LINE 回報進後台。">
       <section className="mb-5 rounded-2xl border border-[#d8d2c5] bg-[#faf7ef] p-5">
         <div className="grid gap-5 lg:grid-cols-[0.88fr_1.12fr] lg:items-stretch">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Applied Case</p>
             <h3 className="mt-2 text-2xl font-black text-[#111c22]">實際案例：鑫匠工程</h3>
             <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-              以防水、地坪、修繕工程為情境，展示 BuildFlow 如何把網站詢價、案件管理、照片、報價、施工狀態與 LINE 回報串成一套流程。
+              鑫匠工程是案例，BuildFlow 是系統。
             </p>
             <div className="mt-4 flex flex-wrap gap-2">
               {["估價入口", "案件進後台", "報價單 Preview", "LINE 回報紀錄"].map((item) => (
@@ -1983,7 +1983,7 @@ function BuildFlowDemo() {
             <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
               <div className="rounded-xl border border-[#e3ded3] bg-white p-4">
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">報價備註</p>
-                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">本報價為 Demo Preview，實際金額需依現場尺寸、材料與施工條件調整。未來可延伸 PDF 匯出與業主線上確認。</p>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">Demo 報價單。未來可接 PDF 與線上確認。</p>
               </div>
               <div className="rounded-xl bg-[#111c22] p-5 text-white">
                 <p className="text-xs font-black text-white/60">總額</p>
@@ -2178,7 +2178,7 @@ function ApiAutomationDemo() {
   }
 
   return (
-    <Shell title="API 自動化流程" desc="把客戶表單、API、資料驗證、通知與後台串成一條完整流程。">
+    <Shell title="API 自動化流程" desc="表單、API、通知、後台串起來。">
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <MiniCard title="客戶需求表單">
           <div className="mb-4 rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
@@ -2409,7 +2409,7 @@ function QingyuWebDemo() {
   const techTags = ["React", "Vite", "Tailwind", "React Router", "Vercel", "SEO", "Open Graph", "sitemap", "robots"]
 
   return (
-    <Shell title="Qingyu Web Studio 主站" desc="一個為台灣個人品牌、店家、工作室與工程服務設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。">
+    <Shell title="Qingyu Web Studio 主站" desc="服務、作品、工具、SEO 與聯絡轉換。">
       <div className="grid gap-4 xl:grid-cols-[1.05fr_0.95fr]">
         <MiniCard title="主站架構圖" tone="dark">
           <div className="grid gap-3">
@@ -2510,12 +2510,12 @@ function QingyuWebDemo() {
 
 function XinjiangDemo() {
   return (
-    <Shell title="鑫匠工程案例" desc="防水、地坪與修繕工程網站，搭配 BuildFlow 案件管理流程，展示工程服務業如何從網站接案到後台追蹤。">
+    <Shell title="鑫匠工程案例" desc="工程網站 + BuildFlow 案件流程。">
       <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="grid gap-4">
           <MiniCard title="專案背景">
             <p className="text-sm font-bold leading-7 text-[#52605c]">
-              工程服務業需要先建立信任，再把估價需求整理成可追蹤案件。鑫匠工程在這裡是 BuildFlow 的套用案例，而不是 Qingyu Web Studio 主品牌。
+              鑫匠是 BuildFlow 案例，不是主品牌。
             </p>
           </MiniCard>
           <MiniCard title="估價入口">

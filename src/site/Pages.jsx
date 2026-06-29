@@ -161,43 +161,43 @@ const conversionProfiles = {
     audience: ["店家", "個人品牌", "工作室", "準備改版的網站"],
     custom: ["健檢項目", "報告格式", "Prompt Flow", "Email 報告輸出"],
     problems: ["不知道網站哪裡不清楚", "客戶看完沒有聯絡", "首頁 CTA 與 SEO 不夠明確"],
-    scenario: "適合在改版前快速找出首頁文案、CTA、SEO、信任感與手機版問題。",
-    next: "先用健檢工具整理問題，再決定是改文案、調 CTA，還是重做一頁式網站。",
+    scenario: "改版前先找問題。",
+    next: "先健檢，再改版。",
   },
   linebot: {
     audience: ["店家", "預約型服務", "工作室", "需要 LINE 收需求的團隊"],
     custom: ["對話流程", "Webhook 欄位", "後台收件狀態", "LINE / Email 通知"],
     problems: ["LINE 訊息太散", "客戶需求沒有被整理", "店家回覆與追蹤靠人工記"],
-    scenario: "適合把 LINE 詢問整理成可追蹤需求，減少訊息散落與人工整理。",
-    next: "先整理客戶常問問題與收件欄位，再做 LINE Bot 對話與後台收件流程。",
+    scenario: "LINE 詢問變成可追蹤需求。",
+    next: "先整理問答與收件欄位。",
   },
   buildflow: {
     audience: ["工程行", "修繕服務", "現場服務團隊", "需要照片與進度管理的公司"],
     custom: ["案件欄位", "報價單", "LINE 回報", "Supabase / PDF Export"],
     problems: ["照片與報價散在 LINE", "施工狀態不好追", "案件從詢價到完工沒有完整紀錄"],
-    scenario: "適合把網站詢價、照片、報價、施工狀態與 LINE 回報整理成後台流程。",
-    next: "先定義案件狀態與報價欄位，再把 LINE 回報與後台案件串起來。",
+    scenario: "詢價、照片、報價進後台。",
+    next: "先定義案件狀態。",
   },
   "api-automation": {
     audience: ["有表單收件需求的團隊", "需要通知流程的店家", "想把資料進後台的工作室"],
     custom: ["API Payload", "驗證規則", "通知節點", "後台欄位"],
     problems: ["表單送出後沒人追", "資料要手動複製到表格", "通知與後台狀態沒有串接"],
-    scenario: "適合把表單送出後的 API、資料驗證、通知與後台狀態串起來。",
-    next: "先確認表單欄位與通知對象，再設計 API、資料流程與後台狀態。",
+    scenario: "表單送出後自動進後台。",
+    next: "先確認欄位與通知對象。",
   },
   "qingyu-web": {
     audience: ["個人品牌", "店家", "工作室", "作品展示"],
     custom: ["首頁架構", "作品頁", "需求診斷工具", "SEO / Open Graph"],
     problems: ["服務說不清楚", "作品沒有導到詢問", "客戶不知道下一步該怎麼聯絡"],
-    scenario: "適合把服務、作品、技術展示與聯絡轉換整合成一個能接案的主站。",
-    next: "先定義服務分類與作品入口，再把需求診斷與 聯絡流程串成成交路徑。",
+    scenario: "服務、作品、工具、聯絡整合。",
+    next: "先整理服務分類與作品入口。",
   },
   xinjiang: {
     audience: ["工程服務業", "需要形象網站的店家", "想把詢價接到後台的團隊"],
     custom: ["估價入口", "服務分類", "BuildFlow 串接", "LINE 回報流程"],
     problems: ["客戶只看 LINE 或社群", "估價需求沒有進後台", "工程案例與案件管理分開"],
-    scenario: "適合用工程行情境展示網站如何從詢價入口延伸到案件管理流程。",
-    next: "先做好服務頁與估價入口，再視需求接到 BuildFlow 案件管理。",
+    scenario: "工程網站串到案件管理。",
+    next: "先做好估價入口。",
   },
 }
 
@@ -205,34 +205,34 @@ const defaultConversionProfile = {
   audience: ["店家", "個人品牌", "工作室"],
   custom: ["頁面架構", "互動流程", "資料欄位", "聯絡 CTA"],
   problems: ["服務不容易被理解", "客戶看完不知道怎麼詢問", "流程太靠人工整理"],
-  scenario: "適合先用 Demo 驗證流程，再依實際需求客製成可上線版本。",
-  next: "先用需求診斷整理方向，再挑一個最重要的流程做成可展示版本。",
+  scenario: "先用 Demo 驗證流程。",
+  next: "先整理方向。",
 }
 
 const workBusinessValues = {
   "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
   linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
-  buildflow: "工程行需求、報價、派工、回報、LINE 查詢整合案例。",
-  "ai-tech-quest": "互動式 AI 技術展示 Demo，展示文件問答、模型分類、店家 AI 助手與產品展示室。",
-  "interactive-quiz": "教育訓練與測驗題庫網頁，可做題目、選項、答案解析與結果頁。",
+  buildflow: "需求、報價、回報、LINE 查詢。",
+  "ai-tech-quest": "AI 技術互動展示。",
+  "interactive-quiz": "測驗、解析、結果頁。",
   "ai-business-assistant": "店家 FAQ 與自動回覆產品。",
   "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
   "unity-ai-tutor": "互動式學習展示。",
   "api-automation": "表單送出後，自動進 API、通知與後台。",
-  "project-planner": "客戶不知道要做什麼時，先用診斷工具分類需求。",
-  "qingyu-web": "展示主站如何把服務、作品、工具與聯絡流程串成成交路徑。",
+  "project-planner": "用診斷工具分類需求。",
+  "qingyu-web": "服務、作品、工具與聯絡流程。",
   xinjiang: "把工程網站的估價入口接到案件管理流程。",
 }
 
 const conciseWorkValues = {
   "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
   linebot: "讓 LINE 訊息自動整理成需求。",
-  buildflow: "工程行流程管理成品：需求、報價、派工、回報與 LINE 查詢。",
-  "interactive-quiz": "互動測驗成品：題目、作答、解析、結果頁與題庫維護。",
-  "ai-tech-quest": "可玩的 AI 技術展示成品：文件問答、模型分類、店家助手與產品展示室。",
-  "ai-business-assistant": "店家自動回覆成品：FAQ、回答紀錄與 LINE Bot 延伸。",
-  "tw-civic-rag": "文件問答成品：文件檢索增強生成（RAG）、來源引用與文件查詢。",
-  "unity-ai-tutor": "互動學習成品：用 Unity 做可操作的學習關卡。",
+  buildflow: "需求、報價、回報與 LINE 查詢。",
+  "interactive-quiz": "題目、作答、解析、結果頁。",
+  "ai-tech-quest": "文件問答、模型分類、店家助手。",
+  "ai-business-assistant": "FAQ、回答紀錄、LINE Bot 延伸。",
+  "tw-civic-rag": "RAG、來源引用、文件查詢。",
+  "unity-ai-tutor": "Unity 互動學習關卡。",
   "api-automation": "表單送出後，自動進 API、通知與後台。",
   "project-planner": "判斷適合做網站、LINE Bot 還是系統。",
   "website-rescue": "點選改善項目，查看網站狀態變化。",
@@ -246,7 +246,7 @@ export function WorksPage() {
     slug: "project-planner",
     title: "網站需求診斷工具",
     category: "互動工具",
-    summary: "回答幾個問題，整理適合的網站、LINE Bot、AI 工具或後台流程方向。",
+    summary: "回答幾題，整理方向。",
     livePath: "/tools/project-planner#demo",
     liveLabel: "查看互動 Demo",
     secondaryPath: "/tools/project-planner#tech",
@@ -259,7 +259,7 @@ export function WorksPage() {
     slug: "website-rescue",
     title: "網站救援互動 Demo",
     category: "互動工具",
-    summary: "點選改善項目，觀察 CTA、SEO、手機版與信任感如何改變網站狀態。",
+    summary: "點選改善項目，看網站狀態變化。",
     livePath: "/tools/website-rescue#demo",
     liveLabel: "開始改善",
     secondaryPath: "/tools/website-rescue#tech",
@@ -272,7 +272,7 @@ export function WorksPage() {
     slug: "linebot-mission",
     title: "LINE Bot 接待模擬",
     category: "互動工具",
-    summary: "模擬 LINE 客戶訊息，看看 Bot 如何回覆、整理需求並同步到後台。",
+    summary: "模擬 LINE 接待與後台同步。",
     livePath: "/tools/linebot-mission#demo",
     liveLabel: "開始模擬",
     secondaryPath: "/tools/linebot-mission#tech",
@@ -403,13 +403,13 @@ export function WorkDetailPage() {
         ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
     description: isQingyuWebProject
-      ? "展示 Qingyu Web Studio 主站如何整合網站服務、作品展示、需求診斷工具、SEO metadata 設定、Vercel 部署與聯絡轉換。"
+      ? "展示主站、Demo、SEO 與聯絡轉換。"
       : isBuildFlowProject
-      ? "以鑫匠工程為案例，展示工程服務業如何用 BuildFlow 整合網站詢價、案件管理、現場照片、報價單、施工狀態與 LINE 回報流程。"
+      ? "以鑫匠工程為案例，展示詢價、案件、報價與 LINE 回報。"
       : isXinjiangProject
-      ? "展示鑫匠工程網站如何結合 BuildFlow 案件管理流程，串接估價入口、工程案例、報價狀態與 LINE 回報。"
+      ? "工程網站與 BuildFlow 案件流程案例。"
       : isApiAutomationProject
-        ? "展示如何將客戶表單、API、資料驗證、通知流程與後台管理介面串接成完整流程系統。"
+        ? "表單、API、通知與後台流程展示。"
         : project.summary,
   }
 
@@ -517,7 +517,7 @@ export function WorkDetailPage() {
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">線上展示</p>
                 <h2 className="mt-2 text-2xl font-black">展示操作台</h2>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
-                  直接操作核心流程，看畫面與資料怎麼變化。
+                  直接操作，看資料怎麼變。
                 </p>
               </div>
               {isInternalDemoPath ? (
@@ -545,19 +545,19 @@ export function WorkDetailPage() {
             <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Main Site 案例說明</p>
-                <h2 className="mt-3 text-3xl font-black">主站如何把作品變成詢問</h2>
+                <h2 className="mt-3 text-3xl font-black">主站轉換流程</h2>
                 <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-                  主站把服務、作品、工具與聯絡串成一條路徑。
+                  服務、作品、工具、聯絡串成一路。
                 </p>
               </div>
               <div className="grid gap-3 md:grid-cols-2">
                 {[
-                  ["解決什麼問題", "讓台灣客戶先看懂服務，再透過作品與工具判斷能不能合作。"],
-                  ["首頁如何導流", "Hero 先講定位，服務區說明能做什麼，作品區導向可互動 Demo。"],
-                  ["互動展示區 展示技術", "AI Audit、LINE Bot、BuildFlow、API 自動化 都有可操作畫面。"],
-                  ["需求診斷收需求", "用問答整理身份、需求、功能、預算與時程，降低第一次溝通成本。"],
-                  ["聯絡如何轉換", "Email、LINE ID 複製、需求表單與 mailto 都能把詢問送出去。"],
-                  ["SEO / 部署", "每頁 metadata、Open Graph、canonical、sitemap、robots 與 Vercel 部署。"],
+                  ["問題", "服務要先被看懂。"],
+                  ["首頁", "定位、作品、CTA。"],
+                  ["互動", "Demo 可以直接操作。"],
+                  ["診斷", "先整理需求。"],
+                  ["聯絡", "LINE、Email、表單。"],
+                  ["SEO", "metadata、sitemap、robots。"],
                 ].map(([title, text]) => (
                   <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
                     <p className="text-sm font-black text-[#0d6b62]">{title}</p>
@@ -572,7 +572,7 @@ export function WorkDetailPage() {
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">CTA Flow</p>
                   <h3 className="mt-3 text-2xl font-black">訪客 → 首頁 → 展示區 → 需求診斷 → 聯絡</h3>
                   <p className="mt-3 text-sm font-bold leading-7 text-white/70">
-                    首頁先建立信任，作品頁展示技術，需求診斷整理問題，最後把客戶帶到 LINE / Email 討論。
+                    首頁建立信任，作品展示技術，最後導到聯絡。
                   </p>
                 </div>
                 <div className="grid gap-2">
@@ -624,7 +624,7 @@ export function WorkDetailPage() {
           <div>
             <h2 className="text-3xl font-black">功能與技術架構</h2>
             <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-              把畫面、資料流、API 與部署拆開展示，讓客戶看懂這不是只有切版的作品。
+              畫面、資料流、API 與部署拆開看。
             </p>
           </div>
           <div className="grid gap-5">
@@ -762,7 +762,7 @@ export function WorkDetailPage() {
               <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先看 Demo，再整理你的流程。
+              先看 Demo，再整理流程。
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -781,7 +781,7 @@ export function WorkDetailPage() {
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            先診斷方向，再決定做網站、LINE Bot 或後台流程。
+            先診斷，再聯絡。
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -1189,7 +1189,7 @@ export function FreeAuditPage() {
   const auditItems = ["手機版是否好讀", "首頁標題是否清楚", "CTA 是否明顯", "SEO / Open Graph", "版面信任感", "下一步優化方向"]
 
   return (
-    <PageShell page={seo.audit} title="免費網站健檢" intro="如果你不確定網站哪裡怪，可以先把網址或想法寄給我，我會從手機版、文案、CTA 與信任感快速檢查。">
+    <PageShell page={seo.audit} title="免費網站健檢" intro="寄網址或想法，我看手機版、文案、CTA。">
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {auditItems.map((item) => (
@@ -1232,12 +1232,12 @@ export function ContactPage() {
       <PageShell
         page={seo.contact}
         title="聊聊你想做的網站或系統"
-        intro="可以先傳產業、功能、預算與希望上線時間。"
+        intro="傳產業、功能、預算、時程。"
       >
         <section className="hidden">
           <Card>
             <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
-          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">可以先傳產業、功能、預算與希望上線時間。</p>
+          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">LINE：{contact.lineId}。也可直接 Email。</p>
           <div className="mt-5 grid gap-3">
             <div className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
               <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE</p>

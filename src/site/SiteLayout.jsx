@@ -57,7 +57,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              漂亮網站，也能把 LINE、AI、表單與後台流程接起來。
+              漂亮網站，串接 LINE、AI、表單與後台。
             </p>
           </div>
           <a href={`mailto:${contact.email}`} className="text-sm font-black text-[#0d6b62]">

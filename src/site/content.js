@@ -12,23 +12,23 @@ export const seo = {
     path: "/",
     title: "Qingyu Web Studio｜網站、LINE Bot、AI 工具與後台流程",
     description:
-      "製作漂亮網站，也能把 LINE、AI、表單、API 與後台流程接起來，協助服務被看懂、被詢問並被管理。",
+      "漂亮網站，串接 LINE、AI、表單、API 與後台流程。",
   },
   works: {
     path: "/works",
     title: "成品入口｜Qingyu Web Studio",
-    description: "直接打開 BuildFlow、互動測驗、AI 技術任務與自動回覆 Demo。",
+    description: "互動 Demo、完整案例與技術拆解。",
   },
   services: {
     path: "/services",
     title: "服務能力｜Qingyu Web Studio",
     description:
-      "網站製作、LINE Bot、AI 工具、API 串接與後台流程規劃。",
+      "網站、LINE Bot、AI 工具、API 與後台流程。",
   },
   pricing: {
     path: "/pricing",
     title: "價格｜Qingyu Web Studio",
-    description: "依網站、LINE Bot、AI 工具、API 串接與後台流程範圍估價。",
+    description: "依需求範圍估價。",
   },
   audit: {
     path: "/free-audit",
@@ -38,12 +38,12 @@ export const seo = {
   contact: {
     path: "/contact",
     title: "填需求表單｜Qingyu Web Studio",
-    description: "留下網站、LINE Bot、AI 工具、API 串接或後台流程需求。",
+    description: "留下需求，我回覆做法與估價。",
   },
   planner: {
     path: "/tools/project-planner",
     title: "網站需求診斷工具｜Qingyu Web Studio",
-    description: "快速判斷適合的網站或系統方案。",
+    description: "快速判斷適合的方向。",
   },
   websiteRescue: {
     path: "/tools/website-rescue",
@@ -58,10 +58,10 @@ export const seo = {
 }
 
 export const serviceCategories = [
-  ["網站製作", "品牌網站、服務入口、作品展示、手機版 RWD。"],
-  ["互動工具", "測驗、診斷、表單與可操作 Demo。"],
-  ["LINE Bot 串接", "自動回覆、預約詢問、需求整理。"],
-  ["後台流程 / API", "表單收件、案件列表、狀態同步。"],
+  ["網站製作", "品牌網站、服務入口、RWD。"],
+  ["互動工具", "測驗、診斷、表單 Demo。"],
+  ["LINE Bot 串接", "自動回覆、需求整理。"],
+  ["後台流程 / API", "收件、案件、狀態同步。"],
 ]
 
 export const serviceOfferings = [
@@ -70,9 +70,9 @@ export const serviceOfferings = [
     name: "網站製作",
     label: "5,000 元起",
     price: "5,000 元起",
-    summary: "品牌網站、服務入口、作品展示與手機版 RWD。",
-    targetUsers: "店家、工作室、工程服務、個人品牌與成長中的團隊。",
-    problem: "需要一個漂亮、清楚、能被客戶聯絡的網站。",
+    summary: "品牌網站、服務入口、RWD。",
+    targetUsers: "店家、工作室、工程服務、個人品牌。",
+    problem: "需要漂亮、清楚、能聯絡的網站。",
     deliverables: ["首頁或品牌網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
     demoPath: "/contractor-site",
     proof: "先做清楚版本，再依需求擴充。",
@@ -94,9 +94,9 @@ export const serviceOfferings = [
     name: "LINE Bot 串接",
     label: "8,000 元起",
     price: "8,000 元起",
-    summary: "常見問題、自動回覆、預約詢問與需求整理。",
-    targetUsers: "需要用 LINE 接客、預約、詢問或整理需求的服務。",
-    problem: "重複回覆很耗時，需求也容易散在訊息裡。",
+    summary: "自動回覆、預約詢問、需求整理。",
+    targetUsers: "用 LINE 接客、預約或收需求的服務。",
+    problem: "訊息太散，容易漏追蹤。",
     deliverables: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "需求整理流程"],
     demoPath: "/tools/linebot-mission#demo",
     proof: "先整理 FAQ，再做可展示回覆流程。",
@@ -106,8 +106,8 @@ export const serviceOfferings = [
     name: "後台流程 / API",
     label: "20,000 元起",
     price: "20,000 元起",
-    summary: "表單收件、案件列表、狀態管理與資料同步。",
-    targetUsers: "工程行、工作室、服務業與需要流程管理的團隊。",
+    summary: "表單、案件、狀態與資料同步。",
+    targetUsers: "工程行、工作室、服務團隊。",
     problem: "資料散在表單、LINE、Excel，不好追蹤。",
     deliverables: ["表單收件", "案件列表", "狀態管理", "資料後台", "API 串接"],
     demoPath: "/buildflow",
@@ -147,10 +147,10 @@ export const processSteps = [
 export const audience = ["個人品牌", "店家", "工作室", "工程服務業", "新創團隊", "成長型服務"]
 
 export const pricing = [
-  ["網站起步", "5,000 元起", "品牌網站、服務入口、作品展示與手機版 RWD。"],
-  ["互動工具", "6,000 元起", "診斷、測驗、表單與可操作 Demo。"],
-  ["LINE Bot 串接", "8,000 元起", "自動回覆、預約詢問、需求整理流程。"],
-  ["後台流程 / API", "20,000 元起", "表單收件、案件列表、狀態管理與資料同步。"],
+  ["網站起步", "5,000 元起", "品牌網站、服務入口、RWD。"],
+  ["互動工具", "6,000 元起", "診斷、測驗、表單 Demo。"],
+  ["LINE Bot 串接", "8,000 元起", "自動回覆、需求整理。"],
+  ["後台流程 / API", "20,000 元起", "表單、案件、狀態同步。"],
 ]
 
 export const projects = [
@@ -192,7 +192,7 @@ export const projects = [
     liveLabel: "查看互動 Demo",
     secondaryLabel: "技術拆解",
     tags: ["OpenAI API", "React", "報告介面", "Vercel Function"],
-    problem: "很多網站不知道問題在哪，只覺得不夠專業或客人不會聯絡。",
+    problem: "網站不清楚，客人不會聯絡。",
     solution: "把網站檢查拆成手機版、文案、CTA、SEO 與信任感幾個明確面向，產出可執行建議。",
     features: ["健檢表單", "AI 報告", "SEO 檢查", "CTA 建議", "展示模式"],
     architecture: ["React UI", "Vercel API", "OpenAI API", "展示資料"],
@@ -240,7 +240,7 @@ export const projects = [
     slug: "buildflow",
     title: "BuildFlow",
     category: "案例：工程行接案與派工管理系統",
-    summary: "工程行流程管理成品，整合需求表單、案件列表、報價紀錄、派工回報與 LINE 查詢。",
+    summary: "需求、報價、回報與 LINE 查詢。",
     featured: true,
     livePath: "/buildflow",
     liveLabel: "查看 BuildFlow",
@@ -381,13 +381,13 @@ export const projects = [
     slug: "api-automation",
     title: "API 自動化流程",
     category: "系統",
-    summary: "把客戶表單、API、資料驗證、通知與後台串成一條完整流程。",
+    summary: "表單、API、通知與後台串接。",
     featured: true,
     livePath: "/works/api-automation#demo",
     liveLabel: "查看互動 Demo",
     secondaryLabel: "技術拆解",
     tags: ["React", "Tailwind", "Vercel Function", "REST API", "JSON Payload", "後台介面"],
-    problem: "很多服務已經有表單或 LINE，但資料沒有進後台，通知與狀態也靠人工補。",
+    problem: "表單或 LINE 沒有進後台。",
     solution: "設計從送出表單、API 接收、寫入資料庫、後台更新到 Email / LINE 通知的端到端流程。",
     features: ["表單送出", "API 接收", "資料庫寫入", "後台狀態", "通知流程", "狀態回傳"],
     architecture: ["REST API", "Webhook", "Supabase", "Serverless Function", "Notification Flow"],
@@ -440,7 +440,7 @@ export const projects = [
     slug: "qingyu-web",
     title: "Qingyu Web Studio 主站",
     category: "品牌網站",
-    summary: "一個為台灣個人品牌、店家、工作室與工程服務設計的網站服務主站，整合服務介紹、作品展示、需求診斷、SEO 與聯絡轉換。",
+    summary: "服務、作品、工具、SEO 與聯絡轉換。",
     featured: true,
     livePath: "/works/qingyu-web#demo",
     liveLabel: "查看互動 Demo",

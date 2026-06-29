@@ -27,28 +27,28 @@ const serviceCards = [
   {
     id: "website-fast",
     title: "網站製作",
-    description: "品牌網站、服務入口、作品展示與手機版 RWD。",
+    description: "品牌網站、服務入口、RWD。",
     price: "5,000 元起",
     button: "看內容",
   },
   {
     id: "quiz-package",
     title: "互動工具",
-    description: "測驗、診斷、表單與可操作 Demo，可依需求擴充。",
+    description: "測驗、診斷、表單 Demo。",
     price: "6,000 元起",
     button: "看內容",
   },
   {
     id: "line-reply",
     title: "LINE Bot 串接",
-    description: "自動回覆、預約詢問、需求整理與 LINE 流程。",
+    description: "自動回覆、需求整理。",
     price: "8,000 元起",
     button: "看內容",
   },
   {
     id: "admin-flow",
     title: "後台流程 / API",
-    description: "表單收件、案件列表、狀態管理與資料同步。",
+    description: "表單、案件、狀態同步。",
     price: "20,000 元起",
     button: "看內容",
   },
@@ -58,7 +58,7 @@ const serviceDetails = [
   {
     id: "website-fast",
     title: "網站製作",
-    fit: "店家、工作室、工程服務、個人品牌與成長中的團隊。",
+    fit: "店家、工作室、工程服務、個人品牌。",
     includes: ["首頁或一頁式網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
     delivery: "可上線的網站頁面。",
     price: "5,000 元起",
@@ -76,7 +76,7 @@ const serviceDetails = [
   {
     id: "line-reply",
     title: "LINE Bot 串接",
-    fit: "需要用 LINE 接客、預約、詢問或整理需求的服務。",
+    fit: "用 LINE 接客、預約或收需求的服務。",
     includes: ["FAQ 整理", "LINE Bot 回覆", "關鍵字回覆", "需求整理流程"],
     delivery: "可展示的回覆流程。",
     price: "8,000 元起",
@@ -85,7 +85,7 @@ const serviceDetails = [
   {
     id: "admin-flow",
     title: "後台流程 / API",
-    fit: "工程行、工作室、服務業與需要流程管理的團隊。",
+    fit: "工程行、工作室、服務團隊。",
     includes: ["表單收件", "案件列表", "狀態管理", "資料後台", "API 串接"],
     delivery: "可追蹤資料與流程的後台。",
     price: "20,000 元起",
@@ -165,7 +165,7 @@ function HeroSection() {
             網站、<span className="whitespace-nowrap">LINE Bot</span>、AI 工具與<span className="whitespace-nowrap">後台流程</span>
           </h1>
           <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-white/82 md:text-base">
-            我做漂亮網站，也能把 LINE、AI、表單、API 與後台流程接起來。
+            漂亮網站，串接 LINE、AI、表單、API 與後台。
           </p>
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
             <a href="#cases" className="inline-flex min-h-12 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22] shadow-lg shadow-[#071113]/10 hover:bg-[#f5f1e9]">
@@ -203,7 +203,7 @@ function ServiceCardsSection() {
   return (
     <section id="services" className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="服務能力" title="從網站到流程系統" text="先做清楚，再把需要的流程接起來。" />
+        <SectionHeading eyebrow="服務能力" title="從網站到流程系統" text="漂亮、清楚、可聯絡。" />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {serviceCards.map((item) => (
             <a key={item.id} href={`#${item.id}`} className="rounded-lg border border-[#e3ded3] bg-[#faf8f3] p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62] hover:shadow-lg">
@@ -225,7 +225,7 @@ function ServiceDetailsSection() {
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="內容" title="服務能力內容" text="短版範圍，細節再報價確認。" />
+        <SectionHeading eyebrow="內容" title="服務能力內容" text="範圍短，報價清楚。" />
         <div className="grid gap-4 lg:grid-cols-2">
           {serviceDetails.map((item) => (
             <article id={item.id} key={item.id} className="scroll-mt-24 rounded-lg border border-[#e3ded3] bg-white p-5">
@@ -286,7 +286,7 @@ function ProcessSection() {
           ))}
         </div>
         <p className="mt-6 rounded-lg border border-[#e3ded3] bg-[#fffaf0] p-4 text-sm font-bold leading-7 text-[#5f4a2a]">
-          錯誤修正與新增功能分開計算，維護可另談。
+          維護與新增功能另談。
         </p>
       </div>
     </section>
@@ -297,7 +297,7 @@ function FitSection() {
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="流程串接" title="可以怎麼接起來？" text="漂亮網站是入口，後面可以串 LINE、表單、API 與後台。" />
+        <SectionHeading eyebrow="流程串接" title="可以怎麼接？" text="網站入口，串 LINE、表單、API、後台。" />
         <div className="grid gap-5 md:grid-cols-2">
           <FitList title="服務入口" items={fitItems} />
           <FitList title="流程能力" items={flowItems} />
@@ -326,7 +326,7 @@ function CaseSection() {
   return (
     <section id="cases" className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-        <SectionHeading eyebrow="範例" title="先看實作" text="先看做出來的東西，再看服務內容。" />
+        <SectionHeading eyebrow="範例" title="先看實作" text="看畫面，不看長文。" />
         <div className="grid gap-4 md:grid-cols-2">
           {caseCards.map((item) => (
             <SmartLink

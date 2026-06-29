@@ -7,43 +7,43 @@ const services = [
   {
     id: "waterproof",
     title: "防水抓漏",
-    short: "屋頂、外牆、浴室與裂縫修繕需求。",
-    detail: "示範如何把工程服務拆成清楚的項目、材料、施工範圍與注意事項，讓客戶更容易提供有效資訊。",
+    short: "屋頂、外牆、浴室。",
+    detail: "服務項目、材料與範圍一次看懂。",
     image: "/project-photos/335950_0.jpg",
   },
   {
     id: "floor",
     title: "地坪工程",
-    short: "Epoxy、PU、表面整理與工業空間。",
-    detail: "用照片與規格欄位呈現地坪服務，搭配坪數、用途、現況與預算，能快速形成報價草稿。",
+    short: "Epoxy、PU、工業空間。",
+    detail: "照片、坪數、用途，快速形成報價方向。",
     image: "/project-photos/335953_0.jpg",
   },
   {
     id: "tile",
     title: "泥作磁磚",
-    short: "修補、鋪貼、拆除與局部翻新。",
-    detail: "把工種、數量、材料與工期拆清楚，避免客戶只傳一句話就無法判斷現場狀況。",
+    short: "修補、鋪貼、翻新。",
+    detail: "工種、數量、材料與工期清楚列出。",
     image: "/project-photos/335940_0.jpg",
   },
   {
     id: "paint",
     title: "油漆修繕",
-    short: "室內牆面、外牆立面與局部補漆。",
-    detail: "適合展示前後差異、表面狀況與色彩選項，讓作品頁更像銷售頁，而不是單純相簿。",
+    short: "室內、外牆、補漆。",
+    detail: "用前後差異建立信任。",
     image: "/project-photos/335945_0.jpg",
   },
   {
     id: "wood",
     title: "木作裝修",
-    short: "木地板、櫃體、牆面與室內細部。",
-    detail: "以風格、尺寸、材質、現場限制整理需求，幫助客戶在聯絡前就知道要準備什麼。",
+    short: "木地板、櫃體、細部。",
+    detail: "風格、尺寸、材質先整理。",
     image: "/project-photos/335949_0.jpg",
   },
   {
     id: "manage",
     title: "工程管理",
-    short: "案件、廠商、報價、付款與驗收追蹤。",
-    detail: `可延伸到 BuildFlow 後台，並用 LINE ${lineBotId} 做案件查詢或通知概念驗證。`,
+    short: "案件、報價、驗收。",
+    detail: `可接 BuildFlow 與 LINE ${lineBotId}。`,
     image: "/project-photos/335941_0.jpg",
   },
 ]
@@ -56,15 +56,15 @@ const cases = [
 ]
 
 const process = [
-  ["01", "收到需求", "客戶提供照片、地點、尺寸、預算與期望工期。"],
-  ["02", "建立案件", "後台產生案件、報價草稿、任務與廠商資料。"],
-  ["03", "追蹤交付", "用狀態、變更單、付款與驗收記錄追蹤進度。"],
+  ["01", "收到需求", "照片、地點、預算。"],
+  ["02", "建立案件", "案件、報價、任務。"],
+  ["03", "追蹤交付", "狀態、付款、驗收。"],
 ]
 
 const systemPoints = [
-  "BuildFlow 測試入口：管理工程案件、廠商、報價與任務。",
-  "LINE Bot 概念：用案件編號查詢狀態或產生報價摘要。",
-  "接案頁整合：從網站表單收集需求，再進入後台管理。",
+  "BuildFlow：管理案件、報價與任務。",
+  "LINE Bot：查狀態、送回報。",
+  "網站表單：需求進後台。",
 ]
 
 function ProjectHub() {
@@ -120,10 +120,10 @@ function ProjectHub() {
               Contractor Business System
             </p>
             <h1 className="mt-5 text-4xl font-black leading-tight tracking-tight sm:text-5xl lg:text-6xl">
-              工程接案不只需要網站，也需要能追蹤案件的流程。
+              工程網站，也能接到後台流程。
             </h1>
             <p className="mt-5 max-w-xl text-base font-bold leading-8 text-[#d8e1de] sm:text-lg">
-              這個案例把工程服務頁、詢價表單、案例展示與 BuildFlow 後台串成一個完整接案故事。
+              詢價、案例、BuildFlow 後台串在一起。
             </p>
 
             <div className="mt-8 flex flex-wrap gap-3">
@@ -163,10 +163,10 @@ function ProjectHub() {
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">Service Map</p>
-            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">把服務拆成可報價的模組</h2>
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">服務模組</h2>
           </div>
           <p className="max-w-md text-sm font-bold leading-7 text-[#5b6966]">
-            對工程類客戶來說，網站最重要的是降低溝通成本，讓需求能被快速分類。
+            讓需求更好分類、報價、追蹤。
           </p>
         </div>
 
@@ -218,7 +218,7 @@ function ProjectHub() {
           <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">Cases</p>
-              <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">案例照片可以變成轉換素材</h2>
+              <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">案例照片</h2>
             </div>
             <Link
               to="/contractor-site"
@@ -250,9 +250,9 @@ function ProjectHub() {
       <section id="system" className="mx-auto grid max-w-6xl gap-8 px-4 py-16 lg:grid-cols-[0.85fr_1.15fr]">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">BuildFlow</p>
-          <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">後台工具讓接案流程可以被管理</h2>
+          <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">接案後台</h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#5b6966]">
-            這裡展示網站不只是門面，也可以變成管理案件、報價、廠商與客戶溝通的入口。
+            網站不只展示，也能收需求、管案件。
           </p>
         </div>
 

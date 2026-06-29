@@ -72,8 +72,8 @@ function ContactLeadSection() {
     setSubmitting(false)
     setNotice(
       result.ok
-        ? "已收到需求，我會先看內容，再回覆適合的做法與估價。"
-        : "已整理需求，請透過 Email 或 LINE 傳送給我。"
+        ? "已收到，我會回覆做法與估價。"
+        : "已整理，請用 Email 或 LINE 傳給我。"
     )
   }
 
@@ -91,7 +91,7 @@ function ContactLeadSection() {
             填需求表單
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            傳產業、需求、預算、時程即可。
+            傳產業、功能、預算、時程。
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -125,7 +125,7 @@ function ContactLeadSection() {
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：我要做品牌網站、LINE Bot、AI 工具或後台流程。"
+                placeholder="例如：品牌網站 + LINE Bot。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>

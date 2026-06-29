@@ -360,7 +360,7 @@ function ProjectPlanner() {
               網站需求診斷
             </h1>
             <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">
-              回答幾個問題，產生適合的網站、LINE Bot 或系統方向。
+              回答幾題，整理方向。
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -373,7 +373,7 @@ function ProjectPlanner() {
                 技術拆解
               </button>
               <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#0d6b62] bg-[#eef7f4] px-5 text-sm font-black text-[#0d6b62] transition hover:bg-[#dff1ec]">
-                找我做類似系統
+                聯絡我
               </Link>
             </div>
           </div>
@@ -609,17 +609,17 @@ function ProjectPlanner() {
           <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Use Case</p>
-              <h2 className="mt-2 text-2xl font-black">診斷結果可以怎麼用？</h2>
+              <h2 className="mt-2 text-2xl font-black">診斷結果</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先整理方向，再決定要做網站、LINE Bot、AI 工具或後台流程。
+              先整理，再討論。
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
             {[
-              ["適合誰", "店家、工作室、個人品牌"],
-              ["能做什麼", "分類需求、整理功能、產生建議"],
-              ["下一步", "帶著結果到 Contact 頁討論實作"],
+              ["適合", "店家、工作室、品牌"],
+              ["輸出", "方案、功能、方向"],
+              ["下一步", "帶結果來聊"],
             ].map(([title, text]) => (
               <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
                 <p className="text-sm font-black text-[#0d6b62]">{title}</p>
@@ -629,16 +629,16 @@ function ProjectPlanner() {
           </div>
         </div>
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
-          <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
+          <h2 className="text-2xl font-black">想做類似系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            我可以先幫你判斷適合網站、LINE Bot、AI 工具還是後台流程。
+            先診斷，再聯絡。
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               開始需求診斷
             </button>
             <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              找我做類似系統
+              聯絡我
             </Link>
           </div>
         </div>
@@ -650,7 +650,7 @@ function ProjectPlanner() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
             <h2 className="mt-3 text-3xl font-black">診斷邏輯怎麼做</h2>
             <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-              前端診斷邏輯，可升級 AI 顧問或客製成需求表單。
+              前端診斷，可升級 AI 顧問。
             </p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
@@ -664,7 +664,7 @@ function ProjectPlanner() {
               ["State UI", "React State UI"],
               ["Future", "OpenAI API 可升級成 AI 顧問"],
               ["Deploy", "Vercel"],
-              ["CTA", "可客製成你的店家需求表單"],
+              ["CTA", "可客製需求表單"],
             ].map(([label, detail]) => (
               <div key={label} className="rounded-xl border border-[#ddd6c9] bg-white p-4">
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">{label}</p>
