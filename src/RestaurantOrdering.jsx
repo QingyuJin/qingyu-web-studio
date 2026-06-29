@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 const MODES = ["客戶端", "服務端"]
@@ -13,18 +13,18 @@ const menuItems = [
     station: "熱線",
     time: "14 min",
     note: "範例圖片",
-    color: "from-[#d9c4a7] via-[#f4eadb] to-[#fffaf2]",
+    color: "from-[#d8c2a4] via-[#f5ead8] to-[#fffaf2]",
     tags: ["人氣", "可加飯"],
   },
   {
     id: "m2",
-    name: "奶油松露菇燉飯",
+    name: "松露野菇燉飯",
     price: 240,
     category: "主餐",
     station: "冷台",
     time: "12 min",
     note: "範例圖片",
-    color: "from-[#c9d5bc] via-[#f0ead7] to-[#fffaf2]",
+    color: "from-[#becfaf] via-[#eee7d3] to-[#fffaf2]",
     tags: ["素食", "濃郁"],
   },
   {
@@ -35,7 +35,7 @@ const menuItems = [
     station: "吧台",
     time: "4 min",
     note: "空圖片",
-    color: "from-[#d6e0dd] via-[#f2eee0] to-[#fffaf2]",
+    color: "from-[#cfdeda] via-[#f1eadc] to-[#fffaf2]",
     tags: ["冰飲", "先出"],
   },
   {
@@ -46,7 +46,7 @@ const menuItems = [
     station: "甜點",
     time: "6 min",
     note: "空圖片",
-    color: "from-[#e3b98d] via-[#f5dfc2] to-[#fffaf2]",
+    color: "from-[#e4b889] via-[#f6dfc0] to-[#fffaf2]",
     tags: ["飯後", "限量"],
   },
   {
@@ -57,7 +57,7 @@ const menuItems = [
     station: "冷台",
     time: "9 min",
     note: "範例圖片",
-    color: "from-[#bccda8] via-[#efe8d2] to-[#fffaf2]",
+    color: "from-[#b8caa3] via-[#eee6d1] to-[#fffaf2]",
     tags: ["清爽", "分享"],
   },
   {
@@ -68,7 +68,7 @@ const menuItems = [
     station: "炸台",
     time: "8 min",
     note: "空圖片",
-    color: "from-[#e0b46e] via-[#f7e3bb] to-[#fffaf2]",
+    color: "from-[#dfb06c] via-[#f7e2bb] to-[#fffaf2]",
     tags: ["小食", "熱賣"],
   },
 ]
@@ -92,7 +92,7 @@ const initialOrders = [
     guest: "包廂四人",
     status: "待送餐",
     channel: "服務員代點",
-    items: ["奶油松露菇燉飯", "焦糖布丁"],
+    items: ["松露野菇燉飯", "焦糖布丁"],
     total: 335,
     minutes: 18,
     staff: "Kai",
@@ -128,6 +128,14 @@ const stations = [
   ["甜點", 46, "飯後節奏"],
 ]
 
+function getTime() {
+  return new Intl.DateTimeFormat("zh-TW", {
+    hour: "2-digit",
+    minute: "2-digit",
+    second: "2-digit",
+  }).format(new Date())
+}
+
 function money(value) {
   return `$${value.toLocaleString("en-US")}`
 }
@@ -146,6 +154,10 @@ function statusTone(status) {
 
 function StatusBadge({ children }) {
   return <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(children)}`}>{children}</span>
+}
+
+function ShellCard({ children, className = "" }) {
+  return <section className={`rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2]/88 shadow-sm backdrop-blur ${className}`}>{children}</section>
 }
 
 function Header({ mode, setMode, time, onAddOrder }) {
@@ -198,13 +210,24 @@ function Header({ mode, setMode, time, onAddOrder }) {
   )
 }
 
+function ToastBar({ message }) {
+  if (!message) return null
+
+  return (
+    <div className="fixed bottom-5 left-1/2 z-50 w-[min(92vw,520px)] -translate-x-1/2 rounded-2xl border border-[#dfd0bc] bg-[#244332] px-5 py-4 text-sm font-black text-white shadow-2xl shadow-[#244332]/25">
+      {message}
+    </div>
+  )
+}
+
 function HeroStatus({ orders, revenue, selectedOrder }) {
   const openOrders = orders.filter((order) => order.status !== "已送達").length
   const kitchenLoad = Math.min(99, orders.filter((order) => order.status === "備餐中").length * 13 + 54)
+  const avgWait = Math.round(orders.reduce((sum, order) => sum + order.minutes, 0) / Math.max(orders.length, 1))
 
   return (
     <section className="grid gap-4 xl:grid-cols-[1.25fr_0.95fr]">
-      <article className="overflow-hidden rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2]/90 p-6 shadow-xl shadow-[#3a2419]/6 backdrop-blur md:p-8">
+      <ShellCard className="overflow-hidden p-6 shadow-xl shadow-[#3a2419]/6 md:p-8">
         <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Restaurant OS</p>
@@ -212,13 +235,13 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
               午餐尖峰，廚房節奏穩定推進。
             </h1>
             <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#836855] md:text-base">
-              {selectedOrder.table} 正在處理 {selectedOrder.items[0]}，吧台先出飲品；熱線維持 16 分鐘內。
+              {selectedOrder.table} 正在處理 {selectedOrder.items[0]}，吧台先出飲品；平均等待 {avgWait} 分鐘。
             </p>
           </div>
           <div className="rounded-[1.25rem] bg-[#244332] p-4 text-white md:min-w-72">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f4b36d]">Selected Order</p>
             <p className="mt-5 font-serif text-4xl font-black">{selectedOrder.table}</p>
-            <p className="mt-2 text-sm font-bold text-white/68">{selectedOrder.note}</p>
+            <p className="mt-2 line-clamp-2 text-sm font-bold text-white/68">{selectedOrder.note}</p>
             <div className="mt-5 flex items-center justify-between">
               <StatusBadge>{selectedOrder.status}</StatusBadge>
               <span className="text-sm font-black text-[#f4b36d]">{selectedOrder.minutes} min</span>
@@ -232,7 +255,7 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
           <p className="text-sm font-black text-[#244332]">{kitchenLoad}% kitchen flow</p>
           <p className="text-sm font-bold text-[#836855]">今日推薦：時蔬鷹嘴豆盤。</p>
         </div>
-      </article>
+      </ShellCard>
 
       <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-3">
         <Kpi title="未完成單" value={openOrders} note="需要追蹤" />
@@ -243,11 +266,11 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
   )
 }
 
-function Kpi({ title, value, note, money = false }) {
+function Kpi({ title, value, note, money: moneyStyle = false }) {
   return (
     <article className="rounded-[1.35rem] border border-[#dfd0bc] bg-[#fffaf2]/88 p-5 shadow-sm backdrop-blur">
       <p className="font-serif text-lg font-black text-[#806a59]">{title}</p>
-      <p className={`mt-9 font-serif font-black leading-none text-[#c75d2c] ${money ? "text-5xl" : "text-6xl"}`}>{value}</p>
+      <p className={`mt-9 font-serif font-black leading-none text-[#c75d2c] ${moneyStyle ? "text-5xl" : "text-6xl"}`}>{value}</p>
       <p className="mt-7 text-sm font-black text-[#806a59]">{note}</p>
       <div className="mt-8 h-2 rounded-full bg-[#e9dccb]">
         <div className="h-full w-[82%] rounded-full bg-gradient-to-r from-[#f0a85f] to-[#244332]" />
@@ -256,8 +279,23 @@ function Kpi({ title, value, note, money = false }) {
   )
 }
 
+function QuantityControl({ value, onMinus, onPlus }) {
+  return (
+    <div className="flex items-center gap-2">
+      <button type="button" onClick={onMinus} className="grid h-8 w-8 place-items-center rounded-full border border-[#dfd0bc] bg-white text-sm font-black text-[#3a2419]">
+        -
+      </button>
+      <span className="w-5 text-center text-sm font-black text-[#3a2419]">{value}</span>
+      <button type="button" onClick={onPlus} className="grid h-8 w-8 place-items-center rounded-full bg-[#244332] text-sm font-black text-white">
+        +
+      </button>
+    </div>
+  )
+}
+
 function ClientView({ cart, setCart, submitted, onSubmit }) {
   const [category, setCategory] = useState("全部")
+  const [diningNote, setDiningNote] = useState("飲品先出，主餐正常。")
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const visibleMenu = category === "全部" ? menuItems : menuItems.filter((item) => item.category === category || item.station === category)
   const categories = ["全部", "主餐", "飲品", "甜點", "熱線", "吧台"]
@@ -270,9 +308,17 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
     })
   }
 
+  function decreaseItem(item) {
+    setCart((current) =>
+      current
+        .map((entry) => (entry.id === item.id ? { ...entry, qty: entry.qty - 1 } : entry))
+        .filter((entry) => entry.qty > 0)
+    )
+  }
+
   return (
-    <section className="grid gap-5 xl:grid-cols-[1fr_390px]">
-      <div className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2]/82 p-5 shadow-sm">
+    <section className="grid gap-5 xl:grid-cols-[1fr_400px]">
+      <ShellCard className="p-5">
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Customer Menu</p>
@@ -297,8 +343,8 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {visibleMenu.map((item) => (
             <article key={item.id} className="rounded-[1.25rem] border border-[#dfd0bc] bg-white p-4 shadow-sm">
-              <div className={`grid aspect-[4/2.4] place-items-center rounded-2xl bg-gradient-to-br ${item.color}`}>
-                <div className="rounded-full bg-white/65 px-4 py-2 text-sm font-black text-[#806a59]">{item.note}</div>
+              <div className={`grid aspect-[4/2.35] place-items-center rounded-2xl bg-gradient-to-br ${item.color}`}>
+                <div className="rounded-full bg-white/70 px-4 py-2 text-sm font-black text-[#806a59]">{item.note}</div>
               </div>
               <div className="mt-4 flex items-start justify-between gap-3">
                 <div>
@@ -322,7 +368,7 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
             </article>
           ))}
         </div>
-      </div>
+      </ShellCard>
 
       <aside className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2] p-5 shadow-xl shadow-[#3a2419]/8">
         <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Cart</p>
@@ -333,23 +379,39 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
             <div className="rounded-2xl bg-[#f7efe5] p-4 text-sm font-bold text-[#806a59]">尚未加入餐點。</div>
           ) : (
             cart.map((item) => (
-              <div key={item.id} className="flex items-center justify-between rounded-2xl bg-white px-4 py-3">
-                <div>
-                  <p className="text-sm font-black text-[#3a2419]">{item.name}</p>
-                  <p className="text-xs font-bold text-[#806a59]">x {item.qty} · {item.station}</p>
+              <div key={item.id} className="rounded-2xl bg-white px-4 py-3">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-black text-[#3a2419]">{item.name}</p>
+                    <p className="text-xs font-bold text-[#806a59]">
+                      {item.station} · ${item.price}
+                    </p>
+                  </div>
+                  <p className="font-black text-[#c75d2c]">${item.price * item.qty}</p>
                 </div>
-                <p className="font-black text-[#c75d2c]">${item.price * item.qty}</p>
+                <div className="mt-3 flex items-center justify-between">
+                  <QuantityControl value={item.qty} onMinus={() => decreaseItem(item)} onPlus={() => addItem(item)} />
+                  <span className="text-xs font-black text-[#806a59]">{item.time}</span>
+                </div>
               </div>
             ))
           )}
         </div>
+        <label className="mt-4 block">
+          <span className="text-xs font-black text-[#806a59]">桌邊備註</span>
+          <textarea
+            value={diningNote}
+            onChange={(event) => setDiningNote(event.target.value)}
+            className="mt-2 min-h-20 w-full rounded-2xl border border-[#dfd0bc] bg-white px-4 py-3 text-sm font-bold text-[#3a2419] outline-none focus:border-[#244332]"
+          />
+        </label>
         <div className="mt-5 flex items-center justify-between border-t border-[#dfd0bc] pt-5">
           <span className="text-sm font-black text-[#806a59]">小計</span>
           <span className="font-serif text-4xl font-black text-[#3a2419]">{money(total)}</span>
         </div>
         <button
           type="button"
-          onClick={onSubmit}
+          onClick={() => onSubmit(diningNote)}
           disabled={cart.length === 0}
           className="mt-5 min-h-12 w-full rounded-xl bg-[#c75d2c] text-sm font-black text-white shadow-lg shadow-[#c75d2c]/14 disabled:opacity-50"
         >
@@ -360,23 +422,28 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
   )
 }
 
-function ServiceView({ orders, selectedId, setSelectedId, onAdvance }) {
+function ServiceView({ orders, selectedId, setSelectedId, onAdvance, onSettle }) {
   const [filter, setFilter] = useState("全部")
   const shown = filter === "全部" ? orders : orders.filter((order) => order.status === filter)
-  const selected = orders.find((order) => order.id === selectedId) || orders[0]
+  const selected = orders.find((order) => order.id === selectedId) || orders[0] || initialOrders[0]
 
   return (
     <section className="grid gap-5 xl:grid-cols-[1fr_430px]">
       <div className="grid gap-5">
-        <div className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2]/82 p-5 shadow-sm">
+        <ShellCard className="p-5">
           <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Kitchen Rail</p>
               <h2 className="mt-2 font-serif text-4xl font-black tracking-[-0.04em] text-[#3a2419]">廚房佇列</h2>
             </div>
-            <button type="button" onClick={onAdvance} className="min-h-12 rounded-xl bg-[#244332] px-5 text-sm font-black text-white shadow-lg shadow-[#244332]/12">
-              推進出餐
-            </button>
+            <div className="flex flex-col gap-2 sm:flex-row">
+              <button type="button" onClick={onAdvance} className="min-h-12 rounded-xl bg-[#244332] px-5 text-sm font-black text-white shadow-lg shadow-[#244332]/12">
+                推進出餐
+              </button>
+              <button type="button" onClick={onSettle} className="min-h-12 rounded-xl border border-[#dfd0bc] bg-white px-5 text-sm font-black text-[#3a2419]">
+                結帳 / 清桌
+              </button>
+            </div>
           </div>
 
           <div className="mt-5 flex gap-2 overflow-x-auto rounded-2xl border border-[#dfd0bc] bg-[#fffaf2] p-2">
@@ -393,7 +460,7 @@ function ServiceView({ orders, selectedId, setSelectedId, onAdvance }) {
           </div>
 
           <div className="mt-4 grid gap-4 md:grid-cols-2 xl:grid-cols-3">
-            {shown.map((order) => (
+            {shown.length > 0 ? shown.map((order) => (
               <button key={order.id} type="button" onClick={() => setSelectedId(order.id)} className="text-left">
                 <article className={`rounded-2xl border p-4 transition hover:-translate-y-0.5 ${selected.id === order.id ? "border-[#244332] bg-[#f3eee1] shadow-lg shadow-[#244332]/10" : "border-[#dfd0bc] bg-white"}`}>
                   <div className="flex items-start justify-between gap-3">
@@ -416,9 +483,13 @@ function ServiceView({ orders, selectedId, setSelectedId, onAdvance }) {
                   </div>
                 </article>
               </button>
-            ))}
+            )) : (
+              <div className="rounded-2xl border border-dashed border-[#dfd0bc] bg-white/70 p-6 text-sm font-black text-[#806a59] md:col-span-2 xl:col-span-3">
+                目前沒有符合篩選的訂單。可以切換狀態，或用「模擬新單」新增一筆。
+              </div>
+            )}
           </div>
-        </div>
+        </ShellCard>
 
         <StationLoad />
       </div>
@@ -433,7 +504,7 @@ function ServiceView({ orders, selectedId, setSelectedId, onAdvance }) {
 
 function StationLoad() {
   return (
-    <section className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2]/82 p-5 shadow-sm">
+    <ShellCard className="p-5">
       <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Station Load</p>
       <h2 className="mt-2 font-serif text-3xl font-black text-[#3a2419]">出餐站別</h2>
       <div className="mt-5 grid gap-4 md:grid-cols-4">
@@ -448,7 +519,7 @@ function StationLoad() {
           </div>
         ))}
       </div>
-    </section>
+    </ShellCard>
   )
 }
 
@@ -459,7 +530,9 @@ function OrderDetail({ order }) {
         <div>
           <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Order Detail</p>
           <h2 className="mt-2 font-serif text-4xl font-black text-[#3a2419]">{order.table}</h2>
-          <p className="mt-1 text-sm font-bold text-[#806a59]">{order.id} · {order.channel}</p>
+          <p className="mt-1 text-sm font-bold text-[#806a59]">
+            {order.id} · {order.channel}
+          </p>
         </div>
         <StatusBadge>{order.status}</StatusBadge>
       </div>
@@ -515,16 +588,19 @@ function RestaurantOrdering() {
   const [selectedId, setSelectedId] = useState(initialOrders[0].id)
   const [cart, setCart] = useState([])
   const [submitted, setSubmitted] = useState(false)
+  const [time, setTime] = useState(getTime())
+  const [message, setMessage] = useState("")
 
-  const time = useMemo(
-    () =>
-      new Intl.DateTimeFormat("zh-TW", {
-        hour: "2-digit",
-        minute: "2-digit",
-        second: "2-digit",
-      }).format(new Date()),
-    []
-  )
+  useEffect(() => {
+    const timer = window.setInterval(() => setTime(getTime()), 1000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
+    if (!message) return undefined
+    const timer = window.setTimeout(() => setMessage(""), 1800)
+    return () => window.clearTimeout(timer)
+  }, [message])
 
   const selectedOrder = orders.find((order) => order.id === selectedId) || orders[0]
   const revenue = orders.reduce((sum, order) => sum + order.total, 0) + cart.reduce((sum, item) => sum + item.price * item.qty, 0)
@@ -546,9 +622,10 @@ function RestaurantOrdering() {
     setOrders((current) => [newOrder, ...current])
     setSelectedId(newOrder.id)
     setMode("服務端")
+    setMessage("已新增一筆現場新單。")
   }
 
-  function submitCart() {
+  function submitCart(diningNote) {
     if (cart.length === 0) return
     const newOrder = {
       id: `ORD-${orders.length + 43}`,
@@ -560,21 +637,50 @@ function RestaurantOrdering() {
       total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
       minutes: 0,
       staff: "Mina",
-      note: "客戶端送出，確認後進入備餐。",
+      note: diningNote || "客戶端送出，確認後進入備餐。",
     }
     setOrders((current) => [newOrder, ...current])
     setSelectedId(newOrder.id)
+    setCart([])
     setSubmitted(true)
+    setMessage("桌邊點單已送到服務端。")
     window.setTimeout(() => setMode("服務端"), 650)
   }
 
   function advanceOrders() {
-    setOrders((current) =>
-      current.map((order) => {
-        if (order.id !== selectedId) return order
-        return { ...order, status: nextStatus(order.status), minutes: Math.max(0, order.minutes - 3) }
-      })
+    const current = selectedOrder
+    if (!current) {
+      setMessage("目前沒有可更新的訂單。")
+      return
+    }
+    const next = nextStatus(current.status)
+    setOrders((items) =>
+      items.map((order) =>
+        order.id === selectedId ? { ...order, status: next, minutes: Math.max(0, order.minutes - 3) } : order
+      )
     )
+    setMessage(`${current.table} 已更新為「${next}」。`)
+  }
+
+  function settleOrder() {
+    if (!selectedOrder) {
+      setOrders(initialOrders)
+      setSelectedId(initialOrders[0].id)
+      setMessage("已重置範例佇列。")
+      return
+    }
+
+    const nextOrders = orders.filter((order) => order.id !== selectedId)
+    if (nextOrders.length === 0) {
+      setOrders(initialOrders)
+      setSelectedId(initialOrders[0].id)
+      setMessage(`${selectedOrder.table} 已清桌，範例佇列已重置。`)
+      return
+    }
+
+    setOrders(nextOrders)
+    setSelectedId(nextOrders[0].id)
+    setMessage(`${selectedOrder.table} 已結帳並清桌。`)
   }
 
   return (
@@ -583,11 +689,11 @@ function RestaurantOrdering() {
       <div className="relative">
         <Header mode={mode} setMode={setMode} time={time} onAddOrder={addOrder} />
         <div className="mx-auto grid max-w-[1440px] gap-5 px-4 py-6 md:px-7 md:py-8">
-          <HeroStatus orders={orders} revenue={revenue} selectedOrder={selectedOrder} />
+          <HeroStatus orders={orders} revenue={revenue} selectedOrder={selectedOrder || initialOrders[0]} />
           {mode === "客戶端" ? (
             <ClientView cart={cart} setCart={setCart} submitted={submitted} onSubmit={submitCart} />
           ) : (
-            <ServiceView orders={orders} selectedId={selectedId} setSelectedId={setSelectedId} onAdvance={advanceOrders} />
+            <ServiceView orders={orders} selectedId={selectedId} setSelectedId={setSelectedId} onAdvance={advanceOrders} onSettle={settleOrder} />
           )}
           <div className="flex flex-col gap-3 rounded-[1.35rem] border border-[#dfd0bc] bg-[#fffaf2]/86 p-5 shadow-sm md:flex-row md:items-center md:justify-between">
             <div>
@@ -600,6 +706,7 @@ function RestaurantOrdering() {
           </div>
         </div>
       </div>
+      <ToastBar message={message} />
     </main>
   )
 }
