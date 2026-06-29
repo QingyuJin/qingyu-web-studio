@@ -4,7 +4,6 @@ import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
 const StudioHome = lazy(() => import("./StudioHome"))
-const AIProjectOS = lazy(() => import("./AIProjectOS"))
 const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
 const WorkDetailPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorkDetailPage })))
 const ServicesPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ServicesPage })))
@@ -31,8 +30,7 @@ function App() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
-        <Route path="/" element={<AIProjectOS />} />
-        <Route path="/studio" element={<StudioHome />} />
+        <Route path="/" element={<StudioHome />} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
