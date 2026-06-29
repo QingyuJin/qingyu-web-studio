@@ -1,28 +1,16 @@
 import { Link, NavLink } from "react-router-dom"
 import { contact } from "./content"
 
-function isExternalUrl(to) {
-  return typeof to === "string" && /^https?:\/\//.test(to)
-}
-
 const navItems = [
   ["首頁", "/"],
+  ["成品", "/works"],
   ["服務", "/services"],
   ["價格", "/pricing"],
-  ["案例", "/works"],
   ["BuildFlow", "/buildflow"],
   ["聯絡", "/contact"],
 ]
 
 function NavItem({ label, path }) {
-  if (isExternalUrl(path)) {
-    return (
-      <a href={path} target="_blank" rel="noreferrer" className="text-[#0d6b62] hover:text-[#0a514b]">
-        {label}
-      </a>
-    )
-  }
-
   return (
     <NavLink key={path} to={path} className={({ isActive }) => (isActive ? "text-[#0d6b62]" : "hover:text-[#0d6b62]")}>
       {label}
@@ -47,7 +35,7 @@ function SiteLayout({ children }) {
             to="/contact"
             className="inline-flex min-h-9 items-center justify-center rounded-md bg-[#111c22] px-3 text-xs font-black text-white hover:bg-[#26343b] md:px-4 md:text-sm"
           >
-            聯絡
+            我想做類似的
           </Link>
         </div>
       </header>
@@ -57,7 +45,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              漂亮網站，串接 LINE、AI、表單與後台。
+              看成品，選一個像你要的網站或系統。
             </p>
           </div>
           <a href={`mailto:${contact.email}`} className="text-sm font-black text-[#0d6b62]">

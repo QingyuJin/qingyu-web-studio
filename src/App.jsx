@@ -31,7 +31,7 @@ function App() {
     <Suspense fallback={<PageFallback />}>
       <Routes>
         <Route path="/" element={<StudioHome />} />
-        <Route path="/works" element={<ProjectHub />} />
+        <Route path="/works" element={<WorksPage />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
@@ -42,6 +42,9 @@ function App() {
         <Route path="/tools/website-rescue" element={<WebsiteRescue />} />
         <Route path="/tools/linebot-mission" element={<LineBotMission />} />
         <Route path="/engineering" element={<ProjectHub />} />
+        <Route path="/memberhub" element={<WorkDetailPage slug="memberhub" />} />
+        <Route path="/tracking-system" element={<WorkDetailPage slug="tracking-system" />} />
+        <Route path="/linebot" element={<WorkDetailPage slug="linebot" />} />
         <Route path="/login" element={<LoginPage />} />
 
         <Route
