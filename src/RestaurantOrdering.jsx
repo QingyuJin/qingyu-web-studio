@@ -226,29 +226,29 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
   const avgWait = Math.round(orders.reduce((sum, order) => sum + order.minutes, 0) / Math.max(orders.length, 1))
 
   return (
-    <section className="grid gap-4 xl:grid-cols-[1.25fr_0.95fr]">
-      <ShellCard className="overflow-hidden p-6 shadow-xl shadow-[#3a2419]/6 md:p-8">
-        <div className="flex flex-col gap-7 lg:flex-row lg:items-end lg:justify-between">
-          <div>
+    <section className="grid items-start gap-4 2xl:grid-cols-[1.35fr_0.9fr]">
+      <ShellCard className="overflow-hidden p-5 shadow-xl shadow-[#3a2419]/6 md:p-7">
+        <div className="grid gap-5 lg:grid-cols-[minmax(0,1fr)_220px] lg:items-end 2xl:grid-cols-[minmax(0,1fr)_210px]">
+          <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Restaurant OS</p>
-            <h1 className="mt-4 max-w-4xl font-serif text-[clamp(2.75rem,7vw,5.6rem)] font-black leading-[0.92] tracking-[-0.06em] text-[#3a2419]">
+            <h1 className="mt-4 max-w-3xl font-serif text-[clamp(2.15rem,4.4vw,4.45rem)] font-black leading-[0.98] tracking-[-0.045em] text-[#3a2419]">
               午餐尖峰，廚房節奏穩定推進。
             </h1>
-            <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#836855] md:text-base">
+            <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-[#836855]">
               {selectedOrder.table} 正在處理 {selectedOrder.items[0]}，吧台先出飲品；平均等待 {avgWait} 分鐘。
             </p>
           </div>
-          <div className="rounded-[1.25rem] bg-[#244332] p-4 text-white md:min-w-72">
-            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#f4b36d]">Selected Order</p>
-            <p className="mt-5 font-serif text-4xl font-black">{selectedOrder.table}</p>
-            <p className="mt-2 line-clamp-2 text-sm font-bold text-white/68">{selectedOrder.note}</p>
-            <div className="mt-5 flex items-center justify-between">
+          <div className="rounded-[1.15rem] bg-[#244332] p-4 text-white">
+            <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#f4b36d]">Selected Order</p>
+            <p className="mt-4 font-serif text-3xl font-black">{selectedOrder.table}</p>
+            <p className="mt-2 line-clamp-2 text-xs font-bold leading-5 text-white/68">{selectedOrder.note}</p>
+            <div className="mt-4 flex items-center justify-between">
               <StatusBadge>{selectedOrder.status}</StatusBadge>
-              <span className="text-sm font-black text-[#f4b36d]">{selectedOrder.minutes} min</span>
+              <span className="text-xs font-black text-[#f4b36d]">{selectedOrder.minutes} min</span>
             </div>
           </div>
         </div>
-        <div className="mt-8 flex flex-wrap items-center gap-4">
+        <div className="mt-7 flex flex-wrap items-center gap-4">
           <div className="h-2 w-56 max-w-[54vw] overflow-hidden rounded-full bg-[#e9dccb]">
             <div className="h-full rounded-full bg-gradient-to-r from-[#f0a85f] via-[#c75d2c] to-[#244332]" style={{ width: `${kitchenLoad}%` }} />
           </div>
@@ -257,7 +257,7 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
         </div>
       </ShellCard>
 
-      <div className="grid gap-4 sm:grid-cols-3 xl:grid-cols-3">
+      <div className="grid self-start gap-4 sm:grid-cols-3 2xl:grid-cols-3">
         <Kpi title="未完成單" value={openOrders} note="需要追蹤" />
         <Kpi title="廚房負載" value={`${kitchenLoad}%`} note="目前節奏" />
         <Kpi title="目前營收" value={money(revenue)} note="含現場新增" money />
@@ -268,11 +268,11 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
 
 function Kpi({ title, value, note, money: moneyStyle = false }) {
   return (
-    <article className="rounded-[1.35rem] border border-[#dfd0bc] bg-[#fffaf2]/88 p-5 shadow-sm backdrop-blur">
-      <p className="font-serif text-lg font-black text-[#806a59]">{title}</p>
-      <p className={`mt-9 font-serif font-black leading-none text-[#c75d2c] ${moneyStyle ? "text-5xl" : "text-6xl"}`}>{value}</p>
-      <p className="mt-7 text-sm font-black text-[#806a59]">{note}</p>
-      <div className="mt-8 h-2 rounded-full bg-[#e9dccb]">
+    <article className="rounded-[1.35rem] border border-[#dfd0bc] bg-[#fffaf2]/88 p-4 shadow-sm backdrop-blur md:p-5">
+      <p className="font-serif text-base font-black text-[#806a59]">{title}</p>
+      <p className={`mt-6 font-serif font-black leading-none text-[#c75d2c] ${moneyStyle ? "text-[2.65rem]" : "text-5xl"}`}>{value}</p>
+      <p className="mt-5 text-xs font-black text-[#806a59]">{note}</p>
+      <div className="mt-6 h-2 rounded-full bg-[#e9dccb]">
         <div className="h-full w-[82%] rounded-full bg-gradient-to-r from-[#f0a85f] to-[#244332]" />
       </div>
     </article>
@@ -322,7 +322,7 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Customer Menu</p>
-            <h2 className="mt-2 font-serif text-4xl font-black tracking-[-0.04em] text-[#3a2419]">桌邊點餐</h2>
+            <h2 className="mt-2 font-serif text-3xl font-black tracking-[-0.035em] text-[#3a2419] md:text-[2.15rem]">桌邊點餐</h2>
           </div>
           <span className="rounded-full bg-[#f3e7d7] px-4 py-2 text-xs font-black text-[#8a5a2d]">圖片為範例 / 佔位</span>
         </div>
@@ -348,12 +348,12 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
               </div>
               <div className="mt-4 flex items-start justify-between gap-3">
                 <div>
-                  <p className="font-serif text-2xl font-black text-[#3a2419]">{item.name}</p>
+                  <p className="font-serif text-xl font-black text-[#3a2419]">{item.name}</p>
                   <p className="mt-1 text-sm font-bold text-[#806a59]">
                     {item.station} · {item.time}
                   </p>
                 </div>
-                <p className="font-serif text-2xl font-black text-[#c75d2c]">${item.price}</p>
+                <p className="font-serif text-xl font-black text-[#c75d2c]">${item.price}</p>
               </div>
               <div className="mt-3 flex flex-wrap gap-2">
                 {item.tags.map((tag) => (
@@ -372,7 +372,7 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
 
       <aside className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2] p-5 shadow-xl shadow-[#3a2419]/8">
         <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Cart</p>
-        <h2 className="mt-2 font-serif text-3xl font-black text-[#3a2419]">A07 點單</h2>
+        <h2 className="mt-2 font-serif text-2xl font-black text-[#3a2419]">A07 點單</h2>
         <div className="mt-5 grid gap-3">
           {submitted ? <div className="rounded-2xl bg-[#e8f0dc] p-4 text-sm font-black text-[#355a36]">已送出到服務端，廚房佇列已更新。</div> : null}
           {cart.length === 0 ? (
