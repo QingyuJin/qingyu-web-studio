@@ -9,7 +9,7 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
   return (
     <SiteLayout>
       <Seo page={page} />
-      <section className="relative overflow-hidden border-b border-[#ece4d8] bg-[#fbfaf7]">
+      <section className="nature-section-soft relative overflow-hidden border-b border-white/50">
         <div className="absolute inset-x-0 top-0 h-56 bg-[linear-gradient(180deg,#f5efe4,rgba(245,239,228,0))]" />
         <div className={`relative mx-auto grid max-w-6xl gap-9 px-4 py-12 md:py-18 ${heroVisual ? "lg:grid-cols-[0.9fr_1.1fr] lg:items-center" : ""}`}>
           <div>
@@ -30,7 +30,7 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
 
 function Card({ children, dark = false, className = "" }) {
   return (
-    <article className={`rounded-[1.35rem] border p-5 shadow-sm ${dark ? "border-[#233139] bg-[#111c22] text-white" : "border-[#e6ded2] bg-white"} ${className}`}>
+    <article className={`rounded-[1.35rem] border p-5 shadow-sm ${dark ? "border-[#233139] bg-[#111c22] text-white" : "qy-glass-card border-[#e6ded2] bg-white"} ${className}`}>
       {children}
     </article>
   )
@@ -111,7 +111,7 @@ export function WorksPage() {
 
 function WorkCard({ project }) {
   return (
-    <article className="rounded-[1.55rem] border border-[#e6ded2] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#18231f]/8">
+    <article className="qy-glass-card rounded-[1.55rem] border p-4 transition hover:-translate-y-1">
       <WorkPreview project={project} />
       <p className="mt-5 text-xs font-black text-[#0d6b62]">{project.price}</p>
       <h3 className="mt-2 text-2xl font-black tracking-[-0.02em]">{project.title}</h3>
@@ -133,7 +133,7 @@ function WorkCard({ project }) {
 
 function WorkPreview({ project }) {
   return (
-    <div className="rounded-[1.25rem] border border-[#e5ddd0] bg-[#fbfaf7] p-3">
+    <div className="qy-glass-soft rounded-[1.25rem] border p-3">
       <div className="flex items-center gap-1.5">
         <span className="h-2.5 w-2.5 rounded-full bg-[#f0c36a]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#8fd6cc]" />
@@ -187,13 +187,13 @@ export function WorkDetailPage({ slug: forcedSlug }) {
       }
       heroVisual={<HeroVisual project={project} />}
     >
-      <section id="demo" className="scroll-mt-20 border-b border-[#ece4d8] bg-white">
+      <section id="demo" className="nature-section scroll-mt-20 border-b border-white/50">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-18">
           <WorkDemoPanel project={project} />
         </div>
       </section>
 
-      <section className="border-b border-[#ece4d8] bg-[#fbfaf7]">
+      <section className="nature-section-soft border-b border-white/50">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-14 md:grid-cols-3 md:py-18">
           <InfoBlock title="適合誰" items={project.audience || []} />
           <InfoBlock title="解決什麼" items={[project.problem, project.solution].filter(Boolean)} />
@@ -201,7 +201,7 @@ export function WorkDetailPage({ slug: forcedSlug }) {
         </div>
       </section>
 
-      <section id="tech" className="scroll-mt-20 border-b border-[#ece4d8] bg-white">
+      <section id="tech" className="nature-section scroll-mt-20 border-b border-white/50">
         <div className="mx-auto grid max-w-6xl gap-7 px-4 py-14 md:grid-cols-[0.72fr_1.28fr] md:py-18">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Tech</p>
@@ -219,7 +219,7 @@ export function WorkDetailPage({ slug: forcedSlug }) {
         </div>
       </section>
 
-      <section className="bg-[#fbfaf7]">
+      <section className="nature-section-soft">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-14 md:grid-cols-3 md:py-18">
           <Card>
             <p className="text-sm font-black text-[#0d6b62]">參考價格</p>
@@ -251,11 +251,11 @@ export function WorkDetailPage({ slug: forcedSlug }) {
 
 function HeroVisual({ project }) {
   return (
-    <div className="rounded-[1.75rem] border border-[#e6ded2] bg-white p-4 shadow-2xl shadow-[#17231f]/10">
+    <div className="qy-glass-card rounded-[1.75rem] border p-4">
       <WorkPreview project={project} />
       <div className="mt-4 grid gap-2 sm:grid-cols-3">
         {(project.demo || []).slice(0, 3).map((item) => (
-          <div key={item} className="rounded-2xl border border-[#eee7dd] bg-[#fbfaf7] px-3 py-3 text-xs font-black text-[#40504c]">
+          <div key={item} className="qy-glass-soft rounded-2xl border px-3 py-3 text-xs font-black text-[#40504c]">
             {item}
           </div>
         ))}
@@ -299,7 +299,7 @@ export function ServicesPage() {
       <section className="mx-auto max-w-6xl px-4 py-14 md:py-18">
         <div className="grid gap-5 lg:grid-cols-2">
           {serviceOfferings.map((service) => (
-            <article key={service.id} className="rounded-[1.55rem] border border-[#e6ded2] bg-white p-5 shadow-sm">
+            <article key={service.id} className="qy-glass-card rounded-[1.55rem] border p-5">
               <div className="flex flex-wrap items-center justify-between gap-3">
                 <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{service.price}</span>
                 <ActionLink to={service.demoPath} className="text-sm font-black text-[#0d6b62]">
@@ -316,7 +316,7 @@ export function ServicesPage() {
         </div>
       </section>
 
-      <section className="border-y border-[#ece4d8] bg-[#fbfaf7]">
+      <section className="nature-section-soft border-y border-white/50">
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-18">
           <div className="mb-7">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Process</p>
@@ -406,7 +406,7 @@ export function FreeAuditPage() {
 export function ContactPage() {
   return (
     <PageShell page={seo.contact} title="我想做類似的成品" intro="告訴我你喜歡哪個成品、想改成什麼用途。">
-      <section className="border-b border-[#ece4d8] bg-white">
+      <section className="nature-section border-b border-white/50">
         <div className="mx-auto grid max-w-6xl gap-4 px-4 py-10 md:grid-cols-2 md:py-12">
           <Card>
             <p className="text-sm font-black text-[#0d6b62]">LINE</p>

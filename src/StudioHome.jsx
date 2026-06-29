@@ -30,7 +30,7 @@ function StudioHome() {
 
 function HeroSection() {
   return (
-    <section className="relative overflow-hidden border-b border-[#ece4d8] bg-[#fbfaf7]">
+    <section className="nature-section-soft relative overflow-hidden border-b border-white/50">
       <div className="absolute inset-x-0 top-0 h-64 bg-[linear-gradient(180deg,#f5efe4,rgba(245,239,228,0))]" />
       <div className="relative mx-auto grid min-h-[calc(100svh-3.5rem)] max-w-6xl gap-10 px-4 py-12 md:min-h-[720px] md:grid-cols-[0.9fr_1.1fr] md:items-center md:py-16">
         <div>
@@ -63,7 +63,7 @@ function HeroShowcase() {
   return (
     <div className="relative">
       <div className="absolute -left-6 top-10 hidden h-32 w-32 rounded-full bg-[#d9efe9] blur-3xl md:block" />
-      <div className="relative rounded-[2rem] border border-[#e4dccf] bg-white/90 p-4 shadow-2xl shadow-[#17231f]/12 backdrop-blur">
+      <div className="qy-glass-card relative rounded-[2rem] border p-4">
         <div className="rounded-[1.45rem] bg-[#111c22] p-5 text-white">
           <div className="flex items-center justify-between gap-3">
             <div>
@@ -92,7 +92,7 @@ function HeroShowcase() {
         </div>
         <div className="mt-4 grid gap-3 sm:grid-cols-3">
           {["看成品", "改內容", "上線交付"].map((item) => (
-            <div key={item} className="rounded-2xl border border-[#eee7dd] bg-[#fbfaf7] px-4 py-3 text-center text-sm font-black text-[#111c22]">
+            <div key={item} className="qy-glass-soft rounded-2xl border px-4 py-3 text-center text-sm font-black text-[#111c22]">
               {item}
             </div>
           ))}
@@ -104,7 +104,7 @@ function HeroShowcase() {
 
 function ProductShelf() {
   return (
-    <section id="products" className="scroll-mt-20 border-b border-[#ece4d8] bg-white">
+    <section id="products" className="nature-section scroll-mt-20 border-b border-white/50">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
           eyebrow="Product Demos"
@@ -130,7 +130,7 @@ function ProductShelf() {
 
 function FeaturedProduct({ project }) {
   return (
-    <article className="overflow-hidden rounded-[1.75rem] border border-[#e6ded2] bg-[#fbfaf7] p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-2xl hover:shadow-[#18231f]/10">
+    <article className="qy-glass-card overflow-hidden rounded-[1.75rem] border p-4 transition hover:-translate-y-1">
       <ProductMock project={project} large />
       <div className="mt-6 flex flex-col gap-5 md:flex-row md:items-end md:justify-between">
         <div>
@@ -153,7 +153,7 @@ function FeaturedProduct({ project }) {
 
 function CompactProduct({ project }) {
   return (
-    <article className="rounded-[1.5rem] border border-[#e6ded2] bg-white p-4 shadow-sm transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#18231f]/8">
+    <article className="qy-glass-card rounded-[1.5rem] border p-4 transition hover:-translate-y-1">
       <ProductMock project={project} />
       <p className="mt-5 text-xs font-black text-[#0d6b62]">{project.price}</p>
       <h3 className="mt-2 text-xl font-black tracking-[-0.01em]">{project.title}</h3>
@@ -176,7 +176,7 @@ function ProductMock({ project, large = false }) {
   }[project.slug] || ["Demo", "Preview", "CTA"]
 
   return (
-    <div className={`rounded-[1.3rem] border border-[#e5ddd0] bg-white p-3 ${large ? "md:p-4" : ""}`}>
+    <div className={`qy-glass-soft rounded-[1.3rem] border p-3 ${large ? "md:p-4" : ""}`}>
       <div className="flex items-center gap-1.5">
         <span className="h-2.5 w-2.5 rounded-full bg-[#f0c36a]" />
         <span className="h-2.5 w-2.5 rounded-full bg-[#8fd6cc]" />
@@ -204,7 +204,7 @@ function WorkflowCase() {
   const buildflow = projects.find((project) => project.slug === "buildflow")
 
   return (
-    <section className="border-b border-[#ece4d8] bg-[#fbfaf7]">
+    <section className="nature-section-soft border-b border-white/50">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <div className="grid gap-8 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
           <div>
@@ -224,11 +224,11 @@ function WorkflowCase() {
               </Link>
             </div>
           </div>
-          <div className="rounded-[1.75rem] border border-[#e4dccf] bg-white p-4 shadow-xl shadow-[#17231f]/8">
+          <div className="qy-glass-card rounded-[1.75rem] border p-4">
             {buildflow ? <ProductMock project={buildflow} large /> : null}
             <div className="mt-4 grid gap-2 md:grid-cols-4">
               {["網站詢價", "案件進後台", "產生報價", "LINE 回報"].map((item) => (
-                <div key={item} className="rounded-2xl bg-[#fbfaf7] px-3 py-3 text-center text-xs font-black text-[#40504c]">
+                <div key={item} className="qy-glass-soft rounded-2xl px-3 py-3 text-center text-xs font-black text-[#40504c]">
                   {item}
                 </div>
               ))}
@@ -242,12 +242,12 @@ function WorkflowCase() {
 
 function ScopeSection() {
   return (
-    <section className="border-b border-[#ece4d8] bg-white">
+    <section className="nature-section border-b border-white/50">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading eyebrow="Scope" title="服務能力" text="先做可用版本，再依需求擴充。" />
         <div className="grid gap-4 md:grid-cols-4">
           {scopeItems.map(([title, text]) => (
-            <div key={title} className="rounded-[1.35rem] border border-[#e6ded2] bg-[#fbfaf7] p-5">
+            <div key={title} className="qy-glass-card rounded-[1.35rem] border p-5">
               <div className="mb-5 h-11 w-11 rounded-2xl bg-[#e3f3ef]" />
               <h3 className="text-xl font-black tracking-[-0.01em] text-[#111c22]">{title}</h3>
               <p className="mt-3 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
@@ -261,8 +261,9 @@ function ScopeSection() {
 
 function FinalCta() {
   return (
-    <section className="bg-[#111c22] text-white">
-      <div className="mx-auto grid max-w-6xl gap-7 px-4 py-14 md:grid-cols-[1fr_auto] md:items-center md:py-18">
+    <section className="nature-section-soft px-4 py-6">
+      <div className="mx-auto max-w-6xl overflow-hidden rounded-[2rem] border border-white/15 bg-[#111c22]/88 text-white shadow-2xl shadow-[#111c22]/18 backdrop-blur-xl">
+      <div className="grid gap-7 px-5 py-12 md:grid-cols-[1fr_auto] md:items-center md:px-8 md:py-14">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">Start</p>
           <h2 className="mt-3 text-3xl font-black tracking-[-0.02em]">想做類似成品？</h2>
@@ -278,6 +279,7 @@ function FinalCta() {
             回到成品列表
           </Link>
         </div>
+      </div>
       </div>
     </section>
   )

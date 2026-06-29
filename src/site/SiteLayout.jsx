@@ -25,7 +25,7 @@ function NavItem({ label, path }) {
 
 function SiteLayout({ children }) {
   return (
-    <main className="min-h-screen bg-[#fbfaf7] text-[#111c22]">
+    <main className="qy-nature-page min-h-screen text-[#111c22]">
       <header className="sticky top-0 z-40 border-b border-[#ede5d9] bg-[#fbfaf7]/92 backdrop-blur-xl">
         <div className="mx-auto flex h-14 max-w-6xl items-center justify-between gap-3 px-4 md:h-16">
           <Link to="/" className="shrink-0 text-sm font-black tracking-[-0.01em] md:text-base">
