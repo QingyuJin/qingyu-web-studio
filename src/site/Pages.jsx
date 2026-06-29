@@ -802,6 +802,7 @@ function HeroPreview({ project }) {
   const isBuildFlow = project.slug === "buildflow"
   const isAudit = project.slug === "ai-audit"
   const isApi = project.slug === "api-automation"
+  const isQuiz = project.slug === "interactive-quiz"
   const isQingyuWeb = project.slug === "qingyu-web"
 
   return (
@@ -913,6 +914,27 @@ function HeroPreview({ project }) {
               </div>
             ))}
           </div>
+        </div>
+      ) : isQuiz ? (
+        <div className="mt-5 grid gap-4 md:grid-cols-[0.92fr_1.08fr]">
+          <div className="rounded-xl bg-white p-4 text-[#111c22]">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-xs font-black text-[#0d6b62]">互動測驗</p>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">4 題範例</span>
+            </div>
+            <h3 className="mt-4 text-xl font-black leading-snug">首頁第一屏最應該讓訪客先看懂什麼？</h3>
+            <div className="mt-4 grid gap-2">
+              {["公司成立年份", "你能解決什麼問題", "完整技術清單"].map((item, index) => (
+                <div key={item} className={`rounded-lg px-3 py-2 text-xs font-black ${index === 1 ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#faf8f3] text-[#52605c]"}`}>
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 h-2 rounded-full bg-[#e4e9e6]">
+              <div className="h-full w-1/2 rounded-full bg-[#0d6b62]" />
+            </div>
+          </div>
+          <HeroPreviewList items={["題目卡片", "選項作答", "答案解析", "結果頁"]} />
         </div>
       ) : isQingyuWeb ? (
         <div className="mt-5 grid gap-4 md:grid-cols-[1fr_0.78fr]">

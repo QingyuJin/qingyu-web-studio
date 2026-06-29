@@ -2563,11 +2563,266 @@ function XinjiangDemo() {
   )
 }
 
+const quizQuestions = [
+  {
+    id: "q1",
+    type: "單選",
+    topic: "網站 CTA",
+    question: "首頁第一屏最應該讓訪客先看懂什麼？",
+    options: ["公司成立年份", "你能解決什麼問題", "完整技術清單", "所有服務細項"],
+    answer: 1,
+    explanation: "第一屏要先說清楚價值與下一步。細節可以放到下方或技術拆解。",
+  },
+  {
+    id: "q2",
+    type: "單選",
+    topic: "手機版",
+    question: "手機版互動頁最適合的呈現方式是？",
+    options: ["全部資訊一次攤開", "一屏一重點", "字越大越好", "只保留桌機截圖"],
+    answer: 1,
+    explanation: "手機版應該像 App 操作，一次完成一件事，避免 Preview、Dashboard、Report 全部塞在同一屏。",
+  },
+  {
+    id: "q3",
+    type: "單選",
+    topic: "LINE 接待",
+    question: "LINE Bot 最適合先自動整理哪一類資訊？",
+    options: ["客戶需求與聯絡方式", "網站背景色", "開發者版本號", "所有私密資料"],
+    answer: 0,
+    explanation: "LINE Bot 的價值是協助收需求、分類、同步到後台，再讓人工接手重要對話。",
+  },
+  {
+    id: "q4",
+    type: "單選",
+    topic: "SEO",
+    question: "搜尋摘要最需要避免哪一種寫法？",
+    options: ["清楚說明服務", "包含主要關鍵字", "空泛又看不出業務", "描述聯絡方式"],
+    answer: 2,
+    explanation: "摘要要讓搜尋者快速知道你提供什麼、適合誰，而不是泛泛地說專業服務。",
+  },
+]
+
+function InteractiveQuizDemo() {
+  const [index, setIndex] = useState(0)
+  const [selected, setSelected] = useState(null)
+  const [answers, setAnswers] = useState([])
+  const [finished, setFinished] = useState(false)
+  const [activePanel, setActivePanel] = useState("quiz")
+  const question = quizQuestions[index]
+  const currentAnswer = answers.find((item) => item.id === question.id)
+  const locked = selected !== null || Boolean(currentAnswer)
+  const chosen = selected ?? currentAnswer?.selected
+  const correctCount = answers.filter((item) => item.correct).length
+  const progress = finished ? 100 : Math.round((index / quizQuestions.length) * 100)
+  const score = Math.round((correctCount / quizQuestions.length) * 100)
+
+  function chooseOption(optionIndex) {
+    if (locked) return
+    const correct = optionIndex === question.answer
+    setSelected(optionIndex)
+    setAnswers((current) => [
+      ...current.filter((item) => item.id !== question.id),
+      { id: question.id, selected: optionIndex, correct, topic: question.topic },
+    ])
+    setActivePanel("quiz")
+  }
+
+  function goNext() {
+    if (!locked) return
+    if (index >= quizQuestions.length - 1) {
+      setFinished(true)
+      setActivePanel("result")
+      return
+    }
+    setIndex((value) => value + 1)
+    setSelected(null)
+    setActivePanel("quiz")
+  }
+
+  function resetQuiz() {
+    setIndex(0)
+    setSelected(null)
+    setAnswers([])
+    setFinished(false)
+    setActivePanel("quiz")
+  }
+
+  function loadTrainingSet() {
+    setIndex(0)
+    setSelected(null)
+    setAnswers([])
+    setFinished(false)
+    setActivePanel("bank")
+  }
+
+  return (
+    <Shell title="互動測驗頁" desc="題目、作答、解析與結果頁一次展示。">
+      <div className="grid gap-4 lg:grid-cols-[1.02fr_0.98fr]">
+        <div className="rounded-2xl border border-[#e3ded3] bg-[#111c22] p-4 text-white shadow-xl shadow-[#111c22]/12 md:p-5">
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Quiz Preview</p>
+              <h3 className="mt-2 text-2xl font-black md:text-3xl">{finished ? "結果頁" : `第 ${index + 1} 題`}</h3>
+            </div>
+            <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">{finished ? "完成" : question.type}</span>
+          </div>
+
+          <div className="mt-5 rounded-[1.4rem] bg-[#f9f5ec] p-4 text-[#111c22] md:p-5">
+            {finished ? (
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Result</p>
+                <div className="mt-4 flex items-end gap-3">
+                  <p className="font-serif text-6xl font-black leading-none">{score}</p>
+                  <p className="pb-2 text-sm font-black text-[#52605c]">/ 100</p>
+                </div>
+                <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
+                  {score >= 75 ? "觀念清楚，適合進入進階題或留下名單。" : "可以用解析補強，再引導到服務介紹。"}
+                </p>
+                <div className="mt-5 grid gap-2">
+                  {answers.map((item, itemIndex) => (
+                    <div key={item.id} className="flex items-center justify-between rounded-xl bg-white px-3 py-2 text-sm font-black">
+                      <span>
+                        Q{itemIndex + 1} · {item.topic}
+                      </span>
+                      <span className={item.correct ? "text-[#0d6b62]" : "text-[#c85d2c]"}>{item.correct ? "答對" : "需複習"}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ) : (
+              <div>
+                <div className="flex items-center justify-between gap-3">
+                  <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{question.topic}</span>
+                  <span className="text-xs font-black text-[#52605c]">
+                    {index + 1} / {quizQuestions.length}
+                  </span>
+                </div>
+                <h3 className="mt-5 text-2xl font-black leading-snug">{question.question}</h3>
+                <div className="mt-5 grid gap-3">
+                  {question.options.map((option, optionIndex) => {
+                    const isChosen = chosen === optionIndex
+                    const isAnswer = question.answer === optionIndex
+                    const revealed = locked
+                    const tone = revealed && isAnswer ? "border-[#0d6b62] bg-[#eef7f4]" : revealed && isChosen ? "border-[#d46b3a] bg-[#fff1e8]" : isChosen ? "border-[#111c22] bg-white" : "border-[#e3ded3] bg-white hover:border-[#0d6b62]"
+                    return (
+                      <button key={option} type="button" onClick={() => chooseOption(optionIndex)} className={`min-h-12 rounded-xl border px-4 py-3 text-left text-sm font-black transition ${tone}`}>
+                        {option}
+                      </button>
+                    )
+                  })}
+                </div>
+              </div>
+            )}
+          </div>
+
+          <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+            <Progress value={progress} />
+            <div className="flex gap-2">
+              <button type="button" onClick={resetQuiz} className="min-h-11 rounded-xl border border-white/15 px-4 text-sm font-black text-white/86">
+                重新測驗
+              </button>
+              <button type="button" onClick={goNext} disabled={!locked && !finished} className="min-h-11 rounded-xl bg-[#8fd6cc] px-4 text-sm font-black text-[#0b2724] disabled:opacity-45">
+                {finished ? "已完成" : index === quizQuestions.length - 1 ? "看結果" : "下一題"}
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="grid gap-4">
+          <div className="flex gap-2 overflow-x-auto rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-2">
+            {[
+              ["quiz", "解析"],
+              ["result", "結果"],
+              ["bank", "題庫"],
+            ].map(([id, label]) => (
+              <button key={id} type="button" onClick={() => setActivePanel(id)} className={`min-h-10 shrink-0 rounded-xl px-4 text-sm font-black ${activePanel === id ? "bg-[#111c22] text-white" : "bg-white text-[#111c22]"}`}>
+                {label}
+              </button>
+            ))}
+          </div>
+
+          {activePanel === "quiz" ? (
+            <MiniCard title="答案解析">
+              {locked ? (
+                <div className="grid gap-3">
+                  <div className={`rounded-xl px-4 py-3 text-sm font-black ${chosen === question.answer ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#fff1e8] text-[#b44d24]"}`}>
+                    {chosen === question.answer ? "答對，解析已展開。" : `正確答案：${question.options[question.answer]}`}
+                  </div>
+                  <p className="text-sm font-bold leading-7 text-[#52605c]">{question.explanation}</p>
+                </div>
+              ) : (
+                <p className="text-sm font-bold leading-7 text-[#52605c]">選擇答案後，這裡會顯示解析與下一步。</p>
+              )}
+            </MiniCard>
+          ) : null}
+
+          {activePanel === "result" ? (
+            <MiniCard title="結果頁設定">
+              <div className="grid gap-3">
+                {[
+                  ["結果分級", "依分數顯示不同文案。"],
+                  ["CTA", "導向報名、聯絡或下載。"],
+                  ["分享頁", "可做品牌活動分享圖。"],
+                ].map(([title, text]) => (
+                  <div key={title} className="rounded-xl bg-white px-4 py-3">
+                    <p className="text-sm font-black text-[#111c22]">{title}</p>
+                    <p className="mt-1 text-xs font-bold text-[#52605c]">{text}</p>
+                  </div>
+                ))}
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {activePanel === "bank" ? (
+            <MiniCard title="題庫示意">
+              <div className="grid gap-3">
+                {quizQuestions.map((item, itemIndex) => (
+                  <div key={item.id} className="rounded-xl bg-white px-4 py-3">
+                    <div className="flex items-center justify-between gap-3">
+                      <p className="text-sm font-black text-[#111c22]">
+                        Q{itemIndex + 1} · {item.topic}
+                      </p>
+                      <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">已上架</span>
+                    </div>
+                    <p className="mt-2 truncate text-xs font-bold text-[#52605c]">{item.question}</p>
+                  </div>
+                ))}
+                <button type="button" onClick={loadTrainingSet} className="min-h-11 rounded-xl border border-[#d7dfdb] bg-white px-4 text-sm font-black text-[#111c22]">
+                  載入題庫範例
+                </button>
+              </div>
+            </MiniCard>
+          ) : null}
+
+          <MiniCard title="可交付內容" tone="dark">
+            <div className="grid gap-2 sm:grid-cols-2">
+              {["題目流程", "答案解析", "結果頁", "題庫格式"].map((item) => (
+                <div key={item} className="rounded-lg bg-white/10 px-3 py-2 text-sm font-black text-white/82">
+                  {item}
+                </div>
+              ))}
+            </div>
+            <div className="mt-4 flex flex-wrap gap-2">
+              <Link to="/contact" className="inline-flex min-h-10 items-center rounded-md bg-white px-4 text-sm font-black text-[#111c22]">
+                我想做類似的
+              </Link>
+              <Link to="/tools/project-planner#demo" className="inline-flex min-h-10 items-center rounded-md border border-white/15 px-4 text-sm font-black text-white">
+                開始需求診斷
+              </Link>
+            </div>
+          </MiniCard>
+        </div>
+      </div>
+    </Shell>
+  )
+}
+
 function WorkDemoPanel({ project }) {
   const panel = useMemo(() => {
     if (project.slug === "ai-audit") return <AiAuditDemo />
     if (project.slug === "linebot") return <LineBotDemo />
     if (project.slug === "buildflow") return <BuildFlowDemo />
+    if (project.slug === "interactive-quiz") return <InteractiveQuizDemo />
     if (project.slug === "api-automation") return <ApiAutomationDemo />
     if (project.slug === "qingyu-web") return <QingyuWebDemo />
     if (project.slug === "xinjiang") return <XinjiangDemo />

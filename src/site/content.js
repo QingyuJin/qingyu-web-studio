@@ -275,7 +275,7 @@ export const projects = [
     summary: "教育訓練與活動測驗成品，可交付題目、選項、答案解析、結果頁與題庫維護方式。",
     featured: true,
     livePath: "/works/interactive-quiz#demo",
-    liveLabel: "查看測驗規劃",
+    liveLabel: "開始測驗 Demo",
     secondaryPath: "/contact",
     secondaryLabel: "討論測驗頁",
     tags: ["互動測驗", "JSON 題庫", "Google Sheet 題庫", "手機版 RWD", "結果頁"],
