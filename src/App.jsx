@@ -13,6 +13,7 @@ const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ defaul
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const WebsiteRescue = lazy(() => import("./site/WebsiteRescue"))
 const LineBotMission = lazy(() => import("./site/LineBotMission"))
+const RestaurantOrdering = lazy(() => import("./RestaurantOrdering"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -32,6 +33,7 @@ function App() {
       <Routes>
         <Route path="/" element={<StudioHome />} />
         <Route path="/works" element={<ProjectHub />} />
+        <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
@@ -41,6 +43,7 @@ function App() {
         <Route path="/tools/project-planner" element={<ProjectPlanner />} />
         <Route path="/tools/website-rescue" element={<WebsiteRescue />} />
         <Route path="/tools/linebot-mission" element={<LineBotMission />} />
+        <Route path="/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/engineering" element={<ProjectHub />} />
         <Route path="/login" element={<LoginPage />} />
 

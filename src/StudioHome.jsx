@@ -106,6 +106,13 @@ const flowItems = ["網站入口", "表單需求", "LINE 接待", "資料同步"
 
 const caseCards = [
   {
+    title: "點餐系統",
+    text: "客戶端點餐、服務端控單、桌況與廚房佇列。",
+    action: "直接試用",
+    to: "/works/restaurant-ordering",
+    featured: true,
+  },
+  {
     title: "BuildFlow 工程行流程系統",
     text: "需求、報價、派工、回報與 LINE 查詢流程。",
     action: "查看案例",
