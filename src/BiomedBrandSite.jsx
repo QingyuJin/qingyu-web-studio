@@ -1,12 +1,12 @@
 import { Link } from "react-router-dom"
 
 const satelliteSites = [
-  ["醫師人物誌", "人物專訪、理念、專業觀點。", "Story"],
-  ["衛教知識庫", "疾病知識、照護提醒、文章分類。", "Library"],
-  ["公益講座頁", "活動資訊、講師介紹、報名入口。", "Event"],
-  ["案例作品集", "短影音、圖文、品牌專題。", "Works"],
-  ["團隊介紹頁", "醫師、顧問、內容團隊。", "Team"],
-  ["內容專欄頁", "文章、圖卡、Podcast 摘要。", "Journal"],
+  ["醫師人物誌", "人物專訪、理念、專業觀點。", "Story", "https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1100&q=80"],
+  ["衛教知識庫", "疾病知識、照護提醒、文章分類。", "Library", "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1100&q=80"],
+  ["公益講座頁", "活動資訊、講師介紹、報名入口。", "Event", "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1100&q=80"],
+  ["案例作品集", "短影音、圖文、品牌專題。", "Works", "https://images.unsplash.com/photo-1579684385127-1ef15d508118?auto=format&fit=crop&w=1100&q=80"],
+  ["團隊介紹頁", "醫師、顧問、內容團隊。", "Team", "https://images.unsplash.com/photo-1551836022-d5d88e9218df?auto=format&fit=crop&w=1100&q=80"],
+  ["內容專欄頁", "文章、圖卡、Podcast 摘要。", "Journal", "https://images.unsplash.com/photo-1516321318423-f06f85e504b3?auto=format&fit=crop&w=1100&q=80"],
 ]
 
 const modules = [
@@ -17,13 +17,15 @@ const modules = [
 ]
 
 const cases = [
-  ["精準醫療專題", "內容專欄"],
-  ["診所品牌故事", "形象頁"],
-  ["醫師人物訪談", "人物誌"],
-  ["衛教圖文系列", "知識庫"],
-  ["公益講座活動", "活動頁"],
-  ["團隊介紹專頁", "團隊頁"],
+  ["精準醫療專題", "內容專欄", "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1300&q=80"],
+  ["診所品牌故事", "形象頁", "https://images.unsplash.com/photo-1519494026892-80bbd2d6fd0d?auto=format&fit=crop&w=1100&q=80"],
+  ["醫師人物訪談", "人物誌", "https://images.unsplash.com/photo-1582750433449-648ed127bb54?auto=format&fit=crop&w=1100&q=80"],
+  ["衛教圖文系列", "知識庫", "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1100&q=80"],
+  ["公益講座活動", "活動頁", "https://images.unsplash.com/photo-1515187029135-18ee286d815b?auto=format&fit=crop&w=1100&q=80"],
+  ["團隊介紹專頁", "團隊頁", "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1100&q=80"],
 ]
+
+const heroImage = "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1400&q=80"
 
 const lectures = [
   ["07.12", "慢性照護與家庭支持"],
@@ -50,10 +52,20 @@ function GlassCard({ children, className = "" }) {
   )
 }
 
-function ImageBlock({ label, tall = false }) {
+function ImageBlock({ label, src, tall = false }) {
   return (
-    <div className={`${tall ? "min-h-[24rem]" : "aspect-[4/3]"} grid place-items-center overflow-hidden rounded-[1.5rem] border border-white/58 bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,0.92),transparent_32%),linear-gradient(135deg,#e3efe8,#f8f2e6_55%,#c9ddd4)]`}>
-      <span className="rounded-full border border-white/70 bg-white/64 px-4 py-2 text-[11px] font-black tracking-[0.16em] text-[#647b70] backdrop-blur">
+    <div className={`${tall ? "min-h-[24rem]" : "aspect-[4/3]"} relative grid place-items-center overflow-hidden rounded-[1.5rem] border border-white/58 bg-[radial-gradient(circle_at_18%_14%,rgba(255,255,255,0.92),transparent_32%),linear-gradient(135deg,#e3efe8,#f8f2e6_55%,#c9ddd4)]`}>
+      {src ? (
+        <img
+          src={src}
+          alt={label}
+          loading="lazy"
+          referrerPolicy="no-referrer"
+          className="absolute inset-0 h-full w-full object-cover"
+        />
+      ) : null}
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(20,54,43,0.16))]" />
+      <span className="relative rounded-full border border-white/70 bg-white/64 px-4 py-2 text-[11px] font-black tracking-[0.16em] text-[#647b70] backdrop-blur">
         {label}
       </span>
     </div>
@@ -117,7 +129,7 @@ function BiomedBrandSite() {
         </div>
 
         <GlassCard className="p-4 md:p-5">
-          <ImageBlock label="範例主視覺 / 空圖片" tall />
+          <ImageBlock label="範例主視覺" src={heroImage} tall />
           <div className="mt-4 grid gap-3 sm:grid-cols-3">
             {[
               ["Story", "醫療人物"],
@@ -136,9 +148,9 @@ function BiomedBrandSite() {
       <section id="pages" className="mx-auto max-w-7xl px-4 py-14 md:px-8 md:py-20">
         <SectionTitle eyebrow="Satellite Pages" title="附加網站" text="點進主站後，可以延伸成多個專題頁與內容入口。" />
         <div className="mt-9 grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {satelliteSites.map(([title, text, label]) => (
+          {satelliteSites.map(([title, text, label, image]) => (
             <GlassCard key={title} className="group overflow-hidden p-4 transition hover:-translate-y-1">
-              <ImageBlock label={`${label} / 空圖片`} />
+              <ImageBlock label={label} src={image} />
               <div className="p-2 pt-4">
                 <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#789486]">{label}</p>
                 <h3 className="mt-2 font-serif text-2xl font-black tracking-[-0.03em] text-[#213a31]">{title}</h3>
@@ -171,9 +183,9 @@ function BiomedBrandSite() {
           <span className="rounded-full border border-white/64 bg-white/42 px-4 py-2 text-xs font-black text-[#64766d] backdrop-blur">Sample Gallery</span>
         </div>
         <div className="mt-9 grid gap-4 md:grid-cols-3">
-          {cases.map(([title, meta], index) => (
+          {cases.map(([title, meta, image], index) => (
             <GlassCard key={title} className={`${index === 0 ? "md:col-span-2" : ""} overflow-hidden p-4`}>
-              <ImageBlock label="範例圖片 / 空圖片" />
+              <ImageBlock label="範例圖片" src={image} />
               <div className="px-2 pt-4">
                 <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#789486]">{meta}</p>
                 <h3 className="mt-2 font-serif text-2xl font-black tracking-[-0.03em] text-[#213a31]">{title}</h3>
