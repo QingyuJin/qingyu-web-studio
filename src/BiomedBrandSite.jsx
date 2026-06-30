@@ -25,6 +25,7 @@ const cases = [
   ["團隊介紹專頁", "團隊頁", "https://images.unsplash.com/photo-1556761175-b413da4baf72?auto=format&fit=crop&w=1100&q=80"],
 ]
 
+const backdropImage = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=1800&q=80"
 const heroImage = "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1400&q=80"
 
 const lectures = [
@@ -36,17 +37,23 @@ const lectures = [
 function SoftBackdrop() {
   return (
     <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#f6f1e7]">
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.78),rgba(239,247,241,0.78)_46%,rgba(245,238,224,0.86))]" />
-      <div className="absolute -left-24 top-10 h-96 w-96 rounded-full bg-[#bfd8ca]/55 blur-3xl" />
-      <div className="absolute right-[-8rem] top-24 h-[28rem] w-[28rem] rounded-full bg-[#e9d2a2]/48 blur-3xl" />
-      <div className="absolute bottom-[-10rem] left-1/3 h-[30rem] w-[30rem] rounded-full bg-[#d8ebe3]/65 blur-3xl" />
+      <img
+        src={backdropImage}
+        alt=""
+        aria-hidden="true"
+        className="absolute -inset-8 h-[calc(100%+4rem)] w-[calc(100%+4rem)] scale-105 object-cover opacity-[0.18] blur-2xl saturate-[0.78]"
+      />
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,252,244,0.88),rgba(239,247,241,0.82)_44%,rgba(245,238,224,0.9))]" />
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_12%,rgba(255,255,255,0.86),transparent_28rem),radial-gradient(circle_at_82%_22%,rgba(198,220,209,0.56),transparent_30rem),radial-gradient(circle_at_50%_100%,rgba(225,204,160,0.42),transparent_34rem)]" />
+      <div className="absolute -left-24 top-10 h-96 w-96 rounded-full bg-[#bfd8ca]/42 blur-3xl" />
+      <div className="absolute right-[-8rem] top-24 h-[28rem] w-[28rem] rounded-full bg-[#e9d2a2]/34 blur-3xl" />
     </div>
   )
 }
 
 function GlassCard({ children, className = "" }) {
   return (
-    <div className={`rounded-[1.65rem] border border-white/60 bg-white/42 shadow-[0_18px_60px_rgba(42,64,55,0.08)] backdrop-blur-2xl ${className}`}>
+    <div className={`rounded-[1.65rem] border border-white/64 bg-white/48 shadow-[0_18px_60px_rgba(42,64,55,0.08)] backdrop-blur-2xl ${className}`}>
       {children}
     </div>
   )
@@ -64,8 +71,8 @@ function ImageBlock({ label, src, tall = false }) {
           className="absolute inset-0 h-full w-full object-cover"
         />
       ) : null}
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(20,54,43,0.16))]" />
-      <span className="relative rounded-full border border-white/70 bg-white/64 px-4 py-2 text-[11px] font-black tracking-[0.16em] text-[#647b70] backdrop-blur">
+      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.08),rgba(20,54,43,0.18))]" />
+      <span className="relative rounded-full border border-white/70 bg-white/70 px-4 py-2 text-[10px] font-black tracking-[0.18em] text-[#5f796d] shadow-sm backdrop-blur">
         {label}
       </span>
     </div>
@@ -75,9 +82,9 @@ function ImageBlock({ label, src, tall = false }) {
 function SectionTitle({ eyebrow, title, text }) {
   return (
     <div className="max-w-3xl">
-      <p className="text-[11px] font-black uppercase tracking-[0.24em] text-[#789486]">{eyebrow}</p>
-      <h2 className="mt-3 font-serif text-[clamp(1.9rem,5vw,3.8rem)] font-black leading-[1] tracking-[-0.04em] text-[#213a31]">{title}</h2>
-      {text ? <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-[#64766d]">{text}</p> : null}
+      <p className="text-[10px] font-black uppercase tracking-[0.26em] text-[#789486]">{eyebrow}</p>
+      <h2 className="mt-3 font-serif text-[clamp(1.8rem,4.5vw,3.55rem)] font-black leading-[1.02] tracking-[-0.04em] text-[#213a31]">{title}</h2>
+      {text ? <p className="mt-3 max-w-xl text-sm font-semibold leading-7 text-[#63776e]">{text}</p> : null}
     </div>
   )
 }
@@ -87,7 +94,7 @@ function BiomedBrandSite() {
     <main className="relative min-h-screen overflow-hidden text-[#213a31]">
       <SoftBackdrop />
 
-      <header className="sticky top-0 z-40 border-b border-white/45 bg-[#f7f2e8]/58 backdrop-blur-2xl">
+      <header className="sticky top-0 z-40 border-b border-white/50 bg-[#f7f2e8]/62 backdrop-blur-2xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-4 md:px-8">
           <Link to="/" className="flex items-center gap-3">
             <span className="grid h-10 w-10 place-items-center rounded-full bg-[#213a31] font-serif text-lg font-black text-[#dec896]">L</span>
@@ -110,18 +117,18 @@ function BiomedBrandSite() {
         </div>
       </header>
 
-      <section className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-7xl gap-7 px-4 py-10 md:px-8 lg:grid-cols-[1.02fr_0.98fr] lg:items-center">
-        <div>
-          <p className="text-[11px] font-black uppercase tracking-[0.26em] text-[#789486]">Biomed Content Platform</p>
-          <h1 className="mt-5 max-w-4xl font-serif text-[clamp(2.85rem,7vw,6.25rem)] font-black leading-[0.92] tracking-[-0.06em] text-[#213a31]">
+      <section className="mx-auto grid min-h-[calc(100svh-4rem)] max-w-7xl gap-7 px-4 py-10 md:px-8 lg:grid-cols-[0.96fr_1.04fr] lg:items-center">
+        <div className="rounded-[2rem] border border-white/54 bg-white/28 p-5 shadow-[0_18px_70px_rgba(42,64,55,0.06)] backdrop-blur-xl md:p-7">
+          <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#789486]">Biomed Content Platform</p>
+          <h1 className="mt-5 max-w-3xl text-balance font-serif text-[clamp(2.55rem,6.2vw,5.65rem)] font-black leading-[0.96] tracking-[-0.055em] text-[#213a31]">
             醫療內容，安靜而清楚地被看見。
           </h1>
-          <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#64766d] md:text-base">
+          <p className="mt-5 max-w-xl text-sm font-semibold leading-7 text-[#64766d] md:text-[15px]">
             品牌故事、衛教知識、人物專訪與公益講座，整理成一個舒服的內容入口。
           </p>
-          <div className="mt-8 flex flex-wrap gap-2">
+          <div className="mt-7 flex flex-wrap gap-2">
             {["醫療品牌", "內容平台", "講座活動"].map((item) => (
-              <span key={item} className="rounded-full border border-white/64 bg-white/42 px-4 py-2 text-xs font-black text-[#5d756a] backdrop-blur">
+              <span key={item} className="rounded-full border border-white/64 bg-white/50 px-4 py-2 text-[11px] font-black text-[#5d756a] backdrop-blur">
                 {item}
               </span>
             ))}
@@ -136,9 +143,9 @@ function BiomedBrandSite() {
               ["Library", "衛教內容"],
               ["Event", "公益講座"],
             ].map(([title, text]) => (
-              <div key={title} className="rounded-[1.1rem] border border-white/58 bg-white/48 p-4">
-                <p className="font-serif text-2xl font-black text-[#8b7448]">{title}</p>
-                <p className="mt-1 text-xs font-black text-[#64766d]">{text}</p>
+              <div key={title} className="rounded-[1.1rem] border border-white/58 bg-white/54 p-4">
+                <p className="font-serif text-[1.45rem] font-black text-[#8b7448]">{title}</p>
+                <p className="mt-1 text-[11px] font-black text-[#64766d]">{text}</p>
               </div>
             ))}
           </div>
@@ -153,8 +160,8 @@ function BiomedBrandSite() {
               <ImageBlock label={label} src={image} />
               <div className="p-2 pt-4">
                 <p className="text-[11px] font-black uppercase tracking-[0.2em] text-[#789486]">{label}</p>
-                <h3 className="mt-2 font-serif text-2xl font-black tracking-[-0.03em] text-[#213a31]">{title}</h3>
-                <p className="mt-2 text-sm font-bold leading-6 text-[#64766d]">{text}</p>
+                <h3 className="mt-2 font-serif text-[1.55rem] font-black tracking-[-0.03em] text-[#213a31]">{title}</h3>
+                <p className="mt-2 text-sm font-semibold leading-6 text-[#64766d]">{text}</p>
               </div>
             </GlassCard>
           ))}
@@ -168,8 +175,8 @@ function BiomedBrandSite() {
             <div className="grid gap-3 sm:grid-cols-2">
               {modules.map(([title, text]) => (
                 <div key={title} className="rounded-[1.25rem] border border-white/58 bg-white/48 p-5">
-                  <h3 className="font-serif text-2xl font-black text-[#213a31]">{title}</h3>
-                  <p className="mt-2 text-sm font-bold leading-6 text-[#64766d]">{text}</p>
+                  <h3 className="font-serif text-[1.55rem] font-black text-[#213a31]">{title}</h3>
+                  <p className="mt-2 text-sm font-semibold leading-6 text-[#64766d]">{text}</p>
                 </div>
               ))}
             </div>
@@ -188,7 +195,7 @@ function BiomedBrandSite() {
               <ImageBlock label="範例圖片" src={image} />
               <div className="px-2 pt-4">
                 <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#789486]">{meta}</p>
-                <h3 className="mt-2 font-serif text-2xl font-black tracking-[-0.03em] text-[#213a31]">{title}</h3>
+                <h3 className="mt-2 font-serif text-[1.55rem] font-black tracking-[-0.03em] text-[#213a31]">{title}</h3>
               </div>
             </GlassCard>
           ))}
