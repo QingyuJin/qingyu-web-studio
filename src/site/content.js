@@ -155,6 +155,33 @@ export const pricing = [
 
 export const projects = [
   {
+    slug: "biomed-brand-site",
+    title: "生醫品牌故事網站",
+    category: "品牌網站",
+    summary: "適合醫師、診所、醫療團隊與生醫品牌，展示品牌故事、專業內容、案例與講座活動。",
+    featured: true,
+    livePath: "/works/biomed-brand-site",
+    liveLabel: "查看成品",
+    secondaryPath: "/contact",
+    secondaryLabel: "我想做類似的",
+    tags: ["品牌網站", "醫療內容", "案例展示", "活動講座", "RWD"],
+    problem: "醫療與生醫品牌常有專業內容，但缺少一個乾淨、可信任、可持續更新的展示入口。",
+    solution: "用品牌故事、內容特色、案例網格與講座活動，把專業轉成訪客看得懂的網站。",
+    features: ["品牌 Hero", "關於項目", "內容特色", "案例作品", "講座活動", "聯絡 CTA"],
+    architecture: ["React", "Vite", "Tailwind CSS", "RWD", "Vercel"],
+    stack: {
+      Frontend: "React / Vite / Tailwind",
+      Content: "品牌故事、衛教內容、人物專訪、講座活動",
+      Visual: "圖片佔位、案例網格、柔和醫療品牌色",
+      Deploy: "Vercel",
+    },
+    visuals: ["品牌 Hero", "特色四卡", "作品案例", "公益講座"],
+    demo: ["瀏覽主視覺", "查看內容特色", "瀏覽案例作品", "前往聯絡 CTA"],
+    steps: ["整理品牌故事", "準備內容與案例素材", "製作形象頁", "上線後持續更新內容"],
+    mobile: "手機版保留 Hero、特色、案例與聯絡 CTA，避免醫療內容變成長篇文字。",
+    future: ["正式圖片素材", "文章系統", "活動報名表單", "內容分類"],
+  },
+  {
     slug: "ai-tech-quest",
     title: "互動式技術展示：AI 技術任務",
     category: "互動式 AI 技術展示 Demo",

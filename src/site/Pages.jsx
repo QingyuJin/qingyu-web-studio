@@ -88,6 +88,7 @@ function ActionLink({ to, children, ...props }) {
 }
 function WorkPreview({ project }) {
   const panels = {
+    "biomed-brand-site": ["品牌故事", "內容特色", "講座活動"],
     "ai-tech-quest": ["RAG 任務", "ML 分類", "產品展示室"],
     "interactive-quiz": ["題目頁", "答案解析", "結果頁"],
     "ai-business-assistant": ["FAQ 後台", "自動回覆", "問答紀錄"],
@@ -102,6 +103,7 @@ function WorkPreview({ project }) {
     "qingyu-web": ["RWD", "SEO / OG", "聯絡 CTA"],
   }
   const previewMeta = {
+    "biomed-brand-site": { status: "品牌網站", metric: "醫療故事", summary: "Hero / 案例 / 講座" },
     "ai-tech-quest": { status: "技術展示", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
     "interactive-quiz": { status: "測驗頁", metric: "RWD", summary: "題目 → 作答 → 解析 → 結果" },
     "ai-business-assistant": { status: "店家助手", metric: "FAQ", summary: "FAQ → matching → 自動回覆" },
@@ -210,6 +212,7 @@ const defaultConversionProfile = {
 }
 
 const workBusinessValues = {
+  "biomed-brand-site": "醫師、診所與生醫品牌故事網站。",
   "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
   linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
   buildflow: "需求、報價、回報、LINE 查詢。",
@@ -225,6 +228,7 @@ const workBusinessValues = {
 }
 
 const conciseWorkValues = {
+  "biomed-brand-site": "品牌故事、案例、內容與講座活動。",
   "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
   linebot: "讓 LINE 訊息自動整理成需求。",
   buildflow: "需求、報價、回報與 LINE 查詢。",
@@ -283,6 +287,7 @@ export function WorksPage() {
   }
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
   const primaryProducts = [
+    projectBySlug["biomed-brand-site"],
     projectBySlug.buildflow,
     projectBySlug["interactive-quiz"],
     projectBySlug["ai-tech-quest"],

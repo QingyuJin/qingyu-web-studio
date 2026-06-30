@@ -106,6 +106,13 @@ const flowItems = ["網站入口", "表單需求", "LINE 接待", "資料同步"
 
 const caseCards = [
   {
+    title: "生醫品牌網站",
+    text: "品牌故事、專業內容、案例與講座活動。",
+    action: "查看成品",
+    to: "/works/biomed-brand-site",
+    featured: true,
+  },
+  {
     title: "點餐系統",
     text: "客戶端點餐、服務端控單、桌況與廚房佇列。",
     action: "直接試用",
