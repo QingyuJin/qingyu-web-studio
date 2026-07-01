@@ -9,15 +9,19 @@ export const navItems = [
 export const services = [
   {
     title: "泥作／水泥施工",
-    text: "地坪、牆面、基礎修補與水泥整平，依現場狀況安排工法。",
+    text: "牆面、地面、基礎修補與水泥整平，由老師父依現場判斷工法。",
   },
   {
     title: "磁磚安裝",
-    text: "浴室、廚房、地坪與牆面磁磚鋪設，注重平整與收邊。",
+    text: "浴室、廚房、地坪與牆面磁磚鋪設，注重平整、收邊與耐用。",
   },
   {
     title: "磁磚修補",
     text: "空鼓、破裂、脫落與局部修補，先評估再建議處理方式。",
+  },
+  {
+    title: "洗石子／牆地面",
+    text: "洗石子、牆面與地面整理，適合老屋、門面與局部翻新。",
   },
   {
     title: "油漆工程",
@@ -28,60 +32,66 @@ export const services = [
     text: "舊裝潢、牆面、地坪與局部拆除，協助整理施工前置作業。",
   },
   {
-    title: "裝修／增建工程",
-    text: "住宅、店面、老屋整理與小型增建，整合多工項施工。",
+    title: "裝修／增建／興建",
+    text: "住宅、店面、老屋整理與增建興建需求，可到場討論工法。",
   },
 ]
 
 export const projects = [
   {
-    title: "住宅屋頂防水整修",
-    type: "泥作 / 防水",
-    image: "/project-photos/335950_0.jpg",
-    content: "屋頂裂縫整理、局部泥作修補與表面處理。",
-    fit: "透天、老屋、頂樓滲水住戶",
-    tags: ["現場評估", "施工前後", "完工驗收"],
+    title: "牆面泥作補平",
+    type: "泥作施工",
+    image: "/project-photos/pro360-1.jpg",
+    content: "牆面粗底整理、水泥補平與後續表面處理。",
+    fit: "老屋、室內整修、牆面重整",
+    tags: ["現場施工", "牆面補平", "老師父工法"],
   },
   {
-    title: "室內地坪整理",
+    title: "室內拆除與整地",
+    type: "拆除工程",
+    image: "/project-photos/pro360-2.jpg",
+    content: "室內舊面材拆除、現場清理與施工前整理。",
+    fit: "住家翻修、店面整理、老屋整修",
+    tags: ["拆除清運", "現場評估", "後續施工"],
+  },
+  {
+    title: "磁磚與地面整修",
+    type: "磁磚泥作",
+    image: "/project-photos/pro360-3.jpg",
+    content: "磁磚面、地面與局部泥作修補整理。",
+    fit: "浴室、廚房、室內地坪",
+    tags: ["磁磚施工", "地面整理", "完工驗收"],
+  },
+  {
+    title: "牆地面基礎處理",
     type: "水泥施工",
-    image: "/project-photos/335953_0.jpg",
-    content: "地面整平、修補與表面重新整理。",
-    fit: "倉庫、店面、住家地坪",
-    tags: ["丈量評估", "工法說明", "收尾清潔"],
+    image: "/project-photos/pro360-4.jpg",
+    content: "牆地面基礎整理，為後續磁磚或油漆打底。",
+    fit: "新作、翻修、局部補強",
+    tags: ["水泥施工", "基礎整理", "到場評估"],
   },
   {
-    title: "外牆與立面更新",
-    type: "油漆工程",
-    image: "/project-photos/335945_0.jpg",
-    content: "牆面整理、批土修補與重新上色。",
-    fit: "住宅外牆、店面門面",
-    tags: ["現場評估", "色彩討論", "完工驗收"],
-  },
-  {
-    title: "住宅門面翻新",
-    type: "裝修工程",
-    image: "/project-photos/335941_0.jpg",
-    content: "入口門面整理、局部泥作與外觀修繕。",
-    fit: "老屋、透天、店面入口",
-    tags: ["施工前後", "整體收邊", "現場收尾"],
-  },
-  {
-    title: "室內明亮化整理",
-    type: "磁磚 / 油漆",
-    image: "/project-photos/335942_0.jpg",
-    content: "牆面、地坪與室內空間修補整理。",
-    fit: "住家、出租套房、辦公室",
-    tags: ["局部修補", "完工驗收", "收尾清潔"],
-  },
-  {
-    title: "木地板與室內修繕",
+    title: "裝修前置工程",
     type: "裝修整合",
-    image: "/project-photos/335949_0.jpg",
-    content: "室內表面修繕、地板與局部裝修整理。",
-    fit: "住家、工作室、小型店面",
-    tags: ["現場評估", "工項整合", "細節收邊"],
+    image: "/project-photos/pro360-5.jpg",
+    content: "拆除、泥作、牆地面整理，銜接後續裝修。",
+    fit: "老屋、店面、透天住宅",
+    tags: ["多工項整合", "現場溝通", "施工前後"],
   },
+  {
+    title: "室內牆面修繕",
+    type: "油漆 / 泥作",
+    image: "/project-photos/pro360-6.jpg",
+    content: "牆面修補、批土整理與後續油漆前置作業。",
+    fit: "住家、出租套房、工作室",
+    tags: ["牆面修補", "油漆前置", "收尾整理"],
+  },
+]
+
+export const proofPoints = [
+  ["40+ 年", "老師父泥作經驗"],
+  ["到場評估", "依現場判斷報價"],
+  ["南部服務", "屏東、高雄可討論"],
 ]
 
 export const processSteps = [

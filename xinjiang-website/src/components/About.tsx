@@ -1,7 +1,7 @@
 import { SectionTitle } from "./SectionTitle"
 
 export function About() {
-  const points = ["屏東在地工程", "40 年以上泥作經驗", "年輕團隊協助溝通", "現場判斷與清楚報價"]
+  const points = ["屏東在地工程", "40 年以上泥作經驗", "老師父帶年輕學徒", "到場評估後報價"]
 
   return (
     <section id="about" className="bg-[#f0e2cd] px-4 py-16 md:px-8 md:py-24">
@@ -9,7 +9,7 @@ export function About() {
         <SectionTitle
           eyebrow="About"
           title="關於鑫匠"
-          text="鑫匠工程以老師父經驗做現場判斷，由年輕團隊協助溝通、整理與回覆，讓施工前後更清楚。"
+          text="鑫匠工程以老師父經驗判斷現場，由年輕學徒協助溝通、整理與回覆，讓施工前後更清楚。"
         />
         <div className="grid gap-4 sm:grid-cols-2">
           {points.map((item) => (
