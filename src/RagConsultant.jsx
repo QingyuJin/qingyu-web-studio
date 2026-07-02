@@ -9,6 +9,7 @@ const modules = [
   ["Retrieval", "多租戶語意搜尋", "已具備"],
   ["Generation", "引用來源回答", "已具備"],
   ["Widget", "可嵌入網站的聊天元件", "已具備"],
+  ["Billing", "token 用量估價", "已具備"],
 ]
 
 const knowledgeDocs = [
@@ -31,9 +32,14 @@ const security = [
 ]
 
 const roadmap = [
-  "依 token 用量計費",
   "API Key rate limiting",
   "文件版本管理",
+]
+
+const billingStats = [
+  ["Input tokens", "18,420"],
+  ["Output tokens", "3,180"],
+  ["估算費用", "NT$2.58"],
 ]
 
 const sourceFiles = [
@@ -211,7 +217,7 @@ function RagConsultant() {
                 </div>
                 <div className="mt-4 grid gap-3 sm:grid-cols-3">
                   <MiniStat label="indexed chunks" value="1,284" />
-                  <MiniStat label="avg latency" value="812ms" />
+                  <MiniStat label="usage cost" value="NT$2.58" />
                   <MiniStat label="tenant" value="isolated" />
                 </div>
               </div>
@@ -251,6 +257,23 @@ function RagConsultant() {
                   <p className="mt-2 text-xs font-bold text-white/62">{text}</p>
                 </div>
               ))}
+            </div>
+          </div>
+
+          <div className="rounded-[2rem] border border-[#d7cbbb] bg-white p-5 shadow-sm">
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#bf6536]">Token Billing</p>
+            <h2 className="mt-2 font-serif text-3xl font-black">依用量估價</h2>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#59635d]">
+              問答時記錄 input / output tokens，自動換算成本，可做月結與租戶用量報表。
+            </p>
+            <div className="mt-5 grid gap-3 sm:grid-cols-3">
+              {billingStats.map(([label, value]) => (
+                <MiniStat key={label} label={label} value={value} />
+              ))}
+            </div>
+            <div className="mt-4 rounded-2xl bg-[#f3efe7] p-4">
+              <p className="text-xs font-black text-[#bf6536]">Billing API</p>
+              <p className="mt-2 font-mono text-sm font-black text-[#14201f]">GET /metrics/billing</p>
             </div>
           </div>
 

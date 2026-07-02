@@ -15,6 +15,7 @@ from contextlib import contextmanager
 from typing import Iterator, Optional
 from uuid import uuid4
 
+from .billing import estimate_token_usage_cost
 from .models import MetricLog, Stage
 from .storage import MetricsStorage
 
@@ -28,6 +29,13 @@ class MetricsTracker:
     def set_tokens(self, input_tokens: int = 0, output_tokens: int = 0) -> None:
         self._log.input_tokens = input_tokens
         self._log.output_tokens = output_tokens
+        usage_cost = estimate_token_usage_cost(
+            input_tokens=input_tokens,
+            output_tokens=output_tokens,
+            model=self._log.model,
+        )
+        self._log.cost_usd = usage_cost["total_cost_usd"]
+        self._log.metadata["billing"] = usage_cost
 
     def set_cost(self, cost_usd: float) -> None:
         self._log.cost_usd = cost_usd

@@ -142,7 +142,9 @@ class MetricsStorage:
                 MAX(latency_ms) AS max_latency_ms,
                 SUM(input_tokens) AS total_input_tokens,
                 SUM(output_tokens) AS total_output_tokens,
+                SUM(input_tokens + output_tokens) AS total_tokens,
                 SUM(COALESCE(cost_usd, 0)) AS total_cost_usd,
+                AVG(COALESCE(cost_usd, 0)) AS avg_cost_usd_per_request,
                 SUM(CASE WHEN success = 1 THEN 1 ELSE 0 END) * 1.0 / COUNT(*) AS success_rate
             FROM metric_logs
             {where}

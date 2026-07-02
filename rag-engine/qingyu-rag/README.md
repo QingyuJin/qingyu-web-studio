@@ -7,7 +7,7 @@
 3. **embedding** — 向量化（可插拔，內建本地離線版，附雲端 API 範例）
 4. **retrieval** — 語意搜尋（cosine similarity，支援多租戶隔離）
 5. **generation** — AI 問答 + 引用來源標註
-6. **metrics** — token 與延遲紀錄（每個階段自動記錄，可查彙總統計）
+6. **metrics** — token、延遲與用量費用紀錄（每個階段自動記錄，可查彙總與帳務估算）
 7. **auth** — API Key（伺服器對伺服器）+ 短期 Widget JWT（瀏覽器端）兩層驗證
 8. **widget** — 可嵌入 qingyuweb.com 方塊的聊天 widget（原生 Web Component，無需打包工具）
 
@@ -40,6 +40,11 @@ pip install -r requirements.txt
 export ANTHROPIC_API_KEY=your_anthropic_key       # /chat 問答需要呼叫 LLM
 export ADMIN_SECRET=$(openssl rand -hex 16)        # 管理 API Key 用
 export WIDGET_JWT_SECRET=$(openssl rand -hex 32)   # 簽發/驗證 widget JWT 用
+
+# 選填：用量計費估算，可依模型費率調整
+export RAG_INPUT_USD_PER_1K_TOKENS=0.003
+export RAG_OUTPUT_USD_PER_1K_TOKENS=0.015
+export RAG_USD_TO_TWD=32
 
 # 先跑測試（不需要 ANTHROPIC_API_KEY）
 python test_pipeline.py   # 上傳/切片/向量化/搜尋四模組
@@ -89,6 +94,7 @@ uvicorn main:app --reload
 | POST | `/auth/widget-token` | API Key | 換一個短期 widget JWT |
 | POST | `/chat` | Widget JWT | 問答，body: `{query, top_k, model}` |
 | GET | `/metrics/summary` | API Key | 依階段彙總的延遲/token/成本統計 |
+| GET | `/metrics/billing` | API Key | 依 token 用量整理帳務估算 |
 | GET | `/metrics/logs?stage=xxx` | API Key | 明細紀錄 |
 
 所有需要驗證的端點都用 `Authorization: Bearer <key_or_token>` 帶入。
@@ -98,6 +104,18 @@ uvicorn main:app --reload
 所有向量資料與 metrics 都用 `tenant_id` 隔離，且 `tenant_id` **不是**由呼叫端直接指定，
 而是從 API Key 或 Widget JWT 解析出來（見 `auth/dependencies.py`），
 確保客戶端無法透過竄改參數讀到別的租戶的資料。
+
+## 依 token 用量計費
+
+`metrics` 會在 LLM 生成階段記錄 `input_tokens`、`output_tokens`，並自動依費率寫入
+`cost_usd`。預設費率可用環境變數覆蓋，方便不同模型或不同供應商調整。
+
+- `RAG_INPUT_USD_PER_1K_TOKENS`
+- `RAG_OUTPUT_USD_PER_1K_TOKENS`
+- `RAG_USD_TO_TWD`
+
+可用 `GET /metrics/billing` 取得總 token、各階段成本、台幣估算與目前費率設定，
+未來可接租戶後台、月結報表或方案額度。
 
 ## Embedding Provider 替換
 
@@ -121,7 +139,6 @@ class YourProvider(EmbeddingProvider):
 
 ## 下一步（尚未實作）
 
-- 依 token 用量計費（`metrics` 已經有原始資料，只差算費率的邏輯）
 - 文件版本管理 / 增量更新
 - API Key rate limiting（防止單一租戶打爆服務）
 - 把 mock 的 `/mock-token-endpoint` 換成真正的 qingyuweb.com 後端邏輯（含使用者 session 驗證）
