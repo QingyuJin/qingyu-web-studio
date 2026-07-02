@@ -1,4 +1,3 @@
-import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 
@@ -15,17 +14,47 @@ const modules = [
   ["Token Endpoint", "正式 widget token 交換", "已具備"],
 ]
 
-const knowledgeDocs = [
-  ["採購合約 SOP.pdf", "已索引", "428 chunks"],
-  ["付款規範.docx", "已索引", "216 chunks"],
-  ["客服 FAQ.xlsx", "已索引", "184 chunks"],
-  ["新人訓練手冊.pdf", "已索引", "456 chunks"],
+const knowledgeBaseDocs = [
+  ["報價規則.md", "v2", "Active"],
+  ["油漆工程服務說明.md", "v3", "Active"],
+  ["施工前注意事項.md", "v1", "Active"],
+  ["保固政策.md", "v1", "Active"],
 ]
 
-const exampleQuestions = [
-  "合約付款條件是什麼？",
-  "客戶要退貨時怎麼處理？",
-  "新人第一週要完成哪些訓練？",
+const ragCitations = [
+  "報價規則.md · v2 · chunk 3",
+  "油漆工程服務說明.md · v3 · chunk 1",
+  "施工前注意事項.md · v1 · chunk 2",
+]
+
+const engineeringCards = [
+  {
+    title: "Token Usage",
+    rows: [
+      ["Prompt tokens", "720"],
+      ["Completion tokens", "180"],
+      ["Total tokens", "900"],
+      ["Estimated cost", "$0.0042 USD"],
+    ],
+  },
+  {
+    title: "Rate Limit",
+    rows: [
+      ["/chat", "12 / 30 requests per minute"],
+      ["/documents", "3 / 20 uploads per hour"],
+      ["Status", "Healthy"],
+      ["Retry-after", "none"],
+    ],
+  },
+  {
+    title: "Document Version",
+    rows: [
+      ["Current document", "報價規則.md"],
+      ["Current version", "v2"],
+      ["Previous version", "v1"],
+      ["Search policy", "active version only"],
+    ],
+  },
 ]
 
 const security = [
@@ -65,32 +94,6 @@ const sourceFiles = [
 ]
 
 function RagConsultant() {
-  const [query, setQuery] = useState(exampleQuestions[0])
-  const [answer, setAnswer] = useState("")
-  const [asked, setAsked] = useState(false)
-
-  const citations = useMemo(() => {
-    if (query.includes("退貨")) return ["客服 FAQ.xlsx · 退貨流程", "採購合約 SOP.pdf · section 7"]
-    if (query.includes("新人") || query.includes("訓練")) return ["新人訓練手冊.pdf · p.4", "新人訓練手冊.pdf · p.9"]
-    return ["採購合約 SOP.pdf · p.8", "付款規範.docx · section 3", "主管簽核規則.txt"]
-  }, [query])
-
-  function runQuestion(nextQuery = query) {
-    const cleanQuery = nextQuery.trim()
-    if (!cleanQuery) return
-    setQuery(cleanQuery)
-    setAsked(true)
-    if (cleanQuery.includes("退貨")) {
-      setAnswer("依客服 FAQ，客戶提出退貨時要先確認訂單編號、商品狀態與退貨原因。若屬保存或運送問題，需交由主管確認後建立退貨紀錄。")
-      return
-    }
-    if (cleanQuery.includes("新人") || cleanQuery.includes("訓練")) {
-      setAnswer("新人第一週需要完成公司制度閱讀、產品資料熟悉、客服話術練習與主管驗收。系統會引用訓練手冊中的章節，方便主管快速確認依據。")
-      return
-    }
-    setAnswer("依目前上傳的採購合約 SOP 與付款規範，一般付款條件為驗收後 30 天。若金額超過 NT$300,000，需由主管簽核。")
-  }
-
   return (
     <main className="min-h-screen bg-[#f3efe7] text-[#14201f]">
       <Seo
@@ -120,117 +123,125 @@ function RagConsultant() {
 
       <section className="relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_18%_18%,rgba(211,142,79,0.22),transparent_34%),radial-gradient(circle_at_82%_12%,rgba(41,82,75,0.18),transparent_28%)]" />
-        <div className="relative mx-auto grid max-w-7xl gap-6 px-4 py-8 md:grid-cols-[0.9fr_1.1fr] md:px-7 md:py-14">
+        <div className="relative mx-auto grid max-w-7xl gap-6 px-4 py-8 md:px-7 md:py-14">
           <section className="rounded-[2rem] border border-white/60 bg-white/58 p-6 shadow-2xl shadow-[#3e2b1e]/10 backdrop-blur-xl md:p-8">
-            <p className="text-xs font-black uppercase tracking-[0.26em] text-[#bf6536]">Enterprise RAG OS</p>
-            <h1 className="mt-5 font-serif text-[clamp(2.5rem,7vw,5.4rem)] font-black leading-[0.95]">
-              企業文件，
-              <br />
-              變成可問答顧問。
-            </h1>
-            <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-[#59635d] md:text-base">
-              把內部文件、SOP、FAQ 建成知識庫，讓員工或客戶用聊天方式查答案，並保留引用來源。
-            </p>
-            <div className="mt-7 flex flex-wrap gap-3">
-              <a href="#demo" className="inline-flex min-h-12 items-center rounded-xl bg-[#14201f] px-5 text-sm font-black text-white">
-                查看 Demo
-              </a>
-              <a href="#engine" className="inline-flex min-h-12 items-center rounded-xl border border-[#d7cbbb] bg-white px-5 text-sm font-black text-[#14201f]">
-                看引擎架構
-              </a>
+            <div className="grid gap-6 md:grid-cols-[1fr_auto] md:items-end">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.26em] text-[#bf6536]">Enterprise RAG OS</p>
+                <h1 className="mt-5 font-serif text-[clamp(2.5rem,7vw,5.4rem)] font-black leading-[0.95]">
+                  企業文件，
+                  <br />
+                  變成可問答顧問。
+                </h1>
+                <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-[#59635d] md:text-base">
+                  把內部文件、SOP、FAQ 建成知識庫，讓員工或客戶用聊天方式查答案，並保留引用來源。
+                </p>
+              </div>
+              <div className="flex flex-wrap gap-3 md:justify-end">
+                <a href="#demo" className="inline-flex min-h-12 items-center rounded-xl bg-[#14201f] px-5 text-sm font-black text-white">
+                  查看 Demo
+                </a>
+                <a href="#engine" className="inline-flex min-h-12 items-center rounded-xl border border-[#d7cbbb] bg-white px-5 text-sm font-black text-[#14201f]">
+                  看引擎架構
+                </a>
+              </div>
             </div>
           </section>
 
-          <section id="demo" className="scroll-mt-24 rounded-[2rem] border border-white/60 bg-[#14201f] p-5 text-white shadow-2xl shadow-[#14201f]/20">
-            <div className="grid gap-4 lg:grid-cols-[0.72fr_1fr]">
-              <div className="rounded-[1.5rem] bg-white/9 p-4">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Ask Your Docs</p>
-                <h2 className="mt-2 font-serif text-3xl font-black">上傳文件，直接問答案</h2>
-                <p className="mt-2 text-sm font-bold leading-6 text-white/62">
-                  Demo 模式：模擬企業內部文件問答，回答會附引用來源。
-                </p>
-                <div className="mt-5 grid gap-2">
-                  {knowledgeDocs.map(([name, status, chunks]) => (
-                    <div key={name} className="rounded-2xl bg-white/10 p-3">
-                      <div className="flex items-center justify-between gap-3">
-                        <p className="text-sm font-black">{name}</p>
-                        <span className="rounded-full bg-[#eac46f]/18 px-3 py-1 text-[11px] font-black text-[#eac46f]">{status}</span>
-                      </div>
-                      <p className="mt-1 text-xs font-bold text-white/52">{chunks} · tenant isolated</p>
-                    </div>
-                  ))}
+          <section id="demo" className="scroll-mt-24 rounded-[2rem] border border-white/60 bg-[#14201f] p-4 text-white shadow-2xl shadow-[#14201f]/20 md:p-5">
+            <div className="flex flex-col gap-4 border-b border-white/10 pb-4 md:flex-row md:items-end md:justify-between">
+              <div>
+                <div className="flex flex-wrap items-center gap-2">
+                  <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">RAG SaaS Dashboard</p>
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-white/76">Prototype / Mock Demo</span>
                 </div>
-                <div className="mt-5 rounded-2xl border border-white/10 bg-black/15 p-4">
-                  <p className="text-xs font-black text-[#eac46f]">客戶看得懂的用途</p>
-                  <p className="mt-2 text-sm font-bold leading-6 text-white/64">
-                    把公司文件變成客服、員工訓練、內部查詢用的顧問。
-                  </p>
-                </div>
+                <h2 className="mt-2 font-serif text-3xl font-black md:text-4xl">企業知識庫問答中控台</h2>
               </div>
+              <div className="flex flex-wrap gap-3">
+                <a href="#engine" className="inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#14201f]">
+                  查看架構
+                </a>
+                <Link to="/contact" className="inline-flex min-h-11 items-center rounded-xl bg-[#eac46f] px-4 text-sm font-black text-[#14201f]">
+                  聯絡我做類似系統
+                </Link>
+              </div>
+            </div>
 
-              <div className="rounded-[1.5rem] bg-white p-4 text-[#14201f]">
+            <div className="mt-5 grid gap-4 xl:grid-cols-[0.85fr_1.25fr_1fr]">
+              <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.08] p-4">
                 <div className="flex items-center justify-between gap-3">
                   <div>
-                    <p className="text-xs font-black text-[#bf6536]">企業顧問 Widget</p>
-                    <h3 className="mt-1 text-2xl font-black">問一個公司文件問題</h3>
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#eac46f]">Knowledge Base</p>
+                    <h3 className="mt-1 text-xl font-black">文件列表</h3>
                   </div>
-                  <span className="rounded-full bg-[#e9f2e9] px-3 py-1 text-xs font-black text-[#2f6234]">JWT 15 min</span>
+                  <span className="rounded-full bg-[#e9f2e9] px-3 py-1 text-[11px] font-black text-[#2f6234]">4 active</span>
                 </div>
-
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {exampleQuestions.map((item) => (
-                    <button
-                      key={item}
-                      type="button"
-                      onClick={() => runQuestion(item)}
-                      className="min-h-10 rounded-xl bg-[#f3efe7] px-3 text-xs font-black text-[#59635d] transition hover:bg-[#eadfce]"
-                    >
-                      {item}
-                    </button>
+                <div className="mt-5 grid gap-3">
+                  {knowledgeBaseDocs.map(([name, version, status]) => (
+                    <article key={name} className="rounded-2xl border border-white/10 bg-black/16 p-3">
+                      <div className="flex items-start justify-between gap-3">
+                        <p className="text-sm font-black leading-5">{name}</p>
+                        <span className="rounded-full bg-[#eac46f]/16 px-2.5 py-1 font-mono text-[11px] font-black text-[#eac46f]">{version}</span>
+                      </div>
+                      <div className="mt-3 flex items-center justify-between gap-3">
+                        <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-white/70">markdown</span>
+                        <span className="rounded-full bg-[#e9f2e9] px-3 py-1 text-[11px] font-black text-[#2f6234]">{status}</span>
+                      </div>
+                    </article>
                   ))}
                 </div>
+              </section>
 
-                <div className="mt-4 rounded-2xl border border-[#d7cbbb] bg-[#fdfbf7] p-3">
-                  <label className="text-xs font-black text-[#8a7c6d]">問題</label>
-                  <textarea
-                    value={query}
-                    onChange={(event) => setQuery(event.target.value)}
-                    className="mt-2 min-h-24 w-full resize-none rounded-xl border border-[#e4d9ca] bg-white p-3 text-sm font-bold leading-6 text-[#14201f] outline-none focus:border-[#bf6536]"
-                    placeholder="例如：合約付款條件是什麼？"
-                  />
-                  <button
-                    type="button"
-                    onClick={() => runQuestion()}
-                    className="mt-3 min-h-11 w-full rounded-xl bg-[#14201f] px-5 text-sm font-black text-white"
-                  >
-                    產生回答
-                  </button>
+              <section className="rounded-[1.5rem] border border-white/70 bg-white p-4 text-[#14201f] shadow-xl shadow-black/10">
+                <div className="flex flex-wrap items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#bf6536]">RAG AI</p>
+                    <h3 className="mt-1 text-2xl font-black">問答介面</h3>
+                  </div>
+                  <span className="rounded-full bg-[#f3efe7] px-3 py-1 text-[11px] font-black text-[#59635d]">引用回答</span>
+                </div>
+
+                <div className="mt-5 rounded-2xl border border-[#e4d9ca] bg-[#fdfbf7] p-4">
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8a7c6d]">Question</p>
+                  <p className="mt-2 text-lg font-black">油漆工程怎麼估價？</p>
                 </div>
 
                 <div className="mt-4 rounded-2xl bg-[#f3efe7] p-4">
                   <div className="flex items-center justify-between gap-3">
-                    <p className="text-xs font-black text-[#bf6536]">回答</p>
-                    <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#59635d]">
-                      {asked ? "已查詢" : "範例結果"}
-                    </span>
+                    <p className="text-xs font-black uppercase tracking-[0.14em] text-[#bf6536]">Answer</p>
+                    <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#59635d]">Mock response</span>
                   </div>
-                  <p className="mt-3 text-sm font-bold leading-7">
-                    {answer || "依目前上傳的採購合約 SOP 與付款規範，一般付款條件為驗收後 30 天。若金額超過 NT$300,000，需由主管簽核。"}
+                  <p className="mt-3 text-sm font-bold leading-7 text-[#34403c]">
+                    根據目前知識庫資料，油漆工程會依照坪數、牆面狀況、是否需要批土、油漆品牌與施工難度估價。若現場有壁癌、漏水或嚴重剝落，可能需要先處理基底，才適合進行油漆施工。
                   </p>
-                  <div className="mt-4 grid gap-2">
-                    {citations.map((item) => (
-                      <div key={item} className="rounded-xl border border-[#d7cbbb] bg-white px-3 py-2 text-xs font-black text-[#59635d]">
-                        引用：{item}
+                </div>
+
+                <div className="mt-4">
+                  <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8a7c6d]">Citations</p>
+                  <div className="mt-2 grid gap-2">
+                    {ragCitations.map((item) => (
+                      <div key={item} className="rounded-xl border border-[#d7cbbb] bg-white px-3 py-2 font-mono text-[12px] font-black text-[#59635d]">
+                        {item}
                       </div>
                     ))}
                   </div>
                 </div>
-                <div className="mt-4 grid gap-3 sm:grid-cols-3">
-                  <MiniStat label="indexed chunks" value="1,284" />
-                  <MiniStat label="usage cost" value="NT$2.58" />
-                  <MiniStat label="tenant" value="isolated" />
+              </section>
+
+              <section className="rounded-[1.5rem] border border-white/10 bg-white/[0.08] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#eac46f]">Engineering Panel</p>
+                    <h3 className="mt-1 text-xl font-black">工程監控</h3>
+                  </div>
+                  <span className="rounded-full bg-[#e9f2e9] px-3 py-1 text-[11px] font-black text-[#2f6234]">Healthy</span>
                 </div>
-              </div>
+                <div className="mt-5 grid gap-3">
+                  {engineeringCards.map((card) => (
+                    <EngineeringCard key={card.title} title={card.title} rows={card.rows} />
+                  ))}
+                </div>
+              </section>
             </div>
           </section>
         </div>
@@ -335,6 +346,25 @@ function MiniStat({ label, value }) {
       <p className="text-[11px] font-black uppercase tracking-[0.14em] text-[#8a7c6d]">{label}</p>
       <p className="mt-1 text-lg font-black text-[#14201f]">{value}</p>
     </div>
+  )
+}
+
+function EngineeringCard({ title, rows }) {
+  return (
+    <article className="rounded-2xl border border-white/10 bg-black/16 p-4">
+      <div className="flex items-center justify-between gap-3">
+        <h4 className="text-sm font-black">{title}</h4>
+        <span className="h-2.5 w-2.5 rounded-full bg-[#eac46f]" />
+      </div>
+      <div className="mt-3 grid gap-2">
+        {rows.map(([label, value]) => (
+          <div key={label} className="flex items-start justify-between gap-3 border-t border-white/10 pt-2 first:border-t-0 first:pt-0">
+            <span className="text-[11px] font-black uppercase tracking-[0.12em] text-white/45">{label}</span>
+            <span className="max-w-[11rem] text-right font-mono text-[12px] font-black leading-5 text-white/88">{value}</span>
+          </div>
+        ))}
+      </div>
+    </article>
   )
 }
 
