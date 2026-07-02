@@ -1,3 +1,4 @@
+import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 
@@ -10,11 +11,17 @@ const modules = [
   ["Widget", "可嵌入網站的聊天元件", "已具備"],
 ]
 
-const flow = [
-  ["01", "上傳文件", "合約、SOP、FAQ、內訓資料。"],
-  ["02", "建立索引", "切片、向量化、寫入知識庫。"],
-  ["03", "員工提問", "Widget 取得短期 JWT 後問答。"],
-  ["04", "引用回答", "回覆附來源，降低亂答風險。"],
+const knowledgeDocs = [
+  ["採購合約 SOP.pdf", "已索引", "428 chunks"],
+  ["付款規範.docx", "已索引", "216 chunks"],
+  ["客服 FAQ.xlsx", "已索引", "184 chunks"],
+  ["新人訓練手冊.pdf", "已索引", "456 chunks"],
+]
+
+const exampleQuestions = [
+  "合約付款條件是什麼？",
+  "客戶要退貨時怎麼處理？",
+  "新人第一週要完成哪些訓練？",
 ]
 
 const security = [
@@ -42,6 +49,32 @@ const sourceFiles = [
 ]
 
 function RagConsultant() {
+  const [query, setQuery] = useState(exampleQuestions[0])
+  const [answer, setAnswer] = useState("")
+  const [asked, setAsked] = useState(false)
+
+  const citations = useMemo(() => {
+    if (query.includes("退貨")) return ["客服 FAQ.xlsx · 退貨流程", "採購合約 SOP.pdf · section 7"]
+    if (query.includes("新人") || query.includes("訓練")) return ["新人訓練手冊.pdf · p.4", "新人訓練手冊.pdf · p.9"]
+    return ["採購合約 SOP.pdf · p.8", "付款規範.docx · section 3", "主管簽核規則.txt"]
+  }, [query])
+
+  function runQuestion(nextQuery = query) {
+    const cleanQuery = nextQuery.trim()
+    if (!cleanQuery) return
+    setQuery(cleanQuery)
+    setAsked(true)
+    if (cleanQuery.includes("退貨")) {
+      setAnswer("依客服 FAQ，客戶提出退貨時要先確認訂單編號、商品狀態與退貨原因。若屬保存或運送問題，需交由主管確認後建立退貨紀錄。")
+      return
+    }
+    if (cleanQuery.includes("新人") || cleanQuery.includes("訓練")) {
+      setAnswer("新人第一週需要完成公司制度閱讀、產品資料熟悉、客服話術練習與主管驗收。系統會引用訓練手冊中的章節，方便主管快速確認依據。")
+      return
+    }
+    setAnswer("依目前上傳的採購合約 SOP 與付款規範，一般付款條件為驗收後 30 天。若金額超過 NT$300,000，需由主管簽核。")
+  }
+
   return (
     <main className="min-h-screen bg-[#f3efe7] text-[#14201f]">
       <Seo
@@ -95,18 +128,27 @@ function RagConsultant() {
           <section id="demo" className="scroll-mt-24 rounded-[2rem] border border-white/60 bg-[#14201f] p-5 text-white shadow-2xl shadow-[#14201f]/20">
             <div className="grid gap-4 lg:grid-cols-[0.72fr_1fr]">
               <div className="rounded-[1.5rem] bg-white/9 p-4">
-                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Knowledge Base</p>
-                <h2 className="mt-2 font-serif text-3xl font-black">文件處理管線</h2>
-                <div className="mt-4 grid gap-2">
-                  {flow.map(([no, title, text]) => (
-                    <div key={no} className="grid grid-cols-[2.6rem_1fr] gap-3 rounded-2xl bg-white/10 p-3">
-                      <span className="font-mono text-xs font-black text-[#eac46f]">{no}</span>
-                      <div>
-                        <p className="text-sm font-black">{title}</p>
-                        <p className="mt-1 text-xs font-bold text-white/58">{text}</p>
+                <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Ask Your Docs</p>
+                <h2 className="mt-2 font-serif text-3xl font-black">上傳文件，直接問答案</h2>
+                <p className="mt-2 text-sm font-bold leading-6 text-white/62">
+                  Demo 模式：模擬企業內部文件問答，回答會附引用來源。
+                </p>
+                <div className="mt-5 grid gap-2">
+                  {knowledgeDocs.map(([name, status, chunks]) => (
+                    <div key={name} className="rounded-2xl bg-white/10 p-3">
+                      <div className="flex items-center justify-between gap-3">
+                        <p className="text-sm font-black">{name}</p>
+                        <span className="rounded-full bg-[#eac46f]/18 px-3 py-1 text-[11px] font-black text-[#eac46f]">{status}</span>
                       </div>
+                      <p className="mt-1 text-xs font-bold text-white/52">{chunks} · tenant isolated</p>
                     </div>
                   ))}
+                </div>
+                <div className="mt-5 rounded-2xl border border-white/10 bg-black/15 p-4">
+                  <p className="text-xs font-black text-[#eac46f]">客戶看得懂的用途</p>
+                  <p className="mt-2 text-sm font-bold leading-6 text-white/64">
+                    把公司文件變成客服、員工訓練、內部查詢用的顧問。
+                  </p>
                 </div>
               </div>
 
@@ -114,16 +156,53 @@ function RagConsultant() {
                 <div className="flex items-center justify-between gap-3">
                   <div>
                     <p className="text-xs font-black text-[#bf6536]">企業顧問 Widget</p>
-                    <h3 className="mt-1 text-2xl font-black">合約付款條件怎麼查？</h3>
+                    <h3 className="mt-1 text-2xl font-black">問一個公司文件問題</h3>
                   </div>
                   <span className="rounded-full bg-[#e9f2e9] px-3 py-1 text-xs font-black text-[#2f6234]">JWT 15 min</span>
                 </div>
+
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {exampleQuestions.map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => runQuestion(item)}
+                      className="min-h-10 rounded-xl bg-[#f3efe7] px-3 text-xs font-black text-[#59635d] transition hover:bg-[#eadfce]"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+
+                <div className="mt-4 rounded-2xl border border-[#d7cbbb] bg-[#fdfbf7] p-3">
+                  <label className="text-xs font-black text-[#8a7c6d]">問題</label>
+                  <textarea
+                    value={query}
+                    onChange={(event) => setQuery(event.target.value)}
+                    className="mt-2 min-h-24 w-full resize-none rounded-xl border border-[#e4d9ca] bg-white p-3 text-sm font-bold leading-6 text-[#14201f] outline-none focus:border-[#bf6536]"
+                    placeholder="例如：合約付款條件是什麼？"
+                  />
+                  <button
+                    type="button"
+                    onClick={() => runQuestion()}
+                    className="mt-3 min-h-11 w-full rounded-xl bg-[#14201f] px-5 text-sm font-black text-white"
+                  >
+                    產生回答
+                  </button>
+                </div>
+
                 <div className="mt-4 rounded-2xl bg-[#f3efe7] p-4">
-                  <p className="text-sm font-bold leading-7">
-                    依目前上傳的「採購合約 SOP」與「付款規範」，一般付款條件為驗收後 30 天。若金額超過 NT$300,000，需由主管簽核。
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xs font-black text-[#bf6536]">回答</p>
+                    <span className="rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#59635d]">
+                      {asked ? "已查詢" : "範例結果"}
+                    </span>
+                  </div>
+                  <p className="mt-3 text-sm font-bold leading-7">
+                    {answer || "依目前上傳的採購合約 SOP 與付款規範，一般付款條件為驗收後 30 天。若金額超過 NT$300,000，需由主管簽核。"}
                   </p>
                   <div className="mt-4 grid gap-2">
-                    {["採購合約 SOP.pdf · p.8", "付款規範.docx · section 3", "主管簽核規則.txt"].map((item) => (
+                    {citations.map((item) => (
                       <div key={item} className="rounded-xl border border-[#d7cbbb] bg-white px-3 py-2 text-xs font-black text-[#59635d]">
                         引用：{item}
                       </div>
