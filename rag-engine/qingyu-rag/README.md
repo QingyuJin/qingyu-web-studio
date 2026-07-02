@@ -8,7 +8,7 @@
 4. **retrieval** — 語意搜尋（cosine similarity，支援多租戶隔離）
 5. **generation** — AI 問答 + 引用來源標註
 6. **metrics** — token、延遲與用量費用紀錄（每個階段自動記錄，可查彙總與帳務估算）
-7. **auth** — API Key（伺服器對伺服器）+ 短期 Widget JWT（瀏覽器端）兩層驗證
+7. **auth** — API Key（伺服器對伺服器）+ 短期 Widget JWT（瀏覽器端）+ 租戶 rate limiting
 8. **widget** — 可嵌入 qingyuweb.com 方塊的聊天 widget（原生 Web Component，無需打包工具）
 
 ## 嵌入式 Widget（放進 qingyuweb.com 方塊）
@@ -45,6 +45,11 @@ export WIDGET_JWT_SECRET=$(openssl rand -hex 32)   # 簽發/驗證 widget JWT �
 export RAG_INPUT_USD_PER_1K_TOKENS=0.003
 export RAG_OUTPUT_USD_PER_1K_TOKENS=0.015
 export RAG_USD_TO_TWD=32
+
+# 選填：租戶配額限制，設為 0 可關閉
+export RAG_API_KEY_RATE_LIMIT_PER_MINUTE=120
+export RAG_WIDGET_RATE_LIMIT_PER_MINUTE=60
+export RAG_RATE_LIMIT_WINDOW_SECONDS=60
 
 # 先跑測試（不需要 ANTHROPIC_API_KEY）
 python test_pipeline.py   # 上傳/切片/向量化/搜尋四模組
@@ -105,6 +110,17 @@ uvicorn main:app --reload
 而是從 API Key 或 Widget JWT 解析出來（見 `auth/dependencies.py`），
 確保客戶端無法透過竄改參數讀到別的租戶的資料。
 
+## API Key rate limiting
+
+驗證通過後，系統會依 `tenant_id + scope` 計算每分鐘請求量。超過配額時回傳 `429`，
+並帶 `Retry-After`、`X-RateLimit-Limit`、`X-RateLimit-Remaining`、`X-RateLimit-Reset` headers。
+
+- `api_key` scope：文件上傳、刪除、metrics、換 widget token 等後端 API Key 呼叫
+- `widget_chat` scope：瀏覽器 widget 的 `/chat` 問答呼叫
+
+預設配額可用環境變數調整：`RAG_API_KEY_RATE_LIMIT_PER_MINUTE`、
+`RAG_WIDGET_RATE_LIMIT_PER_MINUTE`、`RAG_RATE_LIMIT_WINDOW_SECONDS`。
+
 ## 依 token 用量計費
 
 `metrics` 會在 LLM 生成階段記錄 `input_tokens`、`output_tokens`，並自動依費率寫入
@@ -140,5 +156,4 @@ class YourProvider(EmbeddingProvider):
 ## 下一步（尚未實作）
 
 - 文件版本管理 / 增量更新
-- API Key rate limiting（防止單一租戶打爆服務）
 - 把 mock 的 `/mock-token-endpoint` 換成真正的 qingyuweb.com 後端邏輯（含使用者 session 驗證）

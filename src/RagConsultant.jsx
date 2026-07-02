@@ -10,6 +10,7 @@ const modules = [
   ["Generation", "引用來源回答", "已具備"],
   ["Widget", "可嵌入網站的聊天元件", "已具備"],
   ["Billing", "token 用量估價", "已具備"],
+  ["Rate Limit", "租戶每分鐘配額", "已具備"],
 ]
 
 const knowledgeDocs = [
@@ -28,12 +29,13 @@ const exampleQuestions = [
 const security = [
   ["API Key", "後端服務用", "長期，可撤銷"],
   ["Widget JWT", "瀏覽器問答用", "短期 15 分鐘"],
+  ["Rate Limit", "避免單一租戶打爆服務", "429 保護"],
   ["Tenant ID", "租戶隔離", "由 token 解析"],
 ]
 
 const roadmap = [
-  "API Key rate limiting",
   "文件版本管理",
+  "正式 token endpoint",
 ]
 
 const billingStats = [
@@ -46,6 +48,7 @@ const sourceFiles = [
   "main.py",
   "auth/api_keys.py",
   "auth/jwt_tokens.py",
+  "auth/rate_limiter.py",
   "chunking",
   "embedding",
   "retrieval",

@@ -1,6 +1,7 @@
 from .api_keys import ApiKeyStore, ApiKeyInfo
 from .jwt_tokens import create_widget_token, verify_widget_token, WidgetTokenPayload
 from .dependencies import require_api_key, require_widget_token, require_admin
+from .rate_limiter import RateLimiter, RateLimitDecision
 
 __all__ = [
     "ApiKeyStore",
@@ -11,4 +12,6 @@ __all__ = [
     "require_api_key",
     "require_widget_token",
     "require_admin",
+    "RateLimiter",
+    "RateLimitDecision",
 ]

@@ -15,8 +15,14 @@ from fastapi import Header, HTTPException, status
 
 from .api_keys import ApiKeyStore
 from .jwt_tokens import verify_widget_token
+from .rate_limiter import (
+    RateLimiter,
+    api_key_rate_limit_per_minute,
+    widget_rate_limit_per_minute,
+)
 
 _api_key_store = ApiKeyStore("data/auth.db")
+_rate_limiter = RateLimiter("data/rate_limits.db")
 
 
 def _extract_bearer(authorization: str | None) -> str | None:
@@ -28,6 +34,28 @@ def _extract_bearer(authorization: str | None) -> str | None:
     return parts[1]
 
 
+def _enforce_rate_limit(*, tenant_id: str, scope: str, limit: int) -> None:
+    decision = _rate_limiter.check(tenant_id=tenant_id, scope=scope, limit=limit)
+    if decision.allowed:
+        return
+
+    raise HTTPException(
+        status_code=status.HTTP_429_TOO_MANY_REQUESTS,
+        detail={
+            "message": "請求量超過限制，請稍後再試。",
+            "scope": scope,
+            "limit": decision.limit,
+            "retry_after_seconds": decision.retry_after_seconds,
+        },
+        headers={
+            "Retry-After": str(decision.retry_after_seconds),
+            "X-RateLimit-Limit": str(decision.limit),
+            "X-RateLimit-Remaining": str(decision.remaining),
+            "X-RateLimit-Reset": str(decision.reset_at),
+        },
+    )
+
+
 async def require_api_key(authorization: str | None = Header(default=None)) -> str:
     """驗證長期 API Key，回傳 tenant_id。用在文件上傳/刪除等管理端點。"""
     raw_key = _extract_bearer(authorization)
@@ -37,6 +65,11 @@ async def require_api_key(authorization: str | None = Header(default=None)) -> s
             status_code=status.HTTP_401_UNAUTHORIZED,
             detail="無效或缺少 API Key，請在 Authorization: Bearer <key> 帶入",
         )
+    _enforce_rate_limit(
+        tenant_id=info.tenant_id,
+        scope="api_key",
+        limit=api_key_rate_limit_per_minute(),
+    )
     return info.tenant_id
 
 
@@ -54,6 +87,11 @@ async def require_widget_token(authorization: str | None = Header(default=None))
         raise HTTPException(status_code=401, detail="token 已過期，請重新取得")
     except pyjwt.PyJWTError:
         raise HTTPException(status_code=401, detail="無效的 token")
+    _enforce_rate_limit(
+        tenant_id=payload.tenant_id,
+        scope="widget_chat",
+        limit=widget_rate_limit_per_minute(),
+    )
     return payload.tenant_id
 
 
