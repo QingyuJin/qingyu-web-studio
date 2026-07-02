@@ -127,6 +127,13 @@ const caseCards = [
     featured: true,
   },
   {
+    title: "RAG 企業顧問",
+    text: "文件知識庫、引用回答、Widget 與多租戶 API。",
+    action: "查看系統 Demo",
+    to: "/works/rag-consultant",
+    featured: true,
+  },
+  {
     title: "BuildFlow 工程行流程系統",
     text: "需求、報價、派工、回報與 LINE 查詢流程。",
     action: "查看案例",

@@ -16,6 +16,7 @@ const LineBotMission = lazy(() => import("./site/LineBotMission"))
 const RestaurantOrdering = lazy(() => import("./RestaurantOrdering"))
 const WholesaleOrdering = lazy(() => import("./WholesaleOrdering"))
 const BiomedBrandSite = lazy(() => import("./BiomedBrandSite"))
+const RagConsultant = lazy(() => import("./RagConsultant"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -38,6 +39,7 @@ function App() {
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/wholesale-ordering" element={<WholesaleOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
+        <Route path="/works/rag-consultant" element={<RagConsultant />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
@@ -50,6 +52,7 @@ function App() {
         <Route path="/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/wholesale-ordering" element={<WholesaleOrdering />} />
         <Route path="/biomed-brand-site" element={<BiomedBrandSite />} />
+        <Route path="/rag-consultant" element={<RagConsultant />} />
         <Route path="/engineering" element={<ProjectHub />} />
         <Route path="/login" element={<LoginPage />} />
 
