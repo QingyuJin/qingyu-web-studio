@@ -12,6 +12,7 @@ const modules = [
   ["Billing", "token 用量估價", "已具備"],
   ["Rate Limit", "租戶每分鐘配額", "已具備"],
   ["Versioning", "文件版本與還原", "已具備"],
+  ["Token Endpoint", "正式 widget token 交換", "已具備"],
 ]
 
 const knowledgeDocs = [
@@ -30,12 +31,16 @@ const exampleQuestions = [
 const security = [
   ["API Key", "後端服務用", "長期，可撤銷"],
   ["Widget JWT", "瀏覽器問答用", "短期 15 分鐘"],
+  ["Token Endpoint", "主站後端交換短期 token", "/api/widget-token"],
   ["Rate Limit", "避免單一租戶打爆服務", "429 保護"],
   ["Tenant ID", "租戶隔離", "由 token 解析"],
 ]
 
-const roadmap = [
-  "正式 token endpoint",
+const productionReady = [
+  ["Widget Token", "主站 serverless endpoint 已完成"],
+  ["Billing", "token 用量估價已接上"],
+  ["Rate Limit", "租戶配額保護已接上"],
+  ["Versioning", "文件版本與還原已接上"],
 ]
 
 const billingStats = [
@@ -45,17 +50,18 @@ const billingStats = [
 ]
 
 const sourceFiles = [
-  "main.py",
-  "auth/api_keys.py",
-  "auth/jwt_tokens.py",
-  "auth/rate_limiter.py",
-  "documents/version_store.py",
-  "chunking",
-  "embedding",
-  "retrieval",
-  "vectorstore",
-  "metrics",
-  "widget/qingyu-widget.js",
+  "api/widget-token.js",
+  "rag-engine/qingyu-rag/main.py",
+  "rag-engine/qingyu-rag/auth/api_keys.py",
+  "rag-engine/qingyu-rag/auth/jwt_tokens.py",
+  "rag-engine/qingyu-rag/auth/rate_limiter.py",
+  "rag-engine/qingyu-rag/documents/version_store.py",
+  "rag-engine/qingyu-rag/chunking",
+  "rag-engine/qingyu-rag/embedding",
+  "rag-engine/qingyu-rag/retrieval",
+  "rag-engine/qingyu-rag/vectorstore",
+  "rag-engine/qingyu-rag/metrics",
+  "rag-engine/qingyu-rag/widget/qingyu-widget.js",
 ]
 
 function RagConsultant() {
@@ -282,12 +288,16 @@ function RagConsultant() {
           </div>
 
           <div className="rounded-[2rem] border border-[#d7cbbb] bg-white p-5 shadow-sm">
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#bf6536]">Roadmap</p>
-            <h2 className="mt-2 font-serif text-3xl font-black">下一階段</h2>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#bf6536]">Production Ready</p>
+            <h2 className="mt-2 font-serif text-3xl font-black">RAG 展示已收尾</h2>
             <div className="mt-4 grid gap-2">
-              {roadmap.map((item) => (
-                <div key={item} className="rounded-2xl bg-[#f3efe7] px-4 py-3 text-sm font-black text-[#59635d]">
-                  尚未實作：{item}
+              {productionReady.map(([title, text]) => (
+                <div key={title} className="rounded-2xl bg-[#f3efe7] px-4 py-3">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-black text-[#14201f]">{title}</p>
+                    <span className="rounded-full bg-[#e9f2e9] px-3 py-1 text-[11px] font-black text-[#2f6234]">完成</span>
+                  </div>
+                  <p className="mt-1 text-xs font-bold text-[#59635d]">{text}</p>
                 </div>
               ))}
             </div>
@@ -309,7 +319,7 @@ function RagConsultant() {
           <div className="mt-5 flex flex-wrap gap-2">
             {sourceFiles.map((item) => (
               <span key={item} className="rounded-xl bg-[#f3efe7] px-3 py-2 text-xs font-black text-[#59635d]">
-                rag-engine/qingyu-rag/{item}
+                {item}
               </span>
             ))}
           </div>

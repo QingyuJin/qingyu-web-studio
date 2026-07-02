@@ -28,7 +28,7 @@
 
 - `widget/qingyu-widget.js` — 核心元件，用 Shadow DOM 隔離樣式，不會跟 qingyuweb.com 頁面互相污染
 - `widget/demo.html` — 展示頁面，可直接用瀏覽器打開看外觀
-- `widget/example-token-endpoint.js` / `widget/example_token_endpoint.py` — qingyuweb.com 後端要實作的 `token-endpoint` 範例（Node 版和 Python 版都有），這一段程式碼要放在 qingyuweb.com 自己的伺服器上，用來安全地把長期 API Key 換成短期 widget JWT 再交給瀏覽器
+- `widget/example-token-endpoint.js` / `widget/example_token_endpoint.py` — token-endpoint 範例。qingyuweb.com 主站已在 `api/widget-token.js` 實作正式 Vercel endpoint，用來安全地把長期 API Key 換成短期 widget JWT 再交給瀏覽器
 
 widget 只認得 `token-endpoint` 給的短期 JWT，完全不需要（也不應該）知道長期 API Key。
 
@@ -168,6 +168,12 @@ class YourProvider(EmbeddingProvider):
 目前用 SQLite + numpy 算 cosine similarity，適合文件量在數萬筆以內的情境。
 文件量再往上，建議換成 FAISS / pgvector / Milvus，並保持 `add_batch()` / `search()` 兩個方法簽名一致。
 
-## 下一步（尚未實作）
+## qingyuweb.com 正式 token endpoint
 
-- 把 mock 的 `/mock-token-endpoint` 換成真正的 qingyuweb.com 後端邏輯（含使用者 session 驗證）
+主站已提供 `POST /api/widget-token`，由 Vercel Serverless Function 在伺服器端讀取：
+
+- `RAG_ENGINE_URL`
+- `RAG_ENGINE_API_KEY`
+
+前端 widget 只會拿到短期 Widget JWT，不會接觸長期 API Key。`GET /api/widget-token`
+可做健康檢查，只回傳是否已設定，不顯示任何 secret。
