@@ -631,30 +631,34 @@ function ClientOrdering({
         ))}
       </div>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 xl:grid-cols-3">
+      <div className="mt-5 grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
         {shownProducts.map((product) => {
           const quantity = cart[product.id] || 0
           return (
             <article key={product.id} className="overflow-hidden rounded-[1.4rem] border border-[#decfb7] bg-white shadow-sm">
-              <div className={`h-28 bg-gradient-to-br ${product.tone} p-4`}>
+              <div className={`h-24 bg-gradient-to-br ${product.tone} p-4 md:h-28`}>
                 <div className="flex items-center justify-between">
                   <span className="rounded-full bg-white/84 px-3 py-1 text-xs font-black text-[#4c3a2c]">{product.category}</span>
                   <span className="rounded-full bg-[#263f31] px-3 py-1 text-xs font-black text-white">{product.stock}</span>
                 </div>
-                <div className="mt-5 flex items-center justify-between">
-                  <span className="text-[11px] font-black tracking-[0.18em] text-[#715b45]">IMAGE SAMPLE</span>
+                <div className="mt-5 flex items-center justify-between gap-3">
+                  <span className="truncate text-[11px] font-black tracking-[0.16em] text-[#715b45]">IMAGE SAMPLE</span>
                   <span className="rounded-full bg-white/70 px-3 py-1 text-[11px] font-black text-[#715b45]">圖片範例</span>
                 </div>
               </div>
               <div className="p-4">
                 <p className="text-xs font-black text-[#8b735f]">{product.vendor} · {product.spec}</p>
                 <h3 className="mt-2 text-xl font-black text-[#2d231d]">{product.name}</h3>
-                <div className="mt-4 flex items-end justify-between">
-                  <div>
-                    <p className="font-serif text-2xl font-black text-[#c76532]">{money(getPrice(products, product.id, customerId))}</p>
+                <div className="mt-4 flex items-end justify-between gap-4">
+                  <div className="min-w-0">
+                    <p className="whitespace-nowrap font-serif text-[1.65rem] font-black leading-none text-[#c76532] md:text-[1.85rem]">
+                      {money(getPrice(products, product.id, customerId))}
+                    </p>
                     <p className="text-xs font-bold text-[#8b735f]">每 {product.unit}</p>
                   </div>
-                  <QuantityControl value={quantity} onMinus={() => updateCart(product.id, -1)} onPlus={() => updateCart(product.id, 1)} />
+                  <div className="shrink-0">
+                    <QuantityControl value={quantity} onMinus={() => updateCart(product.id, -1)} onPlus={() => updateCart(product.id, 1)} />
+                  </div>
                 </div>
               </div>
             </article>
