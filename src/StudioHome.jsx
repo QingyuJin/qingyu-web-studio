@@ -121,8 +121,8 @@ const caseCards = [
   },
   {
     title: "批發訂貨系統",
-    text: "客戶選品下單，後台報價、修正數量、追蹤出貨。",
-    action: "查看商品頁",
+    text: "B2B 客戶下單、分級報價、叫貨單、出貨與月結。",
+    action: "開啟互動 Demo",
     to: "/works/wholesale-ordering",
     featured: true,
   },
