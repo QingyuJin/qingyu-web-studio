@@ -101,6 +101,7 @@ const baseProducts = [
 const categories = ["全部", "葉菜", "水果", "蔬果", "冷藏", "乾貨"]
 const statuses = ["新訂單", "待確認", "待出貨", "已出貨"]
 const valuePoints = ["少漏單", "價格統一", "出貨前修量", "缺貨有紀錄", "月底好對帳", "叫貨自動加總"]
+const deliveryOptions = ["明天上午", "明天下午", "後天上午", "固定配送日"]
 
 const initialOrders = [
   {
@@ -168,6 +169,13 @@ function WholesaleOrdering() {
   const [selectedOrderId, setSelectedOrderId] = useState(initialOrders[0].id)
   const [toast, setToast] = useState("")
   const [copied, setCopied] = useState("")
+  const [deliveryTime, setDeliveryTime] = useState(deliveryOptions[0])
+  const [cartNote, setCartNote] = useState("葉菜可替代同級品，出貨前請確認數量。")
+  const [backendSearch, setBackendSearch] = useState("")
+  const [backendStatus, setBackendStatus] = useState("全部")
+  const [purchasePreview, setPurchasePreview] = useState("LINE文字")
+  const [statementDiscount, setStatementDiscount] = useState(0)
+  const [statementNote, setStatementNote] = useState("月底對帳，未出貨項目不列入本期應收。")
 
   const selectedCustomer = getCustomer(customerId)
   const selectedOrder = orders.find((order) => order.id === selectedOrderId) || orders[0]
@@ -241,13 +249,14 @@ function WholesaleOrdering() {
       status: "新訂單",
       source: "客戶端 APP",
       createdAt: "剛剛",
+      deliveryTime,
       items: cartItems.map((item) => ({
         productId: item.id,
         quantity: item.quantity,
         shippedQuantity: item.quantity,
         shortageNote: "",
       })),
-      note: "客戶端送出，後台可調整數量與出貨狀態。",
+      note: cartNote || "客戶端送出，後台可調整數量與出貨狀態。",
     }
     setOrders((current) => [nextOrder, ...current])
     setSelectedOrderId(nextOrder.id)
@@ -317,14 +326,15 @@ function WholesaleOrdering() {
       .join("\n\n")
     navigator.clipboard?.writeText(content)
     setCopied(type)
+    setPurchasePreview(type)
     flash(`${type} 已整理`)
   }
 
   function copyStatement(orderCustomerId) {
     const customer = getCustomer(orderCustomerId)
     const customerOrders = orders.filter((order) => order.customerId === orderCustomerId)
-    const total = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + customer.monthlyBase
-    navigator.clipboard?.writeText(`${customer.name} 本月對帳金額 ${money(total)}`)
+    const total = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + customer.monthlyBase - statementDiscount
+    navigator.clipboard?.writeText(`${customer.name} 本月對帳金額 ${money(total)}。${statementNote}`)
     flash("對帳文字已複製")
   }
 
@@ -353,6 +363,10 @@ function WholesaleOrdering() {
           cart={cart}
           cartItems={cartItems}
           cartTotal={cartTotal}
+          deliveryTime={deliveryTime}
+          setDeliveryTime={setDeliveryTime}
+          cartNote={cartNote}
+          setCartNote={setCartNote}
           updateCart={updateCart}
           onSubmit={submitOrder}
           orders={orders}
@@ -366,11 +380,16 @@ function WholesaleOrdering() {
           products={products}
           selectedOrder={selectedOrder}
           selectedOrderCustomer={selectedOrderCustomer}
+          backendSearch={backendSearch}
+          setBackendSearch={setBackendSearch}
+          backendStatus={backendStatus}
+          setBackendStatus={setBackendStatus}
           setSelectedOrderId={setSelectedOrderId}
           updateOrderItem={updateOrderItem}
           setShortage={setShortage}
           setOrderStatus={setOrderStatus}
           purchaseGroups={purchaseGroups}
+          purchasePreview={purchasePreview}
           copied={copied}
           onCopy={copyPurchaseList}
           onUpdatePrice={updateCustomerPrice}
@@ -378,7 +397,17 @@ function WholesaleOrdering() {
       ) : null}
 
       {mode === "billing" ? (
-        <BillingMode orders={orders} products={products} customerId={customerId} setCustomerId={setCustomerId} onCopyStatement={copyStatement} />
+        <BillingMode
+          orders={orders}
+          products={products}
+          customerId={customerId}
+          setCustomerId={setCustomerId}
+          statementDiscount={statementDiscount}
+          setStatementDiscount={setStatementDiscount}
+          statementNote={statementNote}
+          setStatementNote={setStatementNote}
+          onCopyStatement={copyStatement}
+        />
       ) : null}
 
       <ValuePanel />
@@ -455,7 +484,26 @@ function Metric({ title, value }) {
   )
 }
 
-function ClientMode({ customerId, selectedCustomer, setCustomerId, category, setCategory, shownProducts, products, cart, cartItems, cartTotal, updateCart, onSubmit, orders, onRepeat }) {
+function ClientMode({
+  customerId,
+  selectedCustomer,
+  setCustomerId,
+  category,
+  setCategory,
+  shownProducts,
+  products,
+  cart,
+  cartItems,
+  cartTotal,
+  deliveryTime,
+  setDeliveryTime,
+  cartNote,
+  setCartNote,
+  updateCart,
+  onSubmit,
+  orders,
+  onRepeat,
+}) {
   const customerOrders = orders.filter((order) => order.customerId === customerId)
 
   return (
@@ -473,6 +521,10 @@ function ClientMode({ customerId, selectedCustomer, setCustomerId, category, set
           cart={cart}
           cartItems={cartItems}
           cartTotal={cartTotal}
+          deliveryTime={deliveryTime}
+          setDeliveryTime={setDeliveryTime}
+          cartNote={cartNote}
+          setCartNote={setCartNote}
           updateCart={updateCart}
           onSubmit={onSubmit}
         />
@@ -528,7 +580,23 @@ function ClientPhone({ customer, products, cartItems, monthTotal, onSubmit }) {
   )
 }
 
-function ClientOrdering({ customerId, setCustomerId, category, setCategory, shownProducts, products, cart, updateCart, cartItems, cartTotal, onSubmit }) {
+function ClientOrdering({
+  customerId,
+  setCustomerId,
+  category,
+  setCategory,
+  shownProducts,
+  products,
+  cart,
+  updateCart,
+  cartItems,
+  cartTotal,
+  deliveryTime,
+  setDeliveryTime,
+  cartNote,
+  setCartNote,
+  onSubmit,
+}) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-4 shadow-sm backdrop-blur md:p-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -573,6 +641,10 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
                   <span className="rounded-full bg-white/84 px-3 py-1 text-xs font-black text-[#4c3a2c]">{product.category}</span>
                   <span className="rounded-full bg-[#263f31] px-3 py-1 text-xs font-black text-white">{product.stock}</span>
                 </div>
+                <div className="mt-5 flex items-center justify-between">
+                  <span className="text-[11px] font-black tracking-[0.18em] text-[#715b45]">IMAGE SAMPLE</span>
+                  <span className="rounded-full bg-white/70 px-3 py-1 text-[11px] font-black text-[#715b45]">圖片範例</span>
+                </div>
               </div>
               <div className="p-4">
                 <p className="text-xs font-black text-[#8b735f]">{product.vendor} · {product.spec}</p>
@@ -591,20 +663,42 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
       </div>
 
       <div className="mt-5 rounded-2xl border border-[#decfb7] bg-white p-4">
-        <div className="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+        <div className="grid gap-4 xl:grid-cols-[1.1fr_0.9fr_auto] xl:items-end">
           <div>
             <p className="text-xs font-black text-[#8b735f]">訂單確認</p>
             <p className="mt-1 font-serif text-3xl font-black text-[#2d231d]">{money(cartTotal)}</p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {cartItems.slice(0, 4).map((item) => (
+                <span key={item.id} className="rounded-full bg-[#f7efe3] px-3 py-2 text-xs font-black text-[#4f4035]">
+                  {item.name} x{item.quantity}
+                </span>
+              ))}
+            </div>
           </div>
-          <div className="flex flex-wrap gap-2">
-            {cartItems.slice(0, 3).map((item) => (
-              <span key={item.id} className="rounded-full bg-[#f7efe3] px-3 py-2 text-xs font-black text-[#4f4035]">
-                {item.name} x{item.quantity}
-              </span>
-            ))}
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-1">
+            <label className="grid gap-2">
+              <span className="text-xs font-black text-[#8b735f]">希望配送</span>
+              <select
+                value={deliveryTime}
+                onChange={(event) => setDeliveryTime(event.target.value)}
+                className="min-h-11 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-3 text-sm font-black text-[#2d231d] outline-none focus:border-[#c76532]"
+              >
+                {deliveryOptions.map((option) => (
+                  <option key={option}>{option}</option>
+                ))}
+              </select>
+            </label>
+            <label className="grid gap-2">
+              <span className="text-xs font-black text-[#8b735f]">出貨備註</span>
+              <input
+                value={cartNote}
+                onChange={(event) => setCartNote(event.target.value)}
+                className="min-h-11 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-3 text-sm font-bold text-[#2d231d] outline-none focus:border-[#c76532]"
+              />
+            </label>
           </div>
           <button type="button" onClick={onSubmit} className="min-h-11 rounded-xl bg-[#c76532] px-5 text-sm font-black text-white">
-            送出訂單
+            確認送出
           </button>
         </div>
       </div>
@@ -635,7 +729,25 @@ function ClientHistory({ orders, products, onRepeat }) {
   )
 }
 
-function BackendMode({ orders, products, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setShortage, setOrderStatus, purchaseGroups, copied, onCopy, onUpdatePrice }) {
+function BackendMode({
+  orders,
+  products,
+  selectedOrder,
+  selectedOrderCustomer,
+  backendSearch,
+  setBackendSearch,
+  backendStatus,
+  setBackendStatus,
+  setSelectedOrderId,
+  updateOrderItem,
+  setShortage,
+  setOrderStatus,
+  purchaseGroups,
+  purchasePreview,
+  copied,
+  onCopy,
+  onUpdatePrice,
+}) {
   return (
     <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:px-7">
       <BackOffice
@@ -643,6 +755,10 @@ function BackendMode({ orders, products, selectedOrder, selectedOrderCustomer, s
         products={products}
         selectedOrder={selectedOrder}
         selectedOrderCustomer={selectedOrderCustomer}
+        backendSearch={backendSearch}
+        setBackendSearch={setBackendSearch}
+        backendStatus={backendStatus}
+        setBackendStatus={setBackendStatus}
         setSelectedOrderId={setSelectedOrderId}
         updateOrderItem={updateOrderItem}
         setShortage={setShortage}
@@ -650,13 +766,34 @@ function BackendMode({ orders, products, selectedOrder, selectedOrderCustomer, s
       />
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
         <PriceEditor products={products} onUpdatePrice={onUpdatePrice} />
-        <PurchaseList purchaseGroups={purchaseGroups} copied={copied} onCopy={onCopy} />
+        <PurchaseList purchaseGroups={purchaseGroups} copied={copied} previewType={purchasePreview} onCopy={onCopy} />
       </div>
     </section>
   )
 }
 
-function BackOffice({ orders, products, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setShortage, setOrderStatus }) {
+function BackOffice({
+  orders,
+  products,
+  selectedOrder,
+  selectedOrderCustomer,
+  backendSearch,
+  setBackendSearch,
+  backendStatus,
+  setBackendStatus,
+  setSelectedOrderId,
+  updateOrderItem,
+  setShortage,
+  setOrderStatus,
+}) {
+  const filteredOrders = orders.filter((order) => {
+    const customer = getCustomer(order.customerId)
+    const productNames = order.items.map((item) => getProduct(products, item.productId).name).join(" ")
+    const matchesSearch = `${order.id} ${customer.name} ${productNames}`.toLowerCase().includes(backendSearch.trim().toLowerCase())
+    const matchesStatus = backendStatus === "全部" || order.status === backendStatus
+    return matchesSearch && matchesStatus
+  })
+
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-4 shadow-sm md:p-5">
       <div className="flex items-start justify-between gap-3">
@@ -667,9 +804,30 @@ function BackOffice({ orders, products, selectedOrder, selectedOrderCustomer, se
         <span className="rounded-full bg-[#f1e7dc] px-3 py-1 text-xs font-black text-[#715b45]">可修量 / 實出</span>
       </div>
 
+      <div className="mt-5 grid gap-3 md:grid-cols-[1fr_auto]">
+        <input
+          value={backendSearch}
+          onChange={(event) => setBackendSearch(event.target.value)}
+          placeholder="搜尋客戶、訂單或商品"
+          className="min-h-11 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-4 text-sm font-bold text-[#2d231d] outline-none focus:border-[#c76532]"
+        />
+        <div className="flex gap-2 overflow-x-auto rounded-xl border border-[#decfb7] bg-[#fffaf2] p-1">
+          {["全部", ...statuses].map((status) => (
+            <button
+              key={status}
+              type="button"
+              onClick={() => setBackendStatus(status)}
+              className={`min-h-9 shrink-0 rounded-lg px-3 text-xs font-black ${backendStatus === status ? "bg-[#263f31] text-white" : "text-[#4f4035]"}`}
+            >
+              {status}
+            </button>
+          ))}
+        </div>
+      </div>
+
       <div className="mt-5 grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
         <div className="grid gap-3">
-          {orders.map((order) => {
+          {filteredOrders.map((order) => {
             const customer = getCustomer(order.customerId)
             return (
               <button key={order.id} type="button" onClick={() => setSelectedOrderId(order.id)} className="text-left">
@@ -686,6 +844,11 @@ function BackOffice({ orders, products, selectedOrder, selectedOrderCustomer, se
               </button>
             )
           })}
+          {filteredOrders.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-[#decfb7] bg-[#fffaf2] p-4 text-sm font-black text-[#8b735f]">
+              沒有符合條件的訂單
+            </div>
+          ) : null}
         </div>
 
         <article className="rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-4">
@@ -694,8 +857,22 @@ function BackOffice({ orders, products, selectedOrder, selectedOrderCustomer, se
               <p className="text-xs font-black text-[#8b735f]">{selectedOrder.source}</p>
               <h3 className="mt-1 text-2xl font-black text-[#2d231d]">{selectedOrderCustomer.name}</h3>
               <p className="mt-1 text-sm font-bold text-[#725f50]">{selectedOrder.note}</p>
+              <p className="mt-2 text-xs font-black text-[#c76532]">配送：{selectedOrder.deliveryTime || "固定配送日"}</p>
             </div>
             <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(selectedOrder.status)}`}>{selectedOrder.status}</span>
+          </div>
+
+          <div className="mt-4 grid gap-2 sm:grid-cols-4">
+            {statuses.map((status) => {
+              const currentIndex = statuses.indexOf(selectedOrder.status)
+              const stepIndex = statuses.indexOf(status)
+              const active = stepIndex <= currentIndex
+              return (
+                <div key={status} className={`rounded-2xl border p-3 ${active ? "border-[#c76532] bg-[#fff3e8]" : "border-[#decfb7] bg-white"}`}>
+                  <p className={`text-xs font-black ${active ? "text-[#c76532]" : "text-[#8b735f]"}`}>{status}</p>
+                </div>
+              )
+            })}
           </div>
 
           <div className="mt-4 grid gap-3">
@@ -789,7 +966,7 @@ function PriceEditor({ products, onUpdatePrice }) {
   )
 }
 
-function PurchaseList({ purchaseGroups, copied, onCopy }) {
+function PurchaseList({ purchaseGroups, copied, previewType, onCopy }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#263f31] p-5 text-white shadow-xl shadow-[#263f31]/12">
       <div className="flex flex-wrap items-start justify-between gap-3">
@@ -820,14 +997,52 @@ function PurchaseList({ purchaseGroups, copied, onCopy }) {
           </article>
         ))}
       </div>
+
+      <div className="mt-5 rounded-2xl border border-white/12 bg-white p-4 text-[#2d231d]">
+        <div className="flex flex-wrap items-center justify-between gap-2">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c76532]">Document Preview</p>
+            <h3 className="mt-1 text-xl font-black">廠商叫貨單 Preview</h3>
+          </div>
+          <span className="rounded-full bg-[#f7efe3] px-3 py-1 text-xs font-black text-[#715b45]">{previewType}</span>
+        </div>
+        <div className="mt-4 overflow-hidden rounded-2xl border border-[#decfb7]">
+          <div className="grid grid-cols-[1fr_0.45fr] bg-[#fffaf2] px-4 py-3 text-xs font-black text-[#8b735f]">
+            <span>廠商 / 商品</span>
+            <span className="text-right">叫貨數量</span>
+          </div>
+          {purchaseGroups.flatMap((group) =>
+            group.rows.map((row) => (
+              <div key={`${group.vendor}-${row.name}`} className="grid grid-cols-[1fr_0.45fr] border-t border-[#eee3d4] px-4 py-3 text-sm font-bold">
+                <span>{group.vendor}｜{row.name}</span>
+                <span className="text-right font-black text-[#c76532]">{row.quantity}{row.unit}</span>
+              </div>
+            )),
+          )}
+        </div>
+        <p className="mt-3 text-xs font-bold leading-5 text-[#725f50]">
+          可整理成 LINE 文字、Excel 表格或 PDF 版型；Demo 先用畫面預覽與複製文字呈現。
+        </p>
+      </div>
     </section>
   )
 }
 
-function BillingMode({ orders, products, customerId, setCustomerId, onCopyStatement }) {
+function BillingMode({
+  orders,
+  products,
+  customerId,
+  setCustomerId,
+  statementDiscount,
+  setStatementDiscount,
+  statementNote,
+  setStatementNote,
+  onCopyStatement,
+}) {
   const activeCustomer = getCustomer(customerId)
   const customerOrders = orders.filter((order) => order.customerId === customerId)
-  const customerTotal = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + activeCustomer.monthlyBase
+  const beforeDiscount = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + activeCustomer.monthlyBase
+  const customerTotal = Math.max(0, beforeDiscount - statementDiscount)
   const shipped = customerOrders.filter((order) => order.status === "已出貨").length + 24
   const unshipped = customerOrders.filter((order) => order.status !== "已出貨").length
 
@@ -857,6 +1072,25 @@ function BillingMode({ orders, products, customerId, setCustomerId, onCopyStatem
             <SmallStat label="本月總額" value={money(customerTotal)} />
           </div>
         </div>
+        <div className="mt-4 grid gap-3">
+          <label className="grid gap-2">
+            <span className="text-xs font-black text-[#8b735f]">折讓 / 調整</span>
+            <input
+              type="number"
+              value={statementDiscount}
+              onChange={(event) => setStatementDiscount(Number(event.target.value) || 0)}
+              className="min-h-11 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-4 text-sm font-black text-[#2d231d] outline-none focus:border-[#c76532]"
+            />
+          </label>
+          <label className="grid gap-2">
+            <span className="text-xs font-black text-[#8b735f]">對帳備註</span>
+            <input
+              value={statementNote}
+              onChange={(event) => setStatementNote(event.target.value)}
+              className="min-h-11 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-4 text-sm font-bold text-[#2d231d] outline-none focus:border-[#c76532]"
+            />
+          </label>
+        </div>
         <button type="button" onClick={() => onCopyStatement(customerId)} className="mt-5 min-h-11 rounded-xl bg-[#263f31] px-5 text-sm font-black text-white">
           複製對帳文字
         </button>
@@ -884,9 +1118,33 @@ function BillingMode({ orders, products, customerId, setCustomerId, onCopyStatem
                   </div>
                   <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
                 </div>
+                <div className="mt-3 grid gap-2">
+                  {order.items.map((item) => {
+                    const product = getProduct(products, item.productId)
+                    const shippedQty = item.shippedQuantity ?? item.quantity
+                    return (
+                      <div key={item.productId} className="grid grid-cols-[1fr_auto_auto] gap-2 rounded-xl bg-white px-3 py-2 text-xs font-bold text-[#725f50]">
+                        <span>{product.name}</span>
+                        <span>實出 {shippedQty}{product.unit}</span>
+                        <span className="font-black text-[#c76532]">{money(getPrice(products, product.id, order.customerId) * shippedQty)}</span>
+                      </div>
+                    )
+                  })}
+                </div>
                 <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderShipTotal(order, products))}</p>
               </div>
             ))}
+          </div>
+          <div className="mt-4 rounded-2xl bg-[#263f31] p-4 text-white">
+            <div className="flex items-center justify-between gap-3 text-sm font-black">
+              <span>折讓調整</span>
+              <span>- {money(statementDiscount)}</span>
+            </div>
+            <div className="mt-3 flex items-center justify-between gap-3 border-t border-white/15 pt-3">
+              <span className="text-xs font-black text-white/60">應收總額</span>
+              <span className="font-serif text-3xl font-black text-[#f0c879]">{money(customerTotal)}</span>
+            </div>
+            <p className="mt-3 text-xs font-bold leading-5 text-white/68">{statementNote}</p>
           </div>
         </div>
       </section>
