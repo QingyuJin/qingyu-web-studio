@@ -9,7 +9,8 @@
 5. **generation** — AI 問答 + 引用來源標註
 6. **metrics** — token、延遲與用量費用紀錄（每個階段自動記錄，可查彙總與帳務估算）
 7. **auth** — API Key（伺服器對伺服器）+ 短期 Widget JWT（瀏覽器端）+ 租戶 rate limiting
-8. **widget** — 可嵌入 qingyuweb.com 方塊的聊天 widget（原生 Web Component，無需打包工具）
+8. **documents** — 文件版本管理（新版本上傳、版本列表、還原舊版本）
+9. **widget** — 可嵌入 qingyuweb.com 方塊的聊天 widget（原生 Web Component，無需打包工具）
 
 ## 嵌入式 Widget（放進 qingyuweb.com 方塊）
 
@@ -94,7 +95,10 @@ uvicorn main:app --reload
 | 方法 | 路徑 | 需要身份 | 說明 |
 |---|---|---|---|
 | POST | `/admin/api-keys` | Admin Secret | 建立新租戶的 API Key |
-| POST | `/documents` | API Key | 上傳文件（multipart file） |
+| GET | `/documents` | API Key | 文件列表與 active version |
+| POST | `/documents` | API Key | 上傳文件（multipart file），可帶 `doc_id` 建立新版本 |
+| GET | `/documents/{doc_id}/versions` | API Key | 查看文件版本紀錄 |
+| POST | `/documents/{doc_id}/versions/{version}/restore` | API Key | 將舊版本還原成新的 active version |
 | DELETE | `/documents/{doc_id}` | API Key | 刪除文件 |
 | POST | `/auth/widget-token` | API Key | 換一個短期 widget JWT |
 | POST | `/chat` | Widget JWT | 問答，body: `{query, top_k, model}` |
@@ -120,6 +124,17 @@ uvicorn main:app --reload
 
 預設配額可用環境變數調整：`RAG_API_KEY_RATE_LIMIT_PER_MINUTE`、
 `RAG_WIDGET_RATE_LIMIT_PER_MINUTE`、`RAG_RATE_LIMIT_WINDOW_SECONDS`。
+
+## 文件版本管理
+
+上傳文件時若帶入既有 `doc_id`，系統會建立新版本，重新索引 active chunks，
+並保留舊版本 metadata 與原始文字，方便日後查看或還原。
+
+- `GET /documents`：列出每份文件目前 active version
+- `GET /documents/{doc_id}/versions`：列出版本歷史
+- `POST /documents/{doc_id}/versions/{version}/restore`：把指定舊版本還原成新的 active version
+
+搜尋只會使用目前 active version 的 chunks，避免舊版內容混進回答。
 
 ## 依 token 用量計費
 
@@ -155,5 +170,4 @@ class YourProvider(EmbeddingProvider):
 
 ## 下一步（尚未實作）
 
-- 文件版本管理 / 增量更新
 - 把 mock 的 `/mock-token-endpoint` 換成真正的 qingyuweb.com 後端邏輯（含使用者 session 驗證）

@@ -11,6 +11,7 @@ const modules = [
   ["Widget", "可嵌入網站的聊天元件", "已具備"],
   ["Billing", "token 用量估價", "已具備"],
   ["Rate Limit", "租戶每分鐘配額", "已具備"],
+  ["Versioning", "文件版本與還原", "已具備"],
 ]
 
 const knowledgeDocs = [
@@ -34,7 +35,6 @@ const security = [
 ]
 
 const roadmap = [
-  "文件版本管理",
   "正式 token endpoint",
 ]
 
@@ -49,6 +49,7 @@ const sourceFiles = [
   "auth/api_keys.py",
   "auth/jwt_tokens.py",
   "auth/rate_limiter.py",
+  "documents/version_store.py",
   "chunking",
   "embedding",
   "retrieval",

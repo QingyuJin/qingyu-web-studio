@@ -36,14 +36,52 @@ def ingest_document(
     chunk_overlap: int = 50,
     doc_id: str | None = None,
     request_id: str | None = None,
+    document_metadata: dict | None = None,
+    replace_existing: bool = False,
+) -> IngestResult:
+    text = read_file(file_path)
+    return ingest_text(
+        tenant_id=tenant_id,
+        text=text,
+        source_label=file_path,
+        embedding_provider=embedding_provider,
+        vector_store=vector_store,
+        metrics_storage=metrics_storage,
+        chunk_size=chunk_size,
+        chunk_overlap=chunk_overlap,
+        doc_id=doc_id,
+        request_id=request_id,
+        document_metadata=document_metadata,
+        replace_existing=replace_existing,
+    )
+
+
+def ingest_text(
+    *,
+    tenant_id: str,
+    text: str,
+    source_label: str,
+    embedding_provider: EmbeddingProvider,
+    vector_store: VectorStore,
+    metrics_storage: MetricsStorage,
+    chunk_size: int = 500,
+    chunk_overlap: int = 50,
+    doc_id: str | None = None,
+    request_id: str | None = None,
+    document_metadata: dict | None = None,
+    replace_existing: bool = False,
 ) -> IngestResult:
     doc_id = doc_id or uuid4().hex
     request_id = request_id or uuid4().hex
+    base_metadata = {
+        "tenant_id": tenant_id,
+        "source_file": source_label,
+        **(document_metadata or {}),
+    }
 
-    # 1. 讀檔 + 上傳階段紀錄
+    # 1. 文字輸入 / 上傳階段紀錄
     with track(metrics_storage, stage=Stage.UPLOAD, request_id=request_id) as m:
-        text = read_file(file_path)
-        m.add_metadata(doc_id=doc_id, char_count=len(text))
+        m.add_metadata(doc_id=doc_id, char_count=len(text), source_label=source_label)
 
     # 2. 切片
     with track(metrics_storage, stage=Stage.CHUNKING, request_id=request_id) as m:
@@ -52,7 +90,7 @@ def ingest_document(
             doc_id=doc_id,
             chunk_size=chunk_size,
             chunk_overlap=chunk_overlap,
-            metadata={"tenant_id": tenant_id, "source_file": file_path},
+            metadata=base_metadata,
         )
         m.add_metadata(chunk_count=len(chunks))
 
@@ -70,7 +108,10 @@ def ingest_document(
         m.set_tokens(input_tokens=sum(len(c.text) for c in chunks) // 4)  # 粗略估算
         m.add_metadata(vector_count=len(vectors), dimension=embedding_provider.dimension)
 
-    # 4. 存進向量庫
+    # 4. 存進向量庫。版本更新時，先移除舊 active chunks，再寫入新版本。
+    if replace_existing:
+        vector_store.delete_document(tenant_id=tenant_id, doc_id=doc_id)
+
     vector_store.add_batch(
         tenant_id=tenant_id,
         doc_id=doc_id,
