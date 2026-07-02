@@ -2,10 +2,31 @@ import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 
+const modeCards = {
+  client: {
+    label: "客戶端",
+    eyebrow: "Client App",
+    title: "客戶自己下單",
+    text: "商品、專屬價格、訂單確認、歷史訂單與本月金額都在手機裡。",
+  },
+  backend: {
+    label: "後台端",
+    eyebrow: "Back Office",
+    title: "老闆管理訂單",
+    text: "收單、修正數量、切換狀態、整理叫貨單與客戶報價。",
+  },
+  billing: {
+    label: "月結",
+    eyebrow: "Monthly Close",
+    title: "月底快速對帳",
+    text: "依客戶彙整訂單、已出貨、未出貨、總金額與對帳摘要。",
+  },
+}
+
 const customers = [
-  { id: "hotpot", name: "阿明火鍋店", area: "屏東市", monthly: 86420 },
-  { id: "brunch", name: "東港早午餐", area: "東港", monthly: 52180 },
-  { id: "bento", name: "屏東便當店", area: "潮州", monthly: 73400 },
+  { id: "hotpot", name: "阿明火鍋店", area: "屏東市", monthlyBase: 86420 },
+  { id: "brunch", name: "東港早午餐", area: "東港", monthlyBase: 52180 },
+  { id: "bento", name: "屏東便當店", area: "潮州", monthlyBase: 73400 },
 ]
 
 const products = [
@@ -79,6 +100,7 @@ const products = [
 
 const categories = ["全部", "葉菜", "水果", "蔬果", "冷藏", "乾貨"]
 const statuses = ["新訂單", "待確認", "待出貨", "已出貨"]
+const valuePoints = ["少漏單", "價格統一", "出貨前修量", "月底好對帳", "叫貨自動加總"]
 
 const initialOrders = [
   {
@@ -107,8 +129,6 @@ const initialOrders = [
     note: "已併入本月對帳。",
   },
 ]
-
-const valuePoints = ["減少 LINE 訂單漏看", "客戶價目統一管理", "出貨前可修正數量", "月結對帳更快", "採購叫貨不用人工加總"]
 
 function money(value) {
   return `NT$${value.toLocaleString("zh-TW")}`
@@ -141,7 +161,7 @@ function statusTone(status) {
 }
 
 function WholesaleOrdering() {
-  const [mode, setMode] = useState("客戶端")
+  const [mode, setMode] = useState("client")
   const [customerId, setCustomerId] = useState(customers[0].id)
   const [category, setCategory] = useState("全部")
   const [cart, setCart] = useState({ cabbage: 1, tomato: 1 })
@@ -154,6 +174,9 @@ function WholesaleOrdering() {
   const selectedOrder = orders.find((order) => order.id === selectedOrderId) || orders[0]
   const selectedOrderCustomer = getCustomer(selectedOrder.customerId)
   const shownProducts = category === "全部" ? products : products.filter((product) => product.category === category)
+  const unshippedOrders = orders.filter((order) => order.status !== "已出貨")
+  const shippedOrders = orders.filter((order) => order.status === "已出貨")
+  const monthTotal = orders.reduce((sum, order) => sum + getOrderTotal(order), 0)
 
   const cartItems = useMemo(
     () =>
@@ -168,18 +191,14 @@ function WholesaleOrdering() {
   )
 
   const cartTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
-  const unshippedOrders = orders.filter((order) => order.status !== "已出貨")
-  const shippedOrders = orders.filter((order) => order.status === "已出貨")
-  const monthTotal = orders.reduce((sum, order) => sum + getOrderTotal(order), 0)
 
   const purchaseRows = useMemo(() => {
     const summary = new Map()
     unshippedOrders.forEach((order) => {
       order.items.forEach((item) => {
         const product = getProduct(item.productId)
-        const key = product.id
-        const current = summary.get(key) || { name: product.name, vendor: product.vendor, quantity: 0, unit: product.unit }
-        summary.set(key, { ...current, quantity: current.quantity + item.quantity })
+        const current = summary.get(product.id) || { name: product.name, vendor: product.vendor, quantity: 0, unit: product.unit }
+        summary.set(product.id, { ...current, quantity: current.quantity + item.quantity })
       })
     })
     return Array.from(summary.values())
@@ -188,6 +207,11 @@ function WholesaleOrdering() {
   function flash(message) {
     setToast(message)
     window.setTimeout(() => setToast(""), 1800)
+  }
+
+  function changeMode(nextMode) {
+    setMode(nextMode)
+    flash(`已切換到${modeCards[nextMode].label}`)
   }
 
   function updateCart(productId, delta) {
@@ -211,7 +235,7 @@ function WholesaleOrdering() {
     }
     setOrders((current) => [nextOrder, ...current])
     setSelectedOrderId(nextOrder.id)
-    setMode("後台端")
+    setMode("backend")
     flash("訂單已進入後台")
   }
 
@@ -254,54 +278,47 @@ function WholesaleOrdering() {
         }}
       />
 
-      <Header mode={mode} setMode={setMode} onSubmit={submitOrder} />
+      <Header mode={mode} setMode={changeMode} onSubmit={submitOrder} />
 
-      <section className="mx-auto grid max-w-7xl gap-5 px-4 py-5 md:grid-cols-[1.08fr_0.92fr] md:px-7 md:py-8">
-        <HeroPanel openOrders={unshippedOrders.length} shippedOrders={shippedOrders.length} monthTotal={monthTotal} />
-        <ClientPhone
-          customer={selectedCustomer}
-          products={products.slice(0, 4)}
-          cartItems={cartItems}
-          monthTotal={selectedCustomer.monthly}
-          onSubmit={submitOrder}
-        />
-      </section>
+      <ModeHero mode={mode} openOrders={unshippedOrders.length} shippedOrders={shippedOrders.length} monthTotal={monthTotal} />
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-8 md:grid-cols-[1.04fr_0.96fr] md:px-7">
-        <ClientOrdering
+      {mode === "client" ? (
+        <ClientMode
           customerId={customerId}
+          selectedCustomer={selectedCustomer}
           setCustomerId={setCustomerId}
           category={category}
           setCategory={setCategory}
           shownProducts={shownProducts}
           cart={cart}
-          updateCart={updateCart}
           cartItems={cartItems}
           cartTotal={cartTotal}
+          updateCart={updateCart}
           onSubmit={submitOrder}
+          orders={orders}
         />
-        <BackOffice
+      ) : null}
+
+      {mode === "backend" ? (
+        <BackendMode
           orders={orders}
           selectedOrder={selectedOrder}
           selectedOrderCustomer={selectedOrderCustomer}
           setSelectedOrderId={setSelectedOrderId}
           updateOrderItem={updateOrderItem}
           setOrderStatus={setOrderStatus}
+          purchaseRows={purchaseRows}
+          copied={copied}
+          onCopy={copyPurchaseList}
         />
-      </section>
+      ) : null}
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:grid-cols-[0.9fr_1.1fr] md:px-7">
-        <PriceMatrix />
-        <WorkflowPanel purchaseRows={purchaseRows} copied={copied} onCopy={copyPurchaseList} />
-      </section>
+      {mode === "billing" ? <BillingMode orders={orders} monthTotal={monthTotal} customerId={customerId} setCustomerId={setCustomerId} /> : null}
 
-      <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-16 md:grid-cols-[0.92fr_1.08fr] md:px-7">
-        <MonthClose orders={orders} monthTotal={monthTotal} />
-        <ValuePanel />
-      </section>
+      <ValuePanel />
 
       {toast ? (
-        <div className="fixed bottom-5 left-1/2 z-50 w-[min(92vw,520px)] -translate-x-1/2 rounded-2xl bg-[#253f31] px-5 py-4 text-sm font-black text-white shadow-2xl shadow-[#253f31]/25">
+        <div className="fixed bottom-5 left-1/2 z-50 w-[min(92vw,520px)] -translate-x-1/2 rounded-2xl bg-[#263f31] px-5 py-4 text-sm font-black text-white shadow-2xl shadow-[#263f31]/25">
           {toast}
         </div>
       ) : null}
@@ -312,7 +329,7 @@ function WholesaleOrdering() {
 function Header({ mode, setMode, onSubmit }) {
   return (
     <header className="sticky top-0 z-40 border-b border-[#decfb7] bg-[#f6efe3]/92 backdrop-blur-xl">
-      <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-3 px-4 md:h-20 md:px-7">
+      <div className="mx-auto flex min-h-16 max-w-7xl flex-wrap items-center justify-between gap-3 px-4 py-3 md:min-h-20 md:flex-nowrap md:px-7">
         <Link to="/" className="flex items-center gap-3">
           <span className="grid h-10 w-10 place-items-center rounded-2xl bg-[#263f31] text-sm font-black text-[#f1c66c]">B2B</span>
           <div>
@@ -321,17 +338,17 @@ function Header({ mode, setMode, onSubmit }) {
           </div>
         </Link>
 
-        <div className="hidden rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-1 md:flex">
-          {["客戶端", "後台端", "月結"].map((item) => (
+        <div className="order-3 flex w-full rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-1 md:order-none md:w-auto">
+          {Object.entries(modeCards).map(([key, item]) => (
             <button
-              key={item}
+              key={key}
               type="button"
-              onClick={() => setMode(item)}
-              className={`min-h-11 rounded-xl px-5 text-sm font-black ${
-                mode === item ? "bg-[#263f31] text-white shadow-lg shadow-[#263f31]/15" : "text-[#4f4035]"
+              onClick={() => setMode(key)}
+              className={`min-h-11 flex-1 rounded-xl px-4 text-sm font-black md:flex-none md:px-7 ${
+                mode === key ? "bg-[#263f31] text-white shadow-lg shadow-[#263f31]/15" : "text-[#4f4035]"
               }`}
             >
-              {item}
+              {item.label}
             </button>
           ))}
         </div>
@@ -344,19 +361,17 @@ function Header({ mode, setMode, onSubmit }) {
   )
 }
 
-function HeroPanel({ openOrders, shippedOrders, monthTotal }) {
+function ModeHero({ mode, openOrders, shippedOrders, monthTotal }) {
+  const current = modeCards[mode]
   return (
-    <section className="overflow-hidden rounded-[1.9rem] border border-[#decfb7] bg-[#fffaf2]/88 p-6 shadow-sm backdrop-blur md:p-8">
-      <p className="text-xs font-black uppercase tracking-[0.26em] text-[#c76532]">B2B Wholesale OS</p>
-      <h1 className="mt-4 font-serif text-[clamp(2.2rem,7vw,5.15rem)] font-black leading-[0.98] text-[#2d231d]">
-        客戶下單，
-        <br />
-        後台出貨。
-      </h1>
-      <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-[#725f50] md:text-base">
-        客戶用手機看商品與專屬價格，老闆在後台修正數量、產生叫貨單、追蹤出貨與月結。
-      </p>
-      <div className="mt-7 grid gap-3 sm:grid-cols-3">
+    <section className="mx-auto grid max-w-7xl gap-5 px-4 py-5 md:grid-cols-[1.12fr_0.88fr] md:px-7 md:py-8">
+      <div className="overflow-hidden rounded-[1.9rem] border border-[#decfb7] bg-[#fffaf2]/88 p-6 shadow-sm backdrop-blur md:p-8">
+        <p className="text-xs font-black uppercase tracking-[0.26em] text-[#c76532]">{current.eyebrow}</p>
+        <h1 className="mt-4 font-serif text-[clamp(2.2rem,7vw,5.15rem)] font-black leading-[0.98] text-[#2d231d]">{current.title}</h1>
+        <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-[#725f50] md:text-base">{current.text}</p>
+      </div>
+
+      <div className="grid gap-3 sm:grid-cols-3 md:grid-cols-1">
         <Metric title="未出貨" value={`${openOrders} 單`} />
         <Metric title="已出貨" value={`${shippedOrders} 單`} />
         <Metric title="本月訂單" value={money(monthTotal)} />
@@ -367,10 +382,36 @@ function HeroPanel({ openOrders, shippedOrders, monthTotal }) {
 
 function Metric({ title, value }) {
   return (
-    <div className="rounded-2xl border border-[#decfb7] bg-white/84 p-4">
+    <div className="rounded-[1.35rem] border border-[#decfb7] bg-white/84 p-5 shadow-sm">
       <p className="text-xs font-black text-[#8b735f]">{title}</p>
       <p className="mt-2 font-serif text-2xl font-black text-[#c76532]">{value}</p>
     </div>
+  )
+}
+
+function ClientMode({ customerId, selectedCustomer, setCustomerId, category, setCategory, shownProducts, cart, cartItems, cartTotal, updateCart, onSubmit, orders }) {
+  const customerOrders = orders.filter((order) => order.customerId === customerId)
+
+  return (
+    <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:grid-cols-[0.82fr_1.18fr] md:px-7">
+      <ClientPhone customer={selectedCustomer} products={products.slice(0, 4)} cartItems={cartItems} monthTotal={selectedCustomer.monthlyBase + customerOrders.reduce((sum, order) => sum + getOrderTotal(order), 0)} onSubmit={onSubmit} />
+
+      <div className="grid gap-6">
+        <ClientOrdering
+          customerId={customerId}
+          setCustomerId={setCustomerId}
+          category={category}
+          setCategory={setCategory}
+          shownProducts={shownProducts}
+          cart={cart}
+          cartItems={cartItems}
+          cartTotal={cartTotal}
+          updateCart={updateCart}
+          onSubmit={onSubmit}
+        />
+        <ClientHistory orders={customerOrders} />
+      </div>
+    </section>
   )
 }
 
@@ -379,13 +420,13 @@ function ClientPhone({ customer, products: phoneProducts, cartItems, monthTotal,
     <section className="rounded-[1.9rem] border border-[#decfb7] bg-[#263f31] p-5 text-white shadow-xl shadow-[#263f31]/15">
       <div className="flex items-center justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#f0c879]">Client App</p>
-          <h2 className="mt-2 font-serif text-3xl font-black">手機下單</h2>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#f0c879]">Mobile Order</p>
+          <h2 className="mt-2 font-serif text-3xl font-black">客戶手機畫面</h2>
         </div>
         <span className="rounded-full bg-white/12 px-3 py-1 text-xs font-black">{customer.name}</span>
       </div>
 
-      <div className="mx-auto mt-5 max-w-[330px] rounded-[2rem] border border-white/18 bg-[#f7efe3] p-3 text-[#2d231d] shadow-2xl shadow-black/20">
+      <div className="mx-auto mt-5 max-w-[340px] rounded-[2rem] border border-white/18 bg-[#f7efe3] p-3 text-[#2d231d] shadow-2xl shadow-black/20">
         <div className="rounded-[1.55rem] bg-white p-4">
           <div className="flex items-center justify-between">
             <div>
@@ -426,7 +467,7 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Customer Order</p>
-          <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d] md:text-5xl">客戶端下單</h2>
+          <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d] md:text-5xl">商品與專屬價</h2>
         </div>
         <div className="flex gap-2 overflow-x-auto rounded-2xl border border-[#decfb7] bg-white p-2">
           {customers.map((customer) => (
@@ -474,15 +515,7 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
                     <p className="font-serif text-2xl font-black text-[#c76532]">{money(getPrice(product, customerId))}</p>
                     <p className="text-xs font-bold text-[#8b735f]">每 {product.unit}</p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button type="button" onClick={() => updateCart(product.id, -1)} className="grid h-9 w-9 place-items-center rounded-full border border-[#decfb7] bg-[#fffaf2] font-black">
-                      -
-                    </button>
-                    <span className="min-w-6 text-center text-sm font-black">{quantity}</span>
-                    <button type="button" onClick={() => updateCart(product.id, 1)} className="grid h-9 w-9 place-items-center rounded-full bg-[#263f31] font-black text-white">
-                      +
-                    </button>
-                  </div>
+                  <QuantityControl value={quantity} onMinus={() => updateCart(product.id, -1)} onPlus={() => updateCart(product.id, 1)} />
                 </div>
               </div>
             </article>
@@ -512,15 +545,54 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
   )
 }
 
+function ClientHistory({ orders }) {
+  return (
+    <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-5 shadow-sm">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">History</p>
+      <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">歷史訂單</h2>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        {orders.map((order) => (
+          <div key={order.id} className="rounded-2xl bg-[#f7efe3] p-4">
+            <div className="flex items-center justify-between gap-3">
+              <p className="text-sm font-black text-[#2d231d]">{order.id}</p>
+              <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
+            </div>
+            <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderTotal(order))}</p>
+          </div>
+        ))}
+      </div>
+    </section>
+  )
+}
+
+function BackendMode({ orders, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setOrderStatus, purchaseRows, copied, onCopy }) {
+  return (
+    <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:px-7">
+      <BackOffice
+        orders={orders}
+        selectedOrder={selectedOrder}
+        selectedOrderCustomer={selectedOrderCustomer}
+        setSelectedOrderId={setSelectedOrderId}
+        updateOrderItem={updateOrderItem}
+        setOrderStatus={setOrderStatus}
+      />
+      <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
+        <PriceMatrix />
+        <PurchaseList purchaseRows={purchaseRows} copied={copied} onCopy={onCopy} />
+      </div>
+    </section>
+  )
+}
+
 function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setOrderStatus }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-4 shadow-sm md:p-5">
       <div className="flex items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Back Office</p>
-          <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d] md:text-5xl">後台管理</h2>
+          <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d] md:text-5xl">今日訂單</h2>
         </div>
-        <span className="rounded-full bg-[#f1e7dc] px-3 py-1 text-xs font-black text-[#715b45]">今日訂單</span>
+        <span className="rounded-full bg-[#f1e7dc] px-3 py-1 text-xs font-black text-[#715b45]">可修量</span>
       </div>
 
       <div className="mt-5 grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
@@ -565,15 +637,7 @@ function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedO
                       {product.vendor} · {money(getPrice(product, selectedOrder.customerId))}
                     </p>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <button type="button" onClick={() => updateOrderItem(product.id, -1)} className="grid h-8 w-8 place-items-center rounded-full border border-[#decfb7] bg-[#fffaf2] text-sm font-black">
-                      -
-                    </button>
-                    <span className="min-w-8 text-center text-sm font-black">{item.quantity}</span>
-                    <button type="button" onClick={() => updateOrderItem(product.id, 1)} className="grid h-8 w-8 place-items-center rounded-full bg-[#263f31] text-sm font-black text-white">
-                      +
-                    </button>
-                  </div>
+                  <QuantityControl value={item.quantity} onMinus={() => updateOrderItem(product.id, -1)} onPlus={() => updateOrderItem(product.id, 1)} />
                 </div>
               )
             })}
@@ -631,68 +695,96 @@ function PriceMatrix() {
   )
 }
 
-function WorkflowPanel({ purchaseRows, copied, onCopy }) {
-  const flow = ["客戶下單", "後台收到訂單", "出貨前修正數量", "產生叫貨單", "出貨狀態更新", "月結對帳"]
+function PurchaseList({ purchaseRows, copied, onCopy }) {
   return (
-    <section className="grid gap-6">
-      <div className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Order Flow</p>
-        <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">訂單流程</h2>
-        <div className="mt-5 grid gap-2 md:grid-cols-6">
-          {flow.map((item, index) => (
-            <div key={item} className="rounded-2xl border border-[#decfb7] bg-white p-3">
-              <p className="text-xs font-black text-[#c76532]">{String(index + 1).padStart(2, "0")}</p>
-              <p className="mt-2 text-sm font-black text-[#2d231d]">{item}</p>
-            </div>
+    <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#263f31] p-5 text-white shadow-xl shadow-[#263f31]/12">
+      <div className="flex flex-wrap items-start justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#f0c879]">Purchase List</p>
+          <h2 className="mt-2 font-serif text-3xl font-black">採購 / 叫貨單</h2>
+        </div>
+        <div className="flex flex-wrap gap-2">
+          {["Excel", "PDF", "LINE文字"].map((type) => (
+            <button key={type} type="button" onClick={() => onCopy(type)} className="min-h-10 rounded-xl bg-white/12 px-4 text-xs font-black text-white">
+              {copied === type ? "已整理" : `匯出 ${type}`}
+            </button>
           ))}
         </div>
       </div>
-
-      <div className="rounded-[1.75rem] border border-[#decfb7] bg-[#263f31] p-5 text-white shadow-xl shadow-[#263f31]/12">
-        <div className="flex flex-wrap items-start justify-between gap-3">
-          <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#f0c879]">Purchase List</p>
-            <h2 className="mt-2 font-serif text-3xl font-black">採購 / 叫貨單</h2>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {["Excel", "PDF", "LINE文字"].map((type) => (
-              <button key={type} type="button" onClick={() => onCopy(type)} className="min-h-10 rounded-xl bg-white/12 px-4 text-xs font-black text-white">
-                {copied === type ? "已整理" : `匯出 ${type}`}
-              </button>
-            ))}
-          </div>
-        </div>
-        <div className="mt-5 grid gap-2">
-          {purchaseRows.map((row) => (
-            <div key={row.name} className="flex items-center justify-between rounded-2xl bg-white/10 p-3">
-              <div>
-                <p className="text-sm font-black">{row.name}</p>
-                <p className="mt-1 text-xs font-bold text-white/62">{row.vendor}</p>
-              </div>
-              <p className="font-serif text-2xl font-black text-[#f0c879]">{row.quantity}{row.unit}</p>
+      <div className="mt-5 grid gap-2">
+        {purchaseRows.map((row) => (
+          <div key={row.name} className="flex items-center justify-between rounded-2xl bg-white/10 p-3">
+            <div>
+              <p className="text-sm font-black">{row.name}</p>
+              <p className="mt-1 text-xs font-bold text-white/62">{row.vendor}</p>
             </div>
-          ))}
-        </div>
+            <p className="font-serif text-2xl font-black text-[#f0c879]">{row.quantity}{row.unit}</p>
+          </div>
+        ))}
       </div>
     </section>
   )
 }
 
-function MonthClose({ orders, monthTotal }) {
-  const currentCustomer = customers[0]
+function BillingMode({ orders, customerId, setCustomerId }) {
+  const activeCustomer = getCustomer(customerId)
+  const customerOrders = orders.filter((order) => order.customerId === customerId)
+  const customerTotal = customerOrders.reduce((sum, order) => sum + getOrderTotal(order), 0) + activeCustomer.monthlyBase
+  const shipped = customerOrders.filter((order) => order.status === "已出貨").length + 24
+  const unshipped = customerOrders.filter((order) => order.status !== "已出貨").length
+
   return (
-    <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-5 shadow-sm">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Monthly Close</p>
-      <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">月結對帳</h2>
-      <div className="mt-5 rounded-2xl bg-[#f7efe3] p-5">
-        <p className="text-sm font-black text-[#2d231d]">{currentCustomer.name}</p>
-        <div className="mt-4 grid gap-3 sm:grid-cols-2">
-          <SmallStat label="本月訂單" value={`${orders.length + 24} 筆`} />
-          <SmallStat label="已出貨" value={`${orders.filter((order) => order.status === "已出貨").length + 23} 筆`} />
-          <SmallStat label="未出貨" value={`${orders.filter((order) => order.status !== "已出貨").length} 筆`} />
-          <SmallStat label="本月總額" value={money(monthTotal + currentCustomer.monthly)} />
+    <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:grid-cols-[0.9fr_1.1fr] md:px-7">
+      <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-5 shadow-sm">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Monthly Close</p>
+        <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">月結對帳</h2>
+        <div className="mt-5 flex gap-2 overflow-x-auto rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-2">
+          {customers.map((customer) => (
+            <button
+              key={customer.id}
+              type="button"
+              onClick={() => setCustomerId(customer.id)}
+              className={`min-h-10 shrink-0 rounded-xl px-4 text-sm font-black ${customerId === customer.id ? "bg-[#263f31] text-white" : "bg-white text-[#4f4035]"}`}
+            >
+              {customer.name}
+            </button>
+          ))}
         </div>
-      </div>
+        <div className="mt-5 rounded-2xl bg-[#f7efe3] p-5">
+          <p className="text-sm font-black text-[#2d231d]">{activeCustomer.name}</p>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2">
+            <SmallStat label="本月訂單" value={`${customerOrders.length + 26} 筆`} />
+            <SmallStat label="已出貨" value={`${shipped} 筆`} />
+            <SmallStat label="未出貨" value={`${unshipped} 筆`} />
+            <SmallStat label="本月總額" value={money(customerTotal)} />
+          </div>
+        </div>
+      </section>
+
+      <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm">
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Statement</p>
+        <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">對帳明細</h2>
+        <div className="mt-5 grid gap-3">
+          {customerOrders.map((order) => (
+            <div key={order.id} className="rounded-2xl border border-[#decfb7] bg-white p-4">
+              <div className="flex items-center justify-between gap-3">
+                <div>
+                  <p className="text-sm font-black text-[#2d231d]">{order.id}</p>
+                  <p className="mt-1 text-xs font-bold text-[#8b735f]">{order.createdAt} · {order.items.length} 項</p>
+                </div>
+                <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
+              </div>
+              <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderTotal(order))}</p>
+            </div>
+          ))}
+          <div className="rounded-2xl bg-[#263f31] p-5 text-white">
+            <p className="text-xs font-black text-[#f0c879]">對帳摘要</p>
+            <p className="mt-2 text-sm font-bold leading-6 text-white/72">
+              {activeCustomer.name} 本月合計 {money(customerTotal)}，未出貨 {unshipped} 筆，可直接整理成月結單。
+            </p>
+          </div>
+        </div>
+      </section>
     </section>
   )
 }
@@ -708,25 +800,45 @@ function SmallStat({ label, value }) {
 
 function ValuePanel() {
   return (
-    <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm">
-      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Business Value</p>
-      <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">導入後改善</h2>
-      <div className="mt-5 grid gap-3 sm:grid-cols-2">
-        {valuePoints.map((item) => (
-          <div key={item} className="rounded-2xl border border-[#decfb7] bg-white p-4 text-sm font-black text-[#2d231d]">
-            {item}
+    <section className="mx-auto max-w-7xl px-4 pb-16 md:px-7">
+      <div className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm">
+        <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Business Value</p>
+            <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">導入後改善</h2>
           </div>
-        ))}
-      </div>
-      <div className="mt-5 flex flex-wrap gap-3">
-        <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-xl bg-[#263f31] px-5 text-sm font-black text-white">
-          開始需求診斷
-        </Link>
-        <Link to="/contact" className="inline-flex min-h-11 items-center rounded-xl border border-[#decfb7] bg-white px-5 text-sm font-black text-[#2d231d]">
-          聯絡我
-        </Link>
+          <div className="flex flex-wrap gap-3">
+            <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-xl bg-[#263f31] px-5 text-sm font-black text-white">
+              開始需求診斷
+            </Link>
+            <Link to="/contact" className="inline-flex min-h-11 items-center rounded-xl border border-[#decfb7] bg-white px-5 text-sm font-black text-[#2d231d]">
+              聯絡我
+            </Link>
+          </div>
+        </div>
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+          {valuePoints.map((item) => (
+            <div key={item} className="rounded-2xl border border-[#decfb7] bg-white p-4 text-sm font-black text-[#2d231d]">
+              {item}
+            </div>
+          ))}
+        </div>
       </div>
     </section>
+  )
+}
+
+function QuantityControl({ value, onMinus, onPlus }) {
+  return (
+    <div className="flex items-center gap-2">
+      <button type="button" onClick={onMinus} className="grid h-9 w-9 place-items-center rounded-full border border-[#decfb7] bg-[#fffaf2] font-black">
+        -
+      </button>
+      <span className="min-w-7 text-center text-sm font-black">{value}</span>
+      <button type="button" onClick={onPlus} className="grid h-9 w-9 place-items-center rounded-full bg-[#263f31] font-black text-white">
+        +
+      </button>
+    </div>
   )
 }
 
