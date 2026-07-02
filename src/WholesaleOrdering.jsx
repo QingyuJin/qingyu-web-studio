@@ -631,7 +631,7 @@ function ClientOrdering({
         ))}
       </div>
 
-      <div className="mt-5 grid gap-4 sm:grid-cols-2 2xl:grid-cols-3">
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
         {shownProducts.map((product) => {
           const quantity = cart[product.id] || 0
           return (
@@ -642,16 +642,16 @@ function ClientOrdering({
                   <span className="rounded-full bg-[#263f31] px-3 py-1 text-xs font-black text-white">{product.stock}</span>
                 </div>
                 <div className="mt-5 flex items-center justify-between gap-3">
-                  <span className="truncate text-[11px] font-black tracking-[0.16em] text-[#715b45]">IMAGE SAMPLE</span>
-                  <span className="rounded-full bg-white/70 px-3 py-1 text-[11px] font-black text-[#715b45]">圖片範例</span>
+                  <span className="truncate text-[11px] font-black tracking-[0.13em] text-[#715b45]">IMAGE SAMPLE</span>
+                  <span className="shrink-0 rounded-full bg-white/70 px-2.5 py-1 text-[11px] font-black text-[#715b45]">示意</span>
                 </div>
               </div>
               <div className="p-4">
                 <p className="text-xs font-black text-[#8b735f]">{product.vendor} · {product.spec}</p>
                 <h3 className="mt-2 text-xl font-black text-[#2d231d]">{product.name}</h3>
-                <div className="mt-4 flex items-end justify-between gap-4">
+                <div className="mt-5 flex items-end justify-between gap-5">
                   <div className="min-w-0">
-                    <p className="whitespace-nowrap font-serif text-[1.65rem] font-black leading-none text-[#c76532] md:text-[1.85rem]">
+                    <p className="whitespace-nowrap font-serif text-[1.55rem] font-black leading-none text-[#c76532] md:text-[1.75rem]">
                       {money(getPrice(products, product.id, customerId))}
                     </p>
                     <p className="text-xs font-bold text-[#8b735f]">每 {product.unit}</p>
