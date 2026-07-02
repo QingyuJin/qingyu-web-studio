@@ -120,6 +120,13 @@ const caseCards = [
     featured: true,
   },
   {
+    title: "批發訂貨系統",
+    text: "客戶選品下單，後台報價、修正數量、追蹤出貨。",
+    action: "查看商品頁",
+    to: "/works/wholesale-ordering",
+    featured: true,
+  },
+  {
     title: "BuildFlow 工程行流程系統",
     text: "需求、報價、派工、回報與 LINE 查詢流程。",
     action: "查看案例",
