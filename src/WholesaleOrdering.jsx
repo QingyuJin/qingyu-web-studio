@@ -7,19 +7,19 @@ const modeCards = {
     label: "客戶端",
     eyebrow: "Client App",
     title: "客戶自己下單",
-    text: "商品、專屬價格、訂單確認、歷史訂單與本月金額都在手機裡。",
+    text: "手機看商品、專屬價格、歷史訂單與本月金額。",
   },
   backend: {
     label: "後台端",
     eyebrow: "Back Office",
     title: "老闆管理訂單",
-    text: "收單、修正數量、切換狀態、整理叫貨單與客戶報價。",
+    text: "收單、改數量、報價、出貨、叫貨單一次處理。",
   },
   billing: {
     label: "月結",
     eyebrow: "Monthly Close",
     title: "月底快速對帳",
-    text: "依客戶彙整訂單、已出貨、未出貨、總金額與對帳摘要。",
+    text: "依客戶彙整訂單、出貨狀態、明細與總額。",
   },
 }
 
@@ -29,7 +29,7 @@ const customers = [
   { id: "bento", name: "屏東便當店", area: "潮州", monthlyBase: 73400 },
 ]
 
-const products = [
+const baseProducts = [
   {
     id: "cabbage",
     name: "高麗菜",
@@ -100,7 +100,7 @@ const products = [
 
 const categories = ["全部", "葉菜", "水果", "蔬果", "冷藏", "乾貨"]
 const statuses = ["新訂單", "待確認", "待出貨", "已出貨"]
-const valuePoints = ["少漏單", "價格統一", "出貨前修量", "月底好對帳", "叫貨自動加總"]
+const valuePoints = ["少漏單", "價格統一", "出貨前修量", "缺貨有紀錄", "月底好對帳", "叫貨自動加總"]
 
 const initialOrders = [
   {
@@ -110,9 +110,9 @@ const initialOrders = [
     source: "客戶端 APP",
     createdAt: "今日 09:18",
     items: [
-      { productId: "cabbage", quantity: 2 },
-      { productId: "lettuce", quantity: 1 },
-      { productId: "chicken", quantity: 1 },
+      { productId: "cabbage", quantity: 2, shippedQuantity: 2, shortageNote: "" },
+      { productId: "lettuce", quantity: 1, shippedQuantity: 1, shortageNote: "" },
+      { productId: "chicken", quantity: 1, shippedQuantity: 1, shortageNote: "" },
     ],
     note: "明天 10:00 前到貨，葉菜可替代同級品。",
   },
@@ -123,34 +123,32 @@ const initialOrders = [
     source: "LINE 補單",
     createdAt: "昨日 15:42",
     items: [
-      { productId: "banana", quantity: 2 },
-      { productId: "almond", quantity: 1 },
+      { productId: "banana", quantity: 2, shippedQuantity: 2, shortageNote: "" },
+      { productId: "almond", quantity: 1, shippedQuantity: 1, shortageNote: "" },
     ],
     note: "已併入本月對帳。",
   },
 ]
 
 function money(value) {
-  return `NT$${value.toLocaleString("zh-TW")}`
+  return `NT$${Number(value || 0).toLocaleString("zh-TW")}`
 }
 
 function getCustomer(customerId) {
   return customers.find((customer) => customer.id === customerId) || customers[0]
 }
 
-function getProduct(productId) {
+function getProduct(products, productId) {
   return products.find((product) => product.id === productId) || products[0]
 }
 
-function getPrice(product, customerId) {
+function getPrice(products, productId, customerId) {
+  const product = getProduct(products, productId)
   return product.prices[customerId] || Object.values(product.prices)[0]
 }
 
-function getOrderTotal(order) {
-  return order.items.reduce((sum, item) => {
-    const product = getProduct(item.productId)
-    return sum + getPrice(product, order.customerId) * item.quantity
-  }, 0)
+function getOrderShipTotal(order, products) {
+  return order.items.reduce((sum, item) => sum + getPrice(products, item.productId, order.customerId) * (item.shippedQuantity ?? item.quantity), 0)
 }
 
 function statusTone(status) {
@@ -162,6 +160,7 @@ function statusTone(status) {
 
 function WholesaleOrdering() {
   const [mode, setMode] = useState("client")
+  const [products, setProducts] = useState(baseProducts)
   const [customerId, setCustomerId] = useState(customers[0].id)
   const [category, setCategory] = useState("全部")
   const [cart, setCart] = useState({ cabbage: 1, tomato: 1 })
@@ -176,7 +175,7 @@ function WholesaleOrdering() {
   const shownProducts = category === "全部" ? products : products.filter((product) => product.category === category)
   const unshippedOrders = orders.filter((order) => order.status !== "已出貨")
   const shippedOrders = orders.filter((order) => order.status === "已出貨")
-  const monthTotal = orders.reduce((sum, order) => sum + getOrderTotal(order), 0)
+  const monthTotal = orders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0)
 
   const cartItems = useMemo(
     () =>
@@ -184,25 +183,37 @@ function WholesaleOrdering() {
         .map((product) => ({
           ...product,
           quantity: cart[product.id] || 0,
-          price: getPrice(product, customerId),
+          price: getPrice(products, product.id, customerId),
         }))
         .filter((product) => product.quantity > 0),
-    [cart, customerId],
+    [cart, customerId, products],
   )
 
   const cartTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
 
-  const purchaseRows = useMemo(() => {
-    const summary = new Map()
+  const purchaseGroups = useMemo(() => {
+    const groups = new Map()
     unshippedOrders.forEach((order) => {
       order.items.forEach((item) => {
-        const product = getProduct(item.productId)
-        const current = summary.get(product.id) || { name: product.name, vendor: product.vendor, quantity: 0, unit: product.unit }
-        summary.set(product.id, { ...current, quantity: current.quantity + item.quantity })
+        const product = getProduct(products, item.productId)
+        const vendorGroup = groups.get(product.vendor) || []
+        const existing = vendorGroup.find((row) => row.productId === product.id)
+        if (existing) {
+          existing.quantity += item.shippedQuantity ?? item.quantity
+        } else {
+          vendorGroup.push({
+            productId: product.id,
+            name: product.name,
+            vendor: product.vendor,
+            quantity: item.shippedQuantity ?? item.quantity,
+            unit: product.unit,
+          })
+        }
+        groups.set(product.vendor, vendorGroup)
       })
     })
-    return Array.from(summary.values())
-  }, [unshippedOrders])
+    return Array.from(groups.entries()).map(([vendor, rows]) => ({ vendor, rows }))
+  }, [products, unshippedOrders])
 
   function flash(message) {
     setToast(message)
@@ -230,13 +241,29 @@ function WholesaleOrdering() {
       status: "新訂單",
       source: "客戶端 APP",
       createdAt: "剛剛",
-      items: cartItems.map((item) => ({ productId: item.id, quantity: item.quantity })),
+      items: cartItems.map((item) => ({
+        productId: item.id,
+        quantity: item.quantity,
+        shippedQuantity: item.quantity,
+        shortageNote: "",
+      })),
       note: "客戶端送出，後台可調整數量與出貨狀態。",
     }
     setOrders((current) => [nextOrder, ...current])
     setSelectedOrderId(nextOrder.id)
     setMode("backend")
     flash("訂單已進入後台")
+  }
+
+  function repeatOrder(order) {
+    const nextCart = {}
+    order.items.forEach((item) => {
+      nextCart[item.productId] = item.quantity
+    })
+    setCustomerId(order.customerId)
+    setCart(nextCart)
+    setMode("client")
+    flash("已帶入上次訂單")
   }
 
   function setOrderStatus(status) {
@@ -246,26 +273,59 @@ function WholesaleOrdering() {
     flash(status === "已出貨" ? "出貨狀態已更新" : "訂單狀態已更新")
   }
 
-  function updateOrderItem(productId, delta) {
+  function updateOrderItem(productId, field, delta) {
     setOrders((current) =>
       current.map((order) => {
         if (order.id !== selectedOrder.id) return order
         return {
           ...order,
           items: order.items.map((item) =>
-            item.productId === productId ? { ...item, quantity: Math.max(1, item.quantity + delta) } : item,
+            item.productId === productId ? { ...item, [field]: Math.max(0, (item[field] ?? item.quantity) + delta) } : item,
           ),
         }
       }),
     )
-    flash("數量已修正")
+    flash(field === "quantity" ? "訂購數量已修正" : "實出數量已修正")
+  }
+
+  function setShortage(productId, shortageNote) {
+    setOrders((current) =>
+      current.map((order) => {
+        if (order.id !== selectedOrder.id) return order
+        return {
+          ...order,
+          items: order.items.map((item) => (item.productId === productId ? { ...item, shortageNote } : item)),
+        }
+      }),
+    )
+    flash("缺貨備註已更新")
+  }
+
+  function updateCustomerPrice(productId, targetCustomerId, value) {
+    const nextPrice = Number(value)
+    if (!Number.isFinite(nextPrice) || nextPrice < 0) return
+    setProducts((current) =>
+      current.map((product) =>
+        product.id === productId ? { ...product, prices: { ...product.prices, [targetCustomerId]: nextPrice } } : product,
+      ),
+    )
   }
 
   function copyPurchaseList(type) {
-    const content = purchaseRows.map((row) => `${row.vendor}｜${row.name} ${row.quantity}${row.unit}`).join("\n")
+    const content = purchaseGroups
+      .map((group) => [`【${group.vendor}】`, ...group.rows.map((row) => `${row.name} ${row.quantity}${row.unit}`)].join("\n"))
+      .join("\n\n")
     navigator.clipboard?.writeText(content)
     setCopied(type)
     flash(`${type} 已整理`)
+  }
+
+  function copyStatement(orderCustomerId) {
+    const customer = getCustomer(orderCustomerId)
+    const customerOrders = orders.filter((order) => order.customerId === orderCustomerId)
+    const total = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + customer.monthlyBase
+    navigator.clipboard?.writeText(`${customer.name} 本月對帳金額 ${money(total)}`)
+    flash("對帳文字已複製")
   }
 
   return (
@@ -279,7 +339,6 @@ function WholesaleOrdering() {
       />
 
       <Header mode={mode} setMode={changeMode} onSubmit={submitOrder} />
-
       <ModeHero mode={mode} openOrders={unshippedOrders.length} shippedOrders={shippedOrders.length} monthTotal={monthTotal} />
 
       {mode === "client" ? (
@@ -290,30 +349,37 @@ function WholesaleOrdering() {
           category={category}
           setCategory={setCategory}
           shownProducts={shownProducts}
+          products={products}
           cart={cart}
           cartItems={cartItems}
           cartTotal={cartTotal}
           updateCart={updateCart}
           onSubmit={submitOrder}
           orders={orders}
+          onRepeat={repeatOrder}
         />
       ) : null}
 
       {mode === "backend" ? (
         <BackendMode
           orders={orders}
+          products={products}
           selectedOrder={selectedOrder}
           selectedOrderCustomer={selectedOrderCustomer}
           setSelectedOrderId={setSelectedOrderId}
           updateOrderItem={updateOrderItem}
+          setShortage={setShortage}
           setOrderStatus={setOrderStatus}
-          purchaseRows={purchaseRows}
+          purchaseGroups={purchaseGroups}
           copied={copied}
           onCopy={copyPurchaseList}
+          onUpdatePrice={updateCustomerPrice}
         />
       ) : null}
 
-      {mode === "billing" ? <BillingMode orders={orders} monthTotal={monthTotal} customerId={customerId} setCustomerId={setCustomerId} /> : null}
+      {mode === "billing" ? (
+        <BillingMode orders={orders} products={products} customerId={customerId} setCustomerId={setCustomerId} onCopyStatement={copyStatement} />
+      ) : null}
 
       <ValuePanel />
 
@@ -389,12 +455,12 @@ function Metric({ title, value }) {
   )
 }
 
-function ClientMode({ customerId, selectedCustomer, setCustomerId, category, setCategory, shownProducts, cart, cartItems, cartTotal, updateCart, onSubmit, orders }) {
+function ClientMode({ customerId, selectedCustomer, setCustomerId, category, setCategory, shownProducts, products, cart, cartItems, cartTotal, updateCart, onSubmit, orders, onRepeat }) {
   const customerOrders = orders.filter((order) => order.customerId === customerId)
 
   return (
     <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:grid-cols-[0.82fr_1.18fr] md:px-7">
-      <ClientPhone customer={selectedCustomer} products={products.slice(0, 4)} cartItems={cartItems} monthTotal={selectedCustomer.monthlyBase + customerOrders.reduce((sum, order) => sum + getOrderTotal(order), 0)} onSubmit={onSubmit} />
+      <ClientPhone customer={selectedCustomer} products={products.slice(0, 4)} cartItems={cartItems} monthTotal={selectedCustomer.monthlyBase + customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0)} onSubmit={onSubmit} />
 
       <div className="grid gap-6">
         <ClientOrdering
@@ -403,19 +469,20 @@ function ClientMode({ customerId, selectedCustomer, setCustomerId, category, set
           category={category}
           setCategory={setCategory}
           shownProducts={shownProducts}
+          products={products}
           cart={cart}
           cartItems={cartItems}
           cartTotal={cartTotal}
           updateCart={updateCart}
           onSubmit={onSubmit}
         />
-        <ClientHistory orders={customerOrders} />
+        <ClientHistory orders={customerOrders} products={products} onRepeat={onRepeat} />
       </div>
     </section>
   )
 }
 
-function ClientPhone({ customer, products: phoneProducts, cartItems, monthTotal, onSubmit }) {
+function ClientPhone({ customer, products, cartItems, monthTotal, onSubmit }) {
   return (
     <section className="rounded-[1.9rem] border border-[#decfb7] bg-[#263f31] p-5 text-white shadow-xl shadow-[#263f31]/15">
       <div className="flex items-center justify-between">
@@ -437,20 +504,20 @@ function ClientPhone({ customer, products: phoneProducts, cartItems, monthTotal,
           </div>
 
           <div className="mt-4 grid gap-2">
-            {phoneProducts.map((product) => (
+            {products.map((product) => (
               <div key={product.id} className="flex items-center justify-between rounded-2xl bg-[#f7efe3] p-3">
                 <div>
                   <p className="text-sm font-black">{product.name}</p>
                   <p className="mt-1 text-xs font-bold text-[#8b735f]">{product.spec} · {product.stock}</p>
                 </div>
-                <p className="text-sm font-black text-[#c76532]">{money(getPrice(product, customer.id))}</p>
+                <p className="text-sm font-black text-[#c76532]">{money(getPrice(products, product.id, customer.id))}</p>
               </div>
             ))}
           </div>
 
           <div className="mt-4 rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-3">
             <p className="text-xs font-black text-[#8b735f]">訂單確認</p>
-            <p className="mt-1 text-sm font-black">{cartItems.length} 項商品 · 歷史訂單可查</p>
+            <p className="mt-1 text-sm font-black">{cartItems.length} 項商品 · 歷史訂單可再訂</p>
           </div>
           <button type="button" onClick={onSubmit} className="mt-4 min-h-11 w-full rounded-2xl bg-[#263f31] text-sm font-black text-white">
             送出訂單
@@ -461,7 +528,7 @@ function ClientPhone({ customer, products: phoneProducts, cartItems, monthTotal,
   )
 }
 
-function ClientOrdering({ customerId, setCustomerId, category, setCategory, shownProducts, cart, updateCart, cartItems, cartTotal, onSubmit }) {
+function ClientOrdering({ customerId, setCustomerId, category, setCategory, shownProducts, products, cart, updateCart, cartItems, cartTotal, onSubmit }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-4 shadow-sm backdrop-blur md:p-5">
       <div className="flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
@@ -512,7 +579,7 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
                 <h3 className="mt-2 text-xl font-black text-[#2d231d]">{product.name}</h3>
                 <div className="mt-4 flex items-end justify-between">
                   <div>
-                    <p className="font-serif text-2xl font-black text-[#c76532]">{money(getPrice(product, customerId))}</p>
+                    <p className="font-serif text-2xl font-black text-[#c76532]">{money(getPrice(products, product.id, customerId))}</p>
                     <p className="text-xs font-bold text-[#8b735f]">每 {product.unit}</p>
                   </div>
                   <QuantityControl value={quantity} onMinus={() => updateCart(product.id, -1)} onPlus={() => updateCart(product.id, 1)} />
@@ -545,7 +612,7 @@ function ClientOrdering({ customerId, setCustomerId, category, setCategory, show
   )
 }
 
-function ClientHistory({ orders }) {
+function ClientHistory({ orders, products, onRepeat }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-5 shadow-sm">
       <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">History</p>
@@ -557,7 +624,10 @@ function ClientHistory({ orders }) {
               <p className="text-sm font-black text-[#2d231d]">{order.id}</p>
               <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
             </div>
-            <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderTotal(order))}</p>
+            <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderShipTotal(order, products))}</p>
+            <button type="button" onClick={() => onRepeat(order)} className="mt-3 min-h-10 rounded-xl bg-white px-4 text-xs font-black text-[#2d231d]">
+              再訂一次
+            </button>
           </div>
         ))}
       </div>
@@ -565,26 +635,28 @@ function ClientHistory({ orders }) {
   )
 }
 
-function BackendMode({ orders, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setOrderStatus, purchaseRows, copied, onCopy }) {
+function BackendMode({ orders, products, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setShortage, setOrderStatus, purchaseGroups, copied, onCopy, onUpdatePrice }) {
   return (
     <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:px-7">
       <BackOffice
         orders={orders}
+        products={products}
         selectedOrder={selectedOrder}
         selectedOrderCustomer={selectedOrderCustomer}
         setSelectedOrderId={setSelectedOrderId}
         updateOrderItem={updateOrderItem}
+        setShortage={setShortage}
         setOrderStatus={setOrderStatus}
       />
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <PriceMatrix />
-        <PurchaseList purchaseRows={purchaseRows} copied={copied} onCopy={onCopy} />
+        <PriceEditor products={products} onUpdatePrice={onUpdatePrice} />
+        <PurchaseList purchaseGroups={purchaseGroups} copied={copied} onCopy={onCopy} />
       </div>
     </section>
   )
 }
 
-function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setOrderStatus }) {
+function BackOffice({ orders, products, selectedOrder, selectedOrderCustomer, setSelectedOrderId, updateOrderItem, setShortage, setOrderStatus }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-4 shadow-sm md:p-5">
       <div className="flex items-start justify-between gap-3">
@@ -592,10 +664,10 @@ function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedO
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Back Office</p>
           <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d] md:text-5xl">今日訂單</h2>
         </div>
-        <span className="rounded-full bg-[#f1e7dc] px-3 py-1 text-xs font-black text-[#715b45]">可修量</span>
+        <span className="rounded-full bg-[#f1e7dc] px-3 py-1 text-xs font-black text-[#715b45]">可修量 / 實出</span>
       </div>
 
-      <div className="mt-5 grid gap-4 lg:grid-cols-[0.82fr_1.18fr]">
+      <div className="mt-5 grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
         <div className="grid gap-3">
           {orders.map((order) => {
             const customer = getCustomer(order.customerId)
@@ -609,7 +681,7 @@ function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedO
                     </div>
                     <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
                   </div>
-                  <p className="mt-3 text-xs font-bold text-[#725f50]">{order.items.length} 項 · {money(getOrderTotal(order))}</p>
+                  <p className="mt-3 text-xs font-bold text-[#725f50]">{order.items.length} 項 · {money(getOrderShipTotal(order, products))}</p>
                 </article>
               </button>
             )
@@ -628,23 +700,38 @@ function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedO
 
           <div className="mt-4 grid gap-3">
             {selectedOrder.items.map((item) => {
-              const product = getProduct(item.productId)
+              const product = getProduct(products, item.productId)
+              const shipped = item.shippedQuantity ?? item.quantity
+              const shortage = Math.max(0, item.quantity - shipped)
               return (
-                <div key={item.productId} className="grid grid-cols-[1fr_auto] items-center gap-3 rounded-2xl bg-white p-3">
-                  <div>
-                    <p className="text-sm font-black text-[#2d231d]">{product.name}</p>
-                    <p className="mt-1 text-xs font-bold text-[#8b735f]">
-                      {product.vendor} · {money(getPrice(product, selectedOrder.customerId))}
-                    </p>
+                <div key={item.productId} className="rounded-2xl bg-white p-3">
+                  <div className="grid gap-3 md:grid-cols-[1fr_auto_auto] md:items-center">
+                    <div>
+                      <p className="text-sm font-black text-[#2d231d]">{product.name}</p>
+                      <p className="mt-1 text-xs font-bold text-[#8b735f]">
+                        {product.vendor} · {money(getPrice(products, product.id, selectedOrder.customerId))}
+                      </p>
+                    </div>
+                    <QuantityBlock label="訂購" value={item.quantity} onMinus={() => updateOrderItem(product.id, "quantity", -1)} onPlus={() => updateOrderItem(product.id, "quantity", 1)} />
+                    <QuantityBlock label="實出" value={shipped} onMinus={() => updateOrderItem(product.id, "shippedQuantity", -1)} onPlus={() => updateOrderItem(product.id, "shippedQuantity", 1)} />
                   </div>
-                  <QuantityControl value={item.quantity} onMinus={() => updateOrderItem(product.id, -1)} onPlus={() => updateOrderItem(product.id, 1)} />
+                  {shortage > 0 ? <p className="mt-3 text-xs font-black text-[#c76532]">缺貨 {shortage}{product.unit}</p> : null}
+                  <input
+                    value={item.shortageNote || ""}
+                    onChange={(event) => setShortage(product.id, event.target.value)}
+                    placeholder="缺貨 / 替代品備註"
+                    className="mt-3 min-h-10 w-full rounded-xl border border-[#decfb7] bg-[#fffaf2] px-3 text-sm font-bold text-[#2d231d] outline-none focus:border-[#c76532]"
+                  />
                 </div>
               )
             })}
           </div>
 
           <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[#decfb7] pt-4">
-            <p className="font-serif text-3xl font-black text-[#c76532]">{money(getOrderTotal(selectedOrder))}</p>
+            <div>
+              <p className="text-xs font-black text-[#8b735f]">實出金額</p>
+              <p className="font-serif text-3xl font-black text-[#c76532]">{money(getOrderShipTotal(selectedOrder, products))}</p>
+            </div>
             <div className="flex flex-wrap gap-2">
               {statuses.map((status) => (
                 <button
@@ -664,27 +751,34 @@ function BackOffice({ orders, selectedOrder, selectedOrderCustomer, setSelectedO
   )
 }
 
-function PriceMatrix() {
+function PriceEditor({ products, onUpdatePrice }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-white p-5 shadow-sm">
       <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Customer Pricing</p>
       <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">客戶分級報價</h2>
       <div className="mt-5 overflow-x-auto">
-        <table className="w-full min-w-[560px] border-collapse text-left text-sm">
+        <table className="w-full min-w-[680px] border-collapse text-left text-sm">
           <thead>
             <tr className="border-b border-[#decfb7] text-xs font-black text-[#8b735f]">
               <th className="py-3">商品</th>
               {customers.map((customer) => (
-                <th key={customer.id} className="px-4 py-3">{customer.name}</th>
+                <th key={customer.id} className="px-3 py-3">{customer.name}</th>
               ))}
             </tr>
           </thead>
           <tbody>
-            {products.slice(0, 4).map((product) => (
+            {products.slice(0, 5).map((product) => (
               <tr key={product.id} className="border-b border-[#eee3d4]">
                 <td className="py-3 font-black text-[#2d231d]">{product.name}</td>
                 {customers.map((customer) => (
-                  <td key={customer.id} className="px-4 py-3 font-bold text-[#4f4035]">{money(getPrice(product, customer.id))}</td>
+                  <td key={customer.id} className="px-3 py-3">
+                    <input
+                      type="number"
+                      value={product.prices[customer.id]}
+                      onChange={(event) => onUpdatePrice(product.id, customer.id, event.target.value)}
+                      className="min-h-10 w-24 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-3 text-sm font-black text-[#2d231d] outline-none focus:border-[#c76532]"
+                    />
+                  </td>
                 ))}
               </tr>
             ))}
@@ -695,13 +789,13 @@ function PriceMatrix() {
   )
 }
 
-function PurchaseList({ purchaseRows, copied, onCopy }) {
+function PurchaseList({ purchaseGroups, copied, onCopy }) {
   return (
     <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#263f31] p-5 text-white shadow-xl shadow-[#263f31]/12">
       <div className="flex flex-wrap items-start justify-between gap-3">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#f0c879]">Purchase List</p>
-          <h2 className="mt-2 font-serif text-3xl font-black">採購 / 叫貨單</h2>
+          <h2 className="mt-2 font-serif text-3xl font-black">廠商叫貨單</h2>
         </div>
         <div className="flex flex-wrap gap-2">
           {["Excel", "PDF", "LINE文字"].map((type) => (
@@ -711,25 +805,29 @@ function PurchaseList({ purchaseRows, copied, onCopy }) {
           ))}
         </div>
       </div>
-      <div className="mt-5 grid gap-2">
-        {purchaseRows.map((row) => (
-          <div key={row.name} className="flex items-center justify-between rounded-2xl bg-white/10 p-3">
-            <div>
-              <p className="text-sm font-black">{row.name}</p>
-              <p className="mt-1 text-xs font-bold text-white/62">{row.vendor}</p>
+      <div className="mt-5 grid gap-3 lg:grid-cols-2">
+        {purchaseGroups.map((group) => (
+          <article key={group.vendor} className="rounded-2xl bg-white/10 p-4">
+            <p className="text-sm font-black text-[#f0c879]">{group.vendor}</p>
+            <div className="mt-3 grid gap-2">
+              {group.rows.map((row) => (
+                <div key={row.name} className="flex items-center justify-between rounded-xl bg-white/10 p-3">
+                  <p className="text-sm font-black">{row.name}</p>
+                  <p className="font-serif text-2xl font-black text-[#f0c879]">{row.quantity}{row.unit}</p>
+                </div>
+              ))}
             </div>
-            <p className="font-serif text-2xl font-black text-[#f0c879]">{row.quantity}{row.unit}</p>
-          </div>
+          </article>
         ))}
       </div>
     </section>
   )
 }
 
-function BillingMode({ orders, customerId, setCustomerId }) {
+function BillingMode({ orders, products, customerId, setCustomerId, onCopyStatement }) {
   const activeCustomer = getCustomer(customerId)
   const customerOrders = orders.filter((order) => order.customerId === customerId)
-  const customerTotal = customerOrders.reduce((sum, order) => sum + getOrderTotal(order), 0) + activeCustomer.monthlyBase
+  const customerTotal = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + activeCustomer.monthlyBase
   const shipped = customerOrders.filter((order) => order.status === "已出貨").length + 24
   const unshipped = customerOrders.filter((order) => order.status !== "已出貨").length
 
@@ -759,29 +857,36 @@ function BillingMode({ orders, customerId, setCustomerId }) {
             <SmallStat label="本月總額" value={money(customerTotal)} />
           </div>
         </div>
+        <button type="button" onClick={() => onCopyStatement(customerId)} className="mt-5 min-h-11 rounded-xl bg-[#263f31] px-5 text-sm font-black text-white">
+          複製對帳文字
+        </button>
       </section>
 
       <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm">
-        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Statement</p>
-        <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">對帳明細</h2>
-        <div className="mt-5 grid gap-3">
-          {customerOrders.map((order) => (
-            <div key={order.id} className="rounded-2xl border border-[#decfb7] bg-white p-4">
-              <div className="flex items-center justify-between gap-3">
-                <div>
-                  <p className="text-sm font-black text-[#2d231d]">{order.id}</p>
-                  <p className="mt-1 text-xs font-bold text-[#8b735f]">{order.createdAt} · {order.items.length} 項</p>
-                </div>
-                <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
-              </div>
-              <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderTotal(order))}</p>
+        <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Statement Preview</p>
+        <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">月結單 Preview</h2>
+        <div className="mt-5 rounded-2xl bg-white p-5">
+          <div className="flex flex-wrap items-start justify-between gap-3 border-b border-[#decfb7] pb-4">
+            <div>
+              <p className="text-xs font-black text-[#8b735f]">批發月結單</p>
+              <h3 className="mt-1 text-2xl font-black text-[#2d231d]">{activeCustomer.name}</h3>
+              <p className="mt-1 text-sm font-bold text-[#725f50]">期間：2026 / 07</p>
             </div>
-          ))}
-          <div className="rounded-2xl bg-[#263f31] p-5 text-white">
-            <p className="text-xs font-black text-[#f0c879]">對帳摘要</p>
-            <p className="mt-2 text-sm font-bold leading-6 text-white/72">
-              {activeCustomer.name} 本月合計 {money(customerTotal)}，未出貨 {unshipped} 筆，可直接整理成月結單。
-            </p>
+            <p className="font-serif text-3xl font-black text-[#c76532]">{money(customerTotal)}</p>
+          </div>
+          <div className="mt-4 grid gap-3">
+            {customerOrders.map((order) => (
+              <div key={order.id} className="rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-4">
+                <div className="flex items-center justify-between gap-3">
+                  <div>
+                    <p className="text-sm font-black text-[#2d231d]">{order.id}</p>
+                    <p className="mt-1 text-xs font-bold text-[#8b735f]">{order.createdAt} · {order.items.length} 項</p>
+                  </div>
+                  <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
+                </div>
+                <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderShipTotal(order, products))}</p>
+              </div>
+            ))}
           </div>
         </div>
       </section>
@@ -816,7 +921,7 @@ function ValuePanel() {
             </Link>
           </div>
         </div>
-        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-5">
+        <div className="mt-5 grid gap-3 sm:grid-cols-2 lg:grid-cols-6">
           {valuePoints.map((item) => (
             <div key={item} className="rounded-2xl border border-[#decfb7] bg-white p-4 text-sm font-black text-[#2d231d]">
               {item}
@@ -838,6 +943,15 @@ function QuantityControl({ value, onMinus, onPlus }) {
       <button type="button" onClick={onPlus} className="grid h-9 w-9 place-items-center rounded-full bg-[#263f31] font-black text-white">
         +
       </button>
+    </div>
+  )
+}
+
+function QuantityBlock({ label, value, onMinus, onPlus }) {
+  return (
+    <div className="rounded-2xl border border-[#decfb7] bg-[#fffaf2] p-3">
+      <p className="mb-2 text-center text-[11px] font-black text-[#8b735f]">{label}</p>
+      <QuantityControl value={value} onMinus={onMinus} onPlus={onPlus} />
     </div>
   )
 }
