@@ -102,6 +102,7 @@ const categories = ["全部", "葉菜", "水果", "蔬果", "冷藏", "乾貨"]
 const statuses = ["新訂單", "待確認", "待出貨", "已出貨"]
 const valuePoints = ["少漏單", "價格統一", "出貨前修量", "缺貨有紀錄", "月底好對帳", "叫貨自動加總"]
 const deliveryOptions = ["明天上午", "明天下午", "後天上午", "固定配送日"]
+const stockOptions = ["現貨", "預訂", "低溫", "冷藏", "缺貨"]
 
 const initialOrders = [
   {
@@ -176,25 +177,30 @@ function WholesaleOrdering() {
   const [purchasePreview, setPurchasePreview] = useState("LINE文字")
   const [statementDiscount, setStatementDiscount] = useState(0)
   const [statementNote, setStatementNote] = useState("月底對帳，未出貨項目不列入本期應收。")
+  const [confirmOpen, setConfirmOpen] = useState(false)
+  const [deliverySlipOrderId, setDeliverySlipOrderId] = useState("")
+  const [productAdminId, setProductAdminId] = useState(baseProducts[0].id)
 
   const selectedCustomer = getCustomer(customerId)
   const selectedOrder = orders.find((order) => order.id === selectedOrderId) || orders[0]
+  const deliverySlipOrder = orders.find((order) => order.id === deliverySlipOrderId)
   const selectedOrderCustomer = getCustomer(selectedOrder.customerId)
-  const shownProducts = category === "全部" ? products : products.filter((product) => product.category === category)
+  const activeProducts = products.filter((product) => product.active !== false)
+  const shownProducts = category === "全部" ? activeProducts : activeProducts.filter((product) => product.category === category)
   const unshippedOrders = orders.filter((order) => order.status !== "已出貨")
   const shippedOrders = orders.filter((order) => order.status === "已出貨")
   const monthTotal = orders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0)
 
   const cartItems = useMemo(
     () =>
-      products
+      activeProducts
         .map((product) => ({
           ...product,
           quantity: cart[product.id] || 0,
           price: getPrice(products, product.id, customerId),
         }))
         .filter((product) => product.quantity > 0),
-    [cart, customerId, products],
+    [activeProducts, cart, customerId, products],
   )
 
   const cartTotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0)
@@ -237,12 +243,19 @@ function WholesaleOrdering() {
     setCart((current) => ({ ...current, [productId]: Math.max(0, (current[productId] || 0) + delta) }))
   }
 
+  function requestSubmitOrder() {
+    if (cartItems.length === 0) {
+      flash("請先加入商品")
+      return
+    }
+    setConfirmOpen(true)
+  }
+
   function submitOrder() {
     if (cartItems.length === 0) {
       flash("請先加入商品")
       return
     }
-
     const nextOrder = {
       id: `B2B-${2500 + orders.length + 1}`,
       customerId,
@@ -260,6 +273,8 @@ function WholesaleOrdering() {
     }
     setOrders((current) => [nextOrder, ...current])
     setSelectedOrderId(nextOrder.id)
+    setCart({})
+    setConfirmOpen(false)
     setMode("backend")
     flash("訂單已進入後台")
   }
@@ -320,6 +335,13 @@ function WholesaleOrdering() {
     )
   }
 
+  function updateProductField(productId, field, value) {
+    setProducts((current) =>
+      current.map((product) => (product.id === productId ? { ...product, [field]: value } : product)),
+    )
+    flash(field === "active" ? "商品狀態已更新" : "商品資料已更新")
+  }
+
   function copyPurchaseList(type) {
     const content = purchaseGroups
       .map((group) => [`【${group.vendor}】`, ...group.rows.map((row) => `${row.name} ${row.quantity}${row.unit}`)].join("\n"))
@@ -348,7 +370,7 @@ function WholesaleOrdering() {
         }}
       />
 
-      <Header mode={mode} setMode={changeMode} onSubmit={submitOrder} />
+      <Header mode={mode} setMode={changeMode} onSubmit={requestSubmitOrder} />
       <ModeHero mode={mode} openOrders={unshippedOrders.length} shippedOrders={shippedOrders.length} monthTotal={monthTotal} />
 
       {mode === "client" ? (
@@ -368,7 +390,7 @@ function WholesaleOrdering() {
           cartNote={cartNote}
           setCartNote={setCartNote}
           updateCart={updateCart}
-          onSubmit={submitOrder}
+          onSubmit={requestSubmitOrder}
           orders={orders}
           onRepeat={repeatOrder}
         />
@@ -388,11 +410,15 @@ function WholesaleOrdering() {
           updateOrderItem={updateOrderItem}
           setShortage={setShortage}
           setOrderStatus={setOrderStatus}
+          onOpenSlip={(orderId) => setDeliverySlipOrderId(orderId)}
           purchaseGroups={purchaseGroups}
           purchasePreview={purchasePreview}
           copied={copied}
           onCopy={copyPurchaseList}
           onUpdatePrice={updateCustomerPrice}
+          productAdminId={productAdminId}
+          setProductAdminId={setProductAdminId}
+          onUpdateProduct={updateProductField}
         />
       ) : null}
 
@@ -416,6 +442,27 @@ function WholesaleOrdering() {
         <div className="fixed bottom-5 left-1/2 z-50 w-[min(92vw,520px)] -translate-x-1/2 rounded-2xl bg-[#263f31] px-5 py-4 text-sm font-black text-white shadow-2xl shadow-[#263f31]/25">
           {toast}
         </div>
+      ) : null}
+
+      {confirmOpen ? (
+        <OrderConfirmModal
+          customer={selectedCustomer}
+          cartItems={cartItems}
+          deliveryTime={deliveryTime}
+          cartNote={cartNote}
+          cartTotal={cartTotal}
+          onClose={() => setConfirmOpen(false)}
+          onConfirm={submitOrder}
+        />
+      ) : null}
+
+      {deliverySlipOrder ? (
+        <DeliverySlipModal
+          order={deliverySlipOrder}
+          products={products}
+          customer={getCustomer(deliverySlipOrder.customerId)}
+          onClose={() => setDeliverySlipOrderId("")}
+        />
       ) : null}
     </main>
   )
@@ -722,6 +769,7 @@ function ClientHistory({ orders, products, onRepeat }) {
               <p className="text-sm font-black text-[#2d231d]">{order.id}</p>
               <span className={`rounded-full px-3 py-1 text-xs font-black ${statusTone(order.status)}`}>{order.status}</span>
             </div>
+            <StatusRail status={order.status} />
             <p className="mt-3 text-xl font-black text-[#c76532]">{money(getOrderShipTotal(order, products))}</p>
             <button type="button" onClick={() => onRepeat(order)} className="mt-3 min-h-10 rounded-xl bg-white px-4 text-xs font-black text-[#2d231d]">
               再訂一次
@@ -729,6 +777,50 @@ function ClientHistory({ orders, products, onRepeat }) {
           </div>
         ))}
       </div>
+    </section>
+  )
+}
+
+function StatusRail({ status }) {
+  const currentIndex = statuses.indexOf(status)
+  return (
+    <div className="mt-3 grid grid-cols-4 gap-1">
+      {statuses.map((item, index) => {
+        const active = index <= currentIndex
+        return (
+          <div key={item} className={`h-1.5 rounded-full ${active ? "bg-[#c76532]" : "bg-[#decfb7]"}`} title={item} />
+        )
+      })}
+    </div>
+  )
+}
+
+function AdminOverview({ orders, products, purchaseGroups }) {
+  const openOrders = orders.filter((order) => order.status !== "已出貨")
+  const waiting = orders.filter((order) => order.status === "待確認")
+  const shortageCount = orders.reduce(
+    (sum, order) =>
+      sum + order.items.filter((item) => (item.shippedQuantity ?? item.quantity) < item.quantity || item.shortageNote).length,
+    0,
+  )
+  const total = orders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0)
+  const cards = [
+    { label: "今日訂單", value: `${orders.length} 單` },
+    { label: "未出貨", value: `${openOrders.length} 單` },
+    { label: "待確認", value: `${waiting.length} 單` },
+    { label: "叫貨廠商", value: `${purchaseGroups.length} 家` },
+    { label: "異常品項", value: `${shortageCount} 項` },
+    { label: "今日金額", value: money(total) },
+  ]
+
+  return (
+    <section className="grid gap-3 md:grid-cols-3 xl:grid-cols-6">
+      {cards.map((card) => (
+        <div key={card.label} className="rounded-[1.35rem] border border-[#decfb7] bg-white p-4 shadow-sm">
+          <p className="text-xs font-black text-[#8b735f]">{card.label}</p>
+          <p className="mt-2 font-serif text-2xl font-black text-[#c76532]">{card.value}</p>
+        </div>
+      ))}
     </section>
   )
 }
@@ -746,14 +838,19 @@ function BackendMode({
   updateOrderItem,
   setShortage,
   setOrderStatus,
+  onOpenSlip,
   purchaseGroups,
   purchasePreview,
   copied,
   onCopy,
   onUpdatePrice,
+  productAdminId,
+  setProductAdminId,
+  onUpdateProduct,
 }) {
   return (
     <section className="mx-auto grid max-w-7xl gap-6 px-4 pb-12 md:px-7">
+      <AdminOverview orders={orders} products={products} purchaseGroups={purchaseGroups} />
       <BackOffice
         orders={orders}
         products={products}
@@ -767,9 +864,18 @@ function BackendMode({
         updateOrderItem={updateOrderItem}
         setShortage={setShortage}
         setOrderStatus={setOrderStatus}
+        onOpenSlip={onOpenSlip}
       />
       <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr]">
-        <PriceEditor products={products} onUpdatePrice={onUpdatePrice} />
+        <div className="grid gap-6">
+          <PriceEditor products={products} onUpdatePrice={onUpdatePrice} />
+          <ProductAdminPanel
+            products={products}
+            productAdminId={productAdminId}
+            setProductAdminId={setProductAdminId}
+            onUpdateProduct={onUpdateProduct}
+          />
+        </div>
         <PurchaseList purchaseGroups={purchaseGroups} copied={copied} previewType={purchasePreview} onCopy={onCopy} />
       </div>
     </section>
@@ -789,6 +895,7 @@ function BackOffice({
   updateOrderItem,
   setShortage,
   setOrderStatus,
+  onOpenSlip,
 }) {
   const filteredOrders = orders.filter((order) => {
     const customer = getCustomer(order.customerId)
@@ -914,6 +1021,13 @@ function BackOffice({
               <p className="font-serif text-3xl font-black text-[#c76532]">{money(getOrderShipTotal(selectedOrder, products))}</p>
             </div>
             <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                onClick={() => onOpenSlip(selectedOrder.id)}
+                className="min-h-10 rounded-xl bg-[#c76532] px-4 text-xs font-black text-white"
+              >
+                出貨單 Preview
+              </button>
               {statuses.map((status) => (
                 <button
                   key={status}
@@ -966,6 +1080,70 @@ function PriceEditor({ products, onUpdatePrice }) {
           </tbody>
         </table>
       </div>
+    </section>
+  )
+}
+
+function ProductAdminPanel({ products, productAdminId, setProductAdminId, onUpdateProduct }) {
+  const product = products.find((item) => item.id === productAdminId) || products[0]
+
+  return (
+    <section className="rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm">
+      <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Product Admin</p>
+      <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">商品管理</h2>
+      <div className="mt-5 flex gap-2 overflow-x-auto rounded-2xl border border-[#decfb7] bg-white p-2">
+        {products.map((item) => (
+          <button
+            key={item.id}
+            type="button"
+            onClick={() => setProductAdminId(item.id)}
+            className={`min-h-10 shrink-0 rounded-xl px-4 text-xs font-black ${
+              product.id === item.id ? "bg-[#263f31] text-white" : "bg-[#f7efe3] text-[#4f4035]"
+            }`}
+          >
+            {item.name}
+          </button>
+        ))}
+      </div>
+      <div className="mt-4 grid gap-3 sm:grid-cols-2">
+        <label className="grid gap-2">
+          <span className="text-xs font-black text-[#8b735f]">規格</span>
+          <input
+            value={product.spec}
+            onChange={(event) => onUpdateProduct(product.id, "spec", event.target.value)}
+            className="min-h-11 rounded-xl border border-[#decfb7] bg-white px-3 text-sm font-black text-[#2d231d] outline-none focus:border-[#c76532]"
+          />
+        </label>
+        <label className="grid gap-2">
+          <span className="text-xs font-black text-[#8b735f]">庫存狀態</span>
+          <select
+            value={product.stock}
+            onChange={(event) => onUpdateProduct(product.id, "stock", event.target.value)}
+            className="min-h-11 rounded-xl border border-[#decfb7] bg-white px-3 text-sm font-black text-[#2d231d] outline-none focus:border-[#c76532]"
+          >
+            {stockOptions.map((option) => (
+              <option key={option}>{option}</option>
+            ))}
+          </select>
+        </label>
+        <label className="grid gap-2 sm:col-span-2">
+          <span className="text-xs font-black text-[#8b735f]">廠商</span>
+          <input
+            value={product.vendor}
+            onChange={(event) => onUpdateProduct(product.id, "vendor", event.target.value)}
+            className="min-h-11 rounded-xl border border-[#decfb7] bg-white px-3 text-sm font-black text-[#2d231d] outline-none focus:border-[#c76532]"
+          />
+        </label>
+      </div>
+      <button
+        type="button"
+        onClick={() => onUpdateProduct(product.id, "active", product.active === false)}
+        className={`mt-4 min-h-11 rounded-xl px-5 text-sm font-black ${
+          product.active === false ? "bg-[#263f31] text-white" : "border border-[#decfb7] bg-white text-[#2d231d]"
+        }`}
+      >
+        {product.active === false ? "啟用商品" : "暫停顯示"}
+      </button>
     </section>
   )
 }
@@ -1192,6 +1370,115 @@ function ValuePanel() {
         </div>
       </div>
     </section>
+  )
+}
+
+function OrderConfirmModal({ customer, cartItems, deliveryTime, cartNote, cartTotal, onClose, onConfirm }) {
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[#1b1410]/45 px-4 py-6 backdrop-blur-sm">
+      <section className="max-h-[92vh] w-full max-w-2xl overflow-y-auto rounded-[1.75rem] border border-[#decfb7] bg-[#fffaf2] p-5 shadow-2xl">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Order Confirm</p>
+            <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">確認訂單</h2>
+            <p className="mt-2 text-sm font-bold text-[#725f50]">{customer.name} · {deliveryTime}</p>
+          </div>
+          <button type="button" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full bg-white text-sm font-black text-[#2d231d]">
+            ×
+          </button>
+        </div>
+
+        <div className="mt-5 grid gap-3">
+          {cartItems.map((item) => (
+            <div key={item.id} className="grid grid-cols-[1fr_auto_auto] items-center gap-3 rounded-2xl bg-white p-4">
+              <div>
+                <p className="text-sm font-black text-[#2d231d]">{item.name}</p>
+                <p className="mt-1 text-xs font-bold text-[#8b735f]">{item.spec} · 每 {item.unit}</p>
+              </div>
+              <p className="text-sm font-black text-[#725f50]">x{item.quantity}</p>
+              <p className="font-serif text-xl font-black text-[#c76532]">{money(item.price * item.quantity)}</p>
+            </div>
+          ))}
+        </div>
+
+        <div className="mt-5 rounded-2xl border border-[#decfb7] bg-white p-4">
+          <p className="text-xs font-black text-[#8b735f]">出貨備註</p>
+          <p className="mt-2 text-sm font-bold leading-6 text-[#4f4035]">{cartNote || "無備註"}</p>
+        </div>
+
+        <div className="mt-5 flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <p className="font-serif text-3xl font-black text-[#c76532]">{money(cartTotal)}</p>
+          <div className="flex gap-2">
+            <button type="button" onClick={onClose} className="min-h-11 rounded-xl border border-[#decfb7] bg-white px-5 text-sm font-black text-[#2d231d]">
+              返回修改
+            </button>
+            <button type="button" onClick={onConfirm} className="min-h-11 rounded-xl bg-[#c76532] px-5 text-sm font-black text-white">
+              確認送出
+            </button>
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
+function DeliverySlipModal({ order, products, customer, onClose }) {
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-[#1b1410]/45 px-4 py-6 backdrop-blur-sm">
+      <section className="max-h-[92vh] w-full max-w-3xl overflow-y-auto rounded-[1.75rem] border border-[#decfb7] bg-white p-5 shadow-2xl">
+        <div className="flex items-start justify-between gap-4">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">Delivery Slip</p>
+            <h2 className="mt-2 font-serif text-3xl font-black text-[#2d231d]">出貨單 Preview</h2>
+            <p className="mt-2 text-sm font-bold text-[#725f50]">{order.id} · {customer.name} · {order.deliveryTime || "固定配送日"}</p>
+          </div>
+          <button type="button" onClick={onClose} className="grid h-10 w-10 place-items-center rounded-full bg-[#f7efe3] text-sm font-black text-[#2d231d]">
+            ×
+          </button>
+        </div>
+
+        <div className="mt-5 overflow-hidden rounded-2xl border border-[#decfb7]">
+          <div className="grid grid-cols-[1fr_0.45fr_0.45fr_0.5fr] bg-[#fffaf2] px-4 py-3 text-xs font-black text-[#8b735f]">
+            <span>商品</span>
+            <span className="text-right">訂購</span>
+            <span className="text-right">實出</span>
+            <span className="text-right">金額</span>
+          </div>
+          {order.items.map((item) => {
+            const product = getProduct(products, item.productId)
+            const shippedQty = item.shippedQuantity ?? item.quantity
+            return (
+              <div key={item.productId} className="grid grid-cols-[1fr_0.45fr_0.45fr_0.5fr] border-t border-[#eee3d4] px-4 py-3 text-sm font-bold text-[#4f4035]">
+                <span>{product.name}</span>
+                <span className="text-right">{item.quantity}{product.unit}</span>
+                <span className="text-right">{shippedQty}{product.unit}</span>
+                <span className="text-right font-black text-[#c76532]">{money(getPrice(products, product.id, order.customerId) * shippedQty)}</span>
+              </div>
+            )
+          })}
+        </div>
+
+        <div className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-end">
+          <div className="rounded-2xl bg-[#f7efe3] p-4">
+            <p className="text-xs font-black text-[#8b735f]">備註</p>
+            <p className="mt-2 text-sm font-bold leading-6 text-[#4f4035]">{order.note}</p>
+          </div>
+          <div className="text-right">
+            <p className="text-xs font-black text-[#8b735f]">出貨金額</p>
+            <p className="mt-1 font-serif text-3xl font-black text-[#c76532]">{money(getOrderShipTotal(order, products))}</p>
+          </div>
+        </div>
+
+        <div className="mt-5 flex flex-wrap justify-end gap-2">
+          <button type="button" onClick={() => window.print()} className="min-h-11 rounded-xl border border-[#decfb7] bg-[#fffaf2] px-5 text-sm font-black text-[#2d231d]">
+            列印
+          </button>
+          <button type="button" onClick={onClose} className="min-h-11 rounded-xl bg-[#263f31] px-5 text-sm font-black text-white">
+            關閉
+          </button>
+        </div>
+      </section>
+    </div>
   )
 }
 
