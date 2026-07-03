@@ -99,7 +99,7 @@ function RagConsultant() {
       <Seo
         page={{
           path: "/works/rag-consultant",
-          title: "RAG 企業顧問｜文件知識庫、引用回答與聊天 Widget Demo｜Qingyu Web Studio",
+          title: "RAG 企業顧問｜文件知識庫、引用回答與聊天 Widget｜Qingyu Web Studio",
           description: "RAG 企業顧問系統展示，包含文件上傳、切片、向量搜尋、引用回答、多租戶 API Key、短期 Widget JWT 與用量 metrics。",
         }}
       />
@@ -114,7 +114,7 @@ function RagConsultant() {
             </div>
           </Link>
           <div className="hidden items-center gap-2 md:flex">
-            <a href="#demo" className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#14201f]">Demo</a>
+            <a href="#demo" className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#14201f]">系統</a>
             <a href="#engine" className="rounded-xl bg-white px-4 py-2 text-sm font-black text-[#14201f]">Engine</a>
             <Link to="/contact" className="rounded-xl bg-[#14201f] px-4 py-2 text-sm font-black text-white">聯絡我</Link>
           </div>
@@ -139,7 +139,7 @@ function RagConsultant() {
               </div>
               <div className="flex flex-wrap gap-3 md:justify-end">
                 <a href="#demo" className="inline-flex min-h-12 items-center rounded-xl bg-[#14201f] px-5 text-sm font-black text-white">
-                  查看 Demo
+                  查看系統
                 </a>
                 <a href="#engine" className="inline-flex min-h-12 items-center rounded-xl border border-[#d7cbbb] bg-white px-5 text-sm font-black text-[#14201f]">
                   看引擎架構
@@ -153,7 +153,7 @@ function RagConsultant() {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">RAG SaaS Dashboard</p>
-                  <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-white/76">Prototype / Mock Demo</span>
+                  <span className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-white/76">Prototype / Product Preview</span>
                 </div>
                 <h2 className="mt-2 font-serif text-3xl font-black md:text-4xl">企業知識庫問答中控台</h2>
               </div>

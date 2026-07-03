@@ -697,7 +697,7 @@ function RestaurantOrdering() {
           )}
           <div className="flex flex-col gap-3 rounded-[1.35rem] border border-[#dfd0bc] bg-[#fffaf2]/86 p-5 shadow-sm md:flex-row md:items-center md:justify-between">
             <div>
-              <p className="font-serif text-2xl font-black text-[#3a2419]">餐飲點餐系統 Demo</p>
+              <p className="font-serif text-2xl font-black text-[#3a2419]">餐飲點餐系統</p>
               <p className="mt-1 text-sm font-bold text-[#806a59]">客戶端點餐、服務端控單、桌況、站別負載與出餐節奏一次展示。</p>
             </div>
             <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#dfd0bc] bg-white px-5 text-sm font-black text-[#3a2419]">

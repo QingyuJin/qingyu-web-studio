@@ -10,10 +10,10 @@ const aiExampleReport = {
     { title: "首頁文案", finding: "目前描述偏完整，但手機版可再縮短。", suggestion: "副標控制在 1～2 行，把細節放到服務區。" },
     { title: "CTA", finding: "主要 CTA 需要比其他連結更突出。", suggestion: "第一屏放「聊聊需求」，第二 CTA 放「看作品」。" },
     { title: "SEO", finding: "title 需要包含地區與服務。", suggestion: "建議使用「台灣網站製作、AI 工具與 LINE Bot 開發」。" },
-    { title: "信任感", finding: "作品展示可再加強技術與流程證據。", suggestion: "每個案例加上 mockup、技術架構和可互動 Demo。" },
+    { title: "信任感", finding: "作品展示可再加強技術與流程證據。", suggestion: "每個案例加上 mockup、技術架構和可操作成品。" },
     { title: "手機版", finding: "若首屏資訊太多，使用者會滑走。", suggestion: "保留短標題、短副標、兩個按鈕與一個產品 mockup。" },
   ],
-  nextSteps: ["縮短 Hero 文案", "把 CTA 移到第一屏", "作品卡補 Demo 入口", "確認 sitemap 與 OG metadata"],
+  nextSteps: ["縮短 Hero 文案", "把 CTA 移到第一屏", "作品卡補成品入口", "確認 sitemap 與 OG metadata"],
 }
 
 function scrollToSection(id) {
@@ -33,7 +33,7 @@ function Shell({ title, desc, children }) {
       <div className="border-b border-[#eee9df] bg-[#faf8f3] p-4 md:p-6">
       <div className="mb-5 flex flex-col gap-2 md:flex-row md:items-end md:justify-between">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Product Demo</p>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Product Preview</p>
           <h2 className="mt-2 text-2xl font-black md:text-3xl">{title}</h2>
         </div>
         <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">{desc}</p>
@@ -104,7 +104,7 @@ export function LegacyAiAuditDemo() {
   const [chatMessages, setChatMessages] = useState([
     {
       role: "assistant",
-      content: "這是 Demo 顧問助理。你可以問網站方案、LINE Bot、AI 工具或工程系統方向。",
+      content: "這是顧問助理。你可以問網站方案、LINE Bot、AI 工具或工程系統方向。",
     },
   ])
 
@@ -165,9 +165,9 @@ export function LegacyAiAuditDemo() {
         body: JSON.stringify({ message, history: chatMessages }),
       })
       const data = await response.json()
-      setChatMessages([...nextMessages, { role: "assistant", content: data.reply || "目前先用 Demo 回覆，請稍後再試。" }])
+      setChatMessages([...nextMessages, { role: "assistant", content: data.reply || "目前先用展示回覆，請稍後再試。" }])
     } catch {
-      setChatMessages([...nextMessages, { role: "assistant", content: "AI 助理暫時無法連線，這裡先顯示 Demo 示範回覆。" }])
+      setChatMessages([...nextMessages, { role: "assistant", content: "AI 助理暫時無法連線，這裡先顯示展示回覆。" }])
     }
   }
 
@@ -212,7 +212,7 @@ export function LegacyAiAuditDemo() {
                 <p className="mt-1 text-sm font-bold text-white/65">{report.summary}</p>
               </div>
               <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
-                {report.source === "openai" ? "OpenAI" : "Demo 模式"}
+                {report.source === "openai" ? "OpenAI" : "展示模式"}
               </span>
             </div>
           </MiniCard>
@@ -244,7 +244,7 @@ export function LegacyAiAuditDemo() {
             {(report.nextSteps || []).map((item) => <li key={item}>・{item}</li>)}
           </ul>
         </MiniCard>
-        <MiniCard title="聊天式 AI 助理 Demo">
+        <MiniCard title="聊天式 AI 助理">
           <div className="max-h-64 space-y-2 overflow-y-auto rounded-lg bg-white p-3">
             {chatMessages.map((item, index) => (
               <div key={`${item.role}-${index}`} className={`rounded-lg p-2 text-sm font-bold leading-6 ${item.role === "assistant" ? "bg-[#eef7f4] text-[#23413d]" : "bg-[#111c22] text-white"}`}>
@@ -285,7 +285,7 @@ function findReportSuggestion(sections, label) {
 const cleanAiAuditFallback = {
   source: "demo_mode",
   score: 82,
-  summary: "這份 Demo 會檢查首頁是否讓台灣客戶快速看懂服務、信任你，並知道下一步要怎麼聯絡。",
+  summary: "這份報告會檢查首頁是否讓台灣客戶快速看懂服務、信任你，並知道下一步要怎麼聯絡。",
   seo: ["title 建議包含服務、地區與主要客群，例如：台灣網站製作、作品集、一頁式網站。"],
   cta: ["主要 CTA 建議只保留一個明確動作，例如「免費網站健檢」或「聊聊需求」。"],
   copywriting: ["首頁標題要先說清楚你能幫誰解決什麼事，不要一開始堆滿技術詞。"],
@@ -402,11 +402,11 @@ function AiAuditProductDemo() {
       const nextReport = normalizeAiAuditReport(response.ok ? data : null)
       setReport(nextReport)
       setAuditNotice(`報告已產生，分數 ${nextReport.score}。`)
-      if (!response.ok) setError("API 暫時無法分析，已顯示 Demo 範例報告。")
+      if (!response.ok) setError("API 暫時無法分析，已顯示範例報告。")
     } catch {
       setReport(cleanAiAuditFallback)
-      setAuditNotice(`Demo 報告已載入，分數 ${cleanAiAuditFallback.score}。`)
-      setError("目前沒有連線到 AI 服務，已使用 Demo 示範資料。")
+      setAuditNotice(`範例報告已載入，分數 ${cleanAiAuditFallback.score}。`)
+      setError("目前沒有連線到 AI 服務，已使用範例資料。")
     } finally {
       setLoading(false)
     }
@@ -505,7 +505,7 @@ function AiAuditProductDemo() {
           ) : null}
           {error ? <p className="mt-3 rounded-lg bg-[#fff7ed] px-3 py-2 text-xs font-black text-[#b45309]">{error}</p> : null}
           <div className="mt-4 flex flex-wrap gap-2">
-            {["需求輸入", "Serverless API", "OpenAI-ready", "Demo 資料"].map((tag) => (
+            {["需求輸入", "Serverless API", "OpenAI-ready", "範例資料"].map((tag) => (
               <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">{tag}</span>
             ))}
           </div>
@@ -526,7 +526,7 @@ function AiAuditProductDemo() {
               <div>
                 <div className="flex flex-wrap items-center gap-2">
                   <span className="rounded-full bg-[#8fd6cc] px-3 py-1 text-xs font-black text-[#0b2724]">
-                    {displayedReport.source === "openai" ? "OpenAI result" : "Demo result"}
+                    {displayedReport.source === "openai" ? "OpenAI result" : "Preview result"}
                   </span>
                   <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/70">{industry}</span>
                   <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/70">{goal}</span>
@@ -669,15 +669,15 @@ export function LegacyLineBotDemo() {
       setWebhookStatus({
         ok: true,
         message: data?.message || "LINE webhook endpoint ready",
-        openAI: data?.modes?.openAI || "Demo 回覆模式",
-        line: data?.modes?.line || "Demo webhook 模式",
+        openAI: data?.modes?.openAI || "展示回覆模式",
+        line: data?.modes?.line || "展示 webhook 模式",
       })
     } catch (error) {
       setWebhookStatus({
         ok: false,
         message: error.message || "Webhook health check failed",
-        openAI: "Demo 回覆模式",
-        line: "Demo webhook 模式",
+        openAI: "展示回覆模式",
+        line: "展示 webhook 模式",
       })
     } finally {
       setWebhookLoading(false)
@@ -782,8 +782,8 @@ export function LegacyLineBotDemo() {
             <div className="grid gap-3 md:grid-cols-[1fr_auto] md:items-center">
               <div className="grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
                 <p><span className="font-black text-[#111c22]">Webhook 路徑：</span>/api/line-webhook</p>
-                <p><span className="font-black text-[#111c22]">AI 回覆：</span>{webhookStatus?.openAI || "Demo 回覆模式"}</p>
-                <p><span className="font-black text-[#111c22]">LINE 回覆：</span>{webhookStatus?.line || "Demo webhook 模式"}</p>
+                <p><span className="font-black text-[#111c22]">AI 回覆：</span>{webhookStatus?.openAI || "展示回覆模式"}</p>
+                <p><span className="font-black text-[#111c22]">LINE 回覆：</span>{webhookStatus?.line || "展示 webhook 模式"}</p>
                 {webhookStatus ? (
                   <p className={webhookStatus.ok ? "font-black text-[#0d6b62]" : "font-black text-[#b45309]"}>
                     {webhookStatus.ok ? "Ready：" : "Error："}{webhookStatus.message}
@@ -935,7 +935,7 @@ function LineBotProductDemo() {
         message: data.message || "LINE webhook endpoint ready",
         items: [
           "Webhook Ready",
-          "Demo 回覆模式",
+          "展示回覆模式",
           "Signature verify supported",
           "OpenAI reply optional",
           "LINE Reply API optional",
@@ -945,7 +945,7 @@ function LineBotProductDemo() {
       setWebhookStatus({
         ok: false,
         message: error?.message || "Webhook health check failed",
-        items: ["Webhook 暫時無法連線", "Demo 回覆模式", "不顯示任何金鑰"],
+        items: ["Webhook 暫時無法連線", "展示回覆模式", "不顯示任何金鑰"],
       })
     } finally {
       setWebhookLoading(false)
@@ -986,7 +986,7 @@ function LineBotProductDemo() {
               下一步對話
             </button>
             <button type="button" onClick={resetLineBotDemo} className="min-h-11 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62]">
-              重置 Demo
+              重置
             </button>
           </div>
         </MiniCard>
@@ -1110,7 +1110,7 @@ function LineBotProductDemo() {
                 "AI: OpenAI API optional",
                 "Database: Supabase optional",
                 "Dashboard: 案件狀態 UI",
-                "Demo 回覆模式",
+                "展示回覆模式",
               ].map((tag) => (
                 <span key={tag} className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#0d6b62]">
                   {tag}
@@ -1118,7 +1118,7 @@ function LineBotProductDemo() {
               ))}
             </div>
             <div className="mt-4 overflow-x-auto rounded-xl bg-[#111c22] p-4 text-xs font-black text-white">
-              LINE User → LINE Platform → /api/line-webhook → OpenAI / Demo → LINE Reply → Dashboard
+              LINE User → LINE Platform → /api/line-webhook → OpenAI / 展示回覆 → LINE Reply → Dashboard
             </div>
           </MiniCard>
         </div>
@@ -1280,7 +1280,7 @@ function BuildFlowDemo() {
         photos: ["xinjiang-roof-1", "quote-form", "site-waterproof"],
         logs: ["已收到來自鑫匠工程網站的估價需求，等待初步估價。"],
       }),
-      name: "鑫匠工程 Demo 案件",
+      name: "鑫匠工程範例案件",
       quoteStatus: "待估價",
       construction: "網站估價需求已進入 BuildFlow，等待整理照片與初步估價。",
       notes: "網站估價進 BuildFlow，後續接 LINE 回報與報價單。",
@@ -1343,10 +1343,10 @@ function BuildFlowDemo() {
       const fallback = fallbackApiCases.map(mapApiCaseToUi)
       setCases(fallback)
       setSelected(fallback[0].id)
-      setApiMode("Demo 模式")
+      setApiMode("展示模式")
       setApiResponse({ ok: true, source: "demo_mode", cases: fallbackApiCases })
-      setApiError("API 暫時無法連線，已使用 Demo 模式顯示。")
-      setActionNotice("Demo 模式已載入案件列表。")
+      setApiError("API 暫時無法連線，已使用展示模式顯示。")
+      setActionNotice("展示模式已載入案件列表。")
     }
   }
 
@@ -1395,11 +1395,11 @@ function BuildFlowDemo() {
       const fallbackCase = createFallbackCase()
       setCases((currentCases) => [fallbackCase, ...currentCases])
       setSelected(fallbackCase.id)
-      setApiMode("Demo 模式")
-      setApiError("新增案件 API 暫時無法連線，已用 Demo 模式新增。")
+      setApiMode("展示模式")
+      setApiError("新增案件 API 暫時無法連線，已用展示模式新增。")
       setApiResponse({ ok: true, source: "demo_mode", case: fallbackCase })
       setLastLineMessage(lineMessageByStatus["待估價"])
-      setActionNotice("Demo 模式新增案件完成，已切到案件詳情。")
+      setActionNotice("展示模式新增案件完成，已切到案件詳情。")
       setMobileTab("detail")
     }
   }
@@ -1447,11 +1447,11 @@ function BuildFlowDemo() {
       })
       setCases((currentCases) => [fallbackCase, ...currentCases])
       setSelected(fallbackCase.id)
-      setApiMode("Demo 模式")
-      setApiError("鑫匠案例 API 暫時無法連線，已用 Demo 模式新增。")
+      setApiMode("展示模式")
+      setApiError("鑫匠案例 API 暫時無法連線，已用展示模式新增。")
       setApiResponse({ ok: true, source: "demo_mode", scenario: "xinjiang_case", case: fallbackCase })
       setLastLineMessage("已收到來自鑫匠工程網站的估價需求，等待初步估價。")
-      setActionNotice("Demo 模式新增鑫匠案例完成。")
+      setActionNotice("展示模式新增鑫匠案例完成。")
       setMobileTab("detail")
     }
   }
@@ -1485,11 +1485,11 @@ function BuildFlowDemo() {
           reports: [`LINE：${lineMessage}`, ...item.reports],
         } : item
       )))
-      setApiMode("Demo 模式")
-      setApiError("更新狀態 API 暫時無法連線，已用 Demo 模式更新。")
+      setApiMode("展示模式")
+      setApiError("更新狀態 API 暫時無法連線，已用展示模式更新。")
       setApiResponse({ ok: true, source: "demo_mode", lineMessage, caseId: current.id, status })
       setLastLineMessage(lineMessage)
-      setActionNotice(`Demo 模式更新為「${status}」，LINE 回報已新增。`)
+      setActionNotice(`展示模式更新為「${status}」，LINE 回報已新增。`)
       setMobileTab("line")
     }
   }
@@ -1500,11 +1500,11 @@ function BuildFlowDemo() {
     setSelected(fallback[0].id)
     setShowDetail(false)
     setShowQuote(false)
-    setApiMode("Demo 模式")
+    setApiMode("展示模式")
     setApiResponse({ ok: true, source: "frontend_reset", cases: fallbackApiCases })
-    setApiError("Demo 已重置為初始資料。")
+    setApiError("已重置為初始資料。")
     setLastLineMessage(lineMessageByStatus["待估價"])
-    setActionNotice("Demo 已重置。")
+    setActionNotice("已重置。")
     setMobileTab("cases")
   }
 
@@ -1764,7 +1764,7 @@ function BuildFlowDemo() {
               重新載入案件
             </button>
             <button type="button" onClick={addDemoCase} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
-              新增案件 Demo
+              新增案件
             </button>
             <button type="button" onClick={updateConstructionStatus} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               更新施工狀態
@@ -1782,7 +1782,7 @@ function BuildFlowDemo() {
               查看 API Response
             </button>
             <button type="button" onClick={resetDemo} className="min-h-10 rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
-              重置 Demo
+              重置
             </button>
           </div>
           {showResponse ? (
@@ -1865,7 +1865,7 @@ function BuildFlowDemo() {
                     <p className="text-2xl font-black text-[#111c22]">{current.budget}</p>
                     <p className="mt-1 text-xs font-bold text-[#52605c]">{current.quoteStatus}</p>
                   </div>
-                  <span className="rounded-full bg-[#111c22] px-3 py-1 text-xs font-black text-white">Demo Preview</span>
+                  <span className="rounded-full bg-[#111c22] px-3 py-1 text-xs font-black text-white">Preview</span>
                 </div>
                 <div className="mt-3 grid gap-2">
                   {quoteItems(current).slice(0, 3).map((item) => (
@@ -1941,9 +1941,9 @@ function BuildFlowDemo() {
           <div className="max-h-[88vh] w-full max-w-3xl overflow-y-auto rounded-2xl bg-[#fdfbf6] p-5 shadow-xl">
             <div className="flex items-start justify-between gap-4 border-b border-[#e3ded3] pb-4">
               <div>
-                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Qingyu Web Studio Demo</p>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">Qingyu Web Studio Preview</p>
                 <h3 className="mt-2 text-3xl font-black">工程報價單 Preview</h3>
-                <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：Demo Preview｜報價日期：2026-06-20</p>
+                <p className="mt-2 text-sm font-bold text-[#52605c]">狀態：Preview｜報價日期：2026-06-20</p>
               </div>
               <button type="button" onClick={() => setShowQuote(false)} className="rounded-md border border-[#d8d2c5] bg-white px-3 py-2 text-sm font-black">關閉</button>
             </div>
@@ -1983,7 +1983,7 @@ function BuildFlowDemo() {
             <div className="mt-5 grid gap-4 md:grid-cols-[1fr_auto] md:items-end">
               <div className="rounded-xl border border-[#e3ded3] bg-white p-4">
                 <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">報價備註</p>
-                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">Demo 報價單。未來可接 PDF 與線上確認。</p>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">報價單預覽。未來可接 PDF 與線上確認。</p>
               </div>
               <div className="rounded-xl bg-[#111c22] p-5 text-white">
                 <p className="text-xs font-black text-white/60">總額</p>
@@ -2051,13 +2051,13 @@ function ApiAutomationDemo() {
     return {
       ok: true,
       leadId: `mock_${Date.now()}`,
-      status: "demo_mode",
+      status: "preview_mode",
       notification: "通知已模擬送出",
-      message: "Demo 模式：已模擬通知流程",
+      message: "展示模式：已模擬通知流程",
       dashboardItem: {
         ...apiPayload,
         status: "新需求",
-        source: "Demo 模式",
+        source: "展示模式",
         createdAt: new Date().toISOString(),
       },
     }
@@ -2083,11 +2083,11 @@ function ApiAutomationDemo() {
       budget: item.budget || apiPayload.budget,
       note: item.note || apiPayload.note,
       status: item.status || "新需求",
-      source: item.source || "API Demo",
+      source: item.source || "API Preview",
       createdAt: formatTime(item.createdAt),
       apiStatus: response.status || "received",
       notificationStatus: response.notification || "通知已模擬送出",
-      apiMessage: response.message || "Demo 模式：已模擬通知流程",
+      apiMessage: response.message || "展示模式：已模擬通知流程",
       payload: apiPayload,
       response,
       nextStep: "確認需求欄位，安排初步討論。",
@@ -2108,7 +2108,7 @@ function ApiAutomationDemo() {
       return data
     } catch (error) {
       console.warn("automation lead demo fallback", error.message)
-      setApiError("API 暫時無法連線，已使用 Demo 模式完成展示。")
+      setApiError("API 暫時無法連線，已使用展示模式完成。")
       return createFallbackResponse()
     }
   }
@@ -2168,7 +2168,7 @@ function ApiAutomationDemo() {
     setApiError("")
     setDashboardItems([])
     setDetailLead(null)
-    setAutomationNotice("Demo 已清空，可以重新填寫。")
+    setAutomationNotice("已清空，可以重新填寫。")
   }
 
   function flowStatus(index) {
@@ -2182,7 +2182,7 @@ function ApiAutomationDemo() {
       <div className="grid gap-4 lg:grid-cols-[0.8fr_1.2fr]">
         <MiniCard title="客戶需求表單">
           <div className="mb-4 rounded-xl border border-[#d8d2c5] bg-[#faf7ef] p-3">
-            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Live API Demo</p>
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Live API Flow</p>
             <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{automationNotice}</p>
           </div>
           <div className="grid gap-3">
@@ -2374,7 +2374,7 @@ function QingyuWebDemo() {
   const siteBlocks = [
     ["Hero", "讓服務被看懂，第一屏放清楚定位與 CTA。"],
     ["服務分類", "品牌網站、作品展示、後台流程、AI 工具、LINE Bot。"],
-    ["Demo Lab / 精選作品", "把技術作品變成可點、可看的案例入口。"],
+    ["成品展示區 / 精選作品", "把技術作品變成可點、可看的案例入口。"],
     ["需求診斷 CTA", "引導客戶用 Project Planner 整理需求。"],
     ["技術能力", "展示 React、Vercel、SEO、API 串接能力。"],
     ["聯絡轉換", "把訪客導到 contact 與需求討論。"],
@@ -2384,7 +2384,7 @@ function QingyuWebDemo() {
     {
       name: "Desktop",
       width: "lg:col-span-2",
-      preview: ["Hero + CTA", "Demo Lab 作品列", "技術能力 / 服務分類"],
+      preview: ["Hero + CTA", "成品展示區", "技術能力 / 服務分類"],
     },
     {
       name: "Tablet",
@@ -2485,7 +2485,7 @@ function QingyuWebDemo() {
         </MiniCard>
         <MiniCard title="產品導流流程">
           <div className="grid gap-3">
-            {["Visitor", "Homepage", "Demo Lab", "Project Planner", "Contact", "Case Study"].map((item, index) => (
+            {["Visitor", "Homepage", "成品展示區", "Project Planner", "Contact", "Case Study"].map((item, index) => (
               <div key={item} className="flex items-center gap-3 rounded-xl border border-[#e3ded3] bg-[#faf7ef] p-3">
                 <span className="flex h-9 w-9 items-center justify-center rounded-full bg-[#111c22] text-xs font-black text-white">{index + 1}</span>
                 <div>

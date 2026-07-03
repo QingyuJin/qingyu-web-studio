@@ -152,7 +152,7 @@ LINE Bot：${lineBotId}`
             <Link to="/" className="text-sm font-bold text-[#8bd8cc]">
               Qingyu Web Studio
             </Link>
-            <p className="mt-1 font-black">工程接案頁 Demo</p>
+            <p className="mt-1 font-black">工程接案頁</p>
           </div>
           <div className="flex gap-2">
             <a href="#inquiry" className="rounded-md bg-[#f0c36a] px-4 py-2 text-sm font-black text-[#0c1518]">

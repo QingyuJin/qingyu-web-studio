@@ -36,7 +36,7 @@ const improvements = [
     title: "加入作品案例",
     short: "用案例讓客戶知道你真的做得出來。",
     points: 8,
-    after: "新增作品 mockup 與 Demo 入口，技術能力變得可視化。",
+    after: "新增作品 mockup 與成品入口，技術能力變得可視化。",
     report: "作品案例補上後，客戶更容易理解服務成果。",
   },
   {
@@ -121,9 +121,9 @@ function WebsiteRescue() {
       <section className="border-b border-[#e6e0d5] bg-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Demo</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Product</p>
             <h1 className="mt-4 text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.4rem,8vw,4.8rem)] md:leading-[1.04]">
-              網站救援互動 Demo
+              網站救援互動成品
             </h1>
             <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
               點選改善項目，觀察 CTA、SEO、手機版與信任感如何改變網站狀態。
@@ -317,7 +317,7 @@ function WebsitePreview({ preview, activeItem, fixedCount }) {
             {preview.line ? <span className="inline-flex min-h-10 items-center rounded-md border border-[#0d6b62] bg-white px-4 text-sm font-black text-[#0d6b62] shadow-sm">LINE 聯絡</span> : null}
           </div>
           <div className="mt-5 hidden gap-2 sm:grid sm:grid-cols-2">
-            <PreviewCard title={preview.works ? "作品案例" : "服務介紹"} text={preview.works ? "Demo / 系統 / 技術拆解" : "內容還不夠像成果展示"} />
+            <PreviewCard title={preview.works ? "作品案例" : "服務介紹"} text={preview.works ? "成品 / 系統 / 技術拆解" : "內容還不夠像成果展示"} />
             <PreviewCard title={preview.trust ? "信任元素" : "缺少信任感"} text={preview.trust ? "流程、技術與聯絡入口完整" : "客戶還不知道能不能放心詢問"} />
           </div>
           <div className="mt-3 hidden gap-2 sm:grid sm:grid-cols-2">

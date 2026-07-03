@@ -38,11 +38,11 @@ function LoginPage() {
           </h1>
 
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300">
-            這裡用來展示網站專案、需求資料與 Demo 後台流程。正式專案會改為後端驗證與權限控管。
+            這裡用來展示網站專案、需求資料與後台流程。正式專案會改為後端驗證與權限控管。
           </p>
 
           <div className="mt-8 grid gap-3 text-sm font-bold text-slate-300 sm:grid-cols-3">
-            {["Demo only", "No real data", "Private workflow"].map((item) => (
+            {["Preview only", "No real data", "Private workflow"].map((item) => (
               <div key={item} className="rounded-2xl border border-white/10 bg-white/[0.045] px-4 py-3">
                 {item}
               </div>

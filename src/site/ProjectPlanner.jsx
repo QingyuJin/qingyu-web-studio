@@ -96,9 +96,9 @@ function buildRecommendation(answers) {
   let tech = ["React", "Tailwind", "Vercel"]
 
   if (wantsAi) {
-    planName = "AI 工具 Demo 方案"
+    planName = "AI 工具成品方案"
     complexity = "高"
-    direction = "先做可操作的前端 Demo 與報告 UI，再視需求接 OpenAI API、紀錄資料與管理後台。"
+    direction = "先做可操作的前端成品與報告 UI，再視需求接 OpenAI API、紀錄資料與管理後台。"
     recommendedFeatures = ["AI 回覆", "Report UI", "表單輸入", "後台紀錄"]
     tech = ["React", "Tailwind", "Vercel", "OpenAI API"]
   } else if (wantsLine) {
@@ -364,7 +364,7 @@ function ProjectPlanner() {
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-                查看互動 Demo
+                查看互動成品
               </button>
               <button type="button" onClick={loadExample} className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
                 查看範例
@@ -572,7 +572,7 @@ function ProjectPlanner() {
                 <h3 className="mt-2 text-2xl font-black">{aiPlan ? aiPlan.recommendedPackage : "等待產生 AI 規劃"}</h3>
               </div>
               <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">
-                {aiPlan ? aiPlan.estimatedComplexity : "API / Demo"}
+                {aiPlan ? aiPlan.estimatedComplexity : "API / 成品"}
               </span>
             </div>
             {aiLoading ? (
@@ -660,7 +660,7 @@ function ProjectPlanner() {
               ["API", "Vercel Serverless Function"],
               ["AI", "OpenAI API optional"],
               ["Prompt Flow", "台灣網站與流程系統顧問語氣"],
-              ["Fallback", "Demo Plan"],
+              ["Fallback", "成品規劃"],
               ["State UI", "React State UI"],
               ["Future", "OpenAI API 可升級成 AI 顧問"],
               ["Deploy", "Vercel"],

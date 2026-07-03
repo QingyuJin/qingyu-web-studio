@@ -207,7 +207,7 @@ const defaultConversionProfile = {
   audience: ["店家", "個人品牌", "工作室"],
   custom: ["頁面架構", "互動流程", "資料欄位", "聯絡 CTA"],
   problems: ["服務不容易被理解", "客戶看完不知道怎麼詢問", "流程太靠人工整理"],
-  scenario: "先用 Demo 驗證流程。",
+  scenario: "先用成品確認流程。",
   next: "先整理方向。",
 }
 
@@ -252,7 +252,7 @@ export function WorksPage() {
     category: "互動工具",
     summary: "回答幾題，整理方向。",
     livePath: "/tools/project-planner#demo",
-    liveLabel: "查看互動 Demo",
+    liveLabel: "查看成品",
     secondaryPath: "/tools/project-planner#tech",
     secondaryLabel: "技術拆解",
     tags: ["React", "Rule-based", "OpenAI optional", "聯絡 CTA"],
@@ -261,7 +261,7 @@ export function WorksPage() {
   }
   const rescueProject = {
     slug: "website-rescue",
-    title: "網站救援互動 Demo",
+    title: "網站救援互動成品",
     category: "互動工具",
     summary: "點選改善項目，看網站狀態變化。",
     livePath: "/tools/website-rescue#demo",
@@ -408,7 +408,7 @@ export function WorkDetailPage() {
         ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
     description: isQingyuWebProject
-      ? "展示主站、Demo、SEO 與聯絡轉換。"
+      ? "展示主站、成品、SEO 與聯絡轉換。"
       : isBuildFlowProject
       ? "以鑫匠工程為案例，展示詢價、案件、報價與 LINE 回報。"
       : isXinjiangProject
@@ -434,16 +434,16 @@ export function WorkDetailPage() {
               GitHub 原始碼
             </ActionLink>
             <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              討論類似 AI Demo
+              討論類似 AI 系統
             </Link>
           </>
         ) : isLineBotProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看互動 Demo
+              操作 LINE 接待
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看後台 Demo
+              查看後台
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -452,7 +452,7 @@ export function WorkDetailPage() {
         ) : isBuildFlowProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看互動 Demo
+              查看系統
             </Link>
             <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               看鑫匠案例
@@ -476,10 +476,10 @@ export function WorkDetailPage() {
         ) : isApiAutomationProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看互動 Demo
+              操作流程
             </Link>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              查看 API Demo
+              查看 API 流程
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -488,7 +488,7 @@ export function WorkDetailPage() {
         ) : isXinjiangProject ? (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看互動 Demo
+              查看案例
             </Link>
             <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看 BuildFlow 系統
@@ -500,7 +500,7 @@ export function WorkDetailPage() {
         ) : (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-              查看互動 Demo
+              查看成品
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -527,7 +527,7 @@ export function WorkDetailPage() {
               </div>
               {isInternalDemoPath ? (
                 <div className="flex flex-wrap gap-2 md:justify-end">
-                  {["可互動 Demo", "狀態會變化", "手機版可操作"].map((item) => (
+                  {["可操作成品", "狀態會變化", "手機版可操作"].map((item) => (
                     <span key={item} className="rounded-full border border-[#d7dfdb] bg-[#f7f4ec] px-3 py-2 text-xs font-black text-[#40504c]">
                       {item}
                     </span>
@@ -559,7 +559,7 @@ export function WorkDetailPage() {
                 {[
                   ["問題", "服務要先被看懂。"],
                   ["首頁", "定位、作品、CTA。"],
-                  ["互動", "Demo 可以直接操作。"],
+                  ["互動", "成品可以直接操作。"],
                   ["診斷", "先整理需求。"],
                   ["聯絡", "LINE、Email、表單。"],
                   ["SEO", "metadata、sitemap、robots。"],
@@ -655,7 +655,7 @@ export function WorkDetailPage() {
                   LINE 使用者 → LINE 平台 → /api/line-webhook → OpenAI / 展示回覆 → LINE 回覆 → 後台
                 </div>
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "Demo 模式"].map((item) => (
+                  {["React / Tailwind", "Vercel Serverless Function", "Messaging API / Reply API", "OpenAI optional", "Supabase optional", "展示模式"].map((item) => (
                     <span key={item} className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/80">
                       {item}
                     </span>
@@ -767,7 +767,7 @@ export function WorkDetailPage() {
               <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先看 Demo，再整理流程。
+              先看成品，再整理流程。
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -814,7 +814,7 @@ function HeroPreview({ project }) {
     <div className="rounded-[1.75rem] border border-[#d8d2c5] bg-[#111c22] p-4 text-white shadow-2xl shadow-[#111c22]/15 md:p-5">
       <div className="flex items-center justify-between border-b border-white/10 pb-3">
         <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">產品預覽</span>
-        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Demo-ready</span>
+        <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">Product-ready</span>
       </div>
 
       {isLineBot ? (
@@ -871,7 +871,7 @@ function HeroPreview({ project }) {
           <div className="rounded-xl bg-white p-4 text-[#111c22]">
             <div className="flex items-center justify-between gap-3">
               <p className="text-xs font-black text-[#0d6b62]">AI Audit Score</p>
-              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">Demo 模式可用</span>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-[11px] font-black text-[#0d6b62]">展示模式可用</span>
             </div>
             <div className="mt-4 flex items-end gap-3">
               <p className="text-5xl font-black">82</p>
@@ -1079,7 +1079,7 @@ export function ServicesPage() {
                     {service.label}
                   </span>
                   <ActionLink to={service.demoPath} className="text-sm font-black text-[#0d6b62]">
-                    看 Demo
+                    看成品
                   </ActionLink>
                 </div>
                 <h3 className="mt-4 text-2xl font-black text-[#111c22]">{service.name}</h3>

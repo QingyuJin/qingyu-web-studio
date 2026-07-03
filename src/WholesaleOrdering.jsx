@@ -365,7 +365,7 @@ function WholesaleOrdering() {
       <Seo
         page={{
           path: "/works/wholesale-ordering",
-          title: "批發訂貨系統｜B2B 訂貨、報價、叫貨與月結管理 Demo",
+          title: "批發訂貨系統｜B2B 訂貨、報價、叫貨與月結管理",
           description: "批發訂貨系統成品展示，包含客戶端下單、客戶分級報價、後台訂單管理、出貨狀態、採購叫貨單與月結對帳。",
         }}
       />
@@ -1203,7 +1203,7 @@ function PurchaseList({ purchaseGroups, copied, previewType, onCopy }) {
           )}
         </div>
         <p className="mt-3 text-xs font-bold leading-5 text-[#725f50]">
-          可整理成 LINE 文字、Excel 表格或 PDF 版型；Demo 先用畫面預覽與複製文字呈現。
+          可整理成 LINE 文字、Excel 表格或 PDF 版型；目前先用畫面預覽與複製文字呈現。
         </p>
       </div>
     </section>

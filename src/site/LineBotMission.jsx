@@ -62,7 +62,7 @@ const scenarios = [
     category: "作品查詢",
     best: "auto",
     replies: {
-      auto: "有，可以先看 AI Audit、LINE Bot、BuildFlow 與 API Automation 這幾個互動 Demo。",
+      auto: "有，可以先看 AI Audit、LINE Bot、BuildFlow 與 API Automation 這幾個互動成品。",
       ask: "有，你比較想看網站、LINE Bot、AI 工具還是後台系統案例？",
       case: "已記錄為作品查詢，後台會標記你偏好的案例類型。",
       human: "我可以人工推薦適合你的案例。",
@@ -195,7 +195,7 @@ function LineBotMission() {
       <section className="border-b border-[#e6e0d5] bg-white">
         <div className="mx-auto grid max-w-6xl gap-10 px-4 py-14 md:py-20 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Demo</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Interactive Product</p>
             <h1 className="mt-4 text-[clamp(1.75rem,8vw,2rem)] font-black leading-[1.08] tracking-tight md:text-[clamp(2.4rem,8vw,4.8rem)] md:leading-[1.04]">
               LINE Bot 接待模擬
             </h1>
@@ -553,7 +553,7 @@ function TechSection() {
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
           <h2 className="mt-3 text-3xl font-black">接待流程怎麼動</h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-            LINE 訊息、Bot 回覆、需求分類與後台案件同步，用前端狀態先做成可展示的產品 Demo。
+            LINE 訊息、Bot 回覆、需求分類與後台案件同步，用前端狀態做成可展示的產品操作。
           </p>
         </div>
         <div className="grid gap-3 md:grid-cols-2">
