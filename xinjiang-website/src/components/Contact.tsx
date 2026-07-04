@@ -17,22 +17,26 @@ export function Contact() {
         <div>
           <SectionTitle eyebrow="Contact" title="聯絡鑫匠" text="可先傳地點、照片、想處理的工程項目，我們再討論是否到場評估。" />
           <div className="mt-8 flex flex-wrap gap-3">
-            <button type="button" onClick={() => copyText("LINE ID", contactInfo.lineId)} className="min-h-12 rounded-full bg-[#e8bd6d] px-6 text-sm font-black text-[#2b2118]">
-              複製 LINE ID
+            <a href={`tel:${contactInfo.phone}`} className="inline-flex min-h-12 items-center rounded-full bg-[#e8bd6d] px-6 text-sm font-black text-[#2b2118]">
+              撥打電話
+            </a>
+            <button type="button" onClick={() => copyText("電話", contactInfo.phoneDisplay)} className="min-h-12 rounded-full border border-white/16 px-6 text-sm font-black text-white">
+              複製電話
             </button>
-            <a href={`mailto:${contactInfo.email}`} className="inline-flex min-h-12 items-center rounded-full border border-white/16 px-6 text-sm font-black text-white">
-              Email 詢問
+            <a href={contactInfo.pro360Url} target="_blank" rel="noreferrer" className="inline-flex min-h-12 items-center rounded-full border border-white/16 px-6 text-sm font-black text-white">
+              前往 Pro360
             </a>
           </div>
           {copied ? <p className="mt-4 text-sm font-black text-[#e8bd6d]">已複製 {copied}</p> : null}
         </div>
         <div className="grid gap-3">
-          <InfoRow label="LINE ID" value={contactInfo.lineId} />
-          <InfoRow label="Email" value={contactInfo.email} />
+          <InfoRow label="電話" value={contactInfo.phoneDisplay} />
+          <InfoRow label="Pro360" value="鑫匠工程專家頁" />
           <InfoRow label="服務地區" value={contactInfo.area} />
-          <button type="button" onClick={() => copyText("LINE ID", contactInfo.lineId)} className="mt-2 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-black text-[#2b2118]">
-            傳 LINE 詢問工程
-          </button>
+          <InfoRow label="服務時間" value={contactInfo.hours} />
+          <a href={contactInfo.pro360Url} target="_blank" rel="noreferrer" className="mt-2 inline-flex min-h-12 items-center justify-center rounded-full bg-white px-6 text-sm font-black text-[#2b2118]">
+            透過 Pro360 詢問工程
+          </a>
         </div>
       </div>
     </section>

@@ -1,5 +1,5 @@
 import { useState } from "react"
-import { navItems } from "../data/siteData"
+import { contactInfo, navItems } from "../data/siteData"
 
 export function Header() {
   const [open, setOpen] = useState(false)
@@ -25,8 +25,8 @@ export function Header() {
           ))}
         </nav>
 
-        <a href="#contact" className="hidden min-h-11 items-center rounded-full bg-[#ffd45a] px-5 text-sm font-black text-[#11100e] shadow-lg shadow-[#ffd45a]/14 md:inline-flex">
-          立即諮詢
+        <a href={`tel:${contactInfo.phone}`} className="hidden min-h-11 items-center rounded-full bg-[#ffd45a] px-5 text-sm font-black text-[#11100e] shadow-lg shadow-[#ffd45a]/14 md:inline-flex">
+          電話諮詢
         </a>
 
         <button

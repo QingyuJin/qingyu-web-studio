@@ -1,4 +1,4 @@
-import { proofPoints } from "../data/siteData"
+import { contactInfo, proofPoints } from "../data/siteData"
 
 export function Hero() {
   return (
@@ -25,8 +25,8 @@ export function Hero() {
             屏東在地泥作裝修工程。40 年老師父經驗，泥作、磁磚、洗石子、牆地面、水泥、油漆、拆除整修，到場評估後實在報價。
           </p>
           <div className="mt-9 flex flex-wrap gap-3">
-            <a href="#contact" className="inline-flex min-h-12 items-center rounded-full bg-[#ffd45a] px-6 text-sm font-black text-[#11100e] shadow-xl shadow-[#ffd45a]/16">
-              立即諮詢
+            <a href={`tel:${contactInfo.phone}`} className="inline-flex min-h-12 items-center rounded-full bg-[#ffd45a] px-6 text-sm font-black text-[#11100e] shadow-xl shadow-[#ffd45a]/16">
+              電話諮詢
             </a>
             <a href="#services" className="inline-flex min-h-12 items-center rounded-full border border-white/16 bg-white/8 px-6 text-sm font-black text-white backdrop-blur">
               查看服務

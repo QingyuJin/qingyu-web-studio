@@ -91,7 +91,7 @@ export const projects = [
 export const proofPoints = [
   ["40+ 年", "老師父泥作經驗"],
   ["到場評估", "依現場判斷報價"],
-  ["南部服務", "屏東、高雄可討論"],
+  ["電話諮詢", "0909-169-088"],
 ]
 
 export const processSteps = [
@@ -103,7 +103,9 @@ export const processSteps = [
 ]
 
 export const contactInfo = {
-  lineId: "mulavuc",
-  email: "a0988874324@gmail.com",
-  area: "屏東、高雄、南部地區可討論",
+  phone: "0909169088",
+  phoneDisplay: "0909-169-088",
+  pro360Url: "https://www.pro360.com.tw/service/507137",
+  area: "屏東縣三地門鄉｜屏東、高雄、南部地區可討論",
+  hours: "週一至週六 09:00 - 17:00｜週日休息",
 }
