@@ -88,20 +88,20 @@ function ProjectHub() {
               Q
             </span>
             <div>
-              <p className="font-black tracking-tight">Engineering Demo</p>
-              <p className="text-xs font-bold text-[#66716d]">Landing page + workflow app</p>
+              <p className="font-black tracking-tight">成品展示櫃</p>
+              <p className="text-xs font-bold text-[#66716d]">網站、系統與流程成品</p>
             </div>
           </Link>
 
           <nav className="hidden items-center gap-5 text-sm font-black text-[#40514f] md:flex">
             <a href="#services" className="hover:text-[#0f5b52]">
-              Services
+              服務
             </a>
             <a href="#cases" className="hover:text-[#0f5b52]">
-              Cases
+              案例
             </a>
             <a href="#system" className="hover:text-[#0f5b52]">
-              System
+              系統
             </a>
           </nav>
 
@@ -171,7 +171,7 @@ function ProjectHub() {
       <section className="mx-auto max-w-6xl px-4 py-12">
         <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
           <div>
-            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">Product Demo</p>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">Product</p>
             <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">成品入口</h2>
           </div>
           <p className="max-w-md text-sm font-bold leading-7 text-[#5b6966]">點進去直接看成品畫面。</p>

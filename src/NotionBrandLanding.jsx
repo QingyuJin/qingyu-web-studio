@@ -5,14 +5,15 @@ import SiteLayout from "./site/SiteLayout"
 const pageSeo = {
   path: "/works/notion-brand-landing",
   title: "Notion 個人品牌落地頁｜IG 導流個人品牌入口｜Qingyu Web Studio",
-  description: "深色系 Notion 個人品牌落地頁成品展示，適合顧問、講師、創作者與知識型品牌作為 IG 導流入口。",
+  description: "深色系 Notion 個人品牌落地頁，適合顧問、講師、創作者與知識型品牌作為 IG 導流入口。",
 }
 
 const services = ["財商諮詢", "現金流規劃", "投資觀念教學", "房地產投資入門"]
-const resources = ["教學文章", "工具清單", "常見問題"]
+const resources = ["現金流試算表", "投資觀念文章", "諮詢前檢查表", "常見問題"]
 const highlights = ["手機瀏覽優化", "Notion 架構規劃", "深色系視覺整理", "LINE / 表單導流", "可自行維護內容", "可嵌入影片資源"]
 const audiences = ["財商顧問", "教練 / 講師", "房地產顧問", "知識型創作者", "IG 個人品牌經營者"]
 const steps = ["確認定位", "規劃架構", "製作 Notion 頁面", "教學交付"]
+const deliverables = ["品牌首頁", "服務入口", "資源中心", "FAQ", "LINE 導流", "諮詢表單"]
 
 function Pill({ children, tone = "dark" }) {
   return (
@@ -51,7 +52,7 @@ function NotionPreview() {
           <span className="h-3 w-3 rounded-full bg-[#f6c15f]" />
           <span className="h-3 w-3 rounded-full bg-[#69d17d]" />
         </div>
-        <span className="rounded-full bg-white/8 px-3 py-1 text-[11px] font-black text-white/55">Notion dark preview</span>
+        <span className="rounded-full bg-white/8 px-3 py-1 text-[11px] font-black text-white/55">Ready-to-use Notion page</span>
       </div>
 
       <div className="rounded-[1.6rem] bg-[#151516] p-5 md:p-7">
@@ -76,19 +77,29 @@ function NotionPreview() {
           </div>
 
           <div className="rounded-2xl border border-white/10 bg-black/20 p-4">
-            <p className="text-xs font-black text-[#d8c79f]">本月重點</p>
-            <div className="mt-4 grid gap-3">
-              {["現金流盤點表", "房地產入門清單", "新手投資 FAQ"].map((item, index) => (
-                <div key={item} className="flex items-center justify-between rounded-xl bg-white/[0.06] px-3 py-3">
-                  <span className="text-sm font-black text-white/82">{item}</span>
-                  <span className="font-mono text-xs font-black text-[#d8c79f]">0{index + 1}</span>
+            <div className="flex items-center gap-3">
+              <div className="grid h-14 w-14 place-items-center rounded-2xl bg-[#d8b46c] text-xl font-black text-[#17130f]">C</div>
+              <div>
+                <p className="text-sm font-black text-white">Cashflow Mentor</p>
+                <p className="mt-1 text-xs font-bold text-white/48">財商顧問｜現金流規劃</p>
+              </div>
+            </div>
+            <div className="mt-5 grid gap-3">
+              {[
+                ["諮詢入口", "LINE / 表單"],
+                ["資源數", "12 篇"],
+                ["更新方式", "自行編輯"],
+              ].map(([label, value]) => (
+                <div key={label} className="flex items-center justify-between rounded-xl bg-white/[0.06] px-3 py-3">
+                  <span className="text-xs font-black text-white/44">{label}</span>
+                  <span className="text-sm font-black text-[#d8c79f]">{value}</span>
                 </div>
               ))}
             </div>
           </div>
         </div>
 
-        <div id="structure" className="mt-8 grid gap-4 md:grid-cols-3">
+        <div id="structure" className="mt-8 grid gap-4 lg:grid-cols-[0.85fr_1fr_0.85fr]">
           <NotionBlock title="核心服務" items={services} />
           <NotionBlock title="資源中心" items={resources} />
           <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
@@ -102,6 +113,15 @@ function NotionPreview() {
               ))}
             </div>
           </div>
+        </div>
+
+        <div className="mt-4 grid gap-3 md:grid-cols-3">
+          {["IG 個人檔案", "Notion 品牌頁", "LINE / 表單諮詢"].map((item, index) => (
+            <div key={item} className="rounded-2xl border border-white/10 bg-black/18 p-4">
+              <p className="font-mono text-xs font-black text-[#d8c79f]">{String(index + 1).padStart(2, "0")}</p>
+              <p className="mt-2 text-sm font-black text-white/78">{item}</p>
+            </div>
+          ))}
         </div>
       </div>
     </div>
@@ -136,7 +156,7 @@ function HeroMockup() {
           <h2 className="mt-8 text-3xl font-black leading-tight text-white">財商顧問個人入口</h2>
           <p className="mt-3 text-sm font-bold leading-6 text-white/58">服務、資源、LINE 與諮詢表單集中在一頁。</p>
           <div className="mt-6 grid gap-2">
-            {["免費工具清單", "現金流諮詢", "房地產投資入門"].map((item) => (
+            {["加入 LINE 官方帳號", "預約一對一諮詢", "下載現金流工具"].map((item) => (
               <div key={item} className="rounded-xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-black text-white/80">
                 {item}
               </div>
@@ -195,7 +215,7 @@ function NotionBrandLanding() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#preview" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d8b46c] px-6 text-sm font-black text-[#17130f] transition hover:bg-[#e7c982]">
-                查看頁面結構
+                查看成品頁面
               </a>
               <Link to="/contact" className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/14 bg-white/8 px-6 text-sm font-black text-white transition hover:bg-white/12">
                 我想做類似的
@@ -208,8 +228,21 @@ function NotionBrandLanding() {
 
       <section id="preview" className="scroll-mt-20 bg-[#0f0f10] px-4 py-12 text-white md:py-16">
         <div className="mx-auto max-w-6xl">
-          <SectionTitle eyebrow="Product Preview" title="成品預覽" text="深色系、金融感、可直接放在 IG 個人檔案。" light />
+          <SectionTitle eyebrow="Product Page" title="完整頁面" text="深色系、金融感、可直接放在 IG 個人檔案。" light />
           <NotionPreview />
+        </div>
+      </section>
+
+      <section className="border-y border-[#2b251f] bg-[#101011] text-white">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
+          <SectionTitle eyebrow="Delivery" title="交付內容" text="不是空白模板，是整理好架構與導流的完整頁面。" light />
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {deliverables.map((item) => (
+              <article key={item} className="rounded-2xl border border-white/10 bg-white/[0.055] p-5">
+                <p className="text-lg font-black text-white">{item}</p>
+              </article>
+            ))}
+          </div>
         </div>
       </section>
 
