@@ -39,6 +39,15 @@ const productCards = [
     tone: "dark",
   },
   {
+    title: "Notion 個人品牌落地頁",
+    text: "IG 導流用的深色系個人品牌入口。",
+    description: "適合講師、顧問、創作者與知識型品牌，快速上線、可自行維護。",
+    tags: ["Notion", "個人品牌", "財商顧問", "LINE 導流"],
+    action: "查看成品",
+    to: "/works/notion-brand-landing",
+    tone: "dark",
+  },
+  {
     title: "BuildFlow 工程流程",
     text: "案件、報價、照片、施工狀態與 LINE 回報。",
     action: "查看系統",
@@ -153,6 +162,20 @@ function ProductSection() {
               <p className={`mt-3 line-clamp-2 text-sm font-bold leading-6 ${item.tone === "dark" ? "text-white/70" : "text-[#52605c]"}`}>
                 {item.text}
               </p>
+              {item.description ? (
+                <p className={`mt-2 line-clamp-2 text-xs font-bold leading-5 ${item.tone === "dark" ? "text-white/50" : "text-[#6a766f]"}`}>
+                  {item.description}
+                </p>
+              ) : null}
+              {item.tags ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className={`rounded-full px-2.5 py-1 text-[11px] font-black ${item.tone === "dark" ? "bg-white/10 text-white/68" : "bg-[#f0eadf] text-[#6a4f22]"}`}>
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
               <span className={`mt-6 inline-flex min-h-11 items-center rounded-xl px-4 text-sm font-black ${item.tone === "dark" ? "bg-white text-[#111c22]" : "bg-[#111c22] text-white"}`}>
                 {item.action}
               </span>

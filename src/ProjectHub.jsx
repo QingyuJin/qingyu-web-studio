@@ -67,6 +67,15 @@ const systemPoints = [
   "網站表單：需求進後台。",
 ]
 
+const productEntries = [
+  {
+    title: "Notion 個人品牌落地頁",
+    text: "IG 導流用的深色系個人品牌入口。",
+    tags: ["Notion", "個人品牌", "LINE 導流"],
+    to: "/works/notion-brand-landing",
+  },
+]
+
 function ProjectHub() {
   const [activeService, setActiveService] = useState(services[0])
 
@@ -156,6 +165,46 @@ function ProjectHub() {
               ))}
             </div>
           </div>
+        </div>
+      </section>
+
+      <section className="mx-auto max-w-6xl px-4 py-12">
+        <div className="flex flex-col justify-between gap-4 md:flex-row md:items-end">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0f766e]">Product Demo</p>
+            <h2 className="mt-3 text-3xl font-black tracking-tight md:text-4xl">成品入口</h2>
+          </div>
+          <p className="max-w-md text-sm font-bold leading-7 text-[#5b6966]">點進去直接看成品畫面。</p>
+        </div>
+
+        <div className="mt-8 grid gap-4 md:grid-cols-2">
+          {productEntries.map((item) => (
+            <Link
+              key={item.title}
+              to={item.to}
+              className="group overflow-hidden rounded-2xl border border-[#d9d1c4] bg-[#101011] p-5 text-white shadow-lg shadow-[#172026]/10 transition hover:-translate-y-1 hover:shadow-xl"
+            >
+              <div className="rounded-[1.35rem] border border-white/10 bg-[#171717] p-5">
+                <div className="flex flex-wrap gap-2">
+                  {item.tags.map((tag) => (
+                    <span key={tag} className="rounded-full bg-white/10 px-3 py-1 text-[11px] font-black text-white/66">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+                <div className="mt-8 grid gap-2">
+                  <span className="h-3 w-4/5 rounded-full bg-white/18" />
+                  <span className="h-3 w-3/5 rounded-full bg-white/10" />
+                  <span className="mt-3 h-11 w-36 rounded-xl bg-[#d8b46c]" />
+                </div>
+              </div>
+              <h3 className="mt-5 text-2xl font-black">{item.title}</h3>
+              <p className="mt-2 text-sm font-bold leading-6 text-white/62">{item.text}</p>
+              <span className="mt-5 inline-flex min-h-11 items-center rounded-xl bg-white px-4 text-sm font-black text-[#111c22]">
+                查看成品
+              </span>
+            </Link>
+          ))}
         </div>
       </section>
 

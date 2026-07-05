@@ -17,6 +17,7 @@ const RestaurantOrdering = lazy(() => import("./RestaurantOrdering"))
 const WholesaleOrdering = lazy(() => import("./WholesaleOrdering"))
 const BiomedBrandSite = lazy(() => import("./BiomedBrandSite"))
 const RagConsultant = lazy(() => import("./RagConsultant"))
+const NotionBrandLanding = lazy(() => import("./NotionBrandLanding"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
@@ -40,6 +41,7 @@ function App() {
         <Route path="/works/wholesale-ordering" element={<WholesaleOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
         <Route path="/works/rag-consultant" element={<RagConsultant />} />
+        <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
