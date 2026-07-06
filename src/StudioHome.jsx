@@ -25,6 +25,7 @@ function SmartLink({ to, children, ...props }) {
 
 const productCards = [
   {
+    id: "wholesale",
     title: "批發訂貨系統",
     text: "B2B 訂貨、專屬報價、出貨與月結。",
     action: "查看系統",
@@ -32,13 +33,15 @@ const productCards = [
     tone: "dark",
   },
   {
+    id: "rag",
     title: "RAG 企業顧問",
     text: "文件知識庫、引用回答、用量與權限控管。",
-    action: "查看系統",
+    action: "直接操作",
     to: "/works/rag-consultant",
     tone: "dark",
   },
   {
+    id: "notion",
     title: "Notion 個人品牌落地頁",
     text: "IG 導流用的深色系個人品牌入口。",
     description: "適合講師、顧問、創作者與知識型品牌，快速上線、可自行維護。",
@@ -48,6 +51,7 @@ const productCards = [
     tone: "dark",
   },
   {
+    id: "buildflow",
     title: "BuildFlow 工程流程",
     text: "案件、報價、照片、施工狀態與 LINE 回報。",
     action: "查看系統",
@@ -55,21 +59,24 @@ const productCards = [
     tone: "dark",
   },
   {
+    id: "restaurant",
     title: "點餐系統",
     text: "客戶端點餐、服務端控單、桌況與廚房佇列。",
     action: "直接操作",
     to: "/works/restaurant-ordering",
   },
   {
+    id: "biomed",
     title: "生醫品牌網站",
     text: "醫療品牌、專業內容、案例與講座活動。",
     action: "查看成品",
     to: "/works/biomed-brand-site",
   },
   {
+    id: "quiz",
     title: "互動測驗頁",
     text: "題目、答案解析、結果頁與題庫更新。",
-    action: "查看成品",
+    action: "直接操作",
     to: "/works/interactive-quiz",
   },
 ]
@@ -143,20 +150,8 @@ function ProductSection() {
                   : "border-[#e0d8cc] bg-white text-[#111c22] shadow-[#c8bba9]/10"
               }`}
             >
-              <div className={`mb-5 h-36 rounded-xl border ${item.tone === "dark" ? "border-white/10 bg-white/8" : "border-[#eadfd1] bg-[#f6efe4]"}`}>
-                <div className="flex h-full flex-col justify-between p-4">
-                  <div className="flex items-center justify-between">
-                    <span className={`h-3 w-16 rounded-full ${item.tone === "dark" ? "bg-white/18" : "bg-[#d7c7b4]"}`} />
-                    <span className={`rounded-full px-3 py-1 text-[11px] font-black ${item.tone === "dark" ? "bg-white/10 text-white/72" : "bg-white text-[#66716d]"}`}>
-                      成品
-                    </span>
-                  </div>
-                  <div className="grid gap-2">
-                    <span className={`h-3 rounded-full ${item.tone === "dark" ? "w-5/6 bg-white/18" : "w-5/6 bg-[#d7c7b4]"}`} />
-                    <span className={`h-3 rounded-full ${item.tone === "dark" ? "w-2/3 bg-white/12" : "w-2/3 bg-[#e6d8c8]"}`} />
-                    <span className={`h-8 w-28 rounded-lg ${item.tone === "dark" ? "bg-[#eac46f]" : "bg-[#111c22]"}`} />
-                  </div>
-                </div>
+              <div className={`mb-5 h-36 overflow-hidden rounded-xl border ${item.tone === "dark" ? "border-white/10 bg-white/8" : "border-[#eadfd1] bg-[#f6efe4]"}`}>
+                <CardPreview id={item.id} dark={item.tone === "dark"} />
               </div>
               <h3 className="text-2xl font-black">{item.title}</h3>
               <p className={`mt-3 line-clamp-2 text-sm font-bold leading-6 ${item.tone === "dark" ? "text-white/70" : "text-[#52605c]"}`}>
@@ -185,6 +180,169 @@ function ProductSection() {
       </div>
     </section>
   )
+}
+
+function CardPreview({ id, dark }) {
+  const chipClass = dark ? "bg-white/10 text-white/72" : "bg-white text-[#66716d]"
+  const rowClass = dark ? "bg-white/10" : "bg-white"
+  const mutedText = dark ? "text-white/60" : "text-[#66716d]"
+  const strongText = dark ? "text-white/92" : "text-[#111c22]"
+
+  if (id === "wholesale") {
+    return (
+      <div className="flex h-full flex-col justify-between p-3 text-[10px] font-black">
+        <div className="flex items-center justify-between">
+          <span className={strongText}>本週訂單</span>
+          <span className={`rounded-full px-2 py-0.5 ${chipClass}`}>月結客戶</span>
+        </div>
+        {[
+          ["#1042 高麗菜 x20", "待出貨", "text-[#eac46f]"],
+          ["#1041 蘋果 x8 箱", "已出貨", "text-[#7fd4a2]"],
+        ].map(([label, status, tone]) => (
+          <div key={label} className={`flex items-center justify-between rounded-lg px-2.5 py-1.5 ${rowClass}`}>
+            <span className={mutedText}>{label}</span>
+            <span className={tone}>{status}</span>
+          </div>
+        ))}
+        <div className="flex items-center justify-between px-1">
+          <span className={mutedText}>本月累計</span>
+          <span className={strongText}>NT$42,180</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === "rag") {
+    return (
+      <div className="flex h-full flex-col justify-between p-3 text-[10px] font-black">
+        <div className={`self-end rounded-lg rounded-tr-sm px-2.5 py-1.5 ${dark ? "bg-[#eac46f] text-[#14201f]" : "bg-[#111c22] text-white"}`}>
+          保固多久？範圍有哪些？
+        </div>
+        <div className={`rounded-lg rounded-tl-sm px-2.5 py-1.5 ${rowClass}`}>
+          <span className={mutedText}>油漆一年、防水三年，非人為剝落免費修補⋯</span>
+        </div>
+        <div className="flex items-center gap-1.5">
+          <span className={`rounded-full px-2 py-0.5 font-mono ${chipClass}`}>保固政策.md · v1</span>
+          <span className="rounded-full bg-[#7fd4a2]/20 px-2 py-0.5 text-[#7fd4a2]">Grounded</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === "notion") {
+    return (
+      <div className="flex h-full flex-col items-center justify-center gap-1.5 p-3 text-[10px] font-black">
+        <span className="grid h-8 w-8 place-items-center rounded-full bg-[#d8b46c] text-[11px] text-[#17130f]">Yu</span>
+        <span className={strongText}>財商顧問 · 個人品牌</span>
+        <div className="flex w-full max-w-40 flex-col gap-1">
+          <span className={`rounded-lg py-1 text-center ${dark ? "bg-white text-[#111c22]" : "bg-[#111c22] text-white"}`}>加 LINE 聊聊</span>
+          <span className={`rounded-lg py-1 text-center ${rowClass} ${mutedText}`}>看課程與服務</span>
+        </div>
+      </div>
+    )
+  }
+
+  if (id === "buildflow") {
+    return (
+      <div className="flex h-full flex-col justify-between p-3 text-[10px] font-black">
+        <div className="flex items-center justify-between">
+          <span className={strongText}>案件看板</span>
+          <span className={`rounded-full px-2 py-0.5 ${chipClass}`}>LINE 回報</span>
+        </div>
+        {[
+          ["浴室防水修繕", 72, "施工中"],
+          ["店面地坪工程", 35, "已報價"],
+        ].map(([name, progress, status]) => (
+          <div key={name} className={`rounded-lg px-2.5 py-1.5 ${rowClass}`}>
+            <div className="flex items-center justify-between">
+              <span className={strongText}>{name}</span>
+              <span className={mutedText}>{status}</span>
+            </div>
+            <div className={`mt-1 h-1 overflow-hidden rounded-full ${dark ? "bg-white/15" : "bg-[#eadfd1]"}`}>
+              <div className="h-full rounded-full bg-[#eac46f]" style={{ width: `${progress}%` }} />
+            </div>
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  if (id === "restaurant") {
+    return (
+      <div className="flex h-full gap-2 p-3 text-[10px] font-black">
+        <div className="flex flex-1 flex-col justify-between">
+          {[
+            ["炭烤牛小排飯", "$280"],
+            ["松露野菇燉飯", "$240"],
+            ["烏梅氣泡飲", "$120"],
+          ].map(([name, price]) => (
+            <div key={name} className={`flex items-center justify-between rounded-lg px-2.5 py-1 ${rowClass}`}>
+              <span className={mutedText}>{name}</span>
+              <span className="text-[#c75d2c]">{price}</span>
+            </div>
+          ))}
+        </div>
+        <div className="grid w-16 grid-cols-2 content-center gap-1">
+          {["A07", "B12", "C03", "D08"].map((table, index) => (
+            <span
+              key={table}
+              className={`grid h-6 place-items-center rounded-md text-[8px] ${
+                index < 2 ? "bg-[#c75d2c] text-white" : `${rowClass} ${mutedText}`
+              }`}
+            >
+              {table}
+            </span>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (id === "biomed") {
+    return (
+      <div className="flex h-full flex-col justify-between p-3 text-[10px] font-black">
+        <div className="rounded-lg bg-gradient-to-r from-[#0d6b62] to-[#8fd6cc] px-2.5 py-2 text-white">
+          <p>專業，值得被看懂。</p>
+          <p className="mt-0.5 text-[8px] font-bold opacity-80">品牌故事 · 衛教內容 · 講座活動</p>
+        </div>
+        <div className="grid grid-cols-3 gap-1.5">
+          {["案例", "專欄", "講座"].map((label) => (
+            <span key={label} className={`rounded-lg py-1.5 text-center ${rowClass} ${mutedText}`}>
+              {label}
+            </span>
+          ))}
+        </div>
+      </div>
+    )
+  }
+
+  if (id === "quiz") {
+    return (
+      <div className="flex h-full flex-col justify-between p-3 text-[10px] font-black">
+        <div className="flex items-center justify-between">
+          <span className={strongText}>Q3 · 品牌經營</span>
+          <span className={`rounded-full px-2 py-0.5 ${chipClass}`}>3 / 5</span>
+        </div>
+        {[
+          ["先做官網再想內容", false],
+          ["先定位受眾與服務", true],
+          ["先買廣告衝流量", false],
+        ].map(([option, correct]) => (
+          <div
+            key={option}
+            className={`flex items-center justify-between rounded-lg px-2.5 py-1 ${
+              correct ? "bg-[#0d6b62] text-white" : `${rowClass} ${mutedText}`
+            }`}
+          >
+            <span>{option}</span>
+            {correct ? <span>✓</span> : null}
+          </div>
+        ))}
+      </div>
+    )
+  }
+
+  return null
 }
 
 function CapabilitySection() {

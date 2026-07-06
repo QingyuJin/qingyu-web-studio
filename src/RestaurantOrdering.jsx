@@ -114,19 +114,40 @@ const initialOrders = [
 
 const tableMap = [
   ["A02", "窗邊", "用餐中", 2],
-  ["A07", "中島", "備餐中", 2],
-  ["B12", "包廂", "待送餐", 4],
+  ["A07", "中島", "可入座", 2],
+  ["B12", "包廂", "可入座", 4],
   ["C03", "靠窗", "可入座", 2],
   ["D08", "吧台", "候位中", 1],
   ["F01", "戶外", "清桌中", 4],
 ]
 
-const stations = [
-  ["熱線", 92, "牛排飯 / 燉飯"],
-  ["冷台", 58, "沙拉 / 前菜"],
-  ["吧台", 74, "飲品先出"],
-  ["甜點", 46, "飯後節奏"],
+const stationBase = [
+  ["熱線", 46, "牛排飯 / 燉飯"],
+  ["冷台", 30, "沙拉 / 前菜"],
+  ["吧台", 38, "飲品先出"],
+  ["甜點", 24, "飯後節奏"],
 ]
+
+function computeStationLoads(orders) {
+  const pendingOrders = orders.filter((order) => order.status === "新單" || order.status === "備餐中")
+  return stationBase.map(([name, base, note]) => {
+    const pendingItems = pendingOrders.reduce(
+      (sum, order) =>
+        sum +
+        order.items.filter((entry) => {
+          const menu = menuItems.find((item) => entry.includes(item.name))
+          return menu?.station === name
+        }).length,
+      0
+    )
+    return [name, Math.min(99, base + pendingItems * 16), note, pendingItems]
+  })
+}
+
+function tableStatus(tableId, fallback, orders) {
+  const openOrder = orders.find((order) => order.table === tableId && order.status !== "已送達")
+  return openOrder ? openOrder.status : fallback
+}
 
 function getTime() {
   return new Intl.DateTimeFormat("zh-TW", {
@@ -491,30 +512,41 @@ function ServiceView({ orders, selectedId, setSelectedId, onAdvance, onSettle })
           </div>
         </ShellCard>
 
-        <StationLoad />
+        <StationLoad orders={orders} />
       </div>
 
       <div className="grid gap-5">
         <OrderDetail order={selected} />
-        <FloorPanel selectedTable={selected.table} />
+        <FloorPanel selectedTable={selected.table} orders={orders} onSelectTable={setSelectedId} />
       </div>
     </section>
   )
 }
 
-function StationLoad() {
+function StationLoad({ orders }) {
+  const stations = computeStationLoads(orders)
   return (
     <ShellCard className="p-5">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Station Load</p>
-      <h2 className="mt-2 font-serif text-3xl font-black text-[#3a2419]">出餐站別</h2>
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Station Load</p>
+          <h2 className="mt-2 font-serif text-3xl font-black text-[#3a2419]">出餐站別</h2>
+        </div>
+        <span className="rounded-full bg-[#f3e7d7] px-3 py-1 text-xs font-black text-[#8a5a2d]">依未出餐訂單即時計算</span>
+      </div>
       <div className="mt-5 grid gap-4 md:grid-cols-4">
-        {stations.map(([name, load, note]) => (
+        {stations.map(([name, load, note, pendingItems]) => (
           <div key={name} className="rounded-2xl border border-[#dfd0bc] bg-white p-4">
-            <p className="font-serif text-xl font-black text-[#3a2419]">{name}</p>
+            <div className="flex items-start justify-between gap-2">
+              <p className="font-serif text-xl font-black text-[#3a2419]">{name}</p>
+              {pendingItems > 0 ? (
+                <span className="rounded-full bg-[#c75d2c] px-2 py-0.5 text-[11px] font-black text-white">{pendingItems} 品項</span>
+              ) : null}
+            </div>
             <p className="mt-1 text-xs font-bold text-[#806a59]">{note}</p>
             <p className="mt-5 font-serif text-4xl font-black text-[#c75d2c]">{load}%</p>
             <div className="mt-4 h-2 rounded-full bg-[#e9dccb]">
-              <div className="h-full rounded-full bg-gradient-to-r from-[#f0a85f] to-[#244332]" style={{ width: `${load}%` }} />
+              <div className="h-full rounded-full bg-gradient-to-r from-[#f0a85f] to-[#244332] transition-all duration-500" style={{ width: `${load}%` }} />
             </div>
           </div>
         ))}
@@ -561,22 +593,46 @@ function OrderDetail({ order }) {
   )
 }
 
-function FloorPanel({ selectedTable }) {
+function FloorPanel({ selectedTable, orders, onSelectTable }) {
   return (
     <aside className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2]/92 p-5 shadow-sm">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Floor</p>
-      <h2 className="mt-2 font-serif text-4xl font-black tracking-[-0.04em] text-[#3a2419]">桌況</h2>
+      <div className="flex items-end justify-between gap-3">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Floor</p>
+          <h2 className="mt-2 font-serif text-4xl font-black tracking-[-0.04em] text-[#3a2419]">桌況</h2>
+        </div>
+        <span className="rounded-full bg-[#f3e7d7] px-3 py-1 text-xs font-black text-[#8a5a2d]">點桌位可切換訂單</span>
+      </div>
       <div className="mt-5 grid grid-cols-2 gap-3">
-        {tableMap.map(([id, place, status, seats]) => (
-          <div key={id} className={`rounded-2xl border p-4 ${id === selectedTable ? "border-[#244332] bg-[#eef1df]" : status === "可入座" ? "border-[#dfd0bc] bg-white" : "border-[#d6a88a] bg-[#fff3e8]"}`}>
-            <div className="flex items-start justify-between gap-2">
-              <p className="font-serif text-3xl font-black text-[#3a2419]">{id}</p>
-              <span className="rounded-full bg-white/70 px-2 py-1 text-[11px] font-black text-[#806a59]">{seats} 人</span>
-            </div>
-            <p className="mt-3 text-sm font-black text-[#806a59]">{place}</p>
-            <p className="mt-1 text-sm font-black text-[#806a59]">{status}</p>
-          </div>
-        ))}
+        {tableMap.map(([id, place, fallback, seats]) => {
+          const status = tableStatus(id, fallback, orders)
+          const tableOrder = orders.find((order) => order.table === id && order.status !== "已送達")
+          return (
+            <button
+              key={id}
+              type="button"
+              onClick={() => tableOrder && onSelectTable(tableOrder.id)}
+              disabled={!tableOrder}
+              className={`rounded-2xl border p-4 text-left transition ${
+                id === selectedTable
+                  ? "border-[#244332] bg-[#eef1df]"
+                  : status === "可入座"
+                    ? "border-[#dfd0bc] bg-white"
+                    : "border-[#d6a88a] bg-[#fff3e8]"
+              } ${tableOrder ? "cursor-pointer hover:-translate-y-0.5 hover:shadow-md" : "cursor-default"}`}
+            >
+              <div className="flex items-start justify-between gap-2">
+                <p className="font-serif text-3xl font-black text-[#3a2419]">{id}</p>
+                <span className="rounded-full bg-white/70 px-2 py-1 text-[11px] font-black text-[#806a59]">{seats} 人</span>
+              </div>
+              <p className="mt-3 text-sm font-black text-[#806a59]">{place}</p>
+              <div className="mt-1 flex items-center justify-between gap-2">
+                <p className="text-sm font-black text-[#806a59]">{status}</p>
+                {tableOrder ? <span className="rounded-full bg-[#244332] px-2 py-0.5 text-[10px] font-black text-white">{tableOrder.id}</span> : null}
+              </div>
+            </button>
+          )
+        })}
       </div>
     </aside>
   )
