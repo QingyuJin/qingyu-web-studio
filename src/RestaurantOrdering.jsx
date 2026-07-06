@@ -314,7 +314,7 @@ function QuantityControl({ value, onMinus, onPlus }) {
   )
 }
 
-function ClientView({ cart, setCart, submitted, onSubmit }) {
+function ClientView({ cart, setCart, submitted, onSubmit, clientTable, setClientTable, orders }) {
   const [category, setCategory] = useState("全部")
   const [diningNote, setDiningNote] = useState("飲品先出，主餐正常。")
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
@@ -393,7 +393,32 @@ function ClientView({ cart, setCart, submitted, onSubmit }) {
 
       <aside className="rounded-[1.55rem] border border-[#dfd0bc] bg-[#fffaf2] p-5 shadow-xl shadow-[#3a2419]/8">
         <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Cart</p>
-        <h2 className="mt-2 font-serif text-2xl font-black text-[#3a2419]">A07 點單</h2>
+        <h2 className="mt-2 font-serif text-2xl font-black text-[#3a2419]">{clientTable} 點單</h2>
+        <div className="mt-3">
+          <span className="text-xs font-black text-[#806a59]">選擇桌位</span>
+          <div className="mt-2 flex flex-wrap gap-2">
+            {tableMap.map(([id]) => {
+              const occupied = orders.some((order) => order.table === id && order.status !== "已送達")
+              return (
+                <button
+                  key={id}
+                  type="button"
+                  onClick={() => setClientTable(id)}
+                  className={`min-h-9 rounded-lg px-3 text-xs font-black transition ${
+                    clientTable === id
+                      ? "bg-[#244332] text-white"
+                      : occupied
+                        ? "border border-[#e5cdb4] bg-[#fff3e8] text-[#b07a4e]"
+                        : "border border-[#dfd0bc] bg-white text-[#3a2419]"
+                  }`}
+                >
+                  {id}
+                  {occupied ? " ·用餐中" : ""}
+                </button>
+              )
+            })}
+          </div>
+        </div>
         <div className="mt-5 grid gap-3">
           {submitted ? <div className="rounded-2xl bg-[#e8f0dc] p-4 text-sm font-black text-[#355a36]">已送出到服務端，廚房佇列已更新。</div> : null}
           {cart.length === 0 ? (
@@ -492,11 +517,18 @@ function ServiceView({ orders, selectedId, setSelectedId, onAdvance, onSettle })
                     <StatusBadge>{order.status}</StatusBadge>
                   </div>
                   <div className="mt-5 grid gap-2">
-                    {order.items.slice(0, 3).map((item) => (
-                      <div key={item} className="rounded-xl bg-[#f7efe5] px-3 py-2 text-sm font-black text-[#5f4637]">
-                        {item}
-                      </div>
-                    ))}
+                    {order.items.slice(0, 3).map((item) => {
+                      const station = menuItems.find((menu) => item.includes(menu.name))?.station
+                      return (
+                        <div key={item} className="flex items-center justify-between gap-2 rounded-xl bg-[#f7efe5] px-3 py-2 text-sm font-black text-[#5f4637]">
+                          <span className="truncate">{item}</span>
+                          {station ? <span className="shrink-0 rounded-full bg-white px-2 py-0.5 text-[10px] font-black text-[#806a59]">{station}</span> : null}
+                        </div>
+                      )
+                    })}
+                    {order.items.length > 3 ? (
+                      <p className="px-1 text-xs font-black text-[#806a59]">+{order.items.length - 3} 個品項</p>
+                    ) : null}
                   </div>
                   <div className="mt-5 flex items-center justify-between text-sm font-black">
                     <span className="text-[#806a59]">{order.minutes} 分鐘</span>
@@ -569,11 +601,15 @@ function OrderDetail({ order }) {
         <StatusBadge>{order.status}</StatusBadge>
       </div>
       <div className="mt-5 grid gap-3">
-        {order.items.map((item) => (
-          <div key={item} className="rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#5f4637]">
-            {item}
-          </div>
-        ))}
+        {order.items.map((item) => {
+          const station = menuItems.find((menu) => item.includes(menu.name))?.station
+          return (
+            <div key={item} className="flex items-center justify-between gap-2 rounded-2xl bg-white px-4 py-3 text-sm font-black text-[#5f4637]">
+              <span className="truncate">{item}</span>
+              {station ? <span className="shrink-0 rounded-full bg-[#f7efe5] px-2.5 py-1 text-[10px] font-black text-[#806a59]">{station}</span> : null}
+            </div>
+          )
+        })}
       </div>
       <div className="mt-5 grid grid-cols-2 gap-3">
         <div className="rounded-2xl bg-[#f7efe5] p-4">
@@ -643,6 +679,7 @@ function RestaurantOrdering() {
   const [orders, setOrders] = useState(initialOrders)
   const [selectedId, setSelectedId] = useState(initialOrders[0].id)
   const [cart, setCart] = useState([])
+  const [clientTable, setClientTable] = useState("C03")
   const [submitted, setSubmitted] = useState(false)
   const [time, setTime] = useState(getTime())
   const [message, setMessage] = useState("")
@@ -653,39 +690,53 @@ function RestaurantOrdering() {
   }, [])
 
   useEffect(() => {
+    const timer = window.setInterval(() => {
+      setOrders((current) =>
+        current.map((order) => (order.status === "已送達" ? order : { ...order, minutes: order.minutes + 1 }))
+      )
+    }, 20000)
+    return () => window.clearInterval(timer)
+  }, [])
+
+  useEffect(() => {
     if (!message) return undefined
     const timer = window.setTimeout(() => setMessage(""), 1800)
     return () => window.clearTimeout(timer)
   }, [message])
 
   const selectedOrder = orders.find((order) => order.id === selectedId) || orders[0]
-  const revenue = orders.reduce((sum, order) => sum + order.total, 0) + cart.reduce((sum, item) => sum + item.price * item.qty, 0)
+  const revenue = orders.reduce((sum, order) => sum + order.total, 0)
 
   function addOrder() {
-    const next = orders.length + 42
+    const staffPool = ["Mina", "Kai", "Nora"]
+    const notePool = ["先確認是否需要外帶袋。", "客人趕時間，優先出餐。", "有兒童座椅需求。", "餐點分兩次上。"]
+    const picked = [...menuItems].sort(() => Math.random() - 0.5).slice(0, 1 + Math.floor(Math.random() * 3))
+    const occupied = new Set(orders.filter((order) => order.status !== "已送達").map((order) => order.table))
+    const freeTables = tableMap.map(([id]) => id).filter((id) => !occupied.has(id))
+    const table = freeTables[Math.floor(Math.random() * freeTables.length)] || `N${orders.length + 1}`
     const newOrder = {
-      id: `ORD-${next}`,
-      table: `N${orders.length + 1}`,
+      id: `ORD-${1042 + orders.length}`,
+      table,
       guest: "現場新客",
       status: "新單",
       channel: "櫃台新增",
-      items: ["烏梅氣泡飲", "焦糖布丁"],
-      total: 215,
-      minutes: 1,
-      staff: "Nora",
-      note: "先確認是否需要外帶袋。",
+      items: picked.map((item) => item.name),
+      total: picked.reduce((sum, item) => sum + item.price, 0),
+      minutes: 0,
+      staff: staffPool[Math.floor(Math.random() * staffPool.length)],
+      note: notePool[Math.floor(Math.random() * notePool.length)],
     }
     setOrders((current) => [newOrder, ...current])
     setSelectedId(newOrder.id)
     setMode("服務端")
-    setMessage("已新增一筆現場新單。")
+    setMessage(`已新增 ${table} 現場新單（${newOrder.items.length} 個品項）。`)
   }
 
   function submitCart(diningNote) {
     if (cart.length === 0) return
     const newOrder = {
-      id: `ORD-${orders.length + 43}`,
-      table: "A07",
+      id: `ORD-${1042 + orders.length}`,
+      table: clientTable,
       guest: "桌邊點餐",
       status: "新單",
       channel: "桌邊 QR",
@@ -699,7 +750,7 @@ function RestaurantOrdering() {
     setSelectedId(newOrder.id)
     setCart([])
     setSubmitted(true)
-    setMessage("桌邊點單已送到服務端。")
+    setMessage(`${clientTable} 桌邊點單已送到服務端。`)
     window.setTimeout(() => setMode("服務端"), 650)
   }
 
@@ -747,7 +798,15 @@ function RestaurantOrdering() {
         <div className="mx-auto grid max-w-[1440px] gap-5 px-4 py-6 md:px-7 md:py-8">
           <HeroStatus orders={orders} revenue={revenue} selectedOrder={selectedOrder || initialOrders[0]} />
           {mode === "客戶端" ? (
-            <ClientView cart={cart} setCart={setCart} submitted={submitted} onSubmit={submitCart} />
+            <ClientView
+              cart={cart}
+              setCart={setCart}
+              submitted={submitted}
+              onSubmit={submitCart}
+              clientTable={clientTable}
+              setClientTable={setClientTable}
+              orders={orders}
+            />
           ) : (
             <ServiceView orders={orders} selectedId={selectedId} setSelectedId={setSelectedId} onAdvance={advanceOrders} onSettle={settleOrder} />
           )}

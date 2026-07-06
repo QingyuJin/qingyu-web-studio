@@ -219,7 +219,9 @@ function retrieve(question, docs) {
       })
     })
   hits.sort((a, b) => b.score - a.score)
-  return hits.slice(0, 3)
+  const top = hits.slice(0, 3)
+  const maxScore = top[0]?.score || 1
+  return top.map((hit) => ({ ...hit, relevance: Math.min(98, Math.round((hit.score / maxScore) * 34 + 58)) }))
 }
 
 function buildAnswer(hits) {
@@ -299,8 +301,10 @@ function RagConsultant() {
         {
           role: "assistant",
           text: answer,
+          latencyMs: 1650 + Math.round(Math.random() * 240),
           citations: hits.map((hit) => ({
             docId: hit.doc.id,
+            relevance: hit.relevance,
             label: `${hit.doc.name} · v${hit.doc.version} · chunk ${hit.chunk.id}`,
           })),
           grounded: hits.length > 0,
@@ -314,6 +318,10 @@ function RagConsultant() {
       setLastUsage({ prompt, completion })
       setPhase("idle")
     }, 1650)
+  }
+
+  function clearConversation() {
+    setConversation([])
   }
 
   function uploadDocument() {
@@ -569,7 +577,19 @@ function RagConsultant() {
                 <div className="mt-4 rounded-2xl border border-white/10 bg-black/16 p-3">
                   <p className="text-xs font-black uppercase tracking-[0.14em] text-[#eac46f]">Selected Document</p>
                   <p className="mt-2 text-sm font-black">{selectedDoc.name}</p>
-                  <div className="mt-3 grid max-h-28 gap-1.5 overflow-y-auto pr-1">
+                  <div className="mt-3 grid max-h-32 gap-1.5 overflow-y-auto pr-1">
+                    {selectedDoc.chunks.map((chunk) => (
+                      <div key={chunk.id} className="rounded-lg bg-white/6 px-2.5 py-2">
+                        <div className="flex items-center justify-between gap-2">
+                          <span className="font-mono text-[10px] font-black text-[#eac46f]">chunk {chunk.id}</span>
+                          <span className="text-[9px] font-bold text-white/38">{chunk.text.length} 字</span>
+                        </div>
+                        <p className="mt-1 line-clamp-2 text-[11px] font-bold leading-4 text-white/60">{chunk.text}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <p className="mt-3 text-xs font-black uppercase tracking-[0.14em] text-[#eac46f]">Version History</p>
+                  <div className="mt-2 grid max-h-24 gap-1.5 overflow-y-auto pr-1">
                     {[...selectedDoc.versions].reverse().map((entry, index) => (
                       <div key={`${entry.v}-${index}`} className="flex items-center justify-between gap-2 rounded-lg bg-white/6 px-2.5 py-1.5">
                         <span className="font-mono text-[11px] font-black text-[#eac46f]">v{entry.v}</span>
@@ -612,7 +632,18 @@ function RagConsultant() {
                     <p className="text-xs font-black uppercase tracking-[0.18em] text-[#bf6536]">RAG AI</p>
                     <h3 className="mt-1 text-2xl font-black">問答介面</h3>
                   </div>
-                  <span className="rounded-full bg-[#f3efe7] px-3 py-1 text-[11px] font-black text-[#59635d]">引用回答 · 沒有依據就說不知道</span>
+                  <div className="flex items-center gap-2">
+                    <span className="rounded-full bg-[#f3efe7] px-3 py-1 text-[11px] font-black text-[#59635d]">引用回答 · 沒有依據就說不知道</span>
+                    {conversation.length > 0 ? (
+                      <button
+                        type="button"
+                        onClick={clearConversation}
+                        className="rounded-full border border-[#d7cbbb] px-3 py-1 text-[11px] font-black text-[#8a7c6d] transition hover:border-[#bf6536] hover:text-[#bf6536]"
+                      >
+                        清除對話
+                      </button>
+                    ) : null}
+                  </div>
                 </div>
 
                 <div className="mt-4 grid max-h-[26rem] min-h-[16rem] content-start gap-3 overflow-y-auto pr-1">
@@ -639,15 +670,23 @@ function RagConsultant() {
                         </div>
                       )
                     }
+                    const isLatest = index === conversation.length - 1
                     return (
                       <div key={index} className="rounded-2xl rounded-tl-md bg-[#f3efe7] p-4">
                         <div className="flex items-center justify-between gap-3">
-                          <p className="text-xs font-black uppercase tracking-[0.14em] text-[#bf6536]">Answer</p>
+                          <div className="flex items-center gap-2">
+                            <p className="text-xs font-black uppercase tracking-[0.14em] text-[#bf6536]">Answer</p>
+                            {message.latencyMs ? (
+                              <span className="font-mono text-[10px] font-black text-[#8a7c6d]">{(message.latencyMs / 1000).toFixed(2)}s</span>
+                            ) : null}
+                          </div>
                           <span className={`rounded-full px-3 py-1 text-[11px] font-black ${message.grounded ? "bg-[#e9f2e9] text-[#2f6234]" : "bg-white text-[#b44d24]"}`}>
                             {message.grounded ? "Grounded" : "No source"}
                           </span>
                         </div>
-                        <p className="mt-3 text-sm font-bold leading-7 text-[#34403c]">{message.text}</p>
+                        <div className="mt-3 text-sm font-bold leading-7 text-[#34403c]">
+                          {isLatest ? <Typewriter text={message.text} /> : message.text}
+                        </div>
                         {message.citations?.length ? (
                           <div className="mt-3">
                             <p className="text-xs font-black uppercase tracking-[0.14em] text-[#8a7c6d]">Citations</p>
@@ -657,9 +696,12 @@ function RagConsultant() {
                                   key={citation.label}
                                   type="button"
                                   onClick={() => setSelectedDocId(citation.docId)}
-                                  className="rounded-xl border border-[#d7cbbb] bg-white px-3 py-2 text-left font-mono text-[12px] font-black text-[#59635d] transition hover:border-[#bf6536] hover:text-[#bf6536]"
+                                  className="flex items-center justify-between gap-2 rounded-xl border border-[#d7cbbb] bg-white px-3 py-2 text-left font-mono text-[12px] font-black text-[#59635d] transition hover:border-[#bf6536] hover:text-[#bf6536]"
                                 >
-                                  {citation.label}
+                                  <span className="truncate">{citation.label}</span>
+                                  {citation.relevance ? (
+                                    <span className="shrink-0 rounded-full bg-[#e9f2e9] px-2 py-0.5 text-[10px] text-[#2f6234]">{citation.relevance}%</span>
+                                  ) : null}
                                 </button>
                               ))}
                             </div>
@@ -834,6 +876,31 @@ function RagConsultant() {
         </div>
       </section>
     </main>
+  )
+}
+
+function Typewriter({ text }) {
+  const [length, setLength] = useState(0)
+
+  useEffect(() => {
+    const timer = window.setInterval(() => {
+      setLength((current) => {
+        if (current >= text.length) {
+          window.clearInterval(timer)
+          return current
+        }
+        return current + 2
+      })
+    }, 18)
+    return () => window.clearInterval(timer)
+  }, [text])
+
+  const done = length >= text.length
+  return (
+    <span>
+      {text.slice(0, length)}
+      {!done ? <span className="ml-0.5 inline-block h-4 w-1.5 animate-pulse rounded-sm bg-[#bf6536] align-middle" /> : null}
+    </span>
   )
 }
 

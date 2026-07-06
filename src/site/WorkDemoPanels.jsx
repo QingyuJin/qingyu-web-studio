@@ -2563,58 +2563,107 @@ function XinjiangDemo() {
   )
 }
 
-const quizQuestions = [
-  {
-    id: "q1",
-    type: "單選",
-    topic: "網站 CTA",
-    question: "首頁第一屏最應該讓訪客先看懂什麼？",
-    options: ["公司成立年份", "你能解決什麼問題", "完整技術清單", "所有服務細項"],
-    answer: 1,
-    explanation: "第一屏要先說清楚價值與下一步。細節可以放到下方或技術拆解。",
+const quizBanks = {
+  basic: {
+    label: "基礎題庫",
+    questions: [
+      {
+        id: "q1",
+        type: "單選",
+        topic: "網站 CTA",
+        question: "首頁第一屏最應該讓訪客先看懂什麼？",
+        options: ["公司成立年份", "你能解決什麼問題", "完整技術清單", "所有服務細項"],
+        answer: 1,
+        explanation: "第一屏要先說清楚價值與下一步。細節可以放到下方或技術拆解。",
+      },
+      {
+        id: "q2",
+        type: "單選",
+        topic: "手機版",
+        question: "手機版互動頁最適合的呈現方式是？",
+        options: ["全部資訊一次攤開", "一屏一重點", "字越大越好", "只保留桌機截圖"],
+        answer: 1,
+        explanation: "手機版應該像 App 操作，一次完成一件事，避免 Preview、Dashboard、Report 全部塞在同一屏。",
+      },
+      {
+        id: "q3",
+        type: "單選",
+        topic: "LINE 接待",
+        question: "LINE Bot 最適合先自動整理哪一類資訊？",
+        options: ["客戶需求與聯絡方式", "網站背景色", "開發者版本號", "所有私密資料"],
+        answer: 0,
+        explanation: "LINE Bot 的價值是協助收需求、分類、同步到後台，再讓人工接手重要對話。",
+      },
+      {
+        id: "q4",
+        type: "單選",
+        topic: "SEO",
+        question: "搜尋摘要最需要避免哪一種寫法？",
+        options: ["清楚說明服務", "包含主要關鍵字", "空泛又看不出業務", "描述聯絡方式"],
+        answer: 2,
+        explanation: "摘要要讓搜尋者快速知道你提供什麼、適合誰，而不是泛泛地說專業服務。",
+      },
+    ],
   },
-  {
-    id: "q2",
-    type: "單選",
-    topic: "手機版",
-    question: "手機版互動頁最適合的呈現方式是？",
-    options: ["全部資訊一次攤開", "一屏一重點", "字越大越好", "只保留桌機截圖"],
-    answer: 1,
-    explanation: "手機版應該像 App 操作，一次完成一件事，避免 Preview、Dashboard、Report 全部塞在同一屏。",
+  advanced: {
+    label: "進階題庫",
+    questions: [
+      {
+        id: "a1",
+        type: "單選",
+        topic: "後台流程",
+        question: "客戶需求進來後，最重要的第一步是什麼？",
+        options: ["直接開工再說", "建立案件並記錄需求", "等客戶自己再問", "先報一個最高價"],
+        answer: 1,
+        explanation: "先把需求變成可追蹤的案件，後續報價、派工與驗收才有依據。",
+      },
+      {
+        id: "a2",
+        type: "單選",
+        topic: "AI 導入",
+        question: "導入 AI 問答系統前，最應該先準備什麼？",
+        options: ["買最貴的模型", "整理好內部文件與 FAQ", "先做一支 App", "加入大量動畫"],
+        answer: 1,
+        explanation: "RAG 系統的回答品質取決於知識庫內容，文件整理是第一步。",
+      },
+      {
+        id: "a3",
+        type: "單選",
+        topic: "表單設計",
+        question: "詢價表單的欄位設計原則是？",
+        options: ["欄位越多越完整", "只收能幫助報價的必要欄位", "全部設成選填", "不需要手機版"],
+        answer: 1,
+        explanation: "欄位太多會流失客戶，先收產業、需求、預算、時程等關鍵欄位即可。",
+      },
+      {
+        id: "a4",
+        type: "單選",
+        topic: "上線檢查",
+        question: "網站上線前最應該確認哪一項？",
+        options: ["動畫夠不夠炫", "手機版與聯絡入口正常", "顏色種類夠多", "字型超過五種"],
+        answer: 1,
+        explanation: "多數訪客用手機開啟，手機版正常、聯絡得到你，才是上線的底線。",
+      },
+    ],
   },
-  {
-    id: "q3",
-    type: "單選",
-    topic: "LINE 接待",
-    question: "LINE Bot 最適合先自動整理哪一類資訊？",
-    options: ["客戶需求與聯絡方式", "網站背景色", "開發者版本號", "所有私密資料"],
-    answer: 0,
-    explanation: "LINE Bot 的價值是協助收需求、分類、同步到後台，再讓人工接手重要對話。",
-  },
-  {
-    id: "q4",
-    type: "單選",
-    topic: "SEO",
-    question: "搜尋摘要最需要避免哪一種寫法？",
-    options: ["清楚說明服務", "包含主要關鍵字", "空泛又看不出業務", "描述聯絡方式"],
-    answer: 2,
-    explanation: "摘要要讓搜尋者快速知道你提供什麼、適合誰，而不是泛泛地說專業服務。",
-  },
-]
+}
 
 function InteractiveQuizDemo() {
+  const [bankId, setBankId] = useState("basic")
+  const [questions, setQuestions] = useState(quizBanks.basic.questions)
   const [index, setIndex] = useState(0)
   const [selected, setSelected] = useState(null)
   const [answers, setAnswers] = useState([])
   const [finished, setFinished] = useState(false)
   const [activePanel, setActivePanel] = useState("quiz")
-  const question = quizQuestions[index]
+  const question = questions[index]
   const currentAnswer = answers.find((item) => item.id === question.id)
   const locked = selected !== null || Boolean(currentAnswer)
   const chosen = selected ?? currentAnswer?.selected
   const correctCount = answers.filter((item) => item.correct).length
-  const progress = finished ? 100 : Math.round((index / quizQuestions.length) * 100)
-  const score = Math.round((correctCount / quizQuestions.length) * 100)
+  const progress = finished ? 100 : Math.round((index / questions.length) * 100)
+  const score = Math.round((correctCount / questions.length) * 100)
+  const wrongQuestions = questions.filter((item) => answers.find((entry) => entry.id === item.id && !entry.correct))
 
   function chooseOption(optionIndex) {
     if (locked) return
@@ -2629,7 +2678,7 @@ function InteractiveQuizDemo() {
 
   function goNext() {
     if (!locked) return
-    if (index >= quizQuestions.length - 1) {
+    if (index >= questions.length - 1) {
       setFinished(true)
       setActivePanel("result")
       return
@@ -2639,7 +2688,15 @@ function InteractiveQuizDemo() {
     setActivePanel("quiz")
   }
 
-  function resetQuiz() {
+  function jumpTo(targetIndex) {
+    if (finished) return
+    setIndex(targetIndex)
+    setSelected(null)
+    setActivePanel("quiz")
+  }
+
+  function startQuiz(nextQuestions) {
+    setQuestions(nextQuestions)
     setIndex(0)
     setSelected(null)
     setAnswers([])
@@ -2647,11 +2704,18 @@ function InteractiveQuizDemo() {
     setActivePanel("quiz")
   }
 
-  function loadTrainingSet() {
-    setIndex(0)
-    setSelected(null)
-    setAnswers([])
-    setFinished(false)
+  function resetQuiz() {
+    startQuiz(quizBanks[bankId].questions)
+  }
+
+  function retryWrong() {
+    if (wrongQuestions.length === 0) return
+    startQuiz(wrongQuestions)
+  }
+
+  function switchBank(nextBankId) {
+    setBankId(nextBankId)
+    startQuiz(quizBanks[nextBankId].questions)
     setActivePanel("bank")
   }
 
@@ -2664,7 +2728,10 @@ function InteractiveQuizDemo() {
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Quiz Preview</p>
               <h3 className="mt-2 text-2xl font-black md:text-3xl">{finished ? "結果頁" : `第 ${index + 1} 題`}</h3>
             </div>
-            <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">{finished ? "完成" : question.type}</span>
+            <div className="flex items-center gap-2">
+              <span className="rounded-full bg-white/10 px-3 py-1 text-xs font-black text-white/76">{quizBanks[bankId].label}</span>
+              <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#111c22]">{finished ? "完成" : question.type}</span>
+            </div>
           </div>
 
           <div className="mt-5 rounded-[1.4rem] bg-[#f9f5ec] p-4 text-[#111c22] md:p-5">
@@ -2688,13 +2755,28 @@ function InteractiveQuizDemo() {
                     </div>
                   ))}
                 </div>
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {wrongQuestions.length > 0 ? (
+                    <button type="button" onClick={retryWrong} className="min-h-10 rounded-xl bg-[#c85d2c] px-4 text-sm font-black text-white">
+                      重測答錯的 {wrongQuestions.length} 題
+                    </button>
+                  ) : (
+                    <button
+                      type="button"
+                      onClick={() => switchBank(bankId === "basic" ? "advanced" : "basic")}
+                      className="min-h-10 rounded-xl bg-[#0d6b62] px-4 text-sm font-black text-white"
+                    >
+                      挑戰{bankId === "basic" ? "進階" : "基礎"}題庫
+                    </button>
+                  )}
+                </div>
               </div>
             ) : (
               <div>
                 <div className="flex items-center justify-between gap-3">
                   <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{question.topic}</span>
                   <span className="text-xs font-black text-[#52605c]">
-                    {index + 1} / {quizQuestions.length}
+                    {index + 1} / {questions.length}
                   </span>
                 </div>
                 <h3 className="mt-5 text-2xl font-black leading-snug">{question.question}</h3>
@@ -2715,14 +2797,29 @@ function InteractiveQuizDemo() {
             )}
           </div>
 
-          <div className="mt-4 grid gap-3 sm:grid-cols-[1fr_auto] sm:items-center">
+          <div className="mt-4 grid gap-3 sm:grid-cols-[auto_1fr_auto] sm:items-center">
+            <div className="flex items-center gap-1.5">
+              {questions.map((item, dotIndex) => {
+                const entry = answers.find((answerItem) => answerItem.id === item.id)
+                const tone = entry ? (entry.correct ? "bg-[#8fd6cc]" : "bg-[#e29a6d]") : dotIndex === index && !finished ? "bg-white" : "bg-white/25"
+                return (
+                  <button
+                    key={item.id}
+                    type="button"
+                    onClick={() => jumpTo(dotIndex)}
+                    aria-label={`第 ${dotIndex + 1} 題`}
+                    className={`h-2.5 w-2.5 rounded-full transition ${tone} ${finished ? "cursor-default" : "hover:scale-125"}`}
+                  />
+                )
+              })}
+            </div>
             <Progress value={progress} />
             <div className="flex gap-2">
               <button type="button" onClick={resetQuiz} className="min-h-11 rounded-xl border border-white/15 px-4 text-sm font-black text-white/86">
                 重新測驗
               </button>
               <button type="button" onClick={goNext} disabled={!locked && !finished} className="min-h-11 rounded-xl bg-[#8fd6cc] px-4 text-sm font-black text-[#0b2724] disabled:opacity-45">
-                {finished ? "已完成" : index === quizQuestions.length - 1 ? "看結果" : "下一題"}
+                {finished ? "已完成" : index === questions.length - 1 ? "看結果" : "下一題"}
               </button>
             </div>
           </div>
@@ -2774,9 +2871,21 @@ function InteractiveQuizDemo() {
           ) : null}
 
           {activePanel === "bank" ? (
-            <MiniCard title="題庫示意">
+            <MiniCard title="題庫管理">
               <div className="grid gap-3">
-                {quizQuestions.map((item, itemIndex) => (
+                <div className="flex gap-2">
+                  {Object.entries(quizBanks).map(([id, bank]) => (
+                    <button
+                      key={id}
+                      type="button"
+                      onClick={() => switchBank(id)}
+                      className={`min-h-10 flex-1 rounded-xl text-sm font-black ${bankId === id ? "bg-[#0d6b62] text-white" : "border border-[#d7dfdb] bg-white text-[#111c22]"}`}
+                    >
+                      {bank.label}
+                    </button>
+                  ))}
+                </div>
+                {quizBanks[bankId].questions.map((item, itemIndex) => (
                   <div key={item.id} className="rounded-xl bg-white px-4 py-3">
                     <div className="flex items-center justify-between gap-3">
                       <p className="text-sm font-black text-[#111c22]">
@@ -2787,9 +2896,9 @@ function InteractiveQuizDemo() {
                     <p className="mt-2 truncate text-xs font-bold text-[#52605c]">{item.question}</p>
                   </div>
                 ))}
-                <button type="button" onClick={loadTrainingSet} className="min-h-11 rounded-xl border border-[#d7dfdb] bg-white px-4 text-sm font-black text-[#111c22]">
-                  載入題庫範例
-                </button>
+                <p className="text-xs font-bold leading-5 text-[#52605c]">
+                  切換題庫會直接換一組題目重新開始，實際交付可接 JSON 或 Google Sheet 維護。
+                </p>
               </div>
             </MiniCard>
           ) : null}

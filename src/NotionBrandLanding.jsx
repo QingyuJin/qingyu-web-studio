@@ -1,3 +1,4 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
@@ -8,8 +9,18 @@ const pageSeo = {
   description: "深色系 Notion 個人品牌落地頁，適合顧問、講師、創作者與知識型品牌作為 IG 導流入口。",
 }
 
-const services = ["財商諮詢", "現金流規劃", "投資觀念教學", "房地產投資入門"]
-const resources = ["現金流試算表", "投資觀念文章", "諮詢前檢查表", "常見問題"]
+const services = [
+  ["財商諮詢", "一對一盤點收支、資產與目標，產出可執行的行動清單。"],
+  ["現金流規劃", "用現金流視角整理收入結構，規劃被動收入配置。"],
+  ["投資觀念教學", "小班課程與線上資源，建立長期投資紀律。"],
+  ["房地產投資入門", "從自住到收租，評估貸款、現金流與風險。"],
+]
+const resources = [
+  ["現金流試算表", "Notion 模板"],
+  ["投資觀念文章", "12 篇"],
+  ["諮詢前檢查表", "PDF"],
+  ["常見問題", "FAQ"],
+]
 const highlights = ["手機瀏覽優化", "Notion 架構規劃", "深色系視覺整理", "LINE / 表單導流", "可自行維護內容", "可嵌入影片資源"]
 const audiences = ["財商顧問", "教練 / 講師", "房地產顧問", "知識型創作者", "IG 個人品牌經營者"]
 const steps = ["確認定位", "規劃架構", "製作 Notion 頁面", "教學交付"]
@@ -37,22 +48,51 @@ function SectionTitle({ eyebrow, title, text, light = false }) {
   )
 }
 
+const faq = [
+  ["適合誰？", "顧問、講師、創作者、需要 IG 導流的人。只要你的服務需要一個比連結樹更完整的入口，就適合。"],
+  ["怎麼預約？", "點 LINE 或諮詢表單，先留下需求與方便的時間，顧問會在 24 小時內回覆並約定初談。"],
+  ["服務流程？", "初談（30 分鐘）→ 財務盤點 → 規劃提案 → 交付與追蹤，全程線上完成。"],
+]
+
 function NotionPreview() {
-  const faq = [
-    ["適合誰？", "顧問、講師、創作者、需要 IG 導流的人。"],
-    ["怎麼預約？", "點 LINE 或表單，先留下需求與時間。"],
-    ["服務流程？", "初談、盤點、規劃、交付。"],
-  ]
+  const [openFaq, setOpenFaq] = useState(0)
+  const [activeService, setActiveService] = useState(null)
+  const [openedResources, setOpenedResources] = useState([])
+  const [modal, setModal] = useState(null)
+  const [form, setForm] = useState({ name: "", contact: "", note: "" })
+  const [formError, setFormError] = useState("")
+  const [sent, setSent] = useState(false)
+
+  function openConsultForm(presetNote) {
+    setModal("form")
+    setSent(false)
+    setFormError("")
+    if (presetNote) setForm((current) => ({ ...current, note: presetNote }))
+  }
+
+  function openResource(name) {
+    setOpenedResources((current) => (current.includes(name) ? current : [...current, name]))
+  }
+
+  function submitConsult(event) {
+    event.preventDefault()
+    if (!form.name.trim() || !form.contact.trim()) {
+      setFormError("請填寫姓名與聯絡方式。")
+      return
+    }
+    setFormError("")
+    setSent(true)
+  }
 
   return (
-    <div className="rounded-[2rem] border border-white/10 bg-[#0c0c0d] p-4 shadow-2xl shadow-black/30 md:p-5">
+    <div className="relative rounded-[2rem] border border-white/10 bg-[#0c0c0d] p-4 shadow-2xl shadow-black/30 md:p-5">
       <div className="mb-4 flex items-center justify-between gap-3 border-b border-white/10 pb-4">
         <div className="flex items-center gap-2">
           <span className="h-3 w-3 rounded-full bg-[#ff6b5f]" />
           <span className="h-3 w-3 rounded-full bg-[#f6c15f]" />
           <span className="h-3 w-3 rounded-full bg-[#69d17d]" />
         </div>
-        <span className="rounded-full bg-white/8 px-3 py-1 text-[11px] font-black text-white/55">Ready-to-use Notion page</span>
+        <span className="rounded-full bg-white/8 px-3 py-1 text-[11px] font-black text-white/55">Interactive Demo · 可直接操作</span>
       </div>
 
       <div className="rounded-[1.6rem] bg-[#151516] p-5 md:p-7">
@@ -71,8 +111,20 @@ function NotionPreview() {
               給想整理財務、投資觀念與現金流的人，一個清楚的入口。
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
-              <span className="inline-flex min-h-11 items-center rounded-xl bg-[#d8b46c] px-4 text-sm font-black text-[#17130f]">加入 LINE 官方帳號</span>
-              <span className="inline-flex min-h-11 items-center rounded-xl border border-white/12 px-4 text-sm font-black text-white/78">填寫諮詢表單</span>
+              <button
+                type="button"
+                onClick={() => setModal("line")}
+                className="inline-flex min-h-11 items-center rounded-xl bg-[#d8b46c] px-4 text-sm font-black text-[#17130f] transition hover:bg-[#e7c982]"
+              >
+                加入 LINE 官方帳號
+              </button>
+              <button
+                type="button"
+                onClick={() => openConsultForm("")}
+                className="inline-flex min-h-11 items-center rounded-xl border border-white/12 px-4 text-sm font-black text-white/78 transition hover:border-[#d8b46c]/60 hover:text-[#d8c79f]"
+              >
+                填寫諮詢表單
+              </button>
             </div>
           </div>
 
@@ -87,7 +139,7 @@ function NotionPreview() {
             <div className="mt-5 grid gap-3">
               {[
                 ["諮詢入口", "LINE / 表單"],
-                ["資源數", "12 篇"],
+                ["資源數", `${resources.length} 項（已開啟 ${openedResources.length}）`],
                 ["更新方式", "自行編輯"],
               ].map(([label, value]) => (
                 <div key={label} className="flex items-center justify-between rounded-xl bg-white/[0.06] px-3 py-3">
@@ -100,17 +152,80 @@ function NotionPreview() {
         </div>
 
         <div id="structure" className="mt-8 grid gap-4 lg:grid-cols-[0.85fr_1fr_0.85fr]">
-          <NotionBlock title="核心服務" items={services} />
-          <NotionBlock title="資源中心" items={resources} />
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <p className="text-sm font-black text-white">核心服務</p>
+            <div className="mt-4 grid gap-2">
+              {services.map(([name, detail]) => {
+                const expanded = activeService === name
+                return (
+                  <div key={name} className={`rounded-xl transition ${expanded ? "bg-[#d8b46c]/12 ring-1 ring-[#d8b46c]/35" : "bg-black/18"}`}>
+                    <button
+                      type="button"
+                      onClick={() => setActiveService(expanded ? null : name)}
+                      className="flex w-full items-center justify-between px-3 py-3 text-left text-sm font-bold text-white/68"
+                    >
+                      <span className={expanded ? "text-[#d8c79f]" : ""}>{name}</span>
+                      <span className="text-xs text-white/35">{expanded ? "−" : "+"}</span>
+                    </button>
+                    {expanded ? (
+                      <div className="px-3 pb-3">
+                        <p className="text-xs font-bold leading-5 text-white/58">{detail}</p>
+                        <button
+                          type="button"
+                          onClick={() => openConsultForm(`我想預約「${name}」，方便的時間是：`)}
+                          className="mt-2 rounded-lg bg-[#d8b46c] px-3 py-1.5 text-xs font-black text-[#17130f]"
+                        >
+                          預約這項服務
+                        </button>
+                      </div>
+                    ) : null}
+                  </div>
+                )
+              })}
+            </div>
+          </div>
+
+          <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
+            <p className="text-sm font-black text-white">資源中心</p>
+            <div className="mt-4 grid gap-2">
+              {resources.map(([name, meta]) => {
+                const opened = openedResources.includes(name)
+                return (
+                  <button
+                    key={name}
+                    type="button"
+                    onClick={() => openResource(name)}
+                    className="flex w-full items-center justify-between rounded-xl bg-black/18 px-3 py-3 text-left text-sm font-bold text-white/68 transition hover:bg-black/30"
+                  >
+                    <span>{name}</span>
+                    <span className={`rounded-full px-2 py-0.5 text-[10px] font-black ${opened ? "bg-[#69d17d]/18 text-[#8fe0a1]" : "bg-white/8 text-white/45"}`}>
+                      {opened ? "已開啟" : meta}
+                    </span>
+                  </button>
+                )
+              })}
+            </div>
+          </div>
+
           <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
             <p className="text-sm font-black text-white">FAQ</p>
             <div className="mt-4 grid gap-3">
-              {faq.map(([question, answer]) => (
-                <div key={question} className="rounded-xl border border-white/8 bg-black/16 p-3">
-                  <p className="text-xs font-black text-[#d8c79f]">{question}</p>
-                  <p className="mt-1 text-xs font-bold leading-5 text-white/58">{answer}</p>
-                </div>
-              ))}
+              {faq.map(([question, answer], index) => {
+                const expanded = openFaq === index
+                return (
+                  <div key={question} className="rounded-xl border border-white/8 bg-black/16">
+                    <button
+                      type="button"
+                      onClick={() => setOpenFaq(expanded ? -1 : index)}
+                      className="flex w-full items-center justify-between p-3 text-left"
+                    >
+                      <span className="text-xs font-black text-[#d8c79f]">{question}</span>
+                      <span className="text-xs text-white/35">{expanded ? "−" : "+"}</span>
+                    </button>
+                    {expanded ? <p className="px-3 pb-3 text-xs font-bold leading-5 text-white/58">{answer}</p> : null}
+                  </div>
+                )
+              })}
             </div>
           </div>
         </div>
@@ -124,21 +239,75 @@ function NotionPreview() {
           ))}
         </div>
       </div>
-    </div>
-  )
-}
 
-function NotionBlock({ title, items }) {
-  return (
-    <div className="rounded-2xl border border-white/10 bg-white/[0.055] p-4">
-      <p className="text-sm font-black text-white">{title}</p>
-      <div className="mt-4 grid gap-2">
-        {items.map((item) => (
-          <div key={item} className="rounded-xl bg-black/18 px-3 py-3 text-sm font-bold text-white/68">
-            {item}
+      {modal ? (
+        <div className="absolute inset-0 z-20 grid place-items-center rounded-[2rem] bg-black/72 p-4 backdrop-blur-sm" onClick={() => setModal(null)}>
+          <div className="w-full max-w-md rounded-[1.4rem] border border-white/12 bg-[#151516] p-5" onClick={(event) => event.stopPropagation()}>
+            {modal === "line" ? (
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#c7a96b]">LINE Official Account</p>
+                <h4 className="mt-2 text-2xl font-black text-white">@cashflow.mentor</h4>
+                <div className="mt-4 grid place-items-center rounded-2xl bg-white p-5">
+                  <div className="grid grid-cols-5 gap-1">
+                    {[1, 0, 1, 1, 0, 0, 1, 0, 1, 1, 1, 1, 0, 0, 1, 0, 1, 1, 0, 1, 1, 0, 0, 1, 1].map((filled, cellIndex) => (
+                      <span key={cellIndex} className={`h-4 w-4 rounded-[3px] ${filled ? "bg-[#17130f]" : "bg-[#e8e2d6]"}`} />
+                    ))}
+                  </div>
+                  <p className="mt-3 text-xs font-black text-[#63584a]">示範 QR · 實際交付會連到你的官方帳號</p>
+                </div>
+                <button type="button" onClick={() => setModal(null)} className="mt-4 min-h-11 w-full rounded-xl bg-[#d8b46c] text-sm font-black text-[#17130f]">
+                  知道了
+                </button>
+              </div>
+            ) : sent ? (
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#69d17d]">Sent</p>
+                <h4 className="mt-2 text-2xl font-black text-white">已收到你的諮詢</h4>
+                <p className="mt-3 text-sm font-bold leading-6 text-white/58">
+                  {form.name}，顧問會在 24 小時內透過「{form.contact}」與你聯繫，安排 30 分鐘初談。
+                </p>
+                <button type="button" onClick={() => setModal(null)} className="mt-5 min-h-11 w-full rounded-xl bg-[#d8b46c] text-sm font-black text-[#17130f]">
+                  完成
+                </button>
+              </div>
+            ) : (
+              <form onSubmit={submitConsult}>
+                <p className="text-xs font-black uppercase tracking-[0.2em] text-[#c7a96b]">Consultation</p>
+                <h4 className="mt-2 text-2xl font-black text-white">諮詢表單</h4>
+                <div className="mt-4 grid gap-3">
+                  <input
+                    value={form.name}
+                    onChange={(event) => setForm((current) => ({ ...current, name: event.target.value }))}
+                    placeholder="姓名"
+                    className="min-h-11 rounded-xl border border-white/12 bg-black/25 px-4 text-sm font-bold text-white outline-none placeholder:text-white/35 focus:border-[#d8b46c]/60"
+                  />
+                  <input
+                    value={form.contact}
+                    onChange={(event) => setForm((current) => ({ ...current, contact: event.target.value }))}
+                    placeholder="LINE ID 或 Email"
+                    className="min-h-11 rounded-xl border border-white/12 bg-black/25 px-4 text-sm font-bold text-white outline-none placeholder:text-white/35 focus:border-[#d8b46c]/60"
+                  />
+                  <textarea
+                    value={form.note}
+                    onChange={(event) => setForm((current) => ({ ...current, note: event.target.value }))}
+                    placeholder="想諮詢的主題或狀況"
+                    className="min-h-20 rounded-xl border border-white/12 bg-black/25 px-4 py-3 text-sm font-bold text-white outline-none placeholder:text-white/35 focus:border-[#d8b46c]/60"
+                  />
+                </div>
+                {formError ? <p className="mt-3 text-xs font-black text-[#ff9c8f]">{formError}</p> : null}
+                <div className="mt-4 flex gap-2">
+                  <button type="button" onClick={() => setModal(null)} className="min-h-11 flex-1 rounded-xl border border-white/12 text-sm font-black text-white/70">
+                    取消
+                  </button>
+                  <button type="submit" className="min-h-11 flex-1 rounded-xl bg-[#d8b46c] text-sm font-black text-[#17130f]">
+                    送出諮詢
+                  </button>
+                </div>
+              </form>
+            )}
           </div>
-        ))}
-      </div>
+        </div>
+      ) : null}
     </div>
   )
 }

@@ -39,19 +39,45 @@ const stories = [
     text: "在高壓現場裡，看見判斷、溝通與照護的重量。",
     tag: "急診故事",
     image: "https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1200&q=80",
+    author: "急診醫學科 · 林醫師",
+    readTime: "6 分鐘",
+    body: [
+      "早上七點半交班，白板上是一夜累積的三十七床。急診的節奏不是快，而是「同時」：判斷、溝通、安撫與決策，常常在同一分鐘內發生。",
+      "「我們最常做的不是急救，而是翻譯。」把檢查數字翻譯成家屬聽得懂的語言，把焦慮翻譯成可以一起做的下一步。",
+      "這一天的最後，是一位獨居長輩的回診安排。醫療的重量不只在搶救瞬間，更在每一次確認有人接住他之後，才放心讓病人離開的守備範圍。",
+    ],
   },
   {
     title: "牙科醫師的品牌經營",
     text: "從診間溝通到內容經營，讓專業被溫柔理解。",
     tag: "品牌專訪",
     image: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80",
+    author: "牙科 · 陳醫師",
+    readTime: "5 分鐘",
+    body: [
+      "「病人在診療椅上只有二十分鐘，但他的疑問存在三百六十五天。」陳醫師開始經營衛教內容的起點，是發現同樣的問題每天要回答十次。",
+      "把常見問題整理成圖文，把治療流程拍成短影音，診間溝通的起跑點就完全不同——病人帶著理解進來，而不是帶著恐懼。",
+      "品牌經營對醫師而言不是行銷，是把專業翻譯成日常語言的長期練習。信任感是內容累積出來的複利。",
+    ],
   },
   {
     title: "醫美醫師的溝通哲學",
     text: "將美感、期待與風險，轉化成清楚可信任的對話。",
     tag: "溝通哲學",
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
+    author: "醫美 · 張醫師",
+    readTime: "5 分鐘",
+    body: [
+      "醫美診間最難的不是技術，是期待管理。「我會先花一半的時間，確認我們想像的是同一件事。」",
+      "張醫師堅持在療程前把風險說滿：能改善多少、恢復期多長、哪些狀況不適合做。「說清楚風險不會趕走客人，只會留下對的客人。」",
+      "美感是主觀的，但溝通可以是有結構的。清楚的對話本身，就是一種專業。",
+    ],
   },
+]
+
+const eventSessions = [
+  { id: "online", label: "線上場", note: "Zoom 直播 + 回放", seats: 200, taken: 168 },
+  { id: "taipei", label: "台北現場", note: "信義區會議中心", seats: 80, taken: 74 },
 ]
 
 const eventInfo = {
@@ -330,15 +356,21 @@ function BiomedFeatures() {
 }
 
 function BiomedStories() {
+  const [activeStory, setActiveStory] = useState(null)
+
   return (
     <SectionShell id="stories">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <SectionTitle eyebrow="Stories" title="醫生故事" text="像品牌媒體一樣上架人物、觀點與專業內容。" />
+        <SectionTitle eyebrow="Stories" title="醫生故事" text="像品牌媒體一樣上架人物、觀點與專業內容。點擊卡片可閱讀全文。" />
         <span className="w-fit rounded-full border border-white/70 bg-white/52 px-4 py-2 text-xs font-black text-[#61766c] backdrop-blur">Editorial Series</span>
       </div>
       <div className="mt-10 grid gap-5 md:grid-cols-3">
         {stories.map((story) => (
-          <article key={story.title} className="overflow-hidden rounded-[1.7rem] border border-white/70 bg-white/52 p-4 shadow-[0_18px_55px_rgba(50,68,58,0.08)] backdrop-blur-2xl">
+          <article
+            key={story.title}
+            className="cursor-pointer overflow-hidden rounded-[1.7rem] border border-white/70 bg-white/52 p-4 shadow-[0_18px_55px_rgba(50,68,58,0.08)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:bg-white/68"
+            onClick={() => setActiveStory(story)}
+          >
             <div className="relative aspect-[4/3] overflow-hidden rounded-[1.35rem]">
               <img src={story.image} alt={story.title} loading="lazy" className="h-full w-full object-cover transition duration-500 hover:scale-105" />
               <span className="absolute left-4 top-4 rounded-full bg-white/74 px-3 py-1 text-[10px] font-black tracking-[0.14em] text-[#61766c] backdrop-blur">{story.tag}</span>
@@ -346,42 +378,192 @@ function BiomedStories() {
             <div className="px-2 pb-1 pt-5">
               <h3 className="font-serif text-[1.55rem] font-black tracking-[-0.035em] text-[#243a32]">{story.title}</h3>
               <p className="mt-2 text-sm font-semibold leading-7 text-[#65776e]">{story.text}</p>
+              <p className="mt-3 text-xs font-black text-[#8d7a52]">
+                {story.author} · {story.readTime} · 閱讀全文 →
+              </p>
             </div>
           </article>
         ))}
       </div>
+
+      {activeStory ? (
+        <div
+          className="fixed inset-0 z-[60] grid place-items-center bg-[#1b2a24]/55 p-4 backdrop-blur-sm"
+          onClick={() => setActiveStory(null)}
+        >
+          <article
+            className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] border border-white/70 bg-[#fdfaf3] p-6 shadow-2xl md:p-8"
+            onClick={(event) => event.stopPropagation()}
+          >
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <span className="rounded-full bg-[#f0e7d3] px-3 py-1 text-[10px] font-black tracking-[0.14em] text-[#8d6e3d]">{activeStory.tag}</span>
+                <h3 className="mt-4 font-serif text-4xl font-black tracking-[-0.04em] text-[#243a32]">{activeStory.title}</h3>
+                <p className="mt-2 text-xs font-black text-[#8d7a52]">
+                  {activeStory.author} · {activeStory.readTime}
+                </p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setActiveStory(null)}
+                aria-label="關閉全文"
+                className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#dcd2bd] text-[#61766c] hover:bg-[#f0e7d3]"
+              >
+                ✕
+              </button>
+            </div>
+            <div className="mt-5 overflow-hidden rounded-[1.4rem]">
+              <img src={activeStory.image} alt={activeStory.title} className="aspect-[16/8] w-full object-cover" />
+            </div>
+            <div className="mt-6 grid gap-4">
+              {activeStory.body.map((paragraph) => (
+                <p key={paragraph.slice(0, 12)} className="text-[15px] font-semibold leading-8 text-[#4e6157]">
+                  {paragraph}
+                </p>
+              ))}
+            </div>
+            <div className="mt-7 flex items-center justify-between border-t border-[#e5dcc8] pt-5">
+              <p className="text-xs font-black text-[#8d7a52]">LightCare BioMed · 醫療人文誌</p>
+              <button
+                type="button"
+                onClick={() => setActiveStory(null)}
+                className="rounded-full bg-[#243a32] px-5 py-2.5 text-xs font-black text-white"
+              >
+                回到故事列表
+              </button>
+            </div>
+          </article>
+        </div>
+      ) : null}
     </SectionShell>
   )
 }
 
 function BiomedEvents() {
-  const [joined, setJoined] = useState(false)
+  const [sessions, setSessions] = useState(eventSessions)
+  const [sessionId, setSessionId] = useState(eventSessions[0].id)
+  const [name, setName] = useState("")
+  const [email, setEmail] = useState("")
+  const [error, setError] = useState("")
+  const [ticket, setTicket] = useState(null)
+
+  const selectedSession = sessions.find((session) => session.id === sessionId)
+
+  function submitRegistration(event) {
+    event.preventDefault()
+    if (!name.trim()) {
+      setError("請填寫姓名。")
+      return
+    }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setError("請填寫正確的 Email。")
+      return
+    }
+    if (selectedSession.taken >= selectedSession.seats) {
+      setError("此場次已額滿，請改選其他場次。")
+      return
+    }
+    setError("")
+    setSessions((current) =>
+      current.map((session) => (session.id === sessionId ? { ...session, taken: session.taken + 1 } : session))
+    )
+    setTicket({
+      code: `LC-${String(Math.floor(1000 + Math.random() * 9000))}`,
+      name: name.trim(),
+      session: selectedSession.label,
+    })
+  }
+
+  function resetRegistration() {
+    setTicket(null)
+    setName("")
+    setEmail("")
+  }
 
   return (
     <SectionShell id="events">
       <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <SectionTitle eyebrow="Events" title="公益講座" text="活動資訊、報名入口與品牌內容可以整理在同一個入口。" />
+        <SectionTitle eyebrow="Events" title="公益講座" text="活動資訊、場次名額與報名流程整理在同一個入口，可直接操作。" />
         <div className="overflow-hidden rounded-[2rem] border border-white/70 bg-white/54 p-4 shadow-[0_22px_75px_rgba(50,68,58,0.1)] backdrop-blur-2xl">
           <div className="grid gap-5 md:grid-cols-[0.92fr_1.08fr]">
             <div className="relative min-h-[18rem] overflow-hidden rounded-[1.6rem]">
               <img src={eventImage} alt="公益講座現場" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
               <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(36,58,50,0.42))]" />
               <span className="absolute left-4 top-4 rounded-full bg-white/74 px-3 py-1 text-[10px] font-black tracking-[0.18em] text-[#61766c] backdrop-blur">OPEN EVENT</span>
-            </div>
-            <div className="flex flex-col justify-between p-2 md:p-4">
-              <div>
-                <p className="font-serif text-5xl font-black tracking-[-0.05em] text-[#8d6e3d]">{eventInfo.date}</p>
-                <h3 className="mt-4 font-serif text-3xl font-black leading-tight tracking-[-0.04em] text-[#243a32]">{eventInfo.title}</h3>
-                <p className="mt-3 text-sm font-semibold leading-7 text-[#65776e]">{eventInfo.note}</p>
-                <p className="mt-4 text-xs font-black text-[#8d7a52]">{eventInfo.place}</p>
+              <div className="absolute bottom-4 left-4 right-4 rounded-[1.2rem] border border-white/50 bg-white/70 p-4 backdrop-blur">
+                <p className="font-serif text-4xl font-black tracking-[-0.05em] text-[#8d6e3d]">{eventInfo.date}</p>
+                <h3 className="mt-2 font-serif text-xl font-black leading-tight tracking-[-0.03em] text-[#243a32]">{eventInfo.title}</h3>
+                <p className="mt-1 text-xs font-black text-[#8d7a52]">{eventInfo.place}</p>
               </div>
-              <button
-                type="button"
-                className="mt-6 inline-flex min-h-12 w-fit items-center rounded-full bg-[#243a32] px-6 text-sm font-black text-white shadow-lg shadow-[#243a32]/14"
-                onClick={() => setJoined(true)}
-              >
-                {joined ? "已送出報名意願" : "確認報名"}
-              </button>
+            </div>
+
+            <div className="p-2 md:p-4">
+              {ticket ? (
+                <div className="flex h-full flex-col justify-between">
+                  <div className="rounded-[1.4rem] border-2 border-dashed border-[#c9b98f] bg-[#fdfaf3] p-5">
+                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8d7a52]">Registration Confirmed</p>
+                    <p className="mt-3 font-serif text-4xl font-black tracking-[-0.03em] text-[#243a32]">{ticket.code}</p>
+                    <div className="mt-4 grid gap-2 text-sm font-semibold text-[#4e6157]">
+                      <p>報名人：{ticket.name}</p>
+                      <p>場次：{ticket.session}</p>
+                      <p>活動：{eventInfo.title}</p>
+                    </div>
+                    <p className="mt-4 text-xs font-bold text-[#8d7a52]">報名確認信已寄出（示範流程），講座前三天會再提醒。</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={resetRegistration}
+                    className="mt-4 inline-flex min-h-11 w-fit items-center rounded-full border border-[#c9b98f] px-5 text-xs font-black text-[#243a32] hover:bg-white"
+                  >
+                    再報名一位
+                  </button>
+                </div>
+              ) : (
+                <form onSubmit={submitRegistration} className="grid gap-3">
+                  <p className="text-sm font-semibold leading-7 text-[#65776e]">{eventInfo.note}</p>
+                  <div className="grid gap-2 sm:grid-cols-2">
+                    {sessions.map((session) => {
+                      const remaining = session.seats - session.taken
+                      const active = sessionId === session.id
+                      return (
+                        <button
+                          key={session.id}
+                          type="button"
+                          onClick={() => setSessionId(session.id)}
+                          className={`rounded-2xl border p-3 text-left transition ${
+                            active ? "border-[#243a32] bg-[#243a32] text-white" : "border-[#d8cfba] bg-white/70 text-[#243a32] hover:border-[#8d7a52]"
+                          }`}
+                        >
+                          <p className="text-sm font-black">{session.label}</p>
+                          <p className={`mt-1 text-xs font-bold ${active ? "text-white/70" : "text-[#65776e]"}`}>{session.note}</p>
+                          <p className={`mt-2 text-xs font-black ${remaining <= 10 ? (active ? "text-[#e9cf9b]" : "text-[#b3562e]") : active ? "text-[#e9cf9b]" : "text-[#8d7a52]"}`}>
+                            剩餘 {remaining} 位
+                          </p>
+                        </button>
+                      )
+                    })}
+                  </div>
+                  <input
+                    value={name}
+                    onChange={(event) => setName(event.target.value)}
+                    placeholder="姓名"
+                    className="min-h-12 rounded-2xl border border-[#d8cfba] bg-white px-4 text-sm font-semibold text-[#243a32] outline-none placeholder:text-[#a4b0a4] focus:border-[#243a32]"
+                  />
+                  <input
+                    value={email}
+                    onChange={(event) => setEmail(event.target.value)}
+                    placeholder="Email（寄送報名確認）"
+                    className="min-h-12 rounded-2xl border border-[#d8cfba] bg-white px-4 text-sm font-semibold text-[#243a32] outline-none placeholder:text-[#a4b0a4] focus:border-[#243a32]"
+                  />
+                  {error ? <p className="text-xs font-black text-[#b3562e]">{error}</p> : null}
+                  <button
+                    type="submit"
+                    className="inline-flex min-h-12 w-fit items-center rounded-full bg-[#243a32] px-6 text-sm font-black text-white shadow-lg shadow-[#243a32]/14"
+                  >
+                    確認報名{selectedSession ? `（${selectedSession.label}）` : ""}
+                  </button>
+                </form>
+              )}
             </div>
           </div>
         </div>
@@ -394,9 +576,16 @@ function BiomedSubscribe() {
   const [email, setEmail] = useState("")
   const [sent, setSent] = useState(false)
 
+  const [subscribeError, setSubscribeError] = useState("")
+
   function submitSubscribe(event) {
     event.preventDefault()
-    if (!email.trim()) return
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
+      setSubscribeError("請輸入正確的 Email 格式。")
+      setSent(false)
+      return
+    }
+    setSubscribeError("")
     setSent(true)
   }
 
@@ -422,7 +611,8 @@ function BiomedSubscribe() {
             </button>
           </form>
         </div>
-        {sent ? <p className="mt-4 text-sm font-black text-[#e9cf9b]">感謝訂閱。</p> : null}
+        {subscribeError ? <p className="mt-4 text-sm font-black text-[#f0b3a0]">{subscribeError}</p> : null}
+        {sent ? <p className="mt-4 text-sm font-black text-[#e9cf9b]">感謝訂閱，之後的醫療故事會寄到 {email.trim()}。</p> : null}
       </div>
     </SectionShell>
   )
