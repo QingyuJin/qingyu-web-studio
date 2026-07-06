@@ -319,6 +319,7 @@ export const sampleData = {
 
 export const adminTabs = [
   { id: "dashboard", label: "總覽" },
+  { id: "leads", label: "網站詢價" },
   { id: "quoteDrafts", label: "報價單" },
   { id: "projects", label: "案件管理" },
   { id: "subcontracts", label: "發包項目" },

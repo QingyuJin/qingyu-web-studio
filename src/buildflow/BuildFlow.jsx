@@ -334,6 +334,27 @@ function BuildFlow() {
     showToast(`業主狀態已更新：${ownerStatus}`)
   }
 
+  function createProjectFromLead(lead) {
+    const newProject = {
+      id: createId("p"),
+      name: `${lead.service_type || "工程需求"}（${lead.name || "網站客戶"}）`,
+      client: lead.name || "網站客戶",
+      address: lead.company || "待確認",
+      type: lead.service_type || "網站詢價",
+      budget: 0,
+      status: "估價中",
+      manager: session?.name || "管理者",
+      startDate: today,
+      dueDate: today,
+      note: `由網站詢價轉入。聯絡方式：${lead.contact || "未填"}。預算：${
+        lead.budget_range || "未填"
+      }。\n${lead.message || ""}`,
+    }
+    setData((current) => ({ ...current, projects: [newProject, ...current.projects] }))
+    showToast("已將網站詢價轉為案件，可在案件管理繼續報價。")
+    goToTab("projects")
+  }
+
   function createProjectFromQuoteDraft(quote) {
     const total = quote.items.reduce(
       (sum, item) => sum + Number(item.qty || 0) * Number(item.price || 0),
@@ -875,6 +896,7 @@ function BuildFlow() {
     generateConfirmText,
     goToTab,
     openProjectDetail,
+    createProjectFromLead,
     createProjectFromQuoteDraft,
     printQuoteDraftPdf,
     selectBid,

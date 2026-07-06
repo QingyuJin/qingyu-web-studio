@@ -2,6 +2,7 @@ export const navItems = [
   { label: "服務項目", href: "#services" },
   { label: "工程案例", href: "#projects" },
   { label: "施工流程", href: "#process" },
+  { label: "線上詢價", href: "#inquiry" },
   { label: "關於我們", href: "#about" },
   { label: "聯絡", href: "#contact" },
 ]

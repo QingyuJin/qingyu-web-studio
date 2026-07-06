@@ -130,7 +130,7 @@ LINE Bot：${lineBotId}`
       service_type: form.trade || form.item || "工程需求",
       budget_range: form.budget,
       message: inquiryText,
-      source: form.source || "contractor-site",
+      source: "contractor-site",
       status: "new",
     })
 
@@ -141,7 +141,7 @@ LINE Bot：${lineBotId}`
       return
     }
 
-    setSubmitMessage("需求已送出，我會盡快回覆。")
+    setSubmitMessage("需求已送出，已同步到 BuildFlow 後台的「網站詢價」收件匣。")
     setForm(Object.fromEntries(formFields.map(([key]) => [key, ""])))
   }
 
@@ -160,11 +160,19 @@ LINE Bot：${lineBotId}`
             <Link to="/" className="text-sm font-bold text-[#8bd8cc]">
               Qingyu Web Studio
             </Link>
-            <p className="mt-1 font-black">工程接案頁</p>
+            <p className="mt-1 font-black">鑫匠工程 · 接案頁展示</p>
           </div>
           <div className="flex gap-2">
             <a href="#inquiry" className="rounded-md bg-[#f0c36a] px-4 py-2 text-sm font-black text-[#0c1518]">
               填寫需求
+            </a>
+            <a
+              href="https://xinjiang-website.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+              className="hidden rounded-md border border-white/12 px-4 py-2 text-sm font-black sm:inline-flex"
+            >
+              鑫匠官網
             </a>
             <Link to="/buildflow" className="rounded-md border border-white/12 px-4 py-2 text-sm font-black">
               BuildFlow
@@ -175,13 +183,20 @@ LINE Bot：${lineBotId}`
 
       <section className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.9fr_1.1fr] lg:py-16">
         <div>
-          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#8bd8cc]">Contractor Landing Page</p>
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#8bd8cc]">Xinjiang Masonry Works</p>
           <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
-            把施工照片、服務項目與詢價流程整理成能接案的網站。
+            瓦刀執手砌日月，
+            <br />
+            匠心巧思鑄千秋。
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            這頁示範工程類客戶可以怎麼呈現案例、引導詢價，並把需求轉成可複製文字，方便後續接到 LINE 或後台系統。
+            鑫匠工程——屏東在地泥作裝修。40 年老師父經驗，泥作、磁磚、洗石子、油漆、拆除與增建，到場評估後實在報價。此頁同時展示需求表單如何直接進到 BuildFlow 後台。
           </p>
+          <div className="mt-5 flex flex-wrap gap-2 text-xs font-black text-slate-300">
+            <span className="rounded-full border border-white/12 bg-white/[0.055] px-3 py-1.5">電話 0909-169-088</span>
+            <span className="rounded-full border border-white/12 bg-white/[0.055] px-3 py-1.5">屏東縣三地門鄉｜屏東、高雄、南部可討論</span>
+            <span className="rounded-full border border-white/12 bg-white/[0.055] px-3 py-1.5">週一至週六 09:00–17:00</span>
+          </div>
 
           <div className="mt-8 grid gap-3 sm:grid-cols-3">
             {quoteSteps.map(([title, desc], index) => (
@@ -259,7 +274,11 @@ LINE Bot：${lineBotId}`
 
       <section id="inquiry" className="border-t border-white/10 bg-[#111d22]">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 lg:grid-cols-[0.82fr_1.18fr]">
-          <SectionHeader label="Inquiry" title="需求表單範例" desc="客戶填完後可一鍵複製，轉貼到 LINE、Email 或後台工單。" />
+          <SectionHeader
+            label="Inquiry"
+            title="線上詢價表單"
+            desc="送出後需求會直接進到 BuildFlow 後台的「網站詢價」收件匣，一鍵轉成案件；也可以複製成文字轉貼 LINE。"
+          />
           <div className="grid gap-4">
             <form
               className="grid gap-4 rounded-lg border border-white/10 bg-[#0c1518] p-5"
@@ -277,9 +296,14 @@ LINE Bot：${lineBotId}`
                 ))}
               </div>
               {submitMessage ? (
-                <p className="rounded-md border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-slate-200">
+                <div className="rounded-md border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-slate-200">
                   {submitMessage}
-                </p>
+                  {submitMessage.includes("BuildFlow") ? (
+                    <Link to="/buildflow" className="ml-2 font-black text-[#f0c36a] underline underline-offset-4">
+                      打開 BuildFlow 查看
+                    </Link>
+                  ) : null}
+                </div>
               ) : null}
 
               <div className="grid gap-3 sm:grid-cols-2">

@@ -1,6 +1,7 @@
 import BidsPanel from "./BidsPanel"
 import ChangeOrdersPanel from "./ChangeOrdersPanel"
 import Dashboard from "./Dashboard"
+import LeadsPanel from "./LeadsPanel"
 import LineBotPanel from "./LineBotPanel"
 import ProjectDetailPanel from "./ProjectDetailPanel"
 import ProjectsPanel from "./ProjectsPanel"
@@ -50,6 +51,10 @@ function BuildFlowContent({
           updateProjectStatus={actions.updateProjectStatus}
           openProjectDetail={actions.openProjectDetail}
         />
+      )}
+
+      {activeTab === "leads" && isAdmin && (
+        <LeadsPanel createProjectFromLead={actions.createProjectFromLead} />
       )}
 
       {activeTab === "quoteDrafts" && isAdmin && (

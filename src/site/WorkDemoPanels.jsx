@@ -2510,39 +2510,52 @@ function QingyuWebDemo() {
 
 function XinjiangDemo() {
   return (
-    <Shell title="鑫匠工程案例" desc="工程網站 + BuildFlow 案件流程。">
+    <Shell title="鑫匠工程" desc="品牌官網、線上詢價與 BuildFlow 後台，前後台已串成一條線。">
       <div className="grid gap-5 lg:grid-cols-[0.9fr_1.1fr]">
         <div className="grid gap-4">
-          <MiniCard title="專案背景">
+          <MiniCard title="品牌">
             <p className="text-sm font-bold leading-7 text-[#52605c]">
-              鑫匠是 BuildFlow 案例，不是主品牌。
+              鑫匠——屏東在地泥作裝修工程行。「瓦刀執手砌日月，匠心巧思鑄千秋」，40 年老師父經驗搭配年輕團隊溝通，到場評估後實在報價。
             </p>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {["黑金工業風", "水墨書法", "0909-169-088", "屏東 · 高雄 · 南部"].map((item) => (
+                <span key={item} className="rounded-full bg-[#f0eadf] px-2.5 py-1 text-[11px] font-black text-[#6a4f22]">{item}</span>
+              ))}
+            </div>
           </MiniCard>
-          <MiniCard title="估價入口">
-            <div className="grid gap-2">
-              {["服務類型：屋頂防水 / 地坪 / 修繕", "現場狀況：照片與問題描述", "下一步：送進 BuildFlow 案件列表"].map((item) => (
+          <MiniCard title="服務項目">
+            <div className="grid grid-cols-2 gap-2">
+              {["泥作／水泥施工", "磁磚安裝", "磁磚修補", "洗石子／牆地面", "油漆工程", "拆除工程", "裝修／增建"].map((item) => (
                 <div key={item} className="rounded-lg bg-white px-3 py-2 text-xs font-black text-[#40504c]">{item}</div>
               ))}
             </div>
           </MiniCard>
           <div className="flex flex-wrap gap-3">
-            <Link to="/contractor-site" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
-              查看鑫匠網站
+            <a
+              href="https://xinjiang-website.vercel.app/"
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white"
+            >
+              打開鑫匠官網
+            </a>
+            <Link to="/contractor-site#inquiry" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              試填詢價表單
             </Link>
-            <Link to="/works/buildflow#demo" className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
-              查看 BuildFlow 系統
+            <Link to="/buildflow" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+              開後台收件匣
             </Link>
           </div>
         </div>
         <div className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-5 text-white">
-          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">Case Flow</p>
-          <h3 className="mt-3 text-2xl font-black">如何串到 BuildFlow</h3>
+          <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">Front-to-Back Flow</p>
+          <h3 className="mt-3 text-2xl font-black">前後台一條線</h3>
           <div className="mt-5 grid gap-3">
             {[
-              ["網站首頁展示", "服務、案例、聯絡 CTA 先建立信任"],
-              ["估價入口", "客戶送出屋頂防水或地坪修繕需求"],
-              ["BuildFlow 案件", "轉成案件列表、客戶資料、照片與報價狀態"],
-              ["LINE 回報", "狀態更新時產生可回覆客戶的訊息"],
+              ["官網建立信任", "服務、案例照片、施工流程與標語，一頁看懂鑫匠"],
+              ["線上詢價表單", "官網與接案頁都能填，急件可直接撥 0909-169-088"],
+              ["BuildFlow 收件匣", "需求即時出現在後台「網站詢價」，含聯絡方式與需求全文"],
+              ["一鍵轉為案件", "收件匣直接轉成案件，接著報價、發包、任務與 LINE 回報"],
             ].map(([title, desc], index) => (
               <div key={title} className="rounded-xl bg-white/10 p-4">
                 <div className="flex items-center justify-between gap-3">
@@ -2554,8 +2567,8 @@ function XinjiangDemo() {
             ))}
           </div>
           <div className="mt-5 rounded-xl bg-white p-4 text-[#111c22]">
-            <p className="text-xs font-black text-[#0d6b62]">案件管理流程</p>
-            <p className="mt-2 text-sm font-black">詢價 → 待估價 → 報價單 Preview → 施工狀態 → LINE 回報</p>
+            <p className="text-xs font-black text-[#0d6b62]">可以直接操作</p>
+            <p className="mt-2 text-sm font-black">接案頁填表單 → 打開 BuildFlow（admin / admin123）→ 網站詢價 → 轉為案件</p>
           </div>
         </div>
       </div>

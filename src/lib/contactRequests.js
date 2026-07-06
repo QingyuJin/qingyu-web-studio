@@ -19,9 +19,15 @@ export async function createContactRequest(payload) {
     return { ok: true, mode: "local" }
   }
 
-  const { error } = await supabase.from("contact_requests").insert(payload)
-  if (error) return { ok: false, reason: error.message }
-  return { ok: true }
+  try {
+    const { error } = await supabase.from("contact_requests").insert(payload)
+    if (error) throw new Error(error.message)
+    return { ok: true }
+  } catch {
+    // 後端暫時不可用時仍把需求留在本機，不讓表單直接失敗
+    saveLocalRequest(payload)
+    return { ok: true, mode: "local" }
+  }
 }
 
 export async function listContactRequests() {
@@ -34,13 +40,22 @@ export async function listContactRequests() {
     }
   }
 
-  const { data, error } = await supabase
-    .from("contact_requests")
-    .select("*")
-    .order("created_at", { ascending: false })
+  try {
+    const { data, error } = await supabase
+      .from("contact_requests")
+      .select("*")
+      .order("created_at", { ascending: false })
 
-  if (error) return { ok: false, reason: error.message, data: [] }
-  return { ok: true, data: data || [] }
+    if (error) throw new Error(error.message)
+    return { ok: true, data: data || [] }
+  } catch (error) {
+    return {
+      ok: true,
+      mode: "local",
+      reason: `後端暫時無法讀取（${error.message}），改用本機資料。`,
+      data: readLocalRequests(),
+    }
+  }
 }
 
 export async function updateContactRequest(requestId, values) {
@@ -49,9 +64,14 @@ export async function updateContactRequest(requestId, values) {
     return { ok: true, mode: "local" }
   }
 
-  const { error } = await supabase.from("contact_requests").update(values).eq("id", requestId)
-  if (error) return { ok: false, reason: error.message }
-  return { ok: true }
+  try {
+    const { error } = await supabase.from("contact_requests").update(values).eq("id", requestId)
+    if (error) throw new Error(error.message)
+    return { ok: true }
+  } catch {
+    updateLocalRequest(requestId, values)
+    return { ok: true, mode: "local" }
+  }
 }
 
 function saveLocalRequest(payload) {
