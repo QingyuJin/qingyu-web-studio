@@ -1,8 +1,11 @@
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { login } from "./auth"
 
 function LoginPage() {
+  useEffect(() => {
+    document.title = "管理入口｜Qingyu Web Studio"
+  }, [])
   const navigate = useNavigate()
   const [email, setEmail] = useState("")
   const [password, setPassword] = useState("")
@@ -62,6 +65,7 @@ function LoginPage() {
           <label className="mt-6 block">
             <span className="text-sm font-bold text-slate-300">Email</span>
             <input
+              type="email"
               value={email}
               onChange={(event) => setEmail(event.target.value)}
               className="mt-2 w-full rounded-2xl border border-white/10 bg-white/[0.06] px-4 py-3 text-white outline-none focus:border-cyan-300"

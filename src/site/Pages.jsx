@@ -1,4 +1,3 @@
-import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import ContactLeadSection from "../components/ContactLeadSection"
 import Seo from "./Seo"
@@ -1234,89 +1233,12 @@ export function FreeAuditPage() {
 }
 
 export function ContactPage() {
-  const [lineCopied, setLineCopied] = useState(false)
-  const [emailCopied, setEmailCopied] = useState(false)
-
-  async function copyLineId() {
-    try {
-      await navigator.clipboard.writeText(contact.lineId)
-      setLineCopied(true)
-    } catch {
-      setLineCopied(true)
-    }
-  }
-
-  async function copyEmail() {
-    try {
-      await navigator.clipboard.writeText(contact.email)
-      setEmailCopied(true)
-    } catch {
-      setEmailCopied(true)
-    }
-  }
-
   return (
-      <PageShell
-        page={seo.contact}
-        title="聊聊你想做的網站或系統"
-        intro="傳產業、功能、預算、時程。"
-      >
-        <section className="hidden">
-          <Card>
-            <h2 className="text-2xl font-black">加 LINE 或 Email 討論需求</h2>
-          <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">LINE：{contact.lineId}。也可直接 Email。</p>
-          <div className="mt-5 grid gap-3">
-            <div className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">LINE</p>
-              <p className="mt-2 text-2xl font-black text-[#111c22]">{contact.lineId}</p>
-              <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{contact.line}</p>
-            </div>
-            <div className="rounded-2xl border border-[#e3ded3] bg-white p-4">
-              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">Email</p>
-              <a href={`mailto:${contact.email}`} className="mt-2 block break-words text-lg font-black text-[#0d6b62]">
-                {contact.email}
-              </a>
-            </div>
-          </div>
-          <div className="mt-5 flex flex-wrap gap-3">
-            <button
-              type="button"
-              onClick={copyLineId}
-              className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white transition hover:bg-[#0d6b62]"
-            >
-              {lineCopied ? "已複製 LINE ID" : "複製 LINE ID"}
-            </button>
-            <button
-              type="button"
-              onClick={copyEmail}
-              className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
-            >
-              {emailCopied ? "已複製 Email" : "複製 Email"}
-            </button>
-            <a
-              href={`mailto:${contact.email}?subject=${encodeURIComponent("網站需求討論")}&body=${encodeURIComponent("你好，我想討論網站 / LINE Bot / AI 工具 / 後台流程。\n產業：\n想做的功能：\n預算區間：\n希望上線時間：\nLINE ID：")}`}
-              className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
-            >
-              用 Email 傳送需求
-            </a>
-          </div>
-        </Card>
-        <Card>
-          <h2 className="text-2xl font-black">先給我三件事</h2>
-          <div className="mt-5 grid gap-3">
-            {[
-              ["你是誰", "店家、工作室、工程服務或個人品牌"],
-              ["想做什麼", "網站、LINE Bot、AI 工具或後台流程"],
-              ["卡在哪裡", "詢問、報價、預約、回覆或後台整理"],
-            ].map(([title, text]) => (
-              <div key={title} className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-4">
-                <p className="text-sm font-black text-[#0d6b62]">{title}</p>
-                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{text}</p>
-              </div>
-            ))}
-          </div>
-        </Card>
-      </section>
+    <PageShell
+      page={seo.contact}
+      title="聊聊你想做的網站或系統"
+      intro="傳產業、功能、預算、時程。"
+    >
       <ContactLeadSection />
     </PageShell>
   )

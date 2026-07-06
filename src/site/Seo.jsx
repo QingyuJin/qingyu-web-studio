@@ -30,9 +30,11 @@ function Seo({ page = seo.home }) {
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: page.title })
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: page.description })
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: url })
+    upsertMeta('meta[property="og:image"]', { property: "og:image", content: `${siteUrl}/og-image.png` })
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" })
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: page.title })
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: page.description })
+    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: `${siteUrl}/og-image.png` })
   }, [page])
 
   return null

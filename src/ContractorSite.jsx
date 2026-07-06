@@ -1,5 +1,6 @@
 import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
+import Seo from "./site/Seo"
 import { createContactRequest } from "./lib/contactRequests"
 
 const lineBotId = "@550oexzn"
@@ -146,6 +147,13 @@ LINE Bot：${lineBotId}`
 
   return (
     <main className="min-h-screen bg-[#0c1518] text-slate-100">
+      <Seo
+        page={{
+          path: "/contractor-site",
+          title: "工程接案頁｜防水、地坪、修繕與詢價表單｜Qingyu Web Studio",
+          description: "工程服務接案落地頁展示：服務分類、施工案例、詢價表單與 BuildFlow 後台串接。",
+        }}
+      />
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0c1518]/92 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <div>

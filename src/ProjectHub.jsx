@@ -1,5 +1,6 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import Seo from "./site/Seo"
 
 const lineBotId = "@550oexzn"
 
@@ -81,6 +82,13 @@ function ProjectHub() {
 
   return (
     <main className="min-h-screen bg-[#f7f6f0] text-[#172026]">
+      <Seo
+        page={{
+          path: "/works",
+          title: "成品展示櫃｜工程網站與後台流程｜Qingyu Web Studio",
+          description: "工程服務網站、服務模組、案例照片與 BuildFlow 接案後台，從詢價到案件管理一次串起來。",
+        }}
+      />
       <header className="sticky top-0 z-40 border-b border-[#ddd8ca] bg-[#f7f6f0]/94 backdrop-blur">
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-4 py-4">
           <Link to="/" className="flex items-center gap-3" aria-label="Qingyu Web Studio">

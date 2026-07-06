@@ -241,7 +241,7 @@ function NotionPreview() {
       </div>
 
       {modal ? (
-        <div className="absolute inset-0 z-20 grid place-items-center rounded-[2rem] bg-black/72 p-4 backdrop-blur-sm" onClick={() => setModal(null)}>
+        <div className="fixed inset-0 z-[60] grid place-items-center bg-black/72 p-4 backdrop-blur-sm" onClick={() => setModal(null)}>
           <div className="w-full max-w-md rounded-[1.4rem] border border-white/12 bg-[#151516] p-5" onClick={(event) => event.stopPropagation()}>
             {modal === "line" ? (
               <div>

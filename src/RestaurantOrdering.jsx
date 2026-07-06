@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
+import Seo from "./site/Seo"
 
 const MODES = ["客戶端", "服務端"]
 const STATUS_FLOW = ["新單", "備餐中", "待送餐", "已送達"]
@@ -792,6 +793,13 @@ function RestaurantOrdering() {
 
   return (
     <main className="min-h-screen bg-[#f5eadb] text-[#3a2419]">
+      <Seo
+        page={{
+          path: "/works/restaurant-ordering",
+          title: "餐飲點餐系統｜桌邊點餐、廚房佇列與桌況控台｜Qingyu Web Studio",
+          description: "可直接操作的點餐系統展示：客戶端選桌點餐、服務端控單、出餐站別負載與桌況即時連動。",
+        }}
+      />
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_8%_10%,rgba(255,255,255,0.9),transparent_26rem),radial-gradient(circle_at_88%_4%,rgba(36,67,50,0.14),transparent_24rem),radial-gradient(circle_at_78%_72%,rgba(199,93,44,0.12),transparent_24rem),linear-gradient(180deg,#fff8ec,#f2e1cd_54%,#e6d0b8)]" />
       <div className="relative">
         <Header mode={mode} setMode={setMode} time={time} onAddOrder={addOrder} />
