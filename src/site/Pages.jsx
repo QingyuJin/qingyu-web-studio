@@ -1045,6 +1045,22 @@ export function ServicesPage() {
         </>
       }
     >
+      <section className="mx-auto max-w-6xl px-4 pt-10 md:pt-12">
+        <Link
+          to="/ai-transformation"
+          className="flex flex-col justify-between gap-4 rounded-2xl border border-[#1c2d2e] bg-[#0f2a26] p-5 text-white transition hover:-translate-y-0.5 hover:shadow-xl md:flex-row md:items-center"
+        >
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">給正在申請補助的中小企業</p>
+            <p className="mt-2 text-xl font-black md:text-2xl">中小企業 AI 數位轉型實作服務</p>
+            <p className="mt-1 text-sm font-bold text-white/70">LINE 詢價、訂貨系統、AI 知識庫、企業網站——每個方案都有可操作成品。</p>
+          </div>
+          <span className="inline-flex min-h-11 w-fit shrink-0 items-center rounded-xl bg-[#eac46f] px-5 text-sm font-black text-[#111c22]">
+            看方案與成品
+          </span>
+        </Link>
+      </section>
+
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {serviceOfferings.map((service) => (

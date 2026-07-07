@@ -11,6 +11,7 @@ const PricingPage = lazy(() => import("./site/Pages").then((module) => ({ defaul
 const FreeAuditPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.FreeAuditPage })))
 const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ContactPage })))
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
+const AiTransformation = lazy(() => import("./site/AiTransformation"))
 const WebsiteRescue = lazy(() => import("./site/WebsiteRescue"))
 const LineBotMission = lazy(() => import("./site/LineBotMission"))
 const RestaurantOrdering = lazy(() => import("./RestaurantOrdering"))
@@ -45,6 +46,7 @@ function App() {
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
+        <Route path="/ai-transformation" element={<AiTransformation />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/free-audit" element={<FreeAuditPage />} />
         <Route path="/contact" element={<ContactPage />} />

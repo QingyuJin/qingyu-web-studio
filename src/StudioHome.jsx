@@ -95,6 +95,7 @@ function StudioHome() {
 
       <HeroSection />
       <ProductSection />
+      <AiTransformationBanner />
       <CapabilitySection />
       <FinalCta />
     </SiteLayout>
@@ -343,6 +344,35 @@ function CardPreview({ id, dark }) {
   }
 
   return null
+}
+
+function AiTransformationBanner() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-[#0f2a26]">
+      <div className="mx-auto grid max-w-6xl gap-5 px-4 py-10 md:grid-cols-[1fr_auto] md:items-center md:py-12">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">AI Digital Transformation</p>
+          <h2 className="mt-3 text-2xl font-black text-white md:text-3xl">中小企業 AI 數位轉型實作服務</h2>
+          <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">
+            網站、LINE 詢價、訂貨系統、AI 文件知識庫與後台管理——讓補助案不只停在企劃書，而是真的做得出來。
+          </p>
+          <div className="mt-4 flex flex-wrap gap-2">
+            {["LINE 詢價數位化", "批發訂貨系統", "AI 文件知識庫", "企業形象網站"].map((item) => (
+              <span key={item} className="rounded-full border border-white/15 bg-white/8 px-3 py-1 text-xs font-black text-white/78">
+                {item}
+              </span>
+            ))}
+          </div>
+        </div>
+        <Link
+          to="/ai-transformation"
+          className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#eac46f] px-6 text-sm font-black text-[#111c22] transition hover:bg-[#f2d38a]"
+        >
+          看方案與成品
+        </Link>
+      </div>
+    </section>
+  )
 }
 
 function CapabilitySection() {
