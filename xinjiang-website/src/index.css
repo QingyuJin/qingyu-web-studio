@@ -51,12 +51,51 @@ a[href]:active {
   transform: translateY(1px);
 }
 
+/* 楷書 / 水墨書法字 */
+.font-kai {
+  font-family: "LXGW WenKai TC", "DFKai-SB", "BiauKai", "KaiTi", "STKaiti", serif;
+}
+
+/* 標題明體 */
+.font-serif-tc {
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+}
+
 .brush-title {
-  font-family: "DFKai-SB", "BiauKai", "KaiTi", "STKaiti", "Noto Serif TC", serif;
+  font-family: "LXGW WenKai TC", "DFKai-SB", "BiauKai", "KaiTi", "STKaiti", "Noto Serif TC", serif;
   text-shadow:
     0 1px 0 #fff2b5,
     0 0 22px rgba(255, 204, 78, 0.28),
     0 18px 54px rgba(0, 0, 0, 0.72);
+}
+
+/* 金箔漸層字 */
+.gold-text {
+  background: linear-gradient(160deg, #fff3c4 6%, #ffd45a 30%, #c98a1e 52%, #ffe89a 74%, #b97a12 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 10px 32px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 18px rgba(255, 204, 78, 0.22));
+}
+
+/* 直式書法（桌機用） */
+.vertical-kai {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.28em;
+}
+
+/* 紅印章 */
+.seal {
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(150deg, #b23a24, #8f2717);
+  color: #f3e2c2;
+  border: 2px solid rgba(243, 226, 194, 0.85);
+  outline: 3px solid #8f2717;
+  border-radius: 0.45rem;
+  box-shadow: 0 8px 26px rgba(143, 39, 23, 0.4);
+  font-family: "LXGW WenKai TC", "DFKai-SB", "KaiTi", serif;
+  line-height: 1.05;
 }
 
 .ink-wash {
@@ -74,4 +113,37 @@ a[href]:active {
     radial-gradient(circle at 72% 25%, rgba(0, 0, 0, 0.7) 0 4.8rem, transparent 4.9rem),
     radial-gradient(circle at 82% 72%, rgba(0, 0, 0, 0.84) 0 7rem, transparent 7.1rem),
     radial-gradient(circle at 45% 58%, rgba(255, 255, 255, 0.08) 0 14rem, transparent 14.2rem);
+}
+
+/* 墨痕分隔筆觸 */
+.ink-stroke {
+  height: 0.5rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(closest-side at 8% 50%, #2b2118 0 45%, transparent 78%),
+    radial-gradient(closest-side at 26% 42%, #2b2118 0 52%, transparent 82%),
+    radial-gradient(closest-side at 48% 58%, #2b2118 0 48%, transparent 80%),
+    radial-gradient(closest-side at 70% 46%, #2b2118 0 50%, transparent 82%),
+    radial-gradient(closest-side at 92% 52%, #2b2118 0 40%, transparent 76%);
+  opacity: 0.82;
+}
+
+.ink-stroke--gold {
+  background:
+    radial-gradient(closest-side at 8% 50%, #d9aa3d 0 45%, transparent 78%),
+    radial-gradient(closest-side at 26% 42%, #d9aa3d 0 52%, transparent 82%),
+    radial-gradient(closest-side at 48% 58%, #d9aa3d 0 48%, transparent 80%),
+    radial-gradient(closest-side at 70% 46%, #d9aa3d 0 50%, transparent 82%),
+    radial-gradient(closest-side at 92% 52%, #d9aa3d 0 40%, transparent 76%);
+}
+
+/* 照片 hover 微縮放 */
+.photo-zoom {
+  overflow: hidden;
+}
+.photo-zoom img {
+  transition: transform 600ms ease;
+}
+.photo-zoom:hover img {
+  transform: scale(1.045);
 }

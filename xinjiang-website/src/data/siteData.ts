@@ -11,82 +11,120 @@ export const services = [
   {
     title: "泥作／水泥施工",
     text: "牆面、地面、基礎修補與水泥整平，由老師父依現場判斷工法。",
+    image: "/project-photos/pro360-1.jpg",
+    numeral: "壹",
   },
   {
     title: "磁磚安裝",
     text: "浴室、廚房、地坪與牆面磁磚鋪設，注重平整、收邊與耐用。",
+    image: "/project-photos/pro360-7.jpg",
+    numeral: "貳",
   },
   {
     title: "磁磚修補",
     text: "空鼓、破裂、脫落與局部修補，先評估再建議處理方式。",
+    image: "/project-photos/pro360-8.jpg",
+    numeral: "參",
   },
   {
     title: "洗石子／牆地面",
-    text: "洗石子、牆面與地面整理，適合老屋、門面與局部翻新。",
+    text: "洗石子、抿石子與牆地面整理，適合老屋、門面與局部翻新。",
+    image: "/project-photos/pro360-6.jpg",
+    numeral: "肆",
   },
   {
     title: "油漆工程",
     text: "室內外牆面整理、補土、批土與重新上色。",
+    image: "/project-photos/335942_0.jpg",
+    numeral: "伍",
   },
   {
     title: "拆除工程",
     text: "舊裝潢、牆面、地坪與局部拆除，協助整理施工前置作業。",
+    image: "/project-photos/pro360-2.jpg",
+    numeral: "陸",
   },
   {
     title: "裝修／增建／興建",
     text: "住宅、店面、老屋整理與增建興建需求，可到場討論工法。",
+    image: "/project-photos/335941_0.jpg",
+    numeral: "柒",
   },
 ]
 
 export const projects = [
   {
-    title: "牆面泥作補平",
-    type: "泥作施工",
-    image: "/project-photos/pro360-1.jpg",
-    content: "牆面粗底整理、水泥補平與後續表面處理。",
-    fit: "老屋、室內整修、牆面重整",
-    tags: ["現場施工", "牆面補平", "老師父工法"],
+    title: "透天厝立面整體翻新",
+    type: "裝修增建",
+    image: "/project-photos/335941_0.jpg",
+    content: "斬石子立面、金色雕花大門與雨遮整體整理，老屋門面煥然一新。",
+    fit: "透天住宅、老屋門面、增建整修",
+    tags: ["立面翻新", "外觀整理", "完工交付"],
+    featured: true,
   },
   {
-    title: "室內拆除與整地",
-    type: "拆除工程",
-    image: "/project-photos/pro360-2.jpg",
-    content: "室內舊面材拆除、現場清理與施工前整理。",
-    fit: "住家翻修、店面整理、老屋整修",
-    tags: ["拆除清運", "現場評估", "後續施工"],
-  },
-  {
-    title: "磁磚與地面整修",
-    type: "磁磚泥作",
-    image: "/project-photos/pro360-3.jpg",
-    content: "磁磚面、地面與局部泥作修補整理。",
-    fit: "浴室、廚房、室內地坪",
-    tags: ["磁磚施工", "地面整理", "完工驗收"],
-  },
-  {
-    title: "牆地面基礎處理",
-    type: "水泥施工",
-    image: "/project-photos/pro360-4.jpg",
-    content: "牆地面基礎整理，為後續磁磚或油漆打底。",
-    fit: "新作、翻修、局部補強",
-    tags: ["水泥施工", "基礎整理", "到場評估"],
-  },
-  {
-    title: "裝修前置工程",
-    type: "裝修整合",
-    image: "/project-photos/pro360-5.jpg",
-    content: "拆除、泥作、牆地面整理，銜接後續裝修。",
-    fit: "老屋、店面、透天住宅",
-    tags: ["多工項整合", "現場溝通", "施工前後"],
-  },
-  {
-    title: "室內牆面修繕",
-    type: "油漆 / 泥作",
+    title: "洗石子地坪與門檻",
+    type: "洗石子工程",
     image: "/project-photos/pro360-6.jpg",
-    content: "牆面修補、批土整理與後續油漆前置作業。",
-    fit: "住家、出租套房、工作室",
-    tags: ["牆面修補", "油漆前置", "收尾整理"],
+    content: "卵石級配均勻、收邊紮實，耐磨又有質感的傳統工法。",
+    fit: "騎樓、庭院、門面地坪",
+    tags: ["洗石子", "老師父工法", "細節收邊"],
   },
+  {
+    title: "浴室磁磚整間翻新",
+    type: "磁磚泥作",
+    image: "/project-photos/pro360-8.jpg",
+    content: "大理石紋磁磚整室鋪貼，防水打底到衛浴安裝一次完成。",
+    fit: "浴室翻修、老屋衛浴",
+    tags: ["磁磚鋪貼", "防水打底", "衛浴翻新"],
+  },
+  {
+    title: "室內磁磚與客廳翻新",
+    type: "磁磚工程",
+    image: "/project-photos/335940_0.jpg",
+    content: "拋光磁磚大面積鋪設，平整度與縫線對齊到位。",
+    fit: "客廳、室內地坪",
+    tags: ["拋光磁磚", "大面積鋪設", "完工清潔"],
+  },
+  {
+    title: "樓梯與黑鐵欄杆裝修",
+    type: "裝修工程",
+    image: "/project-photos/pro360-5.jpg",
+    content: "石材樓梯搭配黑鐵直桿欄杆，線條俐落、結構穩固。",
+    fit: "透天樓梯、室內裝修",
+    tags: ["鐵件整合", "樓梯裝修", "跨工種協調"],
+  },
+  {
+    title: "屋頂防水與水泥整理",
+    type: "防水泥作",
+    image: "/project-photos/335950_0.jpg",
+    content: "屋頂女兒牆與地面防水層整體施作，杜絕滲漏。",
+    fit: "屋頂、露台、頂樓加強",
+    tags: ["防水施工", "水泥整平", "抓漏處理"],
+  },
+  {
+    title: "抿石子外牆立面",
+    type: "洗石子工程",
+    image: "/project-photos/335945_0.jpg",
+    content: "整面抿石子外牆，耐候、好維護，越看越耐看。",
+    fit: "外牆、街屋立面",
+    tags: ["抿石子", "外牆整理", "傳統工藝"],
+  },
+  {
+    title: "木地板室內整修",
+    type: "裝修工程",
+    image: "/project-photos/335949_0.jpg",
+    content: "實木地板鋪設與室內整理，溫潤質感直接入住。",
+    fit: "臥室、住宅整修",
+    tags: ["木地板", "室內整修", "完工交屋"],
+  },
+]
+
+export const craftShots = [
+  { image: "/project-photos/pro360-1.jpg", label: "牆面粉光｜師傅手作中" },
+  { image: "/project-photos/pro360-7.jpg", label: "磁磚整平｜每一片都校準" },
+  { image: "/project-photos/pro360-3.jpg", label: "打底修補｜看不見的基本功" },
+  { image: "/project-photos/pro360-2.jpg", label: "拆除整地｜施工前置" },
 ]
 
 export const proofPoints = [
@@ -96,11 +134,11 @@ export const proofPoints = [
 ]
 
 export const processSteps = [
-  ["01", "線上或電話聯繫", "先說明地點、需求與現場狀況。"],
-  ["02", "到場丈量與評估", "老師父依現場判斷工法與施工範圍。"],
-  ["03", "確認報價與工法", "說清楚材料、工項、工期與注意事項。"],
-  ["04", "安排施工", "確認時間後進場施工，過程保持溝通。"],
-  ["05", "完工驗收與收尾", "確認細節、清潔現場，完成交付。"],
+  ["壹", "線上或電話聯繫", "先說明地點、需求與現場狀況。"],
+  ["貳", "到場丈量與評估", "老師父依現場判斷工法與施工範圍。"],
+  ["參", "確認報價與工法", "說清楚材料、工項、工期與注意事項。"],
+  ["肆", "安排施工", "確認時間後進場施工，過程保持溝通。"],
+  ["伍", "完工驗收與收尾", "確認細節、清潔現場，完成交付。"],
 ]
 
 export const contactInfo = {
