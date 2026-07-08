@@ -68,8 +68,8 @@ export const serviceOfferings = [
   {
     id: "website-fast",
     name: "網站製作",
-    label: "60,000 元起",
-    price: "60,000 元起",
+    label: "12,000 元起",
+    price: "12,000 元起",
     summary: "品牌網站、服務入口、RWD。",
     targetUsers: "店家、工作室、工程服務、個人品牌。",
     problem: "需要漂亮、清楚、能聯絡的網站。",
@@ -80,8 +80,8 @@ export const serviceOfferings = [
   {
     id: "quiz-package",
     name: "互動工具",
-    label: "30,000 元起",
-    price: "30,000 元起",
+    label: "6,000 元起",
+    price: "6,000 元起",
     summary: "題目、選項、答案解析、結果頁。",
     targetUsers: "教育訓練、課程複習、公司內訓、活動測驗。",
     problem: "需要好操作、可展示、可更新的測驗頁。",
@@ -92,8 +92,8 @@ export const serviceOfferings = [
   {
     id: "line-reply",
     name: "LINE Bot 串接",
-    label: "40,000 元起",
-    price: "40,000 元起",
+    label: "8,000 元起",
+    price: "8,000 元起",
     summary: "自動回覆、預約詢問、需求整理。",
     targetUsers: "用 LINE 接客、預約或收需求的服務。",
     problem: "訊息太散，容易漏追蹤。",
@@ -104,8 +104,8 @@ export const serviceOfferings = [
   {
     id: "admin-flow",
     name: "後台流程 / API",
-    label: "100,000 元起",
-    price: "100,000 元起",
+    label: "20,000 元起",
+    price: "20,000 元起",
     summary: "表單、案件、狀態與資料同步。",
     targetUsers: "工程行、工作室、服務團隊。",
     problem: "資料散在表單、LINE、Excel，不好追蹤。",
@@ -147,14 +147,14 @@ export const processSteps = [
 export const audience = ["個人品牌", "店家", "工作室", "工程服務業", "新創團隊", "成長型服務"]
 
 export const pricing = [
-  ["品牌官網專案", "NT$60,000–120,000", "客製設計、內容架構、案例展示、RWD 與 SEO，完整上線。"],
-  ["接單流程系統", "NT$100,000–180,000", "品牌官網＋線上詢價＋後台收件匣＋LINE 導流，需求直接進後台。"],
-  ["營運系統", "NT$120,000–250,000", "訂貨、點餐、案件管理等客製後台，依流程範圍報價。"],
-  ["AI 導入", "NT$100,000–200,000", "文件知識庫、引用問答、自動回覆與權限用量管理。"],
+  ["品牌官網專案", "NT$12,000–20,000", "客製設計、內容架構、案例展示、RWD 與 SEO，完整上線。"],
+  ["接單流程系統", "NT$20,000 起", "品牌官網＋線上詢價＋後台收件匣＋LINE 導流，需求直接進後台。"],
+  ["營運系統", "NT$30,000 起", "訂貨、點餐、案件管理等客製後台，依流程範圍報價。"],
+  ["AI 導入", "NT$30,000 起", "文件知識庫、引用問答、自動回覆與權限用量管理。"],
 ]
 
 export const pricingNote =
-  "多數委託落在 NT$80,000–150,000。單頁、小型修改或既有網站調整，另有 NT$20,000 起的輕量方案，歡迎直接詢問。"
+  "多數委託落在 NT$12,000–30,000。單頁、小型修改或既有網站調整，另有 NT$5,000 起的輕量方案，歡迎直接詢問。"
 
 export const projects = [
   {
