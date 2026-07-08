@@ -10,9 +10,9 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜網站、LINE Bot、AI 工具與後台流程",
+    title: "Qingyu Web Studio｜品牌官網與接單系統設計",
     description:
-      "漂亮網站，串接 LINE、AI、表單、API 與後台流程。",
+      "為中小企業與專業服務打造品牌官網、線上詢價、後台管理與 AI 導入。從第一眼的設計到接單流程，一次做好、真實上線。",
   },
   works: {
     path: "/works",
@@ -68,8 +68,8 @@ export const serviceOfferings = [
   {
     id: "website-fast",
     name: "網站製作",
-    label: "5,000 元起",
-    price: "5,000 元起",
+    label: "60,000 元起",
+    price: "60,000 元起",
     summary: "品牌網站、服務入口、RWD。",
     targetUsers: "店家、工作室、工程服務、個人品牌。",
     problem: "需要漂亮、清楚、能聯絡的網站。",
@@ -80,8 +80,8 @@ export const serviceOfferings = [
   {
     id: "quiz-package",
     name: "互動工具",
-    label: "6,000 元起",
-    price: "6,000 元起",
+    label: "30,000 元起",
+    price: "30,000 元起",
     summary: "題目、選項、答案解析、結果頁。",
     targetUsers: "教育訓練、課程複習、公司內訓、活動測驗。",
     problem: "需要好操作、可展示、可更新的測驗頁。",
@@ -92,8 +92,8 @@ export const serviceOfferings = [
   {
     id: "line-reply",
     name: "LINE Bot 串接",
-    label: "8,000 元起",
-    price: "8,000 元起",
+    label: "40,000 元起",
+    price: "40,000 元起",
     summary: "自動回覆、預約詢問、需求整理。",
     targetUsers: "用 LINE 接客、預約或收需求的服務。",
     problem: "訊息太散，容易漏追蹤。",
@@ -104,8 +104,8 @@ export const serviceOfferings = [
   {
     id: "admin-flow",
     name: "後台流程 / API",
-    label: "20,000 元起",
-    price: "20,000 元起",
+    label: "100,000 元起",
+    price: "100,000 元起",
     summary: "表單、案件、狀態與資料同步。",
     targetUsers: "工程行、工作室、服務團隊。",
     problem: "資料散在表單、LINE、Excel，不好追蹤。",
@@ -147,11 +147,14 @@ export const processSteps = [
 export const audience = ["個人品牌", "店家", "工作室", "工程服務業", "新創團隊", "成長型服務"]
 
 export const pricing = [
-  ["網站起步", "5,000 元起", "品牌網站、服務入口、RWD。"],
-  ["互動工具", "6,000 元起", "診斷、測驗、表單工具。"],
-  ["LINE Bot 串接", "8,000 元起", "自動回覆、需求整理。"],
-  ["後台流程 / API", "20,000 元起", "表單、案件、狀態同步。"],
+  ["品牌官網專案", "NT$60,000–120,000", "客製設計、內容架構、案例展示、RWD 與 SEO，完整上線。"],
+  ["接單流程系統", "NT$100,000–180,000", "品牌官網＋線上詢價＋後台收件匣＋LINE 導流，需求直接進後台。"],
+  ["營運系統", "NT$120,000–250,000", "訂貨、點餐、案件管理等客製後台，依流程範圍報價。"],
+  ["AI 導入", "NT$100,000–200,000", "文件知識庫、引用問答、自動回覆與權限用量管理。"],
 ]
+
+export const pricingNote =
+  "多數委託落在 NT$80,000–150,000。單頁、小型修改或既有網站調整，另有 NT$20,000 起的輕量方案，歡迎直接詢問。"
 
 export const projects = [
   {

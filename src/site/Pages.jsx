@@ -6,6 +6,7 @@ import WorkDemoPanel from "./WorkDemoPanels"
 import {
   contact,
   pricing,
+  pricingNote,
   projects,
   seo,
   serviceOfferings,
@@ -1211,17 +1212,24 @@ function ServiceFact({ title, text }) {
 
 export function PricingPage() {
   return (
-    <PageShell page={seo.pricing} title="參考價" intro="實際依範圍調整。">
+    <PageShell
+      page={seo.pricing}
+      title="專案預算怎麼抓"
+      intro="以下是常見委託的參考區間，實際依範圍、頁數與整合深度報價。"
+    >
       <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {pricing.map(([name, price, text]) => (
             <Card key={name}>
               <h2 className="text-2xl font-black">{name}</h2>
-              <p className="mt-2 text-3xl font-black text-[#0d6b62]">{price}</p>
+              <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
               <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
             </Card>
           ))}
         </div>
+        <p className="mt-6 max-w-3xl rounded-xl border border-[#e3ded3] bg-white p-5 text-sm font-bold leading-7 text-[#52605c]">
+          {pricingNote}
+        </p>
       </section>
     </PageShell>
   )
