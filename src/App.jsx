@@ -12,6 +12,7 @@ const FreeAuditPage = lazy(() => import("./site/Pages").then((module) => ({ defa
 const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ContactPage })))
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const AiTransformation = lazy(() => import("./site/AiTransformation"))
+const ProductPage = lazy(() => import("./site/ProductPage"))
 const WebsiteRescue = lazy(() => import("./site/WebsiteRescue"))
 const LineBotMission = lazy(() => import("./site/LineBotMission"))
 const RestaurantOrdering = lazy(() => import("./RestaurantOrdering"))
@@ -43,6 +44,12 @@ function App() {
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
         <Route path="/works/rag-consultant" element={<RagConsultant />} />
         <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />
+        <Route path="/works/company-landing" element={<ProductPage slug="company-landing" />} />
+        <Route path="/works/ecommerce-ordering" element={<ProductPage slug="ecommerce-ordering" />} />
+        <Route path="/works/assessment-system" element={<ProductPage slug="assessment-system" />} />
+        <Route path="/works/line-bot" element={<ProductPage slug="line-bot" />} />
+        <Route path="/works/crm-admin" element={<ProductPage slug="crm-admin" />} />
+        <Route path="/works/contractor-system" element={<ProductPage slug="contractor-system" />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />

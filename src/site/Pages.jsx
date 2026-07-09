@@ -1217,19 +1217,35 @@ export function PricingPage() {
       title="專案預算怎麼抓"
       intro="以下是常見委託的參考區間，實際依範圍、頁數與整合深度報價。"
     >
-      <section className="mx-auto max-w-6xl px-4 py-16">
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-          {pricing.map(([name, price, text]) => (
-            <Card key={name}>
-              <h2 className="text-2xl font-black">{name}</h2>
-              <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
-              <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
-            </Card>
+      <section className="mx-auto max-w-4xl px-4 py-16">
+        <div className="overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
+          <div className="hidden grid-cols-[1.5fr_1fr_1fr] gap-3 border-b border-[#eee9df] bg-[#111c22] px-5 py-3 text-xs font-black text-white sm:grid">
+            <span>服務項目</span>
+            <span>參考價格</span>
+            <span>預估時間</span>
+          </div>
+          {pricing.map(([name, price, time], i) => (
+            <div
+              key={name}
+              className={`grid gap-1 px-5 py-3.5 sm:grid-cols-[1.5fr_1fr_1fr] sm:items-center ${i > 0 ? "border-t border-[#eee9df]" : ""}`}
+            >
+              <span className="text-sm font-black text-[#111c22]">{name}</span>
+              <span className="text-sm font-black text-[#0d6b62]">{price}</span>
+              <span className="text-sm font-bold text-[#66716d]">{time}</span>
+            </div>
           ))}
         </div>
-        <p className="mt-6 max-w-3xl rounded-xl border border-[#e3ded3] bg-white p-5 text-sm font-bold leading-7 text-[#52605c]">
+        <p className="mt-6 rounded-xl border border-[#e3ded3] bg-white p-5 text-sm font-bold leading-7 text-[#52605c]">
           {pricingNote}
         </p>
+        <div className="mt-6 flex flex-wrap gap-3">
+          <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+            告訴我需求，拿到報價
+          </Link>
+          <Link to="/#products" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            看成品展示
+          </Link>
+        </div>
       </section>
     </PageShell>
   )
