@@ -223,23 +223,50 @@ function AiLabSection() {
   const labs = [
     {
       name: "AI 技術任務",
-      text: "互動式 AI 產品展示：文件問答、模型分類、店家 AI 助手，一邊玩一邊理解 AI 能做什麼。",
+      badge: "可試玩 Demo",
+      text: "互動式 AI 技術展示遊戲。用任務方式體驗文件問答、模型分類、店家 FAQ 回覆與產品展示室。",
+      proof: "適合客戶、團隊與面試官快速看懂我的 AI / 全端開發能力。",
+      points: ["文件問答", "模型分類", "店家助手", "產品展示室"],
       to: "https://ai-tech-quest.vercel.app",
-      label: "線上實測",
+      label: "立即體驗",
+      secondaryTo: "https://github.com/QingyuJin/ai-tech-quest",
+      secondaryLabel: "GitHub 原始碼",
+      featured: true,
     },
     {
       name: "RAG 企業顧問",
+      badge: "文件問答",
       text: "把公司文件變成可問答的知識庫，回答附引用來源，還有用量與權限管理。可直接操作。",
       to: "/works/rag-consultant",
       label: "操作 RAG 系統",
     },
     {
       name: "LINE Bot 接待模擬",
+      badge: "接待流程",
       text: "體驗 LINE Bot 怎麼自動接待、整理需求並同步後台。",
       to: "/tools/linebot-mission",
       label: "看接待流程",
     },
   ]
+
+  const renderAction = (to, label, variant = "primary") => {
+    const external = /^https?:/.test(to)
+    const className =
+      variant === "primary"
+        ? "inline-flex min-h-10 items-center rounded-lg bg-white px-4 text-sm font-black text-[#111c22] transition hover:bg-[#f4efe5]"
+        : "inline-flex min-h-10 items-center rounded-lg border border-white/25 px-4 text-sm font-black text-white transition hover:bg-white/10"
+
+    return external ? (
+      <a href={to} target="_blank" rel="noreferrer" className={className}>
+        {label}
+      </a>
+    ) : (
+      <Link to={to} className={variant === "primary" ? "inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]" : "inline-flex min-h-10 items-center rounded-lg border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"}>
+        {label}
+      </Link>
+    )
+  }
+
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
@@ -249,23 +276,46 @@ function AiLabSection() {
           text="這區是實驗性的技術展示，適合想導入 AI、或想看底層能做到什麼的人。"
         />
         <div className="grid gap-4 md:grid-cols-3">
-          {labs.map((l) => {
-            const external = /^https?:/.test(l.to)
-            const cls = "group flex flex-col rounded-2xl border border-[#e3ded3] bg-white p-5 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#c8bba9]/20"
-            const inner = (
-              <>
-                <span className="w-fit rounded-full bg-[#111c22] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-[#8fd6cc]">Lab</span>
-                <h3 className="mt-4 font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{l.name}</h3>
-                <p className="mt-2 flex-1 text-sm font-bold leading-6 text-[#52605c]">{l.text}</p>
-                <span className="mt-5 inline-flex text-sm font-black text-[#0d6b62]">{l.label} →</span>
-              </>
-            )
-            return external ? (
-              <a key={l.name} href={l.to} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
-            ) : (
-              <Link key={l.name} to={l.to} className={cls}>{inner}</Link>
-            )
-          })}
+          {labs.map((l) => (
+            <article
+              key={l.name}
+              className={`flex flex-col rounded-xl border p-5 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#c8bba9]/20 ${
+                l.featured
+                  ? "border-[#0d6b62] bg-[#111c22] text-white md:col-span-1 lg:col-span-1"
+                  : "border-[#e3ded3] bg-white text-[#111c22]"
+              }`}
+            >
+              <span className={`w-fit rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
+                l.featured ? "bg-white/10 text-[#8fd6cc]" : "bg-[#111c22] text-[#8fd6cc]"
+              }`}>
+                {l.badge || "Lab"}
+              </span>
+              <h3 className={`mt-4 font-['Noto_Serif_TC',serif] text-xl font-black ${l.featured ? "text-white" : "text-[#111c22]"}`}>
+                {l.name}
+              </h3>
+              <p className={`mt-2 flex-1 text-sm font-bold leading-6 ${l.featured ? "text-white/[0.74]" : "text-[#52605c]"}`}>
+                {l.text}
+              </p>
+              {l.points ? (
+                <div className="mt-4 flex flex-wrap gap-2">
+                  {l.points.map((point) => (
+                    <span key={point} className="rounded-full border border-white/[0.14] bg-white/[0.08] px-2.5 py-1 text-xs font-black text-white/[0.86]">
+                      {point}
+                    </span>
+                  ))}
+                </div>
+              ) : null}
+              {l.proof ? (
+                <p className="mt-4 rounded-lg border border-white/[0.12] bg-white/[0.07] p-3 text-xs font-bold leading-5 text-white/70">
+                  {l.proof}
+                </p>
+              ) : null}
+              <div className="mt-5 flex flex-wrap gap-2">
+                {renderAction(l.to, `${l.label} ↗`, l.featured ? "primary" : "secondary")}
+                {l.secondaryTo ? renderAction(l.secondaryTo, `${l.secondaryLabel} ↗`, "secondary") : null}
+              </div>
+            </article>
+          ))}
         </div>
       </div>
     </section>

@@ -89,7 +89,7 @@ function ActionLink({ to, children, ...props }) {
 function WorkPreview({ project }) {
   const panels = {
     "biomed-brand-site": ["品牌故事", "內容特色", "講座活動"],
-    "ai-tech-quest": ["RAG 任務", "ML 分類", "產品展示室"],
+    "ai-tech-quest": ["文件問答", "模型分類", "店家助手"],
     "interactive-quiz": ["題目頁", "答案解析", "結果頁"],
     "ai-business-assistant": ["FAQ 後台", "自動回覆", "問答紀錄"],
     "tw-civic-rag": ["文件切分", "來源引用", "安全回答"],
@@ -104,7 +104,7 @@ function WorkPreview({ project }) {
   }
   const previewMeta = {
     "biomed-brand-site": { status: "品牌網站", metric: "醫療故事", summary: "Hero / 案例 / 講座" },
-    "ai-tech-quest": { status: "技術展示", metric: "5 個任務", summary: "文件問答 / 模型分類 / 店家 AI" },
+    "ai-tech-quest": { status: "可試玩 Demo", metric: "5 個任務", summary: "文件問答 → 模型分類 → 店家助手" },
     "interactive-quiz": { status: "測驗頁", metric: "RWD", summary: "題目 → 作答 → 解析 → 結果" },
     "ai-business-assistant": { status: "店家助手", metric: "FAQ", summary: "FAQ → matching → 自動回覆" },
     "tw-civic-rag": { status: "文件問答", metric: "RAG", summary: "文件檢索增強生成（RAG）+ 來源引用" },
@@ -216,7 +216,7 @@ const workBusinessValues = {
   "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
   linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
   buildflow: "需求、報價、回報、LINE 查詢。",
-  "ai-tech-quest": "AI 技術互動展示。",
+  "ai-tech-quest": "可直接試玩的 AI 技術展示成品，讓客戶看懂文件問答、模型分類與店家助手如何變成產品。",
   "interactive-quiz": "測驗、解析、結果頁。",
   "ai-business-assistant": "店家 FAQ 與自動回覆產品。",
   "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
@@ -233,7 +233,7 @@ const conciseWorkValues = {
   linebot: "讓 LINE 訊息自動整理成需求。",
   buildflow: "需求、報價、回報與 LINE 查詢。",
   "interactive-quiz": "題目、作答、解析、結果頁。",
-  "ai-tech-quest": "文件問答、模型分類、店家助手。",
+  "ai-tech-quest": "可試玩：文件問答、模型分類、店家助手與產品展示室。",
   "ai-business-assistant": "FAQ、回答紀錄、LINE Bot 延伸。",
   "tw-civic-rag": "RAG、來源引用、文件查詢。",
   "unity-ai-tutor": "Unity 互動學習關卡。",
