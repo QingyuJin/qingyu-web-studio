@@ -1,78 +1,149 @@
+import { useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
-import { audience, contact, pricing, pricingNote, seo } from "./site/content"
+import { contact, pricing, pricingNote, seo } from "./site/content"
 import { productOrder, products } from "./site/productData"
+import { LiveIndustryDemo, industries } from "./site/homeIndustries"
 
 function StudioHome() {
   return (
     <SiteLayout>
       <Seo page={seo.home} />
-      <HeroSection />
+      <HeroPicker />
       <ShowcaseSection />
-      <AudienceSection />
-      <PriceListSection />
       <FeaturedCases />
+      <PriceListSection />
       <AiLabSection />
       <ContactCta />
     </SiteLayout>
   )
 }
 
-/* ---------- Hero ---------- */
+/* ---------- Hero：選行業 → 活成品 → 為你準備的 ---------- */
 
-function HeroSection() {
-  const chips = ["網站", "表單", "商品訂購", "線上預約", "LINE 自動回覆", "資料後台"]
+function HeroPicker() {
+  const [idx, setIdx] = useState(0)
+  const [interacted, setInteracted] = useState(false)
+  const industry = industries[idx]
+
+  function selectIndustry(i) {
+    setIdx(i)
+    setInteracted(false)
+  }
+
+  const steps = [
+    ["選你的行業", true],
+    ["按前台試一下", interacted],
+    ["看你的成品與報價", true],
+  ]
+
   return (
-    <section className="relative overflow-hidden border-b border-[#e6e0d5] bg-[#faf8f3]">
-      <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_88%_8%,rgba(17,28,34,0.05),transparent_34rem)]" />
-      <div className="relative mx-auto max-w-6xl px-4 pb-16 pt-14 md:pt-20 lg:pb-24">
-        <p className="text-xs font-black uppercase tracking-[0.26em] text-[#0d6b62]">Qingyu Web Studio</p>
-        <h1 className="mt-6 max-w-4xl font-['Noto_Serif_TC',serif] text-[clamp(2.1rem,6vw,4.1rem)] font-black leading-[1.15] tracking-tight text-[#111c22]">
-          我幫你做出可以直接使用的
+    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+      <div className="mx-auto max-w-6xl px-4 pb-14 pt-12 md:pt-16">
+        <p className="text-xs font-black uppercase tracking-[0.24em] text-[#0d6b62]">Qingyu Web Studio</p>
+        <h1 className="mt-5 max-w-3xl font-['Noto_Serif_TC',serif] text-[clamp(2rem,5.6vw,3.6rem)] font-black leading-[1.15] tracking-tight text-[#111c22]">
+          你想要一個<span className="text-[#0d6b62]">真的能用</span>的網站或系統。
           <br className="hidden sm:block" />
-          網站、LINE Bot、後台與互動系統
+          先選你的行業，看它動起來 ↓
         </h1>
-        <p className="mt-7 max-w-2xl text-base font-bold leading-8 text-[#52605c] md:text-lg">
-          協助店家、公司、工作室與創作者，把網站、表單、商品、預約、LINE、自動回覆與資料管理，
-          整理成一套真的能用的成品。
+        <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
+          店家、公司、工作室與創作者——把網站、表單、商品、預約、LINE 與資料管理，做成一套真的能用的成品。
+          下面直接按按看：<span className="text-[#111c22]">前台動一下，後台立刻有反應</span>。
         </p>
-        <div className="mt-8 flex flex-col gap-3 sm:flex-row">
-          <a
-            href="#products"
-            className="inline-flex min-h-13 items-center justify-center rounded-xl bg-[#111c22] px-7 text-sm font-black text-white shadow-lg shadow-[#111c22]/15 transition hover:bg-[#1f3032]"
-          >
-            看成品展示
-          </a>
-          <Link
-            to="/contact"
-            className="inline-flex min-h-13 items-center justify-center rounded-xl border border-[#111c22]/20 bg-white px-7 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"
-          >
-            詢問報價
-          </Link>
+
+        {/* 行業選擇 */}
+        <div className="mt-8">
+          <p className="text-sm font-black text-[#111c22]">① 你是做什麼的？</p>
+          <div className="mt-3 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
+            {industries.map((item, i) => {
+              const active = i === idx
+              return (
+                <button
+                  key={item.id}
+                  type="button"
+                  onClick={() => selectIndustry(i)}
+                  className={`flex flex-col items-center gap-1.5 rounded-2xl border px-3 py-3 text-center transition ${
+                    active
+                      ? "border-[#111c22] bg-[#111c22] text-white shadow-lg shadow-[#111c22]/15"
+                      : "border-[#e0d8cc] bg-white text-[#111c22] hover:border-[#0d6b62]"
+                  }`}
+                >
+                  <span className="text-2xl leading-none" aria-hidden="true">{item.emoji}</span>
+                  <span className="text-xs font-black leading-tight">{item.label}</span>
+                </button>
+              )
+            })}
+          </div>
         </div>
-        <div className="mt-9 flex flex-wrap gap-2">
-          {chips.map((c) => (
-            <span key={c} className="rounded-full border border-[#e0d8cc] bg-white px-3.5 py-1.5 text-xs font-black text-[#3d4c48]">
-              {c}
-            </span>
+
+        {/* 進度列 */}
+        <div className="mt-6 flex flex-wrap items-center gap-x-4 gap-y-2">
+          {steps.map(([label, done], i) => (
+            <div key={label} className="flex items-center gap-2">
+              <span className={`grid h-6 w-6 place-items-center rounded-full text-[11px] font-black ${done ? "bg-[#0d6b62] text-white" : "bg-[#e3ded3] text-[#8a938f]"}`}>
+                {done ? "✓" : i + 1}
+              </span>
+              <span className={`text-xs font-black ${done ? "text-[#111c22]" : "text-[#8a938f]"}`}>{label}</span>
+              {i < steps.length - 1 ? <span className="hidden text-[#c9d2ce] sm:inline">—</span> : null}
+            </div>
           ))}
+        </div>
+
+        {/* 活成品 */}
+        <div className="mt-6">
+          <LiveIndustryDemo key={industry.id} industry={industry} onInteract={() => setInteracted(true)} />
+        </div>
+
+        {/* 為你準備的 */}
+        <div className="mt-4 rounded-3xl border border-[#e0d8cc] bg-white p-5 md:p-6">
+          <div className="grid gap-5 lg:grid-cols-[1.15fr_0.85fr] lg:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">為「{industry.label}」準備的</p>
+              <h2 className="mt-2 font-['Noto_Serif_TC',serif] text-2xl font-black text-[#111c22] md:text-3xl">{industry.product.system}</h2>
+              <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                <div className="rounded-xl bg-[#faf8f3] p-3">
+                  <p className="text-[11px] font-black text-[#8a938f]">客人看到</p>
+                  <p className="mt-1 text-sm font-black text-[#111c22]">{industry.product.customerSees}</p>
+                </div>
+                <div className="rounded-xl bg-[#faf8f3] p-3">
+                  <p className="text-[11px] font-black text-[#8a938f]">你管理</p>
+                  <p className="mt-1 text-sm font-black text-[#111c22]">{industry.product.youManage}</p>
+                </div>
+              </div>
+            </div>
+            <div className="rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-5">
+              <div className="flex items-baseline justify-between gap-2">
+                <span className="text-2xl font-black text-[#0d6b62]">{industry.product.price}</span>
+                <span className="text-sm font-bold text-[#66716d]">工期約 {industry.product.duration}</span>
+              </div>
+              <div className="mt-4 grid gap-2">
+                <Link to={industry.product.live.path} className="inline-flex min-h-11 items-center justify-center rounded-xl bg-[#111c22] px-5 text-sm font-black text-white transition hover:bg-[#0d6b62]">
+                  {industry.product.live.label}
+                </Link>
+                <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+                  問這個報價
+                </Link>
+              </div>
+            </div>
+          </div>
+          <p className="mt-4 text-center text-xs font-bold text-[#8a938f] sm:text-left">↑ 換一個行業，上面整段會跟著你變</p>
         </div>
       </div>
     </section>
   )
 }
 
-/* ---------- 成品展示 ---------- */
+/* ---------- 全部成品（產品頁入口）---------- */
 
 function ShowcaseSection() {
   return (
     <section id="products" className="scroll-mt-16 border-b border-[#e6e0d5] bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+      <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
-          eyebrow="成品展示"
-          title="可以直接點看的成品 Demo"
-          text="每一個都是能操作的成品，不是效果圖。點進去就能看到前台畫面、後台管理、資料流程與報價。"
+          eyebrow="全部成品"
+          title="想看每一種系統的完整樣子"
+          text="每張卡點進去都是完整產品頁：前台成品、後台畫面、資料流程、技術架構與報價，一頁看完。"
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {productOrder.map((slug) => {
@@ -87,10 +158,11 @@ function ShowcaseSection() {
                   <h3 className="font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{p.name}</h3>
                   <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">{p.priceFrom}</span>
                 </div>
-                <p className="mt-3 text-sm font-bold leading-6 text-[#52605c]">{p.solves}</p>
-                <div className="mt-4 grid gap-1.5 text-xs font-bold text-[#66716d]">
-                  <p><span className="font-black text-[#3d4c48]">適合：</span>{p.forWho}</p>
-                  <p><span className="font-black text-[#3d4c48]">工期：</span>約 {p.duration}</p>
+                <p className="mt-3 flex-1 text-sm font-bold leading-6 text-[#52605c]">{p.solves}</p>
+                <div className="mt-4 flex flex-wrap gap-1.5">
+                  {["前台成品", "後台畫面", "報價"].map((t) => (
+                    <span key={t} className="rounded-md bg-white px-2 py-1 text-[11px] font-black text-[#66716d] ring-1 ring-[#e3ded3]">{t}</span>
+                  ))}
                 </div>
                 <span className="mt-5 inline-flex min-h-10 w-fit items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition group-hover:bg-[#0d6b62]">
                   查看成品 →
@@ -98,69 +170,6 @@ function ShowcaseSection() {
               </Link>
             )
           })}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- 適合對象 ---------- */
-
-function AudienceSection() {
-  return (
-    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
-      <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
-        <SectionHeading eyebrow="適合對象" title="這些人正在用這樣的網站接生意" />
-        <div className="flex flex-wrap gap-3">
-          {audience.map((a) => (
-            <span key={a} className="rounded-xl border border-[#e0d8cc] bg-white px-5 py-3 text-base font-black text-[#111c22]">
-              {a}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  )
-}
-
-/* ---------- 服務價目表 ---------- */
-
-function PriceListSection() {
-  return (
-    <section className="border-b border-[#e6e0d5] bg-white">
-      <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
-        <SectionHeading
-          eyebrow="服務價目表"
-          title="價格與工期，先講清楚"
-          text="以下為參考價，實際依需求範圍調整。台灣中小型專案的合理行情，不喊天價、也不做賠本削價。"
-        />
-        <div className="overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
-          <div className="hidden grid-cols-[1.4fr_1fr_1fr] gap-3 border-b border-[#eee9df] bg-[#111c22] px-5 py-3 text-xs font-black text-white sm:grid">
-            <span>服務項目</span>
-            <span>參考價格</span>
-            <span>預估時間</span>
-          </div>
-          {pricing.map(([name, price, time], i) => (
-            <div
-              key={name}
-              className={`grid gap-1 px-5 py-3.5 sm:grid-cols-[1.4fr_1fr_1fr] sm:items-center ${i > 0 ? "border-t border-[#eee9df]" : ""}`}
-            >
-              <span className="text-sm font-black text-[#111c22]">{name}</span>
-              <span className="text-sm font-black text-[#0d6b62]">{price}</span>
-              <span className="text-sm font-bold text-[#66716d]">{time}</span>
-            </div>
-          ))}
-        </div>
-        <p className="mt-5 rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5 text-sm font-bold leading-7 text-[#52605c]">
-          {pricingNote}
-        </p>
-        <div className="mt-6 flex flex-wrap gap-3">
-          <Link to="/contact" className="inline-flex min-h-11 items-center rounded-xl bg-[#111c22] px-5 text-sm font-black text-white">
-            告訴我需求，拿到報價
-          </Link>
-          <Link to="/pricing" className="inline-flex min-h-11 items-center rounded-xl border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-            完整價目表
-          </Link>
         </div>
       </div>
     </section>
@@ -217,105 +226,76 @@ function FeaturedCases() {
   )
 }
 
+/* ---------- 服務價目表 ---------- */
+
+function PriceListSection() {
+  return (
+    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
+      <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
+        <SectionHeading
+          eyebrow="服務價目表"
+          title="價格與工期，先講清楚"
+          text="以下為參考價，實際依需求範圍調整。台灣中小型專案的合理行情，不喊天價、也不做賠本削價。"
+        />
+        <div className="overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
+          <div className="hidden grid-cols-[1.4fr_1fr_1fr] gap-3 border-b border-[#eee9df] bg-[#111c22] px-5 py-3 text-xs font-black text-white sm:grid">
+            <span>服務項目</span>
+            <span>參考價格</span>
+            <span>預估時間</span>
+          </div>
+          {pricing.map(([name, price, time], i) => (
+            <div
+              key={name}
+              className={`grid gap-1 px-5 py-3.5 sm:grid-cols-[1.4fr_1fr_1fr] sm:items-center ${i > 0 ? "border-t border-[#eee9df]" : ""}`}
+            >
+              <span className="text-sm font-black text-[#111c22]">{name}</span>
+              <span className="text-sm font-black text-[#0d6b62]">{price}</span>
+              <span className="text-sm font-bold text-[#66716d]">{time}</span>
+            </div>
+          ))}
+        </div>
+        <p className="mt-5 rounded-xl border border-[#e3ded3] bg-white p-5 text-sm font-bold leading-7 text-[#52605c]">
+          {pricingNote}
+        </p>
+      </div>
+    </section>
+  )
+}
+
 /* ---------- 技術展示 / AI Demo Lab ---------- */
 
 function AiLabSection() {
   const labs = [
-    {
-      name: "AI 技術任務",
-      badge: "可試玩 Demo",
-      text: "互動式 AI 技術展示遊戲。用任務方式體驗文件問答、模型分類、店家 FAQ 回覆與產品展示室。",
-      proof: "適合客戶、團隊與面試官快速看懂我的 AI / 全端開發能力。",
-      points: ["文件問答", "模型分類", "店家助手", "產品展示室"],
-      to: "https://ai-tech-quest.vercel.app",
-      label: "立即體驗",
-      secondaryTo: "https://github.com/QingyuJin/ai-tech-quest",
-      secondaryLabel: "GitHub 原始碼",
-      featured: true,
-    },
-    {
-      name: "RAG 企業顧問",
-      badge: "文件問答",
-      text: "把公司文件變成可問答的知識庫，回答附引用來源，還有用量與權限管理。可直接操作。",
-      to: "/works/rag-consultant",
-      label: "操作 RAG 系統",
-    },
-    {
-      name: "LINE Bot 接待模擬",
-      badge: "接待流程",
-      text: "體驗 LINE Bot 怎麼自動接待、整理需求並同步後台。",
-      to: "/tools/linebot-mission",
-      label: "看接待流程",
-    },
+    { name: "AI 技術任務", text: "互動式 AI 產品展示：文件問答、模型分類、店家 AI 助手、Unity 邏輯閘關卡，一邊玩一邊理解 AI 能做什麼。", to: "https://ai-tech-quest.vercel.app", label: "線上實測" },
+    { name: "RAG 企業顧問", text: "把公司文件變成可問答的知識庫，回答附引用來源，還有用量與權限管理。可直接操作。", to: "/works/rag-consultant", label: "操作 RAG 系統" },
+    { name: "LINE Bot 接待模擬", text: "體驗 LINE Bot 怎麼自動接待、整理需求並同步後台。", to: "/tools/linebot-mission", label: "看接待流程" },
   ]
-
-  const renderAction = (to, label, variant = "primary") => {
-    const external = /^https?:/.test(to)
-    const className =
-      variant === "primary"
-        ? "inline-flex min-h-10 items-center rounded-lg bg-white px-4 text-sm font-black text-[#111c22] transition hover:bg-[#f4efe5]"
-        : "inline-flex min-h-10 items-center rounded-lg border border-white/25 px-4 text-sm font-black text-white transition hover:bg-white/10"
-
-    return external ? (
-      <a href={to} target="_blank" rel="noreferrer" className={className}>
-        {label}
-      </a>
-    ) : (
-      <Link to={to} className={variant === "primary" ? "inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]" : "inline-flex min-h-10 items-center rounded-lg border border-[#cfd7d3] px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]"}>
-        {label}
-      </Link>
-    )
-  }
-
   return (
-    <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
-      <div className="mx-auto max-w-6xl px-4 py-16 md:py-24">
+    <section className="border-b border-[#e6e0d5] bg-white">
+      <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
           eyebrow="技術展示 / AI Demo Lab"
           title="想看更進階的 AI 與技術實驗"
           text="這區是實驗性的技術展示，適合想導入 AI、或想看底層能做到什麼的人。"
         />
         <div className="grid gap-4 md:grid-cols-3">
-          {labs.map((l) => (
-            <article
-              key={l.name}
-              className={`flex flex-col rounded-xl border p-5 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#c8bba9]/20 ${
-                l.featured
-                  ? "border-[#0d6b62] bg-[#111c22] text-white md:col-span-1 lg:col-span-1"
-                  : "border-[#e3ded3] bg-white text-[#111c22]"
-              }`}
-            >
-              <span className={`w-fit rounded-full px-2.5 py-1 text-[10px] font-black uppercase tracking-widest ${
-                l.featured ? "bg-white/10 text-[#8fd6cc]" : "bg-[#111c22] text-[#8fd6cc]"
-              }`}>
-                {l.badge || "Lab"}
-              </span>
-              <h3 className={`mt-4 font-['Noto_Serif_TC',serif] text-xl font-black ${l.featured ? "text-white" : "text-[#111c22]"}`}>
-                {l.name}
-              </h3>
-              <p className={`mt-2 flex-1 text-sm font-bold leading-6 ${l.featured ? "text-white/[0.74]" : "text-[#52605c]"}`}>
-                {l.text}
-              </p>
-              {l.points ? (
-                <div className="mt-4 flex flex-wrap gap-2">
-                  {l.points.map((point) => (
-                    <span key={point} className="rounded-full border border-white/[0.14] bg-white/[0.08] px-2.5 py-1 text-xs font-black text-white/[0.86]">
-                      {point}
-                    </span>
-                  ))}
-                </div>
-              ) : null}
-              {l.proof ? (
-                <p className="mt-4 rounded-lg border border-white/[0.12] bg-white/[0.07] p-3 text-xs font-bold leading-5 text-white/70">
-                  {l.proof}
-                </p>
-              ) : null}
-              <div className="mt-5 flex flex-wrap gap-2">
-                {renderAction(l.to, `${l.label} ↗`, l.featured ? "primary" : "secondary")}
-                {l.secondaryTo ? renderAction(l.secondaryTo, `${l.secondaryLabel} ↗`, "secondary") : null}
-              </div>
-            </article>
-          ))}
+          {labs.map((l) => {
+            const external = /^https?:/.test(l.to)
+            const cls = "group flex flex-col rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-5 transition hover:-translate-y-1 hover:shadow-xl hover:shadow-[#c8bba9]/20"
+            const inner = (
+              <>
+                <span className="w-fit rounded-full bg-[#111c22] px-2.5 py-1 text-[10px] font-black uppercase tracking-widest text-[#8fd6cc]">Lab</span>
+                <h3 className="mt-4 font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{l.name}</h3>
+                <p className="mt-2 flex-1 text-sm font-bold leading-6 text-[#52605c]">{l.text}</p>
+                <span className="mt-5 inline-flex text-sm font-black text-[#0d6b62]">{l.label} →</span>
+              </>
+            )
+            return external ? (
+              <a key={l.name} href={l.to} target="_blank" rel="noreferrer" className={cls}>{inner}</a>
+            ) : (
+              <Link key={l.name} to={l.to} className={cls}>{inner}</Link>
+            )
+          })}
         </div>
       </div>
     </section>

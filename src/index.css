@@ -361,6 +361,18 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
   }
 }
 
+@keyframes rowIn {
+  from {
+    opacity: 0;
+    transform: translateY(-6px);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
 @keyframes qy-interaction-pop {
   from {
     opacity: 0;

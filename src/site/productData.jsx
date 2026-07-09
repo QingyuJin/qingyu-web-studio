@@ -709,6 +709,7 @@ export const products = {
   },
   "assessment-system": {
     name: "互動測驗 / 問卷評分系統",
+    interactive: true,
     tagline: "線上測驗、自動計分、結果報告與後台紀錄。",
     forWho: "教育訓練、顧問、講師、活動導流、想收名單的品牌",
     solves: "測驗散在紙本或表單，算分靠人工，也留不下客戶名單。",

@@ -12,6 +12,12 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--prefix", "xinjiang-website", "--", "--port", "4174"],
       "port": 4174
+    },
+    {
+      "name": "aiquest",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "C:/Users/USER/AppData/Local/Temp/claude/C--Users-USER-Desktop-qingyu-web-studio/035ffed0-4a57-491f-b075-2b25f31542cc/scratchpad/ai-tech-quest/01_AI_Tech_Quest/frontend_web", "--", "--port", "4180"],
+      "port": 4180
     }
   ]
 }

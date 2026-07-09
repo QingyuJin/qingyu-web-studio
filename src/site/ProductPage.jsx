@@ -85,8 +85,14 @@ function ProductPage({ slug: slugProp }) {
           </div>
 
           <div className="lg:pl-6">
-            <p className="mb-2 text-[11px] font-black uppercase tracking-widest text-white/40">成品預覽</p>
+            <div className="mb-2 flex items-center justify-between gap-2">
+              <p className="text-[11px] font-black uppercase tracking-widest text-white/40">成品預覽</p>
+              <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-black ${product.interactive ? "bg-[#8fd6cc]/18 text-[#8fd6cc]" : "bg-white/10 text-white/60"}`}>
+                {product.interactive ? "● 可直接操作" : "實際成品畫面"}
+              </span>
+            </div>
             <Front />
+            <p className="mt-2 text-center text-[11px] font-bold text-white/45">↓ 下方可切換：前台成品 / 後台畫面 / 報價</p>
           </div>
         </div>
       </section>
