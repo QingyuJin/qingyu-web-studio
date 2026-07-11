@@ -312,7 +312,145 @@ function WorkCard({ work, featured = false }) {
 }
 
 function WorkVisual({ visual, title }) {
-  const tone = {
+  const previews = {
+    b2b: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-white/20 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">批發客戶端<span className="rounded-full bg-[#f0c36a] px-2 text-[10px] text-[#111c22]">3 件</span></div>
+        <div className="grid flex-1 grid-cols-2 gap-1.5">
+          <div className="rounded-lg bg-white/12 p-2 backdrop-blur-sm"><div className="aspect-[4/3] rounded-md bg-white/20" /><div className="mt-1.5 h-3 w-3/4 rounded bg-white/20" /><div className="mt-1 h-3 w-1/2 rounded bg-[#f0c36a]/50" /></div>
+          <div className="rounded-lg bg-white/12 p-2 backdrop-blur-sm"><div className="aspect-[4/3] rounded-md bg-white/20" /><div className="mt-1.5 h-3 w-3/4 rounded bg-white/20" /><div className="mt-1 h-3 w-1/2 rounded bg-[#f0c36a]/50" /></div>
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-white/15 px-3 py-1.5 text-[10px] font-bold backdrop-blur-sm">後台訂單 <span className="text-[#f0c36a]">NT$8,640</span></div>
+      </div>
+    ),
+    rag: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center gap-2 rounded-lg bg-[#0d1a24]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm"><span className="rounded bg-[#8fd6cc]/20 px-1.5 text-[10px] text-[#8fd6cc]">AI</span>文件問答中控台</div>
+        <div className="flex flex-1 gap-1.5">
+          <div className="flex flex-1 flex-col gap-1 rounded-lg bg-[#0d1a24]/60 p-2"><div className="h-3 w-full rounded bg-white/15" /><div className="h-3 w-4/5 rounded bg-white/10" /><div className="mt-auto h-2 w-full rounded bg-[#8fd6cc]/30" /></div>
+          <div className="flex w-16 flex-col gap-1 rounded-lg bg-[#0d1a24]/60 p-2"><div className="h-4 rounded bg-white/15" /><div className="h-4 rounded bg-white/10" /><span className="mt-auto rounded bg-[#8fd6cc]/30 px-1 text-center text-[9px] font-black">3 src</span></div>
+        </div>
+        <div className="rounded-lg bg-[#8fd6cc]/15 px-2.5 py-1 text-[10px] font-bold backdrop-blur-sm">↳ 引用：報價規則.md §2.1</div>
+      </div>
+    ),
+    food: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-[#c85f34]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">🍔 點餐 <span className="rounded-full bg-white/20 px-2 py-0.5 text-[10px]">桌 3</span></div>
+        <div className="flex flex-1 gap-1.5">
+          <div className="flex flex-[2] flex-col gap-1 rounded-lg bg-white/12 p-2"><div className="flex items-center justify-between"><span className="text-[10px] font-black">牛肉漢堡</span><span className="text-[10px] text-[#f0c36a]">$180</span></div><div className="h-1.5 w-full rounded-full bg-white/15" /><div className="flex items-center justify-between"><span className="text-[10px] font-black">薯條</span><span className="text-[10px] text-[#f0c36a]">$80</span></div></div>
+          <div className="flex flex-1 flex-col gap-1 rounded-lg bg-white/12 p-2 text-[10px] font-black">廚房<span className="mt-auto rounded bg-[#c85f34]/40 px-2 py-1 text-center">3 待出</span></div>
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-white/15 px-3 py-1 text-[10px] font-bold backdrop-blur-sm">今日營收 <span className="text-[#f0c36a]">$4,280</span></div>
+      </div>
+    ),
+    ink: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-center gap-2 rounded-lg bg-[#1b1b1b]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm"><span className="text-[#c49a35]">◧</span> 鑫匠工程</div>
+        <div className="flex flex-1 items-center justify-center rounded-lg bg-[#1b1b1b]/60 p-2">
+          <div className="w-24 overflow-hidden rounded-xl border border-white/20 bg-[#0c1518] p-1">
+            <div className="aspect-[9/19] rounded-lg bg-[#0c1518] p-1">
+              <div className="h-2 w-full rounded bg-[#c49a35]/40" />
+              <div className="mt-2 h-1 w-3/4 rounded bg-white/20" />
+              <div className="mt-1 h-1 w-1/2 rounded bg-white/10" />
+              <div className="mt-4 rounded bg-[#c49a35]/30 px-2 py-0.5 text-center text-[6px] font-black">詢價</div>
+            </div>
+          </div>
+        </div>
+        <div className="text-center text-[9px] font-bold text-white/60 backdrop-blur-sm">手機版 · 官網</div>
+      </div>
+    ),
+    bio: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-white/25 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm"><span>LightCare BioMed</span><span className="rounded-full bg-[#0d6b62] px-2 py-0.5 text-[10px] text-white">預約</span></div>
+        <div className="flex flex-1 flex-col items-center justify-center rounded-lg bg-white/12 p-3">
+          <div className="text-center">
+            <div className="mx-auto h-1 w-12 rounded-full bg-white/30" />
+            <div className="mt-2 text-lg font-black leading-tight">點亮<br />生命之光</div>
+            <div className="mt-2 mx-auto h-1 w-16 rounded bg-white/20" />
+            <div className="mt-4 rounded-lg bg-white/20 px-4 py-1.5 text-[10px] font-black">了解更多</div>
+          </div>
+        </div>
+      </div>
+    ),
+    site: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-white/20 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">品牌<span className="rounded-full bg-[#0d6b62] px-2 text-[10px] text-white">預約</span></div>
+        <div className="flex flex-1 flex-col items-center justify-center rounded-lg bg-white/10 p-2 text-center">
+          <div className="mx-auto h-2 w-20 rounded bg-white/25" />
+          <div className="mt-2 text-lg font-black leading-tight">把專業<br />說清楚</div>
+          <div className="mt-3 rounded-lg bg-white/20 px-4 py-1.5 text-[10px] font-black">CTA</div>
+        </div>
+      </div>
+    ),
+    flow: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="rounded-lg bg-[#0d1a24]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">案件看板</div>
+        <div className="flex flex-1 gap-1">
+          {[["詢價", 2], ["報價", 1], ["施工", 1]].map(([l, n]) => (
+            <div key={l} className="flex flex-1 flex-col rounded-lg bg-[#0d1a24]/60 p-1.5"><span className="text-[9px] font-black text-white/50">{l}</span>{Array.from({ length: n }).map((_, i) => <div key={i} className="mt-1 h-3 rounded bg-white/12" />)}</div>
+          ))}
+        </div>
+      </div>
+    ),
+    quiz: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center gap-2 rounded-lg bg-[#715bd1]/60 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm"><span className="rounded bg-white/20 px-1.5 text-[10px]">Q1</span>你的數位化程度？</div>
+        <div className="flex flex-1 flex-col gap-1 rounded-lg bg-white/10 p-2">
+          {["有官網", "社群經營", "口碑"].map((o) => (
+            <div key={o} className="rounded-md bg-white/15 px-2 py-1 text-[10px] font-black">{o}</div>
+          ))}
+        </div>
+        <div className="flex items-center justify-between rounded-lg bg-[#715bd1]/40 px-3 py-1 text-[10px] font-bold backdrop-blur-sm">雷達圖 <span className="text-[#f0c36a]">Score 72</span></div>
+      </div>
+    ),
+    line: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-[#06c755]/70 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">LINE 官方帳號<span className="rounded bg-white/20 px-1.5 text-[10px]">Bot</span></div>
+        <div className="flex flex-1 flex-col justify-end gap-1.5 rounded-lg bg-white/10 p-2">
+          <div className="ml-auto w-3/5 rounded-lg rounded-tr-sm bg-[#06c755]/60 px-2 py-1 text-[10px] font-bold">請問營業時間？</div>
+          <div className="w-4/5 rounded-lg rounded-tl-sm bg-white/25 px-2 py-1 text-[10px] font-bold">您好！營業時間為...</div>
+        </div>
+      </div>
+    ),
+    ai: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-center gap-2 rounded-lg bg-[#2b3146]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm"><span className="rounded bg-[#eac46f]/50 px-1.5 text-[10px]">AI</span>網站健檢</div>
+        <div className="flex flex-1 flex-col items-center justify-center rounded-lg bg-[#2b3146]/60 p-2">
+          <div className="grid h-14 w-14 place-items-center rounded-full bg-white/10"><span className="text-2xl font-black text-[#eac46f]">82</span></div>
+          <div className="mt-2 flex gap-1.5"><span className="h-1.5 w-4 rounded-full bg-[#eac46f]/60" /><span className="h-1.5 w-3 rounded-full bg-white/20" /><span className="h-1.5 w-4 rounded-full bg-white/20" /></div>
+        </div>
+      </div>
+    ),
+    notion: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center gap-2 rounded-lg bg-[#1b1b1d]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm"><span className="text-[#d8b46c]">◆</span> 財商顧問</div>
+        <div className="flex flex-1 flex-col gap-1 rounded-lg bg-[#1b1b1d]/60 p-2">
+          {["服務項目", "資源中心", "FAQ"].map((i) => (
+            <div key={i} className="flex items-center gap-2 rounded-md bg-white/8 px-2 py-1.5"><span className="h-2 w-2 rounded-full bg-[#d8b46c]" /><span className="text-[10px] font-black">{i}</span></div>
+          ))}
+        </div>
+      </div>
+    ),
+    build: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-[#1b2a28]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">BuildFlow<span className="text-[10px] text-[#eac46f]">●</span></div>
+        <div className="grid flex-1 grid-cols-3 gap-1 rounded-lg bg-[#1b2a28]/60 p-2">
+          {[["案件", "12"], ["待辦", "5"], ["營收", "86K"]].map(([l, v]) => (
+            <div key={l} className="rounded-md bg-white/8 p-1.5 text-center"><span className="text-[9px] font-black text-white/50">{l}</span><div className="text-sm font-black text-[#eac46f]">{v}</div></div>
+          ))}
+        </div>
+      </div>
+    ),
+  }
+
+  const preview = previews[visual] || (
+    <div className="flex h-full flex-col items-center justify-center gap-2">
+      <div className="text-3xl font-black text-white/30">{title.slice(0, 2)}</div>
+      <div className="h-2 w-16 rounded-full bg-white/15" />
+    </div>
+  )
+
+  const bg = {
     ink: "from-[#1b1b1b] via-[#26302d] to-[#c49a35]",
     b2b: "from-[#15352d] via-[#f3e7ce] to-[#c86434]",
     rag: "from-[#111c22] via-[#243a48] to-[#8fd6cc]",
@@ -328,21 +466,10 @@ function WorkVisual({ visual, title }) {
   }[visual] || "from-[#111c22] via-[#233139] to-[#0d6b62]"
 
   return (
-    <div className={`relative min-h-44 overflow-hidden rounded-2xl bg-gradient-to-br ${tone} p-4 text-white`}>
+    <div className={`relative min-h-44 overflow-hidden rounded-2xl bg-gradient-to-br ${bg} p-3 text-white`}>
       <div className="absolute -right-10 -top-10 h-32 w-32 rounded-full bg-white/18 blur-2xl" />
-      <div className="relative flex h-full min-h-36 flex-col justify-between">
-        <div className="flex items-center justify-between">
-          <span className="h-2.5 w-14 rounded-full bg-white/45" />
-          <span className="rounded-full bg-white/18 px-3 py-1 text-[10px] font-black uppercase tracking-widest">Product</span>
-        </div>
-        <div>
-          <p className="font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight">{title}</p>
-          <div className="mt-4 grid grid-cols-3 gap-2">
-            <span className="h-10 rounded-lg bg-white/16" />
-            <span className="h-10 rounded-lg bg-white/10" />
-            <span className="h-10 rounded-lg bg-white/16" />
-          </div>
-        </div>
+      <div className="relative h-full min-h-36">
+        {preview}
       </div>
     </div>
   )
