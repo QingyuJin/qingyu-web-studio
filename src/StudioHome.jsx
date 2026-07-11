@@ -128,6 +128,28 @@ function HeroPicker() {
           </div>
           <p className="mt-4 text-center text-xs font-bold text-[#8a938f] sm:text-left">↑ 換一個行業，上面整段會跟著你變</p>
         </div>
+
+        {/* 推薦相關案例 */}
+        {industry.recommend ? (
+          <div className="mt-4 rounded-2xl border border-[#c9d2ce] bg-white p-5 md:p-6">
+            <div className="flex flex-wrap items-start justify-between gap-3">
+              <div className="flex-1">
+                <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">推薦相關案例</p>
+                <h3 className="mt-1 font-['Noto_Serif_TC',serif] text-lg font-black text-[#111c22]">{industry.recommend.name}</h3>
+                <p className="mt-1 max-w-lg text-sm font-bold leading-6 text-[#52605c]">{industry.recommend.desc}</p>
+                {industry.recommend.tag ? (
+                  <span className="mt-2 inline-block rounded-full bg-[#eac46f]/20 px-2.5 py-0.5 text-[10px] font-black text-[#a4701a]">{industry.recommend.tag}</span>
+                ) : null}
+              </div>
+              <div className="flex shrink-0 items-center gap-2">
+                <span className="rounded-full bg-[#eef7f4] px-3 py-1.5 text-sm font-black text-[#0d6b62]">{industry.recommend.price}</span>
+                <Link to={industry.recommend.to} className="inline-flex min-h-10 items-center rounded-xl bg-[#111c22] px-4 text-sm font-black text-white transition hover:bg-[#0d6b62]">
+                  看案例 →
+                </Link>
+              </div>
+            </div>
+          </div>
+        ) : null}
       </div>
     </section>
   )

@@ -25,6 +25,9 @@ const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const BuildFlow = lazy(() => import("./buildflow/BuildFlow"))
 const ContractorSite = lazy(() => import("./ContractorSite"))
+const WorkDetailPageXinjiang = lazy(() => import("./site/WorkDetailPageXinjiang"))
+const WorkDetailPageWholesale = lazy(() => import("./site/WorkDetailPageWholesale"))
+const WorkDetailPageRag = lazy(() => import("./site/WorkDetailPageRag"))
 
 function PageFallback() {
   return (
@@ -41,9 +44,7 @@ function App() {
         <Route path="/" element={<StudioHome />} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
-        <Route path="/works/wholesale-ordering" element={<WholesaleOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
-        <Route path="/works/rag-consultant" element={<RagConsultant />} />
         <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />
         <Route path="/works/product-landing-page" element={<ProductLandingPage />} />
         <Route path="/works/company-landing" element={<ProductPage slug="company-landing" />} />
@@ -52,6 +53,9 @@ function App() {
         <Route path="/works/line-bot" element={<ProductPage slug="line-bot" />} />
         <Route path="/works/crm-admin" element={<ProductPage slug="crm-admin" />} />
         <Route path="/works/contractor-system" element={<ProductPage slug="contractor-system" />} />
+        <Route path="/works/xinjiang" element={<WorkDetailPageXinjiang />} />
+        <Route path="/works/wholesale-ordering" element={<WorkDetailPageWholesale />} />
+        <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />

@@ -8,10 +8,10 @@ function isExternalUrl(to) {
 
 const navItems = [
   ["首頁", "/"],
-  ["服務", "/services"],
+  ["服務方案", "/services"],
+  ["作品案例", "/works"],
   ["價格", "/pricing"],
-  ["案例", "/works"],
-  ["BuildFlow", "/buildflow"],
+  ["合作流程", "/services"],
   ["聯絡", "/contact"],
 ]
 
