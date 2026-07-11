@@ -1,4 +1,5 @@
 import { useMemo, useState } from "react"
+import { useSearchParams } from "react-router-dom"
 import { createContactRequest } from "../lib/contactRequests"
 
 const email = "a0988874324@gmail.com"
@@ -14,11 +15,29 @@ const initialForm = {
   message: "",
 }
 
-const referenceOptions = ["鑫匠工程", "批發訂貨系統", "RAG 企業知識庫", "生醫品牌網站", "點餐系統", "LINE Bot", "還不確定"]
+const referenceOptions = [
+  "鑫匠工程",
+  "批發訂貨系統",
+  "RAG 企業知識庫",
+  "生醫品牌網站",
+  "公司一頁式官網",
+  "點餐系統",
+  "互動測驗系統",
+  "Notion 個人品牌頁",
+  "LINE Bot",
+  "快速網站",
+  "品牌官網",
+  "接單 / 後台系統",
+  "AI / 客製系統",
+  "還不確定",
+]
 const budgetOptions = ["1 萬內", "1～3 萬", "3～6 萬", "6 萬以上", "先討論"]
 
 function ContactLeadSection() {
-  const [form, setForm] = useState(initialForm)
+  const [searchParams] = useSearchParams()
+  const caseParam = searchParams.get("case")
+  const safeReference = referenceOptions.includes(caseParam) ? caseParam : initialForm.reference
+  const [form, setForm] = useState({ ...initialForm, reference: safeReference })
   const [submitting, setSubmitting] = useState(false)
   const [notice, setNotice] = useState("")
 

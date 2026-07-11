@@ -1211,28 +1211,80 @@ function ServiceFact({ title, text }) {
 }
 
 export function PricingPage() {
+  const priceCards = [
+    {
+      name: "快速網站",
+      price: "5,000 元起",
+      time: "2–5 天",
+      fit: "已有內容，只需要快速上線。",
+      includes: "單頁、基本 RWD、聯絡按鈕。",
+      excludes: "品牌設計、後台、複雜表單。",
+      casePath: "/works/company-landing",
+    },
+    {
+      name: "品牌官網",
+      price: "12,000 元起",
+      time: "5–10 天",
+      fit: "需要正式門面與詢價入口。",
+      includes: "首頁、服務、案例、聯絡、SEO。",
+      excludes: "會員、訂單、客製後台。",
+      casePath: "/works/biomed-brand-site",
+    },
+    {
+      name: "接單 / 後台系統",
+      price: "25,000 元起",
+      time: "10–25 天",
+      fit: "訂單、案件、出貨、月結需要管理。",
+      includes: "前台表單、後台列表、狀態流程。",
+      excludes: "金流、物流、ERP 深度串接。",
+      casePath: "/works/wholesale-ordering",
+    },
+    {
+      name: "AI / 客製系統",
+      price: "需求估價",
+      time: "依需求估時",
+      fit: "需要 RAG、API、自動化或權限流程。",
+      includes: "需求拆解、系統規劃、核心流程。",
+      excludes: "未定義範圍、無資料規格的估價。",
+      casePath: "/works/rag-consultant",
+    },
+  ]
+
   return (
     <PageShell
       page={seo.pricing}
       title="專案預算怎麼抓"
       intro="以下是常見委託的參考區間，實際依範圍、頁數與整合深度報價。"
     >
-      <section className="mx-auto max-w-4xl px-4 py-16">
-        <div className="overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
-          <div className="hidden grid-cols-[1.5fr_1fr_1fr] gap-3 border-b border-[#eee9df] bg-[#111c22] px-5 py-3 text-xs font-black text-white sm:grid">
-            <span>服務項目</span>
-            <span>參考價格</span>
-            <span>預估時間</span>
-          </div>
-          {pricing.map(([name, price, time], i) => (
-            <div
-              key={name}
-              className={`grid gap-1 px-5 py-3.5 sm:grid-cols-[1.5fr_1fr_1fr] sm:items-center ${i > 0 ? "border-t border-[#eee9df]" : ""}`}
-            >
-              <span className="text-sm font-black text-[#111c22]">{name}</span>
-              <span className="text-sm font-black text-[#0d6b62]">{price}</span>
-              <span className="text-sm font-bold text-[#66716d]">{time}</span>
-            </div>
+      <section className="mx-auto max-w-6xl px-4 py-16">
+        <div className="grid gap-4 md:grid-cols-2">
+          {priceCards.map((plan) => (
+            <article key={plan.name} className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+              <div className="flex flex-wrap items-start justify-between gap-3">
+                <div>
+                  <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black text-[#111c22]">{plan.name}</h2>
+                  <p className="mt-2 text-sm font-bold text-[#66716d]">{plan.fit}</p>
+                </div>
+                <div className="text-right">
+                  <p className="text-xl font-black text-[#0d6b62]">{plan.price}</p>
+                  <p className="mt-1 text-xs font-bold text-[#8a938f]">{plan.time}</p>
+                </div>
+              </div>
+
+              <div className="mt-5 grid gap-3 sm:grid-cols-2">
+                <ServiceFact title="包含" text={plan.includes} />
+                <ServiceFact title="不包含" text={plan.excludes} />
+              </div>
+
+              <div className="mt-5 flex flex-wrap gap-2">
+                <Link to={plan.casePath} className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
+                  看對應案例
+                </Link>
+                <Link to={`/contact?case=${encodeURIComponent(plan.name)}`} className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+                  詢問報價
+                </Link>
+              </div>
+            </article>
           ))}
         </div>
         <p className="mt-6 rounded-xl border border-[#e3ded3] bg-white p-5 text-sm font-bold leading-7 text-[#52605c]">

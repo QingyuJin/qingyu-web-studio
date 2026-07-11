@@ -46,7 +46,7 @@ const works = [
     duration: "14–25 天",
     tags: ["商品列表", "專屬價格", "月結"],
     primary: ["直接操作", "/works/wholesale-ordering"],
-    secondary: ["詢問類似系統", "/contact"],
+    secondary: ["詢問類似系統", "/contact?case=批發訂貨系統"],
     visual: "b2b",
   },
   {
@@ -74,7 +74,7 @@ const works = [
     duration: "5–10 天",
     tags: ["品牌網站", "活動報名", "內容頁"],
     primary: ["查看成品", "/works/biomed-brand-site"],
-    secondary: ["詢問類似網站", "/contact"],
+    secondary: ["詢問類似網站", "/contact?case=生醫品牌網站"],
     visual: "bio",
   },
   {
@@ -88,7 +88,7 @@ const works = [
     duration: "5–10 天",
     tags: ["RWD", "SEO", "聯絡 CTA"],
     primary: ["查看成品", "/works/company-landing"],
-    secondary: ["詢問類似網站", "/contact"],
+    secondary: ["詢問類似網站", "/contact?case=公司一頁式官網"],
     visual: "site",
   },
   {
@@ -102,7 +102,7 @@ const works = [
     duration: "14–25 天",
     tags: ["點餐", "控單", "桌況"],
     primary: ["直接操作", "/works/restaurant-ordering"],
-    secondary: ["詢問點餐系統", "/contact"],
+    secondary: ["詢問點餐系統", "/contact?case=點餐系統"],
     visual: "food",
   },
   {
@@ -130,7 +130,7 @@ const works = [
     duration: "3–8 天",
     tags: ["題庫", "計分", "結果頁"],
     primary: ["直接操作", "/works/assessment-system"],
-    secondary: ["詢問測驗頁", "/contact"],
+    secondary: ["詢問測驗頁", "/contact?case=互動測驗系統"],
     visual: "quiz",
   },
   {
@@ -144,7 +144,7 @@ const works = [
     duration: "3–7 天",
     tags: ["自動回覆", "Webhook", "後台"],
     primary: ["查看流程", "/tools/linebot-mission#demo"],
-    secondary: ["詢問 LINE Bot", "/contact"],
+    secondary: ["詢問 LINE Bot", "/contact?case=LINE Bot"],
     visual: "line",
   },
   {
@@ -172,7 +172,7 @@ const works = [
     duration: "5–10 天",
     tags: ["Notion", "個人品牌", "LINE"],
     primary: ["查看成品", "/works/notion-brand-landing"],
-    secondary: ["詢問類似頁", "/contact"],
+    secondary: ["詢問類似頁", "/contact?case=Notion 個人品牌頁"],
     visual: "notion",
   },
   {
