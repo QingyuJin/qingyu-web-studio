@@ -1,5 +1,5 @@
 /* eslint-disable react-refresh/only-export-components */
-import { useMemo, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 
 /* ---------- shared mock frames ---------- */
 
@@ -550,20 +550,62 @@ function LineBack() {
   )
 }
 
-/* ---------- 5. CRM ---------- */
+/* ---------- 5. CRM (interactive) ---------- */
+
+const crmStatusFlow = { "新詢問": "已聯絡", "已聯絡": "成交", "成交": "新詢問" }
+
+const crmStore = { records: [
+  { id: 1, name: "林小姐", source: "官網表單", status: "新詢問" },
+  { id: 2, name: "陳先生", source: "LINE", status: "已聯絡" },
+  { id: 3, name: "王先生", source: "FB 私訊", status: "待報價" },
+], nextId: 4, listeners: new Set() }
+
+function useCrmStore() {
+  const [, setTick] = useState(0)
+  useEffect(() => {
+    const fn = () => setTick((t) => t + 1)
+    crmStore.listeners.add(fn)
+    return () => crmStore.listeners.delete(fn)
+  }, [])
+}
 
 function CrmFront() {
+  useCrmStore()
+  const [fields, setFields] = useState({ name: "", contact: "", type: "", message: "" })
+  const [sent, setSent] = useState(false)
+
+  function update(k, v) { setFields((f) => ({ ...f, [k]: v })) }
+
+  function submit(e) {
+    e.preventDefault()
+    if (!fields.name.trim()) return
+    crmStore.records.push({
+      id: crmStore.nextId++,
+      name: fields.name,
+      source: fields.type || "官網表單",
+      status: "新詢問",
+    })
+    crmStore.listeners.forEach((fn) => fn())
+    setFields({ name: "", contact: "", type: "", message: "" })
+    setSent(true)
+    setTimeout(() => setSent(false), 2000)
+  }
+
   return (
     <Chrome label="form.your-brand.com/contact">
       <div className="bg-white p-4">
         <p className="text-[10px] font-black uppercase tracking-widest text-[#0d6b62]">聯絡我們</p>
         <h4 className="mt-2 text-base font-black">留下需求，我們主動與你聯絡</h4>
-        <div className="mt-3 grid gap-2">
-          {["姓名", "電話 / LINE", "需求類型"].map((t) => (
-            <div key={t} className="rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 py-2 text-[11px] font-bold text-[#8a938f]">{t}</div>
-          ))}
-          <div className="rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 py-4 text-[11px] font-bold text-[#8a938f]">想詢問的內容⋯</div>
-          <span className="min-h-10 rounded-lg bg-[#111c22] py-2.5 text-center text-xs font-black text-white">送出需求</span>
+        <form onSubmit={submit} className="mt-3 grid gap-2">
+          <input value={fields.name} onChange={(e) => update("name", e.target.value)} placeholder="姓名" className="min-h-10 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-xs font-bold outline-none focus:border-[#0d6b62]" />
+          <input value={fields.contact} onChange={(e) => update("contact", e.target.value)} placeholder="電話 / LINE" className="min-h-10 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-xs font-bold outline-none focus:border-[#0d6b62]" />
+          <input value={fields.type} onChange={(e) => update("type", e.target.value)} placeholder="需求類型（選填）" className="min-h-10 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-xs font-bold outline-none focus:border-[#0d6b62]" />
+          <textarea value={fields.message} onChange={(e) => update("message", e.target.value)} placeholder="想詢問的內容⋯" className="min-h-20 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 py-2 text-xs font-bold outline-none focus:border-[#0d6b62]" />
+          <button type="submit" className="min-h-10 rounded-lg bg-[#111c22] text-xs font-black text-white transition hover:bg-[#2a3a42]">送出需求</button>
+          {sent ? <p className="text-center text-[10px] font-black text-[#0d6b62]">✓ 已送出，可到後台查看</p> : null}
+        </form>
+        <div className="mt-3 rounded-lg bg-[#eef7f4] px-3 py-2 text-[10px] font-bold text-[#0d6b62]">
+          ＊目前 {crmStore.records.length} 筆紀錄（可送出測試）
         </div>
       </div>
     </Chrome>
@@ -571,39 +613,89 @@ function CrmFront() {
 }
 
 function CrmBack() {
-  const rows = [
-    ["林小姐", "官網表單", "新詢問"],
-    ["陳先生", "LINE", "已聯絡"],
-    ["王先生", "FB 私訊", "待報價"],
-  ]
+  useCrmStore()
+  const [filter, setFilter] = useState("全部")
+
+  const statuses = ["全部", "新詢問", "已聯絡", "成交", "待報價"]
+  const filtered = filter === "全部" ? crmStore.records : crmStore.records.filter((r) => r.status === filter)
+
+  function toggleStatus(id) {
+    const r = crmStore.records.find((r) => r.id === id)
+    if (r && crmStatusFlow[r.status]) r.status = crmStatusFlow[r.status]
+    crmStore.listeners.forEach((fn) => fn())
+  }
+
+  function removeRecord(id) {
+    crmStore.records = crmStore.records.filter((r) => r.id !== id)
+    crmStore.listeners.forEach((fn) => fn())
+  }
+
   return (
     <Chrome label="admin · 客戶管理 CRM" tone="dark">
       <div className="p-3">
         <div className="flex gap-1.5">
-          {["全部", "新詢問", "已聯絡", "成交"].map((t, i) => (
-            <span key={t} className={`rounded-full px-2.5 py-1 text-[10px] font-black ${i === 0 ? "bg-[#eac46f] text-[#111c22]" : "bg-white/8 text-white/55"}`}>{t}</span>
+          {statuses.map((t) => (
+            <button key={t} type="button" onClick={() => setFilter(t)}
+              className={`rounded-full px-2.5 py-1 text-[10px] font-black transition ${t === filter ? "bg-[#eac46f] text-[#111c22]" : "bg-white/8 text-white/55 hover:bg-white/15"}`}
+            >{t}</button>
           ))}
         </div>
-        <div className="mt-3 overflow-hidden rounded-lg border border-white/10">
-          <div className="grid grid-cols-[1fr_1fr_auto] gap-2 border-b border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black text-white/45">
-            <span>客戶</span><span>來源</span><span>狀態</span>
-          </div>
-          {rows.map((r) => (
-            <div key={r[0]} className="grid grid-cols-[1fr_1fr_auto] items-center gap-2 border-b border-white/8 px-3 py-2 text-[11px] font-black last:border-0">
-              <span>{r[0]}</span>
-              <span className="text-white/60">{r[1]}</span>
-              <span className={`rounded-full px-2 py-0.5 text-[10px] ${statusPill(r[2])}`}>{r[2]}</span>
+        {filtered.length === 0 ? (
+          <p className="mt-6 text-center text-[11px] font-bold text-white/40">尚無此狀態的客戶</p>
+        ) : (
+          <div className="mt-3 overflow-hidden rounded-lg border border-white/10">
+            <div className="grid grid-cols-[1fr_1fr_auto_auto] gap-2 border-b border-white/10 bg-white/5 px-3 py-2 text-[10px] font-black text-white/45">
+              <span>客戶</span><span>來源</span><span>狀態</span><span />
             </div>
-          ))}
-        </div>
+            {filtered.map((r) => (
+              <div key={r.id} className="grid grid-cols-[1fr_1fr_auto_auto] items-center gap-2 border-b border-white/8 px-3 py-2 text-[11px] font-black last:border-0">
+                <span>{r.name}</span>
+                <span className="text-white/60">{r.source}</span>
+                <button type="button" onClick={() => toggleStatus(r.id)}
+                  className={`rounded-full px-2 py-0.5 text-[10px] transition hover:opacity-80 ${statusPill(r.status)}`}
+                >{r.status} {crmStatusFlow[r.status] ? "→" : ""}</button>
+                <button type="button" onClick={() => removeRecord(r.id)} className="text-[10px] text-white/30 hover:text-red-400">✕</button>
+              </div>
+            ))}
+          </div>
+        )}
+        <p className="mt-2 text-[10px] font-bold text-white/30">點擊狀態切換：新詢問 → 已聯絡 → 成交</p>
       </div>
     </Chrome>
   )
 }
 
-/* ---------- 6. contractor ---------- */
+/* ---------- 6. contractor (interactive) ---------- */
+
+const contractorCols = ["詢價", "報價", "施工", "完成"]
+const contractorNextCol = { "詢價": "報價", "報價": "施工", "施工": "完成", "完成": "詢價" }
+
+const contractorStore = { cards: {
+  詢價: ["浴室防水", "外牆抓漏"],
+  報價: ["店面地坪"],
+  施工: ["透天翻新"],
+  完成: ["磁磚修補"],
+}, listeners: new Set() }
+
+const serviceDetails = {
+  "防水抓漏": "屋頂、外牆、浴室、陽台各類防水施工與抓漏檢測，使用 PU、彈性水泥、防水砂漿等材料。",
+  "地坪工程": "Epoxy 環氧樹脂地坪、金剛砂地坪、硬化地坪、停車場與廠房地坪規劃。",
+  "泥作磁磚": "磁磚鋪貼、抿石子、洗石子、清水模、磚牆砌築、水泥粉光等各類泥作工程。",
+}
+
+function useContractorStore() {
+  const [, setTick] = useState(0)
+  useEffect(() => {
+    const fn = () => setTick((t) => t + 1)
+    contractorStore.listeners.add(fn)
+    return () => contractorStore.listeners.delete(fn)
+  }, [])
+}
 
 function ContractorFront() {
+  const [expanded, setExpanded] = useState(null)
+  const [inquiry, setInquiry] = useState("")
+
   return (
     <Chrome label="www.your-service.com">
       <div className="bg-white">
@@ -612,10 +704,33 @@ function ContractorFront() {
           <h4 className="mt-2 font-['Noto_Serif_TC',serif] text-xl font-black">現場評估後，實在報價</h4>
           <span className="mt-3 inline-flex rounded-lg bg-[#f0c36a] px-4 py-2 text-[11px] font-black text-[#10242a]">線上詢價</span>
         </div>
-        <div className="grid grid-cols-3 gap-2 p-3">
+        <div className="grid gap-2 p-3">
           {["防水抓漏", "地坪工程", "泥作磁磚"].map((t) => (
-            <div key={t} className="rounded-lg border border-[#eadfd1] bg-[#f6efe4] p-3 text-center text-[10px] font-black text-[#5b6663]">{t}</div>
+            <div key={t} className="overflow-hidden rounded-lg border border-[#eadfd1] bg-[#f6efe4]">
+              <button
+                type="button"
+                onClick={() => setExpanded(expanded === t ? null : t)}
+                className="flex w-full items-center justify-between px-3 py-2.5 text-left"
+              >
+                <span className="text-[11px] font-black text-[#5b6663]">{t}</span>
+                <span className="text-[10px] font-black text-[#8a938f] transition duration-200" style={{ transform: expanded === t ? "rotate(180deg)" : "rotate(0deg)" }}>▼</span>
+              </button>
+              {expanded === t ? (
+                <div className="border-t border-[#eadfd1] bg-white px-3 py-2.5">
+                  <p className="text-[10px] font-bold leading-5 text-[#66716d]">{serviceDetails[t]}</p>
+                  <span className="mt-2 inline-flex rounded-md bg-[#10242a] px-2.5 py-1 text-[10px] font-black text-white">詢問此服務</span>
+                </div>
+              ) : null}
+            </div>
           ))}
+        </div>
+        <div className="border-t border-[#eee9df] p-3">
+          <p className="text-[10px] font-bold text-[#8a938f]">快速詢價</p>
+          <div className="mt-2 flex gap-2">
+            <input value={inquiry} onChange={(e) => setInquiry(e.target.value)} placeholder="輸入需求⋯" className="min-h-9 flex-1 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-[11px] font-bold outline-none focus:border-[#0d6b62]" />
+            <button type="button" onClick={() => { if (inquiry.trim()) { setInquiry(""); contractorStore.cards["詢價"].push(inquiry.trim()); contractorStore.listeners.forEach((fn) => fn()) }}}
+              className="min-h-9 rounded-lg bg-[#10242a] px-3 text-[11px] font-black text-white">送出</button>
+          </div>
         </div>
       </div>
     </Chrome>
@@ -623,26 +738,48 @@ function ContractorFront() {
 }
 
 function ContractorBack() {
-  const cols = [
-    ["詢價", ["浴室防水", "外牆抓漏"]],
-    ["報價", ["店面地坪"]],
-    ["施工", ["透天翻新"]],
-    ["完成", ["磁磚修補"]],
-  ]
+  useContractorStore()
+  const [highlight, setHighlight] = useState(null)
+
+  function advanceCard(col, cardName) {
+    const idx = contractorStore.cards[col].indexOf(cardName)
+    if (idx === -1) return
+    contractorStore.cards[col].splice(idx, 1)
+    const next = contractorNextCol[col]
+    contractorStore.cards[next].push(cardName)
+    setHighlight({ col: next, name: cardName })
+    setTimeout(() => setHighlight(null), 1200)
+    contractorStore.listeners.forEach((fn) => fn())
+  }
+
   return (
     <Chrome label="admin · 案件看板" tone="dark">
       <div className="grid grid-cols-4 gap-2 p-3">
-        {cols.map(([title, cards]) => (
+        {contractorCols.map((title) => (
           <div key={title} className="rounded-lg bg-white/5 p-1.5">
-            <p className="px-1 pb-1.5 text-[10px] font-black text-white/50">{title}</p>
+            <p className="px-1 pb-1.5 text-[10px] font-black text-white/50">{title}（{contractorStore.cards[title].length}）</p>
             <div className="grid gap-1.5">
-              {cards.map((c) => (
-                <div key={c} className="rounded-md border border-white/10 bg-white/8 px-2 py-1.5 text-[10px] font-black">{c}</div>
-              ))}
+              {contractorStore.cards[title].map((c) => {
+                const isHighlighted = highlight && highlight.col === title && highlight.name === c
+                return (
+                  <button
+                    key={c + title}
+                    type="button"
+                    onClick={() => advanceCard(title, c)}
+                    className={`w-full rounded-md border px-2 py-1.5 text-left text-[10px] font-black transition duration-300 ${
+                      isHighlighted ? "border-[#eac46f] bg-[#eac46f]/20 text-[#eac46f] scale-105" : "border-white/10 bg-white/8 hover:border-white/25 hover:bg-white/12"
+                    }`}
+                  >
+                    {c}
+                    <span className="ml-1 text-[9px] text-white/30">{contractorNextCol[title] !== title ? `→ ${contractorNextCol[title]}` : ""}</span>
+                  </button>
+                )
+              })}
             </div>
           </div>
         ))}
       </div>
+      <p className="px-3 pb-2 text-[9px] font-bold text-white/25">點擊卡片推進階段：詢價 → 報價 → 施工 → 完成</p>
     </Chrome>
   )
 }
