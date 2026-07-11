@@ -2,8 +2,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
-import { contact, pricing, pricingNote, seo } from "./site/content"
-import { productOrder, products } from "./site/productData"
+import { contact, pricingNote, seo } from "./site/content"
 import { LiveIndustryDemo, industries } from "./site/homeIndustries"
 
 function StudioHome() {
@@ -137,40 +136,76 @@ function HeroPicker() {
 /* ---------- 全部成品（產品頁入口）---------- */
 
 function ShowcaseSection() {
+  const featured = [
+    {
+      title: "鑫匠工程",
+      text: "正式上線工程官網，詢價進 BuildFlow 後台。",
+      price: "30,000 元起",
+      to: "/works/xinjiang",
+      visual: "/project-photos/335941_0.jpg",
+    },
+    {
+      title: "批發訂貨系統",
+      text: "專屬價格下單、出貨狀態、月底對帳。",
+      price: "25,000 元起",
+      to: "/works/wholesale-ordering",
+      visual: null,
+    },
+    {
+      title: "RAG 企業知識庫",
+      text: "文件問答、引用來源、用量與版本管理。",
+      price: "需求估價",
+      to: "/works/rag-consultant#demo",
+      visual: null,
+    },
+  ]
+
   return (
     <section id="products" className="scroll-mt-16 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
-          eyebrow="全部成品"
-          title="想看每一種系統的完整樣子"
-          text="每張卡點進去都是完整產品頁：前台成品、後台畫面、資料流程、技術架構與報價，一頁看完。"
+          eyebrow="推薦成品"
+          title="先看最有代表性的三個"
+          text="真實上線、完整流程、進階 AI。其他成品整理在作品庫。"
         />
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-          {productOrder.map((slug) => {
-            const p = products[slug]
-            return (
-              <Link
-                key={slug}
-                to={`/works/${slug}`}
-                className="group flex flex-col rounded-2xl border border-[#e3ded3] bg-[#faf8f3] p-5 transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20"
-              >
+          {featured.map((item) => (
+            <Link
+              key={item.title}
+              to={item.to}
+              className="group flex flex-col overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20"
+            >
+              {item.visual ? (
+                <img src={item.visual} alt={item.title} loading="lazy" className="aspect-[16/9] w-full object-cover" />
+              ) : (
+                <div className="aspect-[16/9] bg-[#111c22] p-5 text-white">
+                  <div className="flex items-center justify-between">
+                    <span className="h-2 w-16 rounded-full bg-[#8fd6cc]" />
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-black uppercase tracking-widest">System</span>
+                  </div>
+                  <div className="mt-8 grid gap-2">
+                    <span className="h-10 rounded-xl bg-white/12" />
+                    <span className="h-10 rounded-xl bg-white/8" />
+                    <span className="h-10 rounded-xl bg-white/12" />
+                  </div>
+                </div>
+              )}
+              <div className="flex flex-1 flex-col p-5">
                 <div className="flex items-start justify-between gap-2">
-                  <h3 className="font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{p.name}</h3>
-                  <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">{p.priceFrom}</span>
+                  <h3 className="font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{item.title}</h3>
+                  <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">{item.price}</span>
                 </div>
-                <p className="mt-3 flex-1 text-sm font-bold leading-6 text-[#52605c]">{p.solves}</p>
-                <div className="mt-4 flex flex-wrap gap-1.5">
-                  {["前台成品", "後台畫面", "報價"].map((t) => (
-                    <span key={t} className="rounded-md bg-white px-2 py-1 text-[11px] font-black text-[#66716d] ring-1 ring-[#e3ded3]">{t}</span>
-                  ))}
-                </div>
+                <p className="mt-3 flex-1 text-sm font-bold leading-6 text-[#52605c]">{item.text}</p>
                 <span className="mt-5 inline-flex min-h-10 w-fit items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition group-hover:bg-[#0d6b62]">
                   查看成品 →
                 </span>
-              </Link>
-            )
-          })}
+              </div>
+            </Link>
+          ))}
         </div>
+        <Link to="/works" className="mt-8 inline-flex min-h-11 items-center rounded-xl border border-[#d5ded9] bg-white px-5 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] hover:text-[#0d6b62]">
+          查看全部作品 →
+        </Link>
       </div>
     </section>
   )
@@ -229,29 +264,28 @@ function FeaturedCases() {
 /* ---------- 服務價目表 ---------- */
 
 function PriceListSection() {
+  const plans = [
+    ["快速網站", "5,000 元起", "一頁快速上線、簡易修改。"],
+    ["品牌官網", "12,000 元起", "形象、服務、案例、聯絡。"],
+    ["接單 / 後台系統", "25,000 元起", "表單、訂單、案件與狀態管理。"],
+    ["AI / 客製系統", "需求估價", "RAG、API、自動化與權限流程。"],
+  ]
+
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
           eyebrow="服務價目表"
-          title="價格與工期，先講清楚"
-          text="以下為參考價，實際依需求範圍調整。台灣中小型專案的合理行情，不喊天價、也不做賠本削價。"
+          title="價格先給範圍"
+          text="先看適合哪一種，再進一步估完整範圍。"
         />
-        <div className="overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
-          <div className="hidden grid-cols-[1.4fr_1fr_1fr] gap-3 border-b border-[#eee9df] bg-[#111c22] px-5 py-3 text-xs font-black text-white sm:grid">
-            <span>服務項目</span>
-            <span>參考價格</span>
-            <span>預估時間</span>
-          </div>
-          {pricing.map(([name, price, time], i) => (
-            <div
-              key={name}
-              className={`grid gap-1 px-5 py-3.5 sm:grid-cols-[1.4fr_1fr_1fr] sm:items-center ${i > 0 ? "border-t border-[#eee9df]" : ""}`}
-            >
-              <span className="text-sm font-black text-[#111c22]">{name}</span>
-              <span className="text-sm font-black text-[#0d6b62]">{price}</span>
-              <span className="text-sm font-bold text-[#66716d]">{time}</span>
-            </div>
+        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
+          {plans.map(([name, price, text]) => (
+            <article key={name} className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+              <p className="font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{name}</p>
+              <p className="mt-4 text-2xl font-black text-[#0d6b62]">{price}</p>
+              <p className="mt-3 text-sm font-bold leading-6 text-[#66716d]">{text}</p>
+            </article>
           ))}
         </div>
         <p className="mt-5 rounded-xl border border-[#e3ded3] bg-white p-5 text-sm font-bold leading-7 text-[#52605c]">

@@ -1032,9 +1032,9 @@ export function ServicesPage() {
   return (
     <PageShell
       page={seo.services}
-      eyebrow="服務包"
-      title="先選一個服務包"
-      intro="網站、互動工具、LINE Bot、後台流程。先做清楚版本，再依需求擴充。"
+      eyebrow="解決方案"
+      title="先選你想解決的問題"
+      intro="品牌入口、訂貨接單、客戶管理、LINE 與 AI 自動化。先看成品，再決定範圍。"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -1070,7 +1070,7 @@ export function ServicesPage() {
               <h2 className="mt-4 text-xl font-black">{service.name}</h2>
               <p className="mt-3 min-h-16 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
               <ActionLink to={service.demoPath} className="mt-5 inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
-                看內容
+                看相關成品
               </ActionLink>
             </article>
           ))}
@@ -1082,7 +1082,7 @@ export function ServicesPage() {
           <div className="mb-7 flex flex-col gap-3 md:flex-row md:items-end md:justify-between">
             <div>
               <p className="text-xs font-black text-[#0d6b62]">內容</p>
-              <h2 className="mt-3 text-3xl font-black md:text-4xl">服務包內容</h2>
+              <h2 className="mt-3 text-3xl font-black md:text-4xl">交付範圍</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">短版範圍，細節報價確認。</p>
           </div>
@@ -1149,7 +1149,7 @@ export function ServicesPage() {
           <div>
             <p className="text-xs font-black text-[#0d6b62]">流程</p>
             <h2 className="mt-3 text-3xl font-black">合作流程</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">選包、填需求、確認報價。</p>
+            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">看成品、填需求、確認報價。</p>
           </div>
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
             {serviceWorkflow.map(([step, title, text]) => (

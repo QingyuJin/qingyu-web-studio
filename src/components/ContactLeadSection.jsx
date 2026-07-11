@@ -7,20 +7,15 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  service_type: "網站製作",
+  industry: "",
+  reference: "鑫匠工程",
   budget_range: "5,000～10,000",
   deadline: "",
   message: "",
 }
 
-const serviceOptions = [
-  "網站製作",
-  "互動工具",
-  "LINE Bot 串接",
-  "後台流程 / API",
-  "還不確定",
-]
-const budgetOptions = ["5,000 以下", "5,000～10,000", "10,000～20,000", "20,000 以上"]
+const referenceOptions = ["鑫匠工程", "批發訂貨系統", "RAG 企業知識庫", "生醫品牌網站", "點餐系統", "LINE Bot", "還不確定"]
+const budgetOptions = ["1 萬內", "1～3 萬", "3～6 萬", "6 萬以上", "先討論"]
 
 function ContactLeadSection() {
   const [form, setForm] = useState(initialForm)
@@ -32,7 +27,8 @@ function ContactLeadSection() {
       "你好，我想討論網站、LINE Bot、AI 工具或後台流程需求。",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
-      `項目：${form.service_type}`,
+      `產業：${form.industry}`,
+      `參考案例：${form.reference}`,
       `預算：${form.budget_range}`,
       `希望完成時間：${form.deadline}`,
       `需求：${form.message}`,
@@ -62,9 +58,9 @@ function ContactLeadSection() {
     const result = await createContactRequest({
       name: form.name,
       contact: form.contact,
-      service_type: form.service_type,
+      service_type: form.reference,
       budget_range: form.budget_range,
-      message: `希望完成時間：${form.deadline}\n需求：${form.message}`,
+      message: `產業：${form.industry}\n希望完成時間：${form.deadline}\n需求：${form.message}`,
       source: "contact-page",
       status: "new",
     })
@@ -91,7 +87,7 @@ function ContactLeadSection() {
             填需求表單
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            傳產業、功能、預算、時程。
+            傳產業、參考案例、預算與時程。
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -116,16 +112,17 @@ function ContactLeadSection() {
           <div className="grid gap-4 sm:grid-cols-2">
             <Input label="姓名 / 稱呼" value={form.name} onChange={(value) => updateForm("name", value)} required />
             <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 電話" required />
-            <Select label="想做的項目" value={form.service_type} onChange={(value) => updateForm("service_type", value)} options={serviceOptions} />
+            <Input label="產業" value={form.industry} onChange={(value) => updateForm("industry", value)} placeholder="例如：工程行 / 批發 / 餐飲" required />
+            <Select label="參考案例" value={form.reference} onChange={(value) => updateForm("reference", value)} options={referenceOptions} />
             <Select label="預算區間" value={form.budget_range} onChange={(value) => updateForm("budget_range", value)} options={budgetOptions} />
             <Input label="希望完成時間" value={form.deadline} onChange={(value) => updateForm("deadline", value)} placeholder="例如：兩週內 / 下個月 / 不急" />
             <label className="grid gap-2 sm:col-span-2">
-              <span className="text-sm font-black text-[#d9e6e3]">簡單描述需求</span>
+              <span className="text-sm font-black text-[#d9e6e3]">想解決的問題</span>
               <textarea
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：品牌網站 + LINE Bot。"
+                placeholder="例如：想做類似鑫匠的官網與詢價系統。"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>
