@@ -477,6 +477,8 @@ function RagConsultant() {
             </div>
           </section>
 
+          <RagProjectBrief />
+
           <section id="demo" className="scroll-mt-24 rounded-[2rem] border border-white/60 bg-[#14201f] p-4 text-white shadow-2xl shadow-[#14201f]/20 md:p-5">
             <div className="flex flex-col gap-4 border-b border-white/10 pb-4 md:flex-row md:items-end md:justify-between">
               <div>
@@ -876,6 +878,53 @@ function RagConsultant() {
         </div>
       </section>
     </main>
+  )
+}
+
+function RagProjectBrief() {
+  const values = [
+    ["客服可引用來源", "回答不只像聊天，還能回到文件來源。"],
+    ["SOP 更新不重訓", "文件版本更新後，知識庫即可跟著切換。"],
+    ["用量與權限可控", "Token、Rate Limit、版本與搜尋政策都能監控。"],
+    ["內部知識可查", "員工不用翻一堆文件，也能快速找到答案。"],
+  ]
+  const flow = ["上傳文件", "切分段落", "建立索引", "提出問題", "回答附引用", "監控用量"]
+
+  return (
+    <section className="rounded-[2rem] border border-white/60 bg-white/64 p-6 shadow-xl shadow-[#3e2b1e]/8 backdrop-blur-xl md:p-7">
+      <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
+        <div>
+          <p className="text-xs font-black uppercase tracking-[0.24em] text-[#bf6536]">Business Value</p>
+          <h2 className="mt-3 font-serif text-3xl font-black leading-tight md:text-4xl">把公司文件變成可查、可控、可追溯的問答系統。</h2>
+          <p className="mt-4 text-sm font-bold leading-7 text-[#59635d]">
+            適合 SOP、保固政策、客服 FAQ、內部規範與產品文件。
+          </p>
+          <div className="mt-5 flex flex-wrap gap-2">
+            <Link to="/contact?case=RAG 企業知識庫" className="inline-flex min-h-10 items-center rounded-xl bg-[#14201f] px-4 text-sm font-black text-white">
+              詢問 RAG 系統
+            </Link>
+            <a href="#demo" className="inline-flex min-h-10 items-center rounded-xl border border-[#d7cbbb] bg-white px-4 text-sm font-black text-[#14201f]">
+              操作問答介面
+            </a>
+          </div>
+        </div>
+        <div className="grid gap-3 md:grid-cols-2">
+          {values.map(([title, text]) => (
+            <div key={title} className="rounded-2xl border border-[#d7cbbb] bg-[#fdfbf7] p-4">
+              <p className="text-sm font-black text-[#14201f]">{title}</p>
+              <p className="mt-2 text-sm font-bold leading-6 text-[#59635d]">{text}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+      <div className="mt-6 flex flex-wrap gap-2">
+        {flow.map((item, index) => (
+          <span key={item} className="rounded-full border border-[#d7cbbb] bg-white px-3 py-1.5 text-[11px] font-black text-[#59635d]">
+            {index + 1}. {item}
+          </span>
+        ))}
+      </div>
+    </section>
   )
 }
 

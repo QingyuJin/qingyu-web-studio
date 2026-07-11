@@ -372,6 +372,7 @@ function WholesaleOrdering() {
 
       <Header mode={mode} setMode={changeMode} onSubmit={requestSubmitOrder} />
       <ModeHero mode={mode} openOrders={unshippedOrders.length} shippedOrders={shippedOrders.length} monthTotal={monthTotal} />
+      <WholesaleProjectBrief />
 
       {mode === "client" ? (
         <ClientMode
@@ -465,6 +466,55 @@ function WholesaleOrdering() {
         />
       ) : null}
     </main>
+  )
+}
+
+function WholesaleProjectBrief() {
+  const facts = [
+    ["適合", "批發商、團購、食材供應、B2B 電商"],
+    ["客戶端", "手機看商品、專屬價格、歷史訂單、本月金額"],
+    ["後台端", "訂單、數量修正、出貨狀態、缺貨備註"],
+    ["月結", "依客戶彙整訂單與總額，月底對帳更快"],
+  ]
+  const flow = ["客戶下單", "後台收單", "出貨前修量", "產生叫貨單", "更新出貨", "月結對帳"]
+
+  return (
+    <section className="mx-auto max-w-7xl px-4 pb-4 md:px-7">
+      <div className="rounded-[1.5rem] border border-[#decfb7] bg-[#fffaf2]/88 p-5 shadow-sm backdrop-blur">
+        <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">B2B Ordering Case</p>
+            <h2 className="mt-2 font-serif text-2xl font-black text-[#2d231d] md:text-3xl">不是購物車，是批發流程系統。</h2>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#725f50]">
+              客戶自行下單，老闆從後台統一修量、出貨、叫貨與月結。
+            </p>
+          </div>
+          <div className="grid gap-3 md:grid-cols-2">
+            {facts.map(([label, value]) => (
+              <div key={label} className="rounded-2xl border border-[#ead9bf] bg-white/70 p-4">
+                <p className="text-[11px] font-black text-[#c76532]">{label}</p>
+                <p className="mt-1 text-sm font-black leading-6 text-[#2d231d]">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+        <div className="mt-5 flex flex-wrap gap-2">
+          {flow.map((item, index) => (
+            <span key={item} className="rounded-full border border-[#ead9bf] bg-white px-3 py-1.5 text-[11px] font-black text-[#4f4035]">
+              {index + 1}. {item}
+            </span>
+          ))}
+        </div>
+        <div className="mt-5 flex flex-wrap gap-2">
+          <Link to="/contact?case=批發訂貨系統" className="inline-flex min-h-10 items-center rounded-xl bg-[#263f31] px-4 text-sm font-black text-white">
+            詢問批發系統
+          </Link>
+          <Link to="/works" className="inline-flex min-h-10 items-center rounded-xl border border-[#decfb7] bg-white px-4 text-sm font-black text-[#263f31]">
+            回作品庫
+          </Link>
+        </div>
+      </div>
+    </section>
   )
 }
 

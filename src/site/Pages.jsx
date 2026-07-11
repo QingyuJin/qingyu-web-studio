@@ -30,7 +30,7 @@ function PageShell({ page, eyebrow = "Qingyu Web Studio", title, intro, actions,
                 {actions}
                 {page?.path?.startsWith("/works/") ? (
                   <Link
-                    to="/contact"
+                    to={`/contact?case=${encodeURIComponent(title || "")}`}
                     className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#0d6b62] bg-[#eef7f4] px-5 text-sm font-black text-[#0d6b62] transition hover:bg-[#dff1ec]"
                   >
                     找我做類似系統
@@ -514,6 +514,8 @@ export function WorkDetailPage() {
         <WorkShowcase project={project} />
       </section>
 
+      {isXinjiangProject ? <XinjiangProjectBrief /> : null}
+
       <section id="demo" className="mx-auto max-w-6xl scroll-mt-24 px-4 pt-8">
         <div className="grid gap-5">
           <div className="rounded-xl border border-[#e3ded3] bg-white p-5">
@@ -799,6 +801,59 @@ export function WorkDetailPage() {
         </div>
       </section>
     </PageShell>
+  )
+}
+
+function XinjiangProjectBrief() {
+  const facts = [
+    ["類型", "真實上線案例"],
+    ["產業", "泥作 / 工程服務"],
+    ["內容", "品牌官網 + 詢價 + 案件後台"],
+    ["工期", "約 3–4 週"],
+    ["預算", "類似系統 30,000 元起"],
+    ["狀態", "正式營運"],
+  ]
+  const beforeAfter = [
+    ["改版前", "客戶多從 Pro360 或 LINE 詢問，服務與案例不容易被完整看見。"],
+    ["改版後", "品牌官網展示服務與案例，詢價資料可導入 BuildFlow 後台追蹤。"],
+    ["交付重點", "手機版詢價、案例照片、服務分類、線上聯絡與後台收件流程。"],
+  ]
+
+  return (
+    <section className="mx-auto max-w-6xl px-4 pt-8">
+      <div className="rounded-2xl border border-[#e3ded3] bg-white p-5 md:p-6">
+        <div className="grid gap-7 lg:grid-cols-[0.8fr_1.2fr]">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Project Data</p>
+            <h2 className="mt-3 font-['Noto_Serif_TC',serif] text-3xl font-black text-[#111c22]">鑫匠專案資料</h2>
+            <div className="mt-5 grid gap-2 sm:grid-cols-2">
+              {facts.map(([label, value]) => (
+                <div key={label} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-3">
+                  <p className="text-[11px] font-black text-[#0d6b62]">{label}</p>
+                  <p className="mt-1 text-sm font-black text-[#111c22]">{value}</p>
+                </div>
+              ))}
+            </div>
+          </div>
+          <div className="grid gap-3">
+            {beforeAfter.map(([title, text]) => (
+              <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
+                <p className="text-sm font-black text-[#111c22]">{title}</p>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
+              </div>
+            ))}
+            <div className="flex flex-wrap gap-2 pt-1">
+              <a href="https://xinjiang-website.vercel.app/" target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">
+                打開正式網站
+              </a>
+              <Link to="/contact?case=鑫匠工程" className="inline-flex min-h-10 items-center rounded-lg border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+                詢問類似案例
+              </Link>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
   )
 }
 
