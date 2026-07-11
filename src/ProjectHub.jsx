@@ -1,34 +1,19 @@
+import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
-
-const categories = [
-  {
-    id: "live",
-    title: "真實客戶案例",
-    text: "已上線、可查看真實網站。",
-  },
-  {
-    id: "product",
-    title: "可操作產品",
-    text: "前台、後台與流程可直接看。",
-  },
-  {
-    id: "ai",
-    title: "AI / 技術實驗",
-    text: "RAG、AI、API 與自動化能力。",
-  },
-]
 
 const works = [
   {
     title: "鑫匠工程",
     type: "真實上線",
     group: "live",
-    industry: "泥作 / 工程服務",
+    industry: "工程 / 服務業",
+    problemGroup: "官網與曝光",
     problem: "客戶只看得到 Pro360，詢價與案例沒有自己的入口。",
     solution: "黑金品牌官網、線上詢價、BuildFlow 收件流程。",
     price: "30,000 元起",
+    priceGroup: "25,000–40,000 元",
     duration: "約 3–4 週",
     tags: ["品牌官網", "詢價表單", "案件後台"],
     primary: ["查看案例", "/works/xinjiang"],
@@ -39,10 +24,12 @@ const works = [
     title: "批發訂貨系統",
     type: "可操作產品",
     group: "product",
-    industry: "批發 / B2B",
+    industry: "零售 / 批發",
+    problemGroup: "接單與管理",
     problem: "不用 LINE 一筆一筆抄訂單，避免漏單與月底對帳混亂。",
     solution: "客戶用專屬價格下單，老闆從後台統一出貨與月結。",
     price: "25,000 元起",
+    priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
     tags: ["商品列表", "專屬價格", "月結"],
     primary: ["直接操作", "/works/wholesale-ordering"],
@@ -53,10 +40,12 @@ const works = [
     title: "RAG 企業知識庫",
     type: "AI / 技術實驗",
     group: "ai",
-    industry: "公司 / 協會 / 內部文件",
+    industry: "公司 / 內部",
+    problemGroup: "AI 與自動化",
     problem: "文件很多，員工與客服一直問，答案還要能附來源。",
     solution: "文件問答、引用來源、Token 用量、Rate Limit 與版本管理。",
     price: "需求估價",
+    priceGroup: "需求估價",
     duration: "依資料量估時",
     tags: ["文件問答", "引用來源", "用量控管"],
     primary: ["操作系統", "/works/rag-consultant#demo"],
@@ -67,10 +56,12 @@ const works = [
     title: "生醫品牌網站",
     type: "可操作產品",
     group: "product",
-    industry: "醫療 / 生醫 / 診所",
+    industry: "品牌 / 官網",
+    problemGroup: "官網與曝光",
     problem: "專業內容很多，但缺少乾淨可信任的品牌入口。",
     solution: "品牌故事、醫生故事、講座報名與訂閱入口。",
     price: "12,000 元起",
+    priceGroup: "6,000–15,000 元",
     duration: "5–10 天",
     tags: ["品牌網站", "活動報名", "內容頁"],
     primary: ["查看成品", "/works/biomed-brand-site"],
@@ -81,10 +72,12 @@ const works = [
     title: "公司一頁式官網",
     type: "可操作產品",
     group: "product",
-    industry: "公司 / 工作室 / 顧問",
+    industry: "品牌 / 官網",
+    problemGroup: "官網與曝光",
     problem: "客戶搜到你，卻看不懂你是誰、做什麼、怎麼聯絡。",
     solution: "一頁整理品牌、服務、案例、流程與聯絡 CTA。",
     price: "12,000–20,000 元",
+    priceGroup: "6,000–15,000 元",
     duration: "5–10 天",
     tags: ["RWD", "SEO", "聯絡 CTA"],
     primary: ["查看成品", "/works/company-landing"],
@@ -95,10 +88,12 @@ const works = [
     title: "點餐系統",
     type: "可操作產品",
     group: "product",
-    industry: "餐飲店家",
+    industry: "餐飲",
+    problemGroup: "接單與管理",
     problem: "桌邊點餐、廚房控單與桌況管理分散。",
     solution: "客戶端點餐、服務端控單、廚房佇列與營收狀態。",
     price: "25,000 元起",
+    priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
     tags: ["點餐", "控單", "桌況"],
     primary: ["直接操作", "/works/restaurant-ordering"],
@@ -109,10 +104,12 @@ const works = [
     title: "工程接案系統",
     type: "完整流程",
     group: "product",
-    industry: "工程 / 到府服務",
+    industry: "工程 / 服務業",
+    problemGroup: "接單與管理",
     problem: "詢價、照片、報價與施工狀態散在 LINE。",
     solution: "網站詢價進後台，一鍵轉案件，追蹤報價與回報。",
     price: "30,000 元起",
+    priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
     tags: ["詢價", "案件", "LINE 回報"],
     primary: ["查看系統", "/buildflow"],
@@ -123,10 +120,12 @@ const works = [
     title: "互動測驗系統",
     type: "可操作產品",
     group: "product",
-    industry: "教育 / 顧問 / 活動",
+    industry: "顧問 / 教育",
+    problemGroup: "客戶溝通",
     problem: "測驗結果靠人工整理，名單與分數不好留存。",
     solution: "題目、作答、解析、結果頁與填答紀錄。",
     price: "6,000 元起",
+    priceGroup: "6,000 元以下",
     duration: "3–8 天",
     tags: ["題庫", "計分", "結果頁"],
     primary: ["直接操作", "/works/assessment-system"],
@@ -137,10 +136,12 @@ const works = [
     title: "LINE Bot 接待",
     type: "互動展示",
     group: "product",
-    industry: "店家 / 預約服務",
+    industry: "店家 / 服務業",
+    problemGroup: "客戶溝通",
     problem: "LINE 訊息太散，同樣問題每天重複回覆。",
     solution: "自動回覆、追問需求、建立後台案件。",
     price: "8,000 元起",
+    priceGroup: "6,000–15,000 元",
     duration: "3–7 天",
     tags: ["自動回覆", "Webhook", "後台"],
     primary: ["查看流程", "/tools/linebot-mission#demo"],
@@ -151,10 +152,12 @@ const works = [
     title: "AI 網站健檢",
     type: "AI / 技術實驗",
     group: "ai",
-    industry: "網站改版 / 品牌",
+    industry: "品牌 / 官網",
+    problemGroup: "AI 與自動化",
     problem: "網站不清楚，客戶看完不知道要不要聯絡。",
     solution: "檢查 CTA、SEO、手機版與信任感，產生建議報告。",
     price: "需求估價",
+    priceGroup: "需求估價",
     duration: "依需求估時",
     tags: ["AI 報告", "SEO", "CTA"],
     primary: ["查看工具", "/works/ai-audit#demo"],
@@ -165,10 +168,12 @@ const works = [
     title: "Notion 個人品牌頁",
     type: "可操作產品",
     group: "product",
-    industry: "講師 / 顧問 / 創作者",
+    industry: "顧問 / 教育",
+    problemGroup: "官網與曝光",
     problem: "IG 有流量，但缺一個能介紹服務與收名單的入口。",
     solution: "深色品牌入口、服務區、資源中心、LINE 導流。",
     price: "12,000–20,000 元",
+    priceGroup: "6,000–15,000 元",
     duration: "5–10 天",
     tags: ["Notion", "個人品牌", "LINE"],
     primary: ["查看成品", "/works/notion-brand-landing"],
@@ -179,10 +184,12 @@ const works = [
     title: "BuildFlow",
     type: "後台系統",
     group: "product",
-    industry: "案件型服務",
+    industry: "工程 / 服務業",
+    problemGroup: "內部流程",
     problem: "需求、報價、派工、回報與完工紀錄不好追。",
     solution: "案件列表、詳情、報價單、LINE 回報與狀態管理。",
     price: "30,000 元起",
+    priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
     tags: ["案件", "報價", "LINE"],
     primary: ["打開後台", "/buildflow"],
@@ -191,9 +198,26 @@ const works = [
   },
 ]
 
-const filters = ["全部", ...categories.map((item) => item.title)]
+const industryOptions = ["全部", ...new Set(works.map((w) => w.industry))]
+const problemOptions = ["全部", ...new Set(works.map((w) => w.problemGroup))]
+const budgetOptions = ["全部", ...new Set(works.map((w) => w.priceGroup))]
 
 function ProjectHub() {
+  const [filterIndustry, setFilterIndustry] = useState("全部")
+  const [filterProblem, setFilterProblem] = useState("全部")
+  const [filterBudget, setFilterBudget] = useState("全部")
+
+  const filtered = useMemo(() => {
+    return works.filter((w) => {
+      if (filterIndustry !== "全部" && w.industry !== filterIndustry) return false
+      if (filterProblem !== "全部" && w.problemGroup !== filterProblem) return false
+      if (filterBudget !== "全部" && w.priceGroup !== filterBudget) return false
+      return true
+    })
+  }, [filterIndustry, filterProblem, filterBudget])
+
+  const activeCount = [filterIndustry, filterProblem, filterBudget].filter((f) => f !== "全部").length
+
   return (
     <SiteLayout>
       <Seo
@@ -204,7 +228,7 @@ function ProjectHub() {
         }}
       />
       <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-18">
+        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Works Catalog</p>
           <h1 className="mt-4 max-w-4xl font-['Noto_Serif_TC',serif] text-[clamp(2rem,6vw,4rem)] font-black leading-[1.12] text-[#111c22]">
             從品牌網站到接單、後台與 AI 系統
@@ -212,58 +236,77 @@ function ProjectHub() {
           <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base">
             依照產業、需求與預算找到適合的成品。先看真的畫面，再決定要做哪一種。
           </p>
-          <div className="mt-8 grid gap-3 md:grid-cols-3">
-            {categories.map((item) => (
-              <a
-                key={item.id}
-                href={`#${item.id}`}
-                className="rounded-2xl border border-[#e0d8cc] bg-white p-5 transition hover:-translate-y-0.5 hover:border-[#0d6b62]/40 hover:shadow-lg hover:shadow-[#c8bba9]/20"
+        </div>
+      </section>
+
+      <section className="sticky top-0 z-20 border-b border-[#e6e0d5] bg-white/92 backdrop-blur-md">
+        <div className="mx-auto max-w-6xl px-4 py-4">
+          <div className="flex flex-wrap items-center gap-4">
+            <FilterGroup label="產業" options={industryOptions} value={filterIndustry} onChange={setFilterIndustry} />
+            <FilterGroup label="想解決的問題" options={problemOptions} value={filterProblem} onChange={setFilterProblem} />
+            <FilterGroup label="預算" options={budgetOptions} value={filterBudget} onChange={setFilterBudget} />
+            {activeCount > 0 ? (
+              <button
+                type="button"
+                onClick={() => { setFilterIndustry("全部"); setFilterProblem("全部"); setFilterBudget("全部") }}
+                className="rounded-full border border-[#0d6b62] px-3 py-1.5 text-[11px] font-black text-[#0d6b62] transition hover:bg-[#eef7f4]"
               >
-                <p className="font-['Noto_Serif_TC',serif] text-xl font-black text-[#111c22]">{item.title}</p>
-                <p className="mt-2 text-sm font-bold text-[#66716d]">{item.text}</p>
-              </a>
-            ))}
+                清除全部
+              </button>
+            ) : null}
+            <span className="ml-auto text-xs font-bold text-[#8a938f]">共 {filtered.length} 件作品</span>
           </div>
         </div>
       </section>
 
-      <section className="border-b border-[#e6e0d5] bg-white">
-        <div className="mx-auto max-w-6xl px-4 py-8">
-          <div className="flex flex-wrap gap-2">
-            {filters.map((item) => (
-              <span key={item} className="rounded-full border border-[#e3ded3] bg-[#faf8f3] px-3 py-1.5 text-xs font-black text-[#40514f]">
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {categories.map((category) => {
-        const groupWorks = works.filter((work) => work.group === category.id)
-        return (
-          <section key={category.id} id={category.id} className="scroll-mt-20 border-b border-[#e6e0d5] bg-white">
-            <div className="mx-auto max-w-6xl px-4 py-14 md:py-18">
-              <div className="mb-7 flex flex-col justify-between gap-3 md:flex-row md:items-end">
-                <div>
-                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#0d6b62]">{category.id}</p>
-                  <h2 className="mt-3 font-['Noto_Serif_TC',serif] text-[clamp(1.65rem,4vw,2.75rem)] font-black text-[#111c22]">
-                    {category.title}
-                  </h2>
-                </div>
-                <p className="max-w-md text-sm font-bold leading-7 text-[#66716d]">{category.text}</p>
-              </div>
-
-              <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
-                {groupWorks.map((work, index) => (
-                  <WorkCard key={work.title} work={work} featured={category.id === "live" || index < 3} />
-                ))}
-              </div>
+      <section className="bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-10 md:py-14">
+          {filtered.length === 0 ? (
+            <div className="rounded-2xl border border-dashed border-[#cfd7d3] bg-[#faf8f3] p-12 text-center">
+              <p className="text-lg font-black text-[#52605c]">沒有符合條件的作品</p>
+              <p className="mt-2 text-sm font-bold text-[#8a938f]">試著放寬篩選條件看看</p>
+              <button
+                type="button"
+                onClick={() => { setFilterIndustry("全部"); setFilterProblem("全部"); setFilterBudget("全部") }}
+                className="mt-5 rounded-lg bg-[#111c22] px-5 py-2.5 text-sm font-black text-white"
+              >
+                清除篩選
+              </button>
             </div>
-          </section>
-        )
-      })}
+          ) : (
+            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+              {filtered.map((work) => (
+                <WorkCard key={work.title} work={work} />
+              ))}
+            </div>
+          )}
+        </div>
+      </section>
     </SiteLayout>
+  )
+}
+
+function FilterGroup({ label, options, value, onChange }) {
+  return (
+    <div className="flex items-center gap-2">
+      <span className="text-xs font-black text-[#40514f]">{label}</span>
+      <div className="flex flex-wrap gap-1">
+        {options.map((opt) => (
+          <button
+            key={opt}
+            type="button"
+            onClick={() => onChange(opt)}
+            className={`rounded-full px-3 py-1.5 text-xs font-black transition ${
+              value === opt
+                ? "bg-[#111c22] text-white"
+                : "border border-[#e3ded3] bg-[#faf8f3] text-[#40514f] hover:border-[#0d6b62]/40"
+            }`}
+          >
+            {opt}
+          </button>
+        ))}
+      </div>
+    </div>
   )
 }
 
