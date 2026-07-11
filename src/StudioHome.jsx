@@ -138,6 +138,15 @@ function HeroPicker() {
 function ShowcaseSection() {
   const featured = [
     {
+      title: "電商商品頁 / 銷售頁",
+      text: "適合保健品、食品、保養品、選物商品，把商品賣點整理成好看、好懂、好行動的銷售頁。",
+      price: "12,000 元起",
+      meta: "工期 5–10 天",
+      to: "/works/product-landing-page",
+      visual: null,
+      kind: "landing",
+    },
+    {
       title: "鑫匠工程",
       text: "正式上線工程官網，詢價進 BuildFlow 後台。",
       price: "30,000 元起",
@@ -165,17 +174,29 @@ function ShowcaseSection() {
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <SectionHeading
           eyebrow="推薦成品"
-          title="先看最有代表性的三個"
-          text="真實上線、完整流程、進階 AI。其他成品整理在作品庫。"
+          title="先看最有代表性的四個"
+          text="主打銷售頁、真實上線、完整流程、進階 AI。其他成品整理在作品庫。"
         />
-        <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+        <div className="grid gap-4 md:grid-cols-2">
           {featured.map((item) => (
             <Link
               key={item.title}
               to={item.to}
               className="group flex flex-col overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20"
             >
-              {item.visual ? (
+              {item.kind === "landing" ? (
+                <div className="flex aspect-[16/9] items-center justify-between gap-4 bg-gradient-to-br from-[#123f2e] to-[#1e6e4e] p-5 text-white">
+                  <div>
+                    <span className="rounded-full bg-white/16 px-2.5 py-1 text-[10px] font-black tracking-[0.2em]">PLANT FUEL</span>
+                    <p className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight">下午三點，<br />還有電。</p>
+                    <span className="mt-3 inline-flex rounded-lg bg-white px-3 py-1.5 text-xs font-black text-[#1e6e4e]">立即訂購</span>
+                  </div>
+                  <div className="flex h-24 w-14 shrink-0 flex-col items-center justify-between rounded-[1.1rem] border border-white/40 bg-white/12 py-2">
+                    <span className="text-[8px] font-black tracking-widest text-white/80">植感</span>
+                    <span aria-hidden="true">🌿</span>
+                  </div>
+                </div>
+              ) : item.visual ? (
                 <img src={item.visual} alt={item.title} loading="lazy" className="aspect-[16/9] w-full object-cover" />
               ) : (
                 <div className="aspect-[16/9] bg-[#111c22] p-5 text-white">
@@ -196,6 +217,7 @@ function ShowcaseSection() {
                   <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">{item.price}</span>
                 </div>
                 <p className="mt-3 flex-1 text-sm font-bold leading-6 text-[#52605c]">{item.text}</p>
+                {item.meta ? <p className="mt-2 text-xs font-black text-[#8a938f]">{item.meta}</p> : null}
                 <span className="mt-5 inline-flex min-h-10 w-fit items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition group-hover:bg-[#0d6b62]">
                   查看成品 →
                 </span>

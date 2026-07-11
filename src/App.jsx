@@ -13,6 +13,7 @@ const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ defaul
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const AiTransformation = lazy(() => import("./site/AiTransformation"))
 const ProductPage = lazy(() => import("./site/ProductPage"))
+const ProductLandingPage = lazy(() => import("./site/ProductLandingPage"))
 const WebsiteRescue = lazy(() => import("./site/WebsiteRescue"))
 const LineBotMission = lazy(() => import("./site/LineBotMission"))
 const RestaurantOrdering = lazy(() => import("./RestaurantOrdering"))
@@ -44,6 +45,7 @@ function App() {
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
         <Route path="/works/rag-consultant" element={<RagConsultant />} />
         <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />
+        <Route path="/works/product-landing-page" element={<ProductLandingPage />} />
         <Route path="/works/company-landing" element={<ProductPage slug="company-landing" />} />
         <Route path="/works/ecommerce-ordering" element={<ProductPage slug="ecommerce-ordering" />} />
         <Route path="/works/assessment-system" element={<ProductPage slug="assessment-system" />} />
