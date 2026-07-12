@@ -53,12 +53,14 @@ const faqs = [
 
 function BottleArt({ className = "" }) {
   return (
-    <div className={`relative mx-auto flex h-64 w-36 flex-col items-center justify-between rounded-[2.6rem] border border-white/40 bg-gradient-to-b from-[#2c8a63] via-[#1e6e4e] to-[#14503a] p-4 shadow-2xl shadow-[#14503a]/40 md:h-80 md:w-44 ${className}`}>
-      <span className="rounded-full bg-white/16 px-3 py-1 text-[10px] font-black tracking-[0.3em] text-white/85">PLANT FUEL</span>
-      <p className="font-['Noto_Serif_TC',serif] text-4xl font-black tracking-[0.3em] text-white [writing-mode:vertical-rl] md:text-5xl">
-        植感能量飲
-      </p>
-      <span className="text-2xl" aria-hidden="true">🌿</span>
+    <div className={`relative mx-auto h-64 w-36 overflow-hidden rounded-[2.6rem] shadow-2xl shadow-[#14503a]/40 md:h-80 md:w-44 ${className}`}>
+      <img
+        src="https://images.unsplash.com/photo-1638301937911-7b2047057890?w=400&auto=format&fit=crop&q=80"
+        alt="植感能量飲"
+        loading="lazy"
+        className="h-full w-full object-cover"
+      />
+      <div className="absolute inset-0 rounded-[2.6rem] ring-1 ring-inset ring-white/20" />
     </div>
   )
 }
