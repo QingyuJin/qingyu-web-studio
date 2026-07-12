@@ -304,7 +304,7 @@ export const wholesale = {
     desc: "左邊是客戶在手機上看到的商品列表與價格 右邊是你的訂單管理後台",
     Front: WholesaleFront,
     Back: WholesaleBack,
-    livePath: "/works/wholesale-ordering",
+    livePath: "/wholesale-ordering",
   },
   flow: {
     title: "從下單到對帳 全部線上",
@@ -380,7 +380,7 @@ export const rag = {
     desc: "左邊是 AI 問答介面 右邊是文件管理後台",
     Front: RagFront,
     Back: RagBack,
-    livePath: "/works/rag-consultant",
+    livePath: "/rag-consultant",
   },
   flow: {
     title: "從上傳文件到 AI 回答",
