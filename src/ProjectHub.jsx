@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
@@ -10,8 +10,8 @@ const works = [
     group: "live",
     industry: "工程 / 服務業",
     problemGroup: "官網與曝光",
-    problem: "客戶只看得到 Pro360，詢價與案例沒有自己的入口。",
-    solution: "黑金品牌官網、線上詢價、BuildFlow 收件流程。",
+    problem: "客戶只看得到 Pro360 詢價與案例沒有自己的入口",
+    solution: "黑金品牌官網、線上詢價、BuildFlow 收件流程",
     price: "30,000 元起",
     priceGroup: "25,000–40,000 元",
     duration: "約 3–4 週",
@@ -26,8 +26,8 @@ const works = [
     group: "product",
     industry: "零售 / 批發",
     problemGroup: "接單與管理",
-    problem: "不用 LINE 一筆一筆抄訂單，避免漏單與月底對帳混亂。",
-    solution: "客戶用專屬價格下單，老闆從後台統一出貨與月結。",
+    problem: "不用 LINE 一筆一筆抄訂單 避免漏單與月底對帳混亂",
+    solution: "客戶用專屬價格下單 老闆從後台統一出貨與月結",
     price: "25,000 元起",
     priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
@@ -42,8 +42,8 @@ const works = [
     group: "ai",
     industry: "公司 / 內部",
     problemGroup: "AI 與自動化",
-    problem: "文件很多，員工與客服一直問，答案還要能附來源。",
-    solution: "文件問答、引用來源、Token 用量、Rate Limit 與版本管理。",
+    problem: "文件很多 員工與客服一直問 答案還要能附來源",
+    solution: "文件問答、引用來源、Token 用量、Rate Limit 與版本管理",
     price: "需求估價",
     priceGroup: "需求估價",
     duration: "依資料量估時",
@@ -58,8 +58,8 @@ const works = [
     group: "product",
     industry: "品牌 / 官網",
     problemGroup: "官網與曝光",
-    problem: "專業內容很多，但缺少乾淨可信任的品牌入口。",
-    solution: "品牌故事、醫生故事、講座報名與訂閱入口。",
+    problem: "專業內容很多 但缺少乾淨可信任的品牌入口",
+    solution: "品牌故事、醫生故事、講座報名與訂閱入口",
     price: "12,000 元起",
     priceGroup: "6,000–15,000 元",
     duration: "5–10 天",
@@ -74,8 +74,8 @@ const works = [
     group: "product",
     industry: "品牌 / 官網",
     problemGroup: "官網與曝光",
-    problem: "客戶搜到你，卻看不懂你是誰、做什麼、怎麼聯絡。",
-    solution: "一頁整理品牌、服務、案例、流程與聯絡 CTA。",
+    problem: "客戶搜到你 卻看不懂你是誰、做什麼、怎麼聯絡",
+    solution: "一頁整理品牌、服務、案例、流程與聯絡 CTA",
     price: "12,000–20,000 元",
     priceGroup: "6,000–15,000 元",
     duration: "5–10 天",
@@ -90,8 +90,8 @@ const works = [
     group: "product",
     industry: "餐飲",
     problemGroup: "接單與管理",
-    problem: "桌邊點餐、廚房控單與桌況管理分散。",
-    solution: "客戶端點餐、服務端控單、廚房佇列與營收狀態。",
+    problem: "桌邊點餐、廚房控單與桌況管理分散",
+    solution: "客戶端點餐、服務端控單、廚房佇列與營收狀態",
     price: "25,000 元起",
     priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
@@ -106,8 +106,8 @@ const works = [
     group: "product",
     industry: "工程 / 服務業",
     problemGroup: "接單與管理",
-    problem: "詢價、照片、報價與施工狀態散在 LINE。",
-    solution: "網站詢價進後台，一鍵轉案件，追蹤報價與回報。",
+    problem: "詢價、照片、報價與施工狀態散在 LINE",
+    solution: "網站詢價進後台 一鍵轉案件 追蹤報價與回報",
     price: "30,000 元起",
     priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
@@ -122,8 +122,8 @@ const works = [
     group: "product",
     industry: "顧問 / 教育",
     problemGroup: "客戶溝通",
-    problem: "測驗結果靠人工整理，名單與分數不好留存。",
-    solution: "題目、作答、解析、結果頁與填答紀錄。",
+    problem: "測驗結果靠人工整理 名單與分數不好留存",
+    solution: "題目、作答、解析、結果頁與填答紀錄",
     price: "6,000 元起",
     priceGroup: "6,000 元以下",
     duration: "3–8 天",
@@ -138,8 +138,8 @@ const works = [
     group: "product",
     industry: "店家 / 服務業",
     problemGroup: "客戶溝通",
-    problem: "LINE 訊息太散，同樣問題每天重複回覆。",
-    solution: "自動回覆、追問需求、建立後台案件。",
+    problem: "LINE 訊息太散 同樣問題每天重複回覆",
+    solution: "自動回覆、追問需求、建立後台案件",
     price: "8,000 元起",
     priceGroup: "6,000–15,000 元",
     duration: "3–7 天",
@@ -154,8 +154,8 @@ const works = [
     group: "ai",
     industry: "品牌 / 官網",
     problemGroup: "AI 與自動化",
-    problem: "網站不清楚，客戶看完不知道要不要聯絡。",
-    solution: "檢查 CTA、SEO、手機版與信任感，產生建議報告。",
+    problem: "網站不清楚 客戶看完不知道要不要聯絡",
+    solution: "檢查 CTA、SEO、手機版與信任感 產生建議報告",
     price: "需求估價",
     priceGroup: "需求估價",
     duration: "依需求估時",
@@ -170,8 +170,8 @@ const works = [
     group: "product",
     industry: "顧問 / 教育",
     problemGroup: "官網與曝光",
-    problem: "IG 有流量，但缺一個能介紹服務與收名單的入口。",
-    solution: "深色品牌入口、服務區、資源中心、LINE 導流。",
+    problem: "IG 有流量 但缺一個能介紹服務與收名單的入口",
+    solution: "深色品牌入口、服務區、資源中心、LINE 導流",
     price: "12,000–20,000 元",
     priceGroup: "6,000–15,000 元",
     duration: "5–10 天",
@@ -186,8 +186,8 @@ const works = [
     group: "product",
     industry: "工程 / 服務業",
     problemGroup: "內部流程",
-    problem: "需求、報價、派工、回報與完工紀錄不好追。",
-    solution: "案件列表、詳情、報價單、LINE 回報與狀態管理。",
+    problem: "需求、報價、派工、回報與完工紀錄不好追",
+    solution: "案件列表、詳情、報價單、LINE 回報與狀態管理",
     price: "30,000 元起",
     priceGroup: "25,000–40,000 元",
     duration: "14–25 天",
@@ -224,7 +224,7 @@ function ProjectHub() {
         page={{
           path: "/works",
           title: "全部作品｜Qingyu Web Studio",
-          description: "從品牌網站到接單、後台與 AI 系統。依產業、需求與預算找到適合的成品。",
+          description: "從品牌網站到接單、後台與 AI 系統依產業、需求與預算找到適合的成品",
         }}
       />
       <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
@@ -234,7 +234,7 @@ function ProjectHub() {
             從品牌網站到接單、後台與 AI 系統
           </h1>
           <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base">
-            依照產業、需求與預算找到適合的成品。先看真的畫面，再決定要做哪一種。
+            依照產業、需求與預算找到適合的成品先看真的畫面 再決定要做哪一種
           </p>
         </div>
       </section>

@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
@@ -6,14 +6,14 @@ import SiteLayout from "./site/SiteLayout"
 const pageSeo = {
   path: "/works/notion-brand-landing",
   title: "Notion 個人品牌落地頁｜IG 導流個人品牌入口｜Qingyu Web Studio",
-  description: "深色系 Notion 個人品牌落地頁，適合顧問、講師、創作者與知識型品牌作為 IG 導流入口。",
+  description: "深色系 Notion 個人品牌落地頁 適合顧問、講師、創作者與知識型品牌作為 IG 導流入口",
 }
 
 const services = [
-  ["財商諮詢", "一對一盤點收支、資產與目標，產出可執行的行動清單。"],
-  ["現金流規劃", "用現金流視角整理收入結構，規劃被動收入配置。"],
-  ["投資觀念教學", "小班課程與線上資源，建立長期投資紀律。"],
-  ["房地產投資入門", "從自住到收租，評估貸款、現金流與風險。"],
+  ["財商諮詢", "一對一盤點收支、資產與目標 產出可執行的行動清單"],
+  ["現金流規劃", "用現金流視角整理收入結構 規劃被動收入配置"],
+  ["投資觀念教學", "小班課程與線上資源 建立長期投資紀律"],
+  ["房地產投資入門", "從自住到收租 評估貸款、現金流與風險"],
 ]
 const resources = [
   ["現金流試算表", "Notion 模板"],
@@ -49,9 +49,9 @@ function SectionTitle({ eyebrow, title, text, light = false }) {
 }
 
 const faq = [
-  ["適合誰？", "顧問、講師、創作者、需要 IG 導流的人。只要你的服務需要一個比連結樹更完整的入口，就適合。"],
-  ["怎麼預約？", "點 LINE 或諮詢表單，先留下需求與方便的時間，顧問會在 24 小時內回覆並約定初談。"],
-  ["服務流程？", "初談（30 分鐘）→ 財務盤點 → 規劃提案 → 交付與追蹤，全程線上完成。"],
+  ["適合誰？", "顧問、講師、創作者、需要 IG 導流的人只要你的服務需要一個比連結樹更完整的入口 就適合"],
+  ["怎麼預約？", "點 LINE 或諮詢表單 先留下需求與方便的時間 顧問會在 24 小時內回覆並約定初談"],
+  ["服務流程？", "初談（30 分鐘）→ 財務盤點 → 規劃提案 → 交付與追蹤 全程線上完成"],
 ]
 
 function NotionPreview() {
@@ -77,7 +77,7 @@ function NotionPreview() {
   function submitConsult(event) {
     event.preventDefault()
     if (!form.name.trim() || !form.contact.trim()) {
-      setFormError("請填寫姓名與聯絡方式。")
+      setFormError("請填寫姓名與聯絡方式")
       return
     }
     setFormError("")
@@ -105,10 +105,10 @@ function NotionPreview() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.24em] text-[#c7a96b]">Private Advisor Page</p>
             <h3 className="mt-4 max-w-xl text-4xl font-black leading-tight tracking-tight text-white md:text-5xl">
-              讓錢流向更清楚的生活。
+              讓錢流向更清楚的生活
             </h3>
             <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-white/58">
-              給想整理財務、投資觀念與現金流的人，一個清楚的入口。
+              給想整理財務、投資觀念與現金流的人 一個清楚的入口
             </p>
             <div className="mt-6 flex flex-wrap gap-3">
               <button
@@ -172,7 +172,7 @@ function NotionPreview() {
                         <p className="text-xs font-bold leading-5 text-white/58">{detail}</p>
                         <button
                           type="button"
-                          onClick={() => openConsultForm(`我想預約「${name}」，方便的時間是：`)}
+                          onClick={() => openConsultForm(`我想預約「${name}」 方便的時間是：`)}
                           className="mt-2 rounded-lg bg-[#d8b46c] px-3 py-1.5 text-xs font-black text-[#17130f]"
                         >
                           預約這項服務
@@ -264,7 +264,7 @@ function NotionPreview() {
                 <p className="text-xs font-black uppercase tracking-[0.2em] text-[#69d17d]">Sent</p>
                 <h4 className="mt-2 text-2xl font-black text-white">已收到你的諮詢</h4>
                 <p className="mt-3 text-sm font-bold leading-6 text-white/58">
-                  {form.name}，顧問會在 24 小時內透過「{form.contact}」與你聯繫，安排 30 分鐘初談。
+                  {form.name} 顧問會在 24 小時內透過「{form.contact}」與你聯繫 安排 30 分鐘初談
                 </p>
                 <button type="button" onClick={() => setModal(null)} className="mt-5 min-h-11 w-full rounded-xl bg-[#d8b46c] text-sm font-black text-[#17130f]">
                   完成
@@ -323,7 +323,7 @@ function HeroMockup() {
             <span className="font-mono text-xs font-black text-white/42">notion.site</span>
           </div>
           <h2 className="mt-8 text-3xl font-black leading-tight text-white">財商顧問個人入口</h2>
-          <p className="mt-3 text-sm font-bold leading-6 text-white/58">服務、資源、LINE 與諮詢表單集中在一頁。</p>
+          <p className="mt-3 text-sm font-bold leading-6 text-white/58">服務、資源、LINE 與諮詢表單集中在一頁</p>
           <div className="mt-6 grid gap-2">
             {["加入 LINE 官方帳號", "預約一對一諮詢", "下載現金流工具"].map((item) => (
               <div key={item} className="rounded-xl border border-white/10 bg-white/[0.055] px-4 py-3 text-sm font-black text-white/80">
@@ -342,7 +342,7 @@ function PricePanel() {
   return (
     <section className="border-y border-[#29231d] bg-[#0e0e0f] text-white">
       <div className="mx-auto grid max-w-6xl gap-6 px-4 py-12 md:grid-cols-[0.9fr_1.1fr] md:items-center md:py-16">
-        <SectionTitle eyebrow="Pricing" title="價格參考" text="依內容量、區塊數、修改次數與是否需要表單 / LINE 導流調整。" light />
+        <SectionTitle eyebrow="Pricing" title="價格參考" text="依內容量、區塊數、修改次數與是否需要表單 / LINE 導流調整" light />
         <div className="rounded-[1.5rem] border border-white/10 bg-white/[0.055] p-5">
           <p className="text-sm font-black text-[#d8c79f]">Notion 個人品牌落地頁</p>
           <p className="mt-3 text-4xl font-black tracking-tight text-white">12,000～20,000 元</p>
@@ -380,7 +380,7 @@ function NotionBrandLanding() {
               Notion 個人品牌落地頁
             </h1>
             <p className="mt-6 max-w-xl text-base font-bold leading-8 text-white/66 md:text-lg">
-              為顧問、講師與知識型創作者打造的 IG 導流入口。
+              為顧問、講師與知識型創作者打造的 IG 導流入口
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <a href="#preview" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-[#d8b46c] px-6 text-sm font-black text-[#17130f] transition hover:bg-[#e7c982]">
@@ -397,14 +397,14 @@ function NotionBrandLanding() {
 
       <section id="preview" className="scroll-mt-20 bg-[#0f0f10] px-4 py-12 text-white md:py-16">
         <div className="mx-auto max-w-6xl">
-          <SectionTitle eyebrow="Product Page" title="完整頁面" text="深色系、金融感、可直接放在 IG 個人檔案。" light />
+          <SectionTitle eyebrow="Product Page" title="完整頁面" text="深色系、金融感、可直接放在 IG 個人檔案" light />
           <NotionPreview />
         </div>
       </section>
 
       <section className="border-y border-[#2b251f] bg-[#101011] text-white">
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <SectionTitle eyebrow="Delivery" title="交付內容" text="不是空白模板，是整理好架構與導流的完整頁面。" light />
+          <SectionTitle eyebrow="Delivery" title="交付內容" text="不是空白模板 是整理好架構與導流的完整頁面" light />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {deliverables.map((item) => (
               <article key={item} className="rounded-2xl border border-white/10 bg-white/[0.055] p-5">
@@ -417,7 +417,7 @@ function NotionBrandLanding() {
 
       <section className="border-y border-[#e8dfd2] bg-[#f8f3ea]">
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <SectionTitle eyebrow="Highlights" title="功能亮點" text="少量內容，就能成為清楚的品牌入口。" />
+          <SectionTitle eyebrow="Highlights" title="功能亮點" text="少量內容 就能成為清楚的品牌入口" />
           <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
             {highlights.map((item) => (
               <article key={item} className="rounded-2xl border border-[#e2d6c5] bg-white/84 p-5 shadow-sm">
@@ -430,7 +430,7 @@ function NotionBrandLanding() {
 
       <section className="bg-white">
         <div className="mx-auto grid max-w-6xl gap-8 px-4 py-12 md:grid-cols-[0.82fr_1.18fr] md:items-start md:py-16">
-          <SectionTitle eyebrow="Audience" title="適合對象" text="需要快速上線、可自行維護的個人品牌入口。" />
+          <SectionTitle eyebrow="Audience" title="適合對象" text="需要快速上線、可自行維護的個人品牌入口" />
           <div className="grid gap-3 sm:grid-cols-2">
             {audiences.map((item) => (
               <div key={item} className="rounded-2xl border border-[#e4ded5] bg-[#faf8f3] p-5 text-lg font-black text-[#17130f]">
@@ -443,7 +443,7 @@ function NotionBrandLanding() {
 
       <section className="border-y border-[#e8dfd2] bg-[#f8f3ea]">
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <SectionTitle eyebrow="Process" title="製作流程" text="從定位到交付，用四步整理好。" />
+          <SectionTitle eyebrow="Process" title="製作流程" text="從定位到交付 用四步整理好" />
           <div className="grid gap-4 md:grid-cols-4">
             {steps.map((step, index) => (
               <article key={step} className="rounded-2xl border border-[#e2d6c5] bg-white p-5">

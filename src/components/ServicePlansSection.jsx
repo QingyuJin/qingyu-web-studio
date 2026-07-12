@@ -1,4 +1,4 @@
-import { servicePlans } from "../data/portfolioContent"
+﻿import { servicePlans } from "../data/portfolioContent"
 
 function ServicePlansSection() {
   return (
@@ -12,7 +12,7 @@ function ServicePlansSection() {
             服務方案：從網站到流程系統
           </h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#5d6863]">
-            不先綁死價格，而是依照你的資料量、流程複雜度與上線目標，切成能交付的階段。
+            不先綁死價格 而是依照你的資料量、流程複雜度與上線目標 切成能交付的階段
           </p>
         </div>
         <p className="rounded-full border border-[#d8d4c8] bg-white px-4 py-2 text-sm font-black text-[#8b5a25]">

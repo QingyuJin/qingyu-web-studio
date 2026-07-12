@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
@@ -21,7 +21,7 @@ function BidsPanel({ bids, subcontracts, addBid, deleteBid, selectBid }) {
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="批價紀錄" desc="比較不同廠商報價，記錄採用原因。" />
+      <SectionTitle title="批價紀錄" desc="比較不同廠商報價 記錄採用原因" />
       <Card>
         <h3 className="text-xl font-black">新增批價</h3>
         <form onSubmit={addBid} className="mt-4 grid gap-3 md:grid-cols-2">
@@ -114,7 +114,7 @@ function BidsPanel({ bids, subcontracts, addBid, deleteBid, selectBid }) {
             </tbody>
           </table>
           {!filteredBids.length && (
-            <p className="py-4 text-sm text-slate-500">沒有符合條件的批價紀錄。</p>
+            <p className="py-4 text-sm text-slate-500">沒有符合條件的批價紀錄</p>
           )}
         </div>
       </Card>

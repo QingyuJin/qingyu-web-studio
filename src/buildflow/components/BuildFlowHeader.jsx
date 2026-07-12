@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 
 function BuildFlowHeader({ session, savedAt, isAdmin, onResetTestData, onLogout }) {
   return (
@@ -15,7 +15,7 @@ function BuildFlowHeader({ session, savedAt, isAdmin, onResetTestData, onLogout 
             </span>
           </div>
           <p className="mt-2 max-w-2xl text-sm font-bold leading-6 text-slate-300">
-            報價、發包、任務、追加、毛利，一頁收斂。
+            報價、發包、任務、追加、毛利 一頁收斂
           </p>
           <p className="mt-1 text-xs text-slate-500">
             {session.name}｜{session.role === "admin" ? "管理者" : "師傅"}｜保存 {savedAt || "尚未保存"}

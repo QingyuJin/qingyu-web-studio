@@ -1,4 +1,4 @@
-import Card from "../shared/Card"
+﻿import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
 import SmallButton from "../shared/SmallButton"
@@ -29,7 +29,7 @@ function QuoteDraftsPanel({
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="報價單" desc="需求整理、PDF、業主確認。" />
+      <SectionTitle title="報價單" desc="需求整理、PDF、業主確認" />
 
       <div className="grid gap-4 md:grid-cols-3">
         {stageCounts.map((item, index) => (
@@ -153,7 +153,7 @@ function QuoteDraftsPanel({
                     </div>
 
                     <p className="mt-4 rounded-xl bg-slate-50 p-4 text-sm leading-6 text-slate-600">
-                      {quote.note || "尚未填寫備註。"}
+                      {quote.note || "尚未填寫備註"}
                     </p>
                   </div>
                 </details>
@@ -204,7 +204,7 @@ function QuoteDraftsPanel({
 
         {!quoteDrafts.length && (
           <Card>
-            <p className="text-sm text-slate-500">目前沒有報價單。</p>
+            <p className="text-sm text-slate-500">目前沒有報價單</p>
           </Card>
         )}
       </div>

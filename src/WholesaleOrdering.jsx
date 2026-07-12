@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 
@@ -7,19 +7,19 @@ const modeCards = {
     label: "客戶端",
     eyebrow: "Client App",
     title: "客戶自己下單",
-    text: "手機看商品、專屬價格、歷史訂單與本月金額。",
+    text: "手機看商品、專屬價格、歷史訂單與本月金額",
   },
   backend: {
     label: "後台端",
     eyebrow: "Back Office",
     title: "老闆管理訂單",
-    text: "收單、改數量、報價、出貨、叫貨單一次處理。",
+    text: "收單、改數量、報價、出貨、叫貨單一次處理",
   },
   billing: {
     label: "月結",
     eyebrow: "Monthly Close",
     title: "月底快速對帳",
-    text: "依客戶彙整訂單、出貨狀態、明細與總額。",
+    text: "依客戶彙整訂單、出貨狀態、明細與總額",
   },
 }
 
@@ -116,7 +116,7 @@ const initialOrders = [
       { productId: "lettuce", quantity: 1, shippedQuantity: 1, shortageNote: "" },
       { productId: "chicken", quantity: 1, shippedQuantity: 1, shortageNote: "" },
     ],
-    note: "明天 10:00 前到貨，葉菜可替代同級品。",
+    note: "明天 10:00 前到貨 葉菜可替代同級品",
   },
   {
     id: "B2B-2406",
@@ -128,7 +128,7 @@ const initialOrders = [
       { productId: "banana", quantity: 2, shippedQuantity: 2, shortageNote: "" },
       { productId: "almond", quantity: 1, shippedQuantity: 1, shortageNote: "" },
     ],
-    note: "已併入本月對帳。",
+    note: "已併入本月對帳",
   },
 ]
 
@@ -171,12 +171,12 @@ function WholesaleOrdering() {
   const [toast, setToast] = useState("")
   const [copied, setCopied] = useState("")
   const [deliveryTime, setDeliveryTime] = useState(deliveryOptions[0])
-  const [cartNote, setCartNote] = useState("葉菜可替代同級品，出貨前請確認數量。")
+  const [cartNote, setCartNote] = useState("葉菜可替代同級品 出貨前請確認數量")
   const [backendSearch, setBackendSearch] = useState("")
   const [backendStatus, setBackendStatus] = useState("全部")
   const [purchasePreview, setPurchasePreview] = useState("LINE文字")
   const [statementDiscount, setStatementDiscount] = useState(0)
-  const [statementNote, setStatementNote] = useState("月底對帳，未出貨項目不列入本期應收。")
+  const [statementNote, setStatementNote] = useState("月底對帳 未出貨項目不列入本期應收")
   const [confirmOpen, setConfirmOpen] = useState(false)
   const [deliverySlipOrderId, setDeliverySlipOrderId] = useState("")
   const [productAdminId, setProductAdminId] = useState(baseProducts[0].id)
@@ -269,7 +269,7 @@ function WholesaleOrdering() {
         shippedQuantity: item.quantity,
         shortageNote: "",
       })),
-      note: cartNote || "客戶端送出，後台可調整數量與出貨狀態。",
+      note: cartNote || "客戶端送出 後台可調整數量與出貨狀態",
     }
     setOrders((current) => [nextOrder, ...current])
     setSelectedOrderId(nextOrder.id)
@@ -356,7 +356,7 @@ function WholesaleOrdering() {
     const customer = getCustomer(orderCustomerId)
     const customerOrders = orders.filter((order) => order.customerId === orderCustomerId)
     const total = customerOrders.reduce((sum, order) => sum + getOrderShipTotal(order, products), 0) + customer.monthlyBase - statementDiscount
-    navigator.clipboard?.writeText(`${customer.name} 本月對帳金額 ${money(total)}。${statementNote}`)
+    navigator.clipboard?.writeText(`${customer.name} 本月對帳金額 ${money(total)}${statementNote}`)
     flash("對帳文字已複製")
   }
 
@@ -366,7 +366,7 @@ function WholesaleOrdering() {
         page={{
           path: "/works/wholesale-ordering",
           title: "批發訂貨系統｜B2B 訂貨、報價、叫貨與月結管理",
-          description: "批發訂貨系統成品展示，包含客戶端下單、客戶分級報價、後台訂單管理、出貨狀態、採購叫貨單與月結對帳。",
+          description: "批發訂貨系統成品展示 包含客戶端下單、客戶分級報價、後台訂單管理、出貨狀態、採購叫貨單與月結對帳",
         }}
       />
 
@@ -474,7 +474,7 @@ function WholesaleProjectBrief() {
     ["適合", "批發商、團購、食材供應、B2B 電商"],
     ["客戶端", "手機看商品、專屬價格、歷史訂單、本月金額"],
     ["後台端", "訂單、數量修正、出貨狀態、缺貨備註"],
-    ["月結", "依客戶彙整訂單與總額，月底對帳更快"],
+    ["月結", "依客戶彙整訂單與總額 月底對帳更快"],
   ]
   const flow = ["客戶下單", "後台收單", "出貨前修量", "產生叫貨單", "更新出貨", "月結對帳"]
 
@@ -486,7 +486,7 @@ function WholesaleProjectBrief() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">B2B Ordering Case</p>
             <h2 className="mt-2 font-serif text-2xl font-black text-[#2d231d] md:text-3xl">不是購物車 是批發流程系統</h2>
             <p className="mt-3 text-sm font-bold leading-7 text-[#725f50]">
-              客戶自行下單，老闆從後台統一修量、出貨、叫貨與月結。
+              客戶自行下單 老闆從後台統一修量、出貨、叫貨與月結
             </p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">
@@ -1253,7 +1253,7 @@ function PurchaseList({ purchaseGroups, copied, previewType, onCopy }) {
           )}
         </div>
         <p className="mt-3 text-xs font-bold leading-5 text-[#725f50]">
-          可整理成 LINE 文字、Excel 表格或 PDF 版型；目前先用畫面預覽與複製文字呈現。
+          可整理成 LINE 文字、Excel 表格或 PDF 版型；目前先用畫面預覽與複製文字呈現
         </p>
       </div>
     </section>

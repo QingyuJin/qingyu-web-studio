@@ -1,4 +1,4 @@
-export const buildFlowStatusProgress = {
+﻿export const buildFlowStatusProgress = {
   待整理: 20,
   估價中: 45,
   施工中: 75,
@@ -16,11 +16,11 @@ export const buildFlowDemoCases = [
     updatedAt: "今天 09:42",
     photoCount: 18,
     noteCount: 6,
-    quoteStatus: "已收到現場照片，等待確認施工範圍",
+    quoteStatus: "已收到現場照片 等待確認施工範圍",
     notes: [
-      "LINE 內有浴室牆角滲水照片，需要整理漏水位置。",
-      "客戶希望先估基本防水，不確定是否需要拆磁磚。",
-      "需提醒客戶補上浴室尺寸與可施工日期。",
+      "LINE 內有浴室牆角滲水照片 需要整理漏水位置",
+      "客戶希望先估基本防水 不確定是否需要拆磁磚",
+      "需提醒客戶補上浴室尺寸與可施工日期",
     ],
     timeline: [
       ["09:42", "客戶傳送 8 張浴室照片"],
@@ -36,11 +36,11 @@ export const buildFlowDemoCases = [
     updatedAt: "昨天 17:20",
     photoCount: 24,
     noteCount: 9,
-    quoteStatus: "報價草稿已建立，待業主確認材質",
+    quoteStatus: "報價草稿已建立 待業主確認材質",
     notes: [
-      "店面目前地面不平，需先評估整平工序。",
-      "業主在 LINE 提到希望使用耐磨、好清潔材質。",
-      "報價單需拆成地面處理、材料、施工與完工清潔。",
+      "店面目前地面不平 需先評估整平工序",
+      "業主在 LINE 提到希望使用耐磨、好清潔材質",
+      "報價單需拆成地面處理、材料、施工與完工清潔",
     ],
     timeline: [
       ["昨天", "建立 Epoxy 地坪報價草稿"],
@@ -56,11 +56,11 @@ export const buildFlowDemoCases = [
     updatedAt: "今天 14:05",
     photoCount: 31,
     noteCount: 12,
-    quoteStatus: "已轉成施工案件，師傅回報中",
+    quoteStatus: "已轉成施工案件 師傅回報中",
     notes: [
-      "現場照片已分成配電箱、插座、天花線路三類。",
-      "師傅回報第二區完成，需要等待客戶確認追加插座。",
-      "追加項目需產生變更單，避免口頭溝通漏記。",
+      "現場照片已分成配電箱、插座、天花線路三類",
+      "師傅回報第二區完成 需要等待客戶確認追加插座",
+      "追加項目需產生變更單 避免口頭溝通漏記",
     ],
     timeline: [
       ["06/12", "完成配電箱檢查"],
@@ -76,11 +76,11 @@ export const buildFlowDemoCases = [
     updatedAt: "06/10 16:30",
     photoCount: 16,
     noteCount: 5,
-    quoteStatus: "已完成驗收，保固備註已歸檔",
+    quoteStatus: "已完成驗收 保固備註已歸檔",
     notes: [
-      "完工照片已歸檔，可作為後續保固依據。",
-      "客戶確認水槽下方不再滲水。",
-      "保留材料品牌與施工日期，方便日後查詢。",
+      "完工照片已歸檔 可作為後續保固依據",
+      "客戶確認水槽下方不再滲水",
+      "保留材料品牌與施工日期 方便日後查詢",
     ],
     timeline: [
       ["06/08", "完成漏水點檢修"],

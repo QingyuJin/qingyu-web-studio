@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
@@ -18,7 +18,7 @@ function StudioHome() {
   )
 }
 
-/* ---------- Hero：選行業，看它動 ---------- */
+/* ---------- Hero：選行業 看它動 ---------- */
 
 function HeroPicker() {
   const [idx, setIdx] = useState(0)
@@ -87,7 +87,7 @@ function ShowcaseSection() {
   const featured = [
     {
       title: "電商商品頁 / 銷售頁",
-      text: "把商品賣點變成一頁會成交的銷售頁。",
+      text: "把商品賣點變成一頁會成交的銷售頁",
       price: "12,000 元起",
       to: "/works/product-landing-page",
       visual: null,
@@ -95,21 +95,21 @@ function ShowcaseSection() {
     },
     {
       title: "鑫匠工程",
-      text: "真實上線。官網詢價直接進後台。",
+      text: "真實上線官網詢價直接進後台",
       price: "30,000 元起",
       to: "/works/xinjiang",
       visual: "/project-photos/335941_0.jpg",
     },
     {
       title: "批發訂貨系統",
-      text: "客戶下單、出貨、對帳，一套顧好。",
+      text: "客戶下單、出貨、對帳 一套顧好",
       price: "25,000 元起",
       to: "/works/wholesale-ordering",
       visual: null,
     },
     {
       title: "RAG 企業知識庫",
-      text: "公司文件變成會回答的 AI，附引用。",
+      text: "公司文件變成會回答的 AI 附引用",
       price: "需求估價",
       to: "/works/rag-consultant#demo",
       visual: null,
@@ -120,7 +120,7 @@ function ShowcaseSection() {
     <section id="products" className="scroll-mt-16 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <h2 className="font-['Noto_Serif_TC',serif] text-[clamp(1.7rem,4.5vw,2.9rem)] font-black leading-snug text-[#111c22]">
-          代表作，先看四個。
+          代表作 先看四個
         </h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {featured.map((item) => (
@@ -133,7 +133,7 @@ function ShowcaseSection() {
                 <div className="flex aspect-[16/9] items-center justify-between gap-4 bg-gradient-to-br from-[#123f2e] to-[#1e6e4e] p-5 text-white">
                   <div>
                     <span className="rounded-full bg-white/16 px-2.5 py-1 text-[10px] font-black tracking-[0.2em]">PLANT FUEL</span>
-                    <p className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight">下午三點，<br />還有電。</p>
+                    <p className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight">下午三點 <br />還有電</p>
                     <span className="mt-3 inline-flex rounded-lg bg-white px-3 py-1.5 text-xs font-black text-[#1e6e4e]">立即訂購</span>
                   </div>
                   <div className="flex h-24 w-14 shrink-0 flex-col items-center justify-between rounded-[1.1rem] border border-white/40 bg-white/12 py-2">
@@ -178,17 +178,17 @@ function ShowcaseSection() {
 
 function PriceListSection() {
   const plans = [
-    ["快速網站", "5,000 元起", "一頁快速上線。"],
-    ["品牌官網", "12,000 元起", "形象、案例、聯絡。"],
-    ["接單 / 後台系統", "25,000 元起", "訂單、案件、狀態管理。"],
-    ["AI / 客製系統", "需求估價", "RAG、API、自動化。"],
+    ["快速網站", "5,000 元起", "一頁快速上線"],
+    ["品牌官網", "12,000 元起", "形象、案例、聯絡"],
+    ["接單 / 後台系統", "25,000 元起", "訂單、案件、狀態管理"],
+    ["AI / 客製系統", "需求估價", "RAG、API、自動化"],
   ]
 
   return (
     <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <h2 className="font-['Noto_Serif_TC',serif] text-[clamp(1.7rem,4.5vw,2.9rem)] font-black leading-snug text-[#111c22]">
-          價格，先給範圍。
+          價格 先給範圍
         </h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {plans.map(([name, price, text]) => (
@@ -199,7 +199,7 @@ function PriceListSection() {
             </article>
           ))}
         </div>
-        <p className="mt-5 text-sm font-bold text-[#8a938f]">實際依範圍報價。網域、主機與第三方費用另計。</p>
+        <p className="mt-5 text-sm font-bold text-[#8a938f]">實際依範圍報價網域、主機與第三方費用另計</p>
       </div>
     </section>
   )
@@ -212,7 +212,7 @@ function LabStrip() {
     <section className="border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto flex max-w-6xl flex-col gap-3 px-4 py-8 sm:flex-row sm:items-center sm:justify-between">
         <p className="text-sm font-bold text-[#66716d]">
-          <span className="font-black text-[#111c22]">想看更深的技術？</span> AI 問答、模型分類、Unity 關卡都能玩。
+          <span className="font-black text-[#111c22]">想看更深的技術？</span> AI 問答、模型分類、Unity 關卡都能玩
         </p>
         <div className="flex gap-2">
           <a href="https://ai-tech-quest.vercel.app" target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">
@@ -236,7 +236,7 @@ function ContactCta() {
         <div className="grid gap-8 lg:grid-cols-[1fr_auto] lg:items-center">
           <div>
             <h2 className="font-['Noto_Serif_TC',serif] text-[clamp(1.9rem,5vw,3rem)] font-black leading-snug">
-              聊聊你想做的。
+              聊聊你想做的
             </h2>
             <div className="mt-7 grid gap-3 sm:max-w-md">
               <a

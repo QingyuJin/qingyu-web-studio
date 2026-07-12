@@ -1,25 +1,25 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./Seo"
 
 const GREEN = "#1e6e4e"
 
 const plans = [
-  { id: "single", name: "嘗鮮盒", spec: "6 瓶裝", price: 480, note: "第一次喝，先試一盒" },
-  { id: "triple", name: "三盒組", spec: "18 瓶裝", price: 1260, note: "最多人選，現省 $180", hot: true },
-  { id: "monthly", name: "月訂閱", spec: "每月 1 盒", price: 399, suffix: "/月", note: "隨時暫停，免運直送" },
+  { id: "single", name: "嘗鮮盒", spec: "6 瓶裝", price: 480, note: "第一次喝 先試一盒" },
+  { id: "triple", name: "三盒組", spec: "18 瓶裝", price: 1260, note: "最多人選 現省 $180", hot: true },
+  { id: "monthly", name: "月訂閱", spec: "每月 1 盒", price: 399, suffix: "/月", note: "隨時暫停 免運直送" },
 ]
 
 const pains = [
-  ["咖啡喝了心悸手抖", "但不喝又醒不過來，只能硬撐。"],
-  ["能量飲太甜太化學", "一罐糖快 30 克，提神完更疲倦。"],
-  ["下午三點準時斷電", "會議開到一半，腦袋直接關機。"],
+  ["咖啡喝了心悸手抖", "但不喝又醒不過來 只能硬撐"],
+  ["能量飲太甜太化學", "一罐糖快 30 克 提神完更疲倦"],
+  ["下午三點準時斷電", "會議開到一半 腦袋直接關機"],
 ]
 
 const sellingPoints = [
-  ["緩釋提神 4 小時", "綠茶咖啡因＋L-茶胺酸，清醒但不心悸，不會猛然升起又摔落。"],
-  ["0 糖 0 香精", "羅漢果天然甜，一瓶只有 12 大卡，喝完沒有罪惡感。"],
-  ["喝得出植物", "綠茶、薄荷、檸檬馬鞭草冷萃，味道乾淨，不是化學糖水。"],
+  ["緩釋提神 4 小時", "綠茶咖啡因＋L-茶胺酸 清醒但不心悸 不會猛然升起又摔落"],
+  ["0 糖 0 香精", "羅漢果天然甜 一瓶只有 12 大卡 喝完沒有罪惡感"],
+  ["喝得出植物", "綠茶、薄荷、檸檬馬鞭草冷萃 味道乾淨 不是化學糖水"],
 ]
 
 const specs = [
@@ -32,23 +32,23 @@ const specs = [
 ]
 
 const scenes = [
-  ["💻", "上班午後", "兩點開會前一瓶，撐過整個下午。"],
-  ["🏋️", "健身前 30 分", "乾淨的能量，不加糖不脹氣。"],
-  ["🚗", "長途開車", "比咖啡溫和，專注不緊繃。"],
-  ["📖", "趕稿讀書", "安靜的清醒，一路到收尾。"],
+  ["💻", "上班午後", "兩點開會前一瓶 撐過整個下午"],
+  ["🏋️", "健身前 30 分", "乾淨的能量 不加糖不脹氣"],
+  ["🚗", "長途開車", "比咖啡溫和 專注不緊繃"],
+  ["📖", "趕稿讀書", "安靜的清醒 一路到收尾"],
 ]
 
 const reviews = [
-  ["Amber", "行銷企劃", "戒掉每天兩杯拿鐵的人是我。下午一瓶，開會不再放空，也沒有咖啡的心悸感。"],
-  ["志豪", "健身教練", "訓練前半小時喝，體感很順。成分乾淨這點對我的學員很重要。"],
-  ["Kelly", "接案設計師", "趕稿救星。味道像好喝的冷泡茶，不是那種假假的能量飲味。"],
+  ["Amber", "行銷企劃", "戒掉每天兩杯拿鐵的人是我下午一瓶 開會不再放空 也沒有咖啡的心悸感"],
+  ["志豪", "健身教練", "訓練前半小時喝 體感很順成分乾淨這點對我的學員很重要"],
+  ["Kelly", "接案設計師", "趕稿救星味道像好喝的冷泡茶 不是那種假假的能量飲味"],
 ]
 
 const faqs = [
-  ["喝了會心悸嗎？", "一瓶咖啡因 80mg，約等於一杯手沖，搭配 L-茶胺酸緩釋，多數人體感是「清醒但平穩」。對咖啡因敏感者建議從半瓶開始。"],
-  ["什麼時候喝最有感？", "需要專注前 20–30 分鐘喝，效果約可持續 3–4 小時。建議下午三點前飲用，避免影響睡眠。"],
-  ["孕婦、小孩可以喝嗎？", "孕哺期與 12 歲以下兒童不建議飲用含咖啡因飲品，請先詢問醫師。"],
-  ["怎麼配送？多久到貨？", "常溫配送，下單後 2–3 個工作天到貨；三盒組與訂閱方案免運。"],
+  ["喝了會心悸嗎？", "一瓶咖啡因 80mg 約等於一杯手沖 搭配 L-茶胺酸緩釋 多數人體感是「清醒但平穩」對咖啡因敏感者建議從半瓶開始"],
+  ["什麼時候喝最有感？", "需要專注前 20–30 分鐘喝 效果約可持續 3–4 小時建議下午三點前飲用 避免影響睡眠"],
+  ["孕婦、小孩可以喝嗎？", "孕哺期與 12 歲以下兒童不建議飲用含咖啡因飲品 請先詢問醫師"],
+  ["怎麼配送？多久到貨？", "常溫配送 下單後 2–3 個工作天到貨；三盒組與訂閱方案免運"],
 ]
 
 function BottleArt({ className = "" }) {
@@ -84,7 +84,7 @@ function ProductLandingPage() {
         page={{
           path: "/works/product-landing-page",
           title: "植感能量飲｜電商商品銷售頁 Demo｜Qingyu Web Studio",
-          description: "完整商品 Landing Page 示範：商品 Hero、痛點、賣點、規格、見證、FAQ 與訂購方案。適合保健品、食品、保養品與選物商品。",
+          description: "完整商品 Landing Page 示範：商品 Hero、痛點、賣點、規格、見證、FAQ 與訂購方案適合保健品、食品、保養品與選物商品",
         }}
       />
 
@@ -106,12 +106,12 @@ function ProductLandingPage() {
           <div>
             <span className="rounded-full px-3 py-1 text-xs font-black text-white" style={{ background: GREEN }}>新上市 · 免運中</span>
             <h1 className="mt-5 font-['Noto_Serif_TC',serif] text-[clamp(2.2rem,6vw,3.8rem)] font-black leading-[1.12] tracking-tight">
-              下午三點，
+              下午三點 
               <br />
-              還有電。
+              還有電
             </h1>
             <p className="mt-5 max-w-md text-base font-bold leading-8 text-[#52605c]">
-              植物基能量飲。綠茶咖啡因緩釋提神 4 小時，0 糖 0 香精——清醒，但不心悸。
+              植物基能量飲綠茶咖啡因緩釋提神 4 小時 0 糖 0 香精——清醒 但不心悸
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <a href="#order" className="inline-flex min-h-12 items-center rounded-xl px-6 text-sm font-black text-white shadow-lg" style={{ background: GREEN }}>
@@ -162,7 +162,7 @@ function ProductLandingPage() {
           <div>
             <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">成分乾淨到可以唸完</h2>
             <p className="mt-3 max-w-sm text-sm font-bold leading-7 text-[#52605c]">
-              冷萃綠茶、薄荷、檸檬馬鞭草、羅漢果、L-茶胺酸、氣泡水。就這樣，沒有了。
+              冷萃綠茶、薄荷、檸檬馬鞭草、羅漢果、L-茶胺酸、氣泡水就這樣 沒有了
             </p>
           </div>
           <div className="overflow-hidden rounded-2xl border border-[#e4e0d4] bg-white">
@@ -210,7 +210,7 @@ function ProductLandingPage() {
       <section id="order" className="scroll-mt-20 border-y border-[#e4e0d4] bg-white">
         <div className="mx-auto max-w-5xl px-4 py-12 md:py-16">
           <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">選一個方案</h2>
-          <p className="mt-2 text-sm font-bold text-[#66716d]">點選方案，下方按「立即訂購」就完成。</p>
+          <p className="mt-2 text-sm font-bold text-[#66716d]">點選方案 下方按「立即訂購」就完成</p>
           <div className="mt-6 grid gap-3 md:grid-cols-3">
             {plans.map((p) => {
               const active = p.id === planId
@@ -249,7 +249,7 @@ function ProductLandingPage() {
             <div className="mt-5 rounded-2xl border border-[#1e6e4e]/30 bg-[#eef7f1] p-5 text-center">
               <p className="text-lg font-black" style={{ color: GREEN }}>✓ 已收到你的訂購（示範）</p>
               <p className="mt-1 text-sm font-bold text-[#52605c]">
-                {plan.name}・NT${plan.price.toLocaleString()}{plan.suffix || ""}。正式版會在這裡接金流與出貨通知。
+                {plan.name}・NT${plan.price.toLocaleString()}{plan.suffix || ""}正式版會在這裡接金流與出貨通知
               </p>
             </div>
           ) : null}
@@ -277,7 +277,7 @@ function ProductLandingPage() {
         <div className="mx-auto max-w-5xl px-4 py-12 text-center md:py-16">
           <h2 className="font-['Noto_Serif_TC',serif] text-3xl font-black md:text-4xl">今天下午 試一瓶</h2>
           <p className="mx-auto mt-3 max-w-md text-sm font-bold leading-7 text-white/72">
-            嘗鮮盒 NT$480，不合口味 7 天內免費退。有問題加 LINE 直接問。
+            嘗鮮盒 NT$480 不合口味 7 天內免費退有問題加 LINE 直接問
           </p>
           <div className="mt-7 flex flex-wrap justify-center gap-3">
             <a href="#order" className="inline-flex min-h-12 items-center rounded-xl bg-white px-7 text-sm font-black" style={{ color: GREEN }}>
@@ -294,7 +294,7 @@ function ProductLandingPage() {
       <div className="border-t border-[#e4e0d4] bg-[#f7f6f1]">
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-4 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <p className="text-sm font-bold text-[#66716d]">
-            這一頁是<span className="font-black text-[#111c22]">銷售頁示範</span>（虛構商品）。想幫你的商品做一頁？
+            這一頁是<span className="font-black text-[#111c22]">銷售頁示範</span>（虛構商品）想幫你的商品做一頁？
             <span className="font-black text-[#0d6b62]"> 12,000 元起・5–10 天</span>
           </p>
           <div className="flex gap-2">

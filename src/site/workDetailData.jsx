@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+﻿/* eslint-disable react-refresh/only-export-components */
 import { useState } from "react"
 
 /* ========== Shared mini demo frames ========== */
@@ -136,14 +136,14 @@ function RagFront() {
         <div className="mt-4 min-h-20 space-y-2">
           {asked ? (
             <div className="rounded-lg bg-[#1a2e39] p-3">
-              <p className="text-xs font-bold leading-6 text-white/80">依據「報價規則.md」第 2.1 節，防水工程基本報價包含現場勘查、材料與施工，不含拆除與廢棄物清運。</p>
+              <p className="text-xs font-bold leading-6 text-white/80">依據「報價規則.md」第 2.1 節 防水工程基本報價包含現場勘查、材料與施工 不含拆除與廢棄物清運</p>
               <div className="mt-2 flex items-center gap-2 text-[10px] font-black text-[#8fd6cc]">
                 <span>↳ 引用 (2)</span>
                 <span>來源：報價規則.md</span>
               </div>
             </div>
           ) : (
-            <p className="text-xs font-bold text-white/40">輸入問題，AI 會回答並附引用來源</p>
+            <p className="text-xs font-bold text-white/40">輸入問題 AI 會回答並附引用來源</p>
           )}
         </div>
         <div className="mt-3 flex gap-2">
@@ -183,7 +183,7 @@ export const xinjiang = {
   seo: {
     path: "/works/xinjiang",
     title: "鑫匠工程案例｜工程網站與 BuildFlow 案件管理｜Qingyu Web Studio",
-    description: "鑫匠工程——屏東泥作工程行。黑金品牌官網、線上詢價、BuildFlow 案件管理後台一條龍。真實上線營運中。",
+    description: "鑫匠工程——屏東泥作工程行黑金品牌官網、線上詢價、BuildFlow 案件管理後台一條龍真實上線營運中",
   },
   slug: "xinjiang",
   category: "真實客戶案例",
@@ -194,22 +194,22 @@ export const xinjiang = {
   forWho: "工程行、服務業、到府安裝型店家",
   problem: {
     title: "客戶只看得到 Pro360",
-    desc: "鑫匠工程長期在 Pro360 接案，但缺少自己的品牌入口。客戶搜不到官網，案例無法展示，詢價與進度追蹤散在 LINE 和電話裡。",
-    pain: "沒有統一入口，詢價重複溝通，案件進度靠記憶。",
+    desc: "鑫匠工程長期在 Pro360 接案 但缺少自己的品牌入口客戶搜不到官網 案例無法展示 詢價與進度追蹤散在 LINE 和電話裡",
+    pain: "沒有統一入口 詢價重複溝通 案件進度靠記憶",
     signs: ["沒有官網", "詢價散在 LINE", "案例無法展示", "進度不好追"],
   },
   solution: {
     title: "品牌官網 + 線上詢價 + 案件後台一條龍",
-    desc: "從官網展示服務與案例，到線上詢價表單，再到 BuildFlow 後台收件與案件管理，全部串在一起。",
+    desc: "從官網展示服務與案例 到線上詢價表單 再到 BuildFlow 後台收件與案件管理 全部串在一起",
     points: [
-      { title: "黑金品牌官網", text: "書法風格深色官網，從此客戶搜得到、看得懂你是誰、做什麼工程。" },
-      { title: "線上詢價表單", text: "客戶在官網填寫需求，直接進 BuildFlow 後台收件匣，不再散在 LINE。" },
-      { title: "案件管理後台", text: "詢價一鍵轉案件，接著報價、派工、回報、完工，全部追得到。" },
+      { title: "黑金品牌官網", text: "書法風格深色官網 從此客戶搜得到、看得懂你是誰、做什麼工程" },
+      { title: "線上詢價表單", text: "客戶在官網填寫需求 直接進 BuildFlow 後台收件匣 不再散在 LINE" },
+      { title: "案件管理後台", text: "詢價一鍵轉案件 接著報價、派工、回報、完工 全部追得到" },
     ],
   },
   result: {
     title: "從詢價到完工 全部追得到",
-    desc: "上線後客戶可以直接在官網看到案例與服務，詢價進後台自動整理。",
+    desc: "上線後客戶可以直接在官網看到案例與服務 詢價進後台自動整理",
     metrics: [
       { label: "實際上線", value: "2025 年 12 月" },
       { label: "詢價轉案件", value: "一鍵轉換" },
@@ -219,24 +219,24 @@ export const xinjiang = {
   },
   demo: {
     title: "從詢價到後台 一次看",
-    desc: "左邊是客戶在官網填寫詢價表單，右邊是需求進入 BuildFlow 後台的案件看板。",
+    desc: "左邊是客戶在官網填寫詢價表單 右邊是需求進入 BuildFlow 後台的案件看板",
     Front: XinjiangFront,
     Back: XinjiangBack,
     livePath: "/contractor-site",
   },
   flow: {
     title: "客戶怎麼找你 你怎麼追案件",
-    desc: "四個步驟，從官網詢價到完工驗收。",
+    desc: "四個步驟 從官網詢價到完工驗收",
     steps: [
-      { title: "客戶詢價", text: "在官網填寫姓名、聯絡方式與工程需求。" },
-      { title: "進收件匣", text: "需求即時進 BuildFlow 後台，含完整聯絡資訊與需求內容。" },
-      { title: "轉成案件", text: "一鍵建立案件，開始報價、派工與進度追蹤。" },
-      { title: "完工驗收", text: "案件狀態持續更新，從詢價到驗收全部在後台。" },
+      { title: "客戶詢價", text: "在官網填寫姓名、聯絡方式與工程需求" },
+      { title: "進收件匣", text: "需求即時進 BuildFlow 後台 含完整聯絡資訊與需求內容" },
+      { title: "轉成案件", text: "一鍵建立案件 開始報價、派工與進度追蹤" },
+      { title: "完工驗收", text: "案件狀態持續更新 從詢價到驗收全部在後台" },
     ],
   },
   deliverables: {
     title: "交付內容",
-    desc: "品牌官網＋後台系統一次到位。",
+    desc: "品牌官網＋後台系統一次到位",
     items: [
       { title: "品牌官網", items: ["黑金風格視覺設計", "服務介紹區塊", "施工案例展示", "手機版 RWD", "基本 SEO"] },
       { title: "詢價系統", items: ["線上詢價表單", "欄位自訂", "LINE 導入口", "送出確認通知"] },
@@ -245,7 +245,7 @@ export const xinjiang = {
   },
   pricing: {
     title: "報價範圍",
-    desc: "官網＋詢價＋後台的完整方案。實際依範圍調整。",
+    desc: "官網＋詢價＋後台的完整方案實際依範圍調整",
     plans: [
       { name: "品牌官網 + 詢價", price: "18,000 元起", note: "官網設計、詢價表單、基本 SEO" },
       { name: "含案件後台", price: "30,000 元起", note: "收件匣、案件看板、狀態管理" },
@@ -255,7 +255,7 @@ export const xinjiang = {
   techStack: ["React / Vite", "Tailwind CSS", "Supabase", "Serverless API", "Vercel 部署"],
     liveUrl: "https://xinjiang-website.vercel.app/",
     testimonial: {
-    quote: "以前客戶看 Pro360 和拿名片，案子進度靠 LINE 記。現在有自己的官網和後台，從詢價到完工全部追得到。",
+    quote: "以前客戶看 Pro360 和拿名片 案子進度靠 LINE 記現在有自己的官網和後台 從詢價到完工全部追得到",
     name: "鑫匠工程負責人",
     title: "屏東泥作工程行",
   },
@@ -265,7 +265,7 @@ export const wholesale = {
   seo: {
     path: "/works/wholesale-ordering",
     title: "批發訂貨系統案例｜專屬價格、出貨管理、月結對帳｜Qingyu Web Studio",
-    description: "客戶用手機下單，老闆在後台統一出貨與月結。支援分級報價、出貨修量、月結對帳。",
+    description: "客戶用手機下單 老闆在後台統一出貨與月結支援分級報價、出貨修量、月結對帳",
   },
   slug: "wholesale-ordering",
   category: "可操作產品",
@@ -276,22 +276,22 @@ export const wholesale = {
   forWho: "批發商、食材商、中盤商、想線上收單的店家",
   problem: {
     title: "訂單靠電話 LINE 手寫記",
-    desc: "客戶用 LINE 或電話叫貨，老闆手寫記單。數量、品項、價格常出錯，月底對帳更是噩夢。",
-    pain: "漏單、算錯、對帳累，每一關都在消耗時間。",
+    desc: "客戶用 LINE 或電話叫貨 老闆手寫記單數量、品項、價格常出錯 月底對帳更是噩夢",
+    pain: "漏單、算錯、對帳累 每一關都在消耗時間",
     signs: ["LINE 抄單容易漏", "價格查詢麻煩", "出貨進度不好追", "月結對帳頭痛"],
   },
   solution: {
     title: "客戶專屬手機下單 後台統一管理",
-    desc: "從商品目錄、客戶分級報價，到出貨管理與月結對帳，全部線上完成。",
+    desc: "從商品目錄、客戶分級報價 到出貨管理與月結對帳 全部線上完成",
     points: [
-      { title: "客戶手機下單", text: "看到專屬價格，加入購物車直接送出，不用再傳 LINE。" },
-      { title: "後台訂單管理", text: "即時看到所有訂單，修改數量、安排出貨、更新狀態。" },
-      { title: "月結對帳", text: "彙整每月訂單金額，列印明細或匯出報表。" },
+      { title: "客戶手機下單", text: "看到專屬價格 加入購物車直接送出 不用再傳 LINE" },
+      { title: "後台訂單管理", text: "即時看到所有訂單 修改數量、安排出貨、更新狀態" },
+      { title: "月結對帳", text: "彙整每月訂單金額 列印明細或匯出報表" },
     ],
   },
   result: {
     title: "訂單正確率提升 對帳時間大幅縮短",
-    desc: "從手寫抄單到手機下單，每一筆都有紀錄。",
+    desc: "從手寫抄單到手機下單 每一筆都有紀錄",
     metrics: [
       { label: "下單方式", value: "手機即時" },
       { label: "出貨管理", value: "狀態一覽" },
@@ -301,24 +301,24 @@ export const wholesale = {
   },
   demo: {
     title: "客戶端下單 + 後台管理一次看",
-    desc: "左邊是客戶在手機上看到的商品列表與價格，右邊是你的訂單管理後台。",
+    desc: "左邊是客戶在手機上看到的商品列表與價格 右邊是你的訂單管理後台",
     Front: WholesaleFront,
     Back: WholesaleBack,
     livePath: "/works/wholesale-ordering",
   },
   flow: {
     title: "從下單到對帳 全部線上",
-    desc: "客戶手機下單 → 你後台出貨 → 月底自動對帳。",
+    desc: "客戶手機下單 → 你後台出貨 → 月底自動對帳",
     steps: [
-      { title: "客戶下單", text: "手機看商品、專屬價格，加入購物車後送出。" },
-      { title: "後台收單", text: "訂單即時進後台，含客戶、品項、金額。" },
-      { title: "出貨管理", text: "更新出貨狀態，修改數量，安排配送。" },
-      { title: "月結對帳", text: "彙總每月訂單，列印明細或匯出 Excel。" },
+      { title: "客戶下單", text: "手機看商品、專屬價格 加入購物車後送出" },
+      { title: "後台收單", text: "訂單即時進後台 含客戶、品項、金額" },
+      { title: "出貨管理", text: "更新出貨狀態 修改數量 安排配送" },
+      { title: "月結對帳", text: "彙總每月訂單 列印明細或匯出 Excel" },
     ],
   },
   deliverables: {
     title: "交付內容",
-    desc: "前後台系統一次到位。",
+    desc: "前後台系統一次到位",
     items: [
       { title: "客戶端", items: ["商品列表與分類", "客戶專屬價格", "購物車與結帳", "訂單記錄查詢"] },
       { title: "管理後台", items: ["訂單一覽", "出貨狀態管理", "商品價格編輯", "客戶管理"] },
@@ -327,7 +327,7 @@ export const wholesale = {
   },
   pricing: {
     title: "報價範圍",
-    desc: "依規模與功能需求報價。",
+    desc: "依規模與功能需求報價",
     plans: [
       { name: "基本訂購系統", price: "25,000 元起", note: "商品、購物車、訂單後台" },
       { name: "B2B 批發版", price: "35,000 元起", note: "分級報價、出貨修量、月結對帳" },
@@ -341,7 +341,7 @@ export const rag = {
   seo: {
     path: "/works/rag-consultant",
     title: "RAG 企業知識庫案例｜文件問答引用來源用量管理｜Qingyu Web Studio",
-    description: "把 SOP、規章、產品文件變成可問答的知識庫，回答附來源，用量與權限完整管理。",
+    description: "把 SOP、規章、產品文件變成可問答的知識庫 回答附來源 用量與權限完整管理",
   },
   slug: "rag-consultant",
   category: "AI / 技術實驗",
@@ -352,22 +352,22 @@ export const rag = {
   forWho: "公司、協會、工廠、有大量內部文件的組織",
   problem: {
     title: "文件很多 答案找不到",
-    desc: "SOP、規章、產品型錄散在各處。新進員工與客服每天重複問同樣的問題，老員工花時間回答，文件更新也沒人知道。",
-    pain: "重複回答、文件版本混亂、新人訓練慢。",
+    desc: "SOP、規章、產品型錄散在各處新進員工與客服每天重複問同樣的問題 老員工花時間回答 文件更新也沒人知道",
+    pain: "重複回答、文件版本混亂、新人訓練慢",
     signs: ["文件散各處", "答案靠老人", "新人上手慢", "更新沒人知"],
   },
   solution: {
     title: "把文件變成可問答的知識庫",
-    desc: "上傳文件 → AI 自動切分索引 → 問問題時附引用來源回答。",
+    desc: "上傳文件 → AI 自動切分索引 → 問問題時附引用來源回答",
     points: [
-      { title: "文件上傳與索引", text: "支援 PDF、Word、TXT，上傳後自動切分、嵌入、建立索引。" },
-      { title: "附來源問答", text: "問問題時 AI 搜尋相關段落，回答時顯示引用來源與相關度。" },
-      { title: "用量與權限管理", text: "每租戶 Token 用量統計、Rate Limit 保護、文件版本管理。" },
+      { title: "文件上傳與索引", text: "支援 PDF、Word、TXT 上傳後自動切分、嵌入、建立索引" },
+      { title: "附來源問答", text: "問問題時 AI 搜尋相關段落 回答時顯示引用來源與相關度" },
+      { title: "用量與權限管理", text: "每租戶 Token 用量統計、Rate Limit 保護、文件版本管理" },
     ],
   },
   result: {
     title: "從翻文件到直接問 效率提升",
-    desc: "新人、客服、員工直接問 AI，答案有來源可驗證。",
+    desc: "新人、客服、員工直接問 AI 答案有來源可驗證",
     metrics: [
       { label: "文件格式", value: "PDF / Word / TXT" },
       { label: "回答模式", value: "附引用來源" },
@@ -377,24 +377,24 @@ export const rag = {
   },
   demo: {
     title: "文件問答 + 後台管理一次看",
-    desc: "左邊是 AI 問答介面，右邊是文件管理後台。",
+    desc: "左邊是 AI 問答介面 右邊是文件管理後台",
     Front: RagFront,
     Back: RagBack,
     livePath: "/works/rag-consultant",
   },
   flow: {
     title: "從上傳文件到 AI 回答",
-    desc: "四個步驟完成知識庫建置。",
+    desc: "四個步驟完成知識庫建置",
     steps: [
-      { title: "上傳文件", text: "上傳公司的 PDF、Word、TXT 等文件。" },
-      { title: "自動索引", text: "系統自動切分段落、embedding、建立搜尋索引。" },
-      { title: "提問回答", text: "員工或客服問問題，AI 搜尋相關內容並回答。" },
-      { title: "驗證來源", text: "每則回答附引用出處，可點擊查看原文。" },
+      { title: "上傳文件", text: "上傳公司的 PDF、Word、TXT 等文件" },
+      { title: "自動索引", text: "系統自動切分段落、embedding、建立搜尋索引" },
+      { title: "提問回答", text: "員工或客服問問題 AI 搜尋相關內容並回答" },
+      { title: "驗證來源", text: "每則回答附引用出處 可點擊查看原文" },
     ],
   },
   deliverables: {
     title: "交付內容",
-    desc: "完整 RAG 系統包含前端、後端與管理功能。",
+    desc: "完整 RAG 系統包含前端、後端與管理功能",
     items: [
       { title: "問答介面", items: ["嵌入網站的對話元件", "多輪對話支援", "引用來源顯示", "相關度評分"] },
       { title: "管理後台", items: ["文件上傳與管理", "版本控制與還原", "Token 用量統計", "Rate Limit 設定"] },
@@ -403,7 +403,7 @@ export const rag = {
   },
   pricing: {
     title: "報價範圍",
-    desc: "依資料量與功能需求報價。",
+    desc: "依資料量與功能需求報價",
     plans: [
       { name: "基礎知識庫", price: "20,000 元起", note: "文件問答、引用來源、單一租戶" },
       { name: "企業版", price: "50,000 元起", note: "多租戶、權限管理、用量統計" },

@@ -1,4 +1,4 @@
-import { Link, Navigate, useParams } from "react-router-dom"
+﻿import { Link, Navigate, useParams } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 import { products } from "./productData"
@@ -38,7 +38,7 @@ function ProductPage({ slug: slugProp }) {
         page={{
           path: `/works/${slug}`,
           title: `${product.name}｜成品展示與報價｜Qingyu Web Studio`,
-          description: `${product.tagline} 適合${product.forWho}。${product.priceFrom}，工期約 ${product.duration}。可直接看前台成品與後台畫面。`,
+          description: `${product.tagline} 適合${product.forWho}${product.priceFrom} 工期約 ${product.duration}可直接看前台成品與後台畫面`,
         }}
       />
 
@@ -79,18 +79,18 @@ function ProductPage({ slug: slugProp }) {
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
           <SectionTitle>{product.solves}</SectionTitle>
           <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-[#52605c]">
-            這套系統把它變成兩個畫面：客人自己操作前台，資料自動進你的後台。
+            這套系統把它變成兩個畫面：客人自己操作前台 資料自動進你的後台
           </p>
           <div className="mt-7 grid gap-4 lg:grid-cols-2 lg:items-start">
             <div>
               <p className="mb-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">前台 · 客人看到的</p>
               <Front />
-              <p className="mt-3 text-sm font-bold text-[#52605c]">{product.name.includes("測驗") ? "上面可以直接作答試玩。" : "客人在手機上就能完成。"}</p>
+              <p className="mt-3 text-sm font-bold text-[#52605c]">{product.name.includes("測驗") ? "上面可以直接作答試玩" : "客人在手機上就能完成"}</p>
             </div>
             <div>
               <p className="mb-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">後台 · 你管理的</p>
               <Back />
-              <p className="mt-3 text-sm font-bold text-[#52605c]">每一筆都追得到，不再散在訊息裡。</p>
+              <p className="mt-3 text-sm font-bold text-[#52605c]">每一筆都追得到 不再散在訊息裡</p>
             </div>
           </div>
         </div>
@@ -123,7 +123,7 @@ function ProductPage({ slug: slugProp }) {
         <div className="mx-auto max-w-6xl px-4 py-14 md:py-20">
           <SectionTitle>報價範圍</SectionTitle>
           <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-[#52605c]">
-            參考區間，實際依範圍報價。網域、主機與第三方費用另計。
+            參考區間 實際依範圍報價網域、主機與第三方費用另計
           </p>
           <div className="mt-6 overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
             {product.pricing.map(([item, price, note], i) => (
@@ -148,7 +148,7 @@ function ProductPage({ slug: slugProp }) {
       <section className="bg-[#111c22] text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-12 text-center md:py-16">
           <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">想做一套像這樣的{product.name}？</h2>
-          <p className="max-w-xl text-sm font-bold leading-7 text-white/72">{product.priceFrom}，工期約 {product.duration}。先聊聊你的需求，我給你適合的做法與報價。</p>
+          <p className="max-w-xl text-sm font-bold leading-7 text-white/72">{product.priceFrom} 工期約 {product.duration}先聊聊你的需求 我給你適合的做法與報價</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/contact" className="inline-flex min-h-12 items-center rounded-xl bg-white px-6 text-sm font-black text-[#111c22]">問這個報價</Link>
             <LiveButton live={product.live} className="inline-flex min-h-12 items-center rounded-xl border border-white/25 px-6 text-sm font-black text-white" />

@@ -1,4 +1,4 @@
-import { Link, useParams } from "react-router-dom"
+﻿import { Link, useParams } from "react-router-dom"
 import ContactLeadSection from "../components/ContactLeadSection"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
@@ -163,43 +163,43 @@ const conversionProfiles = {
     audience: ["店家", "個人品牌", "工作室", "準備改版的網站"],
     custom: ["健檢項目", "報告格式", "Prompt Flow", "Email 報告輸出"],
     problems: ["不知道網站哪裡不清楚", "客戶看完沒有聯絡", "首頁 CTA 與 SEO 不夠明確"],
-    scenario: "改版前先找問題。",
-    next: "先健檢，再改版。",
+    scenario: "改版前先找問題",
+    next: "先健檢 再改版",
   },
   linebot: {
     audience: ["店家", "預約型服務", "工作室", "需要 LINE 收需求的團隊"],
     custom: ["對話流程", "Webhook 欄位", "後台收件狀態", "LINE / Email 通知"],
     problems: ["LINE 訊息太散", "客戶需求沒有被整理", "店家回覆與追蹤靠人工記"],
-    scenario: "LINE 詢問變成可追蹤需求。",
-    next: "先整理問答與收件欄位。",
+    scenario: "LINE 詢問變成可追蹤需求",
+    next: "先整理問答與收件欄位",
   },
   buildflow: {
     audience: ["工程行", "修繕服務", "現場服務團隊", "需要照片與進度管理的公司"],
     custom: ["案件欄位", "報價單", "LINE 回報", "Supabase / PDF Export"],
     problems: ["照片與報價散在 LINE", "施工狀態不好追", "案件從詢價到完工沒有完整紀錄"],
-    scenario: "詢價、照片、報價進後台。",
-    next: "先定義案件狀態。",
+    scenario: "詢價、照片、報價進後台",
+    next: "先定義案件狀態",
   },
   "api-automation": {
     audience: ["有表單收件需求的團隊", "需要通知流程的店家", "想把資料進後台的工作室"],
     custom: ["API Payload", "驗證規則", "通知節點", "後台欄位"],
     problems: ["表單送出後沒人追", "資料要手動複製到表格", "通知與後台狀態沒有串接"],
-    scenario: "表單送出後自動進後台。",
-    next: "先確認欄位與通知對象。",
+    scenario: "表單送出後自動進後台",
+    next: "先確認欄位與通知對象",
   },
   "qingyu-web": {
     audience: ["個人品牌", "店家", "工作室", "作品展示"],
     custom: ["首頁架構", "作品頁", "需求診斷工具", "SEO / Open Graph"],
     problems: ["服務說不清楚", "作品沒有導到詢問", "客戶不知道下一步該怎麼聯絡"],
-    scenario: "服務、作品、工具、聯絡整合。",
-    next: "先整理服務分類與作品入口。",
+    scenario: "服務、作品、工具、聯絡整合",
+    next: "先整理服務分類與作品入口",
   },
   xinjiang: {
     audience: ["工程服務業", "需要形象網站的店家", "想把詢價接到後台的團隊"],
     custom: ["估價入口", "服務分類", "BuildFlow 串接", "LINE 回報流程"],
     problems: ["客戶只看 LINE 或社群", "估價需求沒有進後台", "工程案例與案件管理分開"],
-    scenario: "工程網站串到案件管理。",
-    next: "先做好估價入口。",
+    scenario: "工程網站串到案件管理",
+    next: "先做好估價入口",
   },
 }
 
@@ -207,42 +207,42 @@ const defaultConversionProfile = {
   audience: ["店家", "個人品牌", "工作室"],
   custom: ["頁面架構", "互動流程", "資料欄位", "聯絡 CTA"],
   problems: ["服務不容易被理解", "客戶看完不知道怎麼詢問", "流程太靠人工整理"],
-  scenario: "先用成品確認流程。",
-  next: "先整理方向。",
+  scenario: "先用成品確認流程",
+  next: "先整理方向",
 }
 
 const workBusinessValues = {
-  "biomed-brand-site": "醫師、診所與生醫品牌故事網站。",
-  "ai-audit": "幫你快速找出網站為什麼沒人聯絡。",
-  linebot: "讓客戶在 LINE 裡留下需求，後台自動整理。",
-  buildflow: "需求、報價、回報、LINE 查詢。",
-  "ai-tech-quest": "可直接試玩的 AI 技術展示成品，讓客戶看懂文件問答、模型分類與店家助手如何變成產品。",
-  "interactive-quiz": "測驗、解析、結果頁。",
-  "ai-business-assistant": "店家 FAQ 與自動回覆產品。",
-  "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品。",
-  "unity-ai-tutor": "互動式學習展示。",
-  "api-automation": "表單送出後，自動進 API、通知與後台。",
-  "project-planner": "用診斷工具分類需求。",
-  "qingyu-web": "服務、作品、工具與聯絡流程。",
-  xinjiang: "把工程網站的估價入口接到案件管理流程。",
+  "biomed-brand-site": "醫師、診所與生醫品牌故事網站",
+  "ai-audit": "幫你快速找出網站為什麼沒人聯絡",
+  linebot: "讓客戶在 LINE 裡留下需求 後台自動整理",
+  buildflow: "需求、報價、回報、LINE 查詢",
+  "ai-tech-quest": "可直接試玩的 AI 技術展示成品 讓客戶看懂文件問答、模型分類與店家助手如何變成產品",
+  "interactive-quiz": "測驗、解析、結果頁",
+  "ai-business-assistant": "店家 FAQ 與自動回覆產品",
+  "tw-civic-rag": "文件檢索增強生成（RAG）文件查詢產品",
+  "unity-ai-tutor": "互動式學習展示",
+  "api-automation": "表單送出後 自動進 API、通知與後台",
+  "project-planner": "用診斷工具分類需求",
+  "qingyu-web": "服務、作品、工具與聯絡流程",
+  xinjiang: "把工程網站的估價入口接到案件管理流程",
 }
 
 const conciseWorkValues = {
-  "biomed-brand-site": "品牌故事、案例、內容與講座活動。",
-  "ai-audit": "檢查網站 CTA、SEO 與聯絡流程。",
-  linebot: "讓 LINE 訊息自動整理成需求。",
-  buildflow: "需求、報價、回報與 LINE 查詢。",
-  "interactive-quiz": "題目、作答、解析、結果頁。",
-  "ai-tech-quest": "可試玩：文件問答、模型分類、店家助手與產品展示室。",
-  "ai-business-assistant": "FAQ、回答紀錄、LINE Bot 延伸。",
-  "tw-civic-rag": "RAG、來源引用、文件查詢。",
-  "unity-ai-tutor": "Unity 互動學習關卡。",
-  "api-automation": "表單送出後，自動進 API、通知與後台。",
-  "project-planner": "判斷適合做網站、LINE Bot 還是系統。",
-  "website-rescue": "點選改善項目，查看網站狀態變化。",
-  "linebot-mission": "模擬 LINE 接待與後台同步。",
-  "qingyu-web": "展示主站、作品、工具與聯絡流程。",
-  xinjiang: "工程網站如何串到 BuildFlow 後台。",
+  "biomed-brand-site": "品牌故事、案例、內容與講座活動",
+  "ai-audit": "檢查網站 CTA、SEO 與聯絡流程",
+  linebot: "讓 LINE 訊息自動整理成需求",
+  buildflow: "需求、報價、回報與 LINE 查詢",
+  "interactive-quiz": "題目、作答、解析、結果頁",
+  "ai-tech-quest": "可試玩：文件問答、模型分類、店家助手與產品展示室",
+  "ai-business-assistant": "FAQ、回答紀錄、LINE Bot 延伸",
+  "tw-civic-rag": "RAG、來源引用、文件查詢",
+  "unity-ai-tutor": "Unity 互動學習關卡",
+  "api-automation": "表單送出後 自動進 API、通知與後台",
+  "project-planner": "判斷適合做網站、LINE Bot 還是系統",
+  "website-rescue": "點選改善項目 查看網站狀態變化",
+  "linebot-mission": "模擬 LINE 接待與後台同步",
+  "qingyu-web": "展示主站、作品、工具與聯絡流程",
+  xinjiang: "工程網站如何串到 BuildFlow 後台",
 }
 
 export function WorksPage() {
@@ -250,7 +250,7 @@ export function WorksPage() {
     slug: "project-planner",
     title: "網站需求診斷工具",
     category: "互動工具",
-    summary: "回答幾題，整理方向。",
+    summary: "回答幾題 整理方向",
     livePath: "/tools/project-planner#demo",
     liveLabel: "查看成品",
     secondaryPath: "/tools/project-planner#tech",
@@ -263,7 +263,7 @@ export function WorksPage() {
     slug: "website-rescue",
     title: "網站救援互動成品",
     category: "互動工具",
-    summary: "點選改善項目，看網站狀態變化。",
+    summary: "點選改善項目 看網站狀態變化",
     livePath: "/tools/website-rescue#demo",
     liveLabel: "開始改善",
     secondaryPath: "/tools/website-rescue#tech",
@@ -276,7 +276,7 @@ export function WorksPage() {
     slug: "linebot-mission",
     title: "LINE Bot 接待模擬",
     category: "互動工具",
-    summary: "模擬 LINE 接待與後台同步。",
+    summary: "模擬 LINE 接待與後台同步",
     livePath: "/tools/linebot-mission#demo",
     liveLabel: "開始模擬",
     secondaryPath: "/tools/linebot-mission#tech",
@@ -297,23 +297,23 @@ export function WorksPage() {
   const sections = [
     {
       title: "主打成品",
-      text: "直接打開。",
+      text: "直接打開",
       items: primaryProducts,
     },
     {
       title: "互動工具",
-      text: "可試用。",
+      text: "可試用",
       items: [rescueProject, lineBotMissionProject, plannerProject, projectBySlug.xinjiang].filter(Boolean),
     },
     {
       title: "其他作品",
-      text: "補充案例。",
+      text: "補充案例",
       items: [projectBySlug["ai-audit"], projectBySlug["api-automation"], projectBySlug["qingyu-web"]].filter(Boolean),
     },
   ]
 
   return (
-    <PageShell page={seo.works} title="成品入口" intro="點卡片，直接看實物。">
+    <PageShell page={seo.works} title="成品入口" intro="點卡片 直接看實物">
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-10">
           {sections.map((section) => (
@@ -361,15 +361,15 @@ function BuildFlowCaseFacts() {
   const facts = [
     {
       title: "問題",
-      text: "工程案常散在 LINE、口頭、Excel、紙本，老闆很難追需求、報價、派工與現場回報。",
+      text: "工程案常散在 LINE、口頭、Excel、紙本 老闆很難追需求、報價、派工與現場回報",
     },
     {
       title: "解法",
-      text: "建立前台需求表單、後台案件管理、派工回報與 LINE Bot 查詢流程。",
+      text: "建立前台需求表單、後台案件管理、派工回報與 LINE Bot 查詢流程",
     },
     {
       title: "適合",
-      text: "工程行、防水、水電、裝修、維修服務團隊。",
+      text: "工程行、防水、水電、裝修、維修服務團隊",
     },
   ]
 
@@ -408,13 +408,13 @@ export function WorkDetailPage() {
         ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
     description: isQingyuWebProject
-      ? "展示主站、成品、SEO 與聯絡轉換。"
+      ? "展示主站、成品、SEO 與聯絡轉換"
       : isBuildFlowProject
-      ? "以鑫匠工程為案例，展示詢價、案件、報價與 LINE 回報。"
+      ? "以鑫匠工程為案例 展示詢價、案件、報價與 LINE 回報"
       : isXinjiangProject
-      ? "工程網站與 BuildFlow 案件流程案例。"
+      ? "工程網站與 BuildFlow 案件流程案例"
       : isApiAutomationProject
-        ? "表單、API、通知與後台流程展示。"
+        ? "表單、API、通知與後台流程展示"
         : project.summary,
   }
 
@@ -524,7 +524,7 @@ export function WorkDetailPage() {
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">線上展示</p>
                 <h2 className="mt-2 text-2xl font-black">展示操作台</h2>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">
-                  直接操作，看資料怎麼變。
+                  直接操作 看資料怎麼變
                 </p>
               </div>
               {isInternalDemoPath ? (
@@ -554,17 +554,17 @@ export function WorkDetailPage() {
                 <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Main Site 案例說明</p>
                 <h2 className="mt-3 text-3xl font-black">主站轉換流程</h2>
                 <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-                  服務、作品、工具、聯絡串成一路。
+                  服務、作品、工具、聯絡串成一路
                 </p>
               </div>
               <div className="grid gap-3 md:grid-cols-2">
                 {[
-                  ["問題", "服務要先被看懂。"],
-                  ["首頁", "定位、作品、CTA。"],
-                  ["互動", "成品可以直接操作。"],
-                  ["診斷", "先整理需求。"],
-                  ["聯絡", "LINE、Email、表單。"],
-                  ["SEO", "metadata、sitemap、robots。"],
+                  ["問題", "服務要先被看懂"],
+                  ["首頁", "定位、作品、CTA"],
+                  ["互動", "成品可以直接操作"],
+                  ["診斷", "先整理需求"],
+                  ["聯絡", "LINE、Email、表單"],
+                  ["SEO", "metadata、sitemap、robots"],
                 ].map(([title, text]) => (
                   <div key={title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-4">
                     <p className="text-sm font-black text-[#0d6b62]">{title}</p>
@@ -579,7 +579,7 @@ export function WorkDetailPage() {
                   <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">CTA Flow</p>
                   <h3 className="mt-3 text-2xl font-black">訪客 → 首頁 → 展示區 → 需求診斷 → 聯絡</h3>
                   <p className="mt-3 text-sm font-bold leading-7 text-white/70">
-                    首頁建立信任，作品展示技術，最後導到聯絡。
+                    首頁建立信任 作品展示技術 最後導到聯絡
                   </p>
                 </div>
                 <div className="grid gap-2">
@@ -631,7 +631,7 @@ export function WorkDetailPage() {
           <div>
             <h2 className="text-3xl font-black">功能與技術架構</h2>
             <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-              畫面、資料流、API 與部署拆開看。
+              畫面、資料流、API 與部署拆開看
             </p>
           </div>
           <div className="grid gap-5">
@@ -769,7 +769,7 @@ export function WorkDetailPage() {
               <h2 className="mt-2 text-2xl font-black">可以怎麼用在你的服務？</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先看成品，再整理流程。
+              先看成品 再整理流程
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -788,7 +788,7 @@ export function WorkDetailPage() {
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似網站或系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            先診斷，再聯絡。
+            先診斷 再聯絡
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <Link to="/tools/project-planner#demo" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -814,9 +814,9 @@ function XinjiangProjectBrief() {
     ["狀態", "正式營運"],
   ]
   const beforeAfter = [
-    ["改版前", "客戶多從 Pro360 或 LINE 詢問，服務與案例不容易被完整看見。"],
-    ["改版後", "品牌官網展示服務與案例，詢價資料可導入 BuildFlow 後台追蹤。"],
-    ["交付重點", "手機版詢價、案例照片、服務分類、線上聯絡與後台收件流程。"],
+    ["改版前", "客戶多從 Pro360 或 LINE 詢問 服務與案例不容易被完整看見"],
+    ["改版後", "品牌官網展示服務與案例 詢價資料可導入 BuildFlow 後台追蹤"],
+    ["交付重點", "手機版詢價、案例照片、服務分類、線上聯絡與後台收件流程"],
   ]
 
   return (
@@ -878,7 +878,7 @@ function HeroPreview({ project }) {
             {[
               ["user", "我想做店家網站"],
               ["bot", "請提供產業、功能、預算、上線時間"],
-              ["user", "我是咖啡店，想做預約和菜單查詢"],
+              ["user", "我是咖啡店 想做預約和菜單查詢"],
             ].map(([role, text]) => (
               <div key={text} className={`mb-2 max-w-[88%] rounded-2xl px-3 py-2 text-xs font-black ${role === "bot" ? "bg-white" : "ml-auto bg-[#0d6b62] text-white"}`}>
                 {text}
@@ -908,7 +908,7 @@ function HeroPreview({ project }) {
             </div>
             <div className="mt-4 grid gap-2">
               {[
-                ["LINE 回報", "今日 2 人出工，照片已補"],
+                ["LINE 回報", "今日 2 人出工 照片已補"],
                 ["報價卡", "NT$28,000｜業主確認中"],
                 ["案件列表", "4 件進行中"],
               ].map(([label, value]) => (
@@ -1078,10 +1078,10 @@ function WorkShowcase({ project }) {
 
 export function ServicesPage() {
   const faqs = [
-    ["可以先做簡單版嗎？", "可以，先做可用版本，再慢慢擴充。"],
-    ["價格會變動嗎？", "會，依頁數、功能、資料整理程度調整。"],
-    ["修改包含幾次？", "一般包含 1～2 次小修改，超出另估。"],
-    ["有後續維護嗎？", "可以另談月維護或單次修改。"],
+    ["可以先做簡單版嗎？", "可以 先做可用版本 再慢慢擴充"],
+    ["價格會變動嗎？", "會 依頁數、功能、資料整理程度調整"],
+    ["修改包含幾次？", "一般包含 1～2 次小修改 超出另估"],
+    ["有後續維護嗎？", "可以另談月維護或單次修改"],
   ]
 
   return (
@@ -1089,7 +1089,7 @@ export function ServicesPage() {
       page={seo.services}
       eyebrow="解決方案"
       title="先選你想解決的問題"
-      intro="品牌入口、訂貨接單、客戶管理、LINE 與 AI 自動化。先看成品，再決定範圍。"
+      intro="品牌入口、訂貨接單、客戶管理、LINE 與 AI 自動化先看成品 再決定範圍"
       actions={
         <>
           <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -1109,7 +1109,7 @@ export function ServicesPage() {
           <div>
             <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">給正在申請補助的中小企業</p>
             <p className="mt-2 text-xl font-black md:text-2xl">中小企業 AI 數位轉型實作服務</p>
-            <p className="mt-1 text-sm font-bold text-white/70">LINE 詢價、訂貨系統、AI 知識庫、企業網站——每個方案都有可操作成品。</p>
+            <p className="mt-1 text-sm font-bold text-white/70">LINE 詢價、訂貨系統、AI 知識庫、企業網站——每個方案都有可操作成品</p>
           </div>
           <span className="inline-flex min-h-11 w-fit shrink-0 items-center rounded-xl bg-[#eac46f] px-5 text-sm font-black text-[#111c22]">
             看方案與成品
@@ -1139,7 +1139,7 @@ export function ServicesPage() {
               <p className="text-xs font-black text-[#0d6b62]">內容</p>
               <h2 className="mt-3 text-3xl font-black md:text-4xl">交付範圍</h2>
             </div>
-            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">短版範圍，細節報價確認。</p>
+            <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">短版範圍 細節報價確認</p>
           </div>
 
           <div className="grid gap-5 lg:grid-cols-2">
@@ -1204,7 +1204,7 @@ export function ServicesPage() {
           <div>
             <p className="text-xs font-black text-[#0d6b62]">流程</p>
             <h2 className="mt-3 text-3xl font-black">合作流程</h2>
-            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">看成品、填需求、確認報價。</p>
+            <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">看成品、填需求、確認報價</p>
           </div>
           <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-5">
             {serviceWorkflow.map(([step, title, text]) => (
@@ -1217,7 +1217,7 @@ export function ServicesPage() {
           </div>
         </div>
         <p className="mt-6 rounded-lg border border-[#e3ded3] bg-[#fffaf0] p-4 text-sm font-bold leading-7 text-[#5f4a2a]">
-          錯誤修正與新增功能分開計算，維護可另談。
+          錯誤修正與新增功能分開計算 維護可另談
         </p>
       </section>
 
@@ -1244,7 +1244,7 @@ export function ServicesPage() {
             <div>
               <p className="text-xs font-black text-[#8fd6cc]">下一步</p>
               <h2 className="mt-3 text-2xl font-black">填需求表單</h2>
-              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">我會先看內容，再回覆適合的做法與估價。</p>
+              <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">我會先看內容 再回覆適合的做法與估價</p>
             </div>
             <Link to="/contact" className="inline-flex min-h-11 items-center justify-center rounded-md bg-white px-5 text-sm font-black text-[#111c22]">
               填需求表單
@@ -1271,36 +1271,36 @@ export function PricingPage() {
       name: "快速網站",
       price: "5,000 元起",
       time: "2–5 天",
-      fit: "已有內容，只需要快速上線。",
-      includes: "單頁、基本 RWD、聯絡按鈕。",
-      excludes: "品牌設計、後台、複雜表單。",
+      fit: "已有內容 只需要快速上線",
+      includes: "單頁、基本 RWD、聯絡按鈕",
+      excludes: "品牌設計、後台、複雜表單",
       casePath: "/works/company-landing",
     },
     {
       name: "品牌官網",
       price: "12,000 元起",
       time: "5–10 天",
-      fit: "需要正式門面與詢價入口。",
-      includes: "首頁、服務、案例、聯絡、SEO。",
-      excludes: "會員、訂單、客製後台。",
+      fit: "需要正式門面與詢價入口",
+      includes: "首頁、服務、案例、聯絡、SEO",
+      excludes: "會員、訂單、客製後台",
       casePath: "/works/biomed-brand-site",
     },
     {
       name: "接單 / 後台系統",
       price: "25,000 元起",
       time: "10–25 天",
-      fit: "訂單、案件、出貨、月結需要管理。",
-      includes: "前台表單、後台列表、狀態流程。",
-      excludes: "金流、物流、ERP 深度串接。",
+      fit: "訂單、案件、出貨、月結需要管理",
+      includes: "前台表單、後台列表、狀態流程",
+      excludes: "金流、物流、ERP 深度串接",
       casePath: "/works/wholesale-ordering",
     },
     {
       name: "AI / 客製系統",
       price: "需求估價",
       time: "依需求估時",
-      fit: "需要 RAG、API、自動化或權限流程。",
-      includes: "需求拆解、系統規劃、核心流程。",
-      excludes: "未定義範圍、無資料規格的估價。",
+      fit: "需要 RAG、API、自動化或權限流程",
+      includes: "需求拆解、系統規劃、核心流程",
+      excludes: "未定義範圍、無資料規格的估價",
       casePath: "/works/rag-consultant",
     },
   ]
@@ -1309,7 +1309,7 @@ export function PricingPage() {
     <PageShell
       page={seo.pricing}
       title="專案預算怎麼抓"
-      intro="以下是常見委託的參考區間，實際依範圍、頁數與整合深度報價。"
+      intro="以下是常見委託的參考區間 實際依範圍、頁數與整合深度報價"
     >
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2">
@@ -1347,7 +1347,7 @@ export function PricingPage() {
         </p>
         <div className="mt-6 flex flex-wrap gap-3">
           <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-            告訴我需求，拿到報價
+            告訴我需求 拿到報價
           </Link>
           <Link to="/#products" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
             看成品展示
@@ -1362,7 +1362,7 @@ export function FreeAuditPage() {
   const auditItems = ["手機版是否好讀", "首頁標題是否清楚", "CTA 是否明顯", "SEO / Open Graph", "版面信任感", "下一步優化方向"]
 
   return (
-    <PageShell page={seo.audit} title="免費網站健檢" intro="寄網址或想法，我看手機版、文案、CTA。">
+    <PageShell page={seo.audit} title="免費網站健檢" intro="寄網址或想法 我看手機版、文案、CTA">
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
           {auditItems.map((item) => (
@@ -1384,7 +1384,7 @@ export function ContactPage() {
     <PageShell
       page={seo.contact}
       title="聊聊你想做的網站或系統"
-      intro="傳產業、功能、預算、時程。"
+      intro="傳產業、功能、預算、時程"
     >
       <ContactLeadSection />
     </PageShell>

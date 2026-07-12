@@ -1,11 +1,11 @@
-import { useEffect, useMemo, useRef, useState } from "react"
+﻿import { useEffect, useMemo, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 
 const modules = [
   ["Ingestion", "txt / pdf / docx 上傳", "已具備"],
   ["Chunking", "遞迴切分 + overlap", "已具備"],
-  ["Embedding", "本地版，可換雲端模型", "已具備"],
+  ["Embedding", "本地版 可換雲端模型", "已具備"],
   ["Retrieval", "多租戶語意搜尋", "已具備"],
   ["Generation", "引用來源回答", "已具備"],
   ["Widget", "可嵌入網站的聊天元件", "已具備"],
@@ -16,7 +16,7 @@ const modules = [
 ]
 
 const security = [
-  ["API Key", "後端服務用", "長期，可撤銷"],
+  ["API Key", "後端服務用", "長期 可撤銷"],
   ["Widget JWT", "瀏覽器問答用", "短期 15 分鐘"],
   ["Token Endpoint", "主站後端交換短期 token", "/api/widget-token"],
   ["Rate Limit", "避免單一租戶打爆服務", "429 保護"],
@@ -59,17 +59,17 @@ const initialDocs = [
       {
         id: 1,
         keywords: ["估價", "報價", "價格", "多少錢", "費用", "怎麼算"],
-        text: "報價依坪數、牆面狀況與施工難度計算：10 坪以下以基本出工費計價，10～30 坪採級距單價，30 坪以上另議整案價。",
+        text: "報價依坪數、牆面狀況與施工難度計算：10 坪以下以基本出工費計價 10～30 坪採級距單價 30 坪以上另議整案價",
       },
       {
         id: 2,
         keywords: ["急件", "加價", "假日", "夜間"],
-        text: "急件（三日內進場）加收 15% 急件費；假日或夜間施工需另加 10%～20% 時段費用。",
+        text: "急件（三日內進場）加收 15% 急件費；假日或夜間施工需另加 10%～20% 時段費用",
       },
       {
         id: 3,
         keywords: ["訂金", "付款", "尾款", "月結"],
-        text: "確認報價後收 30% 訂金排定工期，完工驗收後 7 日內付清尾款；長期合作客戶可申請月結。",
+        text: "確認報價後收 30% 訂金排定工期 完工驗收後 7 日內付清尾款；長期合作客戶可申請月結",
       },
     ],
   },
@@ -87,17 +87,17 @@ const initialDocs = [
       {
         id: 1,
         keywords: ["油漆", "粉刷", "批土", "底漆", "面漆"],
-        text: "油漆工程流程為：保護鋪設 → 批土整平 → 底漆 → 兩道面漆。牆面若有裂縫或不平整，會先批土處理再上漆。",
+        text: "油漆工程流程為：保護鋪設 → 批土整平 → 底漆 → 兩道面漆牆面若有裂縫或不平整 會先批土處理再上漆",
       },
       {
         id: 2,
         keywords: ["壁癌", "漏水", "剝落", "基底"],
-        text: "若現場有壁癌、漏水或嚴重剝落，需先處理基底與防水，否則新漆容易再度剝落，此部分會列為前置工程另行報價。",
+        text: "若現場有壁癌、漏水或嚴重剝落 需先處理基底與防水 否則新漆容易再度剝落 此部分會列為前置工程另行報價",
       },
       {
         id: 3,
         keywords: ["品牌", "得利", "虹牌", "乳膠漆", "水泥漆"],
-        text: "常用漆料為得利與虹牌乳膠漆，可依預算改用水泥漆；特殊色或藝術漆需依色卡另外調色計價。",
+        text: "常用漆料為得利與虹牌乳膠漆 可依預算改用水泥漆；特殊色或藝術漆需依色卡另外調色計價",
       },
     ],
   },
@@ -111,17 +111,17 @@ const initialDocs = [
       {
         id: 1,
         keywords: ["施工前", "準備", "傢俱", "淨空", "保護"],
-        text: "施工前請盡量淨空作業區域的傢俱與雜物；無法移動的大型傢俱由施工團隊以防塵布與保護膜包覆。",
+        text: "施工前請盡量淨空作業區域的傢俱與雜物；無法移動的大型傢俱由施工團隊以防塵布與保護膜包覆",
       },
       {
         id: 2,
         keywords: ["時間", "工期", "幾天", "多久", "進場"],
-        text: "一般室內油漆 2～4 個工作天，含批土整平約 3～6 天；確切工期會在現場勘查後於報價單載明。",
+        text: "一般室內油漆 2～4 個工作天 含批土整平約 3～6 天；確切工期會在現場勘查後於報價單載明",
       },
       {
         id: 3,
         keywords: ["管委會", "電梯", "社區", "申請"],
-        text: "社區大樓施工前請先向管委會申請施工許可與電梯保護，相關文件可由我們提供施工證明協助申請。",
+        text: "社區大樓施工前請先向管委會申請施工許可與電梯保護 相關文件可由我們提供施工證明協助申請",
       },
     ],
   },
@@ -135,12 +135,12 @@ const initialDocs = [
       {
         id: 1,
         keywords: ["保固", "保修", "多久", "一年", "維修"],
-        text: "油漆工程提供一年保固；防水工程提供三年保固。保固期內非人為因素造成的剝落、起泡可免費修補。",
+        text: "油漆工程提供一年保固；防水工程提供三年保固保固期內非人為因素造成的剝落、起泡可免費修補",
       },
       {
         id: 2,
         keywords: ["保固", "範圍", "人為", "排除", "地震"],
-        text: "保固不含人為破壞、結構位移、地震災損與二次施工造成的損傷；判定爭議時會提供現場照片與書面說明。",
+        text: "保固不含人為破壞、結構位移、地震災損與二次施工造成的損傷；判定爭議時會提供現場照片與書面說明",
       },
     ],
   },
@@ -157,12 +157,12 @@ const uploadQueue = [
       {
         id: 1,
         keywords: ["防水", "抓漏", "屋頂", "外牆", "浴室"],
-        text: "防水服務涵蓋屋頂、外牆與浴室：屋頂採 PU 防水層施作，外牆以彈性水泥與撥水劑處理，浴室翻修含防水層試水 48 小時。",
+        text: "防水服務涵蓋屋頂、外牆與浴室：屋頂採 PU 防水層施作 外牆以彈性水泥與撥水劑處理 浴室翻修含防水層試水 48 小時",
       },
       {
         id: 2,
         keywords: ["防水", "價格", "estimate", "估價", "坪"],
-        text: "屋頂 PU 防水以每坪計價並依基底狀況調整；抓漏檢測可先安排現場勘查，勘查費於成交後折抵工程款。",
+        text: "屋頂 PU 防水以每坪計價並依基底狀況調整；抓漏檢測可先安排現場勘查 勘查費於成交後折抵工程款",
       },
     ],
   },
@@ -176,12 +176,12 @@ const uploadQueue = [
       {
         id: 1,
         keywords: ["聯絡", "line", "電話", "詢問", "預約"],
-        text: "可透過網站表單或 LINE 官方帳號預約現場勘查，工作日 24 小時內回覆；勘查後 3 個工作天內提供正式報價單。",
+        text: "可透過網站表單或 LINE 官方帳號預約現場勘查 工作日 24 小時內回覆；勘查後 3 個工作天內提供正式報價單",
       },
       {
         id: 2,
         keywords: ["發票", "統編", "收據", "報帳"],
-        text: "工程款可開立發票並打統編，發票金額已含稅；需要分期請款的公司行號可於簽約時註明請款排程。",
+        text: "工程款可開立發票並打統編 發票金額已含稅；需要分期請款的公司行號可於簽約時註明請款排程",
       },
     ],
   },
@@ -226,7 +226,7 @@ function retrieve(question, docs) {
 
 function buildAnswer(hits) {
   if (hits.length === 0) {
-    return "目前知識庫中沒有找到與這個問題相關的內容，我不會憑空回答。建議補充文件到知識庫，或改問報價、施工流程、保固等主題。"
+    return "目前知識庫中沒有找到與這個問題相關的內容 我不會憑空回答建議補充文件到知識庫 或改問報價、施工流程、保固等主題"
   }
   const body = hits.map((hit) => hit.chunk.text).join("")
   return `根據知識庫文件：${body}`
@@ -279,7 +279,7 @@ function RagConsultant() {
     if (rateLimited) {
       setConversation((current) => [
         ...current,
-        { role: "system", text: "429 Too Many Requests：已達每分鐘 30 次配額，請稍候再試。" },
+        { role: "system", text: "429 Too Many Requests：已達每分鐘 30 次配額 請稍候再試" },
       ])
       return
     }
@@ -370,7 +370,7 @@ function RagConsultant() {
         return {
           ...doc,
           version: previous,
-          versions: [...doc.versions, { v: previous, date: "今天", note: `還原至 v${previous}，舊向量重新啟用` }],
+          versions: [...doc.versions, { v: previous, date: "今天", note: `還原至 v${previous} 舊向量重新啟用` }],
         }
       })
     )
@@ -429,7 +429,7 @@ function RagConsultant() {
         page={{
           path: "/works/rag-consultant",
           title: "RAG 企業顧問｜文件知識庫、引用回答與聊天 Widget｜Qingyu Web Studio",
-          description: "可操作的 RAG 企業顧問系統展示，包含文件上傳、版本管理、向量搜尋、引用回答、租戶配額與用量 metrics。",
+          description: "可操作的 RAG 企業顧問系統展示 包含文件上傳、版本管理、向量搜尋、引用回答、租戶配額與用量 metrics",
         }}
       />
 
@@ -458,12 +458,12 @@ function RagConsultant() {
               <div>
                 <p className="text-xs font-black uppercase tracking-[0.26em] text-[#bf6536]">Enterprise RAG OS</p>
                 <h1 className="mt-5 font-serif text-[clamp(2.5rem,7vw,5.4rem)] font-black leading-[0.95]">
-                  企業文件，
+                  企業文件 
                   <br />
-                  變成可問答顧問。
+                  變成可問答顧問
                 </h1>
                 <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-[#59635d] md:text-base">
-                  把內部文件、SOP、FAQ 建成知識庫，讓員工或客戶用聊天方式查答案，並保留引用來源。下方系統可以直接操作。
+                  把內部文件、SOP、FAQ 建成知識庫 讓員工或客戶用聊天方式查答案 並保留引用來源下方系統可以直接操作
                 </p>
               </div>
               <div className="flex flex-wrap gap-3 md:justify-end">
@@ -653,7 +653,7 @@ function RagConsultant() {
                     <div className="rounded-2xl border border-dashed border-[#d7cbbb] bg-[#fdfbf7] p-4">
                       <p className="text-sm font-black text-[#8a7c6d]">試著問知識庫一個問題</p>
                       <p className="mt-2 text-sm font-bold leading-6 text-[#59635d]">
-                        回答只會根據左側 Active 文件產生，並附上引用來源。把文件封存後再問同一題，可以看到回答跟著改變。
+                        回答只會根據左側 Active 文件產生 並附上引用來源把文件封存後再問同一題 可以看到回答跟著改變
                       </p>
                     </div>
                   ) : null}
@@ -745,7 +745,7 @@ function RagConsultant() {
                   <input
                     value={question}
                     onChange={(event) => setQuestion(event.target.value)}
-                    placeholder="輸入問題，例如：油漆工程怎麼估價？"
+                    placeholder="輸入問題 例如：油漆工程怎麼估價？"
                     className="min-h-12 flex-1 rounded-xl border border-[#d7cbbb] bg-[#fdfbf7] px-4 text-sm font-bold text-[#14201f] outline-none transition focus:border-[#bf6536]"
                   />
                   <button
@@ -779,7 +779,7 @@ function RagConsultant() {
                     <span className="font-mono text-2xl font-black text-[#eac46f]">{usage.queries}</span>
                   </div>
                   <p className="mt-2 text-[11px] font-bold leading-5 text-white/50">
-                    每次提問都會累計 token 與費用，這裡的數字全部由左側操作即時產生。
+                    每次提問都會累計 token 與費用 這裡的數字全部由左側操作即時產生
                   </p>
                 </div>
               </section>
@@ -826,7 +826,7 @@ function RagConsultant() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#bf6536]">Token Billing</p>
             <h2 className="mt-2 font-serif text-3xl font-black">依用量估價</h2>
             <p className="mt-2 text-sm font-bold leading-6 text-[#59635d]">
-              問答時記錄 input / output tokens，自動換算成本。下方數字會跟著上面系統的提問即時累計。
+              問答時記錄 input / output tokens 自動換算成本下方數字會跟著上面系統的提問即時累計
             </p>
             <div className="mt-5 grid gap-3 sm:grid-cols-3">
               <MiniStat label="Input tokens" value={usage.prompt.toLocaleString("en-US")} />
@@ -883,10 +883,10 @@ function RagConsultant() {
 
 function RagProjectBrief() {
   const values = [
-    ["客服可引用來源", "回答不只像聊天，還能回到文件來源。"],
-    ["SOP 更新不重訓", "文件版本更新後，知識庫即可跟著切換。"],
-    ["用量與權限可控", "Token、Rate Limit、版本與搜尋政策都能監控。"],
-    ["內部知識可查", "員工不用翻一堆文件，也能快速找到答案。"],
+    ["客服可引用來源", "回答不只像聊天 還能回到文件來源"],
+    ["SOP 更新不重訓", "文件版本更新後 知識庫即可跟著切換"],
+    ["用量與權限可控", "Token、Rate Limit、版本與搜尋政策都能監控"],
+    ["內部知識可查", "員工不用翻一堆文件 也能快速找到答案"],
   ]
   const flow = ["上傳文件", "切分段落", "建立索引", "提出問題", "回答附引用", "監控用量"]
 
@@ -897,7 +897,7 @@ function RagProjectBrief() {
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#bf6536]">Business Value</p>
           <h2 className="mt-3 font-serif text-3xl font-black leading-tight md:text-4xl">把公司文件變成可查 可控 可追溯的問答系統</h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#59635d]">
-            適合 SOP、保固政策、客服 FAQ、內部規範與產品文件。
+            適合 SOP、保固政策、客服 FAQ、內部規範與產品文件
           </p>
           <div className="mt-5 flex flex-wrap gap-2">
             <Link to="/contact?case=RAG 企業知識庫" className="inline-flex min-h-10 items-center rounded-xl bg-[#14201f] px-4 text-sm font-black text-white">

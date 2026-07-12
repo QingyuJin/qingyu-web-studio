@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import SectionTitle from "../shared/SectionTitle"
 import Status from "../shared/Status"
@@ -25,7 +25,7 @@ function TasksPanel({ tasks, toggleTaskComplete, updateTaskReport, deleteTask })
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="任務管理" desc="查看所有師傅與使用者的任務狀態。" />
+      <SectionTitle title="任務管理" desc="查看所有師傅與使用者的任務狀態" />
       <Card>
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
           <div>
@@ -94,10 +94,10 @@ function WorkerPanel({ worker, tasks, toggleTaskComplete, updateTaskReport }) {
     <div className="grid gap-5">
       <SectionTitle
         title={`${worker?.name || "使用者"}的任務`}
-        desc="使用者只能看到自己負責的項目，並回報完成或問題。"
+        desc="使用者只能看到自己負責的項目 並回報完成或問題"
       />
       <div className="rounded-2xl border border-slate-200 bg-white p-5 text-sm leading-7 text-slate-600 shadow-sm">
-        使用者視角不顯示批價、預算與完整案件資料，只保留任務、期限、備註與問題回報。
+        使用者視角不顯示批價、預算與完整案件資料 只保留任務、期限、備註與問題回報
       </div>
       <Card>
         <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
@@ -183,7 +183,7 @@ function TaskList({
       ))}
       {!tasks.length && (
         <Card>
-          <p className="text-slate-500">目前沒有任務。</p>
+          <p className="text-slate-500">目前沒有任務</p>
         </Card>
       )}
     </div>

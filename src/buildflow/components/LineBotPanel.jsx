@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import Card from "../shared/Card"
 import SectionTitle from "../shared/SectionTitle"
 import Status from "../shared/Status"
@@ -9,7 +9,7 @@ const lineCommands = [
   {
     label: "狀態",
     command: "測試",
-    reply: "系統在線。\n可測：選單 / 估價 / 業主 q-001 / 老闆總覽 / 綁定 / 今日任務",
+    reply: "系統在線\n可測：選單 / 估價 / 業主 q-001 / 老闆總覽 / 綁定 / 今日任務",
   },
   {
     label: "選單",
@@ -21,7 +21,7 @@ const lineCommands = [
     label: "估價",
     command: "估價",
     reply:
-      "估價資料格式\n\n姓名：\n電話 / LINE：\n來源：LINE / Pro360 / 紙本\n工種：防水 / 泥作 / 油漆\n工項：\n材料：\n工具：\n坪數 / 數量：\n預計日期：\n\n填完可轉報價單與 PDF。",
+      "估價資料格式\n\n姓名：\n電話 / LINE：\n來源：LINE / Pro360 / 紙本\n工種：防水 / 泥作 / 油漆\n工項：\n材料：\n工具：\n坪數 / 數量：\n預計日期：\n\n填完可轉報價單與 PDF",
   },
   {
     label: "業主",
@@ -33,7 +33,7 @@ const lineCommands = [
     label: "老闆",
     command: "老闆總覽",
     reply:
-      "老闆總覽\n\n待報價：1\n施工中：1\n待回報：1\n待確認追加：1\n粗估毛利：NT$77,000\n\n建議先處理：q-001 業主確認。",
+      "老闆總覽\n\n待報價：1\n施工中：1\n待回報：1\n待確認追加：1\n粗估毛利：NT$77,000\n\n建議先處理：q-001 業主確認",
   },
   {
     label: "PDF",
@@ -44,7 +44,7 @@ const lineCommands = [
   {
     label: "綁定",
     command: "綁定 BF-AMING-1234",
-    reply: "綁定成功：阿明師傅\n之後可輸入「今日任務」查詢。",
+    reply: "綁定成功：阿明師傅\n之後可輸入「今日任務」查詢",
   },
   {
     label: "任務",
@@ -61,7 +61,7 @@ const lineCommands = [
     label: "照片",
     command: "傳照片",
     reply:
-      "照片已收到。\n若要綁到任務，請輸入：回報 t-001 照片已上傳，請查看現場狀況。",
+      "照片已收到\n若要綁到任務 請輸入：回報 t-001 照片已上傳 請查看現場狀況",
   },
   {
     label: "完成",
@@ -86,7 +86,7 @@ function LineBotPanel({ tasks, session }) {
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="LINE Bot" desc={`帳號 ${lineBotId}。點指令即可預覽回覆。`} />
+      <SectionTitle title="LINE Bot" desc={`帳號 ${lineBotId}點指令即可預覽回覆`} />
 
       <div className="grid gap-3 md:grid-cols-4">
         {roleTests.map(([role, flow]) => (
@@ -102,7 +102,7 @@ function LineBotPanel({ tasks, session }) {
           <div className="flex items-start justify-between gap-3">
             <div>
               <h3 className="text-xl font-black">指令預覽</h3>
-              <p className="mt-1 text-sm text-slate-500">點一下，看會怎麼回。</p>
+              <p className="mt-1 text-sm text-slate-500">點一下 看會怎麼回</p>
             </div>
             <Status>Supabase</Status>
           </div>
@@ -140,7 +140,7 @@ function LineBotPanel({ tasks, session }) {
             </div>
           </div>
           <div className="mt-5 rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-            建議順序：估價 → 業主 q-001 → 老闆總覽 → 綁定 → 今日任務 → 回報 → 完成。
+            建議順序：估價 → 業主 q-001 → 老闆總覽 → 綁定 → 今日任務 → 回報 → 完成
           </div>
         </Card>
       </div>
@@ -155,7 +155,7 @@ function LineBotPanel({ tasks, session }) {
         <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between">
           <div>
             <h3 className="text-xl font-black">回報紀錄</h3>
-            <p className="mt-1 text-sm text-slate-500">LINE 或任務面板寫入。</p>
+            <p className="mt-1 text-sm text-slate-500">LINE 或任務面板寫入</p>
           </div>
           <Status>{reportedTasks.length ? "有資料" : "等待回報"}</Status>
         </div>
@@ -180,7 +180,7 @@ function LineBotPanel({ tasks, session }) {
 
           {!reportedTasks.length && (
             <div className="rounded-xl border border-dashed border-slate-300 bg-slate-50 p-5 text-sm leading-7 text-slate-600">
-              輸入「回報 t-001 現場已完成第一道防水」，或在「我的任務」填寫回報。
+              輸入「回報 t-001 現場已完成第一道防水」 或在「我的任務」填寫回報
             </div>
           )}
         </div>

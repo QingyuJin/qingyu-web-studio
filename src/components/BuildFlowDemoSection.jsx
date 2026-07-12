@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+﻿import { useEffect, useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import {
   buildFlowDemoCases,
@@ -76,7 +76,7 @@ function BuildFlowDemoSection() {
               BuildFlow 工程資料管理互動 Demo
             </h2>
             <p className="mt-4 text-sm font-bold leading-7 text-[#5d6863]">
-              模擬把 LINE 裡散落的照片、報價、備註與施工進度整理成可搜尋、可追蹤的案件系統。
+              模擬把 LINE 裡散落的照片、報價、備註與施工進度整理成可搜尋、可追蹤的案件系統
             </p>
           </div>
 
@@ -114,7 +114,7 @@ function BuildFlowDemoSection() {
               <div className="rounded-lg border border-dashed border-[#bfd0cb] bg-white/72 p-8 text-center">
                 <p className="text-lg font-black text-[#172026]">目前沒有符合的工程案件</p>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#66716d]">
-                  換個關鍵字，例如「施工中」、「報價」或「防水」再試試。
+                  換個關鍵字 例如「施工中」、「報價」或「防水」再試試
                 </p>
               </div>
             ) : null}
@@ -127,7 +127,7 @@ function BuildFlowDemoSection() {
               <div>
                 <p className="text-lg font-black text-[#172026]">沒有可顯示的案件詳情</p>
                 <p className="mt-2 text-sm font-bold leading-7 text-[#66716d]">
-                  清除搜尋或改用其他關鍵字後，這裡會重新顯示案件時間軸、照片與備註。
+                  清除搜尋或改用其他關鍵字後 這裡會重新顯示案件時間軸、照片與備註
                 </p>
               </div>
             </div>
@@ -136,7 +136,7 @@ function BuildFlowDemoSection() {
 
         <div className="mt-8 flex flex-wrap items-center justify-between gap-4 rounded-lg border border-[#d0ddd9] bg-white p-5 shadow-sm">
           <p className="max-w-2xl text-sm font-bold leading-7 text-[#5d6863]">
-            這種 Demo 可以依照不同產業調整欄位，例如維修紀錄、客戶追蹤、庫存、訂單或報價管理。
+            這種 Demo 可以依照不同產業調整欄位 例如維修紀錄、客戶追蹤、庫存、訂單或報價管理
           </p>
           <a
             href="#contact"
@@ -305,10 +305,10 @@ function StatusPill({ status }) {
 }
 
 function statusQuoteText(status) {
-  if (status === "待整理") return "資料剛匯入，等待整理 LINE 照片與備註"
-  if (status === "估價中") return "報價草稿建立中，等待確認材料與數量"
-  if (status === "施工中") return "已轉為施工案件，正在追蹤現場回報"
-  return "案件已完成，照片、報價與保固備註已歸檔"
+  if (status === "待整理") return "資料剛匯入 等待整理 LINE 照片與備註"
+  if (status === "估價中") return "報價草稿建立中 等待確認材料與數量"
+  if (status === "施工中") return "已轉為施工案件 正在追蹤現場回報"
+  return "案件已完成 照片、報價與保固備註已歸檔"
 }
 
 export default BuildFlowDemoSection

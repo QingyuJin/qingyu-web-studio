@@ -1,4 +1,4 @@
-import { isSupabaseConfigured, supabase } from "./supabaseClient"
+﻿import { isSupabaseConfigured, supabase } from "./supabaseClient"
 
 const LOCAL_STORAGE_KEY = "qingyu_contact_requests"
 
@@ -24,7 +24,7 @@ export async function createContactRequest(payload) {
     if (error) throw new Error(error.message)
     return { ok: true }
   } catch {
-    // 後端暫時不可用時仍把需求留在本機，不讓表單直接失敗
+    // 後端暫時不可用時仍把需求留在本機 不讓表單直接失敗
     saveLocalRequest(payload)
     return { ok: true, mode: "local" }
   }
@@ -35,7 +35,7 @@ export async function listContactRequests() {
     return {
       ok: true,
       mode: "local",
-      reason: "目前使用本機暫存資料。部署後設定 Supabase 環境變數即可改讀後端。",
+      reason: "目前使用本機暫存資料部署後設定 Supabase 環境變數即可改讀後端",
       data: readLocalRequests(),
     }
   }
@@ -52,7 +52,7 @@ export async function listContactRequests() {
     return {
       ok: true,
       mode: "local",
-      reason: `後端暫時無法讀取（${error.message}），改用本機資料。`,
+      reason: `後端暫時無法讀取（${error.message}） 改用本機資料`,
       data: readLocalRequests(),
     }
   }

@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
@@ -16,7 +16,7 @@ function VendorsPanel({ vendors, addVendor, editVendor, deleteVendor }) {
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="廠商資料" desc="集中管理師傅、工種、電話與合作備註。" />
+      <SectionTitle title="廠商資料" desc="集中管理師傅、工種、電話與合作備註" />
       <Card>
         <h3 className="text-xl font-black">新增廠商</h3>
         <form onSubmit={addVendor} className="mt-4 grid gap-3 md:grid-cols-2">
@@ -64,7 +64,7 @@ function VendorsPanel({ vendors, addVendor, editVendor, deleteVendor }) {
             </Card>
           ))}
           {!filteredVendors.length && (
-            <p className="text-sm text-slate-500">沒有符合條件的廠商。</p>
+            <p className="text-sm text-slate-500">沒有符合條件的廠商</p>
           )}
         </div>
       </Card>

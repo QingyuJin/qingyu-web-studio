@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
@@ -45,7 +45,7 @@ function ChangeOrdersPanel({
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="追加減項" desc="記錄追加原因、金額、確認狀態，並產生業主確認文字。" />
+      <SectionTitle title="追加減項" desc="記錄追加原因、金額、確認狀態 並產生業主確認文字" />
       <Card>
         <h3 className="text-xl font-black">新增追加 / 減項</h3>
         <form onSubmit={addChangeOrder} className="mt-4 grid gap-3 md:grid-cols-2">
@@ -135,7 +135,7 @@ function ChangeOrdersPanel({
               </div>
             ))}
             {!filteredOrders.length && (
-              <p className="text-sm text-slate-500">沒有符合條件的追加減項。</p>
+              <p className="text-sm text-slate-500">沒有符合條件的追加減項</p>
             )}
           </div>
         </Card>
@@ -166,7 +166,7 @@ function ChangeOrdersPanel({
               </button>
             </>
           ) : (
-            <p className="mt-4 text-sm text-slate-500">目前沒有追加減項。</p>
+            <p className="mt-4 text-sm text-slate-500">目前沒有追加減項</p>
           )}
         </Card>
       </div>

@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 import { portfolioProjects } from "../data/portfolioContent"
 
 function isExternalUrl(to) {
@@ -37,7 +37,7 @@ function PortfolioSection() {
             </h2>
           </div>
           <p className="max-w-md text-sm font-bold leading-7 text-[#5d6863]">
-            每個作品都聚焦一個真實商務問題：收需求、整理資料、追蹤案件、建立可信任的網站門面。
+            每個作品都聚焦一個真實商務問題：收需求、整理資料、追蹤案件、建立可信任的網站門面
           </p>
         </div>
 

@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import Info from "../shared/Info"
 import Metric from "../shared/Metric"
@@ -27,7 +27,7 @@ function ProjectDetailPanel({
   if (!project) {
     return (
       <div className="grid gap-5">
-        <SectionTitle title="找不到案件" desc="這個案件可能已經被刪除。" />
+        <SectionTitle title="找不到案件" desc="這個案件可能已經被刪除" />
         <button
           onClick={onBack}
           className="w-fit rounded-xl bg-slate-950 px-4 py-3 text-sm font-black text-white"
@@ -70,7 +70,7 @@ function ProjectDetailPanel({
       <div className="flex flex-col gap-4 md:flex-row md:items-start md:justify-between">
         <SectionTitle
           title={project.name}
-          desc="案件中心：集中查看基本資料、發包、批價、追加減項與任務。"
+          desc="案件中心：集中查看基本資料、發包、批價、追加減項與任務"
         />
         <button
           onClick={onBack}
@@ -104,7 +104,7 @@ function ProjectDetailPanel({
               <Info label="預計完工" value={project.dueDate} />
             </div>
             <p className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
-              {project.note || "沒有備註。"}
+              {project.note || "沒有備註"}
             </p>
           </div>
 
@@ -121,8 +121,8 @@ function ProjectDetailPanel({
             </select>
             <div className="mt-5 rounded-xl bg-slate-50 p-4 text-sm leading-7 text-slate-600">
               {pendingChanges.length > 0
-                ? `目前有 ${pendingChanges.length} 筆追加尚未完成業主確認。`
-                : "目前沒有待確認追加。"}
+                ? `目前有 ${pendingChanges.length} 筆追加尚未完成業主確認`
+                : "目前沒有待確認追加"}
             </div>
           </div>
         </div>
@@ -166,7 +166,7 @@ function ProjectDetailPanel({
             </tbody>
           </table>
           {!projectSubcontracts.length && (
-            <p className="py-4 text-sm text-slate-500">本案目前沒有發包項目。</p>
+            <p className="py-4 text-sm text-slate-500">本案目前沒有發包項目</p>
           )}
         </div>
       </Card>
@@ -197,7 +197,7 @@ function ProjectDetailPanel({
             </tbody>
           </table>
           {!projectBids.length && (
-            <p className="py-4 text-sm text-slate-500">本案目前沒有批價紀錄。</p>
+            <p className="py-4 text-sm text-slate-500">本案目前沒有批價紀錄</p>
           )}
         </div>
       </Card>
@@ -234,7 +234,7 @@ function ProjectDetailPanel({
             </div>
           ))}
           {!projectChanges.length && (
-            <p className="text-sm text-slate-500">本案目前沒有追加減項。</p>
+            <p className="text-sm text-slate-500">本案目前沒有追加減項</p>
           )}
         </div>
       </Card>

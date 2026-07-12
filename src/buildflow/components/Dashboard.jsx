@@ -1,4 +1,4 @@
-import Card from "../shared/Card"
+﻿import Card from "../shared/Card"
 import Metric from "../shared/Metric"
 import SectionTitle from "../shared/SectionTitle"
 import SmallButton from "../shared/SmallButton"
@@ -38,7 +38,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail, 
 
   return (
     <div className="grid gap-5">
-      <SectionTitle title="今日總覽" desc="先處理會影響收款的事。" />
+      <SectionTitle title="今日總覽" desc="先處理會影響收款的事" />
 
       <div className="grid gap-4 lg:grid-cols-3">
         {priorityCards.map((item) => (
@@ -79,7 +79,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail, 
           <div className="flex items-center justify-between gap-3">
             <div>
               <h3 className="text-xl font-black">施工案件</h3>
-              <p className="mt-1 text-sm text-slate-500">點開看內容。</p>
+              <p className="mt-1 text-sm text-slate-500">點開看內容</p>
             </div>
             <Status>{runningProjects.length || projects.length} 案</Status>
           </div>
@@ -105,7 +105,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail, 
           <div className="flex items-start justify-between gap-3">
             <div>
               <h3 className="text-xl font-black">待處理</h3>
-              <p className="mt-1 text-sm text-slate-500">追加與任務優先。</p>
+              <p className="mt-1 text-sm text-slate-500">追加與任務優先</p>
             </div>
             <button
               type="button"
@@ -132,7 +132,7 @@ function Dashboard({ metrics, projects, changeOrders, tasks, openProjectDetail, 
             ))}
             {!waitingChanges.length && !openTasks.length ? (
               <p className="rounded-xl bg-slate-50 p-4 text-sm font-bold text-slate-500">
-                目前沒有待處理事項。
+                目前沒有待處理事項
               </p>
             ) : null}
           </div>

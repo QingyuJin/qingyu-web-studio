@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+﻿import { useEffect, useMemo, useState } from "react"
 
 import { adminTabs, workerTabs } from "./data/sampleData"
 import { today, formatMoney, createId, textValue, numberValue } from "./utils/helpers"
@@ -105,14 +105,14 @@ function BuildFlow() {
   async function resetTestData() {
     const confirmed = await confirmAction({
       title: "重置 BuildFlow 測試資料",
-      message: "目前新增的資料會被清除，並回到預設狀態。",
+      message: "目前新增的資料會被清除 並回到預設狀態",
       confirmLabel: "重置資料",
     })
     if (!confirmed) return
     setActiveProjectId("")
     setActiveTab(isAdmin ? "dashboard" : "worker")
     resetData()
-    showToast("BuildFlow 測試資料已重置。")
+    showToast("BuildFlow 測試資料已重置")
   }
 
   function openProjectDetail(projectId) {
@@ -137,13 +137,13 @@ function BuildFlow() {
     const username = textValue(form, "username")
 
     if (!username) {
-      showToast("請輸入帳號。", "error")
+      showToast("請輸入帳號", "error")
       return
     }
 
     const exists = users.some((user) => user.username.toLowerCase() === username.toLowerCase())
     if (exists) {
-      showToast("這個帳號已經存在，請換一個帳號。", "error")
+      showToast("這個帳號已經存在 請換一個帳號", "error")
       return
     }
 
@@ -205,19 +205,19 @@ function BuildFlow() {
     if (!user) return
 
     if (user.id === session?.id) {
-      showToast("不能刪除目前登入中的帳號。", "error")
+      showToast("不能刪除目前登入中的帳號", "error")
       return
     }
 
     if (user.role === "admin") {
-      showToast("系統保留管理者帳號，避免無法登入。", "error")
+      showToast("系統保留管理者帳號 避免無法登入", "error")
       return
     }
 
     const relatedTasks = tasks.filter((task) => task.workerId === user.id).length
     const confirmed = await confirmAction({
       title: `刪除使用者：${user.name}`,
-      message: `相關 ${relatedTasks} 個任務會改成未指派。`,
+      message: `相關 ${relatedTasks} 個任務會改成未指派`,
       confirmLabel: "刪除使用者",
     })
     if (!confirmed) return
@@ -312,7 +312,7 @@ function BuildFlow() {
 
     setData((current) => ({ ...current, quoteDrafts: [newQuote, ...current.quoteDrafts] }))
     event.currentTarget.reset()
-    showToast("報價單已建立。")
+    showToast("報價單已建立")
   }
 
   function updateQuoteDraftStage(quoteId, stage) {
@@ -346,12 +346,12 @@ function BuildFlow() {
       manager: session?.name || "管理者",
       startDate: today,
       dueDate: today,
-      note: `由網站詢價轉入。聯絡方式：${lead.contact || "未填"}。預算：${
+      note: `由網站詢價轉入聯絡方式：${lead.contact || "未填"}預算：${
         lead.budget_range || "未填"
-      }。\n${lead.message || ""}`,
+      }\n${lead.message || ""}`,
     }
     setData((current) => ({ ...current, projects: [newProject, ...current.projects] }))
-    showToast("已將網站詢價轉為案件，可在案件管理繼續報價。")
+    showToast("已將網站詢價轉為案件 可在案件管理繼續報價")
     goToTab("projects")
   }
 
@@ -371,9 +371,9 @@ function BuildFlow() {
       manager: session?.name || "管理者",
       startDate: quote.expectedDate || today,
       dueDate: quote.expectedDate || today,
-      note: `由報價單 ${quote.id} 建立。來源：${quote.source || "未填"}。業主確認：${
+      note: `由報價單 ${quote.id} 建立來源：${quote.source || "未填"}業主確認：${
         quote.ownerStatus || "待確認"
-      }。${quote.note || ""}`,
+      }${quote.note || ""}`,
     }
 
     setData((current) => ({
@@ -383,7 +383,7 @@ function BuildFlow() {
         item.id === quote.id ? { ...item, stage: "發包", ownerStatus: "已確認" } : item
       ),
     }))
-    showToast("已由報價單建立案件。")
+    showToast("已由報價單建立案件")
   }
 
   function printQuoteDraftPdf(quote) {
@@ -406,7 +406,7 @@ function BuildFlow() {
       .join("")
     const printWindow = window.open("", "_blank", "width=900,height=720")
     if (!printWindow) {
-      showToast("瀏覽器封鎖列印視窗，請允許彈出視窗。", "error")
+      showToast("瀏覽器封鎖列印視窗 請允許彈出視窗", "error")
       return
     }
 
@@ -459,10 +459,10 @@ function BuildFlow() {
           <div class="box">
             <strong>報價條款</strong>
             <ul>
-              <li>未列工項另行報價。</li>
-              <li>追加減項須經業主確認後施工。</li>
-              <li>實際數量以現場丈量與完工驗收為準。</li>
-              <li>照片、口頭與 LINE 紀錄可作為溝通附件。</li>
+              <li>未列工項另行報價</li>
+              <li>追加減項須經業主確認後施工</li>
+              <li>實際數量以現場丈量與完工驗收為準</li>
+              <li>照片、口頭與 LINE 紀錄可作為溝通附件</li>
             </ul>
           </div>
           <div class="sign">
@@ -523,7 +523,7 @@ function BuildFlow() {
     const project = projects.find((item) => item.id === projectId)
     const confirmed = await confirmAction({
       title: `刪除案件：${project?.name || "這個案件"}`,
-      message: "相關發包、批價、追加減項、任務也會一起移除。",
+      message: "相關發包、批價、追加減項、任務也會一起移除",
       confirmLabel: "刪除案件",
     })
     if (!confirmed) return
@@ -636,7 +636,7 @@ function BuildFlow() {
     const subcontract = subcontracts.find((item) => item.id === subcontractId)
     const confirmed = await confirmAction({
       title: `刪除發包項目：${subcontract?.item || "這個發包項目"}`,
-      message: "相關批價與任務也會一起移除。",
+      message: "相關批價與任務也會一起移除",
       confirmLabel: "刪除項目",
     })
     if (!confirmed) return
@@ -692,7 +692,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除批價紀錄",
-        message: "這筆批價紀錄會從目前資料中移除。",
+        message: "這筆批價紀錄會從目前資料中移除",
         confirmLabel: "刪除紀錄",
       }))
     )
@@ -761,7 +761,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除追加 / 減項",
-        message: "這筆追加 / 減項紀錄會從目前資料中移除。",
+        message: "這筆追加 / 減項紀錄會從目前資料中移除",
         confirmLabel: "刪除紀錄",
       }))
     )
@@ -824,7 +824,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除廠商資料",
-        message: "這筆廠商資料會從目前資料中移除。",
+        message: "這筆廠商資料會從目前資料中移除",
         confirmLabel: "刪除廠商",
       }))
     )
@@ -857,7 +857,7 @@ function BuildFlow() {
     if (
       !(await confirmAction({
         title: "刪除任務",
-        message: "這個任務會從目前資料中移除。",
+        message: "這個任務會從目前資料中移除",
         confirmLabel: "刪除任務",
       }))
     )
@@ -869,7 +869,7 @@ function BuildFlow() {
   }
 
   function generateConfirmText(order) {
-    return `【追加工程確認】\n\n案件：${order.projectName}\n類型：${order.type}\n項目：${order.item}\n原因：${order.reason}\n金額：NT$${formatMoney(order.amount)}\n\n請業主確認後，我們再安排後續施工。`
+    return `【追加工程確認】\n\n案件：${order.projectName}\n類型：${order.type}\n項目：${order.item}\n原因：${order.reason}\n金額：NT$${formatMoney(order.amount)}\n\n請業主確認後 我們再安排後續施工`
   }
 
   const actions = useBuildFlowActions({

@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+﻿/* eslint-disable react-refresh/only-export-components */
 import { useEffect, useRef, useState } from "react"
 
 const NAMES = ["陳先生", "林小姐", "王老闆", "張太太", "李先生", "趙小姐", "吳老闆"]
@@ -43,7 +43,7 @@ export const industries = [
     },
     recommend: {
       name: "餐廳內用點餐系統",
-      desc: "已開發完成的可操作成品，手機點餐送廚房即時出單，適合內用型餐飲。",
+      desc: "已開發完成的可操作成品 手機點餐送廚房即時出單 適合內用型餐飲",
       price: "25,000 元起",
       to: "/works/restaurant-ordering",
     },
@@ -80,7 +80,7 @@ export const industries = [
     },
     recommend: {
       name: "批發訂貨系統",
-      desc: "客戶手機下單、專屬價格、後台出貨與月結對帳，適合批發／中盤商。",
+      desc: "客戶手機下單、專屬價格、後台出貨與月結對帳 適合批發／中盤商",
       price: "25,000 元起",
       to: "/works/wholesale-ordering",
     },
@@ -113,7 +113,7 @@ export const industries = [
     },
     recommend: {
       name: "鑫匠工程",
-      desc: "真實上線的工程行案例。黑金官網 + 線上詢價，需求進 BuildFlow 後台一鍵轉案件。",
+      desc: "真實上線的工程行案例黑金官網 + 線上詢價 需求進 BuildFlow 後台一鍵轉案件",
       price: "30,000 元起",
       to: "/works/xinjiang",
       tag: "真實客戶案例",
@@ -147,7 +147,7 @@ export const industries = [
     },
     recommend: {
       name: "生醫品牌官網",
-      desc: "醫療內容品牌形象站：故事、服務、案例與講座報名一頁整合。",
+      desc: "醫療內容品牌形象站：故事、服務、案例與講座報名一頁整合",
       price: "12,000 元起",
       to: "/works/biomed-brand-site",
       tag: "真實上線案例",
@@ -185,7 +185,7 @@ export const industries = [
     },
     recommend: {
       name: "互動測驗系統",
-      desc: "可操作成品：線上作答、自動計分、結果報告，適合教育訓練與顧問。",
+      desc: "可操作成品：線上作答、自動計分、結果報告 適合教育訓練與顧問",
       price: "6,000 元起",
       to: "/works/assessment-system",
     },
@@ -218,7 +218,7 @@ export const industries = [
     },
     recommend: {
       name: "Notion 風格落地頁",
-      desc: "深色品牌形象頁 + LINE 名單導流，適合創作者與個人品牌。",
+      desc: "深色品牌形象頁 + LINE 名單導流 適合創作者與個人品牌",
       price: "12,000 元起",
       to: "/works/notion-brand-landing",
     },
@@ -237,7 +237,7 @@ export function LiveIndustryDemo({ industry, onInteract }) {
   const [flash, setFlash] = useState(false)
   const timerRef = useRef(null)
 
-  // 切換行業時，StudioHome 用 key 重掛此元件，狀態自動歸零，不需額外 effect。
+  // 切換行業時 StudioHome 用 key 重掛此元件 狀態自動歸零 不需額外 effect
   useEffect(() => () => window.clearTimeout(timerRef.current), [])
 
   function addRow(label) {
@@ -294,7 +294,7 @@ export function LiveIndustryDemo({ industry, onInteract }) {
         <div className="flex items-center justify-between">
           <p className="text-sm font-black text-white">{industry.back.title}</p>
           {flash ? (
-            <span className="rounded-full bg-[#8fd6cc]/15 px-2.5 py-0.5 text-[11px] font-black text-[#8fd6cc]">← 你剛按的，進來了</span>
+            <span className="rounded-full bg-[#8fd6cc]/15 px-2.5 py-0.5 text-[11px] font-black text-[#8fd6cc]">← 你剛按的 進來了</span>
           ) : (
             <span className="text-[11px] font-bold text-white/45">今日 {count} 筆</span>
           )}

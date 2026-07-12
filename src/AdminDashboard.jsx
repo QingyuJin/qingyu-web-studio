@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+﻿import { useEffect, useMemo, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { getCurrentUser, logout } from "./auth"
 import {
@@ -14,7 +14,7 @@ const adminProjects = [
     title: "估價前台",
     path: "/contractor-site",
     status: "Website",
-    summary: "給客戶填需求、看案例、留下聯絡資料。",
+    summary: "給客戶填需求、看案例、留下聯絡資料",
     checks: ["工程照片", "需求表單", "估價摘要"],
   },
   {
@@ -22,7 +22,7 @@ const adminProjects = [
     title: "工程後台",
     path: "/buildflow",
     status: "System",
-    summary: "案件、報價、發包、任務回報集中管理。",
+    summary: "案件、報價、發包、任務回報集中管理",
     checks: ["角色登入", "報價單", "LINE 回報"],
   },
 ]
@@ -101,7 +101,7 @@ function AdminDashboard() {
     setRequests((current) =>
       current.map((item) => (item.id === requestId ? { ...item, ...values } : item))
     )
-    setRequestMessage("需求狀態已更新。")
+    setRequestMessage("需求狀態已更新")
   }
 
   return (
@@ -141,10 +141,10 @@ function AdminDashboard() {
               Work Flow
             </p>
             <h1 className="mt-4 max-w-xl text-3xl font-black leading-tight md:text-5xl">
-              一條工程流程，兩個入口。
+              一條工程流程 兩個入口
             </h1>
             <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#5b6966]">
-              前台收需求，後台管案件。先看流程，再進系統操作。
+              前台收需求 後台管案件先看流程 再進系統操作
             </p>
           </div>
 
@@ -202,7 +202,7 @@ function AdminDashboard() {
               </p>
               <h2 className="mt-2 text-2xl font-black">接案需求列表</h2>
               <p className="mt-2 text-sm font-bold leading-6 text-[#5b6966]">
-                前台表單送出後會進到這裡，先用最小狀態管理追蹤每一筆需求。
+                前台表單送出後會進到這裡 先用最小狀態管理追蹤每一筆需求
               </p>
             </div>
 
@@ -278,7 +278,7 @@ function AdminDashboard() {
 
             {!loadingRequests && !filteredRequests.length ? (
               <p className="rounded-md border border-dashed border-[#d9d1c4] p-6 text-center text-sm font-bold text-[#61706d]">
-                目前沒有符合的接案需求。
+                目前沒有符合的接案需求
               </p>
             ) : null}
 

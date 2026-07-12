@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { createContactRequest } from "../lib/contactRequests"
 
@@ -43,7 +43,7 @@ function ContactLeadSection() {
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好，我想討論網站、LINE Bot、AI 工具或後台流程需求。",
+      "你好 我想討論網站、LINE Bot、AI 工具或後台流程需求",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
       `產業：${form.industry}`,
@@ -65,7 +65,7 @@ function ContactLeadSection() {
       await navigator.clipboard.writeText(text)
       setNotice(`已複製 ${label}`)
     } catch {
-      setNotice(`無法自動複製，請手動複製：${text}`)
+      setNotice(`無法自動複製 請手動複製：${text}`)
     }
   }
 
@@ -87,8 +87,8 @@ function ContactLeadSection() {
     setSubmitting(false)
     setNotice(
       result.ok
-        ? "已收到，我會回覆做法與估價。"
-        : "已整理，請用 Email 或 LINE 傳給我。"
+        ? "已收到 我會回覆做法與估價"
+        : "已整理 請用 Email 或 LINE 傳給我"
     )
   }
 
@@ -106,7 +106,7 @@ function ContactLeadSection() {
             填需求表單
           </h2>
           <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            傳產業、參考案例、預算與時程。
+            傳產業、參考案例、預算與時程
           </p>
 
           <div className="mt-8 grid gap-3">
@@ -141,7 +141,7 @@ function ContactLeadSection() {
                 value={form.message}
                 onChange={(event) => updateForm("message", event.target.value)}
                 required
-                placeholder="例如：想做類似鑫匠的官網與詢價系統。"
+                placeholder="例如：想做類似鑫匠的官網與詢價系統"
                 className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
               />
             </label>

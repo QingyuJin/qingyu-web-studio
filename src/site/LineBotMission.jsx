@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
@@ -26,10 +26,10 @@ const scenarios = [
     category: "網站詢價",
     best: "ask",
     replies: {
-      auto: "可以，網站依頁面、內容與功能估價。",
-      ask: "請提供產業、頁面、表單或 LINE 需求。",
-      case: "我先把你記成網站詢價需求，後台會整理預算、功能與上線時間。",
-      human: "我會轉給本人回覆，你也可以先留下產業與預算區間。",
+      auto: "可以 網站依頁面、內容與功能估價",
+      ask: "請提供產業、頁面、表單或 LINE 需求",
+      case: "我先把你記成網站詢價需求 後台會整理預算、功能與上線時間",
+      human: "我會轉給本人回覆 你也可以先留下產業與預算區間",
     },
   },
   {
@@ -38,22 +38,22 @@ const scenarios = [
     category: "預約諮詢",
     best: "case",
     replies: {
-      auto: "可以，請先留下方便的時間與聯絡方式。",
-      ask: "可以，請提供明天下午大約幾點、想討論的項目與聯絡方式。",
-      case: "已整理成預約諮詢，後台會標記時間與需求，方便後續追蹤。",
-      human: "我會轉人工確認時間，避免預約時間衝突。",
+      auto: "可以 請先留下方便的時間與聯絡方式",
+      ask: "可以 請提供明天下午大約幾點、想討論的項目與聯絡方式",
+      case: "已整理成預約諮詢 後台會標記時間與需求 方便後續追蹤",
+      human: "我會轉人工確認時間 避免預約時間衝突",
     },
   },
   {
     id: "estimate",
-    customer: "我有一個工程案想先估價。",
+    customer: "我有一個工程案想先估價",
     category: "工程估價",
     best: "case",
     replies: {
-      auto: "可以，工程估價通常需要照片、位置與問題描述。",
-      ask: "可以，請先提供工程類型、現場照片、地點與希望處理時間。",
-      case: "已建立工程估價案件，後台會同步照片、描述與報價狀態。",
-      human: "我會轉人工，也可先傳現場照片。",
+      auto: "可以 工程估價通常需要照片、位置與問題描述",
+      ask: "可以 請先提供工程類型、現場照片、地點與希望處理時間",
+      case: "已建立工程估價案件 後台會同步照片、描述與報價狀態",
+      human: "我會轉人工 也可先傳現場照片",
     },
   },
   {
@@ -62,22 +62,22 @@ const scenarios = [
     category: "作品查詢",
     best: "auto",
     replies: {
-      auto: "有，可以先看 AI Audit、LINE Bot、BuildFlow 與 API Automation 這幾個互動成品。",
-      ask: "有，你比較想看網站、LINE Bot、AI 工具還是後台系統案例？",
-      case: "已記錄為作品查詢，後台會標記你偏好的案例類型。",
-      human: "我可以人工推薦適合你的案例。",
+      auto: "有 可以先看 AI Audit、LINE Bot、BuildFlow 與 API Automation 這幾個互動成品",
+      ask: "有 你比較想看網站、LINE Bot、AI 工具還是後台系統案例？",
+      case: "已記錄為作品查詢 後台會標記你偏好的案例類型",
+      human: "我可以人工推薦適合你的案例",
     },
   },
   {
     id: "unclear",
-    customer: "我也不知道自己要做網站還是系統。",
+    customer: "我也不知道自己要做網站還是系統",
     category: "需求診斷",
     best: "ask",
     replies: {
-      auto: "沒問題，可以先從網站需求診斷開始。",
-      ask: "沒關係，我先問幾個問題：你的產業、想解決的流程、預算與希望上線時間？",
-      case: "已建立需求診斷案件，後台會整理成網站、LINE Bot 或後台流程方向。",
-      human: "我可以人工拆需求。",
+      auto: "沒問題 可以先從網站需求診斷開始",
+      ask: "沒關係 我先問幾個問題：你的產業、想解決的流程、預算與希望上線時間？",
+      case: "已建立需求診斷案件 後台會整理成網站、LINE Bot 或後台流程方向",
+      human: "我可以人工拆需求",
     },
   },
 ]
@@ -111,7 +111,7 @@ function LineBotMission() {
   const [metrics, setMetrics] = useState(initialMetrics)
   const [messages, setMessages] = useState([{ role: "customer", text: scenarios[0].customer, tag: "新訊息" }])
   const [cases, setCases] = useState([])
-  const [status, setStatus] = useState("選擇一種 Bot 處理方式，觀察 LINE 對話與後台如何同步。")
+  const [status, setStatus] = useState("選擇一種 Bot 處理方式 觀察 LINE 對話與後台如何同步")
   const [history, setHistory] = useState([])
   const [mobileTab, setMobileTab] = useState("chat")
   const [lastStrategy, setLastStrategy] = useState("")
@@ -161,7 +161,7 @@ function LineBotMission() {
       ...current,
       `${currentScenario.category} → ${strategyLabels[key]} → ${effect.badge}`,
     ])
-    setStatus(key === currentScenario.best ? `處理順暢 ${getMood(nextMetrics).mark}` : `可用，但還能更精準 ${getMood(nextMetrics).mark}`)
+    setStatus(key === currentScenario.best ? `處理順暢 ${getMood(nextMetrics).mark}` : `可用 但還能更精準 ${getMood(nextMetrics).mark}`)
     setLastStrategy(key)
     setMobileTab("chat")
 
@@ -182,7 +182,7 @@ function LineBotMission() {
     setMetrics(initialMetrics)
     setMessages([{ role: "customer", text: scenarios[0].customer, tag: "新訊息" }])
     setCases([])
-    setStatus("選擇一種 Bot 處理方式，觀察 LINE 對話與後台如何同步。")
+    setStatus("選擇一種 Bot 處理方式 觀察 LINE 對話與後台如何同步")
     setHistory([])
     setMobileTab("chat")
     setLastStrategy("")
@@ -200,7 +200,7 @@ function LineBotMission() {
               LINE Bot 接待模擬
             </h1>
             <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
-              模擬 LINE 客戶訊息，看看 Bot 如何回覆、整理需求並同步到後台。
+              模擬 LINE 客戶訊息 看看 Bot 如何回覆、整理需求並同步到後台
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -340,7 +340,7 @@ function ReceptionHero({ metrics, mood }) {
       <div className="mt-5 grid gap-4 sm:grid-cols-[0.74fr_1fr]">
         <div className="rounded-2xl bg-[#dff1e8] p-4 text-[#111c22]">
           <Bubble role="customer" text="請問網站大概多少？" />
-          <Bubble role="bot" text="我先幫你整理需求。" />
+          <Bubble role="bot" text="我先幫你整理需求" />
           <Bubble role="system" text="已分類：網站詢價" />
         </div>
         <div className="grid gap-2">
@@ -419,7 +419,7 @@ function StrategyPanel({ scenario, completed, status, lastStrategy, onChoose, on
       {completed ? (
         <div className="mt-5 rounded-2xl bg-[#eef7f4] p-4">
           <p className="text-sm font-black text-[#0d6b62]">5 則訊息已處理 ○✨</p>
-          <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">可以把這套接待流程改成你的店家、工作室或工程行 LINE Bot。</p>
+          <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">可以把這套接待流程改成你的店家、工作室或工程行 LINE Bot</p>
         </div>
       ) : (
         <>
@@ -433,7 +433,7 @@ function StrategyPanel({ scenario, completed, status, lastStrategy, onChoose, on
                 <span className="text-xs font-black text-[#0d6b62]">{key === scenario.best ? "建議" : lastStrategy === key ? "已選" : "選項"}</span>
                 <span className="mt-1 block text-sm font-black text-[#111c22]">{label}</span>
                 <span className="mt-2 block text-xs font-bold leading-5 text-[#52605c]">
-                  {key === "auto" ? "快速回覆，適合簡單問題。" : key === "ask" ? "先收集產業、功能與預算。" : key === "case" ? "同步建立後台案件。" : "保留人味，交給人工確認。"}
+                  {key === "auto" ? "快速回覆 適合簡單問題" : key === "ask" ? "先收集產業、功能與預算" : key === "case" ? "同步建立後台案件" : "保留人味 交給人工確認"}
                 </span>
               </button>
             ))}
@@ -469,7 +469,7 @@ function DashboardPanel({ metrics, mood, cases, history, suggestedFeatures, comp
       <div className="mt-5 rounded-2xl bg-white/10 p-4">
         <p className="text-xs font-black text-[#8fd6cc]">最新同步</p>
         <p className="mt-2 text-sm font-bold leading-6 text-white/78">
-          {cases[0] ? `${cases[0].title} 已同步到後台，狀態：${cases[0].status}` : "選擇處理方式後，這裡會顯示同步結果。"}
+          {cases[0] ? `${cases[0].title} 已同步到後台 狀態：${cases[0].status}` : "選擇處理方式後 這裡會顯示同步結果"}
         </p>
       </div>
 
@@ -485,7 +485,7 @@ function DashboardPanel({ metrics, mood, cases, history, suggestedFeatures, comp
               <p className="mt-1 text-xs font-bold text-[#52605c]">來源：{item.source}｜{item.suggestion}</p>
             </div>
           )) : (
-            <p className="rounded-xl bg-white/10 px-3 py-3 text-sm font-bold text-white/75">選擇處理方式後，案件會同步到這裡。</p>
+            <p className="rounded-xl bg-white/10 px-3 py-3 text-sm font-bold text-white/75">選擇處理方式後 案件會同步到這裡</p>
           )}
         </div>
       </div>
@@ -497,7 +497,7 @@ function DashboardPanel({ metrics, mood, cases, history, suggestedFeatures, comp
             <span key={item} className="rounded-lg bg-white/10 px-3 py-2 text-xs font-bold leading-5 text-white/80 interaction-pop">
               {item}
             </span>
-          )) : <span className="text-sm font-bold text-white/70">尚未處理客戶訊息。</span>}
+          )) : <span className="text-sm font-bold text-white/70">尚未處理客戶訊息</span>}
         </div>
       </div>
 
@@ -553,7 +553,7 @@ function TechSection() {
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
           <h2 className="mt-3 text-3xl font-black">接待流程怎麼動</h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-            LINE 訊息、Bot 回覆、需求分類與後台案件同步，用前端狀態做成可展示的產品操作。
+            LINE 訊息、Bot 回覆、需求分類與後台案件同步 用前端狀態做成可展示的產品操作
           </p>
         </div>
         <div className="grid gap-3 md:grid-cols-2">

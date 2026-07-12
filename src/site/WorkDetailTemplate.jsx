@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 
@@ -190,7 +190,7 @@ function WorkDetailTemplate({ work }) {
       <section className="bg-[#111c22] text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-14 text-center md:py-18">
           <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">想做一套像這樣的{work.title}？</h2>
-          <p className="max-w-xl text-sm font-bold leading-7 text-white/72">{work.price}，工期約 {work.duration}。先聊聊你的需求，給你適合的做法與報價。</p>
+          <p className="max-w-xl text-sm font-bold leading-7 text-white/72">{work.price} 工期約 {work.duration}先聊聊你的需求 給你適合的做法與報價</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to={`/contact?case=${encodeURIComponent(work.title)}`} className="inline-flex min-h-12 items-center rounded-xl bg-white px-6 text-sm font-black text-[#111c22] transition hover:bg-[#f5f1e9]">
               問這個報價

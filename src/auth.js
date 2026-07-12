@@ -1,4 +1,4 @@
-const AUTH_KEY = "qingyu_system_lab_user"
+﻿const AUTH_KEY = "qingyu_system_lab_user"
 
 function isValidEmail(email) {
   return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)
@@ -10,7 +10,7 @@ export function login(email, password) {
   if (!isValidEmail(cleanEmail) || password.length < 6) {
     return {
       ok: false,
-      message: "請輸入有效 Email，密碼至少 6 個字元。",
+      message: "請輸入有效 Email 密碼至少 6 個字元",
     }
   }
 

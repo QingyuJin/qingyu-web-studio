@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+﻿import { useCallback, useEffect, useMemo, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import { createContactRequest } from "./lib/contactRequests"
@@ -12,50 +12,50 @@ const cases = [
     title: "屋頂防水修繕",
     type: "防水抓漏",
     image: "/project-photos/335950_0.jpg",
-    brief: "五樓公寓頂層長期滲水，天花板壁癌嚴重。全面刨除舊防水層後，重新施作PU防水塗層與隔熱漆，並加裝落水頭檢修口。",
-    detail: "施工面積 42 坪，工期 5 天。完工後測試蓄水 72 小時無滲漏，提供 3 年保固。業主回饋：原本每逢大雨就要拿水桶接水，現在完全不用擔心了。",
+    brief: "五樓公寓頂層長期滲水 天花板壁癌嚴重全面刨除舊防水層後 重新施作PU防水塗層與隔熱漆 並加裝落水頭檢修口",
+    detail: "施工面積 42 坪 工期 5 天完工後測試蓄水 72 小時無滲漏 提供 3 年保固業主回饋：原本每逢大雨就要拿水桶接水 現在完全不用擔心了",
   },
   {
     title: "Epoxy 地坪整理",
     type: "地坪工程",
     image: "/project-photos/335953_0.jpg",
-    brief: "汽車維修廠地坪長期受油污與重壓，地面凹凸不平且粉塵嚴重。全面研磨整平後，施作環氧樹脂砂漿中塗與面塗。",
-    detail: "施作面積 85 坪，採用 3mm 環氧砂漿系統，耐重壓、耐油污、防滑係數達 0.6。完工後廠房明亮整潔，業主表示工作效率明顯提升。",
+    brief: "汽車維修廠地坪長期受油污與重壓 地面凹凸不平且粉塵嚴重全面研磨整平後 施作環氧樹脂砂漿中塗與面塗",
+    detail: "施作面積 85 坪 採用 3mm 環氧砂漿系統 耐重壓、耐油污、防滑係數達 0.6完工後廠房明亮整潔 業主表示工作效率明顯提升",
   },
   {
     title: "木地板與室內修繕",
     type: "木作裝修",
     image: "/project-photos/335949_0.jpg",
-    brief: "30 年老屋室內翻新，原磁磚地板膨拱、木作櫃體老舊。拆除全室地壁磚後重新隔間，鋪設超耐磨木地板。",
-    detail: "室內 28 坪，含兩房一廳。全室管線重配、天花板輕鋼架、地板採用 EGGER 超耐磨木地板。整合廚房開放式設計，從拆除到完工共 18 天。",
+    brief: "30 年老屋室內翻新 原磁磚地板膨拱、木作櫃體老舊拆除全室地壁磚後重新隔間 鋪設超耐磨木地板",
+    detail: "室內 28 坪 含兩房一廳全室管線重配、天花板輕鋼架、地板採用 EGGER 超耐磨木地板整合廚房開放式設計 從拆除到完工共 18 天",
   },
   {
     title: "外牆與立面工程",
     type: "油漆修繕",
     image: "/project-photos/335945_0.jpg",
-    brief: "透天厝外牆磁磚剝落，部分區域滲水導致室內壁癌。採用鷹架施工，全面刨除鬆動磁磚後進行防水砂漿粉光。",
-    detail: "4 層樓透天，外牆面積約 120 坪。使用德國 Sto 塗料系統，具耐候性與自潔效果。搭配滴水線與窗框收邊，完工後整體立面煥然一新。",
+    brief: "透天厝外牆磁磚剝落 部分區域滲水導致室內壁癌採用鷹架施工 全面刨除鬆動磁磚後進行防水砂漿粉光",
+    detail: "4 層樓透天 外牆面積約 120 坪使用德國 Sto 塗料系統 具耐候性與自潔效果搭配滴水線與窗框收邊 完工後整體立面煥然一新",
   },
   {
     title: "住宅門面翻新",
     type: "工程管理",
     image: "/project-photos/335941_0.jpg",
-    brief: "老舊公寓一樓門面與騎樓整修，含鐵捲門更換、地坪修補、燈光規劃與店面招牌整合。",
-    detail: "從丈量、設計規劃、施工排程到驗收，整合鐵工、泥作、水電與招牌廠商。總工期 12 天。完工後業主表示來客詢問度明顯增加。",
+    brief: "老舊公寓一樓門面與騎樓整修 含鐵捲門更換、地坪修補、燈光規劃與店面招牌整合",
+    detail: "從丈量、設計規劃、施工排程到驗收 整合鐵工、泥作、水電與招牌廠商總工期 12 天完工後業主表示來客詢問度明顯增加",
   },
   {
     title: "室內明亮化整理",
     type: "磁磚泥作",
     image: "/project-photos/335942_0.jpg",
-    brief: "狹長老屋中間區域完全無採光，且天花滴水、地磚破損。拆除部分隔間牆引光，全室天花板更新與地磚重鋪。",
-    detail: "採用 60x60 霧面石英磚，搭配 LED 嵌燈與鏡面反射設計，讓室內亮度提升 3 倍以上。壁面以白色抿石子點綴，保留老屋韻味。",
+    brief: "狹長老屋中間區域完全無採光 且天花滴水、地磚破損拆除部分隔間牆引光 全室天花板更新與地磚重鋪",
+    detail: "採用 60x60 霧面石英磚 搭配 LED 嵌燈與鏡面反射設計 讓室內亮度提升 3 倍以上壁面以白色抿石子點綴 保留老屋韻味",
   },
 ]
 
 const quoteSteps = [
-  ["需求整理", "先用表單收集地點、照片、尺寸與預算。"],
-  ["初步報價", "用固定欄位建立可追蹤的報價草稿。"],
-  ["施工追蹤", "把進度、變更、付款與驗收集中管理。"],
+  ["需求整理", "先用表單收集地點、照片、尺寸與預算"],
+  ["初步報價", "用固定欄位建立可追蹤的報價草稿"],
+  ["施工追蹤", "把進度、變更、付款與驗收集中管理"],
 ]
 
 const formFields = [
@@ -206,7 +206,7 @@ LINE Bot：${lineBotId}`
       return
     }
 
-    setSubmitMessage("需求已送出，已同步到 BuildFlow 後台的「網站詢價」收件匣。")
+    setSubmitMessage("需求已送出 已同步到 BuildFlow 後台的「網站詢價」收件匣")
     setForm(Object.fromEntries(formFields.map(([key]) => [key, ""])))
   }
 
@@ -240,7 +240,7 @@ LINE Bot：${lineBotId}`
         page={{
           path: "/contractor-site",
           title: "工程接案頁｜防水、地坪、修繕與詢價表單｜Qingyu Web Studio",
-          description: "工程服務接案落地頁展示：服務分類、施工案例、詢價表單與 BuildFlow 後台串接。",
+          description: "工程服務接案落地頁展示：服務分類、施工案例、詢價表單與 BuildFlow 後台串接",
         }}
       />
       <header className="sticky top-0 z-30 border-b border-white/10 bg-[#0c1518]/92 backdrop-blur">
@@ -274,12 +274,12 @@ LINE Bot：${lineBotId}`
         <FadeInSection>
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#8bd8cc]">Xinjiang Masonry Works</p>
           <h1 className="mt-5 text-3xl font-black leading-tight text-white md:text-5xl">
-            瓦刀執手砌日月，
+            瓦刀執手砌日月 
             <br />
-            匠心巧思鑄千秋。
+            匠心巧思鑄千秋
           </h1>
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300 md:text-base">
-            鑫匠工程——屏東在地泥作裝修。40 年老師父經驗，泥作、磁磚、洗石子、油漆、拆除與增建，到場評估後實在報價。此頁同時展示需求表單如何直接進到 BuildFlow 後台。
+            鑫匠工程——屏東在地泥作裝修40 年老師父經驗 泥作、磁磚、洗石子、油漆、拆除與增建 到場評估後實在報價此頁同時展示需求表單如何直接進到 BuildFlow 後台
           </p>
           <div className="mt-5 flex flex-wrap gap-2 text-xs font-black text-slate-300">
             <span className="rounded-full border border-white/12 bg-white/[0.055] px-3 py-1.5">電話 0909-169-088</span>
@@ -344,7 +344,7 @@ LINE Bot：${lineBotId}`
 
       <FadeInSection>
         <section id="cases" className="mx-auto max-w-6xl px-4 py-12">
-          <SectionHeader label="Cases" title="案例展示" desc="用照片與明確描述建立信任，讓客戶知道你做過什麼、適合處理什麼。" />
+          <SectionHeader label="Cases" title="案例展示" desc="用照片與明確描述建立信任 讓客戶知道你做過什麼、適合處理什麼" />
           <div className="mt-6 flex gap-2 overflow-x-auto pb-2">
             {["全部", ...services].map((item) => (
               <button
@@ -396,7 +396,7 @@ LINE Bot：${lineBotId}`
             <SectionHeader
               label="Inquiry"
               title="線上詢價表單"
-              desc="送出後需求會直接進到 BuildFlow 後台的「網站詢價」收件匣，一鍵轉成案件；也可以複製成文字轉貼 LINE。"
+              desc="送出後需求會直接進到 BuildFlow 後台的「網站詢價」收件匣 一鍵轉成案件；也可以複製成文字轉貼 LINE"
             />
             <div className="grid gap-4">
               <form

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 
 import {
   contactRequestStatuses,
@@ -67,7 +67,7 @@ function LeadsPanel({ createProjectFromLead }) {
             <p className="text-xs font-black uppercase tracking-[0.18em] text-slate-400">Website Leads</p>
             <h2 className="mt-1 text-2xl font-black">網站詢價收件匣</h2>
             <p className="mt-2 text-sm font-bold leading-6 text-slate-500">
-              前台詢價表單（工程接案頁、聯絡頁）送出後會進到這裡，可直接轉成案件開始追蹤。
+              前台詢價表單（工程接案頁、聯絡頁）送出後會進到這裡 可直接轉成案件開始追蹤
             </p>
           </div>
           <div className="flex flex-wrap items-center gap-2">
@@ -96,7 +96,7 @@ function LeadsPanel({ createProjectFromLead }) {
         <section className="rounded-2xl border border-dashed border-slate-300 bg-white p-8 text-center">
           <p className="text-lg font-black text-slate-700">目前沒有網站詢價</p>
           <p className="mt-2 text-sm font-bold leading-6 text-slate-500">
-            到前台的工程接案頁送出一筆詢價表單，回到這裡就會看到需求進來。
+            到前台的工程接案頁送出一筆詢價表單 回到這裡就會看到需求進來
           </p>
           <a
             href="/contractor-site#inquiry"

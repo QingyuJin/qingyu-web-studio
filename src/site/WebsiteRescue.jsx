@@ -1,4 +1,4 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
@@ -10,50 +10,50 @@ const improvements = [
   {
     id: "cta",
     title: "改善 CTA",
-    short: "把模糊按鈕改成明確行動。",
+    short: "把模糊按鈕改成明確行動",
     points: 10,
-    after: "主按鈕改為「開始需求診斷」，客戶知道下一步要做什麼。",
-    report: "CTA 從普通連結改成明確行動，降低客戶猶豫。",
+    after: "主按鈕改為「開始需求診斷」 客戶知道下一步要做什麼",
+    report: "CTA 從普通連結改成明確行動 降低客戶猶豫",
   },
   {
     id: "line",
     title: "加入 LINE 聯絡入口",
-    short: "讓客戶不用找半天才知道怎麼聯絡。",
+    short: "讓客戶不用找半天才知道怎麼聯絡",
     points: 9,
-    after: "首頁加入 LINE ID 與 Email 入口，聯絡路徑更短。",
-    report: "聯絡入口前移，讓台灣客戶可以直接用熟悉的 LINE 詢問。",
+    after: "首頁加入 LINE ID 與 Email 入口 聯絡路徑更短",
+    report: "聯絡入口前移 讓台灣客戶可以直接用熟悉的 LINE 詢問",
   },
   {
     id: "mobile",
     title: "優化手機版按鈕",
-    short: "按鈕放大、間距加開，手機更好點。",
+    short: "按鈕放大、間距加開 手機更好點",
     points: 8,
-    after: "手機版 CTA 高度與間距提升，第一屏更容易操作。",
-    report: "手機版操作阻力降低，適合從社群或 LINE 點進來的客戶。",
+    after: "手機版 CTA 高度與間距提升 第一屏更容易操作",
+    report: "手機版操作阻力降低 適合從社群或 LINE 點進來的客戶",
   },
   {
     id: "works",
     title: "加入作品案例",
-    short: "用案例讓客戶知道你真的做得出來。",
+    short: "用案例讓客戶知道你真的做得出來",
     points: 8,
-    after: "新增作品 mockup 與成品入口，技術能力變得可視化。",
-    report: "作品案例補上後，客戶更容易理解服務成果。",
+    after: "新增作品 mockup 與成品入口 技術能力變得可視化",
+    report: "作品案例補上後 客戶更容易理解服務成果",
   },
   {
     id: "seo",
     title: "補 SEO 描述",
-    short: "搜尋摘要從空泛改成具體服務。",
+    short: "搜尋摘要從空泛改成具體服務",
     points: 7,
-    after: "描述改成網站、LINE Bot、AI 工具與後台流程。",
-    report: "SEO 描述更清楚，搜尋結果不再像一般模板站。",
+    after: "描述改成網站、LINE Bot、AI 工具與後台流程",
+    report: "SEO 描述更清楚 搜尋結果不再像一般模板站",
   },
   {
     id: "trust",
     title: "加入信任元素",
-    short: "補上流程、聯絡方式與技術標籤。",
+    short: "補上流程、聯絡方式與技術標籤",
     points: 8,
-    after: "加入製作流程、技術標籤與聯絡 CTA。",
-    report: "信任元素補齊後，客戶更能判斷是否適合合作。",
+    after: "加入製作流程、技術標籤與聯絡 CTA",
+    report: "信任元素補齊後 客戶更能判斷是否適合合作",
   },
 ]
 
@@ -64,7 +64,7 @@ function scrollToSection(id) {
 
 function getMood(score) {
   if (score <= 50) return { mark: "(><)", label: "需要整理" }
-  if (score <= 75) return { mark: "(._.)", label: "可以上線，但還能更好" }
+  if (score <= 75) return { mark: "(._.)", label: "可以上線 但還能更好" }
   if (score <= 90) return { mark: "○v○", label: "具備成交基礎" }
   return { mark: "○✨", label: "高轉換網站雛形" }
 }
@@ -98,12 +98,12 @@ function WebsiteRescue() {
   function applyImprovement(item) {
     setActiveId(item.id)
     if (fixedIds.includes(item.id)) {
-      setToast("這項已改善，狀態維持穩定 ○w○")
+      setToast("這項已改善 狀態維持穩定 ○w○")
       setMobileTab("report")
       return
     }
     setFixedIds((current) => [...current, item.id])
-    setToast(`${item.title} 已套用，網站狀態改善中 ○v○`)
+    setToast(`${item.title} 已套用 網站狀態改善中 ○v○`)
     setMobileTab("preview")
   }
 
@@ -126,7 +126,7 @@ function WebsiteRescue() {
               網站救援互動成品
             </h1>
             <p className="mt-5 max-w-2xl text-base font-bold leading-8 text-[#52605c]">
-              點選改善項目，觀察 CTA、SEO、手機版與信任感如何改變網站狀態。
+              點選改善項目 觀察 CTA、SEO、手機版與信任感如何改變網站狀態
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -324,13 +324,13 @@ function WebsitePreview({ preview, activeItem, fixedCount }) {
             <div className={`rounded-xl border p-3 transition ${preview.seo ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
               <p className="text-xs font-black text-[#0d6b62]">SEO 摘要</p>
               <p className="mt-1 line-clamp-2 text-xs font-bold leading-5 text-[#52605c]">
-                {preview.seo ? "台灣網站製作、LINE Bot、AI 工具與後台流程。" : "目前摘要太空泛，搜尋結果不夠清楚。"}
+                {preview.seo ? "台灣網站製作、LINE Bot、AI 工具與後台流程" : "目前摘要太空泛 搜尋結果不夠清楚"}
               </p>
             </div>
             <div className={`rounded-xl border p-3 transition ${preview.mobile ? "border-[#0d6b62] bg-[#eef7f4]" : "border-[#e3ded3] bg-white"}`}>
               <p className="text-xs font-black text-[#0d6b62]">手機操作</p>
               <p className="mt-1 text-xs font-bold leading-5 text-[#52605c]">
-                {preview.mobile ? "按鈕高度與間距已調整，手機更好點。" : "按鈕偏小，容易降低詢問率。"}
+                {preview.mobile ? "按鈕高度與間距已調整 手機更好點" : "按鈕偏小 容易降低詢問率"}
               </p>
             </div>
           </div>
@@ -427,14 +427,14 @@ function ScorePanel({ score, mood, progress, fixedItems, activeItem, onReset }) 
           </div>
         )) : (
           <div className="rounded-xl bg-white/10 px-3 py-3 text-xs font-bold leading-5 text-white/82">
-            先點一個改善項目，報告會即時更新。
+            先點一個改善項目 報告會即時更新
           </div>
         )}
       </div>
       {completed ? (
         <div className="mt-5 rounded-2xl bg-[#eef7f4] p-4 text-[#111c22] interaction-pop">
           <p className="text-sm font-black text-[#0d6b62]">網站狀態已完成 ○✨</p>
-          <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">可以進一步規劃一頁式網站、品牌網站、LINE 串接或 SEO 基礎整理。</p>
+          <p className="mt-2 text-sm font-bold leading-6 text-[#40504c]">可以進一步規劃一頁式網站、品牌網站、LINE 串接或 SEO 基礎整理</p>
         </div>
       ) : null}
       <div className="mt-5 flex flex-wrap gap-3">
@@ -465,7 +465,7 @@ function TechSection() {
           <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
           <h2 className="mt-3 text-3xl font-black">互動怎麼做</h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-            用狀態管理把「點選改善」轉成 Preview、分數、報告與 CTA，讓客戶直接感受到網站優化價值。
+            用狀態管理把「點選改善」轉成 Preview、分數、報告與 CTA 讓客戶直接感受到網站優化價值
           </p>
         </div>
         <div className="grid gap-3 md:grid-cols-2">

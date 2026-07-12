@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom"
+﻿import { Link } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 
@@ -7,7 +7,7 @@ const plans = [
     id: "line-inquiry",
     name: "LINE 詢價數位化",
     audience: "工程行、服務業",
-    pain: "詢價散在 LINE 和電話裡，客戶資料難追蹤。",
+    pain: "詢價散在 LINE 和電話裡 客戶資料難追蹤",
     deliverables: ["線上詢價表單", "LINE 入口與導流", "案件後台收件匣", "一鍵轉為案件追蹤"],
     demos: [
       ["試填詢價表單", "/contractor-site#inquiry"],
@@ -18,7 +18,7 @@ const plans = [
     id: "wholesale",
     name: "批發訂貨系統",
     audience: "批發商、食材商",
-    pain: "訂單靠電話與紙本，漏單、對帳、報價各自為政。",
+    pain: "訂單靠電話與紙本 漏單、對帳、報價各自為政",
     deliverables: ["商品表與客戶分級報價", "客戶端手機下單", "訂單與出貨後台", "叫貨單與月結對帳文字"],
     demos: [["直接操作訂貨系統", "/works/wholesale-ordering"]],
   },
@@ -26,7 +26,7 @@ const plans = [
     id: "rag",
     name: "AI 文件知識庫",
     audience: "公司、協會、工廠",
-    pain: "SOP、規章、產品文件一堆，新人與客服每天重複找答案。",
+    pain: "SOP、規章、產品文件一堆 新人與客服每天重複找答案",
     deliverables: ["PDF / 文件問答", "回答附引用來源", "文件版本與資料庫", "用量統計與權限管理"],
     demos: [["直接操作知識庫問答", "/works/rag-consultant"]],
   },
@@ -34,7 +34,7 @@ const plans = [
     id: "brand-site",
     name: "企業形象 + 作品集網站",
     audience: "傳統產業",
-    pain: "只有名片和口碑，客戶與補助單位搜尋不到你。",
+    pain: "只有名片和口碑 客戶與補助單位搜尋不到你",
     deliverables: ["品牌形象網站", "案例 / 作品頁", "詢價入口", "手機版 RWD 與基本 SEO"],
     demos: [
       ["看真實案例：鑫匠工程", "https://xinjiang-website.vercel.app/"],
@@ -44,20 +44,20 @@ const plans = [
 ]
 
 const proofFlow = [
-  ["客戶在官網填詢價", "以鑫匠工程為例：品牌官網上的表單，手機就能填。"],
-  ["需求進後台收件匣", "BuildFlow「網站詢價」即時收到，含聯絡方式與需求全文。"],
-  ["一鍵轉為案件", "接著報價、發包、任務指派與回報，全部同一套系統。"],
+  ["客戶在官網填詢價", "以鑫匠工程為例：品牌官網上的表單 手機就能填"],
+  ["需求進後台收件匣", "BuildFlow「網站詢價」即時收到 含聯絡方式與需求全文"],
+  ["一鍵轉為案件", "接著報價、發包、任務指派與回報 全部同一套系統"],
 ]
 
 const steps = [
-  ["01", "需求盤點", "了解現況流程，對齊補助案可申請的項目。"],
-  ["02", "方案與報價", "把要做的系統寫成看得懂的範圍、時程與金額。"],
-  ["03", "分階段實作", "先上核心流程，每階段都有可操作的版本可驗收。"],
-  ["04", "驗收上線", "部署到正式網址，實際資料跑一輪。"],
-  ["05", "教學與維護", "操作教學與文件，後續可談維護或擴充。"],
+  ["01", "需求盤點", "了解現況流程 對齊補助案可申請的項目"],
+  ["02", "方案與報價", "把要做的系統寫成看得懂的範圍、時程與金額"],
+  ["03", "分階段實作", "先上核心流程 每階段都有可操作的版本可驗收"],
+  ["04", "驗收上線", "部署到正式網址 實際資料跑一輪"],
+  ["05", "教學與維護", "操作教學與文件 後續可談維護或擴充"],
 ]
 
-const trustChips = ["每個方案都有可操作成品", "前後台實際串接，不是示意圖", "可對齊數位轉型補助項目"]
+const trustChips = ["每個方案都有可操作成品", "前後台實際串接 不是示意圖", "可對齊數位轉型補助項目"]
 
 function isExternal(to) {
   return /^https?:\/\//.test(to)
@@ -91,7 +91,7 @@ function AiTransformation() {
           path: "/ai-transformation",
           title: "中小企業 AI 數位轉型實作服務｜網站、LINE 詢價、訂貨系統、AI 知識庫｜Qingyu Web Studio",
           description:
-            "協助傳統產業導入網站、LINE 詢價、訂貨系統、AI 文件知識庫與後台管理。每個方案都有可直接操作的成品，讓補助案不只停在企劃書，而是真的做得出來。",
+            "協助傳統產業導入網站、LINE 詢價、訂貨系統、AI 文件知識庫與後台管理每個方案都有可直接操作的成品 讓補助案不只停在企劃書 而是真的做得出來",
         }}
       />
 
@@ -104,7 +104,7 @@ function AiTransformation() {
             實作服務
           </h1>
           <p className="mt-6 max-w-2xl text-sm font-bold leading-8 text-white/72 md:text-base">
-            協助傳統產業導入網站、LINE 詢價、訂貨系統、AI 文件知識庫與後台管理——讓補助案不只停在企劃書，而是真的做得出來。
+            協助傳統產業導入網站、LINE 詢價、訂貨系統、AI 文件知識庫與後台管理——讓補助案不只停在企劃書 而是真的做得出來
           </p>
           <div className="mt-8 flex flex-col gap-3 sm:flex-row">
             <a
@@ -135,10 +135,10 @@ function AiTransformation() {
           <div className="mb-8 max-w-3xl">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Plans</p>
             <h2 className="mt-3 text-[clamp(1.7rem,5vw,3rem)] font-black leading-tight text-[#111c22]">
-              四個方案，每個都能直接點開操作
+              四個方案 每個都能直接點開操作
             </h2>
             <p className="mt-3 text-sm font-bold leading-7 text-[#52605c] md:text-base">
-              不用想像做出來會長怎樣——每個方案下面的按鈕，就是已經做好、可以直接操作的系統。
+              不用想像做出來會長怎樣——每個方案下面的按鈕 就是已經做好、可以直接操作的系統
             </p>
           </div>
 
@@ -177,12 +177,12 @@ function AiTransformation() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Proof</p>
               <h2 className="mt-3 text-[clamp(1.7rem,5vw,3rem)] font-black leading-tight text-[#111c22]">
-                不是企劃書，
+                不是企劃書 
                 <br />
-                是已經在跑的系統。
+                是已經在跑的系統
               </h2>
               <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#52605c] md:text-base">
-                屏東泥作工程行「鑫匠」的官網詢價，已經真實串進 BuildFlow 後台資料庫。補助顧問或審查委員打開網站，就能自己操作一遍。
+                屏東泥作工程行「鑫匠」的官網詢價 已經真實串進 BuildFlow 後台資料庫補助顧問或審查委員打開網站 就能自己操作一遍
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -213,7 +213,7 @@ function AiTransformation() {
           <div className="mb-8 max-w-3xl">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">Process</p>
             <h2 className="mt-3 text-[clamp(1.7rem,5vw,3rem)] font-black leading-tight text-[#111c22]">導入流程</h2>
-            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">從盤點到上線，每一階段都有看得到、點得動的東西。</p>
+            <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">從盤點到上線 每一階段都有看得到、點得動的東西</p>
           </div>
           <div className="grid gap-3 md:grid-cols-5">
             {steps.map(([no, title, text]) => (
@@ -233,7 +233,7 @@ function AiTransformation() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#8fd6cc]">Contact</p>
             <h2 className="mt-3 text-3xl font-black">想把數位轉型真的做出來？</h2>
             <p className="mt-3 max-w-2xl text-sm font-bold leading-7 text-white/72">
-              告訴我你的產業、想解決的流程、預算與時程；如果正在申請補助，也可以直接把計畫項目丟給我對齊。
+              告訴我你的產業、想解決的流程、預算與時程；如果正在申請補助 也可以直接把計畫項目丟給我對齊
             </p>
           </div>
           <Link to="/contact" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-6 text-sm font-black text-[#111c22]">

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 
@@ -85,7 +85,7 @@ const initialOrders = [
     total: 400,
     minutes: 12,
     staff: "Mina",
-    note: "飲品先出，主餐不要洋蔥。",
+    note: "飲品先出 主餐不要洋蔥",
   },
   {
     id: "ORD-1041",
@@ -97,7 +97,7 @@ const initialOrders = [
     total: 335,
     minutes: 18,
     staff: "Kai",
-    note: "甜點延後 10 分鐘。",
+    note: "甜點延後 10 分鐘",
   },
   {
     id: "ORD-1040",
@@ -109,7 +109,7 @@ const initialOrders = [
     total: 180,
     minutes: 4,
     staff: "Nora",
-    note: "確認是否需要加購飲品。",
+    note: "確認是否需要加購飲品",
   },
 ]
 
@@ -254,10 +254,10 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
           <div className="min-w-0">
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Restaurant OS</p>
             <h1 className="mt-4 max-w-3xl font-serif text-[clamp(2.15rem,4.4vw,4.45rem)] font-black leading-[0.98] tracking-[-0.045em] text-[#3a2419]">
-              午餐尖峰，廚房節奏穩定推進。
+              午餐尖峰 廚房節奏穩定推進
             </h1>
             <p className="mt-4 max-w-2xl text-sm font-bold leading-7 text-[#836855]">
-              {selectedOrder.table} 正在處理 {selectedOrder.items[0]}，吧台先出飲品；平均等待 {avgWait} 分鐘。
+              {selectedOrder.table} 正在處理 {selectedOrder.items[0]} 吧台先出飲品；平均等待 {avgWait} 分鐘
             </p>
           </div>
           <div className="rounded-[1.15rem] bg-[#244332] p-4 text-white">
@@ -275,7 +275,7 @@ function HeroStatus({ orders, revenue, selectedOrder }) {
             <div className="h-full rounded-full bg-gradient-to-r from-[#f0a85f] via-[#c75d2c] to-[#244332]" style={{ width: `${kitchenLoad}%` }} />
           </div>
           <p className="text-sm font-black text-[#244332]">{kitchenLoad}% kitchen flow</p>
-          <p className="text-sm font-bold text-[#836855]">今日推薦：時蔬鷹嘴豆盤。</p>
+          <p className="text-sm font-bold text-[#836855]">今日推薦：時蔬鷹嘴豆盤</p>
         </div>
       </ShellCard>
 
@@ -317,7 +317,7 @@ function QuantityControl({ value, onMinus, onPlus }) {
 
 function ClientView({ cart, setCart, submitted, onSubmit, clientTable, setClientTable, orders }) {
   const [category, setCategory] = useState("全部")
-  const [diningNote, setDiningNote] = useState("飲品先出，主餐正常。")
+  const [diningNote, setDiningNote] = useState("飲品先出 主餐正常")
   const total = cart.reduce((sum, item) => sum + item.price * item.qty, 0)
   const visibleMenu = category === "全部" ? menuItems : menuItems.filter((item) => item.category === category || item.station === category)
   const categories = ["全部", "主餐", "飲品", "甜點", "熱線", "吧台"]
@@ -421,9 +421,9 @@ function ClientView({ cart, setCart, submitted, onSubmit, clientTable, setClient
           </div>
         </div>
         <div className="mt-5 grid gap-3">
-          {submitted ? <div className="rounded-2xl bg-[#e8f0dc] p-4 text-sm font-black text-[#355a36]">已送出到服務端，廚房佇列已更新。</div> : null}
+          {submitted ? <div className="rounded-2xl bg-[#e8f0dc] p-4 text-sm font-black text-[#355a36]">已送出到服務端 廚房佇列已更新</div> : null}
           {cart.length === 0 ? (
-            <div className="rounded-2xl bg-[#f7efe5] p-4 text-sm font-bold text-[#806a59]">尚未加入餐點。</div>
+            <div className="rounded-2xl bg-[#f7efe5] p-4 text-sm font-bold text-[#806a59]">尚未加入餐點</div>
           ) : (
             cart.map((item) => (
               <div key={item.id} className="rounded-2xl bg-white px-4 py-3">
@@ -539,7 +539,7 @@ function ServiceView({ orders, selectedId, setSelectedId, onAdvance, onSettle })
               </button>
             )) : (
               <div className="rounded-2xl border border-dashed border-[#dfd0bc] bg-white/70 p-6 text-sm font-black text-[#806a59] md:col-span-2 xl:col-span-3">
-                目前沒有符合篩選的訂單。可以切換狀態，或用「模擬新單」新增一筆。
+                目前沒有符合篩選的訂單可以切換狀態 或用「模擬新單」新增一筆
               </div>
             )}
           </div>
@@ -710,7 +710,7 @@ function RestaurantOrdering() {
 
   function addOrder() {
     const staffPool = ["Mina", "Kai", "Nora"]
-    const notePool = ["先確認是否需要外帶袋。", "客人趕時間，優先出餐。", "有兒童座椅需求。", "餐點分兩次上。"]
+    const notePool = ["先確認是否需要外帶袋", "客人趕時間 優先出餐", "有兒童座椅需求", "餐點分兩次上"]
     const picked = [...menuItems].sort(() => Math.random() - 0.5).slice(0, 1 + Math.floor(Math.random() * 3))
     const occupied = new Set(orders.filter((order) => order.status !== "已送達").map((order) => order.table))
     const freeTables = tableMap.map(([id]) => id).filter((id) => !occupied.has(id))
@@ -730,7 +730,7 @@ function RestaurantOrdering() {
     setOrders((current) => [newOrder, ...current])
     setSelectedId(newOrder.id)
     setMode("服務端")
-    setMessage(`已新增 ${table} 現場新單（${newOrder.items.length} 個品項）。`)
+    setMessage(`已新增 ${table} 現場新單（${newOrder.items.length} 個品項）`)
   }
 
   function submitCart(diningNote) {
@@ -745,20 +745,20 @@ function RestaurantOrdering() {
       total: cart.reduce((sum, item) => sum + item.price * item.qty, 0),
       minutes: 0,
       staff: "Mina",
-      note: diningNote || "客戶端送出，確認後進入備餐。",
+      note: diningNote || "客戶端送出 確認後進入備餐",
     }
     setOrders((current) => [newOrder, ...current])
     setSelectedId(newOrder.id)
     setCart([])
     setSubmitted(true)
-    setMessage(`${clientTable} 桌邊點單已送到服務端。`)
+    setMessage(`${clientTable} 桌邊點單已送到服務端`)
     window.setTimeout(() => setMode("服務端"), 650)
   }
 
   function advanceOrders() {
     const current = selectedOrder
     if (!current) {
-      setMessage("目前沒有可更新的訂單。")
+      setMessage("目前沒有可更新的訂單")
       return
     }
     const next = nextStatus(current.status)
@@ -767,14 +767,14 @@ function RestaurantOrdering() {
         order.id === selectedId ? { ...order, status: next, minutes: Math.max(0, order.minutes - 3) } : order
       )
     )
-    setMessage(`${current.table} 已更新為「${next}」。`)
+    setMessage(`${current.table} 已更新為「${next}」`)
   }
 
   function settleOrder() {
     if (!selectedOrder) {
       setOrders(initialOrders)
       setSelectedId(initialOrders[0].id)
-      setMessage("已重置範例佇列。")
+      setMessage("已重置範例佇列")
       return
     }
 
@@ -782,13 +782,13 @@ function RestaurantOrdering() {
     if (nextOrders.length === 0) {
       setOrders(initialOrders)
       setSelectedId(initialOrders[0].id)
-      setMessage(`${selectedOrder.table} 已清桌，範例佇列已重置。`)
+      setMessage(`${selectedOrder.table} 已清桌 範例佇列已重置`)
       return
     }
 
     setOrders(nextOrders)
     setSelectedId(nextOrders[0].id)
-    setMessage(`${selectedOrder.table} 已結帳並清桌。`)
+    setMessage(`${selectedOrder.table} 已結帳並清桌`)
   }
 
   return (
@@ -797,7 +797,7 @@ function RestaurantOrdering() {
         page={{
           path: "/works/restaurant-ordering",
           title: "餐飲點餐系統｜桌邊點餐、廚房佇列與桌況控台｜Qingyu Web Studio",
-          description: "可直接操作的點餐系統展示：客戶端選桌點餐、服務端控單、出餐站別負載與桌況即時連動。",
+          description: "可直接操作的點餐系統展示：客戶端選桌點餐、服務端控單、出餐站別負載與桌況即時連動",
         }}
       />
       <div className="pointer-events-none fixed inset-0 bg-[radial-gradient(circle_at_8%_10%,rgba(255,255,255,0.9),transparent_26rem),radial-gradient(circle_at_88%_4%,rgba(36,67,50,0.14),transparent_24rem),radial-gradient(circle_at_78%_72%,rgba(199,93,44,0.12),transparent_24rem),linear-gradient(180deg,#fff8ec,#f2e1cd_54%,#e6d0b8)]" />
@@ -821,7 +821,7 @@ function RestaurantOrdering() {
           <div className="flex flex-col gap-3 rounded-[1.35rem] border border-[#dfd0bc] bg-[#fffaf2]/86 p-5 shadow-sm md:flex-row md:items-center md:justify-between">
             <div>
               <p className="font-serif text-2xl font-black text-[#3a2419]">餐飲點餐系統</p>
-              <p className="mt-1 text-sm font-bold text-[#806a59]">客戶端點餐、服務端控單、桌況、站別負載與出餐節奏一次展示。</p>
+              <p className="mt-1 text-sm font-bold text-[#806a59]">客戶端點餐、服務端控單、桌況、站別負載與出餐節奏一次展示</p>
             </div>
             <Link to="/" className="inline-flex min-h-11 items-center justify-center rounded-xl border border-[#dfd0bc] bg-white px-5 text-sm font-black text-[#3a2419]">
               回主頁

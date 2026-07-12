@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
@@ -35,7 +35,7 @@ function SubcontractsPanel({
     <div className="grid gap-5">
       <SectionTitle
         title="發包項目"
-        desc="建立工種、項目、金額與負責師傅。新增使用者後，會自動出現在指派清單。"
+        desc="建立工種、項目、金額與負責師傅新增使用者後 會自動出現在指派清單"
       />
       <Card>
         <h3 className="text-xl font-black">新增發包項目</h3>
@@ -170,7 +170,7 @@ function SubcontractsPanel({
             </tbody>
           </table>
           {!filteredSubcontracts.length && (
-            <p className="py-4 text-sm text-slate-500">沒有符合條件的發包項目。</p>
+            <p className="py-4 text-sm text-slate-500">沒有符合條件的發包項目</p>
           )}
         </div>
       </Card>

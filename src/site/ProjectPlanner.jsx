@@ -1,11 +1,11 @@
-import { useMemo, useState } from "react"
+﻿import { useMemo, useState } from "react"
 import { Link } from "react-router-dom"
 import Seo from "./Seo"
 import SiteLayout from "./SiteLayout"
 import { seo } from "./content"
 
 const profileOptions = ["店家 / 品牌", "個人品牌", "工作室", "工程行", "想導入 AI 的團隊", "其他服務"]
-const goalOptions = ["網站", "作品展示", "後台流程 / API", "AI 工具", "LINE Bot", "API 串接", "不確定，想先請你判斷"]
+const goalOptions = ["網站", "作品展示", "後台流程 / API", "AI 工具", "LINE Bot", "API 串接", "不確定 想先請你判斷"]
 const featureOptions = [
   "手機版 RWD",
   "聯絡表單",
@@ -19,7 +19,7 @@ const featureOptions = [
   "作品展示",
 ]
 const budgetOptions = ["3,000～5,000", "6,000～12,000", "15,000～30,000", "30,000 以上", "還不確定"]
-const timelineOptions = ["一週內", "兩週內", "一個月內", "不急，想慢慢規劃"]
+const timelineOptions = ["一週內", "兩週內", "一個月內", "不急 想慢慢規劃"]
 
 const steps = [
   { key: "profile", title: "你的身份", type: "single", options: profileOptions },
@@ -91,56 +91,56 @@ function buildRecommendation(answers) {
 
   let planName = "品牌網站方案"
   let complexity = "低"
-  let direction = "先把首頁、服務內容、聯絡 CTA 與手機版整理好，讓客戶能快速看懂並留下需求。"
+  let direction = "先把首頁、服務內容、聯絡 CTA 與手機版整理好 讓客戶能快速看懂並留下需求"
   let recommendedFeatures = ["手機版 RWD", "聯絡表單", "LINE 連結", "SEO"]
   let tech = ["React", "Tailwind", "Vercel"]
 
   if (wantsAi) {
     planName = "AI 工具成品方案"
     complexity = "高"
-    direction = "先做可操作的前端成品與報告 UI，再視需求接 OpenAI API、紀錄資料與管理後台。"
+    direction = "先做可操作的前端成品與報告 UI 再視需求接 OpenAI API、紀錄資料與管理後台"
     recommendedFeatures = ["AI 回覆", "Report UI", "表單輸入", "後台紀錄"]
     tech = ["React", "Tailwind", "Vercel", "OpenAI API"]
   } else if (wantsLine) {
     planName = "LINE Bot 詢價方案"
     complexity = "高"
-    direction = "把 LINE 詢問、預約或報價需求整理成可追蹤案件，適合店家、工作室與服務業。"
+    direction = "把 LINE 詢問、預約或報價需求整理成可追蹤案件 適合店家、工作室與服務業"
     recommendedFeatures = ["LINE Bot", "預約 / 詢價", "後台管理", "LINE 連結"]
     tech = ["React", "Tailwind", "Vercel", "LINE Messaging API", "Supabase"]
   } else if (wantsSystem) {
     planName = "後台流程方案"
     complexity = "中"
-    direction = "先建立表單、列表、狀態管理與資料後台，讓日常流程可以被搜尋、追蹤與管理。"
+    direction = "先建立表單、列表、狀態管理與資料後台 讓日常流程可以被搜尋、追蹤與管理"
     recommendedFeatures = ["後台管理", "聯絡表單", "API 串接", "資料列表"]
     tech = ["React", "Tailwind", "Vercel", "Supabase"]
   } else if (wantsPortfolio) {
     planName = "作品集網站方案"
     complexity = "低"
-    direction = "整理個人介紹、作品分類、專題說明、GitHub / 履歷連結與聯絡入口。"
+    direction = "整理個人介紹、作品分類、專題說明、GitHub / 履歷連結與聯絡入口"
     recommendedFeatures = ["作品展示", "手機版 RWD", "SEO", "聯絡表單"]
     tech = ["React", "Tailwind", "Vercel", "SEO"]
   } else if (wantsBrandSite) {
     planName = "品牌網站方案"
     complexity = features.includes("預約 / 詢價") || features.includes("後台管理") ? "中" : "低"
-    direction = "用乾淨首頁、服務分類、案例展示與明確 CTA，建立第一眼信任並引導客戶聯絡。"
+    direction = "用乾淨首頁、服務分類、案例展示與明確 CTA 建立第一眼信任並引導客戶聯絡"
     recommendedFeatures = ["手機版 RWD", "聯絡表單", "LINE 連結", "SEO"]
     tech = ["React", "Tailwind", "Vercel", "SEO"]
   }
 
-  if (answers.goal === "不確定，想先請你判斷") {
+  if (answers.goal === "不確定 想先請你判斷") {
     planName = wantsLine ? "LINE Bot 詢價方案" : "品牌網站起步方案"
-    direction = "可以先從最小可展示版本開始，確認客戶會怎麼詢問，再決定是否加 LINE Bot、AI 或後台。"
+    direction = "可以先從最小可展示版本開始 確認客戶會怎麼詢問 再決定是否加 LINE Bot、AI 或後台"
   }
 
   const nextSteps = [
     "整理目前服務與主要客戶來源",
     "列出最重要的 1～2 個轉換動作",
-    "先做可上線版本，再逐步加後台或自動化",
+    "先做可上線版本 再逐步加後台或自動化",
   ]
   const risks = [
     "需求一次放太多會拉長時程",
     "需要先確認最重要的轉換動作",
-    "若要串接外部 API，需預留測試時間",
+    "若要串接外部 API 需預留測試時間",
   ]
 
   return {
@@ -174,7 +174,7 @@ function ProjectPlanner() {
     profile: answers.profile || "店家 / 品牌",
     goal: answers.goal || "網站",
     budget: answers.budget || "還不確定",
-    timeline: answers.timeline || "不急，想慢慢規劃",
+    timeline: answers.timeline || "不急 想慢慢規劃",
   }), [answers, result])
 
   function setSingleAnswer(key, value) {
@@ -194,7 +194,7 @@ function ProjectPlanner() {
         features: exists ? current.features.filter((item) => item !== feature) : [...current.features, feature],
       }
     })
-    setMessage("已更新功能選項。")
+    setMessage("已更新功能選項")
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -209,7 +209,7 @@ function ProjectPlanner() {
 
   function nextStep() {
     if (!isStepComplete()) {
-      setMessage(`請先完成「${currentStep.title}」，我才能繼續判斷。`)
+      setMessage(`請先完成「${currentStep.title}」 我才能繼續判斷`)
       return
     }
     setStepIndex((current) => Math.min(current + 1, steps.length - 1))
@@ -228,7 +228,7 @@ function ProjectPlanner() {
     })
     if (missing) {
       setStepIndex(steps.findIndex((step) => step.key === missing.key))
-      setMessage(`請先選擇「${missing.title}」。`)
+      setMessage(`請先選擇「${missing.title}」`)
       return false
     }
     return true
@@ -237,7 +237,7 @@ function ProjectPlanner() {
   function generatePlan() {
     if (!validateAll()) return
     setResult(buildRecommendation(answers))
-    setMessage("已產生建議方案。")
+    setMessage("已產生建議方案")
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -248,7 +248,7 @@ function ProjectPlanner() {
     setAnswers(exampleAnswers)
     setStepIndex(4)
     setResult(buildRecommendation(exampleAnswers))
-    setMessage("已載入店家 + LINE Bot + 預約詢價範例。")
+    setMessage("已載入店家 + LINE Bot + 預約詢價範例")
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -260,7 +260,7 @@ function ProjectPlanner() {
     setAnswers(emptyAnswers)
     setStepIndex(0)
     setResult(null)
-    setMessage("已清空，可以重新選擇。")
+    setMessage("已清空 可以重新選擇")
     setCopied(false)
     setAiPlan(null)
     setAiError("")
@@ -284,10 +284,10 @@ function ProjectPlanner() {
         await navigator.clipboard.writeText(text)
       }
       setCopied(true)
-      setMessage("建議內容已複製。")
+      setMessage("建議內容已複製")
     } catch {
       setCopied(false)
-      setMessage("目前瀏覽器不支援自動複製，可以手動選取右側建議。")
+      setMessage("目前瀏覽器不支援自動複製 可以手動選取右側建議")
     }
   }
 
@@ -312,10 +312,10 @@ function ProjectPlanner() {
       const data = await response.json().catch(() => null)
       if (!response.ok) throw new Error(data?.error || "AI 規劃產生失敗")
       setAiPlan(data)
-      setMessage("AI 完整規劃已產生。")
+      setMessage("AI 完整規劃已產生")
     } catch (error) {
-      setAiError(error?.message || "AI 規劃產生失敗，請稍後再試。")
-      setMessage("已保留本地快速建議。")
+      setAiError(error?.message || "AI 規劃產生失敗 請稍後再試")
+      setMessage("已保留本地快速建議")
     } finally {
       setAiLoading(false)
     }
@@ -323,7 +323,7 @@ function ProjectPlanner() {
 
   async function copyAiPlan() {
     if (!aiPlan) {
-      setAiError("請先產生 AI 完整規劃。")
+      setAiError("請先產生 AI 完整規劃")
       return
     }
     const text = [
@@ -342,10 +342,10 @@ function ProjectPlanner() {
         await navigator.clipboard.writeText(text)
       }
       setAiCopied(true)
-      setMessage("AI 規劃已複製。")
+      setMessage("AI 規劃已複製")
     } catch {
       setAiCopied(false)
-      setAiError("目前瀏覽器不支援自動複製，可以手動選取 AI 規劃內容。")
+      setAiError("目前瀏覽器不支援自動複製 可以手動選取 AI 規劃內容")
     }
   }
 
@@ -360,7 +360,7 @@ function ProjectPlanner() {
               網站需求診斷
             </h1>
             <p className="mt-5 max-w-3xl text-base font-bold leading-8 text-[#52605c] md:line-clamp-2">
-              回答幾題，整理方向。
+              回答幾題 整理方向
             </p>
             <div className="mt-7 flex flex-wrap gap-3">
               <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -594,7 +594,7 @@ function ProjectPlanner() {
               </div>
             ) : (
               <p className="mt-4 text-sm font-bold leading-7 text-white/70">
-                完成診斷後，可產生更完整的規劃。
+                完成診斷後 可產生更完整的規劃
               </p>
             )}
           </div>
@@ -612,7 +612,7 @@ function ProjectPlanner() {
               <h2 className="mt-2 text-2xl font-black">診斷結果</h2>
             </div>
             <p className="max-w-xl text-sm font-bold leading-7 text-[#52605c]">
-              先整理，再討論。
+              先整理 再討論
             </p>
           </div>
           <div className="mt-5 grid gap-3 md:grid-cols-3">
@@ -631,7 +631,7 @@ function ProjectPlanner() {
         <div className="mt-8 rounded-xl border border-[#e3ded3] bg-white p-5">
           <h2 className="text-2xl font-black">想做類似系統？</h2>
           <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">
-            先診斷，再聯絡。
+            先診斷 再聯絡
           </p>
           <div className="mt-5 flex flex-wrap gap-3">
             <button type="button" onClick={() => scrollToSection("demo")} className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
@@ -650,7 +650,7 @@ function ProjectPlanner() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Tech</p>
             <h2 className="mt-3 text-3xl font-black">診斷邏輯怎麼做</h2>
             <p className="mt-4 text-sm font-bold leading-7 text-[#52605c]">
-              前端診斷，可升級 AI 顧問。
+              前端診斷 可升級 AI 顧問
             </p>
           </div>
           <div className="grid gap-3 md:grid-cols-2">

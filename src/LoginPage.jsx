@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+﻿import { useEffect, useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { login } from "./auth"
 
@@ -41,7 +41,7 @@ function LoginPage() {
           </h1>
 
           <p className="mt-5 max-w-xl text-sm font-bold leading-7 text-slate-300">
-            這裡用來展示網站專案、需求資料與後台流程。正式專案會改為後端驗證與權限控管。
+            這裡用來展示網站專案、需求資料與後台流程正式專案會改為後端驗證與權限控管
           </p>
 
           <div className="mt-8 grid gap-3 text-sm font-bold text-slate-300 sm:grid-cols-3">
@@ -59,7 +59,7 @@ function LoginPage() {
         >
           <h2 className="text-2xl font-black text-white">登入展示後台</h2>
           <p className="mt-2 text-sm font-bold leading-6 text-slate-400">
-            請輸入 Email 與至少 6 個字元的密碼。此頁不顯示公開測試帳密。
+            請輸入 Email 與至少 6 個字元的密碼此頁不顯示公開測試帳密
           </p>
 
           <label className="mt-6 block">

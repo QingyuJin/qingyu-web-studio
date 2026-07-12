@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react"
+﻿import { useEffect, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 
 const navItems = [
@@ -13,22 +13,22 @@ const navItems = [
 const features = [
   {
     title: "個人品牌口播短影",
-    text: "用短影音呈現醫師觀點，讓專業更容易被理解與分享。",
+    text: "用短影音呈現醫師觀點 讓專業更容易被理解與分享",
     icon: "video",
   },
   {
     title: "個人品牌深度專訪",
-    text: "透過長訪談建立醫師個人品牌與信任感。",
+    text: "透過長訪談建立醫師個人品牌與信任感",
     icon: "mic",
   },
   {
     title: "專業知識衛教圖文",
-    text: "把艱深醫療知識整理成可閱讀、可收藏的社群內容。",
+    text: "把艱深醫療知識整理成可閱讀、可收藏的社群內容",
     icon: "note",
   },
   {
     title: "醫療領域整合行銷",
-    text: "協助醫療人員、診所與機構建立長期內容資產。",
+    text: "協助醫療人員、診所與機構建立長期內容資產",
     icon: "network",
   },
 ]
@@ -36,41 +36,41 @@ const features = [
 const stories = [
   {
     title: "急診醫師的一天",
-    text: "在高壓現場裡，看見判斷、溝通與照護的重量。",
+    text: "在高壓現場裡 看見判斷、溝通與照護的重量",
     tag: "急診故事",
     image: "https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1200&q=80",
     author: "急診醫學科 · 林醫師",
     readTime: "6 分鐘",
     body: [
-      "早上七點半交班，白板上是一夜累積的三十七床。急診的節奏不是快，而是「同時」：判斷、溝通、安撫與決策，常常在同一分鐘內發生。",
-      "「我們最常做的不是急救，而是翻譯。」把檢查數字翻譯成家屬聽得懂的語言，把焦慮翻譯成可以一起做的下一步。",
-      "這一天的最後，是一位獨居長輩的回診安排。醫療的重量不只在搶救瞬間，更在每一次確認有人接住他之後，才放心讓病人離開的守備範圍。",
+      "早上七點半交班 白板上是一夜累積的三十七床急診的節奏不是快 而是「同時」：判斷、溝通、安撫與決策 常常在同一分鐘內發生",
+      "「我們最常做的不是急救 而是翻譯」把檢查數字翻譯成家屬聽得懂的語言 把焦慮翻譯成可以一起做的下一步",
+      "這一天的最後 是一位獨居長輩的回診安排醫療的重量不只在搶救瞬間 更在每一次確認有人接住他之後 才放心讓病人離開的守備範圍",
     ],
   },
   {
     title: "牙科醫師的品牌經營",
-    text: "從診間溝通到內容經營，讓專業被溫柔理解。",
+    text: "從診間溝通到內容經營 讓專業被溫柔理解",
     tag: "品牌專訪",
     image: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80",
     author: "牙科 · 陳醫師",
     readTime: "5 分鐘",
     body: [
-      "「病人在診療椅上只有二十分鐘，但他的疑問存在三百六十五天。」陳醫師開始經營衛教內容的起點，是發現同樣的問題每天要回答十次。",
-      "把常見問題整理成圖文，把治療流程拍成短影音，診間溝通的起跑點就完全不同——病人帶著理解進來，而不是帶著恐懼。",
-      "品牌經營對醫師而言不是行銷，是把專業翻譯成日常語言的長期練習。信任感是內容累積出來的複利。",
+      "「病人在診療椅上只有二十分鐘 但他的疑問存在三百六十五天」陳醫師開始經營衛教內容的起點 是發現同樣的問題每天要回答十次",
+      "把常見問題整理成圖文 把治療流程拍成短影音 診間溝通的起跑點就完全不同——病人帶著理解進來 而不是帶著恐懼",
+      "品牌經營對醫師而言不是行銷 是把專業翻譯成日常語言的長期練習信任感是內容累積出來的複利",
     ],
   },
   {
     title: "醫美醫師的溝通哲學",
-    text: "將美感、期待與風險，轉化成清楚可信任的對話。",
+    text: "將美感、期待與風險 轉化成清楚可信任的對話",
     tag: "溝通哲學",
     image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
     author: "醫美 · 張醫師",
     readTime: "5 分鐘",
     body: [
-      "醫美診間最難的不是技術，是期待管理。「我會先花一半的時間，確認我們想像的是同一件事。」",
-      "張醫師堅持在療程前把風險說滿：能改善多少、恢復期多長、哪些狀況不適合做。「說清楚風險不會趕走客人，只會留下對的客人。」",
-      "美感是主觀的，但溝通可以是有結構的。清楚的對話本身，就是一種專業。",
+      "醫美診間最難的不是技術 是期待管理「我會先花一半的時間 確認我們想像的是同一件事」",
+      "張醫師堅持在療程前把風險說滿：能改善多少、恢復期多長、哪些狀況不適合做「說清楚風險不會趕走客人 只會留下對的客人」",
+      "美感是主觀的 但溝通可以是有結構的清楚的對話本身 就是一種專業",
     ],
   },
 ]
@@ -84,7 +84,7 @@ const eventInfo = {
   date: "09.18",
   title: "醫療品牌內容經營講座",
   place: "線上講座 / 台北同步轉播",
-  note: "從醫師故事、衛教內容到品牌信任感。",
+  note: "從醫師故事、衛教內容到品牌信任感",
 }
 
 const heroImage = "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1600&q=82"
@@ -279,7 +279,7 @@ function BiomedHero() {
           屬於醫療人員的故事
         </h1>
         <p className="mt-6 max-w-xl text-base font-semibold leading-8 text-[#65776e] md:text-lg">
-          記錄醫療現場裡，那些溫暖、專業與被看見的時刻。
+          記錄醫療現場裡 那些溫暖、專業與被看見的時刻
         </p>
         <div className="mt-9 flex flex-wrap gap-3">
           <a href="#about" className="inline-flex min-h-12 items-center rounded-full bg-[#243a32] px-6 text-sm font-black text-white shadow-xl shadow-[#243a32]/15">
@@ -300,7 +300,7 @@ function BiomedHero() {
             <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] border border-white/50 bg-white/64 p-5 backdrop-blur-2xl">
               <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#8d7a52]">Current Feature</p>
               <h2 className="mt-2 font-serif text-3xl font-black tracking-[-0.04em] text-[#243a32]">急診醫師的一天</h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-[#65776e]">從現場判斷、病人溝通到照護選擇，留下真實而克制的敘事。</p>
+              <p className="mt-2 text-sm font-semibold leading-6 text-[#65776e]">從現場判斷、病人溝通到照護選擇 留下真實而克制的敘事</p>
             </div>
           </div>
         </div>
@@ -315,8 +315,8 @@ function BiomedAbout() {
       <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
         <SectionTitle
           eyebrow="About"
-          title="醫療的本質，是對人文的關懷"
-          text="LightCare BioMed 以訪談、衛教與活動紀錄，讓醫療專業不只被理解，也被溫柔保存。"
+          title="醫療的本質 是對人文的關懷"
+          text="LightCare BioMed 以訪談、衛教與活動紀錄 讓醫療專業不只被理解 也被溫柔保存"
         />
         <div className="overflow-hidden rounded-[2.2rem] border border-white/70 bg-white/48 p-4 shadow-[0_20px_70px_rgba(50,68,58,0.09)] backdrop-blur-2xl">
           <div className="relative min-h-[24rem] overflow-hidden rounded-[1.8rem]">
@@ -324,7 +324,7 @@ function BiomedAbout() {
             <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.78),rgba(255,255,255,0.08))]" />
             <div className="absolute left-5 top-5 max-w-xs rounded-[1.4rem] border border-white/70 bg-white/68 p-5 backdrop-blur">
               <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8d7a52]">Editorial Note</p>
-              <p className="mt-3 text-sm font-semibold leading-7 text-[#526b61]">我們相信，好的醫療內容應該清楚、節制，也保留人的溫度。</p>
+              <p className="mt-3 text-sm font-semibold leading-7 text-[#526b61]">我們相信 好的醫療內容應該清楚、節制 也保留人的溫度</p>
             </div>
           </div>
         </div>
@@ -336,7 +336,7 @@ function BiomedAbout() {
 function BiomedFeatures() {
   return (
     <SectionShell id="features">
-      <SectionTitle eyebrow="Features" title="項目特色" text="從短影音、專訪到衛教內容，建立可以長期累積的醫療品牌資產。" />
+      <SectionTitle eyebrow="Features" title="項目特色" text="從短影音、專訪到衛教內容 建立可以長期累積的醫療品牌資產" />
       <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
         {features.map((item) => (
           <article
@@ -361,7 +361,7 @@ function BiomedStories() {
   return (
     <SectionShell id="stories">
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <SectionTitle eyebrow="Stories" title="醫生故事" text="像品牌媒體一樣上架人物、觀點與專業內容。點擊卡片可閱讀全文。" />
+        <SectionTitle eyebrow="Stories" title="醫生故事" text="像品牌媒體一樣上架人物、觀點與專業內容點擊卡片可閱讀全文" />
         <span className="w-fit rounded-full border border-white/70 bg-white/52 px-4 py-2 text-xs font-black text-[#61766c] backdrop-blur">Editorial Series</span>
       </div>
       <div className="mt-10 grid gap-5 md:grid-cols-3">
@@ -452,15 +452,15 @@ function BiomedEvents() {
   function submitRegistration(event) {
     event.preventDefault()
     if (!name.trim()) {
-      setError("請填寫姓名。")
+      setError("請填寫姓名")
       return
     }
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError("請填寫正確的 Email。")
+      setError("請填寫正確的 Email")
       return
     }
     if (selectedSession.taken >= selectedSession.seats) {
-      setError("此場次已額滿，請改選其他場次。")
+      setError("此場次已額滿 請改選其他場次")
       return
     }
     setError("")
@@ -483,7 +483,7 @@ function BiomedEvents() {
   return (
     <SectionShell id="events">
       <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <SectionTitle eyebrow="Events" title="公益講座" text="活動資訊、場次名額與報名流程整理在同一個入口，可直接操作。" />
+        <SectionTitle eyebrow="Events" title="公益講座" text="活動資訊、場次名額與報名流程整理在同一個入口 可直接操作" />
         <div className="overflow-hidden rounded-[2rem] border border-white/70 bg-white/54 p-4 shadow-[0_22px_75px_rgba(50,68,58,0.1)] backdrop-blur-2xl">
           <div className="grid gap-5 md:grid-cols-[0.92fr_1.08fr]">
             <div className="relative min-h-[18rem] overflow-hidden rounded-[1.6rem]">
@@ -508,7 +508,7 @@ function BiomedEvents() {
                       <p>場次：{ticket.session}</p>
                       <p>活動：{eventInfo.title}</p>
                     </div>
-                    <p className="mt-4 text-xs font-bold text-[#8d7a52]">報名確認信已寄出（示範流程），講座前三天會再提醒。</p>
+                    <p className="mt-4 text-xs font-bold text-[#8d7a52]">報名確認信已寄出（示範流程） 講座前三天會再提醒</p>
                   </div>
                   <button
                     type="button"
@@ -581,7 +581,7 @@ function BiomedSubscribe() {
   function submitSubscribe(event) {
     event.preventDefault()
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setSubscribeError("請輸入正確的 Email 格式。")
+      setSubscribeError("請輸入正確的 Email 格式")
       setSent(false)
       return
     }
@@ -596,7 +596,7 @@ function BiomedSubscribe() {
           <div>
             <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#e9cf9b]">Subscribe</p>
             <h2 className="mt-3 font-serif text-[clamp(2rem,5vw,4rem)] font-black leading-none tracking-[-0.045em]">訂閱我們</h2>
-            <p className="mt-4 text-sm font-semibold leading-7 text-white/72">追蹤最新醫療故事與健康內容。</p>
+            <p className="mt-4 text-sm font-semibold leading-7 text-white/72">追蹤最新醫療故事與健康內容</p>
           </div>
           <form onSubmit={submitSubscribe} className="flex flex-col gap-3 rounded-[1.3rem] border border-white/12 bg-white/8 p-3 backdrop-blur md:flex-row">
             <input
@@ -612,7 +612,7 @@ function BiomedSubscribe() {
           </form>
         </div>
         {subscribeError ? <p className="mt-4 text-sm font-black text-[#f0b3a0]">{subscribeError}</p> : null}
-        {sent ? <p className="mt-4 text-sm font-black text-[#e9cf9b]">感謝訂閱，之後的醫療故事會寄到 {email.trim()}。</p> : null}
+        {sent ? <p className="mt-4 text-sm font-black text-[#e9cf9b]">感謝訂閱 之後的醫療故事會寄到 {email.trim()}</p> : null}
       </div>
     </SectionShell>
   )
@@ -626,7 +626,7 @@ function BiomedFooter() {
           <div>
             <p className="font-serif text-2xl font-black tracking-[-0.03em] text-[#243a32]">LightCare BioMed</p>
             <p className="mt-3 max-w-xl text-sm font-semibold leading-7 text-[#65776e]">
-              以醫療故事、健康內容與公益活動，建立可信任的醫療內容品牌。
+              以醫療故事、健康內容與公益活動 建立可信任的醫療內容品牌
             </p>
           </div>
           <div className="flex flex-wrap gap-2">
@@ -654,7 +654,7 @@ function BiomedBrandSite() {
 
   useEffect(() => {
     const title = "醫療人文誌｜屬於醫療人員的故事"
-    const description = "記錄醫療人員的專業、溫度與健康知識，打造可信任的醫療內容品牌。"
+    const description = "記錄醫療人員的專業、溫度與健康知識 打造可信任的醫療內容品牌"
 
     document.title = title
     setMetaTag("description", description)

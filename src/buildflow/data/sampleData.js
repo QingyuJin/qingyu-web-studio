@@ -1,4 +1,4 @@
-export const STORAGE_KEY = "buildflow_v1_4_data"
+﻿export const STORAGE_KEY = "buildflow_v1_4_data"
 
 export const sampleData = {
   users: [
@@ -48,7 +48,7 @@ export const sampleData = {
       manager: "管理者",
       startDate: "2026-06-01",
       dueDate: "2026-06-18",
-      note: "浴室與陽台防水，拆除後發現追加需求。",
+      note: "浴室與陽台防水 拆除後發現追加需求",
     },
     {
       id: "p-002",
@@ -61,7 +61,7 @@ export const sampleData = {
       manager: "管理者",
       startDate: "2026-06-06",
       dueDate: "2026-06-25",
-      note: "業主追加天花板燈槽與牆面修補。",
+      note: "業主追加天花板燈槽與牆面修補",
     },
   ],
 
@@ -79,7 +79,7 @@ export const sampleData = {
       workerName: "阿明師傅",
       status: "施工中",
       dueDate: "2026-06-15",
-      note: "等業主確認追加範圍。",
+      note: "等業主確認追加範圍",
     },
     {
       id: "s-002",
@@ -94,7 +94,7 @@ export const sampleData = {
       workerName: "阿龍師傅",
       status: "待確認",
       dueDate: "2026-06-20",
-      note: "需先確認追加燈槽價格。",
+      note: "需先確認追加燈槽價格",
     },
   ],
 
@@ -108,7 +108,7 @@ export const sampleData = {
       vendor: "阿明工程行",
       amount: 35000,
       selected: true,
-      note: "熟悉案場，品質穩定。",
+      note: "熟悉案場 品質穩定",
     },
     {
       id: "b-002",
@@ -119,7 +119,7 @@ export const sampleData = {
       vendor: "宏誠防水",
       amount: 32000,
       selected: false,
-      note: "價格較低，但時間較晚。",
+      note: "價格較低 但時間較晚",
     },
     {
       id: "b-003",
@@ -130,7 +130,7 @@ export const sampleData = {
       vendor: "阿龍木作",
       amount: 78000,
       selected: true,
-      note: "能配合店面工期。",
+      note: "能配合店面工期",
     },
   ],
 
@@ -141,7 +141,7 @@ export const sampleData = {
       projectName: "屏東住宅防水工程",
       type: "追加",
       item: "浴室牆面追加防水",
-      reason: "拆除後發現原防水層失效。",
+      reason: "拆除後發現原防水層失效",
       amount: 12000,
       status: "待確認",
       confirmedByClient: false,
@@ -153,7 +153,7 @@ export const sampleData = {
       projectName: "高雄店面整修",
       type: "追加",
       item: "天花板新增燈槽",
-      reason: "業主臨時增加展示燈需求。",
+      reason: "業主臨時增加展示燈需求",
       amount: 18000,
       status: "已傳 LINE",
       confirmedByClient: false,
@@ -175,8 +175,8 @@ export const sampleData = {
       quoteDate: "2026-06-14",
       validUntil: "2026-06-21",
       expectedDate: "2026-06-20",
-      sizeNote: "頂樓約 18 坪，女兒牆約 12 米",
-      note: "業主先詢問屋頂防水，需確認漏水點與排水方向。",
+      sizeNote: "頂樓約 18 坪 女兒牆約 12 米",
+      note: "業主先詢問屋頂防水 需確認漏水點與排水方向",
       items: [
         {
           trade: "防水",
@@ -224,7 +224,7 @@ export const sampleData = {
       validUntil: "2026-06-22",
       expectedDate: "2026-06-28",
       sizeNote: "室內約 26 坪",
-      note: "地坪需耐磨、好清潔，報價後確認施工日期。",
+      note: "地坪需耐磨、好清潔 報價後確認施工日期",
       items: [
         {
           trade: "地坪",
@@ -267,7 +267,7 @@ export const sampleData = {
       trade: "防水 / 泥作",
       phone: "09xx-123-456",
       area: "屏東 / 高雄",
-      note: "防水細節穩，適合重要案場。",
+      note: "防水細節穩 適合重要案場",
     },
     {
       id: "v-002",
@@ -275,7 +275,7 @@ export const sampleData = {
       trade: "木作",
       phone: "09xx-456-789",
       area: "高雄 / 屏東",
-      note: "店面木作經驗多，需提前確認追加。",
+      note: "店面木作經驗多 需提前確認追加",
     },
     {
       id: "v-003",
@@ -283,7 +283,7 @@ export const sampleData = {
       trade: "水電",
       phone: "09xx-888-666",
       area: "屏東",
-      note: "水電配合度高，適合浴室與廚房案。",
+      note: "水電配合度高 適合浴室與廚房案",
     },
   ],
 
@@ -298,7 +298,7 @@ export const sampleData = {
       workerName: "阿明師傅",
       status: "待完成",
       dueDate: "2026-06-15",
-      note: "施工前先拍照。",
+      note: "施工前先拍照",
       report: "",
     },
     {
@@ -311,7 +311,7 @@ export const sampleData = {
       workerName: "阿龍師傅",
       status: "待完成",
       dueDate: "2026-06-16",
-      note: "等業主最後尺寸。",
+      note: "等業主最後尺寸",
       report: "",
     },
   ],

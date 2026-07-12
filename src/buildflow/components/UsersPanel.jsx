@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import Card from "../shared/Card"
 import Input from "../shared/Input"
 import SectionTitle from "../shared/SectionTitle"
@@ -30,7 +30,7 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
     <div className="grid gap-5">
       <SectionTitle
         title="使用者管理"
-        desc="管理者可以新增師傅帳號，新增後可直接登入，並可被指派發包項目與任務。"
+        desc="管理者可以新增師傅帳號 新增後可直接登入 並可被指派發包項目與任務"
       />
 
       <Card>
@@ -120,7 +120,7 @@ function UsersPanel({ users, tasks, subcontracts, currentUserId, addUser, editUs
             </tbody>
           </table>
           {!filteredUsers.length && (
-            <p className="py-4 text-sm text-slate-500">沒有符合條件的使用者。</p>
+            <p className="py-4 text-sm text-slate-500">沒有符合條件的使用者</p>
           )}
         </div>
       </Card>

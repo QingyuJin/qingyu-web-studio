@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
 import { contact } from "./content"
 
@@ -94,7 +94,7 @@ function SiteLayout({ children }) {
           <div>
             <p className="text-lg font-black">Qingyu Web Studio</p>
             <p className="mt-2 max-w-xl text-sm font-bold leading-7 text-[#5a6461]">
-              漂亮網站，串接 LINE、AI、表單與後台。
+              漂亮網站 串接 LINE、AI、表單與後台
             </p>
             <a href={`mailto:${contact.email}`} className="mt-3 inline-block text-sm font-black text-[#0d6b62]">
               {contact.email}

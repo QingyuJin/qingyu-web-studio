@@ -1,4 +1,4 @@
-import { useState } from "react"
+﻿import { useState } from "react"
 import { Link } from "react-router-dom"
 
 function BuildFlowLogin({ users, onLogin }) {
@@ -9,9 +9,9 @@ function BuildFlowLogin({ users, onLogin }) {
   const trialSteps = [
     "使用 admin / admin123 登入管理者後台",
     "查看案件、發包項目、批價與追加減",
-    "新增或編輯資料，觀察列表即時更新",
+    "新增或編輯資料 觀察列表即時更新",
     "指派任務給師傅帳號",
-    "登出後改用師傅帳號登入，填寫任務回報",
+    "登出後改用師傅帳號登入 填寫任務回報",
     "回到管理者視角確認任務狀態與回報內容",
   ]
 
@@ -43,7 +43,7 @@ function BuildFlowLogin({ users, onLogin }) {
             把案件整理清楚
           </h1>
           <p className="mt-5 max-w-2xl leading-8 text-slate-600">
-            報價、發包、追加減項、師傅回報，都放在同一個地方。先用測試資料走一次流程。
+            報價、發包、追加減項、師傅回報 都放在同一個地方先用測試資料走一次流程
           </p>
 
           <div className="mt-8 rounded-2xl border border-slate-200 bg-white p-5 shadow-sm">
@@ -51,7 +51,7 @@ function BuildFlowLogin({ users, onLogin }) {
               <div>
                 <h2 className="text-xl font-black">試用帳號</h2>
                 <p className="mt-1 text-sm leading-6 text-slate-600">
-                  點卡片帶入帳密，直接看不同角色權限。
+                  點卡片帶入帳密 直接看不同角色權限
                 </p>
               </div>
               <span className="rounded-full bg-sky-50 px-3 py-1 text-xs font-black text-sky-700">
@@ -96,7 +96,7 @@ function BuildFlowLogin({ users, onLogin }) {
         >
           <h2 className="text-2xl font-black">登入 BuildFlow</h2>
           <p className="mt-2 text-sm leading-6 text-slate-500">
-            點帳號帶入，直接進去看。
+            點帳號帶入 直接進去看
           </p>
 
           <label className="mt-6 grid gap-2">

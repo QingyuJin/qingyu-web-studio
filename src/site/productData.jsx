@@ -1,4 +1,4 @@
-/* eslint-disable react-refresh/only-export-components */
+﻿/* eslint-disable react-refresh/only-export-components */
 import { useEffect, useMemo, useState } from "react"
 
 /* ---------- shared mock frames ---------- */
@@ -65,7 +65,7 @@ function CompanyFront() {
         <div className="bg-[#faf8f3] px-5 py-8 text-center">
           <p className="text-[10px] font-black uppercase tracking-widest text-[#0d6b62]">Professional Service</p>
           <h4 className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-snug">把專業 說成客戶聽得懂的樣子</h4>
-          <p className="mx-auto mt-3 max-w-xs text-xs font-bold leading-6 text-[#66716d]">一頁講清楚你是誰、提供什麼、為什麼值得信任。</p>
+          <p className="mx-auto mt-3 max-w-xs text-xs font-bold leading-6 text-[#66716d]">一頁講清楚你是誰、提供什麼、為什麼值得信任</p>
           <span className="mt-4 inline-flex rounded-lg bg-[#111c22] px-5 py-2 text-xs font-black text-white">預約諮詢</span>
         </div>
         <div className="grid grid-cols-3 gap-2 p-4">
@@ -94,7 +94,7 @@ function CompanyBack() {
           <div className="mt-3 grid gap-2">
             <div>
               <p className="text-[10px] font-bold text-white/45">主標題</p>
-              <div className="mt-1 rounded-md border border-white/12 bg-white/8 px-2.5 py-1.5 text-[11px] font-black">把專業，說成客戶聽得懂的樣子</div>
+              <div className="mt-1 rounded-md border border-white/12 bg-white/8 px-2.5 py-1.5 text-[11px] font-black">把專業 說成客戶聽得懂的樣子</div>
             </div>
             <div>
               <p className="text-[10px] font-bold text-white/45">副標</p>
@@ -206,8 +206,8 @@ const assessmentQuestions = [
     id: "q3",
     type: "scale",
     dim: "流程",
-    title: "客戶從詢問到成交，資料整理的順暢程度？",
-    hint: "1＝很亂，常漏訊息　5＝很順，全部追得到",
+    title: "客戶從詢問到成交 資料整理的順暢程度？",
+    hint: "1＝很亂 常漏訊息　5＝很順 全部追得到",
   },
   {
     id: "q4",
@@ -292,7 +292,7 @@ function AssessmentDemo() {
   }, [answers])
 
   const totalScore = Math.round(Object.values(scores).reduce((a, b) => a + b, 0) / 4)
-  const tier = totalScore >= 75 ? ["成熟型", "數位基礎穩，適合強化行銷與回購。"] : totalScore >= 45 ? ["發展型", "有基礎，補齊官網或後台就能明顯升級。"] : ["打底型", "先把官網與聯絡入口做起來，效益最快。"]
+  const tier = totalScore >= 75 ? ["成熟型", "數位基礎穩 適合強化行銷與回購"] : totalScore >= 45 ? ["發展型", "有基礎 補齊官網或後台就能明顯升級"] : ["打底型", "先把官網與聯絡入口做起來 效益最快"]
 
   function setSingle(q, value) {
     setAnswers((c) => ({ ...c, [q.id]: value }))
@@ -432,7 +432,7 @@ function AssessmentDemo() {
               <div className="w-28"><Radar scores={scores} /></div>
             </div>
             <p className="mt-3 rounded-lg bg-[#faf8f3] p-3 text-xs font-bold leading-6 text-[#52605c]">
-              {info.name ? `${info.name}，` : ""}{tier[1]}報告已同步到後台填答紀錄。
+              {info.name ? `${info.name} ` : ""}{tier[1]}報告已同步到後台填答紀錄
             </p>
             <div className="mt-3 grid grid-cols-2 gap-2">
               {Object.entries(scores).map(([d, v]) => (
@@ -506,7 +506,7 @@ function LineFront() {
           請問營業時間？
         </div>
         <div className="w-fit max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[11px] font-bold text-[#333]">
-          您好！營業時間為 週一至週六 10:00–20:00，週日公休 🙌
+          您好！營業時間為 週一至週六 10:00–20:00 週日公休 🙌
         </div>
         <div className="flex flex-wrap gap-1.5">
           {["預約", "價目表", "地址", "真人客服"].map((t) => (
@@ -515,7 +515,7 @@ function LineFront() {
         </div>
         <div className="ml-auto w-fit rounded-2xl rounded-tr-sm bg-[#06c755] px-3 py-2 text-[11px] font-bold text-white">預約</div>
         <div className="w-fit max-w-[85%] rounded-2xl rounded-tl-sm bg-white px-3 py-2 text-[11px] font-bold text-[#333]">
-          好的，請問想預約哪一天呢？我幫您記錄到後台 📝
+          好的 請問想預約哪一天呢？我幫您記錄到後台 📝
         </div>
       </div>
     </Phone>
@@ -543,7 +543,7 @@ function LineBack() {
           ))}
         </div>
         <div className="mt-3 rounded-lg border border-[#eac46f]/30 bg-[#eac46f]/10 px-3 py-2 text-[10px] font-black text-[#eac46f]">
-          🔔 收到 1 筆預約需求，已進收件匣
+          🔔 收到 1 筆預約需求 已進收件匣
         </div>
       </div>
     </Chrome>
@@ -602,7 +602,7 @@ function CrmFront() {
           <input value={fields.type} onChange={(e) => update("type", e.target.value)} placeholder="需求類型（選填）" className="min-h-10 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-xs font-bold outline-none focus:border-[#0d6b62]" />
           <textarea value={fields.message} onChange={(e) => update("message", e.target.value)} placeholder="想詢問的內容⋯" className="min-h-20 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 py-2 text-xs font-bold outline-none focus:border-[#0d6b62]" />
           <button type="submit" className="min-h-10 rounded-lg bg-[#111c22] text-xs font-black text-white transition hover:bg-[#2a3a42]">送出需求</button>
-          {sent ? <p className="text-center text-[10px] font-black text-[#0d6b62]">✓ 已送出，可到後台查看</p> : null}
+          {sent ? <p className="text-center text-[10px] font-black text-[#0d6b62]">✓ 已送出 可到後台查看</p> : null}
         </form>
         <div className="mt-3 rounded-lg bg-[#eef7f4] px-3 py-2 text-[10px] font-bold text-[#0d6b62]">
           ＊目前 {crmStore.records.length} 筆紀錄（可送出測試）
@@ -678,9 +678,9 @@ const contractorStore = { cards: {
 }, listeners: new Set() }
 
 const serviceDetails = {
-  "防水抓漏": "屋頂、外牆、浴室、陽台各類防水施工與抓漏檢測，使用 PU、彈性水泥、防水砂漿等材料。",
-  "地坪工程": "Epoxy 環氧樹脂地坪、金剛砂地坪、硬化地坪、停車場與廠房地坪規劃。",
-  "泥作磁磚": "磁磚鋪貼、抿石子、洗石子、清水模、磚牆砌築、水泥粉光等各類泥作工程。",
+  "防水抓漏": "屋頂、外牆、浴室、陽台各類防水施工與抓漏檢測 使用 PU、彈性水泥、防水砂漿等材料",
+  "地坪工程": "Epoxy 環氧樹脂地坪、金剛砂地坪、硬化地坪、停車場與廠房地坪規劃",
+  "泥作磁磚": "磁磚鋪貼、抿石子、洗石子、清水模、磚牆砌築、水泥粉光等各類泥作工程",
 }
 
 function useContractorStore() {
@@ -791,7 +791,7 @@ export const products = {
     name: "公司一頁式官網",
     tagline: "一頁講清楚你是誰 做什麼 怎麼聯絡",
     forWho: "新公司、工作室、專業服務、想要正式門面的店家",
-    solves: "只有 FB / IG 或名片，客戶搜不到你、也看不懂你在做什麼。",
+    solves: "只有 FB / IG 或名片 客戶搜不到你、也看不懂你在做什麼",
     priceFrom: "12,000 元起",
     priceRange: "12,000–20,000 元",
     duration: "5–10 天",
@@ -799,14 +799,14 @@ export const products = {
     Front: CompanyFront,
     Back: CompanyBack,
     overview: [
-      "把公司的專業，濃縮成一頁就能看懂的品牌門面。訪客不用滑很久，就知道你是誰、能幫他解決什麼、怎麼聯絡你。",
-      "含品牌 Hero、服務介紹、案例或特色、聯絡 CTA 與手機版 RWD，並可自行更新內容。",
+      "把公司的專業 濃縮成一頁就能看懂的品牌門面訪客不用滑很久 就知道你是誰、能幫他解決什麼、怎麼聯絡你",
+      "含品牌 Hero、服務介紹、案例或特色、聯絡 CTA 與手機版 RWD 並可自行更新內容",
     ],
     features: ["品牌 Hero 主視覺", "服務 / 特色介紹", "案例或見證", "聯絡表單與 CTA", "手機版 RWD", "基本 SEO 與分享預覽"],
     flow: [
       ["訪客進站", "從搜尋、名片 QR、社群連結進到官網"],
       ["快速理解", "一頁看懂服務、信任感與聯絡方式"],
-      ["主動聯絡", "點擊 CTA 或表單，直接找到你"],
+      ["主動聯絡", "點擊 CTA 或表單 直接找到你"],
     ],
     tech: ["React / Vite", "Tailwind CSS", "RWD 響應式", "SEO / Open Graph", "Vercel 部署"],
     pricing: [
@@ -819,7 +819,7 @@ export const products = {
     name: "電商 / 商品訂購系統",
     tagline: "商品 購物車 訂單與出貨狀態 一套顧好",
     forWho: "小型電商、食品 / 農產、批發商、想線上收單的店家",
-    solves: "訂單靠 LINE、私訊和手寫記，容易漏單、算錯、對帳累。",
+    solves: "訂單靠 LINE、私訊和手寫記 容易漏單、算錯、對帳累",
     priceFrom: "25,000 元起",
     priceRange: "25,000 元起",
     duration: "14–25 天",
@@ -827,15 +827,15 @@ export const products = {
     Front: ShopFront,
     Back: ShopBack,
     overview: [
-      "從商品展示、購物車到送出訂單，客戶在手機上就能下單；老闆在後台看訂單、改狀態、對帳，不再靠訊息一筆筆記。",
-      "可依規模做成一般電商，或 B2B 批發（客戶分級報價、月結對帳）。",
+      "從商品展示、購物車到送出訂單 客戶在手機上就能下單；老闆在後台看訂單、改狀態、對帳 不再靠訊息一筆筆記",
+      "可依規模做成一般電商 或 B2B 批發（客戶分級報價、月結對帳）",
     ],
     features: ["商品列表與分類", "購物車與結帳", "訂單後台管理", "出貨狀態流程", "分級報價 / 月結（B2B）", "營收與訂單統計"],
     flow: [
       ["客戶下單", "手機瀏覽商品、加入購物車、送出訂單"],
-      ["進入後台", "訂單即時進管理後台，含品項與金額"],
-      ["處理出貨", "改狀態、備貨、出貨，客戶可查進度"],
-      ["對帳結算", "彙整訂單金額，月結或匯出"],
+      ["進入後台", "訂單即時進管理後台 含品項與金額"],
+      ["處理出貨", "改狀態、備貨、出貨 客戶可查進度"],
+      ["對帳結算", "彙整訂單金額 月結或匯出"],
     ],
     tech: ["React / Vite", "Tailwind CSS", "Supabase / 資料庫", "Serverless API", "Vercel 部署"],
     pricing: [
@@ -849,7 +849,7 @@ export const products = {
     interactive: true,
     tagline: "線上測驗 自動計分 結果報告與後台紀錄",
     forWho: "教育訓練、顧問、講師、活動導流、想收名單的品牌",
-    solves: "測驗散在紙本或表單，算分靠人工，也留不下客戶名單。",
+    solves: "測驗散在紙本或表單 算分靠人工 也留不下客戶名單",
     priceFrom: "6,000 元起",
     priceRange: "6,000–15,000 元",
     duration: "3–8 天",
@@ -857,15 +857,15 @@ export const products = {
     Front: AssessmentDemo,
     Back: AssessmentBack,
     overview: [
-      "右邊就是真的可以作答的測驗：填基本資料、單選 / 多選 / 量表題、自動計分，最後產生分數卡與雷達圖結果報告。",
-      "每一筆填答都會進後台紀錄，可統計、可匯出 Excel，很適合當作收名單與導流工具。",
+      "右邊就是真的可以作答的測驗：填基本資料、單選 / 多選 / 量表題、自動計分 最後產生分數卡與雷達圖結果報告",
+      "每一筆填答都會進後台紀錄 可統計、可匯出 Excel 很適合當作收名單與導流工具",
     ],
     features: ["基本資料填寫", "單選 / 多選 / 量表題", "自動計分", "結果報告與分數卡", "雷達圖視覺化", "後台填答紀錄與 Excel 匯出"],
     flow: [
       ["填寫測驗", "留基本資料、逐題作答"],
       ["自動計分", "依權重即時算出各維度分數"],
       ["結果報告", "分數卡 + 雷達圖 + 建議"],
-      ["後台收集", "填答紀錄進後台，可統計與匯出"],
+      ["後台收集", "填答紀錄進後台 可統計與匯出"],
     ],
     tech: ["React / Vite", "Tailwind CSS", "JSON / Google Sheet 題庫", "SVG 圖表", "Excel 匯出"],
     pricing: [
@@ -878,7 +878,7 @@ export const products = {
     name: "LINE Bot / 自動回覆",
     tagline: "常見問題自動回 需求自動收 人力省一半",
     forWho: "用 LINE 接客、預約、收單的店家與服務業",
-    solves: "同樣的問題每天回十次，訊息一多就漏，客人等太久跑掉。",
+    solves: "同樣的問題每天回十次 訊息一多就漏 客人等太久跑掉",
     priceFrom: "8,000 元起",
     priceRange: "8,000–20,000 元",
     duration: "3–7 天",
@@ -886,14 +886,14 @@ export const products = {
     Front: LineFront,
     Back: LineBack,
     overview: [
-      "把營業時間、價目、地址、預約這些常被問的問題，設成關鍵字自動回覆；需要真人的再轉給你，並把需求收進後台。",
-      "從整理 FAQ、設定關鍵字，到需求進收件匣，一次規劃好。",
+      "把營業時間、價目、地址、預約這些常被問的問題 設成關鍵字自動回覆；需要真人的再轉給你 並把需求收進後台",
+      "從整理 FAQ、設定關鍵字 到需求進收件匣 一次規劃好",
     ],
     features: ["關鍵字自動回覆", "圖文選單 / 快速回覆", "預約 / 需求引導", "需求收進後台", "真人接手切換", "FAQ 整理"],
     flow: [
       ["客人提問", "在 LINE 詢問營業、價格、預約等"],
       ["自動回覆", "命中關鍵字即時回答"],
-      ["收集需求", "引導填必要資訊，進後台收件匣"],
+      ["收集需求", "引導填必要資訊 進後台收件匣"],
       ["真人接手", "重要對話轉給你處理"],
     ],
     tech: ["LINE Messaging API", "Webhook", "Serverless Function", "Supabase / 資料庫", "後台介面"],
@@ -907,7 +907,7 @@ export const products = {
     name: "小型後台 / CRM 管理系統",
     tagline: "客戶 需求 狀態集中管理 不再散在各處",
     forWho: "工作室、服務團隊、業務、需要追客戶的小公司",
-    solves: "客戶資料散在表單、LINE、Excel，跟進靠記憶，容易漏。",
+    solves: "客戶資料散在表單、LINE、Excel 跟進靠記憶 容易漏",
     priceFrom: "20,000 元起",
     priceRange: "20,000 元起",
     duration: "7–14 天",
@@ -915,8 +915,8 @@ export const products = {
     Front: CrmFront,
     Back: CrmBack,
     overview: [
-      "前台表單收客戶需求，後台自動變成一筆可追蹤的客戶紀錄：來源、狀態、跟進進度一目了然，篩選、搜尋都很快。",
-      "適合把「詢問 → 跟進 → 成交」的流程系統化。",
+      "前台表單收客戶需求 後台自動變成一筆可追蹤的客戶紀錄：來源、狀態、跟進進度一目了然 篩選、搜尋都很快",
+      "適合把「詢問 → 跟進 → 成交」的流程系統化",
     ],
     features: ["前台需求表單", "客戶列表與搜尋", "狀態 / 跟進管理", "來源標記", "篩選與統計", "權限與備註"],
     flow: [
@@ -936,7 +936,7 @@ export const products = {
     name: "工程行 / 服務業接案系統",
     tagline: "官網詢價直接進後台 案件從詢價追到完工",
     forWho: "工程行、裝修、清潔、維修等到府服務業",
-    solves: "詢價、報價、派工、回報全靠 LINE 和口頭，案子一多就亂。",
+    solves: "詢價、報價、派工、回報全靠 LINE 和口頭 案子一多就亂",
     priceFrom: "30,000 元起",
     priceRange: "30,000 元起",
     duration: "14–25 天",
@@ -944,14 +944,14 @@ export const products = {
     Front: ContractorFront,
     Back: ContractorBack,
     overview: [
-      "品牌官網 + 線上詢價 + 案件後台一條龍：客戶在官網詢價，需求直接進後台收件匣，一鍵轉成案件，接著報價、派工、回報、完工。",
-      "這就是鑫匠工程實際上線的系統，前後台已經真的串起來。",
+      "品牌官網 + 線上詢價 + 案件後台一條龍：客戶在官網詢價 需求直接進後台收件匣 一鍵轉成案件 接著報價、派工、回報、完工",
+      "這就是鑫匠工程實際上線的系統 前後台已經真的串起來",
     ],
     features: ["品牌官網與服務展示", "線上詢價表單", "詢價收件匣", "案件看板管理", "報價 / 派工 / 回報", "LINE 通知概念"],
     flow: [
       ["客戶詢價", "官網或 LINE 送出工程需求"],
-      ["進收件匣", "需求即時進後台，含聯絡與內容"],
-      ["轉成案件", "一鍵建立案件，開始追蹤"],
+      ["進收件匣", "需求即時進後台 含聯絡與內容"],
+      ["轉成案件", "一鍵建立案件 開始追蹤"],
       ["施工回報", "報價、派工、進度到完工驗收"],
     ],
     tech: ["React / Vite", "Tailwind CSS", "Supabase / 資料庫", "Serverless API", "Vercel 部署"],
