@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Almond slices">
+  <rect width="640" height="480" fill="#fff5e2"/>
+  <ellipse cx="320" cy="398" rx="220" ry="36" fill="#e2cfaa"/>
+  <rect x="170" y="104" width="300" height="286" rx="34" fill="#fffaf2" stroke="#8c6a3d" stroke-width="14"/>
+  <path d="M210 236c36-70 154-96 220-12-28 110-168 126-220 12z" fill="#efcf91"/>
+  <g fill="#c9954e" stroke="#8c6a3d" stroke-width="6">
+    <ellipse cx="260" cy="238" rx="24" ry="54" transform="rotate(60 260 238)"/>
+    <ellipse cx="326" cy="224" rx="22" ry="54" transform="rotate(88 326 224)"/>
+    <ellipse cx="382" cy="254" rx="22" ry="50" transform="rotate(124 382 254)"/>
+    <ellipse cx="306" cy="286" rx="20" ry="46" transform="rotate(42 306 286)"/>
+  </g>
+</svg>

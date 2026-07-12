@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Fried onion rings">
+  <rect width="640" height="480" fill="#fff5df"/>
+  <ellipse cx="320" cy="394" rx="224" ry="40" fill="#e0c28c"/>
+  <g fill="none" stroke-linecap="round">
+    <circle cx="258" cy="250" r="66" stroke="#d18a2f" stroke-width="28"/>
+    <circle cx="366" cy="220" r="64" stroke="#e0a044" stroke-width="28"/>
+    <circle cx="372" cy="306" r="58" stroke="#c77925" stroke-width="26"/>
+    <circle cx="280" cy="318" r="52" stroke="#efb45a" stroke-width="24"/>
+  </g>
+</svg>

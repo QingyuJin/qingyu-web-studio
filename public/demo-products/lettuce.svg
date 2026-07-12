@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Romaine lettuce">
+  <rect width="640" height="480" fill="#eef8e9"/>
+  <ellipse cx="320" cy="408" rx="210" ry="32" fill="#c7dbc0"/>
+  <path d="M246 392c-50-114-28-226 42-304 38 80 48 188-42 304z" fill="#9fd084" stroke="#356b37" stroke-width="12"/>
+  <path d="M320 402c-70-128-42-258 0-332 62 90 78 218 0 332z" fill="#b8dea1" stroke="#356b37" stroke-width="12"/>
+  <path d="M398 392c-86-114-72-224-28-304 76 78 96 188 28 304z" fill="#8fc678" stroke="#356b37" stroke-width="12"/>
+  <path d="M320 112v248M250 146c20 78 18 148-6 210M392 148c-18 76-18 146 8 206" stroke="#e7f6d9" stroke-width="12" stroke-linecap="round"/>
+</svg>

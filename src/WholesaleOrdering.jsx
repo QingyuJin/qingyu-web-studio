@@ -38,6 +38,7 @@ const baseProducts = [
     spec: "20kg",
     vendor: "青禾農產",
     stock: "現貨",
+    image: "/demo-products/cabbage.svg",
     prices: { hotpot: 480, brunch: 500, bento: 460 },
     tone: "from-[#d9edc7] via-[#fff8ee] to-[#e7efe1]",
   },
@@ -49,6 +50,7 @@ const baseProducts = [
     spec: "13kg",
     vendor: "南州果行",
     stock: "預訂",
+    image: "/demo-products/banana.svg",
     prices: { hotpot: 650, brunch: 680, bento: 620 },
     tone: "from-[#f8df99] via-[#fff8ee] to-[#f0ead9]",
   },
@@ -60,6 +62,7 @@ const baseProducts = [
     spec: "8kg",
     vendor: "佳冬農場",
     stock: "現貨",
+    image: "/demo-products/tomato.svg",
     prices: { hotpot: 900, brunch: 880, bento: 920 },
     tone: "from-[#f5b49b] via-[#fff8ee] to-[#f1e4d7]",
   },
@@ -71,6 +74,7 @@ const baseProducts = [
     spec: "12入",
     vendor: "青禾農產",
     stock: "低溫",
+    image: "/demo-products/lettuce.svg",
     prices: { hotpot: 520, brunch: 540, bento: 500 },
     tone: "from-[#cae8bf] via-[#fff8ee] to-[#edf4e6]",
   },
@@ -82,6 +86,7 @@ const baseProducts = [
     spec: "30包",
     vendor: "信安冷鏈",
     stock: "冷藏",
+    image: "/demo-products/chicken-breast.svg",
     prices: { hotpot: 1380, brunch: 1420, bento: 1350 },
     tone: "from-[#ead2bd] via-[#fff8ee] to-[#e7f0ef]",
   },
@@ -93,6 +98,7 @@ const baseProducts = [
     spec: "3kg",
     vendor: "宏盛食品",
     stock: "現貨",
+    image: "/demo-products/almond-slices.svg",
     prices: { hotpot: 880, brunch: 920, bento: 860 },
     tone: "from-[#efd29b] via-[#fff8ee] to-[#f1eadc]",
   },
@@ -733,14 +739,11 @@ function ClientOrdering({
           const quantity = cart[product.id] || 0
           return (
             <article key={product.id} className="overflow-hidden rounded-[1.4rem] border border-[#decfb7] bg-white shadow-sm">
-              <div className={`h-24 bg-gradient-to-br ${product.tone} p-4 md:h-28`}>
-                <div className="flex items-center justify-between">
+              <div className="relative h-28 overflow-hidden bg-[#fffaf2] md:h-32">
+                <img src={product.image} alt={product.name} loading="lazy" className="h-full w-full object-cover" />
+                <div className="absolute inset-x-4 top-4 flex items-center justify-between">
                   <span className="rounded-full bg-white/84 px-3 py-1 text-xs font-black text-[#4c3a2c]">{product.category}</span>
                   <span className="rounded-full bg-[#263f31] px-3 py-1 text-xs font-black text-white">{product.stock}</span>
-                </div>
-                <div className="mt-5 flex items-center justify-between gap-3">
-                  <span className="truncate text-[11px] font-black tracking-[0.13em] text-[#715b45]">IMAGE SAMPLE</span>
-                  <span className="shrink-0 rounded-full bg-white/70 px-2.5 py-1 text-[11px] font-black text-[#715b45]">示意</span>
                 </div>
               </div>
               <div className="p-4">

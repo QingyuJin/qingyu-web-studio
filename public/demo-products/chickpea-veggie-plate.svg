@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Chickpea vegetable plate">
+  <rect width="640" height="480" fill="#f2f7ea"/>
+  <ellipse cx="320" cy="392" rx="230" ry="42" fill="#cbd8c0"/>
+  <ellipse cx="320" cy="254" rx="190" ry="122" fill="#ffffff" stroke="#45633a" stroke-width="14"/>
+  <g fill="#d8b45a">
+    <circle cx="270" cy="238" r="20"/><circle cx="322" cy="250" r="20"/><circle cx="370" cy="222" r="20"/><circle cx="340" cy="304" r="20"/>
+  </g>
+  <path d="M218 286c54-86 112-82 140-44-52 74-104 86-140 44z" fill="#72a85e"/>
+  <path d="M390 294c-20-72 12-110 58-124 32 70 8 112-58 124z" fill="#d95f46"/>
+  <path d="M230 204c48-36 100-38 156-8" stroke="#45633a" stroke-width="12" stroke-linecap="round"/>
+</svg>

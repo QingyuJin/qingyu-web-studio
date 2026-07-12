@@ -13,7 +13,7 @@ const menuItems = [
     category: "主餐",
     station: "熱線",
     time: "14 min",
-    note: "範例圖片",
+    image: "/demo-products/short-rib-rice.svg",
     color: "from-[#d8c2a4] via-[#f5ead8] to-[#fffaf2]",
     tags: ["人氣", "可加飯"],
   },
@@ -24,7 +24,7 @@ const menuItems = [
     category: "主餐",
     station: "冷台",
     time: "12 min",
-    note: "範例圖片",
+    image: "/demo-products/mushroom-risotto.svg",
     color: "from-[#becfaf] via-[#eee7d3] to-[#fffaf2]",
     tags: ["素食", "濃郁"],
   },
@@ -35,7 +35,7 @@ const menuItems = [
     category: "飲品",
     station: "吧台",
     time: "4 min",
-    note: "空圖片",
+    image: "/demo-products/plum-soda.svg",
     color: "from-[#cfdeda] via-[#f1eadc] to-[#fffaf2]",
     tags: ["冰飲", "先出"],
   },
@@ -46,7 +46,7 @@ const menuItems = [
     category: "甜點",
     station: "甜點",
     time: "6 min",
-    note: "空圖片",
+    image: "/demo-products/caramel-pudding.svg",
     color: "from-[#e4b889] via-[#f6dfc0] to-[#fffaf2]",
     tags: ["飯後", "限量"],
   },
@@ -57,7 +57,7 @@ const menuItems = [
     category: "輕食",
     station: "冷台",
     time: "9 min",
-    note: "範例圖片",
+    image: "/demo-products/chickpea-veggie-plate.svg",
     color: "from-[#b8caa3] via-[#eee6d1] to-[#fffaf2]",
     tags: ["清爽", "分享"],
   },
@@ -68,7 +68,7 @@ const menuItems = [
     category: "點心",
     station: "炸台",
     time: "8 min",
-    note: "空圖片",
+    image: "/demo-products/onion-rings.svg",
     color: "from-[#dfb06c] via-[#f7e2bb] to-[#fffaf2]",
     tags: ["小食", "熱賣"],
   },
@@ -346,7 +346,7 @@ function ClientView({ cart, setCart, submitted, onSubmit, clientTable, setClient
             <p className="text-xs font-black uppercase tracking-[0.18em] text-[#c75d2c]">Customer Menu</p>
             <h2 className="mt-2 font-serif text-3xl font-black tracking-[-0.035em] text-[#3a2419] md:text-[2.15rem]">桌邊點餐</h2>
           </div>
-          <span className="rounded-full bg-[#f3e7d7] px-4 py-2 text-xs font-black text-[#8a5a2d]">圖片為範例 / 佔位</span>
+          <span className="rounded-full bg-[#f3e7d7] px-4 py-2 text-xs font-black text-[#8a5a2d]">餐點實品示意</span>
         </div>
 
         <div className="mt-5 flex gap-2 overflow-x-auto rounded-2xl border border-[#dfd0bc] bg-[#fffaf2] p-2">
@@ -365,9 +365,7 @@ function ClientView({ cart, setCart, submitted, onSubmit, clientTable, setClient
         <div className="mt-5 grid gap-4 md:grid-cols-2">
           {visibleMenu.map((item) => (
             <article key={item.id} className="rounded-[1.25rem] border border-[#dfd0bc] bg-white p-4 shadow-sm">
-              <div className={`grid aspect-[4/2.35] place-items-center rounded-2xl bg-gradient-to-br ${item.color}`}>
-                <div className="rounded-full bg-white/70 px-4 py-2 text-sm font-black text-[#806a59]">{item.note}</div>
-              </div>
+              <img src={item.image} alt={item.name} loading="lazy" className="aspect-[4/2.35] w-full rounded-2xl bg-[#fffaf2] object-cover" />
               <div className="mt-4 flex items-start justify-between gap-3">
                 <div>
                   <p className="font-serif text-xl font-black text-[#3a2419]">{item.name}</p>

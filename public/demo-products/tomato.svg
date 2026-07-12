@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Tomatoes">
+  <rect width="640" height="480" fill="#fff1ec"/>
+  <ellipse cx="320" cy="398" rx="210" ry="34" fill="#e8c4b8"/>
+  <circle cx="268" cy="270" r="106" fill="#d95f46" stroke="#8b2e20" stroke-width="12"/>
+  <circle cx="386" cy="286" r="94" fill="#e8795f" stroke="#8b2e20" stroke-width="12"/>
+  <path d="M268 156l24 54 54-28-34 52 50 26-60 4-12 58-22-54-58 18 40-46-44-40 58 10z" fill="#3e7a3d"/>
+</svg>

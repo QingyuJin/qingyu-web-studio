@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Bananas">
+  <rect width="640" height="480" fill="#fff8e5"/>
+  <ellipse cx="318" cy="400" rx="210" ry="34" fill="#e3d5a0"/>
+  <path d="M154 224c98 140 256 152 352 20-52 176-274 196-384 16z" fill="#f6d34d" stroke="#745f1c" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M194 190c78 124 222 144 318 34-58 146-232 160-338-6z" fill="#ffd95a" stroke="#745f1c" stroke-width="10" stroke-linejoin="round"/>
+  <path d="M492 222l44-34M146 252l-34 24" stroke="#745f1c" stroke-width="16" stroke-linecap="round"/>
+</svg>

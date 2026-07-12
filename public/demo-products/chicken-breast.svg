@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Chicken breast pack">
+  <rect width="640" height="480" fill="#f8eee8"/>
+  <ellipse cx="320" cy="408" rx="210" ry="34" fill="#dfc7b9"/>
+  <rect x="160" y="112" width="320" height="260" rx="34" fill="#ffffff" stroke="#80553d" stroke-width="14"/>
+  <path d="M220 246c0-76 72-128 140-104 62 22 86 100 38 154-50 56-178 42-178-50z" fill="#eac5ad" stroke="#9c6447" stroke-width="12"/>
+  <path d="M212 326h216" stroke="#e9ddd4" stroke-width="18" stroke-linecap="round"/>
+  <path d="M236 174h112" stroke="#80553d" stroke-width="12" stroke-linecap="round"/>
+</svg>

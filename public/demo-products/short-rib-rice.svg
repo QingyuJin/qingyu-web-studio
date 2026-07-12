@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Grilled short rib rice">
+  <rect width="640" height="480" fill="#fff7ed"/>
+  <ellipse cx="320" cy="392" rx="230" ry="42" fill="#dfc8b0"/>
+  <path d="M156 218h328c-10 112-72 178-164 178s-154-66-164-178z" fill="#ffffff" stroke="#6d4b35" stroke-width="14"/>
+  <ellipse cx="320" cy="218" rx="174" ry="52" fill="#f8ead7" stroke="#6d4b35" stroke-width="14"/>
+  <rect x="220" y="150" width="190" height="70" rx="24" fill="#8a4b2b" transform="rotate(-7 315 185)"/>
+  <path d="M242 168l138 34M270 146l120 46" stroke="#f0b36a" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="244" cy="238" r="18" fill="#5d8f45"/>
+  <circle cx="398" cy="238" r="16" fill="#d95f46"/>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Drip coffee filter bag">
+  <rect width="640" height="480" fill="#f6efe4"/>
+  <circle cx="500" cy="92" r="92" fill="#d9c19b"/>
+  <ellipse cx="320" cy="390" rx="210" ry="34" fill="#d8c8b1"/>
+  <path d="M206 122h228l-26 218H232z" fill="#fffaf2" stroke="#7a5230" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M186 178h72v62h-72zM382 178h72v62h-72z" fill="#fffaf2" stroke="#7a5230" stroke-width="12" stroke-linejoin="round"/>
+  <path d="M270 134h100l-14 56h-72z" fill="#e7d3b6"/>
+  <path d="M284 226h72l-10 78h-52z" fill="#b08758"/>
+  <path d="M318 310c28 44 52 70 52 105 0 30-23 53-52 53s-52-23-52-53c0-35 24-61 52-105z" fill="#7a5230"/>
+  <path d="M218 360h204v34c0 48-38 74-102 74s-102-26-102-74z" fill="#fff" stroke="#7a5230" stroke-width="12"/>
+  <path d="M242 384c40 22 116 22 156 0" fill="none" stroke="#b08758" stroke-width="16" stroke-linecap="round"/>
+</svg>

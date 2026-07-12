@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Caramel pudding">
+  <rect width="640" height="480" fill="#fff4e7"/>
+  <ellipse cx="320" cy="392" rx="210" ry="38" fill="#e3c7a5"/>
+  <path d="M202 214h236l-30 154H232z" fill="#f6c46d" stroke="#7a4d25" stroke-width="14" stroke-linejoin="round"/>
+  <ellipse cx="320" cy="214" rx="118" ry="44" fill="#8f4f25" stroke="#7a4d25" stroke-width="14"/>
+  <ellipse cx="320" cy="208" rx="82" ry="24" fill="#b9692b"/>
+  <path d="M236 292c54 24 114 24 168 0" stroke="#ffe0a5" stroke-width="12" stroke-linecap="round"/>
+</svg>

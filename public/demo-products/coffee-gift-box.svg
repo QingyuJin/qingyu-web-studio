@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Coffee gift box">
+  <rect width="640" height="480" fill="#f7efe3"/>
+  <circle cx="118" cy="102" r="78" fill="#d8c8b1"/>
+  <ellipse cx="320" cy="414" rx="230" ry="34" fill="#d9caba"/>
+  <path d="M162 184h316v224H162z" fill="#fffaf2" stroke="#5c3a24" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M148 152h344v76H148z" fill="#c76532" stroke="#5c3a24" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M300 152h40v256h-40z" fill="#263f31"/>
+  <path d="M206 120c52-40 102-18 114 32-64 2-104-6-114-32zM434 120c-52-40-102-18-114 32 64 2 104-6 114-32z" fill="#263f31" stroke="#5c3a24" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="206" y="250" width="72" height="96" rx="14" fill="#7a5230"/>
+  <rect x="360" y="248" width="74" height="104" rx="16" fill="#2f4858"/>
+  <path d="M226 284h32M382 284h30" stroke="#fffaf2" stroke-width="10" stroke-linecap="round"/>
+</svg>

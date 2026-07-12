@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Cabbage">
+  <rect width="640" height="480" fill="#f1f7ec"/>
+  <ellipse cx="320" cy="396" rx="202" ry="34" fill="#c9d8c2"/>
+  <circle cx="320" cy="252" r="140" fill="#d9edc7" stroke="#355a36" stroke-width="14"/>
+  <path d="M220 250c50-84 150-104 206-18M248 314c68-36 136-36 204 0M308 122c-28 72-18 148 32 226" fill="none" stroke="#7ca365" stroke-width="14" stroke-linecap="round"/>
+</svg>

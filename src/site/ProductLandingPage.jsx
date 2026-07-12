@@ -55,7 +55,7 @@ function BottleArt({ className = "" }) {
   return (
     <div className={`relative mx-auto h-64 w-36 overflow-hidden rounded-[2.6rem] shadow-2xl shadow-[#14503a]/40 md:h-80 md:w-44 ${className}`}>
       <img
-        src="https://images.unsplash.com/photo-1638301937911-7b2047057890?w=400&auto=format&fit=crop&q=80"
+        src="/demo-products/plant-energy-bottle.svg"
         alt="植感能量飲"
         loading="lazy"
         className="h-full w-full object-cover"

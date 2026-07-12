@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Coffee beans bag">
+  <rect width="640" height="480" fill="#f6efe4"/>
+  <circle cx="124" cy="98" r="76" fill="#e6d4b8"/>
+  <ellipse cx="326" cy="412" rx="210" ry="32" fill="#d8c8b1"/>
+  <path d="M208 104h224l26 316H182z" fill="#c79b6b" stroke="#5c3a24" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M230 126h180l12 68H218z" fill="#f2dfc2"/>
+  <rect x="230" y="222" width="180" height="96" rx="18" fill="#fffaf2"/>
+  <path d="M282 278c-5-35 22-62 46-70 21 22 24 58 0 84-17 18-35 15-46-14z" fill="#6f452b"/>
+  <path d="M346 292c-24-26-21-62 0-84 24 8 51 35 46 70-11 29-29 32-46 14z" fill="#7a5230"/>
+  <path d="M320 214c-12 34-10 62 0 88" fill="none" stroke="#c79b6b" stroke-width="8" stroke-linecap="round"/>
+  <g fill="#6f452b">
+    <ellipse cx="166" cy="360" rx="30" ry="42" transform="rotate(-32 166 360)"/>
+    <ellipse cx="484" cy="348" rx="28" ry="40" transform="rotate(28 484 348)"/>
+    <ellipse cx="506" cy="244" rx="22" ry="32" transform="rotate(-16 506 244)"/>
+  </g>
+</svg>

@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 420 720" role="img" aria-label="Plant energy drink bottle">
+  <rect width="420" height="720" fill="#dfeee5"/>
+  <circle cx="318" cy="130" r="90" fill="#b7d7c3"/>
+  <ellipse cx="210" cy="660" rx="128" ry="28" fill="#b8ccb8"/>
+  <path d="M158 70h104v86c0 34 54 54 54 120v278c0 78-42 120-106 120s-106-42-106-120V276c0-66 54-86 54-120z" fill="#f7fff8" stroke="#14503a" stroke-width="16" stroke-linejoin="round"/>
+  <rect x="150" y="34" width="120" height="66" rx="18" fill="#14503a"/>
+  <path d="M124 306h172v178H124z" fill="#1e6e4e"/>
+  <path d="M162 404c58-92 116-98 136-74-24 78-76 104-136 74z" fill="#8fd6a6"/>
+  <path d="M150 368c36-62 84-70 104-54-20 52-56 72-104 54z" fill="#c6efbf"/>
+  <path d="M154 524h112" stroke="#14503a" stroke-width="14" stroke-linecap="round"/>
+  <path d="M178 552h64" stroke="#14503a" stroke-width="10" stroke-linecap="round"/>
+</svg>

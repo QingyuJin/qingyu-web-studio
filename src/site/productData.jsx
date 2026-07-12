@@ -115,10 +115,10 @@ function CompanyBack() {
 
 function ShopFront() {
   const items = [
-    ["職人手沖濾掛", "NT$320"],
-    ["莊園咖啡豆", "NT$580"],
-    ["冷萃瓶裝", "NT$150"],
-    ["禮盒組", "NT$880"],
+    ["職人手沖濾掛", "NT$320", "/demo-products/drip-coffee-bag.svg"],
+    ["莊園咖啡豆", "NT$580", "/demo-products/coffee-beans.svg"],
+    ["冷萃瓶裝", "NT$150", "/demo-products/cold-brew-bottle.svg"],
+    ["禮盒組", "NT$880", "/demo-products/coffee-gift-box.svg"],
   ]
   return (
     <Chrome label="shop.your-store.com">
@@ -128,9 +128,9 @@ function ShopFront() {
           <span className="rounded-full bg-[#111c22] px-3 py-1 text-[11px] font-black text-white">🛒 2</span>
         </div>
         <div className="grid grid-cols-2 gap-2 p-3">
-          {items.map(([name, price]) => (
+          {items.map(([name, price, image]) => (
             <div key={name} className="rounded-lg border border-[#eadfd1] bg-white p-2">
-              <div className="aspect-[4/3] rounded-md bg-gradient-to-br from-[#e7d3b6] to-[#f6efe4]" />
+              <img src={image} alt={name} loading="lazy" className="aspect-[4/3] w-full rounded-md bg-[#f6efe4] object-cover" />
               <p className="mt-2 text-[11px] font-black">{name}</p>
               <div className="mt-1 flex items-center justify-between">
                 <span className="text-[11px] font-black text-[#b5651d]">{price}</span>

@@ -3505,10 +3505,10 @@ function CommercePlatformRedesignDemo() {
   ]
 
   const goods = [
-    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", tone: "from-[#3d5a45] to-[#6f8f6a]", emoji: "☕" },
-    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", tone: "from-[#7a5230] to-[#b08758]", emoji: "🫘" },
-    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", tone: "from-[#2f4858] to-[#5b7b8c]", emoji: "🏺" },
-    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", tone: "from-[#5a3d4a] to-[#8c6478]", emoji: "🎁" },
+    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", image: "/demo-products/coffee-gift-box.svg" },
+    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", image: "/demo-products/drip-coffee-bag.svg" },
+    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", image: "/demo-products/ceramic-mug.svg" },
+    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", image: "/demo-products/coffee-beans.svg" },
   ]
   const cats = ["全部", "新品", "現貨", "預購", "熱銷"]
   const shown = category === "全部" ? goods : goods.filter((g) => g.cat === category)
@@ -3651,9 +3651,7 @@ function CommercePlatformRedesignDemo() {
                 <div className="mt-3 grid grid-cols-2 gap-2.5">
                   {shown.map((g) => (
                     <div key={g.name} className="overflow-hidden rounded-xl border border-[#e3ded3] bg-white">
-                      <div className={`flex aspect-[4/3] items-center justify-center bg-gradient-to-br text-3xl ${g.tone}`}>
-                        <span aria-hidden="true">{g.emoji}</span>
-                      </div>
+                      <img src={g.image} alt={g.name} loading="lazy" className="aspect-[4/3] w-full bg-[#f6efe4] object-cover" />
                       <div className="p-2.5">
                         <div className="flex items-center justify-between gap-1">
                           <p className="truncate text-xs font-black text-[#13231f]">{g.name}</p>
