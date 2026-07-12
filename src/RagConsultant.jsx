@@ -895,7 +895,7 @@ function RagProjectBrief() {
       <div className="grid gap-6 lg:grid-cols-[0.78fr_1.22fr] lg:items-center">
         <div>
           <p className="text-xs font-black uppercase tracking-[0.24em] text-[#bf6536]">Business Value</p>
-          <h2 className="mt-3 font-serif text-3xl font-black leading-tight md:text-4xl">把公司文件變成可查、可控、可追溯的問答系統。</h2>
+          <h2 className="mt-3 font-serif text-3xl font-black leading-tight md:text-4xl">把公司文件變成可查 可控 可追溯的問答系統</h2>
           <p className="mt-4 text-sm font-bold leading-7 text-[#59635d]">
             適合 SOP、保固政策、客服 FAQ、內部規範與產品文件。
           </p>

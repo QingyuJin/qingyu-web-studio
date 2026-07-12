@@ -484,7 +484,7 @@ function WholesaleProjectBrief() {
         <div className="grid gap-5 lg:grid-cols-[0.8fr_1.2fr] lg:items-center">
           <div>
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#c76532]">B2B Ordering Case</p>
-            <h2 className="mt-2 font-serif text-2xl font-black text-[#2d231d] md:text-3xl">不是購物車，是批發流程系統。</h2>
+            <h2 className="mt-2 font-serif text-2xl font-black text-[#2d231d] md:text-3xl">不是購物車 是批發流程系統</h2>
             <p className="mt-3 text-sm font-bold leading-7 text-[#725f50]">
               客戶自行下單，老闆從後台統一修量、出貨、叫貨與月結。
             </p>

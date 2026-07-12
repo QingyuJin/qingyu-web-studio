@@ -15,7 +15,7 @@ export const industries = [
     id: "restaurant",
     emoji: "🍽",
     label: "餐飲店家",
-    tagline: "桌邊點餐，廚房即時出單。",
+    tagline: "桌邊點餐 廚房即時出單",
     front: {
       title: "客人這樣點餐",
       kind: "items",
@@ -52,7 +52,7 @@ export const industries = [
     id: "wholesale",
     emoji: "📦",
     label: "批發 / 電商",
-    tagline: "客戶線上下單，訂單直接進後台。",
+    tagline: "客戶線上下單 訂單直接進後台",
     front: {
       title: "客戶這樣下單",
       kind: "items",
@@ -89,7 +89,7 @@ export const industries = [
     id: "contractor",
     emoji: "🛠",
     label: "工程 / 服務業",
-    tagline: "客戶線上詢價，案件自動進看板。",
+    tagline: "客戶線上詢價 案件自動進看板",
     front: {
       title: "客戶這樣詢價",
       kind: "button",
@@ -123,7 +123,7 @@ export const industries = [
     id: "company",
     emoji: "🏢",
     label: "公司行號",
-    tagline: "一頁看懂你，聯絡直接進收件匣。",
+    tagline: "一頁看懂你 聯絡直接進收件匣",
     front: {
       title: "訪客這樣聯絡你",
       kind: "button",
@@ -157,7 +157,7 @@ export const industries = [
     id: "education",
     emoji: "🎓",
     label: "教育 / 顧問",
-    tagline: "學員線上測驗，成績自動計分入庫。",
+    tagline: "學員線上測驗 成績自動計分入庫",
     front: {
       title: "學員這樣作答",
       kind: "button",
@@ -194,7 +194,7 @@ export const industries = [
     id: "creator",
     emoji: "✨",
     label: "個人品牌 / 創作者",
-    tagline: "IG 導流入口，名單直接收進來。",
+    tagline: "IG 導流入口 名單直接收進來",
     front: {
       title: "粉絲這樣行動",
       kind: "button",

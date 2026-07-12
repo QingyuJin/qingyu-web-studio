@@ -129,7 +129,7 @@ function ProductLandingPage() {
 
       {/* 2. 痛點 */}
       <section className="mx-auto max-w-5xl px-4 py-12 md:py-16">
-        <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">提神這件事，你可能一直在將就</h2>
+        <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">提神這件事 你可能一直在將就</h2>
         <div className="mt-6 grid gap-3 md:grid-cols-3">
           {pains.map(([title, text]) => (
             <div key={title} className="rounded-2xl border border-[#e4e0d4] bg-white p-5">
@@ -143,7 +143,7 @@ function ProductLandingPage() {
       {/* 3. 三大賣點 */}
       <section id="points" className="scroll-mt-16 border-y border-[#14503a] bg-[#123f2e] text-white">
         <div className="mx-auto max-w-5xl px-4 py-12 md:py-16">
-          <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">三個理由，換掉你的第二杯咖啡</h2>
+          <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">三個理由 換掉你的第二杯咖啡</h2>
           <div className="mt-6 grid gap-3 md:grid-cols-3">
             {sellingPoints.map(([title, text], i) => (
               <div key={title} className="rounded-2xl border border-white/12 bg-white/[0.06] p-5">
@@ -275,7 +275,7 @@ function ProductLandingPage() {
       {/* 9. 聯絡 CTA（品牌） */}
       <section className="border-t border-[#14503a] bg-[#123f2e] text-white">
         <div className="mx-auto max-w-5xl px-4 py-12 text-center md:py-16">
-          <h2 className="font-['Noto_Serif_TC',serif] text-3xl font-black md:text-4xl">今天下午，試一瓶</h2>
+          <h2 className="font-['Noto_Serif_TC',serif] text-3xl font-black md:text-4xl">今天下午 試一瓶</h2>
           <p className="mx-auto mt-3 max-w-md text-sm font-bold leading-7 text-white/72">
             嘗鮮盒 NT$480，不合口味 7 天內免費退。有問題加 LINE 直接問。
           </p>

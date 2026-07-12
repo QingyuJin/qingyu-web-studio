@@ -64,7 +64,7 @@ function CompanyFront() {
         </div>
         <div className="bg-[#faf8f3] px-5 py-8 text-center">
           <p className="text-[10px] font-black uppercase tracking-widest text-[#0d6b62]">Professional Service</p>
-          <h4 className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-snug">把專業，說成客戶聽得懂的樣子</h4>
+          <h4 className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-snug">把專業 說成客戶聽得懂的樣子</h4>
           <p className="mx-auto mt-3 max-w-xs text-xs font-bold leading-6 text-[#66716d]">一頁講清楚你是誰、提供什麼、為什麼值得信任。</p>
           <span className="mt-4 inline-flex rounded-lg bg-[#111c22] px-5 py-2 text-xs font-black text-white">預約諮詢</span>
         </div>
@@ -323,7 +323,7 @@ function AssessmentDemo() {
 
         {step === 0 ? (
           <div className="mt-4">
-            <h4 className="text-base font-black">先留下基本資料，開始測驗</h4>
+            <h4 className="text-base font-black">先留下基本資料 開始測驗</h4>
             <div className="mt-3 grid gap-2">
               <input
                 value={info.name}
@@ -595,7 +595,7 @@ function CrmFront() {
     <Chrome label="form.your-brand.com/contact">
       <div className="bg-white p-4">
         <p className="text-[10px] font-black uppercase tracking-widest text-[#0d6b62]">聯絡我們</p>
-        <h4 className="mt-2 text-base font-black">留下需求，我們主動與你聯絡</h4>
+        <h4 className="mt-2 text-base font-black">留下需求 我們主動與你聯絡</h4>
         <form onSubmit={submit} className="mt-3 grid gap-2">
           <input value={fields.name} onChange={(e) => update("name", e.target.value)} placeholder="姓名" className="min-h-10 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-xs font-bold outline-none focus:border-[#0d6b62]" />
           <input value={fields.contact} onChange={(e) => update("contact", e.target.value)} placeholder="電話 / LINE" className="min-h-10 rounded-lg border border-[#e3ded3] bg-[#faf8f3] px-3 text-xs font-bold outline-none focus:border-[#0d6b62]" />
@@ -701,7 +701,7 @@ function ContractorFront() {
       <div className="bg-white">
         <div className="bg-[#10242a] px-5 py-7 text-white">
           <p className="text-[10px] font-black uppercase tracking-widest text-[#8bd8cc]">工程 / 服務業</p>
-          <h4 className="mt-2 font-['Noto_Serif_TC',serif] text-xl font-black">現場評估後，實在報價</h4>
+          <h4 className="mt-2 font-['Noto_Serif_TC',serif] text-xl font-black">現場評估後 實在報價</h4>
           <span className="mt-3 inline-flex rounded-lg bg-[#f0c36a] px-4 py-2 text-[11px] font-black text-[#10242a]">線上詢價</span>
         </div>
         <div className="grid gap-2 p-3">
@@ -789,7 +789,7 @@ function ContractorBack() {
 export const products = {
   "company-landing": {
     name: "公司一頁式官網",
-    tagline: "一頁講清楚你是誰、做什麼、怎麼聯絡。",
+    tagline: "一頁講清楚你是誰 做什麼 怎麼聯絡",
     forWho: "新公司、工作室、專業服務、想要正式門面的店家",
     solves: "只有 FB / IG 或名片，客戶搜不到你、也看不懂你在做什麼。",
     priceFrom: "12,000 元起",
@@ -817,7 +817,7 @@ export const products = {
   },
   "ecommerce-ordering": {
     name: "電商 / 商品訂購系統",
-    tagline: "商品、購物車、訂單與出貨狀態，一套顧好。",
+    tagline: "商品 購物車 訂單與出貨狀態 一套顧好",
     forWho: "小型電商、食品 / 農產、批發商、想線上收單的店家",
     solves: "訂單靠 LINE、私訊和手寫記，容易漏單、算錯、對帳累。",
     priceFrom: "25,000 元起",
@@ -847,7 +847,7 @@ export const products = {
   "assessment-system": {
     name: "互動測驗 / 問卷評分系統",
     interactive: true,
-    tagline: "線上測驗、自動計分、結果報告與後台紀錄。",
+    tagline: "線上測驗 自動計分 結果報告與後台紀錄",
     forWho: "教育訓練、顧問、講師、活動導流、想收名單的品牌",
     solves: "測驗散在紙本或表單，算分靠人工，也留不下客戶名單。",
     priceFrom: "6,000 元起",
@@ -876,7 +876,7 @@ export const products = {
   },
   "line-bot": {
     name: "LINE Bot / 自動回覆",
-    tagline: "常見問題自動回、需求自動收，人力省一半。",
+    tagline: "常見問題自動回 需求自動收 人力省一半",
     forWho: "用 LINE 接客、預約、收單的店家與服務業",
     solves: "同樣的問題每天回十次，訊息一多就漏，客人等太久跑掉。",
     priceFrom: "8,000 元起",
@@ -905,7 +905,7 @@ export const products = {
   },
   "crm-admin": {
     name: "小型後台 / CRM 管理系統",
-    tagline: "客戶、需求、狀態集中管理，不再散在各處。",
+    tagline: "客戶 需求 狀態集中管理 不再散在各處",
     forWho: "工作室、服務團隊、業務、需要追客戶的小公司",
     solves: "客戶資料散在表單、LINE、Excel，跟進靠記憶，容易漏。",
     priceFrom: "20,000 元起",
@@ -934,7 +934,7 @@ export const products = {
   },
   "contractor-system": {
     name: "工程行 / 服務業接案系統",
-    tagline: "官網詢價直接進後台，案件從詢價追到完工。",
+    tagline: "官網詢價直接進後台 案件從詢價追到完工",
     forWho: "工程行、裝修、清潔、維修等到府服務業",
     solves: "詢價、報價、派工、回報全靠 LINE 和口頭，案子一多就亂。",
     priceFrom: "30,000 元起",
