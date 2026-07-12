@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Canvas tote bag">
+  <rect width="640" height="480" fill="#f8f7f2"/>
+  <ellipse cx="320" cy="406" rx="210" ry="34" fill="#ddd8cc"/>
+  <path d="M202 178h236l-28 222H230z" fill="#fffaf2" stroke="#111c22" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M252 188c0-62 34-100 68-100s68 38 68 100" fill="none" stroke="#111c22" stroke-width="14" stroke-linecap="round"/>
+  <path d="M276 268h88M284 306h72" stroke="#8a938f" stroke-width="14" stroke-linecap="round"/>
+  <rect x="268" y="242" width="104" height="92" rx="18" fill="none" stroke="#d2cdc0" stroke-width="10"/>
+</svg>

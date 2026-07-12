@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Mori knit cardigan">
+  <rect width="640" height="480" fill="#f6f3ec"/>
+  <ellipse cx="320" cy="408" rx="210" ry="32" fill="#d8d2c5"/>
+  <path d="M242 116h156l76 88-58 54-38-44v184H262V214l-38 44-58-54z" fill="#ffffff" stroke="#111c22" stroke-width="14" stroke-linejoin="round"/>
+  <path d="M286 116c10 34 58 34 70 0" fill="none" stroke="#111c22" stroke-width="12" stroke-linecap="round"/>
+  <path d="M320 166v212M278 222h84M278 270h84M278 318h84" stroke="#d2cdc0" stroke-width="10" stroke-linecap="round"/>
+  <circle cx="320" cy="222" r="7" fill="#111c22"/>
+  <circle cx="320" cy="270" r="7" fill="#111c22"/>
+  <circle cx="320" cy="318" r="7" fill="#111c22"/>
+</svg>

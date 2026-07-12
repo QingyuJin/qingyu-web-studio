@@ -3465,17 +3465,17 @@ function AnalyticsDashboardDemo() {
 }
 
 const commercePlatforms = {
+  shopify: {
+    label: "Shopify",
+    note: "適合跨境、品牌內容與 App 擴充",
+    headline: "品牌感、商品系列與手機購物一起整理",
+    metric: "分類點擊 +41%",
+  },
   meepshop: {
     label: "MeepShop",
     note: "適合台灣品牌、活動檔期與會員經營",
     headline: "把平台套版改成會賣的品牌首頁",
     metric: "轉換焦點 +32%",
-  },
-  shopify: {
-    label: "Shopify",
-    note: "適合跨境、品牌內容與 App 擴充",
-    headline: "品牌感與商品系列頁一起整理",
-    metric: "分類點擊 +41%",
   },
   woocommerce: {
     label: "WooCommerce",
@@ -3483,10 +3483,22 @@ const commercePlatforms = {
     headline: "內容、SEO 與商品導購整合",
     metric: "自然流量 +28%",
   },
+  qdm: {
+    label: "QDM",
+    note: "適合需要台灣金物流與活動檔期的品牌",
+    headline: "活動、分類與結帳前信任資訊重排",
+    metric: "手機 CTA +36%",
+  },
+  other: {
+    label: "其他平台",
+    note: "先盤點後台、版型、App 與可插碼範圍",
+    headline: "依平台限制規劃可落地的改版範圍",
+    metric: "上線檢查 24 項",
+  },
 }
 
 function CommercePlatformRedesignDemo() {
-  const [platform, setPlatform] = useState("meepshop")
+  const [platform, setPlatform] = useState("shopify")
   const [beforeMode, setBeforeMode] = useState(false)
   const [category, setCategory] = useState("全部")
   const [bannerIdx, setBannerIdx] = useState(0)
@@ -3499,19 +3511,29 @@ function CommercePlatformRedesignDemo() {
   const current = commercePlatforms[platform]
 
   const banners = [
-    { title: current.headline, tag: "主打檔期", cta: "立即選購", bg: "https://picsum.photos/seed/latte/600/300" },
-    { title: "夏季新品 全面 85 折", tag: "限時活動", cta: "看活動", bg: "https://picsum.photos/seed/coffee-cup/600/300" },
-    { title: "會員日 滿千送百", tag: "會員限定", cta: "加入會員", bg: "https://picsum.photos/seed/coffee-shop/600/300" },
+    { title: current.headline, tag: "主打檔期", cta: "立即選購", tone: "from-[#111c22] via-[#1f2a2d] to-[#5f544b]" },
+    { title: "Mori Select 日韓選物 春夏上新", tag: "直播選品", cta: "看新品", tone: "from-[#111c22] via-[#2c2b28] to-[#8a7c6d]" },
+    { title: "會員日 滿千免運 加碼 LINE 通知", tag: "活動優惠", cta: "加入會員", tone: "from-[#111c22] via-[#19272a] to-[#0d6b62]" },
   ]
 
   const goods = [
-    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", image: "/demo-products/coffee-gift-box.svg" },
-    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", image: "/demo-products/drip-coffee-bag.svg" },
-    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", image: "/demo-products/ceramic-mug.svg" },
-    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", image: "/demo-products/coffee-beans.svg" },
+    { name: "韓系針織短版外套", price: "NT$1,280", cat: "現貨", image: "/demo-products/mori-knit.svg" },
+    { name: "帆布托特通勤包", price: "NT$890", cat: "預購", image: "/demo-products/mori-tote.svg" },
+    { name: "木質調居家香氛", price: "NT$680", cat: "熱銷", image: "/demo-products/mori-fragrance.svg" },
+    { name: "珍珠髮夾組", price: "NT$420", cat: "直播選品", image: "/demo-products/mori-hairclip.svg" },
   ]
-  const cats = ["全部", "新品", "現貨", "預購", "熱銷"]
+  const cats = ["全部", "現貨", "預購", "直播選品", "活動優惠", "熱銷"]
   const shown = category === "全部" ? goods : goods.filter((g) => g.cat === category)
+  const homeBlocks = ["Banner", "現貨", "預購", "直播選品", "活動優惠", "熱銷排行"]
+  const beforeCategories = ["全部商品", "新品", "衣服", "配件", "其他", "最新消息", "關於我們"]
+  const afterCategories = ["本週現貨", "日韓上衣", "外套 / 罩衫", "包款配件", "直播選品", "預購到貨日"]
+  const checklist = ["平台後台權限", "網域 / SSL", "付款方式", "配送方式", "退換貨說明", "商品分類", "手機版 CTA", "GA / GSC / LINE 事件"]
+  const plans = [
+    ["整理入門", "12,000 元起", "首頁區塊、分類導覽、手機版重點檢查"],
+    ["商店改版", "25,000 元起", "首頁規劃、商品頁 Demo、基本 SEO、成效追蹤"],
+    ["檔期上線", "依需求估價", "活動頁、Banner 規劃、上線檢查與追蹤報表"],
+  ]
+  const excluded = ["不保證可修改平台核心結帳流程", "不代管平台月費、App 費或金物流手續費", "不保證客製金流 / 物流功能", "大量商品上架、拍攝、文案可另估"]
 
   function addToCart(name) {
     setCartCount((c) => c + 1)
@@ -3532,16 +3554,16 @@ function CommercePlatformRedesignDemo() {
   }
 
   return (
-    <Shell title="平台電商 / MeepShop 視覺優化" desc="同一間店 改版前後直接比 商店可以真的逛">
+    <Shell title="平台電商 / Shopify / MeepShop 建置與視覺優化" desc="不是單一商品銷售頁，而是把整間平台商店的首頁、分類、商品頁、手機購物與追蹤整理清楚">
       {/* 頂列：平台 + 前後對比 */}
       <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex gap-1.5">
+        <div className="flex max-w-full gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none]">
           {Object.entries(commercePlatforms).map(([id, item]) => (
             <button
               key={id}
               type="button"
               onClick={() => setPlatform(id)}
-              className={`min-h-10 rounded-xl px-3.5 text-xs font-black transition ${platform === id ? "bg-[#13231f] text-white" : "bg-white text-[#52605c] ring-1 ring-[#d8d2c5] hover:text-[#111c22]"}`}
+              className={`min-h-10 shrink-0 rounded-xl px-3.5 text-xs font-black transition ${platform === id ? "bg-[#13231f] text-white" : "bg-white text-[#52605c] ring-1 ring-[#d8d2c5] hover:text-[#111c22]"}`}
             >
               {item.label}
             </button>
@@ -3608,20 +3630,20 @@ function CommercePlatformRedesignDemo() {
             /* 改版後：會賣的店 */
             <div className="bg-[#faf8f3]">
               <div className="flex items-center justify-between border-b border-[#eee9df] bg-white px-4 py-2.5">
-                <span className="font-['Noto_Serif_TC',serif] text-sm font-black text-[#13231f]">好日子咖啡</span>
+                <span className="font-['Noto_Serif_TC',serif] text-sm font-black text-[#13231f]">Mori Select 日韓選物</span>
                 <span className={`rounded-full bg-[#13231f] px-3 py-1 text-[11px] font-black text-white transition ${justAdded ? "scale-110 bg-[#0d6b62]" : ""}`}>
                   🛒 {cartCount}
                 </span>
               </div>
 
-              {/* Banner */}
-              <div className="p-3">
-                <div className="relative overflow-hidden rounded-xl bg-[#13231f] p-5 text-white">
-                  <img src={banners[bannerIdx].bg} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-60" />
-                  <div className="absolute inset-0 bg-gradient-to-r from-[#13231f]/80 to-transparent" />
+                {/* Banner */}
+                <div className="p-3">
+                <div className={`relative overflow-hidden rounded-xl bg-gradient-to-br ${banners[bannerIdx].tone} p-5 text-white`}>
+                  <div className="absolute right-5 top-5 hidden h-28 w-28 rounded-full border border-white/20 md:block" />
+                  <div className="absolute bottom-6 right-16 hidden h-16 w-16 rounded-full bg-white/10 md:block" />
                   <div className="relative">
                     <span className="rounded-full bg-[#eac46f] px-2.5 py-0.5 text-[10px] font-black text-[#13231f]">{banners[bannerIdx].tag}</span>
-                    <p className="mt-3 max-w-[16rem] font-['Noto_Serif_TC',serif] text-xl font-black leading-snug">{banners[bannerIdx].title}</p>
+                    <p className="mt-3 max-w-[18rem] font-['Noto_Serif_TC',serif] text-xl font-black leading-snug">{banners[bannerIdx].title}</p>
                     <span className="mt-3 inline-flex rounded-lg bg-white px-3.5 py-1.5 text-xs font-black text-[#13231f]">{banners[bannerIdx].cta}</span>
                   </div>
                   <div className="absolute bottom-3 right-4 flex gap-1.5">
@@ -3773,6 +3795,145 @@ function CommercePlatformRedesignDemo() {
               ))}
             </div>
             <p className="mt-2 text-[10px] font-bold text-white/40">點一檔活動 左邊店面的 Banner 立刻換</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-5 rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white md:p-5">
+        <div className="grid gap-4 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Demo Brand</p>
+            <h3 className="mt-2 font-['Noto_Serif_TC',serif] text-2xl font-black">Mori Select 日韓選物</h3>
+            <p className="mt-3 text-sm font-bold leading-7 text-white/68">
+              以日韓選物店為例，把平台商店從「商品堆疊」整理成首頁檔期、分類導購、商品頁說服、手機結帳與成效追蹤。
+            </p>
+          </div>
+          <div className="grid gap-2 sm:grid-cols-3">
+            {[
+              ["平台", current.label],
+              ["定位", "日韓選物 / 直播選品"],
+              ["提醒", "可調整範圍依平台限制確認"],
+            ].map(([label, value]) => (
+              <div key={label} className="rounded-xl border border-white/10 bg-white/8 p-3">
+                <p className="text-[10px] font-black uppercase tracking-[0.18em] text-white/42">{label}</p>
+                <p className="mt-2 text-sm font-black text-white">{value}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-5 grid gap-4 lg:grid-cols-2">
+        <MiniCard title="電商首頁區塊規劃">
+          <div className="grid gap-2 sm:grid-cols-2">
+            {homeBlocks.map((item, index) => (
+              <div key={item} className="flex min-h-14 items-center gap-3 rounded-xl border border-[#e3ded3] bg-white px-3">
+                <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#111c22] text-xs font-black text-white">{index + 1}</span>
+                <span className="text-sm font-black text-[#111c22]">{item}</span>
+              </div>
+            ))}
+          </div>
+        </MiniCard>
+
+        <MiniCard title="商品分類與導覽優化 Before / After">
+          <div className="grid gap-3 sm:grid-cols-2">
+            <div className="rounded-xl border border-[#e3ded3] bg-white p-3">
+              <p className="text-xs font-black text-[#8a7c6d]">Before</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {beforeCategories.map((item) => (
+                  <span key={item} className="rounded-full bg-[#f2eee6] px-2.5 py-1 text-[11px] font-black text-[#8a7c6d]">{item}</span>
+                ))}
+              </div>
+            </div>
+            <div className="rounded-xl border border-[#111c22] bg-white p-3">
+              <p className="text-xs font-black text-[#111c22]">After</p>
+              <div className="mt-3 flex flex-wrap gap-1.5">
+                {afterCategories.map((item) => (
+                  <span key={item} className="rounded-full bg-[#111c22] px-2.5 py-1 text-[11px] font-black text-white">{item}</span>
+                ))}
+              </div>
+            </div>
+          </div>
+        </MiniCard>
+
+        <MiniCard title="商品頁設計 Demo">
+          <div className="grid gap-3 md:grid-cols-[0.42fr_0.58fr]">
+            <img src="/demo-products/mori-knit.svg" alt="韓系針織短版外套商品頁示意" loading="lazy" className="aspect-[4/3] w-full rounded-xl border border-[#e3ded3] bg-white object-cover" />
+            <div className="rounded-xl bg-white p-3">
+              <p className="font-['Noto_Serif_TC',serif] text-lg font-black text-[#111c22]">韓系針織短版外套</p>
+              <p className="mt-1 text-sm font-black text-[#b5651d]">NT$1,280</p>
+              <div className="mt-3 grid gap-2">
+                {["尺寸 / 顏色選擇清楚", "材質、版型、洗滌說明集中", "付款 / 配送 / 退換貨放在加購前", "推薦搭配與 LINE 詢問 CTA"].map((item) => (
+                  <p key={item} className="rounded-lg bg-[#faf8f3] px-3 py-2 text-xs font-bold text-[#52605c]">{item}</p>
+                ))}
+              </div>
+            </div>
+          </div>
+        </MiniCard>
+
+        <MiniCard title="金流 / 物流 / 上線設定協助說明">
+          <div className="grid gap-2">
+            {["協助整理平台既有金流、物流、發票與通知設定", "協助檢查網域、SSL、付款測試、配送說明與退換貨頁", "不保證客製金流或修改平台核心功能，需依平台後台與版型限制確認"].map((item) => (
+              <div key={item} className="rounded-xl border border-[#e3ded3] bg-white px-3 py-3 text-sm font-bold leading-6 text-[#40504c]">{item}</div>
+            ))}
+          </div>
+        </MiniCard>
+
+        <MiniCard title="GA / Search Console / LINE 點擊成效追蹤小後台" tone="dark">
+          <div className="grid grid-cols-3 gap-2">
+            {[["GA 事件", "add_to_cart"], ["GSC 曝光", "18.4K"], ["LINE 點擊", 42 + cartCount]].map(([label, value]) => (
+              <div key={label} className="rounded-xl bg-white/8 p-3">
+                <p className="text-[10px] font-bold text-white/45">{label}</p>
+                <p className="mt-1 truncate text-base font-black text-[#eac46f]">{value}</p>
+              </div>
+            ))}
+          </div>
+          <p className="mt-3 text-xs font-bold leading-6 text-white/55">可追蹤首頁 Banner、分類點擊、商品點擊、加入購物車、LINE 詢問與表單送出等事件。</p>
+        </MiniCard>
+
+        <MiniCard title="上線檢查清單">
+          <div className="grid gap-2 sm:grid-cols-2">
+            {checklist.map((item) => (
+              <label key={item} className="flex min-h-11 items-center gap-2 rounded-xl border border-[#e3ded3] bg-white px-3 text-xs font-black text-[#40504c]">
+                <input type="checkbox" defaultChecked className="h-4 w-4 accent-[#111c22]" />
+                <span>{item}</span>
+              </label>
+            ))}
+          </div>
+        </MiniCard>
+
+        <MiniCard title="報價方案">
+          <div className="grid gap-3">
+            {plans.map(([name, price, text]) => (
+              <div key={name} className="rounded-xl border border-[#e3ded3] bg-white p-3">
+                <div className="flex items-start justify-between gap-3">
+                  <p className="font-black text-[#111c22]">{name}</p>
+                  <span className="shrink-0 rounded-full bg-[#111c22] px-2.5 py-1 text-[11px] font-black text-white">{price}</span>
+                </div>
+                <p className="mt-2 text-xs font-bold leading-6 text-[#52605c]">{text}</p>
+              </div>
+            ))}
+          </div>
+        </MiniCard>
+
+        <MiniCard title="不包含項目">
+          <div className="grid gap-2">
+            {excluded.map((item) => (
+              <p key={item} className="rounded-xl bg-white px-3 py-2 text-xs font-bold leading-6 text-[#52605c] ring-1 ring-[#e3ded3]">{item}</p>
+            ))}
+          </div>
+        </MiniCard>
+
+        <div className="rounded-xl border border-[#111c22] bg-[#111c22] p-5 text-white lg:col-span-2">
+          <div className="grid gap-4 md:grid-cols-[1fr_auto] md:items-center">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Contact CTA</p>
+              <h3 className="mt-2 font-['Noto_Serif_TC',serif] text-2xl font-black">想整理整間平台商店，不是只做單一商品頁？</h3>
+              <p className="mt-2 text-sm font-bold leading-7 text-white/65">先看你的平台後台、版型限制、商品量、目前分類與手機購物流失點，再決定能調整到哪裡。</p>
+            </div>
+            <Link to="/contact?case=平台電商 / Shopify / MeepShop 建置與視覺優化" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-5 text-sm font-black text-[#111c22]">
+              詢問平台商店改版
+            </Link>
           </div>
         </div>
       </div>

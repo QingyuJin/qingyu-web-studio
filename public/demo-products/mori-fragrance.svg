@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 640 480" role="img" aria-label="Minimal fragrance bottle">
+  <rect width="640" height="480" fill="#f4f1eb"/>
+  <circle cx="446" cy="114" r="92" fill="#e5ded1"/>
+  <ellipse cx="320" cy="406" rx="164" ry="30" fill="#d8d2c5"/>
+  <path d="M268 154h104v72c0 22 34 36 34 78v68c0 52-34 82-86 82s-86-30-86-82v-68c0-42 34-56 34-78z" fill="#ffffff" stroke="#111c22" stroke-width="14" stroke-linejoin="round"/>
+  <rect x="282" y="92" width="76" height="74" rx="14" fill="#111c22"/>
+  <rect x="270" y="286" width="100" height="72" rx="18" fill="#faf8f3" stroke="#d2cdc0" stroke-width="8"/>
+  <path d="M292 320h56" stroke="#111c22" stroke-width="10" stroke-linecap="round"/>
+</svg>

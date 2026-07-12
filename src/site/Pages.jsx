@@ -432,6 +432,8 @@ export function WorkDetailPage() {
       ? "鑫匠工程案例｜工程網站與 BuildFlow 案件管理展示｜Qingyu Web Studio"
       : isAnalyticsProject
       ? "網站成效追蹤與曝光管理後台展示｜Qingyu Web Studio"
+      : isEcommerceProject
+      ? "平台電商 / Shopify / MeepShop 建置與視覺優化｜Qingyu Web Studio"
       : isApiAutomationProject
         ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
@@ -443,6 +445,8 @@ export function WorkDetailPage() {
       ? "工程網站與 BuildFlow 案件流程案例"
       : isAnalyticsProject
       ? "今日瀏覽、本月瀏覽、Google 搜尋曝光點擊、LINE 電話表單與每月報告集中展示"
+      : isEcommerceProject
+      ? "協助 Shopify、MeepShop、WooCommerce、QDM 等平台電商整理首頁、分類、商品頁、手機購物、基本 SEO 與成效追蹤"
       : isApiAutomationProject
         ? "表單、API、通知與後台流程展示"
         : project.summary,
@@ -539,7 +543,19 @@ export function WorkDetailPage() {
               技術拆解
             </Link>
           </>
-        ) : isEcommerceProject ? null : (
+        ) : isEcommerceProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看平台商店 Demo
+            </Link>
+            <Link to="/contact?case=平台電商 / Shopify / MeepShop 建置與視覺優化" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              詢問平台改版
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              可調整範圍
+            </Link>
+          </>
+        ) : (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               查看成品

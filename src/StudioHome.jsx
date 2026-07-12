@@ -86,15 +86,15 @@ function HeroPicker() {
 function ShowcaseSection() {
   const featured = [
     {
-      title: "平台電商 / MeepShop 視覺優化",
-      text: "首頁、分類、手機購物、Banner、活動會員與成效追蹤",
+      title: "平台電商 / Shopify / MeepShop",
+      text: "整間平台商店整理：首頁、分類、商品頁、手機購物與追蹤",
       price: "12,000 元起",
       to: "/works/ecommerce-platform-redesign#demo",
       visual: "/demo-covers/platform-commerce.svg",
     },
     {
       title: "電商商品頁 / 銷售頁",
-      text: "把商品賣點變成一頁會成交的銷售頁",
+      text: "單一商品 Landing Page，把賣點、見證與方案集中成交",
       price: "12,000 元起",
       to: "/works/product-landing-page",
       visual: "/demo-covers/product-landing.svg",

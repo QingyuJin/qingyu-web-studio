@@ -5,19 +5,19 @@ import SiteLayout from "./site/SiteLayout"
 
 const works = [
   {
-    title: "平台電商 / MeepShop 視覺優化",
+    title: "平台電商 / Shopify / MeepShop 建置與視覺優化",
     type: "平台電商",
     group: "product",
     industry: "零售 / 批發",
     problemGroup: "官網與曝光",
-    problem: "MeepShop、Shopify、WooCommerce 店家有商品 但首頁與手機購物動線像套版",
-    solution: "首頁版型、商品分類、手機購物、Banner、活動會員與成效追蹤一次整理",
+    problem: "Shopify、MeepShop、WooCommerce、QDM 店家有商品 但整間店的分類、首頁與手機購物動線還像套版",
+    solution: "依平台可調整範圍整理首頁、商品分類、商品頁、手機購物、基本 SEO 與成效追蹤",
     price: "12,000 元起",
     priceGroup: "6,000–15,000 元",
     duration: "7–14 天",
-    tags: ["MeepShop", "首頁版型", "手機購物"],
+    tags: ["Shopify", "MeepShop", "平台商店改版"],
     primary: ["查看展示", "/works/ecommerce-platform-redesign#demo"],
-    secondary: ["詢問電商優化", "/contact?case=平台電商 / MeepShop 視覺優化"],
+    secondary: ["詢問平台商店改版", "/contact?case=平台電商 / Shopify / MeepShop 建置與視覺優化"],
     visual: "platformCommerce",
   },
   {
