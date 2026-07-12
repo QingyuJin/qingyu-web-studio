@@ -101,6 +101,14 @@ function ShowcaseSection() {
       visual: "/project-photos/335941_0.jpg",
     },
     {
+      title: "網站成效追蹤 / 曝光管理後台",
+      text: "瀏覽、Google 曝光、LINE 電話與表單成效集中看",
+      price: "15,000 元起",
+      to: "/works/analytics-dashboard#demo",
+      visual: null,
+      kind: "analytics",
+    },
+    {
       title: "批發訂貨系統",
       text: "客戶下單、出貨、對帳 一套顧好",
       price: "25,000 元起",
@@ -120,7 +128,7 @@ function ShowcaseSection() {
     <section id="products" className="scroll-mt-16 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <h2 className="font-['Noto_Serif_TC',serif] text-[clamp(1.7rem,4.5vw,2.9rem)] font-black leading-snug text-[#111c22]">
-          代表作 先看四個
+          代表作 先看五個
         </h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {featured.map((item) => (
@@ -139,6 +147,26 @@ function ShowcaseSection() {
                   <div className="flex h-24 w-14 shrink-0 flex-col items-center justify-between rounded-[1.1rem] border border-white/40 bg-white/12 py-2">
                     <span className="text-[8px] font-black tracking-widest text-white/80">植感</span>
                     <span aria-hidden="true">🌿</span>
+                  </div>
+                </div>
+              ) : item.kind === "analytics" ? (
+                <div className="aspect-[16/9] bg-[#101d22] p-5 text-white">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black uppercase tracking-[0.18em] text-[#8fd6cc]">Analytics</span>
+                    <span className="rounded-full bg-white/10 px-3 py-1 text-[10px] font-black text-white/70">Monthly Report</span>
+                  </div>
+                  <div className="mt-5 grid grid-cols-3 gap-2">
+                    {[["今日瀏覽", "428"], ["搜尋曝光", "18.4K"], ["表單", "23"]].map(([label, value]) => (
+                      <div key={label} className="rounded-xl bg-white/10 p-3">
+                        <p className="text-[10px] font-black text-white/45">{label}</p>
+                        <p className="mt-1 text-lg font-black text-[#eac46f]">{value}</p>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="mt-4 flex h-20 items-end gap-1.5 rounded-xl bg-white/8 p-3">
+                    {[42, 58, 50, 74, 66, 88, 78, 94].map((height, index) => (
+                      <span key={height + index} className="flex-1 rounded-t bg-[#8fd6cc]" style={{ height: `${height}%` }} />
+                    ))}
                   </div>
                 </div>
               ) : item.visual ? (

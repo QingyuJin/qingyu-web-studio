@@ -2939,6 +2939,531 @@ function InteractiveQuizDemo() {
   )
 }
 
+const analyticsRangeData = {
+  today: {
+    label: "今天",
+    todayViews: 428,
+    monthViews: 12380,
+    impressions: 18400,
+    searchClicks: 612,
+    lineClicks: 74,
+    phoneClicks: 31,
+    formSubmits: 23,
+    ctr: "3.3%",
+    reportTitle: "今日摘要",
+    trend: [32, 48, 44, 72, 58, 86, 70],
+  },
+  month: {
+    label: "本月",
+    todayViews: 428,
+    monthViews: 38940,
+    impressions: 126800,
+    searchClicks: 4250,
+    lineClicks: 318,
+    phoneClicks: 142,
+    formSubmits: 96,
+    ctr: "3.4%",
+    reportTitle: "七月月報",
+    trend: [45, 56, 52, 67, 74, 82, 76, 90, 84, 96],
+  },
+  quarter: {
+    label: "近 90 天",
+    todayViews: 428,
+    monthViews: 103600,
+    impressions: 342900,
+    searchClicks: 11980,
+    lineClicks: 882,
+    phoneClicks: 391,
+    formSubmits: 271,
+    ctr: "3.5%",
+    reportTitle: "季度摘要",
+    trend: [38, 46, 61, 54, 70, 76, 83, 78, 92, 88, 98],
+  },
+}
+
+const analyticsPages = [
+  { path: "/", name: "首頁", views: 12840, inquiries: 62, rate: 82 },
+  { path: "/works/xinjiang", name: "鑫匠工程案例", views: 8420, inquiries: 41, rate: 76 },
+  { path: "/services", name: "服務能力", views: 6250, inquiries: 30, rate: 64 },
+  { path: "/contact", name: "聯絡表單", views: 3860, inquiries: 96, rate: 88 },
+]
+
+const analyticsSources = [
+  { name: "Google 搜尋", value: 46, note: "自然搜尋", color: "bg-[#0d6b62]" },
+  { name: "LINE 分享", value: 22, note: "私訊與官方帳號", color: "bg-[#06c755]" },
+  { name: "直接輸入", value: 18, note: "名片、口碑、收藏", color: "bg-[#eac46f]" },
+  { name: "社群連結", value: 14, note: "IG / FB / Threads", color: "bg-[#6372d8]" },
+]
+
+const analyticsKeywords = [
+  ["屏東泥作工程", "4,820", "186", "3.9%"],
+  ["網站製作 接案系統", "3,940", "142", "3.6%"],
+  ["LINE Bot 詢價", "2,760", "118", "4.3%"],
+  ["工程行 官網", "2,240", "96", "4.2%"],
+]
+
+function formatMetric(value) {
+  return Number(value).toLocaleString("zh-TW")
+}
+
+function AnalyticsMetricCard({ title, value, caption, tone = "teal" }) {
+  const tones = {
+    teal: "border-[#bfddd6] bg-[#f0faf7] text-[#0d6b62]",
+    dark: "border-[#2f4247] bg-[#111c22] text-white",
+    amber: "border-[#ead49a] bg-[#fff8e3] text-[#8b5a25]",
+    blue: "border-[#ccd6f6] bg-[#f2f5ff] text-[#3d54c4]",
+    rose: "border-[#f0c9bb] bg-[#fff3ef] text-[#b44d24]",
+  }
+
+  return (
+    <div className={`rounded-xl border p-4 ${tones[tone] || tones.teal}`}>
+      <p className="text-xs font-black opacity-70">{title}</p>
+      <p className="mt-2 text-2xl font-black leading-none md:text-3xl">{value}</p>
+      <p className="mt-2 text-xs font-bold opacity-70">{caption}</p>
+    </div>
+  )
+}
+
+function AnalyticsDashboardDemo() {
+  const [range, setRange] = useState("month")
+  const [activePanel, setActivePanel] = useState("overview")
+  const [eventBoost, setEventBoost] = useState(0)
+  const [reportReady, setReportReady] = useState(false)
+  const [reportVersion, setReportVersion] = useState(0)
+  const [reportReadyAt, setReportReadyAt] = useState("")
+  const [deliveryMode, setDeliveryMode] = useState("後台查看")
+  const [statusText, setStatusText] = useState("本月資料已同步 可以切換指標、查看來源或產生月報")
+  const [activityLog, setActivityLog] = useState(["後台已載入 QINGYUWEB.COM 展示資料"])
+  const data = analyticsRangeData[range]
+  const lineClicks = data.lineClicks + eventBoost
+  const phoneClicks = data.phoneClicks + Math.floor(eventBoost / 2)
+  const formSubmits = data.formSubmits + Math.floor(eventBoost / 3)
+  const conversionTotal = lineClicks + phoneClicks + formSubmits
+  const conversionRate = ((conversionTotal / data.monthViews) * 100).toFixed(2)
+  const reportItems = [
+    `Google 搜尋曝光 ${formatMetric(data.impressions)} 次 CTR ${data.ctr}`,
+    `LINE / 電話 / 表單共 ${formatMetric(conversionTotal)} 次互動`,
+    `熱門頁面以首頁與案例頁為主 建議持續補案例與 CTA`,
+  ]
+
+  const tabs = [
+    ["overview", "總覽"],
+    ["search", "Google 搜尋"],
+    ["contacts", "LINE / 電話"],
+    ["pages", "熱門頁面"],
+    ["sources", "流量來源"],
+    ["report", "每月報告"],
+  ]
+
+  function nowLabel() {
+    return new Date().toLocaleTimeString("zh-TW", { hour: "2-digit", minute: "2-digit" })
+  }
+
+  function pushActivity(text) {
+    setActivityLog((current) => [`${nowLabel()} ${text}`, ...current].slice(0, 4))
+  }
+
+  function changeRange(id, label) {
+    setRange(id)
+    setReportReady(false)
+    setStatusText(`已切換為「${label}」資料 月報狀態已重置`)
+    pushActivity(`切換時間範圍：${label}`)
+  }
+
+  function openPanel(id, label) {
+    setActivePanel(id)
+    setStatusText(`目前查看：${label}`)
+    pushActivity(`開啟面板：${label}`)
+  }
+
+  function boostEvents() {
+    setEventBoost((value) => value + 3)
+    setStatusText("已新增 3 次 CTA 點擊 LINE、電話與表單數字會同步更新")
+    pushActivity("模擬新增 3 次 CTA 點擊")
+  }
+
+  function generateReport(action = "產生") {
+    const readyAt = nowLabel()
+    setReportReady(true)
+    setActivePanel("report")
+    setReportReadyAt(readyAt)
+    setReportVersion((value) => value + 1)
+    setStatusText(`${action}月報完成 已更新摘要、交付格式與下月建議`)
+    pushActivity(`${action}月報：${data.reportTitle}`)
+  }
+
+  function selectDetail(label, text) {
+    setStatusText(text)
+    pushActivity(label)
+  }
+
+  function selectDelivery(item) {
+    setDeliveryMode(item)
+    setStatusText(`已選擇交付格式：${item}`)
+    pushActivity(`選擇交付格式：${item}`)
+  }
+
+  useEffect(() => {
+    function syncHash() {
+      if (window.location.hash === "#demo-report") {
+        setActivePanel("report")
+        setReportReady(true)
+        setReportReadyAt((value) => value || nowLabel())
+        setReportVersion((value) => (value > 0 ? value : 1))
+        setStatusText("已從頁面按鈕開啟每月報告面板")
+        document.getElementById("demo")?.scrollIntoView({ block: "start" })
+      }
+    }
+
+    syncHash()
+    window.addEventListener("hashchange", syncHash)
+    return () => window.removeEventListener("hashchange", syncHash)
+  }, [])
+
+  return (
+    <Shell title="網站成效追蹤 / 曝光管理後台" desc="今日瀏覽、本月瀏覽、搜尋曝光點擊、LINE 電話表單與月報集中管理">
+      <div className="grid gap-4 lg:grid-cols-[0.68fr_1.32fr]">
+        <aside className="rounded-2xl border border-[#d8d2c5] bg-[#111c22] p-4 text-white">
+          <div className="flex items-center justify-between gap-3">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">QINGYUWEB.COM</p>
+              <h3 className="mt-2 text-2xl font-black">曝光管理</h3>
+            </div>
+            <span className="rounded-full bg-[#8fd6cc]/15 px-3 py-1 text-xs font-black text-[#8fd6cc]">Live</span>
+          </div>
+
+          <div className="mt-5 grid grid-cols-3 gap-2">
+            {Object.entries(analyticsRangeData).map(([id, item]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => changeRange(id, item.label)}
+                className={`min-h-11 rounded-xl px-2 text-xs font-black transition ${range === id ? "bg-white text-[#111c22]" : "bg-white/8 text-white/70 hover:bg-white/12"}`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-2xl bg-white/8 p-4">
+            <div className="flex items-end justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-white/45">本月轉換互動</p>
+                <p className="mt-1 text-4xl font-black">{formatMetric(conversionTotal)}</p>
+              </div>
+              <span className="rounded-full bg-[#eac46f] px-3 py-1 text-xs font-black text-[#111c22]">{conversionRate}%</span>
+            </div>
+            <div className="mt-4 flex h-24 items-end gap-1.5">
+              {data.trend.map((height, index) => (
+                <span key={`${height}-${index}`} className="flex-1 rounded-t bg-[#8fd6cc]/70" style={{ height: `${height}%` }} />
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-2">
+            {tabs.map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => openPanel(id, label)}
+                className={`flex min-h-11 items-center justify-between rounded-xl px-3 text-left text-sm font-black transition ${activePanel === id ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/6 text-white/72 hover:bg-white/10"}`}
+              >
+                <span>{label}</span>
+                <span className="text-xs opacity-60">查看</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-4 grid gap-2">
+            <button
+              type="button"
+              onClick={boostEvents}
+              className="min-h-11 rounded-xl bg-white px-4 text-sm font-black text-[#111c22]"
+            >
+              模擬新增 3 次 CTA 點擊
+            </button>
+            <button
+              type="button"
+              onClick={() => generateReport("產生")}
+              className="min-h-11 rounded-xl border border-white/15 px-4 text-sm font-black text-white/86"
+            >
+              產生本月報告
+            </button>
+          </div>
+        </aside>
+
+        <div className="grid gap-4">
+          <div className="rounded-xl border border-[#d8d2c5] bg-white p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">操作狀態</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{statusText}</p>
+              </div>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">
+                {reportReady ? `月報 v${reportVersion}` : "展示模式"}
+              </span>
+            </div>
+            <div className="mt-3 flex flex-wrap gap-2">
+              {activityLog.map((item, index) => (
+                <span key={`${item}-${index}`} className="rounded-full border border-[#e3ded3] bg-[#faf8f3] px-3 py-1 text-[11px] font-black text-[#66716d]">
+                  {item}
+                </span>
+              ))}
+            </div>
+          </div>
+
+          <div className="grid gap-3 sm:grid-cols-2 xl:grid-cols-4">
+            <AnalyticsMetricCard title="今日瀏覽" value={formatMetric(data.todayViews)} caption="+18% vs 昨日" tone="dark" />
+            <AnalyticsMetricCard title="本月瀏覽" value={formatMetric(data.monthViews)} caption="包含自然搜尋與社群流量" />
+            <AnalyticsMetricCard title="Google 搜尋曝光" value={formatMetric(data.impressions)} caption={`搜尋點擊 ${formatMetric(data.searchClicks)}`} tone="amber" />
+            <AnalyticsMetricCard title="表單送出" value={formatMetric(formSubmits)} caption={`LINE ${formatMetric(lineClicks)} / 電話 ${formatMetric(phoneClicks)}`} tone="blue" />
+          </div>
+
+          {activePanel === "overview" ? (
+            <div className="grid gap-4 lg:grid-cols-[1.05fr_0.95fr]">
+              <MiniCard title="成效總覽">
+                <div className="grid gap-3 sm:grid-cols-3">
+                  {[
+                    ["Google 點擊", formatMetric(data.searchClicks), "從搜尋結果進站"],
+                    ["LINE 點擊", formatMetric(lineClicks), "聯絡 CTA"],
+                    ["電話點擊", formatMetric(phoneClicks), "手機撥號"],
+                  ].map(([title, value, note]) => (
+                    <div key={title} className="rounded-xl bg-white p-4">
+                      <p className="text-xs font-black text-[#52605c]">{title}</p>
+                      <p className="mt-1 text-2xl font-black text-[#111c22]">{value}</p>
+                      <p className="mt-1 text-[11px] font-bold text-[#8a938f]">{note}</p>
+                    </div>
+                  ))}
+                </div>
+                <div className="mt-4 rounded-xl bg-[#111c22] p-4 text-white">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-sm font-black">轉換漏斗</p>
+                    <span className="text-xs font-black text-[#8fd6cc]">{conversionRate}%</span>
+                  </div>
+                  <div className="mt-4 grid gap-2">
+                    {[
+                      ["搜尋曝光", data.impressions, 100],
+                      ["網站瀏覽", data.monthViews, 72],
+                      ["搜尋點擊", data.searchClicks, 36],
+                      ["LINE / 電話 / 表單", conversionTotal, 18],
+                    ].map(([label, value, width]) => (
+                      <div key={label}>
+                        <div className="mb-1 flex justify-between text-xs font-black text-white/65">
+                          <span>{label}</span>
+                          <span>{formatMetric(value)}</span>
+                        </div>
+                        <div className="h-2 rounded-full bg-white/12">
+                          <div className="h-full rounded-full bg-[#8fd6cc]" style={{ width: `${width}%` }} />
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              </MiniCard>
+              <MiniCard title="後台架構" tone="dark">
+                <div className="grid gap-2">
+                  {[
+                    ["網站事件", "page_view / line_click / phone_click / form_submit"],
+                    ["搜尋資料", "Search Console impressions / clicks / CTR"],
+                    ["流量來源", "GA4 source / medium / UTM campaign"],
+                    ["月報", "摘要、成長、熱門頁、下一步建議"],
+                  ].map(([title, text]) => (
+                    <div key={title} className="rounded-xl bg-white/10 p-3">
+                      <p className="text-sm font-black text-[#8fd6cc]">{title}</p>
+                      <p className="mt-1 text-xs font-bold leading-5 text-white/70">{text}</p>
+                    </div>
+                  ))}
+                </div>
+              </MiniCard>
+            </div>
+          ) : null}
+
+          {activePanel === "search" ? (
+            <MiniCard title="Google 搜尋曝光與點擊">
+              <div className="grid gap-3 md:grid-cols-[0.9fr_1.1fr]">
+                <div className="rounded-2xl bg-[#111c22] p-4 text-white">
+                  <p className="text-xs font-black text-white/45">搜尋 CTR</p>
+                  <p className="mt-2 text-5xl font-black text-[#eac46f]">{data.ctr}</p>
+                  <p className="mt-3 text-sm font-bold leading-6 text-white/70">曝光成長後要追蹤哪些關鍵字真的帶點擊與詢問</p>
+                </div>
+                <div className="overflow-hidden rounded-2xl border border-[#e3ded3] bg-white">
+                  {analyticsKeywords.map(([keyword, impressions, clicks, ctr], index) => (
+                    <button
+                      key={keyword}
+                      type="button"
+                      onClick={() => selectDetail(`查看關鍵字：${keyword}`, `${keyword} 帶來 ${clicks} 次搜尋點擊 CTR ${ctr}`)}
+                      className={`grid w-full grid-cols-[1fr_auto_auto_auto] gap-3 px-4 py-3 text-left text-sm transition hover:bg-[#faf8f3] ${index > 0 ? "border-t border-[#eee9df]" : ""}`}
+                    >
+                      <span className="font-black text-[#111c22]">{keyword}</span>
+                      <span className="font-bold text-[#52605c]">{impressions}</span>
+                      <span className="font-bold text-[#52605c]">{clicks}</span>
+                      <span className="font-black text-[#0d6b62]">{ctr}</span>
+                    </button>
+                  ))}
+                </div>
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {activePanel === "contacts" ? (
+            <div className="grid gap-4 md:grid-cols-3">
+              <AnalyticsMetricCard title="LINE 點擊" value={formatMetric(lineClicks)} caption="追蹤加好友與諮詢按鈕" />
+              <AnalyticsMetricCard title="電話點擊" value={formatMetric(phoneClicks)} caption="手機版撥號事件" tone="amber" />
+              <AnalyticsMetricCard title="表單送出" value={formatMetric(formSubmits)} caption="聯絡表單完成數" tone="blue" />
+              <MiniCard title="事件命名" tone="dark">
+                <div className="grid gap-2 text-sm font-black text-white/80">
+                  {["line_click_header", "phone_click_mobile", "contact_form_submit", "case_cta_click"].map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => selectDetail(`查看事件：${item}`, `已選取追蹤事件 ${item} 可用來接 GA4 或自家 API`)}
+                      className="rounded-lg bg-white/10 px-3 py-2 text-left font-mono text-xs transition hover:bg-white/16"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </MiniCard>
+              <MiniCard title="追蹤位置">
+                <div className="grid gap-2">
+                  {["首頁第一屏 CTA", "作品案例 CTA", "頁尾聯絡", "手機固定聯絡列"].map((item) => (
+                    <button
+                      key={item}
+                      type="button"
+                      onClick={() => selectDetail(`查看位置：${item}`, `${item} 已納入點擊追蹤 可比較哪個入口最容易帶來詢問`)}
+                      className="rounded-xl bg-white px-4 py-3 text-left text-sm font-black text-[#111c22] transition hover:bg-[#eef7f4]"
+                    >
+                      {item}
+                    </button>
+                  ))}
+                </div>
+              </MiniCard>
+              <MiniCard title="下一步">
+                <p className="text-sm font-bold leading-7 text-[#52605c]">若 LINE 點擊高但表單低 優先檢查 LINE 話術 若電話點擊多 優先優化手機版固定 CTA</p>
+              </MiniCard>
+            </div>
+          ) : null}
+
+          {activePanel === "pages" ? (
+            <MiniCard title="熱門頁面">
+              <div className="grid gap-3">
+                {analyticsPages.map((page) => (
+                  <button
+                    key={page.path}
+                    type="button"
+                    onClick={() => selectDetail(`查看頁面：${page.name}`, `${page.name} 目前 ${formatMetric(page.views)} 次瀏覽 ${page.inquiries} 次詢問`)}
+                    className="grid gap-3 rounded-2xl bg-white p-4 text-left transition hover:bg-[#eef7f4] md:grid-cols-[1fr_auto] md:items-center"
+                  >
+                    <div>
+                      <p className="text-sm font-black text-[#111c22]">{page.name}</p>
+                      <p className="mt-1 font-mono text-xs font-bold text-[#8a938f]">{page.path}</p>
+                      <div className="mt-3 h-2 rounded-full bg-[#edf0ec]">
+                        <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${page.rate}%` }} />
+                      </div>
+                    </div>
+                    <div className="flex gap-2 md:justify-end">
+                      <span className="rounded-xl bg-[#eef7f4] px-3 py-2 text-xs font-black text-[#0d6b62]">{formatMetric(page.views)} views</span>
+                      <span className="rounded-xl bg-[#fff8e3] px-3 py-2 text-xs font-black text-[#8b5a25]">{page.inquiries} inquiries</span>
+                    </div>
+                  </button>
+                ))}
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {activePanel === "sources" ? (
+            <MiniCard title="流量來源">
+              <div className="grid gap-4 md:grid-cols-[1fr_0.82fr]">
+                <div className="grid gap-3">
+                  {analyticsSources.map((source) => (
+                    <button
+                      key={source.name}
+                      type="button"
+                      onClick={() => selectDetail(`查看來源：${source.name}`, `${source.name} 佔流量 ${source.value}% 來源標記為 ${source.note}`)}
+                      className="rounded-2xl bg-white p-4 text-left transition hover:bg-[#eef7f4]"
+                    >
+                      <div className="flex items-center justify-between gap-3">
+                        <div>
+                          <p className="text-sm font-black text-[#111c22]">{source.name}</p>
+                          <p className="mt-1 text-xs font-bold text-[#8a938f]">{source.note}</p>
+                        </div>
+                        <span className="text-lg font-black text-[#0d6b62]">{source.value}%</span>
+                      </div>
+                      <div className="mt-3 h-2 rounded-full bg-[#edf0ec]">
+                        <div className={`h-full rounded-full ${source.color}`} style={{ width: `${source.value}%` }} />
+                      </div>
+                    </button>
+                  ))}
+                </div>
+                <div className="rounded-2xl bg-[#111c22] p-5 text-white">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">UTM 管理</p>
+                  <h3 className="mt-3 text-2xl font-black">每個活動都能被歸因</h3>
+                  <div className="mt-5 grid gap-2">
+                    {["google / organic", "line / profile", "instagram / bio", "ad / summer_campaign"].map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => selectDetail(`查看 UTM：${item}`, `已選取流量標籤 ${item} 可追到活動來源與轉換`)}
+                        className="rounded-lg bg-white/10 px-3 py-2 text-left font-mono text-xs font-black text-white/78 transition hover:bg-white/16"
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {activePanel === "report" ? (
+            <MiniCard title="每月報告">
+              <div className="grid gap-4 lg:grid-cols-[1fr_0.78fr]">
+                <div className="rounded-2xl border border-[#e3ded3] bg-white p-5">
+                  <div className="flex flex-wrap items-center justify-between gap-3">
+                    <div>
+                      <p className="text-xs font-black text-[#0d6b62]">{data.reportTitle}</p>
+                      <h3 className="mt-2 text-2xl font-black text-[#111c22]">曝光與詢問成效摘要</h3>
+                    </div>
+                    <span className={`rounded-full px-3 py-1 text-xs font-black ${reportReady ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#faf8f3] text-[#8a938f]"}`}>
+                      {reportReady ? "已產生" : "待產生"}
+                    </span>
+                  </div>
+                  {reportReadyAt ? (
+                    <p className="mt-3 text-xs font-black text-[#8a938f]">最後更新：{reportReadyAt}｜交付：{deliveryMode}</p>
+                  ) : null}
+                  <div className="mt-5 grid gap-3">
+                    {reportItems.map((item) => (
+                      <div key={item} className="rounded-xl bg-[#faf8f3] px-4 py-3 text-sm font-bold leading-6 text-[#52605c]">{item}</div>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-[#111c22] p-5 text-white">
+                  <p className="text-xs font-black uppercase tracking-[0.2em] text-[#8fd6cc]">交付格式</p>
+                  <div className="mt-4 grid gap-2">
+                    {["後台查看", "PDF 月報", "Email 摘要", "下月優化建議"].map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => selectDelivery(item)}
+                        className={`rounded-xl p-3 text-left text-sm font-black transition ${deliveryMode === item ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/10 text-white/82 hover:bg-white/16"}`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                  <button type="button" onClick={() => generateReport(reportReady ? "重新整理" : "產生")} className="mt-5 min-h-11 w-full rounded-xl bg-[#8fd6cc] text-sm font-black text-[#0b2724]">
+                    {reportReady ? "重新整理月報" : "產生月報"}
+                  </button>
+                </div>
+              </div>
+            </MiniCard>
+          ) : null}
+        </div>
+      </div>
+    </Shell>
+  )
+}
+
 function WorkDemoPanel({ project }) {
   const panel = useMemo(() => {
     if (project.slug === "ai-audit") return <AiAuditDemo />
@@ -2946,6 +3471,7 @@ function WorkDemoPanel({ project }) {
     if (project.slug === "buildflow") return <BuildFlowDemo />
     if (project.slug === "interactive-quiz") return <InteractiveQuizDemo />
     if (project.slug === "api-automation") return <ApiAutomationDemo />
+    if (project.slug === "analytics-dashboard") return <AnalyticsDashboardDemo />
     if (project.slug === "qingyu-web") return <QingyuWebDemo />
     if (project.slug === "xinjiang") return <XinjiangDemo />
     return null

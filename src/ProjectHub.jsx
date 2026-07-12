@@ -85,6 +85,22 @@ const works = [
     visual: "site",
   },
   {
+    title: "網站成效追蹤 / 曝光管理後台",
+    type: "後台系統",
+    group: "product",
+    industry: "品牌 / 官網",
+    problemGroup: "官網與曝光",
+    problem: "網站上線後不知道瀏覽、搜尋曝光、LINE 電話與表單詢問成效",
+    solution: "今日瀏覽、本月瀏覽、Google 曝光點擊、CTA 點擊與月報集中管理",
+    price: "15,000 元起",
+    priceGroup: "15,000–25,000 元",
+    duration: "7–14 天",
+    tags: ["瀏覽追蹤", "搜尋曝光", "月報"],
+    primary: ["查看後台", "/works/analytics-dashboard#demo"],
+    secondary: ["詢問追蹤後台", "/contact?case=網站成效追蹤 / 曝光管理後台"],
+    visual: "analytics",
+  },
+  {
     title: "點餐系統",
     type: "可操作產品",
     group: "product",
@@ -484,6 +500,28 @@ function WorkVisual({ visual, title }) {
         </div>
       </div>
     ),
+    analytics: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-[#10252a]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">成效後台<span className="rounded bg-[#8fd6cc]/20 px-1.5 text-[10px] text-[#8fd6cc]">Live</span></div>
+        <div className="grid grid-cols-3 gap-1.5">
+          {[["今日", "428"], ["曝光", "18K"], ["表單", "23"]].map(([label, value]) => (
+            <div key={label} className="rounded-lg bg-white/12 p-2 text-center backdrop-blur-sm">
+              <p className="text-[9px] font-black text-white/55">{label}</p>
+              <p className="mt-0.5 text-sm font-black text-[#eac46f]">{value}</p>
+            </div>
+          ))}
+        </div>
+        <div className="flex flex-1 items-end gap-1 rounded-lg bg-white/10 p-2">
+          {[38, 72, 54, 86, 66, 92, 76].map((height, index) => (
+            <span key={height + index} className="flex-1 rounded-t bg-[#8fd6cc]/70" style={{ height: `${height}%` }} />
+          ))}
+        </div>
+        <div className="grid grid-cols-2 gap-1.5 text-[9px] font-black">
+          <span className="rounded bg-white/12 px-2 py-1">Google 搜尋</span>
+          <span className="rounded bg-[#eac46f]/25 px-2 py-1 text-[#f4d98a]">LINE 點擊</span>
+        </div>
+      </div>
+    ),
   }
 
   const preview = previews[visual] || (
@@ -506,6 +544,7 @@ function WorkVisual({ visual, title }) {
     ai: "from-[#111c22] via-[#2b3146] to-[#eac46f]",
     notion: "from-[#0f0f10] via-[#1b1b1d] to-[#d8b46c]",
     build: "from-[#111c22] via-[#253534] to-[#eac46f]",
+    analytics: "from-[#0f1f22] via-[#1d403d] to-[#eac46f]",
   }[visual] || "from-[#111c22] via-[#233139] to-[#0d6b62]"
 
   return (

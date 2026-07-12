@@ -100,6 +100,7 @@ function WorkPreview({ project }) {
     "api-automation": ["Form", "API", "Notify"],
     "project-planner": ["5 步驟", "AI 規劃", "聯絡 CTA"],
     xinjiang: ["服務頁", "估價入口", "案例"],
+    "analytics-dashboard": ["今日瀏覽", "搜尋曝光", "每月報告"],
     "qingyu-web": ["RWD", "SEO / OG", "聯絡 CTA"],
   }
   const previewMeta = {
@@ -115,6 +116,7 @@ function WorkPreview({ project }) {
     "api-automation": { status: "API 流程", metric: "ok: true", summary: "資料送出 → 回應" },
     "project-planner": { status: "需求診斷", metric: "步驟 1 / 5", summary: "規則判斷 + AI 規劃" },
     xinjiang: { status: "案例", metric: "估價", summary: "網站 → BuildFlow" },
+    "analytics-dashboard": { status: "成效後台", metric: "月報", summary: "瀏覽 → 曝光 → 點擊 → 詢問" },
     "qingyu-web": { status: "SEO 已整理", metric: "RWD", summary: "展示區 → 聯絡" },
   }
   const toolPreviewFallback = {
@@ -201,6 +203,13 @@ const conversionProfiles = {
     scenario: "工程網站串到案件管理",
     next: "先做好估價入口",
   },
+  "analytics-dashboard": {
+    audience: ["有官網的店家", "個人品牌", "工作室", "投廣告或做 SEO 的團隊"],
+    custom: ["追蹤事件", "Search Console 指標", "GA4 流量來源", "月報格式"],
+    problems: ["不知道網站有沒有人看", "Google 曝光與點擊無法整理", "LINE 電話表單成效沒有紀錄"],
+    scenario: "網站上線後持續看成效",
+    next: "先定義要追蹤的按鈕與頁面",
+  },
 }
 
 const defaultConversionProfile = {
@@ -223,6 +232,7 @@ const workBusinessValues = {
   "unity-ai-tutor": "互動式學習展示",
   "api-automation": "表單送出後 自動進 API、通知與後台",
   "project-planner": "用診斷工具分類需求",
+  "analytics-dashboard": "瀏覽、搜尋曝光、點擊、表單與月報集中管理",
   "qingyu-web": "服務、作品、工具與聯絡流程",
   xinjiang: "把工程網站的估價入口接到案件管理流程",
 }
@@ -241,6 +251,7 @@ const conciseWorkValues = {
   "project-planner": "判斷適合做網站、LINE Bot 還是系統",
   "website-rescue": "點選改善項目 查看網站狀態變化",
   "linebot-mission": "模擬 LINE 接待與後台同步",
+  "analytics-dashboard": "今日瀏覽、Google 曝光、CTA 點擊與每月報告",
   "qingyu-web": "展示主站、作品、工具與聯絡流程",
   xinjiang: "工程網站如何串到 BuildFlow 後台",
 }
@@ -289,6 +300,7 @@ export function WorksPage() {
   const primaryProducts = [
     projectBySlug["biomed-brand-site"],
     projectBySlug.buildflow,
+    projectBySlug["analytics-dashboard"],
     projectBySlug["interactive-quiz"],
     projectBySlug["ai-tech-quest"],
     projectBySlug["ai-business-assistant"],
@@ -394,6 +406,7 @@ export function WorkDetailPage() {
   const isQingyuWebProject = project.slug === "qingyu-web"
   const isXinjiangProject = project.slug === "xinjiang"
   const isAiTechQuestProject = project.slug === "ai-tech-quest"
+  const isAnalyticsProject = project.slug === "analytics-dashboard"
   const isInternalDemoPath = project.livePath === `/works/${project.slug}#demo`
   const conversionProfile = conversionProfiles[project.slug] || defaultConversionProfile
   const projectSeo = {
@@ -404,6 +417,8 @@ export function WorkDetailPage() {
       ? "BuildFlow 工程行案件管理系統展示｜鑫匠工程案例｜Qingyu Web Studio"
       : isXinjiangProject
       ? "鑫匠工程案例｜工程網站與 BuildFlow 案件管理展示｜Qingyu Web Studio"
+      : isAnalyticsProject
+      ? "網站成效追蹤與曝光管理後台展示｜Qingyu Web Studio"
       : isApiAutomationProject
         ? "API 自動化流程展示｜表單、API、通知與後台展示｜Qingyu Web Studio"
         : `${project.title}｜Qingyu Web Studio`,
@@ -413,6 +428,8 @@ export function WorkDetailPage() {
       ? "以鑫匠工程為案例 展示詢價、案件、報價與 LINE 回報"
       : isXinjiangProject
       ? "工程網站與 BuildFlow 案件流程案例"
+      : isAnalyticsProject
+      ? "今日瀏覽、本月瀏覽、Google 搜尋曝光點擊、LINE 電話表單與每月報告集中展示"
       : isApiAutomationProject
         ? "表單、API、通知與後台流程展示"
         : project.summary,
@@ -483,6 +500,18 @@ export function WorkDetailPage() {
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
+            </Link>
+          </>
+        ) : isAnalyticsProject ? (
+          <>
+            <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
+              查看成效後台
+            </Link>
+            <Link to="#demo-report" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              產生月報
+            </Link>
+            <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+              技術架構
             </Link>
           </>
         ) : isXinjiangProject ? (
