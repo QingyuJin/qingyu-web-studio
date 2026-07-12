@@ -48,6 +48,13 @@ function WorkDetailTemplate({ work }) {
             <span className="rounded-full border border-white/20 px-4 py-1.5 text-sm font-black text-white/80">工期約 {work.duration}</span>
             <span className="text-sm font-bold text-white/50">適合：{work.forWho}</span>
           </div>
+          {work.liveUrl ? (
+            <div className="mt-6">
+              <a href={work.liveUrl} target="_blank" rel="noreferrer" className="inline-flex min-h-11 items-center rounded-xl bg-white px-5 text-sm font-black text-[#111c22] transition hover:bg-[#f5f1e9]">
+                打開網站 ↗
+              </a>
+            </div>
+          ) : null}
         </div>
       </section>
 

@@ -253,7 +253,8 @@ export const xinjiang = {
     ],
   },
   techStack: ["React / Vite", "Tailwind CSS", "Supabase", "Serverless API", "Vercel 部署"],
-  testimonial: {
+    liveUrl: "https://xinjiang-website.vercel.app/",
+    testimonial: {
     quote: "以前客戶看 Pro360 和拿名片，案子進度靠 LINE 記。現在有自己的官網和後台，從詢價到完工全部追得到。",
     name: "鑫匠工程負責人",
     title: "屏東泥作工程行",
