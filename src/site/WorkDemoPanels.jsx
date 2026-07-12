@@ -3480,4 +3480,5 @@ function WorkDemoPanel({ project }) {
   return panel
 }
 
+export { AnalyticsDashboardDemo }
 export default WorkDemoPanel
