@@ -3485,287 +3485,293 @@ const commercePlatforms = {
   },
 }
 
-const commercePanels = {
-  home: "首頁版型規劃",
-  categories: "商品分類導覽",
-  mobile: "手機版購物動線",
-  banners: "Banner 區塊",
-  products: "商品頁整理",
-  campaigns: "活動 / 預購 / 會員",
-  tracking: "GA / Search Console",
-}
-
 function CommercePlatformRedesignDemo() {
   const [platform, setPlatform] = useState("meepshop")
-  const [panel, setPanel] = useState("home")
-  const [selectedCategory, setSelectedCategory] = useState("新品主打")
-  const [cartStep, setCartStep] = useState(1)
-  const [activeBanner, setActiveBanner] = useState("夏季新品")
-  const [campaignReady, setCampaignReady] = useState(false)
-  const [statusText, setStatusText] = useState("選擇平台與展示項目 即可查看優化後的版型與購物流程")
+  const [beforeMode, setBeforeMode] = useState(false)
+  const [category, setCategory] = useState("全部")
+  const [bannerIdx, setBannerIdx] = useState(0)
+  const [cartCount, setCartCount] = useState(0)
+  const [orders, setOrders] = useState(0)
+  const [justAdded, setJustAdded] = useState("")
+  const [kpiFlash, setKpiFlash] = useState(false)
+  const [checkoutStep, setCheckoutStep] = useState("cart")
+  const [payMethod, setPayMethod] = useState("信用卡")
   const current = commercePlatforms[platform]
-  const categories = ["新品主打", "現貨專區", "預購商品", "熱銷排行", "會員限定"]
-  const cartSteps = ["分類", "商品", "購物車", "結帳"]
 
-  function choosePlatform(id) {
-    setPlatform(id)
-    setStatusText(`已切換到 ${commercePlatforms[id].label} 展示設定`)
+  const banners = [
+    { title: current.headline, tag: "主打檔期", cta: "立即選購" },
+    { title: "夏季新品 全面 85 折", tag: "限時活動", cta: "看活動" },
+    { title: "會員日 滿千送百", tag: "會員限定", cta: "加入會員" },
+  ]
+
+  const goods = [
+    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", tone: "from-[#3d5a45] to-[#6f8f6a]", emoji: "☕" },
+    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", tone: "from-[#7a5230] to-[#b08758]", emoji: "🫘" },
+    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", tone: "from-[#2f4858] to-[#5b7b8c]", emoji: "🏺" },
+    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", tone: "from-[#5a3d4a] to-[#8c6478]", emoji: "🎁" },
+  ]
+  const cats = ["全部", "新品", "現貨", "預購", "熱銷"]
+  const shown = category === "全部" ? goods : goods.filter((g) => g.cat === category)
+
+  function addToCart(name) {
+    setCartCount((c) => c + 1)
+    setJustAdded(name)
+    setKpiFlash(true)
+    window.setTimeout(() => setJustAdded(""), 900)
+    window.setTimeout(() => setKpiFlash(false), 1200)
   }
 
-  function openPanel(id) {
-    setPanel(id)
-    setStatusText(`目前查看：${commercePanels[id]}`)
+  function completeOrder() {
+    setOrders((o) => o + 1)
+    setCheckoutStep("done")
   }
 
-  function nextCartStep() {
-    setCartStep((value) => {
-      const next = value >= cartSteps.length ? 1 : value + 1
-      setStatusText(`手機購物動線已前進到：${cartSteps[next - 1]}`)
-      return next
-    })
-  }
-
-  function generateCampaign() {
-    setCampaignReady(true)
-    setPanel("campaigns")
-    setStatusText("已產生本期活動頁、預購頁與會員入口配置")
+  function resetCheckout() {
+    setCartCount(0)
+    setCheckoutStep("cart")
   }
 
   return (
-    <Shell title="平台電商 / MeepShop 視覺優化" desc="首頁版型、商品分類、手機購物、Banner、活動會員與成效追蹤一次展示">
-      <div className="grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
-        <aside className="rounded-2xl border border-[#d8d2c5] bg-[#13231f] p-4 text-white">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Platform Commerce</p>
-          <h3 className="mt-2 text-2xl font-black">平台視覺優化</h3>
-          <p className="mt-2 text-sm font-bold leading-6 text-white/65">{current.note}</p>
+    <Shell title="平台電商 / MeepShop 視覺優化" desc="同一間店 改版前後直接比 商店可以真的逛">
+      {/* 頂列：平台 + 前後對比 */}
+      <div className="flex flex-wrap items-center justify-between gap-3">
+        <div className="flex gap-1.5">
+          {Object.entries(commercePlatforms).map(([id, item]) => (
+            <button
+              key={id}
+              type="button"
+              onClick={() => setPlatform(id)}
+              className={`min-h-10 rounded-xl px-3.5 text-xs font-black transition ${platform === id ? "bg-[#13231f] text-white" : "bg-white text-[#52605c] ring-1 ring-[#d8d2c5] hover:text-[#111c22]"}`}
+            >
+              {item.label}
+            </button>
+          ))}
+        </div>
+        <div className="flex items-center gap-1.5 rounded-xl bg-white p-1 ring-1 ring-[#d8d2c5]">
+          <button
+            type="button"
+            onClick={() => setBeforeMode(true)}
+            className={`min-h-8 rounded-lg px-3.5 text-xs font-black transition ${beforeMode ? "bg-[#8a7c6d] text-white" : "text-[#8a938f]"}`}
+          >
+            改版前
+          </button>
+          <button
+            type="button"
+            onClick={() => setBeforeMode(false)}
+            className={`min-h-8 rounded-lg px-3.5 text-xs font-black transition ${beforeMode ? "text-[#8a938f]" : "bg-[#0d6b62] text-white"}`}
+          >
+            改版後
+          </button>
+        </div>
+      </div>
 
-          <div className="mt-5 grid grid-cols-3 gap-2">
-            {Object.entries(commercePlatforms).map(([id, item]) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => choosePlatform(id)}
-                className={`min-h-11 rounded-xl px-2 text-xs font-black transition ${platform === id ? "bg-[#eac46f] text-[#13231f]" : "bg-white/8 text-white/72 hover:bg-white/12"}`}
-              >
-                {item.label}
-              </button>
-            ))}
+      <div className="mt-4 grid gap-4 lg:grid-cols-[1.18fr_0.82fr] lg:items-start">
+        {/* 店面 */}
+        <div className="overflow-hidden rounded-2xl border border-[#d8d2c5] bg-white shadow-sm">
+          <div className="flex items-center gap-2 border-b border-[#eee9df] bg-[#f6f3ec] px-3 py-2">
+            <span className="h-2.5 w-2.5 rounded-full bg-[#f0655c]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#f4c15f]" />
+            <span className="h-2.5 w-2.5 rounded-full bg-[#69cf7d]" />
+            <span className="ml-2 truncate rounded-md bg-white px-3 py-0.5 text-[11px] font-black text-[#8a938f]">
+              shop.{platform}.example.com
+            </span>
           </div>
 
-          <div className="mt-5 rounded-2xl bg-white p-4 text-[#13231f]">
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <p className="text-xs font-black text-[#0d6b62]">首頁主訊息</p>
-                <h4 className="mt-2 text-xl font-black leading-tight">{current.headline}</h4>
+          {beforeMode ? (
+            /* 改版前：模板套版感 */
+            <div className="relative bg-[#e9e7e2] p-3">
+              <span className="absolute right-3 top-3 z-10 rounded-full bg-[#8a7c6d] px-3 py-1 text-[10px] font-black text-white">改版前</span>
+              <div className="border border-[#c9c4b8] bg-white p-2">
+                <p className="text-[11px] font-bold text-[#6b6b6b]">首頁 &gt; 全部商品 &gt; 商品列表</p>
+                <div className="mt-2 border border-dashed border-[#c9c4b8] bg-[#f2f0eb] py-6 text-center text-[10px] font-bold text-[#9a948a]">
+                  1200x300 banner_final_v3(2).jpg
+                </div>
+                <p className="mt-2 text-[10px] font-bold leading-5 text-[#6b6b6b]">
+                  最新消息 | 關於我們 | 全部商品 | 加入會員 | 常見問題 | 聯絡我們 | 隱私權政策
+                </p>
+                <div className="mt-2 grid grid-cols-4 gap-1.5">
+                  {goods.map((g) => (
+                    <div key={g.name} className="border border-[#ddd8cc] p-1.5">
+                      <div className="aspect-square bg-[#eceae4]" />
+                      <p className="mt-1 truncate text-[9px] font-bold text-[#555]">{g.name}</p>
+                      <p className="text-[9px] font-bold text-[#b04a3a]">{g.price}</p>
+                      <p className="text-[8px] text-[#999] underline">詳細內容請點此</p>
+                    </div>
+                  ))}
+                </div>
+                <p className="mt-2 text-[9px] leading-4 text-[#9a948a]">
+                  本店商品皆為現貨供應 如有任何問題請來電洽詢 營業時間為週一至週五上午九點至下午六點 感謝您的支持與愛護⋯
+                </p>
               </div>
-              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{current.metric}</span>
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              {["分類入口", "主打商品", "活動 Banner", "會員 CTA"].map((item) => (
+          ) : (
+            /* 改版後：會賣的店 */
+            <div className="bg-[#faf8f3]">
+              <div className="flex items-center justify-between border-b border-[#eee9df] bg-white px-4 py-2.5">
+                <span className="font-['Noto_Serif_TC',serif] text-sm font-black text-[#13231f]">好日子咖啡</span>
+                <span className={`rounded-full bg-[#13231f] px-3 py-1 text-[11px] font-black text-white transition ${justAdded ? "scale-110 bg-[#0d6b62]" : ""}`}>
+                  🛒 {cartCount}
+                </span>
+              </div>
+
+              {/* Banner */}
+              <div className="p-3">
+                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#13231f] via-[#1e4038] to-[#0d6b62] p-5 text-white">
+                  <span className="rounded-full bg-[#eac46f] px-2.5 py-0.5 text-[10px] font-black text-[#13231f]">{banners[bannerIdx].tag}</span>
+                  <p className="mt-3 max-w-[16rem] font-['Noto_Serif_TC',serif] text-xl font-black leading-snug">{banners[bannerIdx].title}</p>
+                  <span className="mt-3 inline-flex rounded-lg bg-white px-3.5 py-1.5 text-xs font-black text-[#13231f]">{banners[bannerIdx].cta}</span>
+                  <div className="absolute bottom-3 right-4 flex gap-1.5">
+                    {banners.map((b, i) => (
+                      <button
+                        key={b.title}
+                        type="button"
+                        aria-label={`Banner ${i + 1}`}
+                        onClick={() => setBannerIdx(i)}
+                        className={`h-2 rounded-full transition-all ${bannerIdx === i ? "w-5 bg-[#eac46f]" : "w-2 bg-white/40"}`}
+                      />
+                    ))}
+                  </div>
+                </div>
+
+                {/* 分類 */}
+                <div className="mt-3 flex gap-1.5 overflow-x-auto pb-1 [scrollbar-width:none]">
+                  {cats.map((c) => (
+                    <button
+                      key={c}
+                      type="button"
+                      onClick={() => setCategory(c)}
+                      className={`shrink-0 rounded-full px-3.5 py-1.5 text-xs font-black transition ${category === c ? "bg-[#13231f] text-white" : "bg-white text-[#52605c] ring-1 ring-[#e3ded3]"}`}
+                    >
+                      {c}
+                    </button>
+                  ))}
+                </div>
+
+                {/* 商品格 */}
+                <div className="mt-3 grid grid-cols-2 gap-2.5">
+                  {shown.map((g) => (
+                    <div key={g.name} className="overflow-hidden rounded-xl border border-[#e3ded3] bg-white">
+                      <div className={`flex aspect-[4/3] items-center justify-center bg-gradient-to-br text-3xl ${g.tone}`}>
+                        <span aria-hidden="true">{g.emoji}</span>
+                      </div>
+                      <div className="p-2.5">
+                        <div className="flex items-center justify-between gap-1">
+                          <p className="truncate text-xs font-black text-[#13231f]">{g.name}</p>
+                          <span className="shrink-0 rounded bg-[#eef7f4] px-1.5 py-0.5 text-[9px] font-black text-[#0d6b62]">{g.cat}</span>
+                        </div>
+                        <div className="mt-1.5 flex items-center justify-between">
+                          <span className="text-sm font-black text-[#b5651d]">{g.price}</span>
+                          <button
+                            type="button"
+                            onClick={() => addToCart(g.name)}
+                            className={`rounded-lg px-2.5 py-1 text-[11px] font-black transition ${justAdded === g.name ? "bg-[#0d6b62] text-white" : "bg-[#13231f] text-white hover:bg-[#0d6b62]"}`}
+                          >
+                            {justAdded === g.name ? "✓ 已加入" : "加入"}
+                          </button>
+                        </div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+        </div>
+
+        {/* 右欄：手機結帳 + 後台 */}
+        <div className="grid gap-4">
+          {/* 手機結帳 */}
+          <div className="rounded-2xl border border-[#d8d2c5] bg-white p-4">
+            <p className="text-xs font-black uppercase tracking-[0.16em] text-[#0d6b62]">手機結帳動線</p>
+            <div className="mx-auto mt-3 max-w-[15rem] rounded-[1.6rem] border border-[#13231f] bg-[#13231f] p-2">
+              <div className="min-h-[13rem] rounded-[1.2rem] bg-white p-3">
+                {checkoutStep === "cart" ? (
+                  <>
+                    <p className="text-xs font-black text-[#13231f]">購物車</p>
+                    <div className="mt-3 rounded-xl bg-[#faf8f3] p-3 text-center">
+                      <p className="text-2xl font-black text-[#13231f]">{cartCount}</p>
+                      <p className="mt-0.5 text-[10px] font-bold text-[#8a938f]">件商品 從左邊的店加進來</p>
+                    </div>
+                    <button
+                      type="button"
+                      disabled={cartCount === 0}
+                      onClick={() => setCheckoutStep("pay")}
+                      className="mt-3 min-h-10 w-full rounded-xl bg-[#13231f] text-xs font-black text-white disabled:opacity-35"
+                    >
+                      去結帳
+                    </button>
+                    {cartCount === 0 ? <p className="mt-2 text-center text-[10px] font-bold text-[#8a938f]">先在左邊按「加入」</p> : null}
+                  </>
+                ) : null}
+                {checkoutStep === "pay" ? (
+                  <>
+                    <p className="text-xs font-black text-[#13231f]">選付款方式</p>
+                    <div className="mt-3 grid gap-1.5">
+                      {["信用卡", "LINE Pay", "超商取貨付款"].map((m) => (
+                        <button
+                          key={m}
+                          type="button"
+                          onClick={() => setPayMethod(m)}
+                          className={`min-h-9 rounded-lg text-xs font-black transition ${payMethod === m ? "bg-[#0d6b62] text-white" : "bg-[#faf8f3] text-[#52605c]"}`}
+                        >
+                          {m}
+                        </button>
+                      ))}
+                    </div>
+                    <button type="button" onClick={completeOrder} className="mt-3 min-h-10 w-full rounded-xl bg-[#eac46f] text-xs font-black text-[#13231f]">
+                      完成訂單
+                    </button>
+                  </>
+                ) : null}
+                {checkoutStep === "done" ? (
+                  <div className="grid min-h-[11rem] content-center text-center">
+                    <p className="text-3xl">✓</p>
+                    <p className="mt-2 text-sm font-black text-[#0d6b62]">訂單成立</p>
+                    <p className="mt-1 text-[10px] font-bold text-[#8a938f]">{cartCount} 件・{payMethod}</p>
+                    <button type="button" onClick={resetCheckout} className="mx-auto mt-3 rounded-lg bg-[#faf8f3] px-4 py-1.5 text-[11px] font-black text-[#52605c]">
+                      再逛逛
+                    </button>
+                  </div>
+                ) : null}
+              </div>
+            </div>
+          </div>
+
+          {/* 後台成效 */}
+          <div className="rounded-2xl border border-[#1c2d2e] bg-[#13231f] p-4 text-white">
+            <div className="flex items-center justify-between">
+              <p className="text-xs font-black uppercase tracking-[0.16em] text-[#8fd6cc]">後台 · 你看得到成效</p>
+              {kpiFlash ? <span className="rounded-full bg-[#8fd6cc]/15 px-2.5 py-0.5 text-[10px] font-black text-[#8fd6cc]">← 剛剛的加購 進來了</span> : null}
+            </div>
+            <div className="mt-3 grid grid-cols-3 gap-2">
+              {[
+                ["今日瀏覽", 486 + cartCount * 3 + orders * 5, false],
+                ["加入購物車", 37 + cartCount, kpiFlash],
+                ["完成訂單", 12 + orders, false],
+              ].map(([label, value, hot]) => (
+                <div key={label} className={`rounded-xl p-2.5 transition ${hot ? "bg-[#8fd6cc]/15 ring-1 ring-[#8fd6cc]/40" : "bg-white/8"}`}>
+                  <p className="text-[10px] font-bold text-white/50">{label}</p>
+                  <p className={`mt-0.5 text-lg font-black ${hot ? "text-[#8fd6cc]" : "text-[#eac46f]"}`}>{value}</p>
+                </div>
+              ))}
+            </div>
+            <div className="mt-3 grid gap-1.5">
+              {banners.map((b, i) => (
                 <button
-                  key={item}
+                  key={b.title}
                   type="button"
-                  onClick={() => setStatusText(`首頁區塊已選取：${item}`)}
-                  className="rounded-xl bg-[#f4f0e6] px-3 py-3 text-left text-xs font-black text-[#34413d] transition hover:bg-[#e8f3ef]"
+                  onClick={() => setBannerIdx(i)}
+                  className={`flex items-center justify-between rounded-xl px-3 py-2 text-left transition ${bannerIdx === i ? "bg-white/12 ring-1 ring-[#eac46f]/50" : "bg-white/5 hover:bg-white/10"}`}
                 >
-                  {item}
+                  <span className="truncate text-xs font-black">{b.title}</span>
+                  <span className={`shrink-0 rounded-full px-2 py-0.5 text-[9px] font-black ${bannerIdx === i ? "bg-[#eac46f] text-[#13231f]" : "bg-white/10 text-white/55"}`}>
+                    {bannerIdx === i ? "上架中" : "排程"}
+                  </span>
                 </button>
               ))}
             </div>
+            <p className="mt-2 text-[10px] font-bold text-white/40">點一檔活動 左邊店面的 Banner 立刻換</p>
           </div>
-
-          <div className="mt-4 grid gap-2">
-            {Object.entries(commercePanels).map(([id, label]) => (
-              <button
-                key={id}
-                type="button"
-                onClick={() => openPanel(id)}
-                className={`flex min-h-11 items-center justify-between rounded-xl px-3 text-left text-sm font-black transition ${panel === id ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/6 text-white/72 hover:bg-white/10"}`}
-              >
-                <span>{label}</span>
-                <span className="text-xs opacity-60">查看</span>
-              </button>
-            ))}
-          </div>
-
-          <button type="button" onClick={generateCampaign} className="mt-4 min-h-11 w-full rounded-xl bg-white px-4 text-sm font-black text-[#13231f]">
-            產生活動會員配置
-          </button>
-        </aside>
-
-        <div className="grid gap-4">
-          <div className="rounded-xl border border-[#d8d2c5] bg-white p-4">
-            <div className="flex flex-wrap items-center justify-between gap-3">
-              <div>
-                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">展示狀態</p>
-                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{statusText}</p>
-              </div>
-              <span className="rounded-full bg-[#fff8e3] px-3 py-1 text-xs font-black text-[#8b5a25]">{current.label}</span>
-            </div>
-          </div>
-
-          <div className="grid gap-4 lg:grid-cols-[1.04fr_0.96fr]">
-            <div className="rounded-2xl border border-[#d8d2c5] bg-[#faf8f3] p-4">
-              <div className="flex flex-wrap items-center justify-between gap-3">
-                <div>
-                  <p className="text-xs font-black text-[#0d6b62]">首頁版型預覽</p>
-                  <h3 className="mt-2 text-2xl font-black text-[#111c22]">{current.headline}</h3>
-                </div>
-                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{activeBanner}</span>
-              </div>
-              <div className="mt-4 rounded-2xl bg-[#13231f] p-4 text-white">
-                <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
-                  <div>
-                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#eac46f]">{current.label} Home</p>
-                    <h4 className="mt-3 text-3xl font-black leading-tight">新品、現貨、預購一眼看懂</h4>
-                    <p className="mt-3 text-sm font-bold leading-6 text-white/70">首頁先處理「要買什麼」再處理「品牌故事」 讓活動與商品入口更清楚</p>
-                    <button type="button" onClick={() => setStatusText("首頁 CTA 已切換為：立即選購主打商品")} className="mt-4 min-h-10 rounded-xl bg-[#eac46f] px-4 text-sm font-black text-[#13231f]">
-                      立即選購
-                    </button>
-                  </div>
-                  <div className="grid gap-2">
-                    {categories.slice(0, 4).map((item) => (
-                      <button
-                        key={item}
-                        type="button"
-                        onClick={() => {
-                          setSelectedCategory(item)
-                          setPanel("categories")
-                          setStatusText(`已選取商品分類：${item}`)
-                        }}
-                        className={`rounded-xl px-4 py-3 text-left text-sm font-black transition ${selectedCategory === item ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/10 text-white/80 hover:bg-white/16"}`}
-                      >
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <div className="rounded-2xl border border-[#d8d2c5] bg-white p-4">
-              <p className="text-xs font-black text-[#0d6b62]">手機購物動線</p>
-              <div className="mx-auto mt-4 max-w-[16rem] rounded-[1.7rem] border border-[#13231f] bg-[#13231f] p-2">
-                <div className="rounded-[1.25rem] bg-white p-3">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-black text-[#13231f]">{cartSteps[cartStep - 1]}</span>
-                    <span className="rounded-full bg-[#eef7f4] px-2 py-1 text-[10px] font-black text-[#0d6b62]">{cartStep}/4</span>
-                  </div>
-                  <div className="mt-3 h-2 rounded-full bg-[#edf0ec]">
-                    <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${cartStep * 25}%` }} />
-                  </div>
-                  <div className="mt-4 grid gap-2">
-                    {cartSteps.map((item, index) => (
-                      <div key={item} className={`rounded-xl px-3 py-2 text-xs font-black ${cartStep === index + 1 ? "bg-[#13231f] text-white" : "bg-[#faf8f3] text-[#52605c]"}`}>
-                        {item}
-                      </div>
-                    ))}
-                  </div>
-                  <button type="button" onClick={nextCartStep} className="mt-4 min-h-10 w-full rounded-xl bg-[#eac46f] text-sm font-black text-[#13231f]">
-                    下一步
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-
-          {panel === "categories" ? (
-            <MiniCard title="商品分類導覽">
-              <div className="grid gap-3 md:grid-cols-5">
-                {categories.map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => {
-                      setSelectedCategory(item)
-                      setStatusText(`${item} 會放在首頁分類入口與手機選單第一層`)
-                    }}
-                    className={`min-h-16 rounded-xl px-3 text-sm font-black transition ${selectedCategory === item ? "bg-[#13231f] text-white" : "bg-white text-[#111c22] hover:bg-[#eef7f4]"}`}
-                  >
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </MiniCard>
-          ) : null}
-
-          {panel === "banners" ? (
-            <MiniCard title="Banner 區塊">
-              <div className="grid gap-3 md:grid-cols-3">
-                {["夏季新品", "預購倒數", "會員滿額禮"].map((item) => (
-                  <button
-                    key={item}
-                    type="button"
-                    onClick={() => {
-                      setActiveBanner(item)
-                      setStatusText(`首頁 Banner 已切換為：${item}`)
-                    }}
-                    className={`rounded-2xl p-4 text-left transition ${activeBanner === item ? "bg-[#13231f] text-white" : "bg-white text-[#111c22] hover:bg-[#eef7f4]"}`}
-                  >
-                    <p className="text-lg font-black">{item}</p>
-                    <p className="mt-2 text-xs font-bold opacity-70">主視覺、商品列與 CTA 可各自設定</p>
-                  </button>
-                ))}
-              </div>
-            </MiniCard>
-          ) : null}
-
-          {panel === "products" ? (
-            <MiniCard title="商品頁整理">
-              <div className="grid gap-3 md:grid-cols-3">
-                {["商品賣點", "規格選擇", "信任資訊", "加購推薦", "配送付款", "FAQ"].map((item) => (
-                  <button key={item} type="button" onClick={() => setStatusText(`商品頁區塊已選取：${item}`)} className="rounded-xl bg-white px-4 py-3 text-left text-sm font-black text-[#111c22] transition hover:bg-[#eef7f4]">
-                    {item}
-                  </button>
-                ))}
-              </div>
-            </MiniCard>
-          ) : null}
-
-          {panel === "campaigns" ? (
-            <MiniCard title="活動 / 預購 / 會員">
-              <div className="grid gap-4 md:grid-cols-[1fr_0.9fr]">
-                <div className="rounded-2xl bg-white p-4">
-                  <div className="flex items-center justify-between gap-3">
-                    <p className="text-xl font-black text-[#111c22]">本期活動配置</p>
-                    <span className={`rounded-full px-3 py-1 text-xs font-black ${campaignReady ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#faf8f3] text-[#8a938f]"}`}>{campaignReady ? "已產生" : "待產生"}</span>
-                  </div>
-                  <div className="mt-4 grid gap-2">
-                    {["活動頁", "預購頁", "現貨頁", "會員入口"].map((item) => (
-                      <button key={item} type="button" onClick={() => setStatusText(`${item} 已加入首頁與手機選單`)} className="rounded-xl bg-[#faf8f3] px-4 py-3 text-left text-sm font-black text-[#52605c] transition hover:bg-[#eef7f4]">
-                        {item}
-                      </button>
-                    ))}
-                  </div>
-                </div>
-                <div className="rounded-2xl bg-[#13231f] p-4 text-white">
-                  <p className="text-xs font-black text-[#eac46f]">會員 CTA</p>
-                  <p className="mt-3 text-2xl font-black">加入會員 先拿新品通知</p>
-                  <button type="button" onClick={() => setStatusText("會員 CTA 已設定為：新品通知 + 首購券")} className="mt-5 min-h-11 w-full rounded-xl bg-[#eac46f] text-sm font-black text-[#13231f]">
-                    設定會員 CTA
-                  </button>
-                </div>
-              </div>
-            </MiniCard>
-          ) : null}
-
-          {panel === "tracking" ? (
-            <MiniCard title="GA / Search Console 成效追蹤">
-              <div className="grid gap-3 md:grid-cols-4">
-                {[
-                  ["首頁 CTA", "click_home_cta"],
-                  ["分類點擊", "category_click"],
-                  ["加入購物車", "add_to_cart"],
-                  ["活動來源", "utm_campaign"],
-                ].map(([label, event]) => (
-                  <button key={event} type="button" onClick={() => setStatusText(`追蹤事件已選取：${event}`)} className="rounded-xl bg-white p-4 text-left transition hover:bg-[#eef7f4]">
-                    <p className="text-sm font-black text-[#111c22]">{label}</p>
-                    <p className="mt-2 font-mono text-xs font-bold text-[#0d6b62]">{event}</p>
-                  </button>
-                ))}
-              </div>
-            </MiniCard>
-          ) : null}
         </div>
       </div>
     </Shell>
