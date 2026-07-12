@@ -1,0 +1,18 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 960 540" role="img" aria-label="Wholesale ordering system cover">
+  <rect width="960" height="540" fill="#f7efe3"/>
+  <circle cx="840" cy="110" r="126" fill="#dfd6bd"/>
+  <rect x="72" y="78" width="816" height="386" rx="34" fill="#fffaf2" stroke="#decfb7" stroke-width="10"/>
+  <rect x="116" y="130" width="250" height="124" rx="28" fill="#eef8e9"/>
+  <circle cx="190" cy="192" r="46" fill="#d9edc7" stroke="#356b37" stroke-width="10"/>
+  <path d="M266 172h60M266 210h38" stroke="#263f31" stroke-width="16" stroke-linecap="round"/>
+  <rect x="420" y="130" width="250" height="124" rx="28" fill="#fff8e5"/>
+  <path d="M464 188c54 68 128 66 174-6-28 96-136 108-196 18z" fill="#ffd95a" stroke="#745f1c" stroke-width="10"/>
+  <rect x="116" y="304" width="250" height="92" rx="24" fill="#e6eef7"/>
+  <path d="M154 350h150M154 378h92" stroke="#24567a" stroke-width="16" stroke-linecap="round"/>
+  <rect x="420" y="304" width="250" height="92" rx="24" fill="#e5f2df"/>
+  <path d="M462 350h152M462 378h84" stroke="#2f6234" stroke-width="16" stroke-linecap="round"/>
+  <rect x="724" y="132" width="104" height="264" rx="28" fill="#263f31"/>
+  <rect x="746" y="174" width="60" height="48" rx="12" fill="#eac46f"/>
+  <rect x="746" y="252" width="60" height="26" rx="10" fill="#fffaf2"/>
+  <rect x="746" y="306" width="60" height="26" rx="10" fill="#fffaf2"/>
+</svg>

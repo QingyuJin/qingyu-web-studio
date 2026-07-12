@@ -90,14 +90,14 @@ function ShowcaseSection() {
       text: "首頁、分類、手機購物、Banner、活動會員與成效追蹤",
       price: "12,000 元起",
       to: "/works/ecommerce-platform-redesign#demo",
-      visual: "https://images.unsplash.com/photo-Iywgu-a_eCs?w=600&auto=format&fit=crop&q=80",
+      visual: "/demo-covers/platform-commerce.svg",
     },
     {
       title: "電商商品頁 / 銷售頁",
       text: "把商品賣點變成一頁會成交的銷售頁",
       price: "12,000 元起",
       to: "/works/product-landing-page",
-      visual: "https://images.unsplash.com/photo-1753727471395-5ab19d4f1f6e?w=600&auto=format&fit=crop&q=80",
+      visual: "/demo-covers/product-landing.svg",
     },
     {
       title: "鑫匠工程",
@@ -111,21 +111,21 @@ function ShowcaseSection() {
       text: "瀏覽、Google 曝光、LINE 電話與表單成效集中看",
       price: "15,000 元起",
       to: "/works/analytics-dashboard#demo",
-      visual: "https://images.unsplash.com/photo-bf9sZBcGQl4?w=600&auto=format&fit=crop&q=80",
+      visual: "/demo-covers/analytics-dashboard.svg",
     },
     {
       title: "批發訂貨系統",
       text: "客戶下單、出貨、對帳 一套顧好",
       price: "25,000 元起",
       to: "/works/wholesale-ordering",
-      visual: "https://images.unsplash.com/photo-esUvLeyDrIw?w=600&auto=format&fit=crop&q=80",
+      visual: "/demo-covers/wholesale-ordering.svg",
     },
     {
       title: "RAG 企業知識庫",
       text: "公司文件變成會回答的 AI 附引用",
       price: "需求估價",
       to: "/works/rag-consultant#demo",
-      visual: "https://images.unsplash.com/photo-Z61gFeVKd_Y?w=600&auto=format&fit=crop&q=80",
+      visual: "/demo-covers/rag-knowledge.svg",
     },
   ]
 

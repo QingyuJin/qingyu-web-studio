@@ -388,20 +388,20 @@ function WorkCard({ work, featured = false }) {
 
 function WorkVisual({ visual, title }) {
   const images = {
-    b2b: "https://images.unsplash.com/photo-esUvLeyDrIw?w=600&auto=format&fit=crop&q=80",
-    rag: "https://images.unsplash.com/photo-Z61gFeVKd_Y?w=600&auto=format&fit=crop&q=80",
-    food: "https://images.unsplash.com/photo-1753727471395-5ab19d4f1f6e?w=600&auto=format&fit=crop&q=80",
-    ink: "https://images.unsplash.com/photo-DvUano9E0sQ?w=600&auto=format&fit=crop&q=80",
-    bio: "https://images.unsplash.com/photo-1758653500388-36b051468d09?w=600&auto=format&fit=crop&q=80",
-    site: "https://images.unsplash.com/photo-ieDXimQcLeM?w=600&auto=format&fit=crop&q=80",
-    flow: "https://images.unsplash.com/photo-kjM2AxNsxNo?w=600&auto=format&fit=crop&q=80",
-    quiz: "https://images.unsplash.com/photo-1762340275877-32d64414d8aa?w=600&auto=format&fit=crop&q=80",
-    line: "https://images.unsplash.com/photo-1760360497581-0606569510a6?w=600&auto=format&fit=crop&q=80",
-    ai: "https://images.unsplash.com/photo-cZgRe9BlYR4?w=600&auto=format&fit=crop&q=80",
-    notion: "https://images.unsplash.com/photo-qNACDCHbJMY?w=600&auto=format&fit=crop&q=80",
-    build: "https://images.unsplash.com/photo-cPRLp9n9nTA?w=600&auto=format&fit=crop&q=80",
-    analytics: "https://images.unsplash.com/photo-bf9sZBcGQl4?w=600&auto=format&fit=crop&q=80",
-    platformCommerce: "https://images.unsplash.com/photo-Iywgu-a_eCs?w=600&auto=format&fit=crop&q=80",
+    b2b: "/demo-covers/wholesale-ordering.svg",
+    rag: "/demo-covers/rag-knowledge.svg",
+    food: "/demo-products/short-rib-rice.svg",
+    ink: "/project-photos/335941_0.jpg",
+    bio: "/demo-covers/product-landing.svg",
+    site: "/demo-covers/platform-commerce.svg",
+    flow: "/demo-covers/analytics-dashboard.svg",
+    quiz: "/demo-covers/rag-knowledge.svg",
+    line: "/demo-covers/analytics-dashboard.svg",
+    ai: "/demo-covers/rag-knowledge.svg",
+    notion: "/demo-covers/platform-commerce.svg",
+    build: "/project-photos/335950_0.jpg",
+    analytics: "/demo-covers/analytics-dashboard.svg",
+    platformCommerce: "/demo-covers/platform-commerce.svg",
   }
 
   const src = images[visual]
