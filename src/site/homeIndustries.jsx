@@ -255,8 +255,8 @@ export function LiveIndustryDemo({ industry, onInteract }) {
       {/* 前台 */}
       <div className="rounded-2xl border border-[#e0d8cc] bg-white p-4">
         <div className="flex items-center justify-between">
-          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#0d6b62]">前台 · 客人看到的</p>
-          <span className="rounded-full bg-[#eef7f4] px-2.5 py-0.5 text-[11px] font-black text-[#0d6b62]">{industry.front.title}</span>
+          <p className="text-sm font-black text-[#111c22]">{industry.front.title}</p>
+          <span className="rounded-full bg-[#eef7f4] px-2.5 py-0.5 text-[11px] font-black text-[#0d6b62]">點點看</span>
         </div>
 
         {industry.front.kind === "items" ? (
@@ -287,23 +287,18 @@ export function LiveIndustryDemo({ industry, onInteract }) {
             </button>
           </div>
         )}
-        <p className="mt-3 text-center text-[11px] font-bold text-[#8a938f]">↑ 按按看，右邊後台會即時反應</p>
       </div>
 
       {/* 後台 */}
       <div className="relative overflow-hidden rounded-2xl border border-[#1c2d2e] bg-[#111c22] p-4 text-white">
         <div className="flex items-center justify-between">
-          <p className="text-[11px] font-black uppercase tracking-[0.16em] text-[#8fd6cc]">後台 · 你管理的</p>
-          <span className="rounded-full bg-white/10 px-2.5 py-0.5 text-[11px] font-black text-white/72">{industry.back.title}</span>
+          <p className="text-sm font-black text-white">{industry.back.title}</p>
+          {flash ? (
+            <span className="rounded-full bg-[#8fd6cc]/15 px-2.5 py-0.5 text-[11px] font-black text-[#8fd6cc]">← 你剛按的，進來了</span>
+          ) : (
+            <span className="text-[11px] font-bold text-white/45">今日 {count} 筆</span>
+          )}
         </div>
-
-        {flash ? (
-          <div className="mt-3 rounded-lg border border-[#8fd6cc]/40 bg-[#8fd6cc]/12 px-3 py-2 text-[11px] font-black text-[#8fd6cc]">
-            ↙ 這筆就是你剛剛在前台按的，即時進了後台
-          </div>
-        ) : (
-          <p className="mt-3 text-[11px] font-bold text-white/45">今日進單：{count} 筆</p>
-        )}
 
         <div className="mt-3 grid gap-2">
           {rows.map((row, index) => (

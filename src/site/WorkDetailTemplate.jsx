@@ -20,10 +20,6 @@ function SectionTitle({ eyebrow, title, text }) {
   )
 }
 
-function Grid({ cols = 2, children }) {
-  return <div className={`grid gap-4 md:grid-cols-${cols}`}>{children}</div>
-}
-
 function Card({ title, text, tone = "light", children }) {
   const dark = tone === "dark"
   return (
@@ -31,16 +27,6 @@ function Card({ title, text, tone = "light", children }) {
       {title ? <p className={`text-sm font-black ${dark ? "text-[#8fd6cc]" : "text-[#0d6b62]"}`}>{title}</p> : null}
       {text ? <p className={`mt-2 text-sm font-bold leading-7 ${dark ? "text-white/72" : "text-[#52605c]"}`}>{text}</p> : null}
       {children}
-    </div>
-  )
-}
-
-function Tags({ items, dark = false }) {
-  return (
-    <div className="flex flex-wrap gap-2">
-      {items.map((item) => (
-        <span key={item} className={`rounded-full px-3 py-1 text-xs font-black ${dark ? "bg-white/10 text-white/80" : "bg-[#eef7f4] text-[#0d6b62]"}`}>{item}</span>
-      ))}
     </div>
   )
 }

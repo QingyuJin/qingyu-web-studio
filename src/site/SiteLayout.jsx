@@ -11,7 +11,6 @@ const navItems = [
   ["服務方案", "/services"],
   ["作品案例", "/works"],
   ["價格", "/pricing"],
-  ["合作流程", "/services"],
   ["聯絡", "/contact"],
 ]
 
