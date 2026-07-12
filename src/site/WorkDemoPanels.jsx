@@ -3499,16 +3499,16 @@ function CommercePlatformRedesignDemo() {
   const current = commercePlatforms[platform]
 
   const banners = [
-    { title: current.headline, tag: "主打檔期", cta: "立即選購" },
-    { title: "夏季新品 全面 85 折", tag: "限時活動", cta: "看活動" },
-    { title: "會員日 滿千送百", tag: "會員限定", cta: "加入會員" },
+    { title: current.headline, tag: "主打檔期", cta: "立即選購", bg: "https://images.unsplash.com/photo-HINbY6sHh3M?w=600&auto=format&fit=crop&q=80" },
+    { title: "夏季新品 全面 85 折", tag: "限時活動", cta: "看活動", bg: "https://images.unsplash.com/photo-aDVInIjW9RY?w=600&auto=format&fit=crop&q=80" },
+    { title: "會員日 滿千送百", tag: "會員限定", cta: "加入會員", bg: "https://images.unsplash.com/photo-jWJ3jQAcO9s?w=600&auto=format&fit=crop&q=80" },
   ]
 
   const goods = [
-    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", image: "/demo-products/coffee-gift-box.svg" },
-    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", image: "/demo-products/drip-coffee-bag.svg" },
-    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", image: "/demo-products/ceramic-mug.svg" },
-    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", image: "/demo-products/coffee-beans.svg" },
+    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", image: "https://images.unsplash.com/photo-uIDmFABRKyw?w=300&auto=format&fit=crop&q=80" },
+    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", image: "https://images.unsplash.com/photo-1633533447057-56ccf997f4fe?w=300&auto=format&fit=crop&q=80" },
+    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", image: "https://images.unsplash.com/photo-1623859763838-a304cbfd4901?w=300&auto=format&fit=crop&q=80" },
+    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", image: "https://images.unsplash.com/photo-aDVInIjW9RY?w=300&auto=format&fit=crop&q=80" },
   ]
   const cats = ["全部", "新品", "現貨", "預購", "熱銷"]
   const shown = category === "全部" ? goods : goods.filter((g) => g.cat === category)
@@ -3616,10 +3616,14 @@ function CommercePlatformRedesignDemo() {
 
               {/* Banner */}
               <div className="p-3">
-                <div className="relative overflow-hidden rounded-xl bg-gradient-to-br from-[#13231f] via-[#1e4038] to-[#0d6b62] p-5 text-white">
-                  <span className="rounded-full bg-[#eac46f] px-2.5 py-0.5 text-[10px] font-black text-[#13231f]">{banners[bannerIdx].tag}</span>
-                  <p className="mt-3 max-w-[16rem] font-['Noto_Serif_TC',serif] text-xl font-black leading-snug">{banners[bannerIdx].title}</p>
-                  <span className="mt-3 inline-flex rounded-lg bg-white px-3.5 py-1.5 text-xs font-black text-[#13231f]">{banners[bannerIdx].cta}</span>
+                <div className="relative overflow-hidden rounded-xl bg-[#13231f] p-5 text-white">
+                  <img src={banners[bannerIdx].bg} alt="" loading="lazy" className="absolute inset-0 h-full w-full object-cover opacity-60" />
+                  <div className="absolute inset-0 bg-gradient-to-r from-[#13231f]/80 to-transparent" />
+                  <div className="relative">
+                    <span className="rounded-full bg-[#eac46f] px-2.5 py-0.5 text-[10px] font-black text-[#13231f]">{banners[bannerIdx].tag}</span>
+                    <p className="mt-3 max-w-[16rem] font-['Noto_Serif_TC',serif] text-xl font-black leading-snug">{banners[bannerIdx].title}</p>
+                    <span className="mt-3 inline-flex rounded-lg bg-white px-3.5 py-1.5 text-xs font-black text-[#13231f]">{banners[bannerIdx].cta}</span>
+                  </div>
                   <div className="absolute bottom-3 right-4 flex gap-1.5">
                     {banners.map((b, i) => (
                       <button
