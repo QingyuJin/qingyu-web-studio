@@ -208,7 +208,7 @@ export const xinjiang = {
     ],
   },
   result: {
-    title: "從詢價到完工，全部追得到",
+    title: "從詢價到完工 全部追得到",
     desc: "上線後客戶可以直接在官網看到案例與服務，詢價進後台自動整理。",
     metrics: [
       { label: "實際上線", value: "2025 年 12 月" },
@@ -218,7 +218,7 @@ export const xinjiang = {
     ],
   },
   demo: {
-    title: "從詢價到後台，一次看",
+    title: "從詢價到後台 一次看",
     desc: "左邊是客戶在官網填寫詢價表單，右邊是需求進入 BuildFlow 後台的案件看板。",
     Front: XinjiangFront,
     Back: XinjiangBack,
@@ -281,7 +281,7 @@ export const wholesale = {
     signs: ["LINE 抄單容易漏", "價格查詢麻煩", "出貨進度不好追", "月結對帳頭痛"],
   },
   solution: {
-    title: "客戶專屬手機下單，後台統一管理",
+    title: "客戶專屬手機下單 後台統一管理",
     desc: "從商品目錄、客戶分級報價，到出貨管理與月結對帳，全部線上完成。",
     points: [
       { title: "客戶手機下單", text: "看到專屬價格，加入購物車直接送出，不用再傳 LINE。" },
@@ -290,7 +290,7 @@ export const wholesale = {
     ],
   },
   result: {
-    title: "訂單正確率提升，對帳時間大幅縮短",
+    title: "訂單正確率提升 對帳時間大幅縮短",
     desc: "從手寫抄單到手機下單，每一筆都有紀錄。",
     metrics: [
       { label: "下單方式", value: "手機即時" },
@@ -307,7 +307,7 @@ export const wholesale = {
     livePath: "/works/wholesale-ordering",
   },
   flow: {
-    title: "從下單到對帳，全部線上",
+    title: "從下單到對帳 全部線上",
     desc: "客戶手機下單 → 你後台出貨 → 月底自動對帳。",
     steps: [
       { title: "客戶下單", text: "手機看商品、專屬價格，加入購物車後送出。" },
@@ -351,7 +351,7 @@ export const rag = {
   duration: "依資料量估時",
   forWho: "公司、協會、工廠、有大量內部文件的組織",
   problem: {
-    title: "文件很多，答案找不到",
+    title: "文件很多 答案找不到",
     desc: "SOP、規章、產品型錄散在各處。新進員工與客服每天重複問同樣的問題，老員工花時間回答，文件更新也沒人知道。",
     pain: "重複回答、文件版本混亂、新人訓練慢。",
     signs: ["文件散各處", "答案靠老人", "新人上手慢", "更新沒人知"],
@@ -366,7 +366,7 @@ export const rag = {
     ],
   },
   result: {
-    title: "從翻文件到直接問，效率提升",
+    title: "從翻文件到直接問 效率提升",
     desc: "新人、客服、員工直接問 AI，答案有來源可驗證。",
     metrics: [
       { label: "文件格式", value: "PDF / Word / TXT" },
