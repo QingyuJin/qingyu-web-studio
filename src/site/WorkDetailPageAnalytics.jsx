@@ -39,6 +39,17 @@ const data = {
       { label: "月報輸出", value: "每月自動" },
     ],
   },
+  flow: {
+    title: "從追蹤埋點到月報產出",
+    desc: "五個步驟 從網站安裝追蹤碼到月報自動產出",
+    steps: [
+      { title: "網站安裝追蹤碼", text: "在網站頁面與按鈕埋入瀏覽 LINE 電話 表單等事件追蹤碼" },
+      { title: "串接 Google 數據", text: "串接 Google Search Console 與 GA4 自動拉取搜尋曝光點擊與流量來源" },
+      { title: "後台彙整指標", text: "瀏覽 曝光 轉換事件 熱門頁面 流量來源集中在一個儀表板" },
+      { title: "觀察與調整", text: "每天打開後台看變化 了解哪些頁面受歡迎 哪些管道有效" },
+      { title: "月報自動產出", text: "每月生成成效摘要 含趨勢圖表 熱門頁面 成長提醒 可直接給客戶或老闆" },
+    ],
+  },
   deliverables: {
     title: "交付內容",
     desc: "從追蹤埋點到月報輸出 全部到位",
@@ -136,11 +147,36 @@ function WorkDetailPageAnalytics() {
         </div>
       </section>
 
+      {/* 流程 */}
+      <section className={`${sectionStyle} bg-white`}>
+        <div className={innerStyle}>
+          <SectionTitle eyebrow="Flow" title={data.flow.title} text={data.flow.desc} />
+          <div className="grid gap-3 md:grid-cols-5">
+            {data.flow.steps.map((step, i) => (
+              <div key={step.title} className="rounded-xl border border-[#e3ded3] bg-[#faf8f3] p-5">
+                <span className="font-mono text-sm font-black text-[#0d6b62]">{String(i + 1).padStart(2, "0")}</span>
+                <h3 className="mt-3 text-lg font-black text-[#111c22]">{step.title}</h3>
+                <p className="mt-2 text-sm font-bold leading-7 text-[#52605c]">{step.text}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* 完整操作展示 */}
       <section className={`${sectionStyle} bg-[#faf8f3]`}>
-        <div className={innerStyle}>
-          <SectionTitle eyebrow="Demo" title="直接操作成效後台" text="點擊側欄切換面板 模擬 CTA 點擊 產生月報 全部可以直接按" />
-          <AnalyticsDashboardDemo />
+        <div className="mx-auto max-w-full px-0 py-14 md:py-18">
+          <div className="px-4">
+            <SectionTitle eyebrow="Demo" title="直接操作成效後台" text="點擊側欄切換面板 模擬 CTA 點擊 產生月報 全部可以直接按" />
+          </div>
+          <div className="max-w-6xl mx-auto px-4">
+            <AnalyticsDashboardDemo />
+          </div>
+          <div className="mt-6 text-center">
+            <a href="#demo-report" className="inline-flex min-h-12 items-center rounded-xl bg-[#111c22] px-6 text-sm font-black text-white transition hover:bg-[#0d6b62]">
+              跳到月報功能 ↗
+            </a>
+          </div>
         </div>
       </section>
 
@@ -186,7 +222,7 @@ function WorkDetailPageAnalytics() {
       <section className="bg-[#111c22] text-white">
         <div className="mx-auto flex max-w-6xl flex-col items-center gap-4 px-4 py-14 text-center md:py-18">
           <h2 className="font-['Noto_Serif_TC',serif] text-2xl font-black md:text-3xl">想看自己的網站數據？</h2>
-          <p className="max-w-xl text-sm font-bold leading-7 text-white/72">{data.price}，工期約 {data.duration}。先聊聊你想追蹤哪些數據，我給你適合的做法與報價。</p>
+          <p className="max-w-xl text-sm font-bold leading-7 text-white/72">{data.price} 工期約 {data.duration} 先聊聊你想追蹤哪些數據 我給你適合的做法與報價</p>
           <div className="flex flex-wrap justify-center gap-3">
             <Link to="/contact?case=網站成效追蹤%20%2F%20曝光管理後台" className="inline-flex min-h-12 items-center rounded-xl bg-white px-6 text-sm font-black text-[#111c22] transition hover:bg-[#f5f1e9]">
               問這個報價
