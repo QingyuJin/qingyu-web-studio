@@ -419,6 +419,7 @@ export function WorkDetailPage() {
   const isXinjiangProject = project.slug === "xinjiang"
   const isAiTechQuestProject = project.slug === "ai-tech-quest"
   const isAnalyticsProject = project.slug === "analytics-dashboard"
+  const isEcommerceProject = project.slug === "ecommerce-platform-redesign"
   const isInternalDemoPath = project.livePath === `/works/${project.slug}#demo`
   const conversionProfile = conversionProfiles[project.slug] || defaultConversionProfile
   const projectSeo = {
@@ -538,7 +539,7 @@ export function WorkDetailPage() {
               技術拆解
             </Link>
           </>
-        ) : (
+        ) : isEcommerceProject ? null : (
           <>
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               查看成品

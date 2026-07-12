@@ -3499,16 +3499,16 @@ function CommercePlatformRedesignDemo() {
   const current = commercePlatforms[platform]
 
   const banners = [
-    { title: current.headline, tag: "主打檔期", cta: "立即選購", bg: "https://images.unsplash.com/photo-HINbY6sHh3M?w=600&auto=format&fit=crop&q=80" },
-    { title: "夏季新品 全面 85 折", tag: "限時活動", cta: "看活動", bg: "https://images.unsplash.com/photo-aDVInIjW9RY?w=600&auto=format&fit=crop&q=80" },
-    { title: "會員日 滿千送百", tag: "會員限定", cta: "加入會員", bg: "https://images.unsplash.com/photo-jWJ3jQAcO9s?w=600&auto=format&fit=crop&q=80" },
+    { title: current.headline, tag: "主打檔期", cta: "立即選購", bg: "https://picsum.photos/seed/latte/600/300" },
+    { title: "夏季新品 全面 85 折", tag: "限時活動", cta: "看活動", bg: "https://picsum.photos/seed/coffee-cup/600/300" },
+    { title: "會員日 滿千送百", tag: "會員限定", cta: "加入會員", bg: "https://picsum.photos/seed/coffee-shop/600/300" },
   ]
 
   const goods = [
-    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", image: "https://images.unsplash.com/photo-uIDmFABRKyw?w=300&auto=format&fit=crop&q=80" },
-    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", image: "https://images.unsplash.com/photo-1633533447057-56ccf997f4fe?w=300&auto=format&fit=crop&q=80" },
-    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", image: "https://images.unsplash.com/photo-1623859763838-a304cbfd4901?w=300&auto=format&fit=crop&q=80" },
-    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", image: "https://images.unsplash.com/photo-aDVInIjW9RY?w=300&auto=format&fit=crop&q=80" },
+    { name: "冷萃咖啡禮盒", price: "NT$880", cat: "新品", image: "/demo-products/coffee-gift-box.svg" },
+    { name: "職人手沖濾掛", price: "NT$320", cat: "現貨", image: "/demo-products/drip-coffee-bag.svg" },
+    { name: "限量聯名馬克杯", price: "NT$450", cat: "預購", image: "/demo-products/ceramic-mug.svg" },
+    { name: "經典綜合豆 1kg", price: "NT$980", cat: "熱銷", image: "/demo-products/coffee-beans.svg" },
   ]
   const cats = ["全部", "新品", "現貨", "預購", "熱銷"]
   const shown = category === "全部" ? goods : goods.filter((g) => g.cat === category)
