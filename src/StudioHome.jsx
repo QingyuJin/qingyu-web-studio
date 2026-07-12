@@ -29,7 +29,7 @@ function HeroPicker() {
       <div className="mx-auto max-w-6xl px-4 pb-14 pt-12 md:pt-20">
         <p className="text-xs font-black uppercase tracking-[0.24em] text-[#0d6b62]">Qingyu Web Studio</p>
         <h1 className="mt-5 font-['Noto_Serif_TC',serif] text-[clamp(2rem,5.6vw,3.6rem)] font-black leading-[1.15] tracking-tight text-[#111c22]">
-          選你的行業，看它動起來。
+          選你的行業 看它動起來
         </h1>
 
         {/* 行業選擇 */}
