@@ -3464,6 +3464,314 @@ function AnalyticsDashboardDemo() {
   )
 }
 
+const commercePlatforms = {
+  meepshop: {
+    label: "MeepShop",
+    note: "適合台灣品牌、活動檔期與會員經營",
+    headline: "把平台套版改成會賣的品牌首頁",
+    metric: "轉換焦點 +32%",
+  },
+  shopify: {
+    label: "Shopify",
+    note: "適合跨境、品牌內容與 App 擴充",
+    headline: "品牌感與商品系列頁一起整理",
+    metric: "分類點擊 +41%",
+  },
+  woocommerce: {
+    label: "WooCommerce",
+    note: "適合 WordPress 內容站延伸商城",
+    headline: "內容、SEO 與商品導購整合",
+    metric: "自然流量 +28%",
+  },
+}
+
+const commercePanels = {
+  home: "首頁版型規劃",
+  categories: "商品分類導覽",
+  mobile: "手機版購物動線",
+  banners: "Banner 區塊",
+  products: "商品頁整理",
+  campaigns: "活動 / 預購 / 會員",
+  tracking: "GA / Search Console",
+}
+
+function CommercePlatformRedesignDemo() {
+  const [platform, setPlatform] = useState("meepshop")
+  const [panel, setPanel] = useState("home")
+  const [selectedCategory, setSelectedCategory] = useState("新品主打")
+  const [cartStep, setCartStep] = useState(1)
+  const [activeBanner, setActiveBanner] = useState("夏季新品")
+  const [campaignReady, setCampaignReady] = useState(false)
+  const [statusText, setStatusText] = useState("選擇平台與展示項目 即可查看優化後的版型與購物流程")
+  const current = commercePlatforms[platform]
+  const categories = ["新品主打", "現貨專區", "預購商品", "熱銷排行", "會員限定"]
+  const cartSteps = ["分類", "商品", "購物車", "結帳"]
+
+  function choosePlatform(id) {
+    setPlatform(id)
+    setStatusText(`已切換到 ${commercePlatforms[id].label} 展示設定`)
+  }
+
+  function openPanel(id) {
+    setPanel(id)
+    setStatusText(`目前查看：${commercePanels[id]}`)
+  }
+
+  function nextCartStep() {
+    setCartStep((value) => {
+      const next = value >= cartSteps.length ? 1 : value + 1
+      setStatusText(`手機購物動線已前進到：${cartSteps[next - 1]}`)
+      return next
+    })
+  }
+
+  function generateCampaign() {
+    setCampaignReady(true)
+    setPanel("campaigns")
+    setStatusText("已產生本期活動頁、預購頁與會員入口配置")
+  }
+
+  return (
+    <Shell title="平台電商 / MeepShop 視覺優化" desc="首頁版型、商品分類、手機購物、Banner、活動會員與成效追蹤一次展示">
+      <div className="grid gap-4 lg:grid-cols-[0.78fr_1.22fr]">
+        <aside className="rounded-2xl border border-[#d8d2c5] bg-[#13231f] p-4 text-white">
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Platform Commerce</p>
+          <h3 className="mt-2 text-2xl font-black">平台視覺優化</h3>
+          <p className="mt-2 text-sm font-bold leading-6 text-white/65">{current.note}</p>
+
+          <div className="mt-5 grid grid-cols-3 gap-2">
+            {Object.entries(commercePlatforms).map(([id, item]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => choosePlatform(id)}
+                className={`min-h-11 rounded-xl px-2 text-xs font-black transition ${platform === id ? "bg-[#eac46f] text-[#13231f]" : "bg-white/8 text-white/72 hover:bg-white/12"}`}
+              >
+                {item.label}
+              </button>
+            ))}
+          </div>
+
+          <div className="mt-5 rounded-2xl bg-white p-4 text-[#13231f]">
+            <div className="flex items-start justify-between gap-3">
+              <div>
+                <p className="text-xs font-black text-[#0d6b62]">首頁主訊息</p>
+                <h4 className="mt-2 text-xl font-black leading-tight">{current.headline}</h4>
+              </div>
+              <span className="rounded-full bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{current.metric}</span>
+            </div>
+            <div className="mt-4 grid grid-cols-2 gap-2">
+              {["分類入口", "主打商品", "活動 Banner", "會員 CTA"].map((item) => (
+                <button
+                  key={item}
+                  type="button"
+                  onClick={() => setStatusText(`首頁區塊已選取：${item}`)}
+                  className="rounded-xl bg-[#f4f0e6] px-3 py-3 text-left text-xs font-black text-[#34413d] transition hover:bg-[#e8f3ef]"
+                >
+                  {item}
+                </button>
+              ))}
+            </div>
+          </div>
+
+          <div className="mt-4 grid gap-2">
+            {Object.entries(commercePanels).map(([id, label]) => (
+              <button
+                key={id}
+                type="button"
+                onClick={() => openPanel(id)}
+                className={`flex min-h-11 items-center justify-between rounded-xl px-3 text-left text-sm font-black transition ${panel === id ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/6 text-white/72 hover:bg-white/10"}`}
+              >
+                <span>{label}</span>
+                <span className="text-xs opacity-60">查看</span>
+              </button>
+            ))}
+          </div>
+
+          <button type="button" onClick={generateCampaign} className="mt-4 min-h-11 w-full rounded-xl bg-white px-4 text-sm font-black text-[#13231f]">
+            產生活動會員配置
+          </button>
+        </aside>
+
+        <div className="grid gap-4">
+          <div className="rounded-xl border border-[#d8d2c5] bg-white p-4">
+            <div className="flex flex-wrap items-center justify-between gap-3">
+              <div>
+                <p className="text-xs font-black uppercase tracking-[0.18em] text-[#0d6b62]">展示狀態</p>
+                <p className="mt-2 text-sm font-bold leading-6 text-[#52605c]">{statusText}</p>
+              </div>
+              <span className="rounded-full bg-[#fff8e3] px-3 py-1 text-xs font-black text-[#8b5a25]">{current.label}</span>
+            </div>
+          </div>
+
+          <div className="grid gap-4 lg:grid-cols-[1.04fr_0.96fr]">
+            <div className="rounded-2xl border border-[#d8d2c5] bg-[#faf8f3] p-4">
+              <div className="flex flex-wrap items-center justify-between gap-3">
+                <div>
+                  <p className="text-xs font-black text-[#0d6b62]">首頁版型預覽</p>
+                  <h3 className="mt-2 text-2xl font-black text-[#111c22]">{current.headline}</h3>
+                </div>
+                <span className="rounded-full bg-white px-3 py-1 text-xs font-black text-[#52605c]">{activeBanner}</span>
+              </div>
+              <div className="mt-4 rounded-2xl bg-[#13231f] p-4 text-white">
+                <div className="grid gap-4 md:grid-cols-[1.15fr_0.85fr]">
+                  <div>
+                    <p className="text-xs font-black uppercase tracking-[0.18em] text-[#eac46f]">{current.label} Home</p>
+                    <h4 className="mt-3 text-3xl font-black leading-tight">新品、現貨、預購一眼看懂</h4>
+                    <p className="mt-3 text-sm font-bold leading-6 text-white/70">首頁先處理「要買什麼」再處理「品牌故事」 讓活動與商品入口更清楚</p>
+                    <button type="button" onClick={() => setStatusText("首頁 CTA 已切換為：立即選購主打商品")} className="mt-4 min-h-10 rounded-xl bg-[#eac46f] px-4 text-sm font-black text-[#13231f]">
+                      立即選購
+                    </button>
+                  </div>
+                  <div className="grid gap-2">
+                    {categories.slice(0, 4).map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => {
+                          setSelectedCategory(item)
+                          setPanel("categories")
+                          setStatusText(`已選取商品分類：${item}`)
+                        }}
+                        className={`rounded-xl px-4 py-3 text-left text-sm font-black transition ${selectedCategory === item ? "bg-[#8fd6cc] text-[#0b2724]" : "bg-white/10 text-white/80 hover:bg-white/16"}`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div className="rounded-2xl border border-[#d8d2c5] bg-white p-4">
+              <p className="text-xs font-black text-[#0d6b62]">手機購物動線</p>
+              <div className="mx-auto mt-4 max-w-[16rem] rounded-[1.7rem] border border-[#13231f] bg-[#13231f] p-2">
+                <div className="rounded-[1.25rem] bg-white p-3">
+                  <div className="flex items-center justify-between">
+                    <span className="text-xs font-black text-[#13231f]">{cartSteps[cartStep - 1]}</span>
+                    <span className="rounded-full bg-[#eef7f4] px-2 py-1 text-[10px] font-black text-[#0d6b62]">{cartStep}/4</span>
+                  </div>
+                  <div className="mt-3 h-2 rounded-full bg-[#edf0ec]">
+                    <div className="h-full rounded-full bg-[#0d6b62]" style={{ width: `${cartStep * 25}%` }} />
+                  </div>
+                  <div className="mt-4 grid gap-2">
+                    {cartSteps.map((item, index) => (
+                      <div key={item} className={`rounded-xl px-3 py-2 text-xs font-black ${cartStep === index + 1 ? "bg-[#13231f] text-white" : "bg-[#faf8f3] text-[#52605c]"}`}>
+                        {item}
+                      </div>
+                    ))}
+                  </div>
+                  <button type="button" onClick={nextCartStep} className="mt-4 min-h-10 w-full rounded-xl bg-[#eac46f] text-sm font-black text-[#13231f]">
+                    下一步
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {panel === "categories" ? (
+            <MiniCard title="商品分類導覽">
+              <div className="grid gap-3 md:grid-cols-5">
+                {categories.map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => {
+                      setSelectedCategory(item)
+                      setStatusText(`${item} 會放在首頁分類入口與手機選單第一層`)
+                    }}
+                    className={`min-h-16 rounded-xl px-3 text-sm font-black transition ${selectedCategory === item ? "bg-[#13231f] text-white" : "bg-white text-[#111c22] hover:bg-[#eef7f4]"}`}
+                  >
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {panel === "banners" ? (
+            <MiniCard title="Banner 區塊">
+              <div className="grid gap-3 md:grid-cols-3">
+                {["夏季新品", "預購倒數", "會員滿額禮"].map((item) => (
+                  <button
+                    key={item}
+                    type="button"
+                    onClick={() => {
+                      setActiveBanner(item)
+                      setStatusText(`首頁 Banner 已切換為：${item}`)
+                    }}
+                    className={`rounded-2xl p-4 text-left transition ${activeBanner === item ? "bg-[#13231f] text-white" : "bg-white text-[#111c22] hover:bg-[#eef7f4]"}`}
+                  >
+                    <p className="text-lg font-black">{item}</p>
+                    <p className="mt-2 text-xs font-bold opacity-70">主視覺、商品列與 CTA 可各自設定</p>
+                  </button>
+                ))}
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {panel === "products" ? (
+            <MiniCard title="商品頁整理">
+              <div className="grid gap-3 md:grid-cols-3">
+                {["商品賣點", "規格選擇", "信任資訊", "加購推薦", "配送付款", "FAQ"].map((item) => (
+                  <button key={item} type="button" onClick={() => setStatusText(`商品頁區塊已選取：${item}`)} className="rounded-xl bg-white px-4 py-3 text-left text-sm font-black text-[#111c22] transition hover:bg-[#eef7f4]">
+                    {item}
+                  </button>
+                ))}
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {panel === "campaigns" ? (
+            <MiniCard title="活動 / 預購 / 會員">
+              <div className="grid gap-4 md:grid-cols-[1fr_0.9fr]">
+                <div className="rounded-2xl bg-white p-4">
+                  <div className="flex items-center justify-between gap-3">
+                    <p className="text-xl font-black text-[#111c22]">本期活動配置</p>
+                    <span className={`rounded-full px-3 py-1 text-xs font-black ${campaignReady ? "bg-[#eef7f4] text-[#0d6b62]" : "bg-[#faf8f3] text-[#8a938f]"}`}>{campaignReady ? "已產生" : "待產生"}</span>
+                  </div>
+                  <div className="mt-4 grid gap-2">
+                    {["活動頁", "預購頁", "現貨頁", "會員入口"].map((item) => (
+                      <button key={item} type="button" onClick={() => setStatusText(`${item} 已加入首頁與手機選單`)} className="rounded-xl bg-[#faf8f3] px-4 py-3 text-left text-sm font-black text-[#52605c] transition hover:bg-[#eef7f4]">
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+                <div className="rounded-2xl bg-[#13231f] p-4 text-white">
+                  <p className="text-xs font-black text-[#eac46f]">會員 CTA</p>
+                  <p className="mt-3 text-2xl font-black">加入會員 先拿新品通知</p>
+                  <button type="button" onClick={() => setStatusText("會員 CTA 已設定為：新品通知 + 首購券")} className="mt-5 min-h-11 w-full rounded-xl bg-[#eac46f] text-sm font-black text-[#13231f]">
+                    設定會員 CTA
+                  </button>
+                </div>
+              </div>
+            </MiniCard>
+          ) : null}
+
+          {panel === "tracking" ? (
+            <MiniCard title="GA / Search Console 成效追蹤">
+              <div className="grid gap-3 md:grid-cols-4">
+                {[
+                  ["首頁 CTA", "click_home_cta"],
+                  ["分類點擊", "category_click"],
+                  ["加入購物車", "add_to_cart"],
+                  ["活動來源", "utm_campaign"],
+                ].map(([label, event]) => (
+                  <button key={event} type="button" onClick={() => setStatusText(`追蹤事件已選取：${event}`)} className="rounded-xl bg-white p-4 text-left transition hover:bg-[#eef7f4]">
+                    <p className="text-sm font-black text-[#111c22]">{label}</p>
+                    <p className="mt-2 font-mono text-xs font-bold text-[#0d6b62]">{event}</p>
+                  </button>
+                ))}
+              </div>
+            </MiniCard>
+          ) : null}
+        </div>
+      </div>
+    </Shell>
+  )
+}
+
 function WorkDemoPanel({ project }) {
   const panel = useMemo(() => {
     if (project.slug === "ai-audit") return <AiAuditDemo />
@@ -3472,6 +3780,7 @@ function WorkDemoPanel({ project }) {
     if (project.slug === "interactive-quiz") return <InteractiveQuizDemo />
     if (project.slug === "api-automation") return <ApiAutomationDemo />
     if (project.slug === "analytics-dashboard") return <AnalyticsDashboardDemo />
+    if (project.slug === "ecommerce-platform-redesign") return <CommercePlatformRedesignDemo />
     if (project.slug === "qingyu-web") return <QingyuWebDemo />
     if (project.slug === "xinjiang") return <XinjiangDemo />
     return null

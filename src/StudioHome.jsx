@@ -86,6 +86,14 @@ function HeroPicker() {
 function ShowcaseSection() {
   const featured = [
     {
+      title: "平台電商 / MeepShop 視覺優化",
+      text: "首頁、分類、手機購物、Banner、活動會員與成效追蹤",
+      price: "12,000 元起",
+      to: "/works/ecommerce-platform-redesign#demo",
+      visual: null,
+      kind: "platform-commerce",
+    },
+    {
       title: "電商商品頁 / 銷售頁",
       text: "把商品賣點變成一頁會成交的銷售頁",
       price: "12,000 元起",
@@ -128,7 +136,7 @@ function ShowcaseSection() {
     <section id="products" className="scroll-mt-16 border-b border-[#e6e0d5] bg-white">
       <div className="mx-auto max-w-6xl px-4 py-16 md:py-20">
         <h2 className="font-['Noto_Serif_TC',serif] text-[clamp(1.7rem,4.5vw,2.9rem)] font-black leading-snug text-[#111c22]">
-          代表作 先看五個
+          代表作 先看六個
         </h2>
         <div className="mt-8 grid gap-4 md:grid-cols-2">
           {featured.map((item) => (
@@ -147,6 +155,34 @@ function ShowcaseSection() {
                   <div className="flex h-24 w-14 shrink-0 flex-col items-center justify-between rounded-[1.1rem] border border-white/40 bg-white/12 py-2">
                     <span className="text-[8px] font-black tracking-widest text-white/80">植感</span>
                     <span aria-hidden="true">🌿</span>
+                  </div>
+                </div>
+              ) : item.kind === "platform-commerce" ? (
+                <div className="aspect-[16/9] bg-[#13231f] p-5 text-white">
+                  <div className="flex items-center justify-between">
+                    <span className="rounded-full bg-[#eac46f] px-3 py-1 text-[10px] font-black text-[#13231f]">MeepShop / Shopify</span>
+                    <span className="text-[10px] font-black uppercase tracking-[0.18em] text-white/55">Redesign</span>
+                  </div>
+                  <div className="mt-4 grid gap-3 md:grid-cols-[1.2fr_0.8fr]">
+                    <div className="rounded-2xl bg-white p-3 text-[#13231f]">
+                      <div className="h-6 rounded-lg bg-[#13231f]" />
+                      <div className="mt-3 grid grid-cols-3 gap-2">
+                        {["主打", "預購", "現貨"].map((label) => (
+                          <div key={label} className="rounded-lg bg-[#eef7f4] px-2 py-3 text-center text-[10px] font-black text-[#0d6b62]">{label}</div>
+                        ))}
+                      </div>
+                      <div className="mt-3 h-14 rounded-xl bg-[#eac46f]/35" />
+                    </div>
+                    <div className="rounded-[1.2rem] border border-white/25 bg-white/10 p-2">
+                      <div className="rounded-[0.9rem] bg-white p-2 text-[#13231f]">
+                        <div className="h-5 rounded-md bg-[#eac46f]" />
+                        <div className="mt-2 grid gap-1.5">
+                          <span className="h-5 rounded bg-[#eef7f4]" />
+                          <span className="h-5 rounded bg-[#eef7f4]" />
+                          <span className="h-7 rounded bg-[#13231f]" />
+                        </div>
+                      </div>
+                    </div>
                   </div>
                 </div>
               ) : item.kind === "analytics" ? (

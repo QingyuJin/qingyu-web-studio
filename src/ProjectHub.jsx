@@ -5,6 +5,22 @@ import SiteLayout from "./site/SiteLayout"
 
 const works = [
   {
+    title: "平台電商 / MeepShop 視覺優化",
+    type: "平台電商",
+    group: "product",
+    industry: "零售 / 批發",
+    problemGroup: "官網與曝光",
+    problem: "MeepShop、Shopify、WooCommerce 店家有商品 但首頁與手機購物動線像套版",
+    solution: "首頁版型、商品分類、手機購物、Banner、活動會員與成效追蹤一次整理",
+    price: "12,000 元起",
+    priceGroup: "6,000–15,000 元",
+    duration: "7–14 天",
+    tags: ["MeepShop", "首頁版型", "手機購物"],
+    primary: ["查看展示", "/works/ecommerce-platform-redesign#demo"],
+    secondary: ["詢問電商優化", "/contact?case=平台電商 / MeepShop 視覺優化"],
+    visual: "platformCommerce",
+  },
+  {
     title: "鑫匠工程",
     type: "真實上線",
     group: "live",
@@ -522,6 +538,35 @@ function WorkVisual({ visual, title }) {
         </div>
       </div>
     ),
+    platformCommerce: (
+      <div className="flex h-full flex-col gap-1.5">
+        <div className="flex items-center justify-between rounded-lg bg-[#163028]/80 px-3 py-1.5 text-[11px] font-black backdrop-blur-sm">平台電商<span className="rounded bg-[#eac46f] px-1.5 text-[10px] text-[#163028]">UX</span></div>
+        <div className="grid flex-1 grid-cols-[1.1fr_0.9fr] gap-1.5">
+          <div className="rounded-lg bg-white p-2 text-[#111c22]">
+            <div className="h-4 rounded-md bg-[#163028]" />
+            <div className="mt-2 grid grid-cols-2 gap-1">
+              {["分類", "活動", "預購", "會員"].map((label) => (
+                <div key={label} className="rounded bg-[#eef7f4] px-1 py-2 text-center text-[9px] font-black text-[#0d6b62]">{label}</div>
+              ))}
+            </div>
+            <div className="mt-2 h-7 rounded bg-[#eac46f]/50" />
+          </div>
+          <div className="rounded-[1rem] border border-white/25 bg-white/12 p-1.5">
+            <div className="h-full rounded-[0.8rem] bg-white p-1.5">
+              <div className="h-4 rounded bg-[#eac46f]" />
+              <div className="mt-1.5 h-3 rounded bg-[#e8f3ef]" />
+              <div className="mt-1.5 h-3 rounded bg-[#e8f3ef]" />
+              <div className="mt-2 h-5 rounded bg-[#163028]" />
+            </div>
+          </div>
+        </div>
+        <div className="grid grid-cols-3 gap-1 text-[9px] font-black">
+          {["MeepShop", "Shopify", "Woo"].map((item) => (
+            <span key={item} className="rounded bg-white/12 px-1.5 py-1 text-center">{item}</span>
+          ))}
+        </div>
+      </div>
+    ),
   }
 
   const preview = previews[visual] || (
@@ -545,6 +590,7 @@ function WorkVisual({ visual, title }) {
     notion: "from-[#0f0f10] via-[#1b1b1d] to-[#d8b46c]",
     build: "from-[#111c22] via-[#253534] to-[#eac46f]",
     analytics: "from-[#0f1f22] via-[#1d403d] to-[#eac46f]",
+    platformCommerce: "from-[#13231f] via-[#2d5547] to-[#eac46f]",
   }[visual] || "from-[#111c22] via-[#233139] to-[#0d6b62]"
 
   return (

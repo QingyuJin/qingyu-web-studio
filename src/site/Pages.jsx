@@ -89,6 +89,7 @@ function ActionLink({ to, children, ...props }) {
 function WorkPreview({ project }) {
   const panels = {
     "biomed-brand-site": ["品牌故事", "內容特色", "講座活動"],
+    "ecommerce-platform-redesign": ["首頁版型", "手機動線", "活動追蹤"],
     "ai-tech-quest": ["文件問答", "模型分類", "店家助手"],
     "interactive-quiz": ["題目頁", "答案解析", "結果頁"],
     "ai-business-assistant": ["FAQ 後台", "自動回覆", "問答紀錄"],
@@ -105,6 +106,7 @@ function WorkPreview({ project }) {
   }
   const previewMeta = {
     "biomed-brand-site": { status: "品牌網站", metric: "醫療故事", summary: "Hero / 案例 / 講座" },
+    "ecommerce-platform-redesign": { status: "平台電商", metric: "UX", summary: "首頁 → 分類 → 商品 → 結帳" },
     "ai-tech-quest": { status: "可試玩 Demo", metric: "5 個任務", summary: "文件問答 → 模型分類 → 店家助手" },
     "interactive-quiz": { status: "測驗頁", metric: "RWD", summary: "題目 → 作答 → 解析 → 結果" },
     "ai-business-assistant": { status: "店家助手", metric: "FAQ", summary: "FAQ → matching → 自動回覆" },
@@ -210,6 +212,13 @@ const conversionProfiles = {
     scenario: "網站上線後持續看成效",
     next: "先定義要追蹤的按鈕與頁面",
   },
+  "ecommerce-platform-redesign": {
+    audience: ["MeepShop 店家", "Shopify 店家", "WooCommerce 店家", "已有平台但想改善視覺與轉換的品牌"],
+    custom: ["首頁版型", "商品分類", "手機購物動線", "Banner 版位", "活動頁會員入口", "GA / Search Console"],
+    problems: ["平台套版缺少品牌感", "商品分類不好找", "手機加入購物車與結帳路徑太長"],
+    scenario: "不換平台 先把前台視覺與購物動線整理好",
+    next: "先盤點平台可改範圍與主打商品",
+  },
 }
 
 const defaultConversionProfile = {
@@ -233,6 +242,7 @@ const workBusinessValues = {
   "api-automation": "表單送出後 自動進 API、通知與後台",
   "project-planner": "用診斷工具分類需求",
   "analytics-dashboard": "瀏覽、搜尋曝光、點擊、表單與月報集中管理",
+  "ecommerce-platform-redesign": "MeepShop、Shopify、WooCommerce 店家的首頁、分類、手機購物與活動追蹤優化",
   "qingyu-web": "服務、作品、工具與聯絡流程",
   xinjiang: "把工程網站的估價入口接到案件管理流程",
 }
@@ -252,6 +262,7 @@ const conciseWorkValues = {
   "website-rescue": "點選改善項目 查看網站狀態變化",
   "linebot-mission": "模擬 LINE 接待與後台同步",
   "analytics-dashboard": "今日瀏覽、Google 曝光、CTA 點擊與每月報告",
+  "ecommerce-platform-redesign": "首頁版型、商品分類、手機購物、Banner 與成效追蹤",
   "qingyu-web": "展示主站、作品、工具與聯絡流程",
   xinjiang: "工程網站如何串到 BuildFlow 後台",
 }
@@ -298,6 +309,7 @@ export function WorksPage() {
   }
   const projectBySlug = Object.fromEntries(projects.map((project) => [project.slug, project]))
   const primaryProducts = [
+    projectBySlug["ecommerce-platform-redesign"],
     projectBySlug["biomed-brand-site"],
     projectBySlug.buildflow,
     projectBySlug["analytics-dashboard"],
