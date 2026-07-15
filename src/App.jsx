@@ -29,6 +29,7 @@ const WorkDetailPageXinjiang = lazy(() => import("./site/WorkDetailPageXinjiang"
 const WorkDetailPageWholesale = lazy(() => import("./site/WorkDetailPageWholesale"))
 const WorkDetailPageRag = lazy(() => import("./site/WorkDetailPageRag"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
+const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
 
 function PageFallback() {
   return (
@@ -58,6 +59,7 @@ function App() {
         <Route path="/works/wholesale-ordering" element={<WorkDetailPageWholesale />} />
         <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/analytics-dashboard" element={<WorkDetailPageAnalytics />} />
+        <Route path="/works/beauty-shopline-preview" element={<BeautyShoplinePreview />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />

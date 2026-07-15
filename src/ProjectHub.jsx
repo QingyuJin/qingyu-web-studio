@@ -5,6 +5,22 @@ import SiteLayout from "./site/SiteLayout"
 
 const works = [
   {
+    title: "美容保養品牌＋電商＋美容服務／培訓",
+    type: "品牌提案預覽",
+    group: "proposal",
+    industry: "品牌 / 官網",
+    problemGroup: "官網與曝光",
+    problem: "品牌同時有商品、美容服務與培訓內容，需要在同一個首頁建立清楚層次與高級感",
+    solution: "精品品牌視覺、商品選購、服務預約、培訓介紹與手機購物流程的前端提案",
+    price: "提案展示",
+    priceGroup: "需求估價",
+    duration: "依正式內容估時",
+    tags: ["品牌電商", "美容服務", "SHOPLINE 前期提案"],
+    primary: ["查看提案", "/works/beauty-shopline-preview"],
+    secondary: ["詢問類似網站", "/contact?case=美容保養品牌電商提案"],
+    visual: "beauty",
+  },
+  {
     title: "平台電商 / Shopify / MeepShop 建置與視覺優化",
     type: "平台電商",
     group: "product",
@@ -402,6 +418,7 @@ function WorkVisual({ visual, title }) {
     build: "/project-photos/335950_0.jpg",
     analytics: "/demo-covers/analytics-dashboard.svg",
     platformCommerce: "/demo-covers/platform-commerce.svg",
+    beauty: "/beauty-preview/serum-ritual.jpg",
   }
 
   const src = images[visual]
