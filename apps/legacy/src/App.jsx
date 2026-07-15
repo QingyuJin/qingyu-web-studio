@@ -4,12 +4,24 @@ import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
 const StudioHome = lazy(() => import("./StudioHome"))
-const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
-const WorkDetailPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorkDetailPage })))
-const ServicesPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ServicesPage })))
-const PricingPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.PricingPage })))
-const FreeAuditPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.FreeAuditPage })))
-const ContactPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ContactPage })))
+const WorksPage = lazy(() =>
+  import("./site/Pages").then((module) => ({ default: module.WorksPage }))
+)
+const WorkDetailPage = lazy(() =>
+  import("./site/Pages").then((module) => ({ default: module.WorkDetailPage }))
+)
+const ServicesPage = lazy(() =>
+  import("./site/Pages").then((module) => ({ default: module.ServicesPage }))
+)
+const PricingPage = lazy(() =>
+  import("./site/Pages").then((module) => ({ default: module.PricingPage }))
+)
+const FreeAuditPage = lazy(() =>
+  import("./site/Pages").then((module) => ({ default: module.FreeAuditPage }))
+)
+const ContactPage = lazy(() =>
+  import("./site/Pages").then((module) => ({ default: module.ContactPage }))
+)
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const AiTransformation = lazy(() => import("./site/AiTransformation"))
 const ProductPage = lazy(() => import("./site/ProductPage"))
@@ -29,6 +41,7 @@ const WorkDetailPageXinjiang = lazy(() => import("./site/WorkDetailPageXinjiang"
 const WorkDetailPageWholesale = lazy(() => import("./site/WorkDetailPageWholesale"))
 const WorkDetailPageRag = lazy(() => import("./site/WorkDetailPageRag"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
+const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
 
 function PageFallback() {
   return (
@@ -49,7 +62,10 @@ function App() {
         <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />
         <Route path="/works/product-landing-page" element={<ProductLandingPage />} />
         <Route path="/works/company-landing" element={<ProductPage slug="company-landing" />} />
-        <Route path="/works/ecommerce-ordering" element={<ProductPage slug="ecommerce-ordering" />} />
+        <Route
+          path="/works/ecommerce-ordering"
+          element={<ProductPage slug="ecommerce-ordering" />}
+        />
         <Route path="/works/assessment-system" element={<ProductPage slug="assessment-system" />} />
         <Route path="/works/line-bot" element={<ProductPage slug="line-bot" />} />
         <Route path="/works/crm-admin" element={<ProductPage slug="crm-admin" />} />
@@ -58,6 +74,7 @@ function App() {
         <Route path="/works/wholesale-ordering" element={<WorkDetailPageWholesale />} />
         <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/analytics-dashboard" element={<WorkDetailPageAnalytics />} />
+        <Route path="/works/beauty-shopline-preview" element={<BeautyShoplinePreview />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />

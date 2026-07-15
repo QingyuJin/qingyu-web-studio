@@ -1,0 +1,50 @@
+name: Platform v2 CI
+
+on:
+  pull_request:
+  push:
+    branches: [platform-v2-foundation]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  application:
+    name: Lint, typecheck, test, build
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm lint
+      - run: pnpm typecheck
+      - run: pnpm test
+      - run: pnpm build
+
+  database:
+    name: Migration validation and RLS tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v5
+      - uses: supabase/setup-cli@v2
+        with:
+          version: 2.84.2
+          github-token: ${{ github.token }}
+      - name: Start isolated Supabase services
+        run: supabase start -x studio,imgproxy,edge-runtime,logflare,vector
+      - name: Rebuild an empty database from migrations
+        run: supabase db reset --local
+      - name: Lint database schema
+        run: supabase db lint --local --level error
+      - name: Run pgTAP RLS isolation suite
+        run: supabase test db

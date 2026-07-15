@@ -5,12 +5,29 @@ import SiteLayout from "./site/SiteLayout"
 
 const works = [
   {
+    title: "美容保養品牌＋電商＋美容服務／培訓",
+    type: "品牌提案預覽",
+    group: "proposal",
+    industry: "品牌 / 官網",
+    problemGroup: "官網與曝光",
+    problem: "品牌同時有商品、美容服務與培訓內容，需要在同一個首頁建立清楚層次與高級感",
+    solution: "精品品牌視覺、商品選購、服務預約、培訓介紹與手機購物流程的前端提案",
+    price: "提案展示",
+    priceGroup: "需求估價",
+    duration: "依正式內容估時",
+    tags: ["品牌電商", "美容服務", "SHOPLINE 前期提案"],
+    primary: ["查看提案", "/works/beauty-shopline-preview"],
+    secondary: ["詢問類似網站", "/contact?case=美容保養品牌電商提案"],
+    visual: "beauty",
+  },
+  {
     title: "平台電商 / Shopify / MeepShop 建置與視覺優化",
     type: "平台電商",
     group: "product",
     industry: "零售 / 批發",
     problemGroup: "官網與曝光",
-    problem: "Shopify、MeepShop、WooCommerce、QDM 店家有商品 但整間店的分類、首頁與手機購物動線還像套版",
+    problem:
+      "Shopify、MeepShop、WooCommerce、QDM 店家有商品 但整間店的分類、首頁與手機購物動線還像套版",
     solution: "依平台可調整範圍整理首頁、商品分類、商品頁、手機購物、基本 SEO 與成效追蹤",
     price: "12,000 元起",
     priceGroup: "6,000–15,000 元",
@@ -248,7 +265,9 @@ function ProjectHub() {
     })
   }, [filterIndustry, filterProblem, filterBudget])
 
-  const activeCount = [filterIndustry, filterProblem, filterBudget].filter((f) => f !== "全部").length
+  const activeCount = [filterIndustry, filterProblem, filterBudget].filter(
+    (f) => f !== "全部"
+  ).length
 
   return (
     <SiteLayout>
@@ -261,7 +280,9 @@ function ProjectHub() {
       />
       <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
         <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">Works Catalog</p>
+          <p className="text-xs font-black uppercase tracking-[0.22em] text-[#0d6b62]">
+            Works Catalog
+          </p>
           <h1 className="mt-4 max-w-4xl font-['Noto_Serif_TC',serif] text-[clamp(2rem,6vw,4rem)] font-black leading-[1.12] text-[#111c22]">
             從品牌網站到接單、後台與 AI 系統
           </h1>
@@ -274,19 +295,40 @@ function ProjectHub() {
       <section className="sticky top-0 z-20 border-b border-[#e6e0d5] bg-white/92 backdrop-blur-md">
         <div className="mx-auto max-w-6xl px-4 py-4">
           <div className="flex flex-wrap items-center gap-4">
-            <FilterGroup label="產業" options={industryOptions} value={filterIndustry} onChange={setFilterIndustry} />
-            <FilterGroup label="想解決的問題" options={problemOptions} value={filterProblem} onChange={setFilterProblem} />
-            <FilterGroup label="預算" options={budgetOptions} value={filterBudget} onChange={setFilterBudget} />
+            <FilterGroup
+              label="產業"
+              options={industryOptions}
+              value={filterIndustry}
+              onChange={setFilterIndustry}
+            />
+            <FilterGroup
+              label="想解決的問題"
+              options={problemOptions}
+              value={filterProblem}
+              onChange={setFilterProblem}
+            />
+            <FilterGroup
+              label="預算"
+              options={budgetOptions}
+              value={filterBudget}
+              onChange={setFilterBudget}
+            />
             {activeCount > 0 ? (
               <button
                 type="button"
-                onClick={() => { setFilterIndustry("全部"); setFilterProblem("全部"); setFilterBudget("全部") }}
+                onClick={() => {
+                  setFilterIndustry("全部")
+                  setFilterProblem("全部")
+                  setFilterBudget("全部")
+                }}
                 className="rounded-full border border-[#0d6b62] px-3 py-1.5 text-[11px] font-black text-[#0d6b62] transition hover:bg-[#eef7f4]"
               >
                 清除全部
               </button>
             ) : null}
-            <span className="ml-auto text-xs font-bold text-[#8a938f]">共 {filtered.length} 件作品</span>
+            <span className="ml-auto text-xs font-bold text-[#8a938f]">
+              共 {filtered.length} 件作品
+            </span>
           </div>
         </div>
       </section>
@@ -299,7 +341,11 @@ function ProjectHub() {
               <p className="mt-2 text-sm font-bold text-[#8a938f]">試著放寬篩選條件看看</p>
               <button
                 type="button"
-                onClick={() => { setFilterIndustry("全部"); setFilterProblem("全部"); setFilterBudget("全部") }}
+                onClick={() => {
+                  setFilterIndustry("全部")
+                  setFilterProblem("全部")
+                  setFilterBudget("全部")
+                }}
                 className="mt-5 rounded-lg bg-[#111c22] px-5 py-2.5 text-sm font-black text-white"
               >
                 清除篩選
@@ -344,17 +390,25 @@ function FilterGroup({ label, options, value, onChange }) {
 
 function WorkCard({ work, featured = false }) {
   return (
-    <article className={`group overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20 ${featured ? "lg:col-span-1" : ""}`}>
+    <article
+      className={`group overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20 ${featured ? "lg:col-span-1" : ""}`}
+    >
       <div className="p-4">
         <WorkVisual visual={work.visual} title={work.title} />
       </div>
       <div className="px-5 pb-5">
         <div className="flex items-start justify-between gap-3">
           <div>
-            <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">{work.type}</span>
-            <h3 className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight text-[#111c22]">{work.title}</h3>
+            <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">
+              {work.type}
+            </span>
+            <h3 className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight text-[#111c22]">
+              {work.title}
+            </h3>
           </div>
-          <span className="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#5f6b67] ring-1 ring-[#e3ded3]">{work.price}</span>
+          <span className="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#5f6b67] ring-1 ring-[#e3ded3]">
+            {work.price}
+          </span>
         </div>
 
         <div className="mt-4 grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
@@ -365,17 +419,26 @@ function WorkCard({ work, featured = false }) {
 
         <div className="mt-4 flex flex-wrap gap-1.5">
           {work.tags.slice(0, 3).map((tag) => (
-            <span key={tag} className="rounded-md bg-white px-2 py-1 text-[11px] font-black text-[#66716d] ring-1 ring-[#e3ded3]">
+            <span
+              key={tag}
+              className="rounded-md bg-white px-2 py-1 text-[11px] font-black text-[#66716d] ring-1 ring-[#e3ded3]"
+            >
               {tag}
             </span>
           ))}
         </div>
 
         <div className="mt-5 flex flex-wrap gap-2">
-          <SmartLink to={work.primary[1]} className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition group-hover:bg-[#0d6b62]">
+          <SmartLink
+            to={work.primary[1]}
+            className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition group-hover:bg-[#0d6b62]"
+          >
             {work.primary[0]}
           </SmartLink>
-          <SmartLink to={work.secondary[1]} className="hidden min-h-10 items-center rounded-lg border border-[#d5ded9] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex">
+          <SmartLink
+            to={work.secondary[1]}
+            className="hidden min-h-10 items-center rounded-lg border border-[#d5ded9] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex"
+          >
             {work.secondary[0]}
           </SmartLink>
         </div>
@@ -402,6 +465,7 @@ function WorkVisual({ visual, title }) {
     build: "/project-photos/335950_0.jpg",
     analytics: "/demo-covers/analytics-dashboard.svg",
     platformCommerce: "/demo-covers/platform-commerce.svg",
+    beauty: "/beauty-preview/serum-ritual.jpg",
   }
 
   const src = images[visual]
