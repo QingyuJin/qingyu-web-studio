@@ -1,0 +1,5 @@
+.vercel
+
+# Emitted by `tsc -b` for the composite node config
+vite.config.js
+vite.config.d.ts
