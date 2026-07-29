@@ -5,9 +5,9 @@ import reactRefresh from "eslint-plugin-react-refresh"
 import { defineConfig, globalIgnores } from "eslint/config"
 
 export default defineConfig([
-  globalIgnores(["dist", "**/dist/**", "rag-engine/**"]),
+  globalIgnores(["dist", "**/dist/**", ".vercel/**", "rag-engine/**"]),
   {
-    files: ["**/*.{js,jsx}"],
+    files: ["**/*.{js,jsx}", "src/beauty-shopline/**/*.{ts,tsx}"],
     extends: [
       js.configs.recommended,
       reactHooks.configs.flat.recommended,

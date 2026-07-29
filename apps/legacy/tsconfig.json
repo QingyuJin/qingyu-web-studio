@@ -1,6 +1,12 @@
 {
-  "extends": "../../tsconfig.base.json",
   "compilerOptions": {
+    "target": "ES2022",
+    "lib": ["ES2022", "DOM", "DOM.Iterable"],
+    "isolatedModules": true,
+    "esModuleInterop": true,
+    "forceConsistentCasingInFileNames": true,
+    "skipLibCheck": true,
+    "resolveJsonModule": true,
     "allowJs": true,
     "checkJs": false,
     "strict": false,
@@ -13,5 +19,12 @@
     "jsx": "react-jsx",
     "noEmit": true
   },
-  "include": ["src/**/*.js", "src/**/*.jsx", "api/**/*.js", "vite.config.js"]
+  "include": [
+    "src/**/*.js",
+    "src/**/*.jsx",
+    "src/**/*.ts",
+    "src/**/*.tsx",
+    "api/**/*.js",
+    "vite.config.js"
+  ]
 }

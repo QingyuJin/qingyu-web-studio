@@ -1,5 +1,71 @@
 # Qingyu Web Studio
 
+## LULUFACE 客戶確認版
+
+- 預覽路由：`/works/beauty-shopline-preview`
+- 頁面元件：`src/beauty-shopline/BeautyShoplinePreview.tsx`
+- 內頁元件：`src/beauty-shopline/BeautyShoplineContentPages.tsx`
+- 集中文案、商品、服務、評論、聯絡資料與外部連結：`src/beauty-shopline/beautyShoplineData.ts`
+- 頁面設計系統：`src/beauty-shopline/beauty-shopline-preview.css`
+- 原始素材（唯讀保留）：`public/beauty-preview/client-originals/`
+- 壓縮後網站圖：`public/beauty-preview/optimized/`
+- 素材盤點與來源：`../../docs/beauty-shopline-preview-assets.md`
+
+客戶 AI／PDF 原始檔會保留在版本庫，但透過 `.vercelignore` 排除於公開部署；線上網站只載入正式 Logo 衍生圖與壓縮後的網站圖片。
+
+視覺實作以客戶《網站企劃》為唯一規範：米白／暖白背景約 50–60%、莫蘭迪粉 `#D2B9B3` 約 20–30%、石墨黑 `#3E3A39` 約 5–10%、咖啡輔色控制在 0–5%；英文使用 Bodoni Moda，中文標題使用 Noto Serif TC（思源宋體網頁替代），內文使用 Noto Sans TC。版面維持洗練、穩定、大留白與低干擾線條，不使用滿版桃紅、金色堆疊或促銷貼紙語彙。
+
+尚未取得的 SHOPLINE 商店、商品集合、EZ Pretty 與加盟表單網址，全都集中在 `siteConfig.pendingLinks`，未在元件內散落假連結。顧客回饋目前明確標為示意版位；正式上線前需換成經授權資料。
+
+目前首頁亦包含到店流程、預約 FAQ、區塊定位與導覽狀態提示。商品彈窗只呈現已確認資料，未核准的售價、成分、用法與注意事項統一列為待補；彈窗支援 Escape、Tab 焦點循環及關閉後焦點還原。
+
+### LULUFACE 已完成路由
+
+- `/works/beauty-shopline-preview`：完整首頁
+- `/works/beauty-shopline-preview/brand`：品牌故事與品牌價值
+- `/works/beauty-shopline-preview/services`：服務總覽、三種服務模板與到店流程
+- `/works/beauty-shopline-preview/products`：商品總覽
+- `/works/beauty-shopline-preview/products/:productId`：SHOPLINE 可移植商品詳情模板
+- `/works/beauty-shopline-preview/cases`：美容案例版型與授權資料提示
+- `/works/beauty-shopline-preview/training`：技術培訓、創業培訓與加盟合作
+- `/works/beauty-shopline-preview/equipment`：設備與專業流程資料頁
+- `/works/beauty-shopline-preview/faq`：常見問題
+- `/works/beauty-shopline-preview/contact`：門市、電話、LINE、地圖與社群
+- `/works/beauty-shopline-preview/policies`：隱私、付款配送與退換貨待核定草稿
+
+所有內頁共用同一組導覽、頁尾、品牌設計 token、聯絡設定與 SEO 元件。尚未取得的價格、成分、服務時間、設備型號、真實案例、評論、課程與加盟條件均清楚標為待確認；預覽站不收集個資、不開放付款，也不以示意內容作為交易承諾。
+
+### LULUFACE SEO 與追蹤切換
+
+預覽部署預設輸出 `noindex, nofollow, noarchive`，避免客戶確認站被搜尋引擎提早收錄。正式網域、正式政策與內容都核定後，才在 Vercel 設定以下環境變數：
+
+```env
+VITE_LULUFACE_SITE_URL=https://正式網域
+VITE_LULUFACE_ALLOW_INDEXING=true
+VITE_LULUFACE_ANALYTICS_ENABLED=false
+VITE_LULUFACE_GA4_ID=
+```
+
+網站會依頁面輸出 canonical、Open Graph、Twitter Card，以及 BeautySalon、BreadcrumbList、FAQPage 與不含假價格的 Product 結構化資料。GA4 預留預設關閉；取得客戶追蹤帳號並核定隱私政策後，再同時填入 Measurement ID 並將追蹤開關設為 `true`。不存在的頁面與商品永遠維持 noindex。
+
+本機執行與驗證：
+
+```bash
+npm install
+npm run dev
+npm run lint
+npm run typecheck
+npm run build
+```
+
+Vercel 預覽部署（在 `apps/legacy` 執行）：
+
+```bash
+vercel
+```
+
+`vercel.json` 已設定 SPA rewrite，可直接開啟上述深層路由。第一次部署依 CLI 指示綁定或建立 Vercel 專案；確認版使用 Preview Deployment，不加 `--prod`。
+
 ## AI / LINE Bot Demo API
 
 本專案的 AI 與 LINE Bot 展示使用 Vercel Serverless Functions，前端只呼叫自己的 `/api/*`，不會把 API key 放進前端 bundle。

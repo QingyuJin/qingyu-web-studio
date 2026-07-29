@@ -74,7 +74,7 @@ function App() {
         <Route path="/works/wholesale-ordering" element={<WorkDetailPageWholesale />} />
         <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/analytics-dashboard" element={<WorkDetailPageAnalytics />} />
-        <Route path="/works/beauty-shopline-preview" element={<BeautyShoplinePreview />} />
+        <Route path="/works/beauty-shopline-preview/*" element={<BeautyShoplinePreview />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />

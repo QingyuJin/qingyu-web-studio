@@ -1,0 +1,10 @@
+# Client source files stay in the repository but are not public website assets.
+public/beauty-preview/client-originals/
+
+# Internal collection and standalone legacy app are not imported by this Vite build.
+collected-images/
+xinjiang-website/
+
+# Local build/cache output is recreated by Vercel.
+dist/
+node_modules/
