@@ -1,0 +1,5 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="LULUFACE">
+  <rect width="64" height="64" rx="16" fill="#fbf8f3"/>
+  <rect x="3" y="3" width="58" height="58" rx="13" fill="none" stroke="#d2b9b3" stroke-width="2"/>
+  <text x="32" y="39" fill="#3e3a39" font-family="Georgia, serif" font-size="25" letter-spacing="-2" text-anchor="middle">LF</text>
+</svg>

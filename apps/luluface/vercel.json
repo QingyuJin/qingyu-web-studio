@@ -1,0 +1,50 @@
+{
+  "cleanUrls": true,
+  "rewrites": [
+    { "source": "/brand", "destination": "/brand/index.html" },
+    { "source": "/services", "destination": "/services/index.html" },
+    { "source": "/products", "destination": "/products/index.html" },
+    {
+      "source": "/products/blue-copper-peptide",
+      "destination": "/products/blue-copper-peptide/index.html"
+    },
+    {
+      "source": "/products/exosome-barrier-mask",
+      "destination": "/products/exosome-barrier-mask/index.html"
+    },
+    { "source": "/cases", "destination": "/cases/index.html" },
+    { "source": "/training", "destination": "/training/index.html" },
+    { "source": "/equipment", "destination": "/equipment/index.html" },
+    { "source": "/faq", "destination": "/faq/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/policies", "destination": "/policies/index.html" }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+        },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: https://www.google-analytics.com; connect-src 'self' https://www.google-analytics.com https://*.google-analytics.com; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/beauty-preview/(.*)",
+      "headers": [
+        { "key": "Cache-Control", "value": "public, max-age=3600, stale-while-revalidate=86400" }
+      ]
+    }
+  ]
+}
