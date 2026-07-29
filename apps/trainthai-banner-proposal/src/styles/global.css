@@ -7,9 +7,17 @@
   --ink: #171717;
   --muted: #68645f;
   --paper: #f4f3f0;
-  /* The step between the black header and the white body copy. The client asked
-     for this grey specifically; it is what stops the page reading as a sandwich. */
+  /* 黑 → 灰 → 黑. The client's site ran black header, white copy, black footer,
+     and the white kept getting squeezed between the two blacks until the page
+     felt closed in. Replacing that white with grey removes the hard collision.
+     The grey was asked for by name, so the banner works in greys and ink only —
+     any white block put back on top of it just reinstates the problem. */
   --field: #d9d5ce;
+  --field-deep: #c8c4bc;
+  --field-soft: #e6e3dd;
+  /* The body copy sits on this rather than pure white, so the page reads
+     黑 → 灰 → 黑 instead of slamming black straight into white. */
+  --field-pale: #edebe7;
   --copper: #a66f45;
   /* Three weights of rule, so borders read as a system instead of noise. */
   --line: #cfcabf;
@@ -257,7 +265,7 @@ img {
 .main-preview {
   overflow: hidden;
   border: 1px solid var(--line-soft);
-  background: #fff;
+  background: var(--field-pale);
 }
 
 .main-preview--mobile {
@@ -268,7 +276,7 @@ img {
 .page-preview {
   width: 100%;
   color: #171717;
-  background: #fff;
+  background: var(--field-pale);
 }
 
 .client-header {
@@ -454,120 +462,104 @@ img {
   pointer-events: none;
 }
 
-/* A — 階: a paper plate on the grey, with the photograph matted inside it. Two
-   steps of value in one band, and the mat is the breathing room. */
-.direction-a .banner-plate {
+/* Every block below is grey or ink. Nothing here is white: the whole point of
+   the grey is to keep the page off the black-versus-white collision, and a white
+   card dropped on top would put that collision straight back. */
+
+.banner-figure {
   position: absolute;
-  top: 13%;
+  z-index: 1;
+  overflow: hidden;
+}
+
+/* A — 墨題: a solid ink panel carries the title in reverse, the photograph holds
+   the grey beside it. Ink and grey meet edge to edge, no transition. */
+.direction-a .banner-ink {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  width: 47%;
+  background: var(--ink);
+}
+
+.direction-a .banner-figure {
+  top: 0;
   right: 0;
-  bottom: 13%;
-  width: 44%;
-  padding: 22px;
-  background: var(--paper);
+  bottom: 0;
+  width: 41%;
 }
 
-.direction-a .banner-plate__frame {
-  height: 100%;
-  overflow: hidden;
+.direction-a .subpage-banner__title h2 {
+  color: #f6f4f0;
 }
 
-/* B — 浮: one sheet of paper, inset from the grey on three sides and running off
-   the bottom so its white becomes the white of the body copy. The grey is left
-   as a collar rather than a lid, which is what takes the weight off the page. */
-.subpage-banner.direction-b {
-  align-items: stretch;
-  overflow: visible;
+.direction-a .subpage-banner__title span {
+  color: #c08a5e;
 }
 
-.direction-b .banner-sheet {
-  position: relative;
-  z-index: 2;
-  width: min(1160px, calc(100% - 64px));
-  margin: 46px auto -58px;
-  background: #fff;
+/* B — 嵌塊: the photograph set as an exact block with a wide grey margin all
+   round, right edge landing on the same gutter as the body copy. The margin is
+   the design; the ink bar above the title anchors the left. */
+.direction-b .banner-figure {
+  top: 17%;
+  right: max(32px, calc((100% - 1160px) / 2));
+  bottom: 17%;
+  width: 33%;
 }
 
-.direction-b .banner-sheet__inner {
-  display: grid;
-  height: 100%;
-  padding: 40px 44px;
-  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
-  align-items: center;
-  gap: 44px;
+.direction-b .subpage-banner__title::before {
+  display: block;
+  width: 46px;
+  height: 5px;
+  margin-bottom: 26px;
+  content: "";
+  background: var(--ink);
 }
 
-.direction-b .banner-sheet__frame {
-  height: 74%;
-  overflow: hidden;
-}
-
-/* C — 欄: a measured grid where one block is deliberately left empty. The void
-   is structural, not left over. */
-.direction-c .banner-grid {
-  display: grid;
-  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 0.62fr);
-  align-items: stretch;
-  gap: 26px;
-}
-
-.direction-c .subpage-banner__title {
-  align-self: center;
-}
-
-.direction-c .banner-grid__frame {
-  height: 62%;
-  align-self: center;
-  overflow: hidden;
-}
-
-.direction-c .banner-grid__void {
-  align-self: center;
-  height: 62%;
-  background: var(--paper);
-}
-
-/* D — 階調: the descent to white drawn out as three hard bands. The black comes
-   from the header directly above, so the banner starts at grey and steps down —
-   putting a dark band here instead would fuse with the header into one heavier
-   mass, which is the problem this whole design exists to solve. No soft gradient;
-   hard edges keep it architectural rather than decorative. */
-.subpage-banner.direction-d {
+/* C — 雙階: two greys divided on a hard horizontal line, with the photograph
+   standing across the join so it stitches the two together. */
+.subpage-banner.direction-c {
   background: linear-gradient(
     to bottom,
-    #d3cfc7 0 40%,
-    #e2ded7 40% 73%,
-    var(--paper) 73% 100%
+    var(--field) 0 64%,
+    var(--field-soft) 64% 100%
   );
 }
 
-.direction-d .banner-column {
-  position: absolute;
-  top: 0;
+/* Lift the title clear of the join — straddling it reads as an accident. */
+.direction-c .subpage-banner__title {
+  padding-bottom: 13%;
+}
+
+.direction-c .banner-figure {
+  top: 21%;
   right: max(32px, calc((100% - 1160px) / 2));
-  bottom: 0;
-  width: 26%;
+  bottom: 21%;
+  width: 31%;
 }
 
-.direction-d .banner-column .banner-plate__frame {
-  height: 100%;
-  overflow: hidden;
+/* D — 錯位: a deeper grey slab with the photograph offset across it, so the two
+   blocks overlap instead of sitting side by side. Depth without a shadow. */
+.direction-d .banner-slab {
+  position: absolute;
+  top: 12%;
+  right: 0;
+  bottom: 30%;
+  left: 54%;
+  background: var(--field-deep);
 }
 
-/* The title sits on the first step, not straddling the join below it. */
-.direction-d .subpage-banner__title {
-  padding-bottom: 12%;
+.direction-d .banner-figure {
+  top: 27%;
+  right: max(32px, calc((100% - 1160px) / 2));
+  bottom: 11%;
+  width: 34%;
 }
-
 
 .page-content {
   padding: 72px 0 102px;
-  background: #fff;
-}
-
-/* Direction B's sheet hangs past the banner into this section. The extra room
-   keeps it clear of the body copy; the seam is invisible because both are white. */
-.page-preview:has(.direction-b) .page-content {
-  padding-top: 104px;
+  background: var(--field-pale);
 }
 
 .page-content__inner {
@@ -651,7 +643,8 @@ img {
 .page-preview.mode-mobile .subpage-banner {
   aspect-ratio: auto;
   min-height: 0;
-  padding: 26px 0 30px;
+  display: block;
+  padding: 30px 0 32px;
 }
 
 .page-preview.mode-mobile .banner-photo--desktop {
@@ -681,74 +674,46 @@ img {
   line-height: 1.45;
 }
 
-.page-preview.mode-mobile .direction-a .banner-plate {
+.page-preview.mode-mobile .banner-figure {
   position: static;
   width: auto;
-  margin: 24px 23px 0;
-  padding: 14px;
+  height: 148px;
+  margin: 26px 23px 0;
 }
 
-.page-preview.mode-mobile .direction-a .banner-plate__frame {
+/* A keeps its ink panel, but as a band the title sits on rather than a column. */
+.page-preview.mode-mobile .direction-a .banner-ink {
+  right: 0;
+  bottom: auto;
+  width: auto;
   height: 132px;
 }
 
-.page-preview.mode-mobile .subpage-banner.direction-b {
-  padding: 0;
+.page-preview.mode-mobile .direction-a .banner-figure {
+  margin-top: 30px;
 }
 
-.page-preview.mode-mobile .direction-b .banner-sheet {
-  width: calc(100% - 46px);
-  margin: 26px auto -40px;
+.page-preview.mode-mobile .direction-b .subpage-banner__title::before {
+  width: 38px;
+  height: 4px;
+  margin-bottom: 20px;
 }
 
-.page-preview.mode-mobile .direction-b .banner-sheet__inner {
-  padding: 26px 22px 24px;
-  grid-template-columns: minmax(0, 1fr);
-  gap: 22px;
-}
-
-.page-preview.mode-mobile .direction-b .banner-sheet__frame {
-  height: 128px;
-}
-
-.page-preview.mode-mobile .direction-c .banner-grid {
-  grid-template-columns: minmax(0, 1fr);
-  gap: 22px;
-}
-
-.page-preview.mode-mobile .direction-c .banner-grid__frame {
-  height: 132px;
-}
-
-/* The empty block is a desktop luxury; on a phone it would just be dead space. */
-.page-preview.mode-mobile .direction-c .banner-grid__void {
-  display: none;
-}
-
-.page-preview.mode-mobile .subpage-banner.direction-d {
-  padding: 0;
+.page-preview.mode-mobile .subpage-banner.direction-c {
   background: linear-gradient(
     to bottom,
-    #d3cfc7 0 34%,
-    #e2ded7 34% 76%,
-    var(--paper) 76% 100%
+    var(--field) 0 58%,
+    var(--field-soft) 58% 100%
   );
 }
 
-.page-preview.mode-mobile .direction-d .subpage-banner__inner {
-  padding: 34px 0 30px;
+.page-preview.mode-mobile .direction-d .banner-slab {
+  top: auto;
+  right: 0;
+  bottom: 18px;
+  left: 40px;
+  height: 118px;
 }
-
-.page-preview.mode-mobile .direction-d .banner-column {
-  position: static;
-  width: auto;
-  margin-top: 24px;
-}
-
-.page-preview.mode-mobile .direction-d .banner-plate__frame {
-  height: 128px;
-}
-
 
 .page-preview.mode-mobile .page-content {
   padding: 52px 0 72px;
@@ -864,28 +829,15 @@ img {
   font-size: clamp(12px, 1.5vw, 22px);
 }
 
-.subpage-banner.is-compact.direction-a .banner-plate {
-  padding: 1.4%;
+.subpage-banner.is-compact.direction-b .subpage-banner__title::before {
+  width: 22px;
+  height: 3px;
+  margin-bottom: 9px;
 }
 
-.subpage-banner.is-compact.direction-b .banner-sheet {
-  width: calc(100% - 34px);
-  margin: 6% auto -7%;
-}
-
-.subpage-banner.is-compact.direction-b .banner-sheet__inner {
-  padding: 5% 5.5%;
-  gap: 5%;
-}
-
-.subpage-banner.is-compact.direction-c .banner-grid {
-  gap: 3%;
-}
-
-.subpage-banner.is-compact.direction-d .banner-column {
+.subpage-banner.is-compact .banner-figure {
   right: 17px;
 }
-
 
 .quick-compare__item > strong {
   display: block;
@@ -1028,9 +980,10 @@ img {
 @media (max-width: 820px) {
   /* Same stacking as the mobile preview, driven by the real viewport. */
   .page-preview .subpage-banner {
+    display: block;
     aspect-ratio: auto;
     min-height: 0;
-    padding: 26px 0 30px;
+    padding: 30px 0 32px;
   }
 
   .page-preview .banner-photo--desktop {
@@ -1041,74 +994,46 @@ img {
     display: block;
   }
 
-  .page-preview .direction-a .banner-plate {
+  .page-preview .banner-figure {
     position: static;
     width: auto;
-    margin: 24px 23px 0;
-    padding: 14px;
+    height: 148px;
+    margin: 26px 23px 0;
   }
 
-  .page-preview .direction-a .banner-plate__frame {
+  .page-preview .direction-a .banner-ink {
+    right: 0;
+    bottom: auto;
+    width: auto;
     height: 132px;
   }
 
-  .page-preview .subpage-banner.direction-b {
-    padding: 0;
+  .page-preview .direction-a .banner-figure {
+    margin-top: 30px;
   }
 
-  .page-preview .direction-b .banner-sheet {
-    width: calc(100% - 46px);
-    margin: 26px auto -40px;
+  .page-preview .direction-b .subpage-banner__title::before {
+    width: 38px;
+    height: 4px;
+    margin-bottom: 20px;
   }
 
-  .page-preview .direction-b .banner-sheet__inner {
-    padding: 26px 22px 24px;
-    grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
-  }
-
-  .page-preview .direction-b .banner-sheet__frame {
-    height: 128px;
-  }
-
-  .page-preview .direction-c .banner-grid {
-    grid-template-columns: minmax(0, 1fr);
-    gap: 22px;
-  }
-
-  .page-preview .direction-c .banner-grid__frame {
-    height: 132px;
-  }
-
-  .page-preview .direction-c .banner-grid__void {
-    display: none;
-  }
-
-  .page-preview .subpage-banner.direction-d {
-    padding: 0;
+  .page-preview .subpage-banner.direction-c {
     background: linear-gradient(
       to bottom,
-      #d3cfc7 0 34%,
-      #e2ded7 34% 76%,
-      var(--paper) 76% 100%
+      var(--field) 0 52%,
+      var(--field-soft) 52% 100%
     );
   }
 
-  .page-preview .direction-d .subpage-banner__inner {
-    padding: 34px 0 30px;
+  .page-preview .direction-d .banner-slab {
+    top: auto;
+    right: 0;
+    bottom: 18px;
+    left: 40px;
+    height: 118px;
   }
-
-  .page-preview .direction-d .banner-column {
-    position: static;
-    width: auto;
-    margin-top: 24px;
-  }
-
-  .page-preview .direction-d .banner-plate__frame {
-    height: 128px;
-  }
-}
-@media (max-width: 760px) {
+}@media (max-width: 760px) {
   .proposal-intro {
     padding: 38px 22px 34px;
   }

@@ -68,37 +68,14 @@ export function SubpageBanner({
 
   return (
     <section className={className} aria-labelledby={titleId}>
-      {/* D paints its own black-to-paper steps behind everything else. */}
-      {direction === "B" ? (
-        // The sheet runs past the bottom of the banner so its white joins the
-        // white of the body copy — the grey reads as a collar, not a lid.
-        <div className="banner-sheet">
-          <div className="banner-sheet__inner">
-            {title}
-            <div className="banner-sheet__frame">
-              <Photo page={page} />
-            </div>
-          </div>
-        </div>
-      ) : direction === "C" ? (
-        <div className="subpage-banner__inner banner-grid">
-          {title}
-          <div className="banner-grid__frame">
-            <Photo page={page} />
-          </div>
-          {/* An empty block, held open on purpose. */}
-          <div className="banner-grid__void" aria-hidden="true" />
-        </div>
-      ) : (
-        <>
-          <div className={direction === "A" ? "banner-plate" : "banner-column"}>
-            <div className="banner-plate__frame">
-              <Photo page={page} />
-            </div>
-          </div>
-          <div className="subpage-banner__inner">{title}</div>
-        </>
-      )}
+      {/* A seats the title on a solid ink panel; the title itself reverses out.
+          D lays a deeper grey slab behind the photograph to give it depth. */}
+      {direction === "A" && <div className="banner-ink" aria-hidden="true" />}
+      {direction === "D" && <div className="banner-slab" aria-hidden="true" />}
+      <div className="banner-figure">
+        <Photo page={page} />
+      </div>
+      <div className="subpage-banner__inner">{title}</div>
     </section>
   )
 }

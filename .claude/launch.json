@@ -8,6 +8,12 @@
       "port": 5173
     },
     {
+      "name": "trainthai",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev", "--prefix", "apps/trainthai-banner-proposal", "--", "--port", "4185"],
+      "port": 4185
+    },
+    {
       "name": "xinjiang",
       "runtimeExecutable": "npm",
       "runtimeArgs": ["run", "dev", "--prefix", "xinjiang-website", "--", "--port", "4174"],
