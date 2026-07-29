@@ -7,6 +7,9 @@
   --ink: #171717;
   --muted: #68645f;
   --paper: #f4f3f0;
+  /* The step between the black header and the white body copy. The client asked
+     for this grey specifically; it is what stops the page reading as a sandwich. */
+  --field: #d9d5ce;
   --copper: #a66f45;
   /* Three weights of rule, so borders read as a system instead of noise. */
   --line: #cfcabf;
@@ -378,133 +381,38 @@ img {
 
 /* --------------------------------------------------------------------------
    Subpage banner
-   The four directions are not four decorations — they are four decisions about
-   how much of the photograph is shown and how hard its edge is cut. The art is
-   always Train Thai's own material, toned to sit on paper so the page title
-   stays the darkest thing in the frame.
+
+   The client's site runs a black header and a black footer, and as the page
+   scrolls the white body copy gets squeezed between them until it feels closed
+   in. More photograph does not fix that — half-bleed and full-bleed were both
+   tried and both still press down. What relieves it is a step in value and room
+   to breathe, so the banner is a grey field carrying composed blocks with real
+   space around them: black header, grey banner, white copy.
+
+   The four directions differ in how those blocks are arranged, not in how the
+   photograph is cropped.
    -------------------------------------------------------------------------- */
 
 .subpage-banner {
   position: relative;
-  aspect-ratio: 1920 / 400;
-  min-height: 232px;
-  overflow: hidden;
-  border-bottom: 1px solid #e6e3dc;
-  background: var(--paper);
-}
-
-.subpage-banner__frame {
-  position: absolute;
-  top: 0;
-  right: 0;
-  bottom: 0;
-  overflow: hidden;
-  pointer-events: none;
-}
-
-.subpage-banner__art {
-  width: 100%;
-  height: 100%;
-  max-width: none;
-  object-fit: cover;
-  object-position: var(--banner-focus, 50% 50%);
-}
-
-.subpage-banner__art--mobile {
-  display: none;
-}
-
-.subpage-banner__art--original {
-  position: absolute;
-  inset: 0;
-  height: 100%;
-  object-position: center;
-  pointer-events: none;
-}
-
-/* A — 溶接: the photograph dissolves into the paper. No edge at all. */
-.direction-a .subpage-banner__frame {
-  width: 46%;
-  -webkit-mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0, 0, 0, 0.5) 30%,
-    #000 66%
-  );
-  mask-image: linear-gradient(
-    to right,
-    transparent 0%,
-    rgba(0, 0, 0, 0.5) 30%,
-    #000 66%
-  );
-}
-
-/* B — 面板: an exact rectangle floating in paper, its right edge landing on the
-   same gutter as the body copy below. */
-.direction-b .subpage-banner__frame {
-  top: 11.5%;
-  right: max(32px, calc((100% - 1160px) / 2));
-  bottom: 11.5%;
-  width: 33%;
-}
-
-/* C — 對開: half the page, cut straight down, one hairline on the split. */
-.direction-c .subpage-banner__frame {
-  width: 47%;
-}
-
-.direction-c .subpage-banner__frame::after {
-  position: absolute;
-  z-index: 1;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  width: 1px;
-  content: "";
-  background: var(--copper);
-  opacity: 0.55;
-}
-
-/* D — 留白: almost nothing. A trace of material and a single datum line. */
-.direction-d .subpage-banner__frame {
-  width: 23%;
-  opacity: 0.62;
-  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000 52%);
-  mask-image: linear-gradient(to right, transparent 0%, #000 52%);
+  display: flex;
+  align-items: center;
+  min-height: 268px;
+  aspect-ratio: 1920 / 440;
+  background: var(--field);
 }
 
 .subpage-banner__inner {
   position: relative;
   z-index: 2;
   width: min(1160px, calc(100% - 64px));
-  height: 100%;
   margin-inline: auto;
-}
-
-.subpage-banner__title {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  width: 30%;
-  min-width: 270px;
-  transform: translateY(-50%);
-}
-
-.direction-d .subpage-banner__inner::after {
-  position: absolute;
-  top: 72%;
-  right: 0;
-  left: 0;
-  height: 1px;
-  content: "";
-  background: var(--copper);
-  opacity: 0.32;
 }
 
 .subpage-banner__title span {
   display: block;
   color: #8c5c38;
-  font-family: "Segoe UI", Arial, sans-serif;
+  font-family: var(--label);
   font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.24em;
@@ -521,14 +429,145 @@ img {
 .subpage-banner__title h2 {
   margin: 0;
   color: var(--ink);
-  font-size: clamp(27px, 2.45vw, 38px);
+  font-size: clamp(26px, 2.4vw, 37px);
   font-weight: 600;
   letter-spacing: 0.05em;
 }
 
+.banner-photo {
+  width: 100%;
+  height: 100%;
+  max-width: none;
+  object-fit: cover;
+  object-position: var(--banner-focus, 50% 50%);
+}
+
+.banner-photo--mobile {
+  display: none;
+}
+
+.banner-photo--original {
+  position: absolute;
+  inset: 0;
+  height: 100%;
+  object-position: center;
+  pointer-events: none;
+}
+
+/* A — 階: a paper plate on the grey, with the photograph matted inside it. Two
+   steps of value in one band, and the mat is the breathing room. */
+.direction-a .banner-plate {
+  position: absolute;
+  top: 13%;
+  right: 0;
+  bottom: 13%;
+  width: 44%;
+  padding: 22px;
+  background: var(--paper);
+}
+
+.direction-a .banner-plate__frame {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* B — 浮: one sheet of paper, inset from the grey on three sides and running off
+   the bottom so its white becomes the white of the body copy. The grey is left
+   as a collar rather than a lid, which is what takes the weight off the page. */
+.subpage-banner.direction-b {
+  align-items: stretch;
+  overflow: visible;
+}
+
+.direction-b .banner-sheet {
+  position: relative;
+  z-index: 2;
+  width: min(1160px, calc(100% - 64px));
+  margin: 46px auto -58px;
+  background: #fff;
+}
+
+.direction-b .banner-sheet__inner {
+  display: grid;
+  height: 100%;
+  padding: 40px 44px;
+  grid-template-columns: minmax(0, 1fr) minmax(0, 0.72fr);
+  align-items: center;
+  gap: 44px;
+}
+
+.direction-b .banner-sheet__frame {
+  height: 74%;
+  overflow: hidden;
+}
+
+/* C — 欄: a measured grid where one block is deliberately left empty. The void
+   is structural, not left over. */
+.direction-c .banner-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr) minmax(0, 0.62fr);
+  align-items: stretch;
+  gap: 26px;
+}
+
+.direction-c .subpage-banner__title {
+  align-self: center;
+}
+
+.direction-c .banner-grid__frame {
+  height: 62%;
+  align-self: center;
+  overflow: hidden;
+}
+
+.direction-c .banner-grid__void {
+  align-self: center;
+  height: 62%;
+  background: var(--paper);
+}
+
+/* D — 階調: the descent to white drawn out as three hard bands. The black comes
+   from the header directly above, so the banner starts at grey and steps down —
+   putting a dark band here instead would fuse with the header into one heavier
+   mass, which is the problem this whole design exists to solve. No soft gradient;
+   hard edges keep it architectural rather than decorative. */
+.subpage-banner.direction-d {
+  background: linear-gradient(
+    to bottom,
+    #d3cfc7 0 40%,
+    #e2ded7 40% 73%,
+    var(--paper) 73% 100%
+  );
+}
+
+.direction-d .banner-column {
+  position: absolute;
+  top: 0;
+  right: max(32px, calc((100% - 1160px) / 2));
+  bottom: 0;
+  width: 26%;
+}
+
+.direction-d .banner-column .banner-plate__frame {
+  height: 100%;
+  overflow: hidden;
+}
+
+/* The title sits on the first step, not straddling the join below it. */
+.direction-d .subpage-banner__title {
+  padding-bottom: 12%;
+}
+
+
 .page-content {
   padding: 72px 0 102px;
   background: #fff;
+}
+
+/* Direction B's sheet hangs past the banner into this section. The extra room
+   keeps it clear of the body copy; the seam is invisible because both are white. */
+.page-preview:has(.direction-b) .page-content {
+  padding-top: 104px;
 }
 
 .page-content__inner {
@@ -607,62 +646,107 @@ img {
   display: block;
 }
 
+/* Narrow viewport: the blocks stop sitting beside the title and stack under it,
+   which is the only way they keep the air the whole design is built to give. */
 .page-preview.mode-mobile .subpage-banner {
-  aspect-ratio: 390 / 264;
+  aspect-ratio: auto;
   min-height: 0;
+  padding: 26px 0 30px;
 }
 
-.page-preview.mode-mobile .subpage-banner__art--desktop {
+.page-preview.mode-mobile .banner-photo--desktop {
   display: none;
 }
 
-.page-preview.mode-mobile .subpage-banner__art--mobile {
+.page-preview.mode-mobile .banner-photo--mobile {
   display: block;
-}
-
-.page-preview.mode-mobile .direction-a .subpage-banner__frame {
-  width: 60%;
-}
-
-.page-preview.mode-mobile .direction-b .subpage-banner__frame {
-  top: 9%;
-  bottom: 9%;
-  width: 42%;
-}
-
-.page-preview.mode-mobile .direction-c .subpage-banner__frame {
-  width: 46%;
-}
-
-.page-preview.mode-mobile .direction-d .subpage-banner__frame {
-  width: 32%;
 }
 
 .page-preview.mode-mobile .subpage-banner__inner {
   width: calc(100% - 46px);
 }
 
-/* The narrow viewport is where the title can run into B's and C's hard edges,
-   so the text column stops well short of them and the longest page name wraps. */
-.page-preview.mode-mobile .subpage-banner__title {
-  width: 48%;
-  min-width: 0;
-}
-
 .page-preview.mode-mobile .subpage-banner__title span {
-  font-size: 8px;
-  letter-spacing: 0.18em;
+  font-size: 9px;
+  letter-spacing: 0.2em;
 }
 
 .page-preview.mode-mobile .subpage-banner__title i {
-  width: 24px;
-  margin: 11px 0 10px;
+  width: 26px;
+  margin: 12px 0 11px;
 }
 
 .page-preview.mode-mobile .subpage-banner__title h2 {
-  max-width: 152px;
-  font-size: 22px;
+  font-size: 24px;
   line-height: 1.45;
+}
+
+.page-preview.mode-mobile .direction-a .banner-plate {
+  position: static;
+  width: auto;
+  margin: 24px 23px 0;
+  padding: 14px;
+}
+
+.page-preview.mode-mobile .direction-a .banner-plate__frame {
+  height: 132px;
+}
+
+.page-preview.mode-mobile .subpage-banner.direction-b {
+  padding: 0;
+}
+
+.page-preview.mode-mobile .direction-b .banner-sheet {
+  width: calc(100% - 46px);
+  margin: 26px auto -40px;
+}
+
+.page-preview.mode-mobile .direction-b .banner-sheet__inner {
+  padding: 26px 22px 24px;
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+
+.page-preview.mode-mobile .direction-b .banner-sheet__frame {
+  height: 128px;
+}
+
+.page-preview.mode-mobile .direction-c .banner-grid {
+  grid-template-columns: minmax(0, 1fr);
+  gap: 22px;
+}
+
+.page-preview.mode-mobile .direction-c .banner-grid__frame {
+  height: 132px;
+}
+
+/* The empty block is a desktop luxury; on a phone it would just be dead space. */
+.page-preview.mode-mobile .direction-c .banner-grid__void {
+  display: none;
+}
+
+.page-preview.mode-mobile .subpage-banner.direction-d {
+  padding: 0;
+  background: linear-gradient(
+    to bottom,
+    #d3cfc7 0 34%,
+    #e2ded7 34% 76%,
+    var(--paper) 76% 100%
+  );
+}
+
+.page-preview.mode-mobile .direction-d .subpage-banner__inner {
+  padding: 34px 0 30px;
+}
+
+.page-preview.mode-mobile .direction-d .banner-column {
+  position: static;
+  width: auto;
+  margin-top: 24px;
+}
+
+.page-preview.mode-mobile .direction-d .banner-plate__frame {
+  height: 128px;
 }
 
 
@@ -755,17 +839,15 @@ img {
   border-color: var(--copper);
 }
 
+/* Comparison tiles run the desktop composition at roughly a quarter scale, so
+   every fixed measurement in it has to become proportional. */
 .subpage-banner.is-compact {
   min-height: 0;
-  border-bottom: 0;
+  padding: 0;
 }
 
 .subpage-banner.is-compact .subpage-banner__inner {
-  width: calc(100% - 40px);
-}
-
-.subpage-banner.is-compact .subpage-banner__title {
-  min-width: 0;
+  width: calc(100% - 34px);
 }
 
 .subpage-banner.is-compact .subpage-banner__title span {
@@ -774,12 +856,34 @@ img {
 }
 
 .subpage-banner.is-compact .subpage-banner__title i {
-  width: 20px;
-  margin: 6px 0;
+  width: 18px;
+  margin: 5px 0;
 }
 
 .subpage-banner.is-compact .subpage-banner__title h2 {
   font-size: clamp(12px, 1.5vw, 22px);
+}
+
+.subpage-banner.is-compact.direction-a .banner-plate {
+  padding: 1.4%;
+}
+
+.subpage-banner.is-compact.direction-b .banner-sheet {
+  width: calc(100% - 34px);
+  margin: 6% auto -7%;
+}
+
+.subpage-banner.is-compact.direction-b .banner-sheet__inner {
+  padding: 5% 5.5%;
+  gap: 5%;
+}
+
+.subpage-banner.is-compact.direction-c .banner-grid {
+  gap: 3%;
+}
+
+.subpage-banner.is-compact.direction-d .banner-column {
+  right: 17px;
 }
 
 
@@ -922,38 +1026,88 @@ img {
 }
 
 @media (max-width: 820px) {
+  /* Same stacking as the mobile preview, driven by the real viewport. */
   .page-preview .subpage-banner {
-    aspect-ratio: 390 / 264;
+    aspect-ratio: auto;
     min-height: 0;
+    padding: 26px 0 30px;
   }
 
-  .page-preview .subpage-banner__art--desktop {
+  .page-preview .banner-photo--desktop {
     display: none;
   }
 
-  .page-preview .subpage-banner__art--mobile {
+  .page-preview .banner-photo--mobile {
     display: block;
   }
 
-  .page-preview .direction-a .subpage-banner__frame {
-    width: 60%;
+  .page-preview .direction-a .banner-plate {
+    position: static;
+    width: auto;
+    margin: 24px 23px 0;
+    padding: 14px;
   }
 
-  .page-preview .direction-b .subpage-banner__frame {
-    top: 9%;
-    bottom: 9%;
-    width: 42%;
+  .page-preview .direction-a .banner-plate__frame {
+    height: 132px;
   }
 
-  .page-preview .direction-c .subpage-banner__frame {
-    width: 46%;
+  .page-preview .subpage-banner.direction-b {
+    padding: 0;
   }
 
-  .page-preview .direction-d .subpage-banner__frame {
-    width: 32%;
+  .page-preview .direction-b .banner-sheet {
+    width: calc(100% - 46px);
+    margin: 26px auto -40px;
+  }
+
+  .page-preview .direction-b .banner-sheet__inner {
+    padding: 26px 22px 24px;
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .page-preview .direction-b .banner-sheet__frame {
+    height: 128px;
+  }
+
+  .page-preview .direction-c .banner-grid {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 22px;
+  }
+
+  .page-preview .direction-c .banner-grid__frame {
+    height: 132px;
+  }
+
+  .page-preview .direction-c .banner-grid__void {
+    display: none;
+  }
+
+  .page-preview .subpage-banner.direction-d {
+    padding: 0;
+    background: linear-gradient(
+      to bottom,
+      #d3cfc7 0 34%,
+      #e2ded7 34% 76%,
+      var(--paper) 76% 100%
+    );
+  }
+
+  .page-preview .direction-d .subpage-banner__inner {
+    padding: 34px 0 30px;
+  }
+
+  .page-preview .direction-d .banner-column {
+    position: static;
+    width: auto;
+    margin-top: 24px;
+  }
+
+  .page-preview .direction-d .banner-plate__frame {
+    height: 128px;
   }
 }
-
 @media (max-width: 760px) {
   .proposal-intro {
     padding: 38px 22px 34px;
@@ -1047,24 +1201,18 @@ img {
     width: calc(100% - 46px);
   }
 
-  .subpage-banner__title {
-    width: 48%;
-    min-width: 0;
-  }
-
   .subpage-banner__title span {
-    font-size: 8px;
-    letter-spacing: 0.18em;
+    font-size: 9px;
+    letter-spacing: 0.2em;
   }
 
   .subpage-banner__title i {
-    width: 24px;
-    margin: 11px 0 10px;
+    width: 26px;
+    margin: 12px 0 11px;
   }
 
   .subpage-banner__title h2 {
-    max-width: 152px;
-    font-size: 22px;
+    font-size: 24px;
     line-height: 1.45;
   }
 

@@ -49,8 +49,6 @@ for (const [output, input, position] of contentAssets) {
 }
 
 // Banner photography: one treated crop per page, shared by all four directions.
-// The crop stays monochrome and is exposed up to sit on the paper background so
-// the page title always stays the darkest thing in the banner.
 // `about` uses the 1920px press-shop photograph embedded in the client's own
 // home-page hero — the only shot of the real factory at full resolution. Its
 // top strip is a solid black vignette, so trim that before cropping.
@@ -68,23 +66,22 @@ const bannerPhotos = [
 ]
 
 // Every banner photo lands in the same tonal window. Matching average brightness
-// is the wrong target: pinning the mean high forces a contrasty photo's shadows
-// up off the floor and clips its highlights, which is what left the first pass
-// looking simultaneously washed out and blown. Anchoring the two ends instead
-// gives the whole set one black point and one white point, and lets each photo
-// keep its own distribution in between.
+// alone is the wrong target: pinning the mean high forces a contrasty photo's
+// shadows up off the floor and clips its highlights at the same time. Anchoring
+// both ends instead gives the whole set one black point and one white point, and
+// lets each photo keep its own distribution in between.
 //
-// WHITE sits a touch above the paper (#f4f3f0) so highlights read as lit metal
-// rather than holes in the page; BLACK stays well off zero so the page title
-// remains the darkest thing in the banner. MEAN keeps the overall weight of
-// every banner equal — without it a dark workshop interior reads as a grey slab
-// next to a bright studio shot even when their endpoints agree.
-const BLACK = 100
-const WHITE = 248
-const MEAN = 198
-// Where the set as a whole should sit for contrast. The close-ups reach this on
-// their own; the wide workshop shot needs the S-curve below to get there.
-const SPREAD = 32
+// One window for the whole set. The banner sits between a black header and white
+// body copy and its job is to be the step between them, so the photographs stay
+// light: BLACK well off zero keeps the page title the darkest thing in frame,
+// WHITE just above the paper keeps highlights reading as lit metal.
+const WINDOW = {
+  black: 100,
+  white: 248,
+  mean: 198,
+  spread: 32,
+  tint: { r: 229, g: 226, b: 220 },
+}
 
 // Steepens the middle of the range while pinning both ends, so contrast can be
 // recovered without disturbing the shared black and white points. Monotonic for
@@ -97,7 +94,7 @@ const sCurve = (value, strength) =>
 // from the window, weight from the exponent, contrast from the S-curve, and
 // whatever is left over is the photograph's own character.
 const toneMapping = (histogram, pixels) => {
-  const targetMean = (MEAN - BLACK) / (WHITE - BLACK)
+  const targetMean = (WINDOW.mean - WINDOW.black) / (WINDOW.white - WINDOW.black)
   const shaped = new Float64Array(256)
 
   const moments = (power) => {
@@ -114,8 +111,8 @@ const toneMapping = (histogram, pixels) => {
   }
 
   const solvePower = () => {
-    let low = 0.3
-    let high = 3.2
+    let low = 0.25
+    let high = 9
     for (let step = 0; step < 40; step += 1) {
       const mid = (low + high) / 2
       // Larger exponents darken, so the search runs the other way round.
@@ -132,15 +129,17 @@ const toneMapping = (histogram, pixels) => {
   for (let candidate = -0.6; candidate <= 0.601; candidate += 0.05) {
     for (let i = 0; i < 256; i += 1) shaped[i] = sCurve(i / 255, candidate)
     const power = solvePower()
-    const miss = Math.abs(moments(power).stdev * (WHITE - BLACK) - SPREAD)
+    const miss = Math.abs(
+      moments(power).stdev * (WINDOW.white - WINDOW.black) - WINDOW.spread,
+    )
     if (!best || miss < best.miss) best = { power, strength: candidate, miss }
   }
 
   return best
 }
 
-// Sized to what the layout actually paints: direction A is the widest frame at
-// 46% of a 1920px page, so ~880 CSS px. Generating larger than this bought no
+// Sized to what the layout actually paints. No direction shows more than about
+// half a 1920px page, so ~900px covers every frame. Generating larger bought no
 // sharpness, it only raised the upscale factor from the client's small originals.
 const DESKTOP = [900, 600]
 const MOBILE = [560, 420]
@@ -189,14 +188,14 @@ const toneBanner = async (input, [width, height], position) => {
   const lut = new Uint8Array(256)
   for (let i = 0; i < 256; i += 1) {
     const shaped = sCurve(i / 255, strength) ** power
-    lut[i] = Math.round(BLACK + (WHITE - BLACK) * shaped)
+    lut[i] = Math.round(WINDOW.black + (WINDOW.white - WINDOW.black) * shaped)
   }
 
   const toned = Buffer.allocUnsafe(stretched.length)
   for (let i = 0; i < stretched.length; i += 1) toned[i] = lut[stretched[i]]
 
   return sharp(toned, { raw: { width, height, channels: 1 } })
-    .tint({ r: 229, g: 226, b: 220 })
+    .tint(WINDOW.tint)
     .sharpen({ sigma: 0.9, m1: 0.4, m2: 0.9 })
     .composite([{ input: await grain(width, height), blend: "overlay" }])
 }

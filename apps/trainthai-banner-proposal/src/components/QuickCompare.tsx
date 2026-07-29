@@ -22,7 +22,7 @@ export function QuickCompare({
       <div className="section-heading">
         <span>QUICK COMPARISON</span>
         <h2 id="compare-title">四款快速比較</h2>
-        <p>同一頁、同一張實拍照片，只比較裁切的幅度與邊緣的力度。</p>
+        <p>同一頁、同一張實拍照片，只比較區塊怎麼配置與留白給在哪裡。</p>
       </div>
 
       <div className="quick-compare__grid">

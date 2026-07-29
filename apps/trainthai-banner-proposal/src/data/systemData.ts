@@ -9,27 +9,31 @@ export const directions: Direction[] = [
   },
   {
     id: "A",
-    name: "溶接",
-    label: "A｜溶接",
-    description: "實拍照片從右側漸隱入紙白，沒有邊框與線條，氣氛最柔和。",
+    name: "階",
+    label: "A｜階",
+    description:
+      "灰底上放一塊紙白襯板，照片再內縮裱在襯板裡。一條帶子裡有兩層明度，四周的裱邊就是呼吸空間。",
   },
   {
     id: "B",
-    name: "面板",
-    label: "B｜面板",
-    description: "照片收在一個上下留白的精確矩形內，紙白包覆四周，型錄語言。",
+    name: "浮",
+    label: "B｜浮",
+    description:
+      "一整張紙白從灰底浮起，並且往下穿出 Banner 與內文的白連成一片。灰只當領口不當蓋子，壓迫感消失得最徹底。",
   },
   {
     id: "C",
-    name: "對開",
-    label: "C｜對開",
-    description: "照片滿版切齊右半，一條銅色細線落在分割線上，態度最果斷。",
+    name: "欄",
+    label: "C｜欄",
+    description:
+      "灰底切成三個等距區塊，標題、照片各佔一塊，最後一塊刻意空著。留白是結構的一部分，不是剩下的。",
   },
   {
     id: "D",
-    name: "留白",
-    label: "D｜留白",
-    description: "照片壓到最淡、只留右端一道材質，以一條基準線收整頁面。",
+    name: "階調",
+    label: "D｜階調",
+    description:
+      "把黑→灰→白直接畫成三道硬邊色帶，照片直立橫跨其上。過渡本身就是設計，不用漸層不做柔邊。",
   },
 ]
 
