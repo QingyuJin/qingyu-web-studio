@@ -12,33 +12,33 @@ export const seo = {
     path: "/",
     title: "網站設計、SEO、廣告落地頁與電商整合｜Qingyu Web Studio",
     description:
-      "Qingyu Web Studio 整合品牌網站、電商、SEO、Google Ads／Meta Ads 落地頁、GA4 轉換追蹤、LINE Bot 與客製後台，服務台灣品牌與中小企業。",
+      "Qingyu Web Studio 整合品牌網站、電商、SEO、Google Ads／Meta Ads 落地頁、GA4 轉換追蹤、LINE Bot 與客製後台，服務台灣品牌與中小企業",
   },
   works: {
     path: "/works",
     title: "網站、電商與客製系統作品案例｜Qingyu Web Studio",
-    description: "瀏覽品牌網站、電商、廣告視覺、LINE Bot、接單後台與 AI 系統的可操作作品與完整案例。",
+    description: "瀏覽品牌網站、電商、廣告視覺、LINE Bot、接單後台與 AI 系統的可操作作品與完整案例",
   },
   services: {
     path: "/services",
     title: "網站設計、SEO、電商與系統整合服務｜Qingyu Web Studio",
     description:
-      "品牌網站、電商建置、SEO、廣告落地頁、LINE Bot、AI 工具、API 與客製後台的一站式服務。",
+      "品牌網站、電商建置、SEO、廣告落地頁、LINE Bot、AI 工具、API 與客製後台的一站式服務",
   },
   pricing: {
     path: "/pricing",
     title: "網站設計、SEO 與客製系統參考價格｜Qingyu Web Studio",
-    description: "網站、電商、SEO、廣告落地頁、LINE Bot 與客製後台參考價格，實際依需求範圍估價。",
+    description: "網站、電商、SEO、廣告落地頁、LINE Bot 與客製後台參考價格，實際依需求範圍估價",
   },
   audit: {
     path: "/free-audit",
     title: "免費網站健檢｜手機體驗、SEO 與轉換檢查｜Qingyu Web Studio",
-    description: "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑，整理下一步優化方向。",
+    description: "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑，整理下一步優化方向",
   },
   contact: {
     path: "/contact",
     title: "網站、SEO 與數位成長專案諮詢｜Qingyu Web Studio",
-    description: "留下產業、目前網站、目標、預算與時程，我會回覆適合的做法與估價。",
+    description: "留下產業、目前網站、目標、預算與時程，我會回覆適合的做法與估價",
   },
   planner: {
     path: "/tools/project-planner",

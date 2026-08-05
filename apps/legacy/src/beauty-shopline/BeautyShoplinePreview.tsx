@@ -355,7 +355,7 @@ function ProductDialog({ product, onClose }) {
             </div>
           </div>
 
-          <p className="lf-data-note">本頁不提供未經品牌確認的功效、成分或使用宣稱。</p>
+          <p className="lf-data-note">本頁不提供未經品牌確認的功效、成分或使用宣稱</p>
           <a
             className="lf-button lf-button--dark lf-button--wide"
             href={siteConfig.links.line}
@@ -386,14 +386,14 @@ function BeautyShoplinePreview() {
   const currentSeo = isNotFound
     ? {
         title: "找不到頁面｜LULUFACE 嚕嚕臉",
-        description: "這個 LULUFACE 頁面不存在或網址已更新，請返回首頁重新瀏覽。",
+        description: "這個 LULUFACE 頁面不存在或網址已更新，請返回首頁重新瀏覽",
       }
     : isHome
       ? siteConfig.seo
       : currentProduct
         ? {
             title: `${currentProduct.name}｜LULUFACE 嚕嚕臉`,
-            description: `${currentProduct.summary} ${currentProduct.size}；正式售價與完整商品資料待品牌確認。`,
+            description: `${currentProduct.summary} ${currentProduct.size}；正式售價與完整商品資料待品牌確認`,
           }
         : pageSeo[pageKey]
 
@@ -622,7 +622,7 @@ function BeautyShoplinePreview() {
               <PlaceholderBadge />
               <figcaption>
                 <span>SKIN FIRST</span>
-                <p>每一次護膚，都從了解肌膚開始。</p>
+                <p>每一次護膚，都從了解肌膚開始</p>
               </figcaption>
             </figure>
           </section>
@@ -630,7 +630,7 @@ function BeautyShoplinePreview() {
           <section className="lf-values" aria-labelledby="lf-values-title">
             <div className="lf-values-heading" data-reveal>
               <p className="lf-eyebrow">OUR VALUES</p>
-              <h2 id="lf-values-title">溫柔有感，專業有據。</h2>
+              <h2 id="lf-values-title">溫柔有感，專業有據</h2>
             </div>
             <div className="lf-value-grid">
               {brandValues.map((value) => (
@@ -651,8 +651,8 @@ function BeautyShoplinePreview() {
             <div className="lf-shell">
               <SectionHeading
                 eyebrow="FACIAL SERVICES"
-                title="從了解肌膚開始，安排剛剛好的照護。"
-                description="護膚不是套用固定步驟。LULUFACE 會先理解你的肌膚需求，再陪你找到能安心持續的方式。"
+                title="從了解肌膚開始，安排剛剛好的照護"
+                description="護膚不是套用固定步驟LULUFACE 會先理解你的肌膚需求，再陪你找到能安心持續的方式"
               />
 
               <div className="lf-services-layout">
@@ -690,7 +690,7 @@ function BeautyShoplinePreview() {
               <div className="lf-care-journey" aria-labelledby="lf-care-journey-title">
                 <div className="lf-care-journey-heading" data-reveal>
                   <p className="lf-eyebrow">YOUR FIRST VISIT</p>
-                  <h3 id="lf-care-journey-title">第一次來，也能清楚知道每一步。</h3>
+                  <h3 id="lf-care-journey-title">第一次來，也能清楚知道每一步</h3>
                 </div>
                 <ol>
                   {careJourney.map((step) => (
@@ -709,8 +709,8 @@ function BeautyShoplinePreview() {
             <div className="lf-shell">
               <SectionHeading
                 eyebrow="DAILY SKINCARE"
-                title="把專業護膚，延續到每天。"
-                description="以下商品名稱與重點來自品牌目前公開資料；售價、完整規格與正式商品照仍待客戶確認。"
+                title="把專業護膚，延續到每天"
+                description="以下商品名稱與重點來自品牌目前公開資料；售價、完整規格與正式商品照仍待客戶確認"
               />
 
               <div className="lf-product-grid">
@@ -746,7 +746,7 @@ function BeautyShoplinePreview() {
                 <aside className="lf-product-more" data-reveal>
                   <p className="lf-eyebrow">MORE ESSENTIALS</p>
                   <h3>更多日常保養品項</h3>
-                  <p>目前網站規劃可擴充至 50 項商品；正式資料到齊後，可直接從集中資料檔加入。</p>
+                  <p>目前網站規劃可擴充至 50 項商品；正式資料到齊後，可直接從集中資料檔加入</p>
                   <a href={siteConfig.links.line} target="_blank" rel="noreferrer">
                     詢問現有商品 <ArrowIcon />
                   </a>
@@ -765,8 +765,8 @@ function BeautyShoplinePreview() {
             <div className="lf-why-copy">
               <SectionHeading
                 eyebrow="WHY LULUFACE"
-                title="每一次護膚，都從了解肌膚開始。"
-                description="我們在意的不只是當下的服務，也希望你回到日常後，仍然知道如何照顧自己的肌膚。"
+                title="每一次護膚，都從了解肌膚開始"
+                description="我們在意的不只是當下的服務，也希望你回到日常後，仍然知道如何照顧自己的肌膚"
                 light
               />
               <ol>
@@ -787,8 +787,8 @@ function BeautyShoplinePreview() {
             <div className="lf-shell">
               <SectionHeading
                 eyebrow="SKIN STORIES"
-                title="每一次護膚，都是重新認識自己的開始。"
-                description="目前尚未取得經授權的顧客案例照片，因此第一版以清楚標示的示意版位呈現；正式版不會使用未經同意的前後對比照。"
+                title="每一次護膚，都是重新認識自己的開始"
+                description="目前尚未取得經授權的顧客案例照片，因此第一版以清楚標示的示意版位呈現；正式版不會使用未經同意的前後對比照"
               />
               <div className="lf-case-grid">
                 {cases.map((caseItem) => (
@@ -812,8 +812,8 @@ function BeautyShoplinePreview() {
             <div className="lf-shell lf-reviews-layout">
               <div>
                 <p className="lf-eyebrow">CUSTOMER VOICES</p>
-                <h2 id="lf-reviews-title">真實回饋，會比廣告更有力量。</h2>
-                <p>此區結構已完成，待客戶提供指定 Google 評論或授權內容後即可直接替換。</p>
+                <h2 id="lf-reviews-title">真實回饋，會比廣告更有力量</h2>
+                <p>此區結構已完成，待客戶提供指定 Google 評論或授權內容後即可直接替換</p>
               </div>
 
               <article className="lf-review-card" aria-live="polite" data-reveal>
@@ -851,8 +851,8 @@ function BeautyShoplinePreview() {
               <div className="lf-growth-heading">
                 <SectionHeading
                   eyebrow="GROW WITH LULUFACE"
-                  title="把累積的專業，分享給想走得更遠的人。"
-                  description="從美容技術、創業經驗到加盟合作，第一版先建立清楚入口；課綱、費用與合作條件以客戶後續確認資料為準。"
+                  title="把累積的專業，分享給想走得更遠的人"
+                  description="從美容技術、創業經驗到加盟合作，第一版先建立清楚入口；課綱、費用與合作條件以客戶後續確認資料為準"
                 />
                 <figure data-reveal>
                   <AssetImage image={imageAssets.training} />
@@ -882,8 +882,8 @@ function BeautyShoplinePreview() {
             <div className="lf-shell lf-faq-layout">
               <div className="lf-faq-heading" data-reveal>
                 <p className="lf-eyebrow">BEFORE YOUR VISIT</p>
-                <h2 id="lf-faq-title">預約前，先把常見問題說清楚。</h2>
-                <p>如果仍不確定適合哪一種照護，直接透過 LINE 描述目前的膚況即可。</p>
+                <h2 id="lf-faq-title">預約前，先把常見問題說清楚</h2>
+                <p>如果仍不確定適合哪一種照護，直接透過 LINE 描述目前的膚況即可</p>
                 <a href={siteConfig.links.line} target="_blank" rel="noreferrer">
                   LINE 詢問 <ArrowIcon />
                 </a>
@@ -906,7 +906,7 @@ function BeautyShoplinePreview() {
           <section className="lf-line-cta" aria-labelledby="lf-line-title">
             <div>
               <p className="lf-eyebrow">BOOK YOUR SKIN RITUAL</p>
-              <h2 id="lf-line-title">想知道自己適合怎麼保養？先從一次安心的對話開始。</h2>
+              <h2 id="lf-line-title">想知道自己適合怎麼保養？先從一次安心的對話開始</h2>
             </div>
             <div className="lf-line-cta-action">
               <span>LINE 官方帳號</span>
@@ -921,7 +921,7 @@ function BeautyShoplinePreview() {
             <div className="lf-shell lf-contact-layout">
               <div className="lf-contact-copy" data-reveal>
                 <p className="lf-eyebrow">VISIT LULUFACE</p>
-                <h2>留一段時間，給肌膚，也給自己。</h2>
+                <h2>留一段時間，給肌膚，也給自己</h2>
                 <dl>
                   <div>
                     <dt>門市地址</dt>
@@ -1019,7 +1019,7 @@ function BeautyShoplinePreview() {
         </div>
         <div className="lf-footer-bottom">
           <p>© {new Date().getFullYear()} LULUFACE. Preview for client review.</p>
-          <p>本頁為第一版提案，未開放線上付款與預約資料蒐集。</p>
+          <p>本頁為第一版提案，未開放線上付款與預約資料蒐集</p>
         </div>
       </footer>
 

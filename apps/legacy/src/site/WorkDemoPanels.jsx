@@ -3805,7 +3805,7 @@ function CommercePlatformRedesignDemo() {
             <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Demo Brand</p>
             <h3 className="mt-2 font-['Noto_Serif_TC',serif] text-2xl font-black">Mori Select 日韓選物</h3>
             <p className="mt-3 text-sm font-bold leading-7 text-white/68">
-              以日韓選物店為例，把平台商店從「商品堆疊」整理成首頁檔期、分類導購、商品頁說服、手機結帳與成效追蹤。
+              以日韓選物店為例，把平台商店從「商品堆疊」整理成首頁檔期、分類導購、商品頁說服、手機結帳與成效追蹤
             </p>
           </div>
           <div className="grid gap-2 sm:grid-cols-3">
@@ -3888,7 +3888,7 @@ function CommercePlatformRedesignDemo() {
               </div>
             ))}
           </div>
-          <p className="mt-3 text-xs font-bold leading-6 text-white/55">可追蹤首頁 Banner、分類點擊、商品點擊、加入購物車、LINE 詢問與表單送出等事件。</p>
+          <p className="mt-3 text-xs font-bold leading-6 text-white/55">可追蹤首頁 Banner、分類點擊、商品點擊、加入購物車、LINE 詢問與表單送出等事件</p>
         </MiniCard>
 
         <MiniCard title="上線檢查清單">
@@ -3929,7 +3929,7 @@ function CommercePlatformRedesignDemo() {
             <div>
               <p className="text-xs font-black uppercase tracking-[0.22em] text-[#eac46f]">Contact CTA</p>
               <h3 className="mt-2 font-['Noto_Serif_TC',serif] text-2xl font-black">想整理整間平台商店，不是只做單一商品頁？</h3>
-              <p className="mt-2 text-sm font-bold leading-7 text-white/65">先看你的平台後台、版型限制、商品量、目前分類與手機購物流失點，再決定能調整到哪裡。</p>
+              <p className="mt-2 text-sm font-bold leading-7 text-white/65">先看你的平台後台、版型限制、商品量、目前分類與手機購物流失點，再決定能調整到哪裡</p>
             </div>
             <Link to="/contact?case=平台電商 / Shopify / MeepShop 建置與視覺優化" className="inline-flex min-h-12 items-center justify-center rounded-xl bg-white px-5 text-sm font-black text-[#111c22]">
               詢問平台商店改版

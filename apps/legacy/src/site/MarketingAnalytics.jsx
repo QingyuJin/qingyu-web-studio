@@ -61,7 +61,7 @@ function MarketingAnalytics() {
       <div className="flex-1">
         <p className="text-sm font-black">讓網站持續變得更好</p>
         <p className="mt-1 text-xs font-bold leading-6 text-white/65">
-          同意後會使用匿名成效資料了解哪些內容真正有幫助，也用於廣告成效衡量。
+          同意後會使用匿名成效資料了解哪些內容真正有幫助，也用於廣告成效衡量
         </p>
       </div>
       <div className="mt-3 grid grid-cols-2 gap-2 md:mt-0 md:shrink-0">
