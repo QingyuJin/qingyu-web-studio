@@ -1,5 +1,9 @@
 User-agent: *
 Allow: /
+Disallow: /admin
+Disallow: /login
+Disallow: /logout
+Disallow: /api/
 Disallow: /contractor-site
 Disallow: /engineering
 Disallow: /buildflow

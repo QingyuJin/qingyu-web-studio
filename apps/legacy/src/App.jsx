@@ -24,6 +24,7 @@ const ContactPage = lazy(() =>
 )
 const ProjectPlanner = lazy(() => import("./site/ProjectPlanner"))
 const AiTransformation = lazy(() => import("./site/AiTransformation"))
+const GrowthPage = lazy(() => import("./site/GrowthPage"))
 const ProductPage = lazy(() => import("./site/ProductPage"))
 const ProductLandingPage = lazy(() => import("./site/ProductLandingPage"))
 const WebsiteRescue = lazy(() => import("./site/WebsiteRescue"))
@@ -79,6 +80,7 @@ function App() {
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
         <Route path="/ai-transformation" element={<AiTransformation />} />
+        <Route path="/seo-ads" element={<GrowthPage />} />
         <Route path="/pricing" element={<PricingPage />} />
         <Route path="/free-audit" element={<FreeAuditPage />} />
         <Route path="/contact" element={<ContactPage />} />

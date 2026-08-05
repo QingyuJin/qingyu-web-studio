@@ -10,35 +10,35 @@ export const contact = {
 export const seo = {
   home: {
     path: "/",
-    title: "Qingyu Web Studio｜可以直接使用的網站、LINE Bot、後台與互動系統",
+    title: "網站設計、SEO、廣告落地頁與電商整合｜Qingyu Web Studio",
     description:
-      "協助店家、公司、工作室與創作者 把網站、表單、商品、預約、LINE、自動回覆與資料管理 做成一套真的能用的成品每個服務都有可點看的成品 Demo",
+      "Qingyu Web Studio 整合品牌網站、電商、SEO、Google Ads／Meta Ads 落地頁、GA4 轉換追蹤、LINE Bot 與客製後台，服務台灣品牌與中小企業。",
   },
   works: {
     path: "/works",
-    title: "成品入口｜Qingyu Web Studio",
-    description: "可操作成品、完整案例與技術拆解",
+    title: "網站、電商與客製系統作品案例｜Qingyu Web Studio",
+    description: "瀏覽品牌網站、電商、廣告視覺、LINE Bot、接單後台與 AI 系統的可操作作品與完整案例。",
   },
   services: {
     path: "/services",
-    title: "服務能力｜Qingyu Web Studio",
+    title: "網站設計、SEO、電商與系統整合服務｜Qingyu Web Studio",
     description:
-      "網站、LINE Bot、AI 工具、API 與後台流程",
+      "品牌網站、電商建置、SEO、廣告落地頁、LINE Bot、AI 工具、API 與客製後台的一站式服務。",
   },
   pricing: {
     path: "/pricing",
-    title: "價格｜Qingyu Web Studio",
-    description: "依需求範圍估價",
+    title: "網站設計、SEO 與客製系統參考價格｜Qingyu Web Studio",
+    description: "網站、電商、SEO、廣告落地頁、LINE Bot 與客製後台參考價格，實際依需求範圍估價。",
   },
   audit: {
     path: "/free-audit",
-    title: "免費網站健檢｜Qingyu Web Studio",
-    description: "檢查手機版、CTA、SEO 與信任感",
+    title: "免費網站健檢｜手機體驗、SEO 與轉換檢查｜Qingyu Web Studio",
+    description: "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑，整理下一步優化方向。",
   },
   contact: {
     path: "/contact",
-    title: "填需求表單｜Qingyu Web Studio",
-    description: "留下需求 我回覆做法與估價",
+    title: "網站、SEO 與數位成長專案諮詢｜Qingyu Web Studio",
+    description: "留下產業、目前網站、目標、預算與時程，我會回覆適合的做法與估價。",
   },
   planner: {
     path: "/tools/project-planner",
@@ -59,6 +59,7 @@ export const seo = {
 
 export const serviceCategories = [
   ["網站製作", "品牌網站、服務入口、RWD"],
+  ["SEO / 廣告", "搜尋架構、落地頁、轉換追蹤"],
   ["互動工具", "測驗、診斷、表單工具"],
   ["LINE Bot 串接", "自動回覆、需求整理"],
   ["後台流程 / API", "收件、案件、狀態同步"],
@@ -76,6 +77,30 @@ export const serviceOfferings = [
     deliverables: ["首頁或品牌網站", "手機版 RWD", "LINE / IG / Google Map", "表單或聯絡按鈕", "基本 SEO 標題"],
     demoPath: "/contractor-site",
     proof: "先做清楚版本 再依需求擴充",
+  },
+  {
+    id: "seo-growth",
+    name: "SEO 與內容成長",
+    label: "15,000 元起",
+    price: "15,000 元起",
+    summary: "技術 SEO、搜尋意圖、服務頁與內容架構",
+    targetUsers: "已有網站但搜尋曝光不穩、服務頁不清楚的品牌與公司",
+    problem: "搜尋引擎看不懂網站主題，內容也沒有對應客戶真正會搜尋的問題",
+    deliverables: ["技術 SEO 盤點", "metadata / Schema", "關鍵字與搜尋意圖", "服務頁架構", "Search Console 建議"],
+    demoPath: "/seo-ads",
+    proof: "先處理可索引、可理解與內容優先序，再持續累積搜尋資產",
+  },
+  {
+    id: "ad-landing",
+    name: "廣告落地頁與轉換追蹤",
+    label: "18,000 元起",
+    price: "18,000 元起",
+    summary: "Google Ads／Meta Ads 專屬落地頁、GA4 與名單來源追蹤",
+    targetUsers: "準備投放廣告，或目前有點擊卻沒有穩定詢問的品牌",
+    problem: "不同廣告全部導回首頁，訊息不一致，也不知道哪個來源帶來有效名單",
+    deliverables: ["單一客群落地頁", "手機轉換 UX", "LINE / 表單 CTA", "GA4 事件", "廣告轉換與 UTM"],
+    demoPath: "/seo-ads#ads",
+    proof: "先用一組受眾與訴求驗證，再依有效詢問擴大頁面與預算",
   },
   {
     id: "quiz-package",
@@ -164,6 +189,8 @@ export const pricing = [
   ["互動測驗頁", "6,000 元起", "3–5 天"],
   ["Google Sheet 題庫測驗", "10,000 元起", "5–8 天"],
   ["LINE 自動回覆 / FAQ", "8,000 元起", "3–7 天"],
+  ["SEO 基礎整頓", "15,000 元起", "7–14 天"],
+  ["廣告落地頁＋追蹤", "18,000 元起", "7–14 天"],
   ["小型後台 / 表單管理", "20,000 元起", "7–14 天"],
   ["查件系統 MVP", "25,000 元起", "10–18 天"],
   ["工程行接案系統", "30,000 元起", "14–25 天"],

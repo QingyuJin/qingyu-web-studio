@@ -1,0 +1,17 @@
+{
+  "name": "Qingyu Web Studio",
+  "short_name": "Qingyu",
+  "description": "品牌網站、電商、SEO、廣告落地頁與系統整合",
+  "lang": "zh-Hant-TW",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#f7f6f1",
+  "theme_color": "#0b1418",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml"
+    }
+  ]
+}

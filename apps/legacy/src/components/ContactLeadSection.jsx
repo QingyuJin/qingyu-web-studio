@@ -1,6 +1,7 @@
 ﻿import { useMemo, useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { createContactRequest } from "../lib/contactRequests"
+import { getAttribution, trackEvent } from "../site/marketing"
 
 const email = "a0988874324@gmail.com"
 const lineId = "mulavuc"
@@ -17,6 +18,13 @@ const initialForm = {
 
 const referenceOptions = [
   "鑫匠工程",
+  "LULUFACE 美容品牌電商",
+  "MORIE SELECT 選品電商",
+  "商業視覺與廣告 Campaign",
+  "SEO / 廣告成長",
+  "SEO 基礎整頓",
+  "廣告落地頁＋追蹤",
+  "成長營運方案",
   "批發訂貨系統",
   "RAG 企業知識庫",
   "生醫品牌網站",
@@ -74,17 +82,26 @@ function ContactLeadSection() {
     setSubmitting(true)
     setNotice("")
 
+    const attribution = getAttribution()
+    const attributionText = Object.keys(attribution).length
+      ? `\n來源：${JSON.stringify(attribution)}`
+      : ""
     const result = await createContactRequest({
       name: form.name,
       contact: form.contact,
       service_type: form.reference,
       budget_range: form.budget_range,
-      message: `產業：${form.industry}\n希望完成時間：${form.deadline}\n需求：${form.message}`,
+      message: `產業：${form.industry}\n希望完成時間：${form.deadline}\n需求：${form.message}${attributionText}`,
       source: "contact-page",
       status: "new",
     })
 
     setSubmitting(false)
+    trackEvent("generate_lead", {
+      service_type: form.reference,
+      budget_range: form.budget_range,
+      lead_delivery: result.ok ? "connected" : "fallback",
+    })
     setNotice(
       result.ok
         ? "已收到 我會回覆做法與估價"
@@ -115,13 +132,13 @@ function ContactLeadSection() {
           </div>
 
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
-            <button type="button" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] sm:w-auto">
+            <button type="button" data-track="contact" data-placement="contact_copy_line" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] sm:w-auto">
               複製 LINE ID
             </button>
             <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               複製 Email
             </button>
-            <a href={`mailto:${email}?subject=${encodeURIComponent("接案需求討論")}&body=${mailBody}`} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
+            <a href={`mailto:${email}?subject=${encodeURIComponent("接案需求討論")}&body=${mailBody}`} data-track="contact" data-placement="contact_email" className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               Email
             </a>
           </div>

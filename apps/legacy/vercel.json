@@ -1,12 +1,64 @@
 {
-  "rewrites": [
-    {
-      "source": "/api/(.*)",
-      "destination": "/api/$1"
-    },
+  "cleanUrls": true,
+  "trailingSlash": false,
+  "headers": [
     {
       "source": "/(.*)",
-      "destination": "/"
+      "headers": [
+        { "key": "X-Content-Type-Options", "value": "nosniff" },
+        { "key": "X-Frame-Options", "value": "DENY" },
+        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
+        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://images.unsplash.com https://www.facebook.com; connect-src 'self' https://*.supabase.co https://*.google-analytics.com https://www.google-analytics.com https://www.facebook.com; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/assets/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+    },
+    {
+      "source": "/(.*).(png|jpg|jpeg|webp|svg|woff2)",
+      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
+    },
+    {
+      "source": "/api/(.*)",
+      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+    },
+    {
+      "source": "/(admin|login|logout|buildflow|contractor-site|engineering)(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
     }
+  ],
+  "rewrites": [
+    { "source": "/api/(.*)", "destination": "/api/$1" },
+    { "source": "/services", "destination": "/services/index.html" },
+    { "source": "/seo-ads", "destination": "/seo-ads/index.html" },
+    { "source": "/works", "destination": "/works/index.html" },
+    { "source": "/pricing", "destination": "/pricing/index.html" },
+    { "source": "/free-audit", "destination": "/free-audit/index.html" },
+    { "source": "/contact", "destination": "/contact/index.html" },
+    { "source": "/ai-transformation", "destination": "/ai-transformation/index.html" },
+    { "source": "/tools/project-planner", "destination": "/tools/project-planner/index.html" },
+    { "source": "/tools/website-rescue", "destination": "/tools/website-rescue/index.html" },
+    { "source": "/tools/linebot-mission", "destination": "/tools/linebot-mission/index.html" },
+    { "source": "/works/beauty-shopline-preview", "destination": "/works/beauty-shopline-preview/index.html" },
+    { "source": "/works/ecommerce-platform-redesign", "destination": "/works/ecommerce-platform-redesign/index.html" },
+    { "source": "/works/product-landing-page", "destination": "/works/product-landing-page/index.html" },
+    { "source": "/works/company-landing", "destination": "/works/company-landing/index.html" },
+    { "source": "/works/biomed-brand-site", "destination": "/works/biomed-brand-site/index.html" },
+    { "source": "/works/xinjiang", "destination": "/works/xinjiang/index.html" },
+    { "source": "/works/wholesale-ordering", "destination": "/works/wholesale-ordering/index.html" },
+    { "source": "/works/restaurant-ordering", "destination": "/works/restaurant-ordering/index.html" },
+    { "source": "/works/rag-consultant", "destination": "/works/rag-consultant/index.html" },
+    { "source": "/works/analytics-dashboard", "destination": "/works/analytics-dashboard/index.html" },
+    { "source": "/works/assessment-system", "destination": "/works/assessment-system/index.html" },
+    { "source": "/works/line-bot", "destination": "/works/line-bot/index.html" },
+    { "source": "/works/notion-brand-landing", "destination": "/works/notion-brand-landing/index.html" },
+    { "source": "/works/ai-audit", "destination": "/works/ai-audit/index.html" },
+    { "source": "/works/api-automation", "destination": "/works/api-automation/index.html" },
+    { "source": "/(.*)", "destination": "/" }
   ]
 }
