@@ -287,6 +287,7 @@ function ProjectHub() {
   const [filterIndustry, setFilterIndustry] = useState("全部")
   const [filterProblem, setFilterProblem] = useState("全部")
   const [filterBudget, setFilterBudget] = useState("全部")
+  const [filtersOpen, setFiltersOpen] = useState(false)
 
   const filtered = useMemo(() => {
     return works.filter((w) => {
@@ -324,44 +325,47 @@ function ProjectHub() {
         </div>
       </section>
 
-      <section className="sticky top-0 z-20 border-b border-[#e6e0d5] bg-white/92 backdrop-blur-md">
-        <div className="mx-auto max-w-6xl px-4 py-4">
-          <div className="flex flex-wrap items-center gap-4">
-            <FilterGroup
-              label="產業"
-              options={industryOptions}
-              value={filterIndustry}
-              onChange={setFilterIndustry}
-            />
-            <FilterGroup
-              label="想解決的問題"
-              options={problemOptions}
-              value={filterProblem}
-              onChange={setFilterProblem}
-            />
-            <FilterGroup
-              label="預算"
-              options={budgetOptions}
-              value={filterBudget}
-              onChange={setFilterBudget}
-            />
+      <section className="border-b border-[#e6e0d5] bg-white">
+        <div className="mx-auto max-w-6xl px-4 py-3">
+          <div className="flex items-center justify-between gap-4 md:hidden">
+            <button
+              type="button"
+              aria-expanded={filtersOpen}
+              aria-controls="mobile-work-filters"
+              onClick={() => setFiltersOpen((current) => !current)}
+              className="inline-flex min-h-10 items-center gap-2 rounded-full border border-[#dcd7cc] bg-[#faf8f3] px-4 text-xs font-bold text-[#263835]"
+            >
+              <span>篩選作品</span>
+              {activeCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[#15322e] px-1.5 text-[10px] text-white">{activeCount}</span> : null}
+              <span className="text-sm text-[#72807b]" aria-hidden="true">{filtersOpen ? "−" : "+"}</span>
+            </button>
+            <span className="text-[11px] font-medium text-[#7d8884]">{filtered.length} 件作品</span>
+          </div>
+
+          <div className="hidden items-center gap-3 md:flex">
+            <FilterSelect label="產業" options={industryOptions} value={filterIndustry} onChange={setFilterIndustry} />
+            <FilterSelect label="需求" options={problemOptions} value={filterProblem} onChange={setFilterProblem} />
+            <FilterSelect label="預算" options={budgetOptions} value={filterBudget} onChange={setFilterBudget} />
             {activeCount > 0 ? (
-              <button
-                type="button"
-                onClick={() => {
-                  setFilterIndustry("全部")
-                  setFilterProblem("全部")
-                  setFilterBudget("全部")
-                }}
-                className="rounded-full border border-[#0d6b62] px-3 py-1.5 text-[11px] font-black text-[#0d6b62] transition hover:bg-[#eef7f4]"
-              >
-                清除全部
+              <button type="button" onClick={() => resetFilters(setFilterIndustry, setFilterProblem, setFilterBudget)} className="text-[11px] font-semibold text-[#0d6b62] transition hover:text-[#111c22]">
+                清除篩選
               </button>
             ) : null}
-            <span className="ml-auto text-xs font-bold text-[#8a938f]">
-              共 {filtered.length} 件作品
-            </span>
+            <span className="ml-auto text-[11px] font-medium text-[#7d8884]">{filtered.length} 件作品</span>
           </div>
+
+          {filtersOpen ? (
+            <div id="mobile-work-filters" className="mt-3 grid gap-3 border-t border-[#ebe6dc] pt-3 md:hidden">
+              <FilterSelect label="產業" options={industryOptions} value={filterIndustry} onChange={setFilterIndustry} />
+              <FilterSelect label="需求" options={problemOptions} value={filterProblem} onChange={setFilterProblem} />
+              <FilterSelect label="預算" options={budgetOptions} value={filterBudget} onChange={setFilterBudget} />
+              {activeCount > 0 ? (
+                <button type="button" onClick={() => resetFilters(setFilterIndustry, setFilterProblem, setFilterBudget)} className="justify-self-start text-xs font-semibold text-[#0d6b62]">
+                  清除篩選
+                </button>
+              ) : null}
+            </div>
+          ) : null}
         </div>
       </section>
 
@@ -396,27 +400,28 @@ function ProjectHub() {
   )
 }
 
-function FilterGroup({ label, options, value, onChange }) {
+function resetFilters(setIndustry, setProblem, setBudget) {
+  setIndustry("全部")
+  setProblem("全部")
+  setBudget("全部")
+}
+
+function FilterSelect({ label, options, value, onChange }) {
   return (
-    <div className="flex items-center gap-2">
-      <span className="text-xs font-black text-[#40514f]">{label}</span>
-      <div className="flex flex-wrap gap-1">
-        {options.map((opt) => (
-          <button
-            key={opt}
-            type="button"
-            onClick={() => onChange(opt)}
-            className={`rounded-full px-3 py-1.5 text-xs font-black transition ${
-              value === opt
-                ? "bg-[#111c22] text-white"
-                : "border border-[#e3ded3] bg-[#faf8f3] text-[#40514f] hover:border-[#0d6b62]/40"
-            }`}
-          >
-            {opt}
-          </button>
-        ))}
-      </div>
-    </div>
+    <label className="flex items-center gap-2 text-[11px] font-semibold text-[#65716d]">
+      <span className="shrink-0">{label}</span>
+      <span className="relative min-w-0">
+        <select
+          value={value}
+          onChange={(event) => onChange(event.target.value)}
+          className="min-h-9 w-full appearance-none rounded-full border border-[#ddd8ce] bg-[#faf8f3] py-1.5 pl-3 pr-8 text-xs font-semibold text-[#263835] outline-none transition hover:border-[#9daca6] focus:border-[#0d6b62] focus:ring-2 focus:ring-[#0d6b62]/10 md:w-auto"
+          aria-label={`${label}篩選`}
+        >
+          {options.map((option) => <option key={option} value={option}>{option}</option>)}
+        </select>
+        <span className="pointer-events-none absolute right-3 top-1/2 -translate-y-1/2 text-[9px] text-[#72807b]" aria-hidden="true">▼</span>
+      </span>
+    </label>
   )
 }
 
