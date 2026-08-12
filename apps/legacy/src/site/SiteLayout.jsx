@@ -4,6 +4,7 @@ import { contact } from "./content"
 
 const navItems = [
   ["服務", "/services"],
+  ["一頁式", "/onepage"],
   ["作品", "/works"],
   ["SEO／廣告", "/seo-ads"],
   ["價格", "/pricing"],
@@ -68,12 +69,13 @@ function SiteLayout({ children }) {
               <div className="flex items-center gap-3"><span className="h-px w-7 bg-[#c6b98e]" aria-hidden="true" /><p className="text-sm font-semibold tracking-[-.01em]">Qingyu Web Studio</p></div>
               <p className="mt-4 text-[13px] font-medium tracking-[.02em] text-white/52">品牌、網站與成長</p>
               <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[12px] font-medium">
-                <a href={`mailto:${contact.email}`} data-track="contact" data-placement="footer_email" className="text-[#9bc3b9] transition hover:text-white">{contact.email}</a>
+                <a href={`mailto:${contact.email}`} data-track="contact" data-placement="footer_email" className="text-[#9bc3b9] transition hover:text-white">Email</a>
                 <a href={`https://line.me/R/ti/p/~${contact.lineId}`} target="_blank" rel="noreferrer" data-track="contact" data-placement="footer_line" className="text-[#d6c899] transition hover:text-white">LINE {contact.lineId}</a>
               </div>
             </div>
             <nav className="grid grid-cols-2 gap-x-8 gap-y-3 text-[12px] font-medium text-white/54 sm:flex sm:flex-wrap" aria-label="網站導覽">
               <Link to="/services" className="transition hover:text-white">服務</Link>
+              <Link to="/onepage" className="transition hover:text-white">一頁式</Link>
               <Link to="/works" className="transition hover:text-white">作品</Link>
               <Link to="/seo-ads" className="transition hover:text-white">SEO／廣告</Link>
               <Link to="/pricing" className="transition hover:text-white">價格</Link>

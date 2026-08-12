@@ -128,7 +128,7 @@ function ContactLeadSection() {
 
           <div className="mt-8 grid gap-3">
             <ContactLine label="LINE" value={lineId} />
-            <ContactLine label="Email" value={email} />
+            <ContactLine label="Email" value="直接寄信" />
           </div>
 
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">

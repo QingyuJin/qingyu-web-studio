@@ -1,5 +1,6 @@
 import { Suspense, lazy } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
+import ExperiencePolish from "./ExperiencePolish"
 import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
@@ -43,6 +44,25 @@ const WorkDetailPageWholesale = lazy(() => import("./site/WorkDetailPageWholesal
 const WorkDetailPageRag = lazy(() => import("./site/WorkDetailPageRag"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
 const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
+const OnePageHub = lazy(() => import("./onepage/OnePageHub"))
+const BeautyTemplate = lazy(() =>
+  import("./onepage/BeautyClinicTemplates").then((module) => ({ default: module.BeautyTemplate }))
+)
+const ClinicTemplate = lazy(() =>
+  import("./onepage/BeautyClinicTemplates").then((module) => ({ default: module.ClinicTemplate }))
+)
+const RestaurantTemplate = lazy(() =>
+  import("./onepage/RestaurantConstructionTemplates").then((module) => ({ default: module.RestaurantTemplate }))
+)
+const ConstructionTemplate = lazy(() =>
+  import("./onepage/RestaurantConstructionTemplates").then((module) => ({ default: module.ConstructionTemplate }))
+)
+const ManufacturingTemplate = lazy(() =>
+  import("./onepage/ManufacturingSaasTemplates").then((module) => ({ default: module.ManufacturingTemplate }))
+)
+const SaasTemplate = lazy(() =>
+  import("./onepage/ManufacturingSaasTemplates").then((module) => ({ default: module.SaasTemplate }))
+)
 
 function PageFallback() {
   return (
@@ -54,9 +74,18 @@ function PageFallback() {
 
 function App() {
   return (
-    <Suspense fallback={<PageFallback />}>
-      <Routes>
+    <>
+      <ExperiencePolish />
+      <Suspense fallback={<PageFallback />}>
+        <Routes>
         <Route path="/" element={<StudioHome />} />
+        <Route path="/onepage" element={<OnePageHub />} />
+        <Route path="/onepage/beauty" element={<BeautyTemplate />} />
+        <Route path="/onepage/clinic" element={<ClinicTemplate />} />
+        <Route path="/onepage/restaurant" element={<RestaurantTemplate />} />
+        <Route path="/onepage/construction" element={<ConstructionTemplate />} />
+        <Route path="/onepage/manufacturing" element={<ManufacturingTemplate />} />
+        <Route path="/onepage/saas" element={<SaasTemplate />} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
@@ -109,8 +138,9 @@ function App() {
         <Route path="/coachflow" element={<Navigate to="/works" replace />} />
 
         <Route path="*" element={<Navigate to="/" replace />} />
-      </Routes>
-    </Suspense>
+        </Routes>
+      </Suspense>
+    </>
   )
 }
 

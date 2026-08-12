@@ -13,10 +13,17 @@ const routes = [
   ["/works", "網站、電商與客製系統作品案例｜Qingyu Web Studio", "瀏覽品牌網站、電商、廣告視覺、LINE Bot、接單後台與 AI 系統的可操作作品與完整案例"],
   ["/pricing", "網站設計、SEO 與客製系統參考價格｜Qingyu Web Studio", "網站、電商、SEO、廣告落地頁、LINE Bot 與客製後台參考價格"],
   ["/free-audit", "免費網站健檢｜手機體驗、SEO 與轉換檢查｜Qingyu Web Studio", "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑"],
-  ["/contact", "網站、SEO 與數位成長專案諮詢｜Qingyu Web Studio", "留下產業、目前網站、目標、預算與時程，取得適合的做法與估價"],
+  ["/contact", "網站、SEO 與數位成長專案諮詢｜Qingyu Web Studio", "留下產業、目前網站、目標、預算與時程取得適合的做法與估價"],
   ["/ai-transformation", "中小企業 AI 數位轉型實作服務｜Qingyu Web Studio", "企業網站、LINE 接待、訂貨流程、AI 知識庫與客製後台的數位轉型實作方案"],
+  ["/onepage", "一頁式網站設計與六大產業範本｜Qingyu Web Studio", "8–10 個重點區塊把品牌、服務與預約集中在同一頁瀏覽美容、牙醫、餐飲、室內工程、精密製造與 SaaS 六套完整範本", "/assets/onepage/beauty/beauty-hero.webp", "ProfessionalService"],
+  ["/onepage/beauty", "美容保養一頁式網站範本｜Qingyu Web Studio", "美容工作室與保養品牌一頁式網站提案包含肌膚需求、療程、產品成分、服務流程、顧客感受與 LINE 預約", "/assets/onepage/beauty/beauty-hero.webp", "BeautySalon"],
+  ["/onepage/clinic", "牙醫診所一頁式網站範本｜Qingyu Web Studio", "牙醫診所一頁式網站提案包含醫師團隊、診療項目、諮詢規劃、設備環境、看診流程、FAQ、交通資訊與預約掛號", "/assets/onepage/clinic/clinic-hero.webp", "Dentist"],
+  ["/onepage/restaurant", "精品餐飲一頁式網站範本｜Qingyu Web Studio", "餐廳與私廚一頁式網站提案包含主廚故事、招牌餐點、季節限定、食材職人、用餐空間、顧客感受與門市訂位", "/assets/onepage/restaurant/restaurant-hero.webp", "Restaurant"],
+  ["/onepage/construction", "室內設計與工程一頁式網站範本｜Qingyu Web Studio", "室內設計、工程行與統包團隊一頁式網站提案包含服務、現勘、施工流程、工法、現場、案例、保固與免費估價", "/assets/onepage/construction/construction-hero.webp", "ProfessionalService"],
+  ["/onepage/manufacturing", "精密製造與金屬加工一頁式網站範本｜Qingyu Web Studio", "金屬加工與精密製造一頁式網站提案包含加工能力、產品類別、CNC 設備、生產流程、精密量測、品質管理與詢價表單", "/assets/onepage/manufacturing/manufacturing-hero.webp", "ProfessionalService"],
+  ["/onepage/saas", "SaaS、AI 與 ERP 一頁式網站範本｜Qingyu Web Studio", "SaaS、AI 與 ERP 一頁式網站提案包含互動 Dashboard、核心功能、自動化流程、系統整合、資安架構、方案比較與試用申請", "/assets/onepage/saas/saas-hero.webp", "SoftwareApplication"],
   ["/tools/project-planner", "網站需求診斷工具｜Qingyu Web Studio", "快速整理網站、SEO、LINE Bot、電商或客製系統的需求方向"],
-  ["/tools/website-rescue", "網站健檢與優化互動展示｜Qingyu Web Studio", "互動檢查網站手機體驗、CTA、SEO 與信任內容，查看改善前後差異"],
+  ["/tools/website-rescue", "網站健檢與優化互動展示｜Qingyu Web Studio", "互動檢查網站手機體驗、CTA、SEO 與信任內容查看改善前後差異"],
   ["/tools/linebot-mission", "LINE Bot 接待與後台同步展示｜Qingyu Web Studio", "體驗 LINE Bot 自動接待、需求追問與後台同步流程"],
   ["/works/beauty-shopline-preview", "LULUFACE 美容品牌電商提案｜Qingyu Web Studio", "美容品牌、商品、服務、培訓與手機購物流程的完整品牌電商設計"],
   ["/works/ecommerce-platform-redesign", "Shopify、MeepShop 平台電商建置與優化｜Qingyu Web Studio", "平台電商首頁、分類、商品頁、手機購物、SEO 與成效追蹤優化展示"],
@@ -45,9 +52,9 @@ function replaceAttribute(html, selector, value) {
   return html.replace(expression, `$1${escaped}$2`)
 }
 
-function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large") {
+function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png", entityType = "") {
   const canonical = `${siteUrl}${route}`
-  const pageData = {
+  const webPage = {
     "@context": "https://schema.org",
     "@type": "WebPage",
     name: title,
@@ -56,6 +63,23 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
     inLanguage: "zh-Hant-TW",
     isPartOf: { "@type": "WebSite", name: "Qingyu Web Studio", url: `${siteUrl}/` },
   }
+  const pageData = entityType
+    ? {
+        "@context": "https://schema.org",
+        "@graph": [
+          webPage,
+          {
+            "@type": entityType,
+            name: `${title.split("｜")[0]}（產業提案範本）`,
+            url: canonical,
+            description: `${description}本頁為產業提案範本非實際營業單位或客戶實績`,
+            additionalProperty: { "@type": "PropertyValue", name: "資料性質", value: "產業提案範本" },
+            ...(entityType === "SoftwareApplication" ? { applicationCategory: "BusinessApplication", operatingSystem: "Web" } : {}),
+          },
+        ],
+      }
+    : webPage
+  const image = `${siteUrl}${imagePath}`
 
   let html = template.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
   html = replaceAttribute(html, 'name="description"', description)
@@ -66,16 +90,19 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
   html = replaceAttribute(html, 'property="og:title"', title)
   html = replaceAttribute(html, 'property="og:description"', description)
   html = replaceAttribute(html, 'property="og:url"', canonical)
+  html = replaceAttribute(html, 'property="og:image"', image)
+  html = replaceAttribute(html, 'property="og:image:alt"', `${title.split("｜")[0]}預覽`)
   html = replaceAttribute(html, 'name="twitter:title"', title)
   html = replaceAttribute(html, 'name="twitter:description"', description)
+  html = replaceAttribute(html, 'name="twitter:image"', image)
   html = html.replace("</head>", `    <script type="application/ld+json">${JSON.stringify(pageData).replaceAll("<", "\\u003c")}</script>\n  </head>`)
   return html
 }
 
-for (const [route, title, description] of routes) {
+for (const [route, title, description, imagePath, entityType] of routes) {
   const destination = path.join(outputRoot, route.replace(/^\//, ""), "index.html")
   await mkdir(path.dirname(destination), { recursive: true })
-  await writeFile(destination, buildPageHtml(route, title, description), "utf8")
+  await writeFile(destination, buildPageHtml(route, title, description, undefined, imagePath, entityType), "utf8")
 }
 
 await writeFile(

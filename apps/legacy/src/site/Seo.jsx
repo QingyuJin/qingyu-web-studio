@@ -77,8 +77,8 @@ function Seo({ page = seo.home }) {
     })
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: url })
     upsertMeta('meta[property="og:image"]', { property: "og:image", content: image })
-    upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: "1200" })
-    upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: "630" })
+    upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: String(page.imageWidth ?? 1200) })
+    upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: String(page.imageHeight ?? 630) })
     upsertMeta('meta[property="og:image:alt"]', {
       property: "og:image:alt",
       content: page.imageAlt ?? "Qingyu Web Studio 品牌網站、SEO 與數位成長服務",

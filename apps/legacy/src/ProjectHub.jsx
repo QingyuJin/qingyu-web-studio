@@ -317,11 +317,8 @@ function ProjectHub() {
             Works Catalog
           </p>
           <h1 className="mt-4 max-w-4xl font-['Noto_Serif_TC',serif] text-[clamp(2rem,6vw,4rem)] font-black leading-[1.12] text-[#111c22]">
-            從品牌網站到接單、後台與 AI 系統
+            網站 電商 系統
           </h1>
-          <p className="mt-5 max-w-2xl text-sm font-bold leading-7 text-[#52605c] md:text-base">
-            依照產業、需求與預算找到適合的成品先看真的畫面 再決定要做哪一種
-          </p>
         </div>
       </section>
 
@@ -337,7 +334,7 @@ function ProjectHub() {
             >
               <span>篩選作品</span>
               {activeCount > 0 ? <span className="grid h-5 min-w-5 place-items-center rounded-full bg-[#15322e] px-1.5 text-[10px] text-white">{activeCount}</span> : null}
-              <span className="text-sm text-[#72807b]" aria-hidden="true">{filtersOpen ? "−" : "+"}</span>
+              <span className="text-[10px] text-[#72807b]" aria-hidden="true">{filtersOpen ? "收合" : "展開"}</span>
             </button>
             <span className="text-[11px] font-medium text-[#7d8884]">{filtered.length} 件作品</span>
           </div>
@@ -439,7 +436,7 @@ function WorkCard({ work, featured = false }) {
             <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">
               {work.type}
             </span>
-            <h3 className="mt-3 font-['Noto_Serif_TC',serif] text-2xl font-black leading-tight text-[#111c22]">
+            <h3 className="mt-3 font-['Noto_Serif_TC',serif] text-xl font-bold leading-tight text-[#111c22]">
               {work.title}
             </h3>
           </div>
@@ -448,14 +445,8 @@ function WorkCard({ work, featured = false }) {
           </span>
         </div>
 
-        <div className="mt-4 grid gap-2 text-sm font-bold leading-6 text-[#52605c]">
-          <InfoLine label="產業" value={work.industry} />
-          <InfoLine label="問題" value={work.problem} />
-          <InfoLine label="解法" value={work.solution} />
-        </div>
-
         <div className="mt-4 flex flex-wrap gap-1.5">
-          {work.tags.slice(0, 3).map((tag) => (
+          {work.tags.slice(0, 2).map((tag) => (
             <span
               key={tag}
               className="rounded-md bg-white px-2 py-1 text-[11px] font-black text-[#66716d] ring-1 ring-[#e3ded3]"
@@ -479,8 +470,6 @@ function WorkCard({ work, featured = false }) {
             {work.secondary[0]}
           </SmartLink>
         </div>
-
-        <p className="mt-4 text-xs font-bold text-[#8a938f]">預估工期：{work.duration}</p>
       </div>
     </article>
   )
@@ -516,7 +505,7 @@ function WorkVisual({ visual, title }) {
           src={src}
           alt={title}
           loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover"
+          className="qy-tech-visual absolute inset-0 h-full w-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-transparent to-black/10" />
       </div>
@@ -533,15 +522,6 @@ function WorkVisual({ visual, title }) {
         </div>
       </div>
     </div>
-  )
-}
-
-function InfoLine({ label, value }) {
-  return (
-    <p className="line-clamp-2">
-      <span className="font-black text-[#111c22]">{label}：</span>
-      {value}
-    </p>
   )
 }
 
