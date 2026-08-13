@@ -1,4 +1,7 @@
 import { useLayoutEffect } from "react"
+import { cleanDisplayText } from "./experienceText"
+import { useLocale } from "./i18n/LocaleContext"
+import { translateDisplayText } from "./i18n/translations"
 
 const protectedSelector = [
   "script",
@@ -9,66 +12,68 @@ const protectedSelector = [
   "samp",
   "input",
   "textarea",
+  "svg",
   "[contenteditable='true']",
   "[data-preserve-text]",
+  "[data-i18n-control]",
 ].join(",")
 
-const punctuationPattern = /[，。！？、；：﹐﹑﹒·•‧・「」『』“”‘’（）〔〕【】［］｛｝《》〈〉—–…／/｜|→↗↘←↑↓＋+＝=※＊*#]/g
-const asciiPunctuationPattern = /[,:;!?()[\]{}]/g
+const textSources = new WeakMap()
+const textRenderedValues = new WeakMap()
+const attributeSources = new WeakMap()
+const attributeRenderedValues = new WeakMap()
 
-function looksTechnical(value) {
-  const text = value.trim()
-  return /^\S+@\S+\.\S+$/.test(text) || /^https?:\/\//i.test(text)
-}
-
-export function cleanDisplayText(value) {
-  if (!value.trim() || looksTechnical(value)) return value
-
-  const hasLeadingSpace = /^\s/.test(value)
-  const hasTrailingSpace = /\s$/.test(value)
-  let next = value
-    .replace(punctuationPattern, " ")
-    .replace(asciiPunctuationPattern, " ")
-    .replace(/\.{2,}/g, " ")
-    .replace(/\s+/g, " ")
-    .trim()
-
-  if (!next) return ""
-  if (hasLeadingSpace) next = ` ${next}`
-  if (hasTrailingSpace) next = `${next} `
-  return next
-}
-
-function cleanTextNode(node) {
+function renderTextNode(node, locale) {
   const parent = node.parentElement
   if (!parent || parent.closest(protectedSelector)) return
-  if (parent.tagName === "OPTION" && !parent.hasAttribute("value")) {
-    parent.setAttribute("value", (node.nodeValue || "").trim())
+  const current = node.nodeValue || ""
+  const previousRendered = textRenderedValues.get(node)
+
+  if (!textSources.has(node) || (previousRendered !== undefined && current !== previousRendered)) {
+    textSources.set(node, cleanDisplayText(current))
   }
-  const next = cleanDisplayText(node.nodeValue || "")
-  if (next !== node.nodeValue) node.nodeValue = next
+
+  if (parent.tagName === "OPTION" && !parent.hasAttribute("value")) {
+    parent.setAttribute("value", (textSources.get(node) || "").trim())
+  }
+
+  const next = translateDisplayText(textSources.get(node) || "", locale)
+  textRenderedValues.set(node, next)
+  if (next !== current) node.nodeValue = next
 }
 
-function cleanVisibleAttributes(root) {
+function renderAttributes(root, locale) {
   const elements = []
-  if (root instanceof Element && root.matches("[placeholder],[title]")) elements.push(root)
+  if (root instanceof Element && root.matches("[placeholder],[title],[aria-label],[alt],meta[content]")) elements.push(root)
   if (root instanceof Element || root instanceof DocumentFragment) {
-    elements.push(...root.querySelectorAll("[placeholder],[title]"))
+    elements.push(...root.querySelectorAll("[placeholder],[title],[aria-label],[alt],meta[content]"))
   }
 
   elements.forEach((element) => {
-    for (const attribute of ["placeholder", "title"]) {
+    if (element.closest("[data-i18n-control]")) return
+    const names = ["placeholder", "title", "aria-label", "alt"]
+    if (element.matches('meta[name="description"],meta[property="og:title"],meta[property="og:description"],meta[property="og:image:alt"],meta[name="twitter:title"],meta[name="twitter:description"]')) names.push("content")
+
+    for (const attribute of names) {
       if (!element.hasAttribute(attribute)) continue
-      const value = element.getAttribute(attribute) || ""
-      const next = cleanDisplayText(value)
-      if (next !== value) element.setAttribute(attribute, next)
+      const current = element.getAttribute(attribute) || ""
+      const sourceMap = attributeSources.get(element) || {}
+      const renderedMap = attributeRenderedValues.get(element) || {}
+      if (!(attribute in sourceMap) || (attribute in renderedMap && current !== renderedMap[attribute])) {
+        sourceMap[attribute] = cleanDisplayText(current)
+        attributeSources.set(element, sourceMap)
+      }
+      const next = translateDisplayText(sourceMap[attribute], locale)
+      renderedMap[attribute] = next
+      attributeRenderedValues.set(element, renderedMap)
+      if (next !== current) element.setAttribute(attribute, next)
     }
   })
 }
 
-function walkText(root) {
+function walkText(root, locale) {
   if (root.nodeType === Node.TEXT_NODE) {
-    cleanTextNode(root)
+    renderTextNode(root, locale)
     return
   }
   if (!(root instanceof Element) && !(root instanceof DocumentFragment)) return
@@ -76,7 +81,7 @@ function walkText(root) {
   const walker = document.createTreeWalker(root, NodeFilter.SHOW_TEXT)
   const nodes = []
   while (walker.nextNode()) nodes.push(walker.currentNode)
-  nodes.forEach(cleanTextNode)
+  nodes.forEach((node) => renderTextNode(node, locale))
 }
 
 function enhanceImages(root) {
@@ -99,43 +104,45 @@ function enhanceImages(root) {
 }
 
 function ExperiencePolish() {
+  const { locale } = useLocale()
+
   useLayoutEffect(() => {
     document.documentElement.classList.add("qingyu-refined")
-    walkText(document.body)
-    cleanVisibleAttributes(document.body)
+    walkText(document.documentElement, locale)
+    renderAttributes(document.documentElement, locale)
     enhanceImages(document.body)
 
     const observer = new MutationObserver((records) => {
       records.forEach((record) => {
         if (record.type === "characterData") {
-          cleanTextNode(record.target)
+          renderTextNode(record.target, locale)
           return
         }
         if (record.type === "attributes") {
-          cleanVisibleAttributes(record.target)
+          renderAttributes(record.target, locale)
           return
         }
         record.addedNodes.forEach((node) => {
-          walkText(node)
-          cleanVisibleAttributes(node)
+          walkText(node, locale)
+          renderAttributes(node, locale)
           enhanceImages(node)
         })
       })
     })
 
-    observer.observe(document.body, {
+    observer.observe(document.documentElement, {
       childList: true,
       subtree: true,
       characterData: true,
       attributes: true,
-      attributeFilter: ["placeholder", "title"],
+      attributeFilter: ["placeholder", "title", "aria-label", "alt", "content"],
     })
 
     return () => {
       observer.disconnect()
       document.documentElement.classList.remove("qingyu-refined")
     }
-  }, [])
+  }, [locale])
 
   return null
 }

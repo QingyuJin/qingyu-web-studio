@@ -1,6 +1,8 @@
 import { Suspense, lazy } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
 import ExperiencePolish from "./ExperiencePolish"
+import { LocaleProvider } from "./i18n/LocaleContext"
+import LocaleSwitcher from "./i18n/LocaleSwitcher"
 import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
@@ -74,8 +76,9 @@ function PageFallback() {
 
 function App() {
   return (
-    <>
+    <LocaleProvider>
       <ExperiencePolish />
+      <LocaleSwitcher />
       <Suspense fallback={<PageFallback />}>
         <Routes>
         <Route path="/" element={<StudioHome />} />
@@ -140,7 +143,7 @@ function App() {
         <Route path="*" element={<Navigate to="/" replace />} />
         </Routes>
       </Suspense>
-    </>
+    </LocaleProvider>
   )
 }
 

@@ -667,6 +667,54 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
   text-wrap: pretty;
 }
 
+.qy-locale-switcher {
+  position: fixed;
+  top: 76px;
+  right: 12px;
+  z-index: 90;
+  display: flex;
+  align-items: center;
+  gap: 2px;
+  border: 1px solid rgba(18, 35, 33, 0.12);
+  border-radius: 999px;
+  background: rgba(247, 245, 240, 0.88);
+  padding: 3px;
+  box-shadow: 0 12px 32px rgba(10, 20, 20, 0.1);
+  backdrop-filter: blur(14px);
+}
+
+.qy-locale-switcher button {
+  display: grid;
+  width: 30px;
+  height: 30px;
+  place-items: center;
+  border: 0;
+  border-radius: 999px;
+  background: transparent;
+  color: #69736f;
+  font-family: Inter, "Noto Sans", "Noto Sans TC", system-ui, sans-serif;
+  font-size: 9px;
+  font-weight: 700;
+  line-height: 1;
+}
+
+.qy-locale-switcher button[aria-current="true"] {
+  background: #132321;
+  color: #f7f5f0;
+}
+
+html[data-locale="en"] body {
+  letter-spacing: 0.002em;
+}
+
+html[data-locale="ja"] body {
+  font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
+html[data-locale="ko"] body {
+  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
 .qingyu-refined .studio-shell :is(section, article) p {
   max-width: 58ch;
 }
@@ -785,6 +833,17 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
 }
 
 @media (max-width: 640px) {
+  .qy-locale-switcher {
+    top: auto;
+    right: 10px;
+    bottom: 12px;
+  }
+
+  .op-mobile-contact ~ .qy-locale-switcher,
+  body:has(.op-mobile-contact) .qy-locale-switcher {
+    bottom: 68px;
+  }
+
   .mobile-soft-title {
     letter-spacing: -0.04em;
     line-height: 1.14;
@@ -851,5 +910,11 @@ main :is(button, a[href])[class*="bg-slate-950"]:hover {
     animation-iteration-count: 1 !important;
     scroll-behavior: auto !important;
     transition-duration: 0.001ms !important;
+  }
+}
+
+@media print {
+  .qy-locale-switcher {
+    display: none;
   }
 }

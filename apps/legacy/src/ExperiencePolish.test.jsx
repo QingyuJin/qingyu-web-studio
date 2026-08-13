@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { cleanDisplayText } from "./ExperiencePolish"
+import { cleanDisplayText } from "./experienceText"
 
 describe("cleanDisplayText", () => {
   it("removes decorative and sentence punctuation", () => {
