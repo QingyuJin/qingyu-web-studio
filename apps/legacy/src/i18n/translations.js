@@ -143,6 +143,66 @@ const entries = [
   ["客戶溝通", "Customer Communication", "顧客コミュニケーション", "고객 커뮤니케이션"],
   ["AI 與自動化", "AI and Automation", "AI と自動化", "AI와 자동화"],
   ["內部流程", "Internal Workflow", "社内フロー", "내부 프로세스"],
+  ["LULUFACE 美容品牌電商", "LULUFACE Beauty Commerce", "LULUFACE 美容ブランドEC", "LULUFACE 뷰티 브랜드 커머스"],
+  ["MORIE SELECT 選品電商", "MORIE SELECT Curated Store", "MORIE SELECT セレクトEC", "MORIE SELECT 셀렉트 스토어"],
+  ["商業視覺與廣告 Campaign", "Campaign Visual Design", "広告キャンペーンビジュアル", "광고 캠페인 비주얼"],
+  ["平台電商 Shopify MeepShop 建置與視覺優化", "Shopify and MeepShop Store Design", "Shopify MeepShop ストア設計", "Shopify MeepShop 스토어 디자인"],
+  ["鑫匠工程", "Xinjiang Construction", "鑫匠工程", "鑫匠工程"],
+  ["批發訂貨系統", "Wholesale Ordering System", "卸売受注システム", "도매 주문 시스템"],
+  ["RAG 企業知識庫", "RAG Knowledge Base", "RAG 企業ナレッジベース", "RAG 기업 지식베이스"],
+  ["生醫品牌網站", "Biomedical Brand Website", "バイオメディカル ブランドサイト", "바이오메디컬 브랜드 웹사이트"],
+  ["公司一頁式官網", "Company One Page Website", "企業ワンページサイト", "기업 원페이지 웹사이트"],
+  ["網站成效追蹤 曝光管理後台", "Website Analytics Dashboard", "サイト分析ダッシュボード", "웹사이트 성과 대시보드"],
+  ["點餐系統", "Restaurant Ordering System", "飲食店注文システム", "음식점 주문 시스템"],
+  ["工程接案系統", "Construction Project System", "工事案件管理システム", "시공 프로젝트 시스템"],
+  ["互動測驗系統", "Interactive Quiz System", "インタラクティブ診断システム", "인터랙티브 퀴즈 시스템"],
+  ["LINE Bot 接待", "LINE Bot Reception", "LINE Bot 受付", "LINE Bot 상담"],
+  ["AI 網站健檢", "AI Website Review", "AI サイト診断", "AI 웹사이트 진단"],
+  ["Notion 個人品牌頁", "Notion Personal Brand Page", "Notion 個人ブランドページ", "Notion 개인 브랜드 페이지"],
+  ["AI 技術實驗", "AI Lab", "AI 技術ラボ", "AI 기술 실험"],
+  ["品牌電商", "Brand Commerce", "ブランドEC", "브랜드 커머스"],
+  ["電商展示", "Commerce Demo", "EC デモ", "커머스 데모"],
+  ["視覺展示", "Visual Portfolio", "ビジュアル実績", "비주얼 포트폴리오"],
+  ["美容服務", "Beauty Services", "美容サービス", "뷰티 서비스"],
+  ["DTC 電商", "DTC Commerce", "DTC EC", "DTC 커머스"],
+  ["廣告視覺", "Campaign Visuals", "広告ビジュアル", "광고 비주얼"],
+  ["品牌官網", "Brand Website", "ブランドサイト", "브랜드 웹사이트"],
+  ["詢價表單", "Inquiry Form", "見積もりフォーム", "견적 문의 폼"],
+  ["商品列表", "Product Catalog", "商品一覧", "상품 목록"],
+  ["專屬價格", "Custom Pricing", "個別価格", "맞춤 가격"],
+  ["文件問答", "Document Q and A", "文書Q A", "문서 Q A"],
+  ["引用來源", "Source Citations", "引用元", "출처 인용"],
+  ["活動報名", "Event Registration", "イベント申込", "이벤트 신청"],
+  ["瀏覽追蹤", "Traffic Tracking", "閲覧計測", "방문 추적"],
+  ["搜尋曝光", "Search Visibility", "検索表示", "검색 노출"],
+  ["點餐", "Ordering", "注文", "주문"],
+  ["控單", "Order Control", "注文管理", "주문 관리"],
+  ["詢價", "Inquiry", "見積もり", "견적 문의"],
+  ["案件", "Projects", "案件", "프로젝트"],
+  ["題庫", "Question Bank", "問題集", "문제 은행"],
+  ["計分", "Scoring", "採点", "채점"],
+  ["自動回覆", "Auto Reply", "自動返信", "자동 응답"],
+  ["AI 報告", "AI Report", "AI レポート", "AI 보고서"],
+  ["個人品牌", "Personal Brand", "個人ブランド", "개인 브랜드"],
+  ["報價", "Quotes", "見積もり", "견적"],
+  ["開啟正式展示", "Open Live Site", "公開サイトを開く", "라이브 사이트 열기"],
+  ["體驗電商成品", "Explore Store", "ストアを見る", "스토어 체험"],
+  ["查看視覺作品", "View Visual Work", "ビジュアル実績を見る", "비주얼 작업 보기"],
+  ["查看展示", "View Demo", "デモを見る", "데모 보기"],
+  ["操作系統", "Try System", "システムを試す", "시스템 체험"],
+  ["查看工具", "Open Tool", "ツールを開く", "도구 열기"],
+  ["查看提案拆解", "View Case Study", "提案の詳細を見る", "제안 상세 보기"],
+  ["詢問類似電商", "Discuss a Store", "EC制作を相談", "스토어 제작 문의"],
+  ["討論廣告素材", "Discuss Campaigns", "広告制作を相談", "광고 소재 문의"],
+  ["詢問平台商店改版", "Discuss Store Redesign", "ストア改修を相談", "스토어 개편 문의"],
+  ["詢問類似系統", "Discuss a System", "システム制作を相談", "시스템 제작 문의"],
+  ["詢問類似網站", "Discuss a Website", "サイト制作を相談", "웹사이트 제작 문의"],
+  ["詢問追蹤後台", "Discuss Analytics", "分析画面を相談", "분석 대시보드 문의"],
+  ["詢問點餐系統", "Discuss Ordering", "注文システムを相談", "주문 시스템 문의"],
+  ["看鑫匠案例", "View Xinjiang Case", "鑫匠の事例を見る", "鑫匠 사례 보기"],
+  ["詢問測驗頁", "Discuss a Quiz", "診断ページを相談", "퀴즈 페이지 문의"],
+  ["詢問 LINE Bot", "Discuss LINE Bot", "LINE Botを相談", "LINE Bot 문의"],
+  ["詢問類似頁", "Discuss a Page", "同様のページを相談", "유사 페이지 문의"],
   ["沒有符合條件的作品", "No Matching Work", "該当する実績がありません", "조건에 맞는 포트폴리오가 없습니다"],
   ["試著放寬篩選條件看看", "Try Broader Filters", "条件を広げてください", "필터 범위를 넓혀 보세요"],
   ["聯絡方式", "Contact", "連絡先", "연락처"],
@@ -358,6 +418,25 @@ function translateDynamic(value, locale) {
     if (locale === "en") return `From NT$${match[1]}`
     if (locale === "ja") return `NT$${match[1]}から`
     return `NT$${match[1]}부터`
+  }
+
+  match = value.match(/^(\d+\s+\d+)\s+(\d+\s+\d+) 元$/)
+  if (match) {
+    if (locale === "en") return `NT$${match[1]} to ${match[2]}`
+    if (locale === "ja") return `NT$${match[1]}から${match[2]}`
+    return `NT$${match[1]}에서 ${match[2]}`
+  }
+
+  match = value.match(/^([\d\s]+) 元以下$/)
+  if (match) {
+    if (locale === "en") return `Up to NT$${match[1]}`
+    if (locale === "ja") return `NT$${match[1]}以下`
+    return `NT$${match[1]} 이하`
+  }
+
+  match = value.match(/^([\d\s]+) 元$/)
+  if (match) {
+    return `NT$${match[1]}`
   }
 
   match = value.match(/^([\d\s]+) 天$/)

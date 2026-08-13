@@ -385,7 +385,7 @@ function ProjectHub() {
               </button>
             </div>
           ) : (
-            <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3">
+            <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-3">
               {filtered.map((work) => (
                 <WorkCard key={work.title} work={work} />
               ))}
@@ -425,25 +425,23 @@ function FilterSelect({ label, options, value, onChange }) {
 function WorkCard({ work, featured = false }) {
   return (
     <article
-      className={`group overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20 ${featured ? "lg:col-span-1" : ""}`}
+      className={`group flex min-w-0 flex-col overflow-hidden rounded-2xl border border-[#e3ded3] bg-[#faf8f3] transition hover:-translate-y-1 hover:border-[#111c22]/30 hover:shadow-xl hover:shadow-[#c8bba9]/20 ${featured ? "xl:col-span-1" : ""}`}
     >
       <div className="p-4">
         <WorkVisual visual={work.visual} title={work.title} />
       </div>
-      <div className="px-5 pb-5">
-        <div className="flex items-start justify-between gap-3">
-          <div>
-            <span className="rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black text-[#0d6b62]">
-              {work.type}
-            </span>
-            <h3 className="mt-3 font-['Noto_Serif_TC',serif] text-xl font-bold leading-tight text-[#111c22]">
-              {work.title}
-            </h3>
-          </div>
-          <span className="shrink-0 rounded-full bg-white px-3 py-1 text-[11px] font-black text-[#5f6b67] ring-1 ring-[#e3ded3]">
+      <div className="flex flex-1 flex-col px-5 pb-5">
+        <div className="flex flex-wrap items-center gap-2">
+          <span className="max-w-full rounded-full bg-[#eef7f4] px-2.5 py-1 text-[11px] font-black leading-5 text-[#0d6b62]">
+            {work.type}
+          </span>
+          <span className="max-w-full rounded-full bg-white px-3 py-1 text-[11px] font-black leading-5 text-[#5f6b67] ring-1 ring-[#e3ded3]">
             {work.price}
           </span>
         </div>
+        <h3 className="mt-4 font-['Noto_Serif_TC',serif] text-lg font-bold leading-[1.28] text-[#111c22] sm:text-xl">
+          {work.title}
+        </h3>
 
         <div className="mt-4 flex flex-wrap gap-1.5">
           {work.tags.slice(0, 2).map((tag) => (
@@ -456,16 +454,16 @@ function WorkCard({ work, featured = false }) {
           ))}
         </div>
 
-        <div className="mt-5 flex flex-wrap gap-2">
+        <div className="mt-auto grid gap-2 pt-5">
           <SmartLink
             to={work.primary[1]}
-            className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white transition group-hover:bg-[#0d6b62]"
+            className="inline-flex min-h-10 w-full items-center justify-center rounded-lg bg-[#111c22] px-4 py-2 text-center text-xs font-black leading-5 text-white transition group-hover:bg-[#0d6b62]"
           >
             {work.primary[0]}
           </SmartLink>
           <SmartLink
             to={work.secondary[1]}
-            className="hidden min-h-10 items-center rounded-lg border border-[#d5ded9] bg-white px-4 text-sm font-black text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex"
+            className="hidden min-h-10 w-full items-center justify-center rounded-lg border border-[#d5ded9] bg-white px-4 py-2 text-center text-xs font-black leading-5 text-[#111c22] transition hover:border-[#0d6b62] md:inline-flex"
           >
             {work.secondary[0]}
           </SmartLink>

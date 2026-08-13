@@ -22,6 +22,15 @@ describe("translateDisplayText", () => {
     expect(translateDisplayText("施工進度與材料管理", "ko")).toBe("범위 진행 납품을 명확하게 관리")
   })
 
+  it("uses compact translations for work cards", () => {
+    expect(translateDisplayText("LULUFACE 美容品牌電商", "en")).toBe("LULUFACE Beauty Commerce")
+    expect(translateDisplayText("品牌電商", "en")).toBe("Brand Commerce")
+    expect(translateDisplayText("開啟正式展示", "en")).toBe("Open Live Site")
+    expect(translateDisplayText("平台電商 Shopify MeepShop 建置與視覺優化", "ko")).toBe("Shopify MeepShop 스토어 디자인")
+    expect(translateDisplayText("12 000 20 000 元", "en")).toBe("NT$12 000 to 20 000")
+    expect(translateDisplayText("6 000 元以下", "ja")).toBe("NT$6 000以下")
+  })
+
   it("keeps translated display copy free of punctuation", () => {
     const title = translateDisplayText("網站設計 SEO 廣告落地頁與電商整合 Qingyu Web Studio", "en")
     expect(title).toBe("Web Design SEO Advertising and Commerce Qingyu Web Studio")
