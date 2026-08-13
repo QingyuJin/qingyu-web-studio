@@ -29,7 +29,7 @@ function SiteLayout({ children }) {
     <main className="studio-shell min-h-screen bg-[#f7f5f0] text-[#101b1d]">
       <header className="sticky top-0 z-50 border-b border-[#162321]/10 bg-[#f7f5f0]/92 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-7 lg:px-9">
-          <Link to="/" onClick={() => setMenuOpen(false)} className="group flex items-center gap-3" aria-label="Qingyu Web Studio 首頁">
+          <Link to="/" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-3" aria-label="Qingyu Web Studio 首頁">
             <span className="h-px w-6 bg-[#9b8e69] transition-all group-hover:w-9" aria-hidden="true" />
             <span className="leading-none">
               <span className="block text-[13px] font-semibold tracking-[-.02em] text-[#14211f]">Qingyu Web Studio</span>
@@ -37,22 +37,22 @@ function SiteLayout({ children }) {
             </span>
           </Link>
 
-          <nav className="hidden items-center gap-8 text-[12px] font-semibold tracking-[.02em] lg:flex" aria-label="主要導覽">
+          <nav className="hidden items-center gap-6 text-[12px] font-semibold tracking-[.02em] xl:flex xl:gap-8" aria-label="主要導覽">
             {navItems.map(([label, path]) => <NavItem key={path} label={label} path={path} />)}
           </nav>
 
           <div className="flex items-center gap-2">
-            <Link to="/contact" onClick={() => setMenuOpen(false)} data-track="contact" data-placement="header" className="inline-flex min-h-9 items-center justify-center rounded-full bg-[#132321] px-4 text-[11px] font-semibold tracking-[.04em] text-[#f7f5f0] transition hover:bg-[#285f57] sm:px-5">
+            <Link to="/contact" onClick={() => setMenuOpen(false)} data-track="contact" data-placement="header" className="inline-flex min-h-9 shrink-0 items-center justify-center whitespace-nowrap rounded-full bg-[#132321] px-4 text-[11px] font-semibold tracking-[.04em] text-[#f7f5f0] transition hover:bg-[#285f57] sm:px-5">
               洽談專案
             </Link>
-            <button type="button" aria-label="切換選單" aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen((current) => !current)} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#162321]/12 bg-white/60 text-[#14231f] lg:hidden">
+            <button type="button" aria-label="切換選單" aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen((current) => !current)} className="inline-flex h-9 w-9 items-center justify-center rounded-full border border-[#162321]/12 bg-white/60 text-[#14231f] xl:hidden">
               <span className="grid gap-1.5" aria-hidden="true"><span className={`block h-px w-4 bg-current transition ${menuOpen ? "translate-y-[3.5px] rotate-45" : ""}`} /><span className={`block h-px w-4 bg-current transition ${menuOpen ? "-translate-y-[3.5px] -rotate-45" : ""}`} /></span>
             </button>
           </div>
         </div>
 
         {menuOpen ? (
-          <nav id="mobile-navigation" className="border-t border-[#162321]/10 bg-[#f7f5f0] px-5 py-3 lg:hidden" aria-label="手機導覽">
+          <nav id="mobile-navigation" className="border-t border-[#162321]/10 bg-[#f7f5f0] px-5 py-3 xl:hidden" aria-label="手機導覽">
             <div className="mx-auto grid max-w-7xl gap-0.5 text-[13px] font-semibold">
               {[...navItems, ["聯絡", "/contact"]].map(([label, path]) => <NavItem key={path} label={label} path={path} onClick={() => setMenuOpen(false)} className="rounded-xl px-4 py-3 hover:bg-white/70" />)}
             </div>

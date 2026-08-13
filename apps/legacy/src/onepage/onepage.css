@@ -102,6 +102,8 @@
   font-size: 11px;
   font-weight: 800;
   text-decoration: none;
+  text-align: center;
+  white-space: nowrap;
 }
 
 .is-dark .op-header-cta {
@@ -2235,6 +2237,98 @@
   font-size: clamp(31px, 3.85vw, 50px);
   font-weight: 820;
   letter-spacing: -0.04em;
+}
+
+/* Language-aware typography keeps translated layouts calm and readable */
+html[data-locale="en"] :is(.onepage-hub, .op-template) {
+  font-family: Inter, "Segoe UI", Arial, sans-serif;
+}
+
+html[data-locale="ja"] :is(.onepage-hub, .op-template) {
+  font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
+}
+
+html[data-locale="ko"] :is(.onepage-hub, .op-template) {
+  font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+html.qingyu-refined[data-locale="en"] .op-template h1 {
+  font-size: clamp(2rem, 3.55vw, 3.25rem) !important;
+  line-height: 1.14 !important;
+  letter-spacing: -0.038em !important;
+}
+
+html.qingyu-refined[data-locale="ja"] .op-template h1,
+html.qingyu-refined[data-locale="ko"] .op-template h1 {
+  font-size: clamp(1.95rem, 3.4vw, 3.1rem) !important;
+  line-height: 1.32 !important;
+  letter-spacing: -0.025em !important;
+}
+
+html.qingyu-refined[data-locale="en"] :is(.op-template, .onepage-hub) h2 {
+  font-size: clamp(1.5rem, 2.7vw, 2.3rem) !important;
+  line-height: 1.22 !important;
+}
+
+html.qingyu-refined[data-locale="ja"] :is(.op-template, .onepage-hub) h2,
+html.qingyu-refined[data-locale="ko"] :is(.op-template, .onepage-hub) h2 {
+  font-size: clamp(1.45rem, 2.55vw, 2.2rem) !important;
+  line-height: 1.38 !important;
+  letter-spacing: -0.02em !important;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .op-template-header :is(a, strong, small) {
+  letter-spacing: 0.015em;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .op-template-header-actions {
+  gap: 14px;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .op-header-cta {
+  padding-inline: 16px;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .op-template :is(.op-form-actions, .op-hub-actions, .op-hub-contact, .op-mobile-contact) :is(a, button) {
+  min-height: 44px;
+  padding-block: 9px;
+  line-height: 1.35;
+  text-align: center;
+  white-space: normal;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .op-template :is(article, li, dd, dt, blockquote) {
+  min-width: 0;
+}
+
+@media (max-width: 760px) {
+  html[data-locale]:not([data-locale="zh-Hant"]) .op-template-brand small {
+    display: none;
+  }
+
+  html[data-locale]:not([data-locale="zh-Hant"]) .op-template-brand strong {
+    max-width: 42vw;
+    font-size: 13px;
+    line-height: 1.2;
+  }
+
+  html[data-locale]:not([data-locale="zh-Hant"]) .op-header-cta {
+    max-width: 42vw;
+    min-height: 38px;
+    padding: 7px 12px;
+    line-height: 1.25;
+    white-space: normal;
+  }
+
+  html.qingyu-refined[data-locale="en"] .op-template h1,
+  html.qingyu-refined[data-locale="ja"] .op-template h1,
+  html.qingyu-refined[data-locale="ko"] .op-template h1 {
+    font-size: clamp(1.9rem, 8.7vw, 2.55rem) !important;
+  }
+
+  html.qingyu-refined[data-locale]:not([data-locale="zh-Hant"]) :is(.op-template, .onepage-hub) h2 {
+    font-size: clamp(1.4rem, 6.5vw, 1.95rem) !important;
+  }
 }
 
 @media (max-width: 640px) {

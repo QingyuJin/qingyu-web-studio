@@ -707,12 +707,65 @@ html[data-locale="en"] body {
   letter-spacing: 0.002em;
 }
 
+html[data-locale="en"] :is(h1, h2, h3, h4, p, span, a, button, th, td, label) {
+  overflow-wrap: break-word;
+  word-break: normal;
+  hyphens: auto;
+}
+
+html[data-locale="en"] :is(h1, h2, h3, h4, nav a, button) {
+  hyphens: none;
+}
+
 html[data-locale="ja"] body {
   font-family: "Noto Sans JP", "Yu Gothic", "Hiragino Kaku Gothic ProN", sans-serif;
 }
 
+html[data-locale="ja"] :is(h1, h2, h3, h4, p, span, a, button, th, td, label) {
+  overflow-wrap: anywhere;
+  word-break: normal;
+  line-break: strict;
+}
+
 html[data-locale="ko"] body {
   font-family: "Noto Sans KR", "Malgun Gothic", sans-serif;
+}
+
+html[data-locale="ko"] :is(h1, h2, h3, h4, p, span, a, button, th, td, label) {
+  overflow-wrap: break-word;
+  word-break: keep-all;
+  line-break: strict;
+}
+
+html[data-locale="en"] .studio-shell h1 {
+  font-size: clamp(2rem, 4vw, 3.4rem);
+  line-height: 1.08;
+  letter-spacing: -0.04em;
+}
+
+html[data-locale="ja"] .studio-shell h1,
+html[data-locale="ko"] .studio-shell h1 {
+  font-size: clamp(1.95rem, 3.8vw, 3.25rem);
+  line-height: 1.26;
+  letter-spacing: -0.025em;
+}
+
+html[data-locale="en"] .studio-shell h2 {
+  font-size: clamp(1.45rem, 2.65vw, 2.25rem);
+  line-height: 1.18;
+}
+
+html[data-locale="ja"] .studio-shell h2,
+html[data-locale="ko"] .studio-shell h2 {
+  font-size: clamp(1.4rem, 2.55vw, 2.15rem);
+  line-height: 1.32;
+  letter-spacing: -0.02em;
+}
+
+html[data-locale="en"] .studio-shell :is(article, section) h3,
+html[data-locale="ja"] .studio-shell :is(article, section) h3,
+html[data-locale="ko"] .studio-shell :is(article, section) h3 {
+  line-height: 1.3;
 }
 
 .qingyu-refined .studio-shell :is(section, article) p {
