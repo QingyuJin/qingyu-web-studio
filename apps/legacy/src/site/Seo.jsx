@@ -56,7 +56,7 @@ function Seo({ page = seo.home }) {
     const url = new URL(page.path, normalizedBaseUrl).href
     const localizedUrl = new URL(url)
     if (locale !== "zh-Hant") localizedUrl.searchParams.set("lang", locale)
-    const image = new URL(page.image ?? "/og.png", normalizedBaseUrl).href
+    const image = new URL(page.image ?? "/og.png?v=20260814", normalizedBaseUrl).href
     const siteName = page.siteName ?? "Qingyu Web Studio"
     const robots = page.robots ?? "index, follow"
     const ogType = page.ogType ?? "website"

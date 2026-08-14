@@ -18,7 +18,7 @@ const homeStructuredData = {
       "@id": "https://www.qingyuweb.com/#studio",
       name: "Qingyu Web Studio",
       url: "https://www.qingyuweb.com/",
-      image: "https://www.qingyuweb.com/og.png",
+      image: "https://www.qingyuweb.com/og.png?v=20260814",
       email: contact.email,
       areaServed: { "@type": "Country", name: "Taiwan" },
       knowsAbout: ["品牌網站", "電商網站", "SEO", "廣告落地頁", "LINE Bot", "客製後台"],

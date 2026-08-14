@@ -52,7 +52,7 @@ function replaceAttribute(html, selector, value) {
   return html.replace(expression, `$1${escaped}$2`)
 }
 
-function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png", entityType = "") {
+function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png?v=20260814", entityType = "") {
   const canonical = `${siteUrl}${route}`
   const webPage = {
     "@context": "https://schema.org",
