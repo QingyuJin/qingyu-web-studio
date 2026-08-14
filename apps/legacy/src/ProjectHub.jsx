@@ -324,7 +324,7 @@ function ProjectHub() {
 
       <section className="border-b border-[#e6e0d5] bg-white">
         <div className="mx-auto max-w-6xl px-4 py-3">
-          <div className="flex items-center justify-between gap-4 md:hidden">
+          <div className="flex items-center justify-between gap-4 lg:hidden">
             <button
               type="button"
               aria-expanded={filtersOpen}
@@ -339,7 +339,7 @@ function ProjectHub() {
             <span className="text-[11px] font-medium text-[#7d8884]">{filtered.length} 件作品</span>
           </div>
 
-          <div className="hidden items-center gap-3 md:flex">
+          <div className="hidden items-center gap-3 lg:flex">
             <FilterSelect label="產業" options={industryOptions} value={filterIndustry} onChange={setFilterIndustry} />
             <FilterSelect label="需求" options={problemOptions} value={filterProblem} onChange={setFilterProblem} />
             <FilterSelect label="預算" options={budgetOptions} value={filterBudget} onChange={setFilterBudget} />
@@ -352,7 +352,7 @@ function ProjectHub() {
           </div>
 
           {filtersOpen ? (
-            <div id="mobile-work-filters" className="mt-3 grid gap-3 border-t border-[#ebe6dc] pt-3 md:hidden">
+            <div id="mobile-work-filters" className="mt-3 grid gap-3 border-t border-[#ebe6dc] pt-3 lg:hidden">
               <FilterSelect label="產業" options={industryOptions} value={filterIndustry} onChange={setFilterIndustry} />
               <FilterSelect label="需求" options={problemOptions} value={filterProblem} onChange={setFilterProblem} />
               <FilterSelect label="預算" options={budgetOptions} value={filterBudget} onChange={setFilterBudget} />
@@ -439,7 +439,7 @@ function WorkCard({ work, featured = false }) {
             {work.price}
           </span>
         </div>
-        <h3 className="mt-4 font-['Noto_Serif_TC',serif] text-lg font-bold leading-[1.28] text-[#111c22] sm:text-xl">
+        <h3 className="work-card-title mt-4 font-['Noto_Serif_TC',serif] text-lg font-bold leading-[1.28] text-[#111c22] sm:text-xl">
           {work.title}
         </h3>
 

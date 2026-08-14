@@ -768,6 +768,34 @@ html[data-locale="ko"] .studio-shell :is(article, section) h3 {
   line-height: 1.3;
 }
 
+html[data-locale]:not([data-locale="zh-Hant"]) .studio-shell :is(a, button, label, summary) {
+  line-height: 1.35;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .studio-shell article :is(a, button) {
+  max-width: 100%;
+  text-align: center;
+  white-space: normal;
+}
+
+html[data-locale]:not([data-locale="zh-Hant"]) .studio-shell .work-card-title {
+  font-family: inherit;
+  font-weight: 720;
+  letter-spacing: -0.025em;
+}
+
+html[data-locale="ja"] .studio-shell .work-card-title,
+html[data-locale="ko"] .studio-shell .work-card-title {
+  line-height: 1.42;
+  letter-spacing: -0.015em;
+}
+
+@media (max-width: 1023px) {
+  html[data-locale]:not([data-locale="zh-Hant"]) .studio-shell select {
+    width: 100%;
+  }
+}
+
 .qingyu-refined .studio-shell :is(section, article) p {
   max-width: 58ch;
 }

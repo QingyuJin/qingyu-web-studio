@@ -22,6 +22,12 @@ describe("translateDisplayText", () => {
     expect(translateDisplayText("施工進度與材料管理", "ko")).toBe("범위 진행 납품을 명확하게 관리")
   })
 
+  it("keeps short interface fallbacks compact", () => {
+    expect(translateDisplayText("網站內容", "en")).toBe("Brand Website")
+    expect(translateDisplayText("施工進度", "ja")).toBe("施工管理")
+    expect(translateDisplayText("補充說明", "ko")).toBe("핵심 내용")
+  })
+
   it("uses compact translations for work cards", () => {
     expect(translateDisplayText("LULUFACE 美容品牌電商", "en")).toBe("LULUFACE Beauty Commerce")
     expect(translateDisplayText("品牌電商", "en")).toBe("Brand Commerce")
