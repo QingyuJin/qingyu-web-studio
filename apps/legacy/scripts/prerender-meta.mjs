@@ -6,6 +6,7 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 const outputRoot = path.join(projectRoot, "dist")
 const template = await readFile(path.join(outputRoot, "index.html"), "utf8")
 const siteUrl = "https://www.qingyuweb.com"
+const brandName = "晴宇網路工作室"
 
 const routes = [
   ["/services", "網站設計、SEO、電商與系統整合服務｜Qingyu Web Studio", "品牌網站、電商建置、SEO、廣告落地頁、LINE Bot、AI 工具、API 與客製後台的一站式服務"],
@@ -53,6 +54,8 @@ function replaceAttribute(html, selector, value) {
 }
 
 function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png?v=20260814", entityType = "") {
+  title = title.replaceAll("Qingyu Web Studio", brandName)
+  description = description.replaceAll("Qingyu Web Studio", brandName)
   const canonical = `${siteUrl}${route}`
   const webPage = {
     "@context": "https://schema.org",
@@ -61,7 +64,7 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
     description,
     url: canonical,
     inLanguage: "zh-Hant-TW",
-    isPartOf: { "@type": "WebSite", name: "Qingyu Web Studio", url: `${siteUrl}/` },
+    isPartOf: { "@type": "WebSite", name: brandName, url: `${siteUrl}/` },
   }
   const pageData = entityType
     ? {

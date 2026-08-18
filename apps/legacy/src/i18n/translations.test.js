@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest"
-import { translateDisplayText } from "./translations"
+import { localizedBrandName, translateDisplayText } from "./translations"
 
 describe("translateDisplayText", () => {
   it("uses precise translations for primary messages", () => {
@@ -41,5 +41,12 @@ describe("translateDisplayText", () => {
     const title = translateDisplayText("網站設計 SEO 廣告落地頁與電商整合 Qingyu Web Studio", "en")
     expect(title).toBe("Web Design SEO Advertising and Commerce Qingyu Web Studio")
     expect(title).not.toMatch(/[|,:;!?]/)
+  })
+
+  it("uses the official Chinese brand name and corrects the old mistranslation", () => {
+    expect(localizedBrandName("zh-Hant")).toBe("晴宇網路工作室")
+    expect(translateDisplayText("Qingyu Web Studio", "zh-Hant")).toBe("晴宇網路工作室")
+    expect(translateDisplayText("青雨網路工作室", "zh-Hant")).toBe("晴宇網路工作室")
+    expect(translateDisplayText("青雨网络工作室", "en")).toBe("Qingyu Web Studio")
   })
 })

@@ -12,6 +12,21 @@ export const localeTags = {
   ko: "ko",
 }
 
+export const brandNames = {
+  "zh-Hant": "晴宇網路工作室",
+  en: "Qingyu Web Studio",
+  ja: "Qingyu Web Studio",
+  ko: "Qingyu Web Studio",
+}
+
+export function localizedBrandName(locale) {
+  return brandNames[locale] ?? brandNames["zh-Hant"]
+}
+
+export function localizeBrandText(value, locale) {
+  return String(value).replace(/Qingyu Web Studio|青雨網路工作室|青雨网络工作室/g, localizedBrandName(locale))
+}
+
 const entries = [
   ["服務", "Services", "サービス", "서비스"],
   ["一頁式", "One Page", "ワンページ", "원페이지"],
@@ -474,14 +489,15 @@ function translateDynamic(value, locale) {
 }
 
 export function translateDisplayText(value, locale) {
-  if (locale === "zh-Hant" || !value.trim()) return value
+  const brandedValue = localizeBrandText(value, locale)
+  if (locale === "zh-Hant" || !brandedValue.trim()) return brandedValue
 
-  const leading = value.match(/^\s*/)?.[0] ?? ""
-  const trailing = value.match(/\s*$/)?.[0] ?? ""
-  const core = value.trim()
+  const leading = brandedValue.match(/^\s*/)?.[0] ?? ""
+  const trailing = brandedValue.match(/\s*$/)?.[0] ?? ""
+  const core = brandedValue.trim()
 
-  if (/^\S+@\S+\.\S+$/.test(core) || /^https?:\/\//i.test(core)) return value
-  if (!/[\u3400-\u9fff]/.test(core)) return value
+  if (/^\S+@\S+\.\S+$/.test(core) || /^https?:\/\//i.test(core)) return brandedValue
+  if (!/[\u3400-\u9fff]/.test(core)) return brandedValue
 
   const exact = exactTranslations[core]?.[locale]
   const dynamic = translateDynamic(core, locale)

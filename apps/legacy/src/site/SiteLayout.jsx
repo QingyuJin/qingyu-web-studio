@@ -1,5 +1,7 @@
 import { useState } from "react"
 import { Link, NavLink } from "react-router-dom"
+import { useLocale } from "../i18n/LocaleContext"
+import { localizedBrandName } from "../i18n/translations"
 import { contact } from "./content"
 
 const navItems = [
@@ -24,15 +26,18 @@ function NavItem({ label, path, onClick, className = "" }) {
 
 function SiteLayout({ children }) {
   const [menuOpen, setMenuOpen] = useState(false)
+  const { locale } = useLocale()
+  const brandName = localizedBrandName(locale)
+  const homeLabel = locale === "zh-Hant" ? `${brandName}首頁` : `${brandName} Home`
 
   return (
     <main className="studio-shell min-h-screen bg-[#f7f5f0] text-[#101b1d]">
       <header className="sticky top-0 z-50 border-b border-[#162321]/10 bg-[#f7f5f0]/92 backdrop-blur-xl">
         <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-7 lg:px-9">
-          <Link to="/" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-3" aria-label="Qingyu Web Studio 首頁">
+          <Link to="/" onClick={() => setMenuOpen(false)} className="group flex shrink-0 items-center gap-3" aria-label={homeLabel}>
             <span className="h-px w-6 bg-[#9b8e69] transition-all group-hover:w-9" aria-hidden="true" />
             <span className="leading-none">
-              <span className="block text-[13px] font-semibold tracking-[-.02em] text-[#14211f]">Qingyu Web Studio</span>
+              <span translate="no" data-preserve-text className="notranslate block text-[13px] font-semibold tracking-[-.02em] text-[#14211f]">{brandName}</span>
               <span className="mt-1 hidden text-[8px] font-medium uppercase tracking-[.24em] text-[#7c8580] sm:block">Brand · Web · Growth</span>
             </span>
           </Link>
@@ -66,7 +71,7 @@ function SiteLayout({ children }) {
         <div className="mx-auto max-w-7xl px-5 py-12 sm:px-7 md:py-14 lg:px-9">
           <div className="grid gap-10 md:grid-cols-[1fr_auto] md:items-end">
             <div>
-              <div className="flex items-center gap-3"><span className="h-px w-7 bg-[#c6b98e]" aria-hidden="true" /><p className="text-sm font-semibold tracking-[-.01em]">Qingyu Web Studio</p></div>
+              <div className="flex items-center gap-3"><span className="h-px w-7 bg-[#c6b98e]" aria-hidden="true" /><p translate="no" data-preserve-text className="notranslate text-sm font-semibold tracking-[-.01em]">{brandName}</p></div>
               <p className="mt-4 text-[13px] font-medium tracking-[.02em] text-white/52">品牌、網站與成長</p>
               <div className="mt-5 flex flex-wrap gap-x-5 gap-y-2 text-[12px] font-medium">
                 <a href={`mailto:${contact.email}`} data-track="contact" data-placement="footer_email" className="text-[#9bc3b9] transition hover:text-white">Email</a>
@@ -82,7 +87,7 @@ function SiteLayout({ children }) {
               <Link to="/contact" className="transition hover:text-white">聯絡</Link>
             </nav>
           </div>
-          <div className="mt-10 flex flex-col gap-2 border-t border-white/8 pt-5 text-[9px] font-medium uppercase tracking-[.18em] text-white/25 sm:flex-row sm:items-center sm:justify-between"><span>© 2026 Qingyu Web Studio</span><span>Designed in Taiwan</span></div>
+          <div className="mt-10 flex flex-col gap-2 border-t border-white/8 pt-5 text-[9px] font-medium uppercase tracking-[.18em] text-white/25 sm:flex-row sm:items-center sm:justify-between"><span translate="no" data-preserve-text className="notranslate">© 2026 {brandName}</span><span>Designed in Taiwan</span></div>
         </div>
       </footer>
     </main>

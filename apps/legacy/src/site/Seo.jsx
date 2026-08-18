@@ -1,7 +1,7 @@
 import { useEffect } from "react"
 import { cleanDisplayText } from "../experienceText"
 import { useLocale } from "../i18n/LocaleContext"
-import { localeTags, translateDisplayText } from "../i18n/translations"
+import { localizedBrandName, localeTags, translateDisplayText } from "../i18n/translations"
 import { seo, siteUrl } from "./content"
 
 function upsertMeta(selector, attributes) {
@@ -57,7 +57,7 @@ function Seo({ page = seo.home }) {
     const localizedUrl = new URL(url)
     if (locale !== "zh-Hant") localizedUrl.searchParams.set("lang", locale)
     const image = new URL(page.image ?? "/og.png?v=20260814", normalizedBaseUrl).href
-    const siteName = page.siteName ?? "Qingyu Web Studio"
+    const siteName = page.siteName ? translateDisplayText(page.siteName, locale) : localizedBrandName(locale)
     const robots = page.robots ?? "index, follow"
     const ogType = page.ogType ?? "website"
     const structuredData = page.structuredData ?? {
