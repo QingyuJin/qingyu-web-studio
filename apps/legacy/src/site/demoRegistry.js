@@ -136,7 +136,7 @@ export const demoRegistry = [
   {
     slug: "ai-tech",
     title: "AI 客服流程",
-    demoPath: "/demo/ai-tech",
+    demoPath: "/demo/ai-customer-support",
     caseStudyPath: "/works/ai-tech-quest",
     contactCase: "ai-tech-quest",
     type: "Interactive Demo",

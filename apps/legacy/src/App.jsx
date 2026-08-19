@@ -109,7 +109,7 @@ function App() {
         <Route path="/demo/commerce-platform/*" element={<DemoExperience slug="commerce-platform"><MissionSystemDemo slug="commerce-platform" /></DemoExperience>} />
         <Route path="/demo/ai-audit/*" element={<DemoExperience slug="ai-audit"><MissionSystemDemo slug="ai-audit" /></DemoExperience>} />
         <Route path="/demo/api-automation/*" element={<DemoExperience slug="api-automation"><MissionSystemDemo slug="api-automation" /></DemoExperience>} />
-        <Route path="/demo/ai-tech/*" element={<DemoExperience slug="ai-tech"><MissionSystemDemo slug="ai-tech" /></DemoExperience>} />
+        <Route path="/demo/ai-customer-support/*" element={<DemoExperience slug="ai-tech"><MissionSystemDemo slug="ai-tech" /></DemoExperience>} />
         <Route path="/demo/luluface/*" element={<DemoExperience slug="luluface"><BeautyShoplinePreview /></DemoExperience>} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
