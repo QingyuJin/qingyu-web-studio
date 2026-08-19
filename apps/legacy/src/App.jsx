@@ -49,9 +49,7 @@ const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplin
 const DemoExperience = lazy(() =>
   import("./site/DemoExperience").then((module) => ({ default: module.DemoExperience }))
 )
-const NativeWorkDemo = lazy(() =>
-  import("./site/DemoExperience").then((module) => ({ default: module.NativeWorkDemo }))
-)
+const MissionSystemDemo = lazy(() => import("./site/MissionSystemDemos"))
 const OnePageHub = lazy(() => import("./onepage/OnePageHub"))
 const BeautyTemplate = lazy(() =>
   import("./onepage/BeautyClinicTemplates").then((module) => ({ default: module.BeautyTemplate }))
@@ -101,16 +99,17 @@ function App() {
         <Route path="/onepage/construction" element={<ConstructionTemplate />} />
         <Route path="/onepage/manufacturing" element={<ManufacturingTemplate />} />
         <Route path="/onepage/saas" element={<SaasTemplate />} />
-        <Route path="/demo/wholesale-ordering/*" element={<DemoExperience slug="wholesale-ordering"><WholesaleOrdering /></DemoExperience>} />
-        <Route path="/demo/restaurant-ordering/*" element={<DemoExperience slug="restaurant-ordering"><RestaurantOrdering /></DemoExperience>} />
-        <Route path="/demo/rag-consultant/*" element={<DemoExperience slug="rag-consultant"><RagConsultant /></DemoExperience>} />
-        <Route path="/demo/buildflow/*" element={<DemoExperience slug="buildflow"><BuildFlow /></DemoExperience>} />
+        <Route path="/demo/wholesale-ordering/*" element={<DemoExperience slug="wholesale-ordering"><MissionSystemDemo slug="wholesale-ordering" /></DemoExperience>} />
+        <Route path="/demo/restaurant-ordering/*" element={<DemoExperience slug="restaurant-ordering"><MissionSystemDemo slug="restaurant-ordering" /></DemoExperience>} />
+        <Route path="/demo/rag-consultant/*" element={<DemoExperience slug="rag-consultant"><MissionSystemDemo slug="rag-consultant" /></DemoExperience>} />
+        <Route path="/demo/buildflow/*" element={<DemoExperience slug="buildflow"><MissionSystemDemo slug="buildflow" /></DemoExperience>} />
         <Route path="/demo/xinjiang/*" element={<DemoExperience slug="xinjiang"><ContractorSite /></DemoExperience>} />
-        <Route path="/demo/linebot/*" element={<DemoExperience slug="linebot"><NativeWorkDemo projectSlug="linebot" /></DemoExperience>} />
-        <Route path="/demo/analytics-dashboard/*" element={<DemoExperience slug="analytics-dashboard"><NativeWorkDemo projectSlug="analytics-dashboard" /></DemoExperience>} />
-        <Route path="/demo/commerce-platform/*" element={<DemoExperience slug="commerce-platform"><NativeWorkDemo projectSlug="ecommerce-platform-redesign" /></DemoExperience>} />
-        <Route path="/demo/ai-audit/*" element={<DemoExperience slug="ai-audit"><NativeWorkDemo projectSlug="ai-audit" /></DemoExperience>} />
-        <Route path="/demo/api-automation/*" element={<DemoExperience slug="api-automation"><NativeWorkDemo projectSlug="api-automation" /></DemoExperience>} />
+        <Route path="/demo/linebot/*" element={<DemoExperience slug="linebot"><MissionSystemDemo slug="linebot" /></DemoExperience>} />
+        <Route path="/demo/analytics-dashboard/*" element={<DemoExperience slug="analytics-dashboard"><MissionSystemDemo slug="analytics-dashboard" /></DemoExperience>} />
+        <Route path="/demo/commerce-platform/*" element={<DemoExperience slug="commerce-platform"><MissionSystemDemo slug="commerce-platform" /></DemoExperience>} />
+        <Route path="/demo/ai-audit/*" element={<DemoExperience slug="ai-audit"><MissionSystemDemo slug="ai-audit" /></DemoExperience>} />
+        <Route path="/demo/api-automation/*" element={<DemoExperience slug="api-automation"><MissionSystemDemo slug="api-automation" /></DemoExperience>} />
+        <Route path="/demo/ai-tech/*" element={<DemoExperience slug="ai-tech"><MissionSystemDemo slug="ai-tech" /></DemoExperience>} />
         <Route path="/demo/luluface/*" element={<DemoExperience slug="luluface"><BeautyShoplinePreview /></DemoExperience>} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />

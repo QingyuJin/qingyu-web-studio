@@ -1,7 +1,7 @@
 export const demoRegistry = [
   {
     slug: "wholesale-ordering",
-    title: "Wholesale Ordering System",
+    title: "批發訂貨系統",
     demoPath: "/demo/wholesale-ordering",
     caseStudyPath: "/works/wholesale-ordering",
     contactCase: "wholesale-ordering",
@@ -11,7 +11,7 @@ export const demoRegistry = [
   },
   {
     slug: "restaurant-ordering",
-    title: "Restaurant Ordering System",
+    title: "餐廳點餐系統",
     demoPath: "/demo/restaurant-ordering",
     caseStudyPath: "/works/restaurant-ordering",
     contactCase: "restaurant-ordering",
@@ -21,7 +21,7 @@ export const demoRegistry = [
   },
   {
     slug: "rag-consultant",
-    title: "RAG Knowledge System",
+    title: "AI 公司知識庫",
     demoPath: "/demo/rag-consultant",
     caseStudyPath: "/works/rag-consultant",
     contactCase: "rag-consultant",
@@ -31,7 +31,7 @@ export const demoRegistry = [
   },
   {
     slug: "buildflow",
-    title: "Business Management System",
+    title: "工程案件管理",
     demoPath: "/demo/buildflow",
     caseStudyPath: "/works/xinjiang",
     contactCase: "buildflow",
@@ -41,7 +41,7 @@ export const demoRegistry = [
   },
   {
     slug: "linebot",
-    title: "LINE Bot Customer Flow",
+    title: "LINE 詢價助手",
     demoPath: "/demo/linebot",
     caseStudyPath: "/works/line-bot",
     contactCase: "linebot",
@@ -51,7 +51,7 @@ export const demoRegistry = [
   },
   {
     slug: "analytics-dashboard",
-    title: "Analytics Dashboard",
+    title: "廣告成效看板",
     demoPath: "/demo/analytics-dashboard",
     caseStudyPath: "/works/analytics-dashboard",
     contactCase: "analytics-dashboard",
@@ -61,7 +61,7 @@ export const demoRegistry = [
   },
   {
     slug: "commerce-platform",
-    title: "Commerce Platform Redesign",
+    title: "品牌購物系統",
     demoPath: "/demo/commerce-platform",
     caseStudyPath: "/works/ecommerce-platform-redesign",
     contactCase: "ecommerce-platform-redesign",
@@ -71,7 +71,7 @@ export const demoRegistry = [
   },
   {
     slug: "ai-audit",
-    title: "AI Website Audit",
+    title: "網站健檢助手",
     demoPath: "/demo/ai-audit",
     caseStudyPath: "/works/ai-audit",
     contactCase: "ai-audit",
@@ -81,7 +81,7 @@ export const demoRegistry = [
   },
   {
     slug: "api-automation",
-    title: "API Automation Flow",
+    title: "訂單自動同步",
     demoPath: "/demo/api-automation",
     caseStudyPath: "/works/api-automation",
     contactCase: "api-automation",
@@ -135,7 +135,7 @@ export const demoRegistry = [
   },
   {
     slug: "ai-tech",
-    title: "AI Technology Quest",
+    title: "AI 客服流程",
     demoPath: "/demo/ai-tech",
     caseStudyPath: "/works/ai-tech-quest",
     contactCase: "ai-tech-quest",

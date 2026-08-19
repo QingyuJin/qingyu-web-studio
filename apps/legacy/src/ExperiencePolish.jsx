@@ -37,7 +37,7 @@ function renderTextNode(node, locale) {
     parent.setAttribute("value", (textSources.get(node) || "").trim())
   }
 
-  const next = translateDisplayText(textSources.get(node) || "", locale)
+  const next = translateDisplayText(textSources.get(node) || "", locale, { preserveUnknown: Boolean(parent.closest(".demo-experience")) })
   textRenderedValues.set(node, next)
   if (next !== current) node.nodeValue = next
 }
@@ -63,7 +63,7 @@ function renderAttributes(root, locale) {
         sourceMap[attribute] = cleanDisplayText(current)
         attributeSources.set(element, sourceMap)
       }
-      const next = translateDisplayText(sourceMap[attribute], locale)
+      const next = translateDisplayText(sourceMap[attribute], locale, { preserveUnknown: Boolean(element.closest(".demo-experience")) })
       renderedMap[attribute] = next
       attributeRenderedValues.set(element, renderedMap)
       if (next !== current) element.setAttribute(attribute, next)

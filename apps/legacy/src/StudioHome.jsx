@@ -47,6 +47,28 @@ const homeStructuredData = {
 }
 
 const selectedSystemSlugs = ["wholesale-ordering", "linebot", "rag-consultant", "buildflow"]
+const systemCardCopy = {
+  "wholesale-ordering": {
+    problem: "LINE 接單容易漏",
+    result: "讓客戶自己下單 你只管出貨與月結",
+    cta: "30 秒試一次",
+  },
+  linebot: {
+    problem: "客服一直回答同樣問題",
+    result: "LINE 自動取得需求 後台直接收到",
+    cta: "假裝當一次客戶",
+  },
+  "rag-consultant": {
+    problem: "公司文件總是找不到",
+    result: "直接問 AI 它從公司資料找答案",
+    cta: "問它一個問題",
+  },
+  buildflow: {
+    problem: "工程進度每天都在追問",
+    result: "案件 進度與客戶通知集中管理",
+    cta: "更新一次案件",
+  },
+}
 const websiteSlugs = ["luluface", "morie", "xinjiang"]
 
 function StudioHome() {
@@ -168,7 +190,7 @@ function SelectedSystems() {
   return (
     <section id="systems" className="border-b border-[#dcd8ce] bg-[#f7f5f0]" aria-labelledby="selected-systems-title">
       <div className="mx-auto max-w-7xl px-5 py-18 sm:px-7 md:py-24 lg:px-10">
-        <SectionHeading id="selected-systems-title" eyebrow="Selected Systems" title="不是 Demo 圖 是可以操作的系統" text="從實際工作流程出發 完整處理介面 資料 權限 API 與後台" />
+        <SectionHeading id="selected-systems-title" eyebrow="Selected Systems" title="不是 Demo 圖 是可以操作的系統" text="每個展示都有一個短任務 直接完成一次真實工作流程" />
         <div className="mt-10 grid gap-px overflow-hidden border border-[#d9d4c8] bg-[#d9d4c8] lg:grid-cols-2">
           {systems.map((item, index) => <SystemCard key={item.slug} item={item} index={index} />)}
         </div>
@@ -178,6 +200,7 @@ function SelectedSystems() {
 }
 
 function SystemCard({ item, index }) {
+  const copy = systemCardCopy[item.slug] ?? { problem: item.title, result: item.solution, cta: "30 秒試一次" }
   return (
     <article className="group grid gap-6 bg-[#fbfaf7] p-5 sm:p-7 md:grid-cols-[1fr_132px] md:items-start">
       <div>
@@ -185,15 +208,10 @@ function SystemCard({ item, index }) {
           <span className="text-[9px] font-bold tracking-[.16em] text-[#71807b]">0{index + 1}</span>
           <span className="rounded-full border border-[#bdd0ca] bg-[#edf4f1] px-2.5 py-1 text-[9px] font-bold uppercase tracking-[.1em] text-[#39675e]">{item.format}</span>
         </div>
-        <h3 className="mt-5 font-['Noto_Serif_TC',serif] text-xl font-semibold tracking-[-.025em] text-[#14201f] sm:text-2xl">{item.title}</h3>
-        <p className="mt-3 text-[12px] font-medium leading-6 text-[#66716d]">{item.solution}</p>
-        <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2">
-          {item.functions.map((feature) => <span key={feature} className="text-[9px] font-bold uppercase tracking-[.1em] text-[#63726d]">{feature}</span>)}
-        </div>
-        <div className="mt-6 flex flex-wrap gap-4">
-          <Link to={item.demoPath} data-track="demo_open" data-placement="home_selected_system" className="text-[11px] font-bold text-[#1e5d53] underline decoration-[#9ebbb3] underline-offset-4">直接操作</Link>
-          <Link to={item.casePath} data-track="view_content" data-placement="home_selected_system" className="text-[11px] font-bold text-[#606c68] underline decoration-[#c6cbc7] underline-offset-4">查看案例</Link>
-        </div>
+        <p className="mt-5 text-[10px] font-bold tracking-[.08em] text-[#71807b]">{item.title}</p>
+        <h3 className="mt-2 font-['Noto_Serif_TC',serif] text-xl font-semibold tracking-[-.025em] text-[#14201f] sm:text-2xl">{copy.problem}</h3>
+        <p className="mt-3 text-[13px] font-medium leading-6 text-[#66716d]">{copy.result}</p>
+        <Link to={item.demoPath} data-track="demo_open" data-placement="home_selected_system" className="mt-6 inline-flex min-h-11 items-center rounded-full bg-[#173c37] px-5 text-[11px] font-bold text-white">{copy.cta}</Link>
       </div>
       <div className="overflow-hidden rounded-xl border border-[#e3ded3] bg-[#eef1ec]">
         <img src={item.image} alt={`${item.title} 系統介面`} width="640" height="480" loading="lazy" className="aspect-[4/3] h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" />

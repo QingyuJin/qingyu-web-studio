@@ -452,6 +452,172 @@ const entries = [
   ["把問題整理成有優先序的可執行報告", "Turn findings into a prioritized action report", "課題を優先順位付きの実行案に", "문제를 우선순위가 있는 실행 보고서로"],
   ["表單送出後資料仍要手動複製 通知與後台沒有同步", "Form data still needs manual copying and notifications stay disconnected", "フォーム後も手入力が必要で通知と管理が未連携", "폼 이후 수기 복사가 필요하고 알림과 관리가 연결되지 않습니다"],
   ["表單 驗證 API 資料庫 通知與狀態回傳自動串接", "Connect forms validation APIs data notifications and status", "フォーム 検証 API データ 通知 状態を自動連携", "폼 검증 API 데이터 알림 상태를 자동 연결"],
+  ["30 秒任務體驗", "30 Second Mission", "30秒ミッション", "30초 미션"],
+  ["目前角色", "Role", "役割", "역할"],
+  ["任務", "Step", "手順", "단계"],
+  ["帶我去", "Guide Me", "案内する", "안내하기"],
+  ["重新開始", "Restart", "やり直す", "다시 시작"],
+  ["任務完成", "Mission Complete", "ミッション完了", "미션 완료"],
+  ["開始體驗", "Start", "開始", "시작"],
+  ["我也想做類似系統", "Build One for Me", "同様のシステムを相談", "비슷한 시스템 문의"],
+  ["再玩一次", "Try Again", "もう一度", "다시 체험"],
+  ["切換體驗角色", "Switch Role", "役割を変更", "역할 변경"],
+  ["不需要帳號 資料可一鍵重設", "No account needed Reset anytime", "登録不要 いつでもリセット", "가입 없이 언제든 초기화"],
+  ["批發訂貨系統", "Wholesale Orders", "卸売注文", "도매 주문"],
+  ["不用再從 LINE 一筆一筆抄訂單", "Stop copying LINE orders by hand", "LINE注文の転記をなくす", "LINE 주문 수기 입력 끝"],
+  ["我是客戶", "I am a Customer", "取引先として体験", "고객으로 체험"],
+  ["我是老闆", "I am the Owner", "経営者として体験", "사장으로 체험"],
+  ["下 1 筆訂單", "Place One Order", "1件注文する", "주문 1건 넣기"],
+  ["收到訂單 出貨 月結", "Receive Ship Reconcile", "受注 出荷 月次精算", "주문 배송 월 정산"],
+  ["LINE 詢價助手", "LINE Inquiry Assistant", "LINE問い合わせ対応", "LINE 문의 도우미"],
+  ["客戶不用等回覆 老闆也不會漏掉詢價", "Instant replies and no missed leads", "即時対応で問い合わせ漏れ防止", "즉시 응대하고 문의 누락 방지"],
+  ["你是來詢價的客戶", "You are a Customer", "問い合わせ客として体験", "문의 고객으로 체험"],
+  ["點一個問題開始詢問", "Choose a Question", "質問を選ぶ", "질문 선택"],
+  ["假裝你是一位來詢價的客戶", "Act as a Customer", "問い合わせ客として試す", "문의 고객으로 체험"],
+  ["我想做網站", "I need a website", "サイトを作りたい", "웹사이트를 만들고 싶어요"],
+  ["網站大概多少錢", "How much is a website", "サイト制作の料金は", "웹사이트 비용은 얼마인가요"],
+  ["我想做預約系統", "I need a booking system", "予約システムを作りたい", "예약 시스템이 필요해요"],
+  ["Bot 已經整理好你的需求", "Your Needs Are Ready", "要望を整理しました", "요청을 정리했어요"],
+  ["查看老闆收到什麼", "View Owner Inbox", "管理画面を見る", "사장 화면 보기"],
+  ["這筆就是你剛才傳的資料", "Here Is Your New Lead", "先ほどの情報です", "방금 보낸 문의입니다"],
+  ["AI 公司知識庫", "AI Company Knowledge", "AI社内ナレッジ", "AI 사내 지식"],
+  ["把公司文件交給 AI 以後直接問", "Ask AI About Company Files", "社内文書をAIに直接質問", "회사 문서를 AI에게 바로 질문"],
+  ["你是公司員工", "You are an Employee", "社員として体験", "직원으로 체험"],
+  ["問一個公司規定", "Ask a Company Question", "社内ルールを質問", "회사 규정 질문"],
+  ["這份合約什麼時候到期", "When Does This Contract End", "契約の終了日は", "계약은 언제 끝나나요"],
+  ["退貨規定是什麼", "What Is the Return Policy", "返品規定は", "반품 규정은 무엇인가요"],
+  ["員工請假流程怎麼走", "How Do Employees Request Leave", "休暇申請の手順は", "휴가 신청 절차는"],
+  ["答案不是亂猜 這裡是它找到的公司資料", "The Answer Comes From Your Files", "回答の根拠は社内文書です", "답변 근거는 회사 문서입니다"],
+  ["查看來源文件", "View Source", "出典を見る", "출처 보기"],
+  ["對應引用段落", "Quoted Passage", "引用箇所", "인용 문단"],
+  ["答案與原文一致", "Confirm Source", "原文を確認", "원문 확인"],
+  ["餐廳點餐系統", "Restaurant Orders", "飲食店オーダー", "식당 주문"],
+  ["工程案件管理", "Project Tracking", "工事案件管理", "공사 프로젝트 관리"],
+  ["廣告成效看板", "Ad Results", "広告成果", "광고 성과"],
+  ["品牌購物系統", "Brand Commerce", "ブランドEC", "브랜드 쇼핑"],
+  ["網站健檢助手", "Website Check", "サイト診断", "웹사이트 진단"],
+  ["訂單自動同步", "Order Sync", "注文自動連携", "주문 자동 연동"],
+  ["LINE 接單容易漏", "Missing LINE Orders", "LINE注文の漏れ", "LINE 주문 누락"],
+  ["讓客戶自己下單 你只管出貨與月結", "Customers order You ship and reconcile", "顧客が注文 店舗は出荷と精算だけ", "고객이 주문하고 사장은 배송과 정산만"],
+  ["30 秒試一次", "Try in 30 Seconds", "30秒で試す", "30초 체험"],
+  ["客服一直回答同樣問題", "Repeating the Same Replies", "同じ質問への繰り返し対応", "같은 문의 반복 응대"],
+  ["LINE 自動取得需求 後台直接收到", "LINE gathers needs and sends them to admin", "LINEが要望を整理し管理画面へ", "LINE이 요청을 정리해 관리자 화면으로 전송"],
+  ["假裝當一次客戶", "Act as a Customer", "顧客として試す", "고객으로 체험"],
+  ["公司文件總是找不到", "Company Files Are Hard to Find", "社内文書が見つからない", "회사 문서를 찾기 어려움"],
+  ["直接問 AI 它從公司資料找答案", "Ask AI It answers from company files", "AIが社内文書から回答", "AI가 회사 문서에서 답변"],
+  ["問它一個問題", "Ask One Question", "質問してみる", "질문하기"],
+  ["晴宇", "Qingyu", "Qingyu", "Qingyu"],
+  ["任務體驗", "Mission", "ミッション", "미션"],
+  ["洽談類似系統", "Build a Similar System", "同様のシステムを相談", "비슷한 시스템 문의"],
+  ["選一個問題", "Choose a Question", "質問を選ぶ", "질문 선택"],
+  ["答案", "Answer", "回答", "답변"],
+  ["來源文件", "Source File", "出典文書", "출처 문서"],
+  ["技術拆解", "Technical Details", "技術詳細", "기술 상세"],
+  ["文件切分 語意搜尋與來源引用都在背景完成", "Document search and citations run in the background", "文書検索と引用は裏側で処理", "문서 검색과 인용은 백그라운드에서 처리"],
+  ["範例文件已經放好 你不需要上傳任何東西", "Sample files are ready No upload needed", "サンプル文書を用意済み アップロード不要", "샘플 문서 준비 완료 업로드 불필요"],
+  ["目前的店面租約會在 2027 年 6 月 30 日到期 需在到期前 90 天決定是否續約", "The lease ends June 30 2027 Decide on renewal 90 days before", "契約満了は2027年6月30日 更新判断は90日前まで", "계약 만료는 2027년 6월 30일 갱신 결정은 90일 전까지"],
+  ["未拆封商品可在到貨後 7 天內申請退貨 客製與冷藏商品不適用", "Unopened items can be returned within 7 days Custom and chilled items are excluded", "未開封品は7日以内返品可 オーダー品と冷蔵品は対象外", "미개봉 상품은 7일 내 반품 가능 맞춤 냉장 상품 제외"],
+  ["一般請假最晚在前一工作日提出 臨時病假需先通知主管並在三日內補證明", "Request leave one workday ahead For sick leave notify your manager and submit proof within 3 days", "休暇は前営業日まで 病欠は上司へ連絡し3日以内に証明提出", "휴가는 전 영업일까지 병가는 상사 통보 후 3일 내 증빙 제출"],
+  ["查看這筆訂單", "View Order", "注文を見る", "주문 보기"],
+  ["設為已出貨", "Mark Shipped", "出荷済みにする", "배송 완료로 변경"],
+  ["查看本月月結", "View Monthly Total", "月次精算を見る", "월 정산 보기"],
+  ["加入購物車", "Add to Cart", "カートに入れる", "장바구니 담기"],
+  ["送出訂單", "Place Order", "注文を送信", "주문 보내기"],
+  ["這次訂單", "Your Order", "今回の注文", "이번 주문"],
+  ["商品與價格已經設定好 只要選商品 加入購物車 送出", "Choose the item Add it to cart Then submit", "商品を選び カートに入れて送信", "상품 선택 후 장바구니에 담아 주문"],
+  ["今天只處理一筆新訂單", "Handle One New Order", "新規注文を1件処理", "신규 주문 1건 처리"],
+  ["替 ABC 餐廳下 1 筆訂單", "Place an Order for ABC Restaurant", "ABCレストランの注文を登録", "ABC 식당 주문 넣기"],
+  ["選好商品後 這裡會顯示訂單金額", "Your order total appears here", "選択後に注文金額を表示", "상품 선택 후 주문 금액 표시"],
+  ["剛剛 LINE 詢價", "Just Now LINE Inquiry", "たった今 LINE問い合わせ", "방금 LINE 문의"],
+  ["新客戶 網站需求", "New Lead Website", "新規客 ウェブサイト", "신규 고객 웹사이트"],
+  ["待聯絡", "Needs Follow Up", "要連絡", "연락 대기"],
+  ["客戶問題", "Customer Question", "顧客の質問", "고객 질문"],
+  ["需求規模", "Project Size", "案件規模", "프로젝트 규모"],
+  ["建議下一步", "Next Step", "次の対応", "다음 단계"],
+  ["確認已收到這筆詢價", "Confirm Lead", "問い合わせを確認", "문의 확인"],
+  ["不用自己想訊息 點一個常見問題就開始", "Choose a common question to begin", "よくある質問を選んで開始", "자주 묻는 질문을 선택해 시작"],
+  ["收到 我先幫你整理 這次需求大約是什麼規模", "Got it What size is your project", "承知しました ご希望の規模は", "확인했어요 프로젝트 규모는 어느 정도인가요"],
+  ["單頁介紹網站", "One Page Site", "1ページサイト", "원페이지 사이트"],
+  ["完整企業網站", "Business Website", "企業サイト", "기업 웹사이트"],
+  ["網站加預約功能", "Website with Booking", "予約機能付きサイト", "예약 기능 웹사이트"],
+  ["客戶的問題與 Bot 追問結果已經整理成一筆可以跟進的詢價", "The question and follow up are ready as one lead", "質問と回答を1件の問い合わせに整理", "질문과 답변을 하나의 문의로 정리"],
+  ["點餐內容直接送到廚房 不再重抄單", "Orders go straight to the kitchen", "注文をそのまま厨房へ", "주문을 주방으로 바로 전송"],
+  ["你是現場服務人員", "You are Floor Staff", "ホール担当として体験", "홀 직원으로 체험"],
+  ["替 8 號桌送出一筆餐點", "Send an Order for Table 8", "8番テーブルの注文を送る", "8번 테이블 주문 보내기"],
+  ["替 8 號桌送出餐點", "Send Table 8 Order", "8番テーブルの注文を送る", "8번 테이블 주문 보내기"],
+  ["選擇 8 號桌", "Choose Table 8", "8番テーブルを選ぶ", "8번 테이블 선택"],
+  ["加入招牌牛肉麵", "Add Signature Beef Noodles", "看板牛肉麺を追加", "대표 우육면 추가"],
+  ["送到廚房", "Send to Kitchen", "厨房へ送る", "주방으로 보내기"],
+  ["工地進度與待辦集中管理 老闆不用一直追問", "Track job progress without chasing updates", "工事進捗を一元管理", "공사 진행을 한곳에서 관리"],
+  ["你是工程行老闆", "You are the Contractor", "工務店経営者として体験", "공사업 사장으로 체험"],
+  ["更新一個施工案件", "Update One Project", "工事案件を更新", "공사 프로젝트 업데이트"],
+  ["更新王小姐住家的施工進度", "Update Ms Wang's Project", "王さん宅の進捗を更新", "왕 고객 공사 진행 업데이트"],
+  ["查看案件", "View Project", "案件を見る", "프로젝트 보기"],
+  ["更新為油漆施工", "Set Painting in Progress", "塗装工事に更新", "도장 작업으로 업데이트"],
+  ["通知王小姐", "Notify Ms Wang", "王さんへ通知", "왕 고객에게 알림"],
+  ["不用翻很多報表 一眼知道廣告有沒有帶來詢問", "See which ads bring real inquiries", "問い合わせにつながる広告を一目で確認", "실제 문의를 만든 광고를 한눈에 확인"],
+  ["你是店家老闆", "You are the Owner", "店舗経営者として体験", "매장 사장으로 체험"],
+  ["找出最有效的廣告來源", "Find the Best Ad Source", "最も効果的な広告を確認", "가장 효과적인 광고 찾기"],
+  ["找出本月最有效的廣告", "Find This Month's Best Ad", "今月最も効果的な広告を確認", "이번 달 최고 광고 찾기"],
+  ["查看本月", "View This Month", "今月を見る", "이번 달 보기"],
+  ["查看 LINE 廣告", "View LINE Ads", "LINE広告を見る", "LINE 광고 보기"],
+  ["儲存老闆摘要", "Save Owner Summary", "経営者向け要約を保存", "사장 요약 저장"],
+  ["客戶從看商品到送出訂單都能自己完成", "Customers shop and order on their own", "商品閲覧から注文まで顧客が完結", "고객이 상품 탐색부터 주문까지 직접 완료"],
+  ["你是購物客戶", "You are a Shopper", "買い物客として体験", "쇼핑 고객으로 체험"],
+  ["完成一筆保養品訂單", "Place One Skincare Order", "スキンケア商品を注文", "스킨케어 주문 완료"],
+  ["完成一筆舒緩精華訂單", "Order the Calming Serum", "美容液を注文", "진정 세럼 주문"],
+  ["選擇舒緩精華", "Choose Calming Serum", "美容液を選ぶ", "진정 세럼 선택"],
+  ["加入購物袋", "Add to Bag", "バッグに入れる", "쇼핑백에 담기"],
+  ["不用懂網站術語 直接知道哪裡影響詢問", "Find what blocks inquiries without technical terms", "専門用語なしで問い合わせの課題を確認", "기술 용어 없이 문의를 막는 문제 확인"],
+  ["檢查一個範例網站", "Check a Sample Website", "サンプルサイトを診断", "샘플 웹사이트 진단"],
+  ["檢查一個餐廳網站", "Check a Restaurant Website", "飲食店サイトを診断", "식당 웹사이트 진단"],
+  ["選擇這個網站", "Choose This Site", "このサイトを選ぶ", "이 웹사이트 선택"],
+  ["開始健檢", "Run Check", "診断開始", "진단 시작"],
+  ["查看三個優先改善", "View Top Three Fixes", "優先改善3件を見る", "우선 개선 3개 보기"],
+  ["不同工具的資料自動搬運 不再人工複製", "Move data between tools automatically", "ツール間のデータ転記を自動化", "도구 간 데이터 이동 자동화"],
+  ["你是營運老闆", "You are the Operator", "運営責任者として体験", "운영 담당자로 체험"],
+  ["把一筆新訂單同步到出貨系統", "Sync One Order to Shipping", "注文を出荷システムへ連携", "주문을 배송 시스템에 연동"],
+  ["把新訂單送到出貨系統", "Send a New Order to Shipping", "新規注文を出荷へ送る", "신규 주문을 배송 시스템으로 전송"],
+  ["查看訂單資料", "View Order Data", "注文データを見る", "주문 데이터 보기"],
+  ["啟動自動同步", "Start Sync", "自動連携を開始", "자동 연동 시작"],
+  ["確認出貨系統收到", "Confirm Shipping Received", "出荷側の受信を確認", "배송 시스템 수신 확인"],
+  ["先選雞胸肉 5 盒", "Choose 5 Boxes of Chicken", "鶏むね肉を5箱選ぶ", "닭가슴살 5상자 선택"],
+  ["把商品加入購物車", "Add the Item to Cart", "商品をカートへ", "상품을 장바구니에 담기"],
+  ["確認金額後送出訂單", "Check the Total and Submit", "金額を確認して注文", "금액 확인 후 주문"],
+  ["查看王小姐剛送出的訂單", "Open Ms Wang's New Order", "王さんの新規注文を見る", "왕 고객 신규 주문 보기"],
+  ["把訂單設為已出貨", "Mark the Order Shipped", "注文を出荷済みにする", "주문을 배송 완료로 변경"],
+  ["查看本月月結結果", "View This Month's Total", "今月の精算を見る", "이번 달 정산 보기"],
+  ["點一個你想問的問題", "Choose a Question", "質問を一つ選ぶ", "질문 하나 선택"],
+  ["選擇你的需求規模", "Choose Your Project Size", "希望規模を選ぶ", "프로젝트 규모 선택"],
+  ["確認剛才建立的詢價資料", "Confirm the New Lead", "作成された問い合わせを確認", "생성된 문의 확인"],
+  ["點一個常見問題", "Choose a Common Question", "よくある質問を選ぶ", "자주 묻는 질문 선택"],
+  ["查看答案引用哪份文件", "See Which File Was Used", "参照文書を確認", "참조 문서 확인"],
+  ["確認答案與原文一致", "Confirm the Answer Matches", "回答と原文を確認", "답변과 원문 확인"],
+  ["把餐點送到廚房", "Send the Meal to Kitchen", "料理を厨房へ送る", "메뉴를 주방으로 보내기"],
+  ["打開王小姐住家的案件", "Open Ms Wang's Project", "王さん宅の案件を開く", "왕 고객 공사 열기"],
+  ["把進度更新為油漆施工", "Update Progress to Painting", "進捗を塗装工事へ更新", "진행을 도장 작업으로 업데이트"],
+  ["把最新進度通知客戶", "Send the Latest Update", "最新進捗を顧客へ通知", "최신 진행을 고객에게 알림"],
+  ["查看本月成效", "View This Month", "今月の成果を見る", "이번 달 성과 보기"],
+  ["打開表現最好的 LINE 廣告", "Open the Best LINE Ad", "最も成果の良いLINE広告を見る", "최고 성과 LINE 광고 보기"],
+  ["儲存這份老闆摘要", "Save the Owner Summary", "経営者向け要約を保存", "사장 요약 저장"],
+  ["選擇餐廳網站範例", "Choose the Restaurant Site", "飲食店サイトを選ぶ", "식당 웹사이트 선택"],
+  ["開始網站健檢", "Run the Website Check", "サイト診断を開始", "웹사이트 진단 시작"],
+  ["查看最先要改的三件事", "View the Top Three Fixes", "最優先の改善3件を見る", "우선 개선 3개 보기"],
+  ["查看剛收到的訂單", "Open the New Order", "新規注文を見る", "신규 주문 보기"],
+  ["啟動資料同步", "Start Data Sync", "データ連携を開始", "데이터 연동 시작"],
+  ["確認出貨系統已收到", "Confirm Shipping Received It", "出荷システムの受信を確認", "배송 시스템 수신 확인"],
+  ["冷藏食品", "Chilled Goods", "冷蔵食品", "냉장 식품"],
+  ["舒肥雞胸肉", "Sous Vide Chicken Breast", "低温調理鶏むね肉", "수비드 닭가슴살"],
+  ["ABC 餐廳", "ABC Restaurant", "ABCレストラン", "ABC 식당"],
+  ["5 盒 ABC 餐廳專屬價格", "5 boxes ABC account price", "5箱 ABC専用価格", "5상자 ABC 전용 가격"],
+  ["AI 客服流程", "AI Support Flow", "AI顧客対応", "AI 고객 응대"],
+  ["不用看技術清單 直接體驗 AI 怎麼替店家找答案", "See how AI finds real answers for your team", "AIが根拠ある回答を探す流れを体験", "AI가 근거 있는 답을 찾는 흐름 체험"],
+  ["處理一個客戶常見問題", "Handle One Customer Question", "顧客の質問を1件処理", "고객 질문 1건 처리"],
+  ["查看客戶剛傳來的問題", "Open the New Customer Question", "新しい顧客質問を見る", "신규 고객 질문 보기"],
+  ["讓 AI 查公司規定", "Ask AI to Check Company Rules", "AIで社内ルールを確認", "AI로 회사 규정 확인"],
+  ["確認回覆內容", "Approve the Reply", "回答を確認", "답변 확인"],
+  ["客戶問題 公司規定與回覆結果都能清楚核對", "Review the question source and reply in one place", "質問 根拠 回答を一つの画面で確認", "질문 근거 답변을 한 화면에서 확인"],
+  ["查看客戶問題", "View Customer Question", "顧客質問を見る", "고객 질문 보기"],
 ]
 
 export const exactTranslations = Object.fromEntries(
@@ -535,7 +701,35 @@ const compactFallback = {
 }
 
 function translateDynamic(value, locale) {
-  let match = value.match(/^(?:共 )?(\d+) 件作品$/)
+  let match = value.match(/^任務 (\d+)(?: \/)? (\d+)$/)
+  if (match) {
+    if (locale === "en") return `Step ${match[1]} of ${match[2]}`
+    if (locale === "ja") return `手順 ${match[1]} / ${match[2]}`
+    return `단계 ${match[1]} / ${match[2]}`
+  }
+
+  match = value.match(/^約 (\d+) 秒$/)
+  if (match) {
+    if (locale === "en") return `About ${match[1]} seconds`
+    if (locale === "ja") return `約${match[1]}秒`
+    return `약 ${match[1]}초`
+  }
+
+  match = value.match(/^約 (\d+) 秒 不需要帳號 資料可一鍵重設$/)
+  if (match) {
+    if (locale === "en") return `About ${match[1]} seconds No account needed`
+    if (locale === "ja") return `約${match[1]}秒 登録不要`
+    return `약 ${match[1]}초 가입 불필요`
+  }
+
+  match = value.match(/^(\d+) 筆更新$/)
+  if (match) {
+    if (locale === "en") return `${match[1]} updates`
+    if (locale === "ja") return `${match[1]}件更新`
+    return `${match[1]}건 업데이트`
+  }
+
+  match = value.match(/^(?:共 )?(\d+) 件作品$/)
   if (match) {
     if (locale === "en") return `${match[1]} Projects`
     if (locale === "ja") return `${match[1]}件の実績`
@@ -585,7 +779,7 @@ function translateDynamic(value, locale) {
   return null
 }
 
-export function translateDisplayText(value, locale) {
+export function translateDisplayText(value, locale, options = {}) {
   const brandedValue = localizeBrandText(value, locale)
   if (locale === "zh-Hant" || !brandedValue.trim()) return brandedValue
 
@@ -598,6 +792,7 @@ export function translateDisplayText(value, locale) {
 
   const exact = exactTranslations[core]?.[locale]
   const dynamic = translateDynamic(core, locale)
+  if (options.preserveUnknown && !exact && !dynamic) return brandedValue
   const compact = Array.from(core.replace(/\s+/g, "")).length <= 8
   const semanticGroup = semanticGroups.find(({ test }) => test.test(core))
   const semantic = semanticGroup?.[compact ? "compact" : "value"]?.[locale]

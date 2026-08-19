@@ -1,0 +1,201 @@
+export const demoMissions = {
+  "wholesale-ordering": {
+    title: "批發訂貨系統",
+    problem: "不用再從 LINE 一筆一筆抄訂單",
+    duration: "約 30 秒",
+    roles: [
+      {
+        id: "customer",
+        label: "我是客戶",
+        goal: "下 1 筆訂單",
+        steps: [
+          { id: "pick-product", action: "pick-product", instruction: "先選雞胸肉 5 盒" },
+          { id: "add-cart", action: "add-cart", instruction: "把商品加入購物車" },
+          { id: "submit-order", action: "submit-order", instruction: "確認金額後送出訂單" },
+        ],
+        result: "客戶已自己完成下單 店家後台同步收到資料",
+        checklist: ["選好商品與數量", "送出批發訂單", "後台收到待出貨資料"],
+      },
+      {
+        id: "owner",
+        label: "我是老闆",
+        goal: "收到訂單 出貨 月結",
+        steps: [
+          { id: "open-order", action: "open-order", instruction: "查看王小姐剛送出的訂單" },
+          { id: "ship-order", action: "ship-order", instruction: "把訂單設為已出貨" },
+          { id: "view-monthly", action: "view-monthly", instruction: "查看本月月結結果" },
+        ],
+        result: "你剛完成了從客戶下單到店家出貨與月結的完整流程",
+        checklist: ["查看新訂單", "完成出貨", "確認月結結果"],
+      },
+    ],
+    businessResult: "原本散落在 LINE 的流程 現在集中在一個系統",
+  },
+  linebot: {
+    title: "LINE 詢價助手",
+    problem: "客戶不用等回覆 老闆也不會漏掉詢價",
+    duration: "約 40 秒",
+    roles: [{
+      id: "customer",
+      label: "你是來詢價的客戶",
+      goal: "點一個問題開始詢問",
+      steps: [
+        { id: "choose-message", action: "choose-message", instruction: "點一個你想問的問題" },
+        { id: "answer-followup", action: "answer-followup", instruction: "選擇你的需求規模" },
+        { id: "open-lead", action: "open-lead", instruction: "查看老闆收到什麼" },
+        { id: "confirm-lead", action: "confirm-lead", instruction: "確認剛才建立的詢價資料" },
+      ],
+      result: "這就是從 LINE 詢問到自動追問與後台建檔的完整流程",
+      checklist: ["客戶送出問題", "Bot 整理需求", "後台建立詢價資料"],
+    }],
+    businessResult: "重複詢問自動處理 需要跟進的客戶直接進後台",
+  },
+  "rag-consultant": {
+    title: "AI 公司知識庫",
+    problem: "把公司文件交給 AI 以後直接問",
+    duration: "約 30 秒",
+    roles: [{
+      id: "employee",
+      label: "你是公司員工",
+      goal: "問一個公司規定",
+      steps: [
+        { id: "ask-question", action: "ask-question", instruction: "點一個常見問題" },
+        { id: "open-source", action: "open-source", instruction: "查看答案引用哪份文件" },
+        { id: "finish-answer", action: "finish-answer", instruction: "確認答案與原文一致" },
+      ],
+      result: "你剛完成一次有來源可核對的公司資料查詢",
+      checklist: ["直接詢問公司規定", "AI 找到答案", "核對來源文件與引用段落"],
+    }],
+    businessResult: "同事不用再翻資料夾 答案也不是憑空猜測",
+  },
+  "restaurant-ordering": {
+    title: "餐廳點餐系統",
+    problem: "點餐內容直接送到廚房 不再重抄單",
+    duration: "約 30 秒",
+    roles: [{
+      id: "server",
+      label: "你是現場服務人員",
+      goal: "替 8 號桌送出一筆餐點",
+      steps: [
+        { id: "choose-table", action: "choose-table", instruction: "選擇 8 號桌" },
+        { id: "add-meal", action: "add-meal", instruction: "加入招牌牛肉麵" },
+        { id: "send-kitchen", action: "send-kitchen", instruction: "把餐點送到廚房" },
+      ],
+      result: "8 號桌的餐點已直接送到廚房",
+      checklist: ["選擇桌號", "加入餐點", "廚房收到新單"],
+    }],
+    businessResult: "外場不用抄單 廚房立即看到正確內容",
+  },
+  buildflow: {
+    title: "工程案件管理",
+    problem: "工地進度與待辦集中管理 老闆不用一直追問",
+    duration: "約 35 秒",
+    roles: [{
+      id: "owner",
+      label: "你是工程行老闆",
+      goal: "更新一個施工案件",
+      steps: [
+        { id: "open-project", action: "open-project", instruction: "打開王小姐住家的案件" },
+        { id: "update-progress", action: "update-progress", instruction: "把進度更新為油漆施工" },
+        { id: "send-update", action: "send-update", instruction: "把最新進度通知客戶" },
+      ],
+      result: "案件進度已更新 客戶也收到通知",
+      checklist: ["查看施工案件", "更新現場進度", "同步通知客戶"],
+    }],
+    businessResult: "案件狀態與客戶回報都留在同一個地方",
+  },
+  "analytics-dashboard": {
+    title: "廣告成效看板",
+    problem: "不用翻很多報表 一眼知道廣告有沒有帶來詢問",
+    duration: "約 30 秒",
+    roles: [{
+      id: "owner",
+      label: "你是店家老闆",
+      goal: "找出最有效的廣告來源",
+      steps: [
+        { id: "choose-period", action: "choose-period", instruction: "查看本月成效" },
+        { id: "open-channel", action: "open-channel", instruction: "打開表現最好的 LINE 廣告" },
+        { id: "save-report", action: "save-report", instruction: "儲存這份老闆摘要" },
+      ],
+      result: "你已找到最有效的廣告並留下摘要",
+      checklist: ["查看本月結果", "找到最佳來源", "儲存決策摘要"],
+    }],
+    businessResult: "廣告花費與實際詢問放在同一張看板",
+  },
+  "commerce-platform": {
+    title: "品牌購物系統",
+    problem: "客戶從看商品到送出訂單都能自己完成",
+    duration: "約 30 秒",
+    roles: [{
+      id: "customer",
+      label: "你是購物客戶",
+      goal: "完成一筆保養品訂單",
+      steps: [
+        { id: "choose-item", action: "choose-item", instruction: "選擇舒緩精華" },
+        { id: "add-bag", action: "add-bag", instruction: "加入購物袋" },
+        { id: "checkout", action: "checkout", instruction: "確認後送出訂單" },
+      ],
+      result: "訂單已送出 店家同步收到出貨資料",
+      checklist: ["選擇商品", "加入購物袋", "完成送單"],
+    }],
+    businessResult: "商品介紹與購買流程連在一起 減少客戶中途離開",
+  },
+  "ai-audit": {
+    title: "網站健檢助手",
+    problem: "不用懂網站術語 直接知道哪裡影響詢問",
+    duration: "約 35 秒",
+    roles: [{
+      id: "owner",
+      label: "你是店家老闆",
+      goal: "檢查一個範例網站",
+      steps: [
+        { id: "choose-site", action: "choose-site", instruction: "選擇餐廳網站範例" },
+        { id: "run-check", action: "run-check", instruction: "開始網站健檢" },
+        { id: "open-fixes", action: "open-fixes", instruction: "查看最先要改的三件事" },
+      ],
+      result: "你已找到最影響詢問的三個網站問題",
+      checklist: ["選擇網站", "完成健檢", "取得優先改善清單"],
+    }],
+    businessResult: "先處理最影響客戶理解與詢問的問題",
+  },
+  "api-automation": {
+    title: "訂單自動同步",
+    problem: "不同工具的資料自動搬運 不再人工複製",
+    duration: "約 30 秒",
+    roles: [{
+      id: "owner",
+      label: "你是營運老闆",
+      goal: "把一筆新訂單同步到出貨系統",
+      steps: [
+        { id: "inspect-data", action: "inspect-data", instruction: "查看剛收到的訂單" },
+        { id: "run-sync", action: "run-sync", instruction: "啟動資料同步" },
+        { id: "verify-sync", action: "verify-sync", instruction: "確認出貨系統已收到" },
+      ],
+      result: "訂單資料已自動整理並同步到出貨系統",
+      checklist: ["收到新訂單", "自動整理資料", "同步到出貨系統"],
+    }],
+    businessResult: "少一次人工複製 就少一次資料錯誤",
+  },
+  "ai-tech": {
+    title: "AI 客服流程",
+    problem: "不用看技術清單 直接體驗 AI 怎麼替店家找答案",
+    duration: "約 30 秒",
+    roles: [{
+      id: "owner",
+      label: "你是店家老闆",
+      goal: "處理一個客戶常見問題",
+      steps: [
+        { id: "open-question", action: "open-question", instruction: "查看客戶剛傳來的問題" },
+        { id: "find-answer", action: "find-answer", instruction: "讓 AI 查公司規定" },
+        { id: "approve-reply", action: "approve-reply", instruction: "確認回覆內容" },
+      ],
+      result: "你已完成一次從客戶提問到 AI 找資料與回覆的流程",
+      checklist: ["收到客戶問題", "找到公司規定", "確認正確回覆"],
+    }],
+    businessResult: "客服先取得有根據的答案 再決定是否交給真人",
+  },
+}
+
+export function getDemoMission(slug) {
+  return demoMissions[slug] ?? null
+}
