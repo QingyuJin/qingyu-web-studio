@@ -19,8 +19,8 @@ export type Product = {
   imagePosition?: string;
 };
 
-const productImage = "/images/morie-collection.png";
-const heroImage = "/images/morie-hero.png";
+const productImage = "/demo/morie/images/morie-collection.png";
+const heroImage = "/demo/morie/images/morie-hero.png";
 
 export const products: Product[] = [
   {
@@ -59,7 +59,7 @@ export const products: Product[] = [
     ingredients: "橙花純露、白柳樹皮、甘油、泛醇。",
     caution: "含植物萃取，氣味與色澤可能因批次略有不同。",
     image: productImage,
-    hoverImage: "/images/morie-forest.png",
+    hoverImage: "/demo/morie/images/morie-forest.png",
     imagePosition: "10% 50%",
   },
   {
@@ -98,7 +98,7 @@ export const products: Product[] = [
     ingredients: "山茶籽油、燕麥脂質、乳木果脂、玻尿酸。",
     caution: "請避開眼周，並置於陰涼處保存。",
     image: productImage,
-    hoverImage: "/images/morie-atelier.png",
+    hoverImage: "/demo/morie/images/morie-atelier.png",
     imagePosition: "61% 50%",
   },
   {
@@ -137,7 +137,7 @@ export const products: Product[] = [
     ingredients: "紫蘇葉、山胡椒果、雪松精油、胺基酸潔淨因子。",
     caution: "孕期或對精油敏感者請先諮詢專業人員。",
     image: productImage,
-    hoverImage: "/images/morie-forest.png",
+    hoverImage: "/demo/morie/images/morie-forest.png",
     imagePosition: "20% 50%",
   },
   {
@@ -157,7 +157,7 @@ export const products: Product[] = [
     caution: "易燃品，請遠離火源並避免陽光直射。",
     badge: "新作",
     image: productImage,
-    hoverImage: "/images/morie-atelier.png",
+    hoverImage: "/demo/morie/images/morie-atelier.png",
     imagePosition: "42% 50%",
   },
   {
@@ -195,7 +195,7 @@ export const products: Product[] = [
     ingredients: "四款 MORIÉ 日常配方旅行容量。",
     caution: "套組內容物不單獨販售。",
     image: productImage,
-    hoverImage: "/images/morie-forest.png",
+    hoverImage: "/demo/morie/images/morie-forest.png",
     imagePosition: "50% 50%",
   },
   {
@@ -215,7 +215,7 @@ export const products: Product[] = [
     caution: "數量有限，售完後於下一季更換內容。",
     badge: "季節限定",
     image: productImage,
-    hoverImage: "/images/morie-atelier.png",
+    hoverImage: "/demo/morie/images/morie-atelier.png",
     imagePosition: "75% 50%",
   },
 ];

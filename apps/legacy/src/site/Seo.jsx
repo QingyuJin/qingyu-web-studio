@@ -94,8 +94,8 @@ function Seo({ page = seo.home }) {
     })
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: localizedUrl.href })
     upsertMeta('meta[property="og:image"]', { property: "og:image", content: image })
-    upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: String(page.imageWidth ?? 1200) })
-    upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: String(page.imageHeight ?? 630) })
+    upsertMeta('meta[property="og:image:width"]', { property: "og:image:width", content: String(page.imageWidth ?? 1731) })
+    upsertMeta('meta[property="og:image:height"]', { property: "og:image:height", content: String(page.imageHeight ?? 909) })
     upsertMeta('meta[property="og:image:alt"]', {
       property: "og:image:alt",
       content: imageAlt,

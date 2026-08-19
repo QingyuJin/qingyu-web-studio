@@ -1,0 +1,72 @@
+.qy-demo-bar {
+  position: sticky;
+  top: 0;
+  z-index: 9999;
+  display: flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 12px;
+  padding: 6px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  background: rgba(10, 21, 22, 0.96);
+  color: #fff;
+  font-family: ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  backdrop-filter: blur(16px);
+}
+
+.qy-demo-bar a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.qy-demo-brand {
+  flex: 0 0 auto;
+  color: rgba(255, 255, 255, 0.6) !important;
+  font-size: 11px;
+  font-weight: 650;
+}
+
+.qy-demo-title {
+  min-width: 0;
+  flex: 1;
+  overflow: hidden;
+  color: rgba(255, 255, 255, 0.85);
+  font-size: 11px;
+  font-weight: 650;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.qy-demo-case {
+  color: rgba(255, 255, 255, 0.58) !important;
+  font-size: 10px;
+  font-weight: 650;
+}
+
+.qy-demo-contact {
+  display: inline-flex;
+  min-height: 30px;
+  flex: 0 0 auto;
+  align-items: center;
+  border-radius: 999px;
+  background: #d7c89f;
+  color: #17201f !important;
+  padding: 0 13px;
+  font-size: 10px;
+  font-weight: 750;
+}
+
+@media (max-width: 560px) {
+  .qy-demo-case {
+    display: none;
+  }
+
+  .qy-demo-brand {
+    font-size: 0;
+  }
+
+  .qy-demo-brand::after {
+    content: "← 晴宇";
+    font-size: 10px;
+  }
+}

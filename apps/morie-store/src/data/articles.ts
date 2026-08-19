@@ -16,7 +16,7 @@ export const articles: Article[] = [
     title: "水溫，也是一種照料",
     excerpt: "從晨間潔面到夜晚沐浴，溫度如何悄悄改變肌膚與心緒。",
     readingTime: "4 分鐘",
-    image: "/images/morie-forest.png",
+    image: "/demo/morie/images/morie-forest.png",
     publishedAt: "2026.06.18",
     content: [
       { body: "水碰觸皮膚的第一秒，日常就有了方向。過熱的水讓時間顯得倉促；微溫的水，則讓清潔成為一種緩慢返回。" },
@@ -30,7 +30,7 @@ export const articles: Article[] = [
     title: "雨後植物的氣味地圖",
     excerpt: "馬告、紫蘇與檜木不是配方清單，而是島嶼濕度留下的座標。",
     readingTime: "6 分鐘",
-    image: "/images/morie-atelier.png",
+    image: "/demo/morie/images/morie-atelier.png",
     publishedAt: "2026.05.02",
     content: [
       { body: "植物的香氣從來不是孤立的。它與土壤、雨量、採集時刻，以及手指揉開葉片的力度一起發生。" },
@@ -44,7 +44,7 @@ export const articles: Article[] = [
     title: "為緩慢時刻留一個房間",
     excerpt: "關於光、木材與氣味，如何讓一處空間成為身體的休止符。",
     readingTime: "5 分鐘",
-    image: "/images/morie-hero.png",
+    image: "/demo/morie/images/morie-hero.png",
     publishedAt: "2026.03.24",
     content: [
       { body: "我們喜歡會留下時間痕跡的材料。木頭變深、石材磨亮、紙張捲起邊角——空間因此不是完成品，而是一段持續發生的生活。" },

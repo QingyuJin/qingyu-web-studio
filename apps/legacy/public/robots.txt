@@ -7,5 +7,6 @@ Disallow: /api/
 Disallow: /contractor-site
 Disallow: /engineering
 Disallow: /buildflow
+Disallow: /demo/
 
 Sitemap: https://www.qingyuweb.com/sitemap.xml

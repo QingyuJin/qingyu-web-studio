@@ -1,7 +1,7 @@
 "use client";
 
 import { SlidersHorizontal, X } from "lucide-react";
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { ProductCard } from "./ProductCard";
 import { products } from "@/data/products";
 
@@ -19,6 +19,17 @@ export function ProductExplorer({ initialCategory = "全部", initialSearch = ""
   const [filters, setFilters] = useState<FilterState>({ ...emptyFilters, category: initialCategory, search: initialSearch });
   const [sort, setSort] = useState("featured");
   const [mobileFilters, setMobileFilters] = useState(false);
+
+  useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const category = params.get("category");
+    const search = params.get("search");
+    if (!category && !search) return;
+    const timer = window.setTimeout(() => {
+      setFilters((current) => ({ ...current, category: category || current.category, search: search || current.search }));
+    }, 0);
+    return () => window.clearTimeout(timer);
+  }, []);
 
   const filtered = useMemo(() => {
     const result = products.filter((product) => {

@@ -1,5 +1,5 @@
 import { Suspense, lazy } from "react"
-import { Navigate, Route, Routes } from "react-router-dom"
+import { Navigate, Route, Routes, useLocation } from "react-router-dom"
 import ExperiencePolish from "./ExperiencePolish"
 import { LocaleProvider } from "./i18n/LocaleContext"
 import LocaleSwitcher from "./i18n/LocaleSwitcher"
@@ -46,6 +46,12 @@ const WorkDetailPageWholesale = lazy(() => import("./site/WorkDetailPageWholesal
 const WorkDetailPageRag = lazy(() => import("./site/WorkDetailPageRag"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
 const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
+const DemoExperience = lazy(() =>
+  import("./site/DemoExperience").then((module) => ({ default: module.DemoExperience }))
+)
+const NativeWorkDemo = lazy(() =>
+  import("./site/DemoExperience").then((module) => ({ default: module.NativeWorkDemo }))
+)
 const OnePageHub = lazy(() => import("./onepage/OnePageHub"))
 const BeautyTemplate = lazy(() =>
   import("./onepage/BeautyClinicTemplates").then((module) => ({ default: module.BeautyTemplate }))
@@ -74,6 +80,12 @@ function PageFallback() {
   )
 }
 
+function LegacyBeautyRedirect() {
+  const location = useLocation()
+  const suffix = location.pathname.replace(/^\/works\/beauty-shopline-preview/, "")
+  return <Navigate to={`/demo/luluface${suffix}${location.search}${location.hash}`} replace />
+}
+
 function App() {
   return (
     <LocaleProvider>
@@ -89,6 +101,17 @@ function App() {
         <Route path="/onepage/construction" element={<ConstructionTemplate />} />
         <Route path="/onepage/manufacturing" element={<ManufacturingTemplate />} />
         <Route path="/onepage/saas" element={<SaasTemplate />} />
+        <Route path="/demo/wholesale-ordering/*" element={<DemoExperience slug="wholesale-ordering"><WholesaleOrdering /></DemoExperience>} />
+        <Route path="/demo/restaurant-ordering/*" element={<DemoExperience slug="restaurant-ordering"><RestaurantOrdering /></DemoExperience>} />
+        <Route path="/demo/rag-consultant/*" element={<DemoExperience slug="rag-consultant"><RagConsultant /></DemoExperience>} />
+        <Route path="/demo/buildflow/*" element={<DemoExperience slug="buildflow"><BuildFlow /></DemoExperience>} />
+        <Route path="/demo/xinjiang/*" element={<DemoExperience slug="xinjiang"><ContractorSite /></DemoExperience>} />
+        <Route path="/demo/linebot/*" element={<DemoExperience slug="linebot"><NativeWorkDemo projectSlug="linebot" /></DemoExperience>} />
+        <Route path="/demo/analytics-dashboard/*" element={<DemoExperience slug="analytics-dashboard"><NativeWorkDemo projectSlug="analytics-dashboard" /></DemoExperience>} />
+        <Route path="/demo/commerce-platform/*" element={<DemoExperience slug="commerce-platform"><NativeWorkDemo projectSlug="ecommerce-platform-redesign" /></DemoExperience>} />
+        <Route path="/demo/ai-audit/*" element={<DemoExperience slug="ai-audit"><NativeWorkDemo projectSlug="ai-audit" /></DemoExperience>} />
+        <Route path="/demo/api-automation/*" element={<DemoExperience slug="api-automation"><NativeWorkDemo projectSlug="api-automation" /></DemoExperience>} />
+        <Route path="/demo/luluface/*" element={<DemoExperience slug="luluface"><BeautyShoplinePreview /></DemoExperience>} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
@@ -107,7 +130,7 @@ function App() {
         <Route path="/works/wholesale-ordering" element={<WorkDetailPageWholesale />} />
         <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/analytics-dashboard" element={<WorkDetailPageAnalytics />} />
-        <Route path="/works/beauty-shopline-preview/*" element={<BeautyShoplinePreview />} />
+        <Route path="/works/beauty-shopline-preview/*" element={<LegacyBeautyRedirect />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />

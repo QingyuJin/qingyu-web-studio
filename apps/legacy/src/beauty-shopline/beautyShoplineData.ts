@@ -1,7 +1,7 @@
 const configuredSiteUrl = (import.meta.env.VITE_LULUFACE_SITE_URL ?? "").trim().replace(/\/$/, "")
 
 export const siteConfig = {
-  route: "/works/beauty-shopline-preview",
+  route: "/demo/luluface",
   seo: {
     title: "LULUFACE 嚕嚕臉｜嘉義做臉護膚與日常保養",
     description:

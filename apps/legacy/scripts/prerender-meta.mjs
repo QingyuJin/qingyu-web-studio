@@ -6,15 +6,15 @@ const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "
 const outputRoot = path.join(projectRoot, "dist")
 const template = await readFile(path.join(outputRoot, "index.html"), "utf8")
 const siteUrl = "https://www.qingyuweb.com"
-const brandName = "晴宇網路工作室"
+const brandName = "晴宇 Qingyu Web"
 
 const routes = [
-  ["/services", "網站設計、SEO、電商與系統整合服務｜Qingyu Web Studio", "品牌網站、電商建置、SEO、廣告落地頁、LINE Bot、AI 工具、API 與客製後台的一站式服務"],
+  ["/services", "企業 Web 系統與網站開發服務｜晴宇 Qingyu Web", "企業管理系統 高質感網站 Landing Page LINE API AI RAG SEO 與成效追蹤的完整開發服務"],
   ["/seo-ads", "SEO 與 Google Ads 廣告落地頁｜Qingyu Web Studio", "整合技術 SEO、關鍵字與內容架構、Google Ads／Meta Ads 落地頁、GA4 與廣告轉換追蹤"],
-  ["/works", "網站、電商與客製系統作品案例｜Qingyu Web Studio", "瀏覽品牌網站、電商、廣告視覺、LINE Bot、接單後台與 AI 系統的可操作作品與完整案例"],
-  ["/pricing", "網站設計、SEO 與客製系統參考價格｜Qingyu Web Studio", "網站、電商、SEO、廣告落地頁、LINE Bot 與客製後台參考價格"],
+  ["/works", "企業系統與網站作品｜晴宇 Qingyu Web", "瀏覽企業管理系統 電商網站 AI 知識庫 LINE 串接與成效工具並直接操作展示"],
+  ["/pricing", "企業系統與網站開發價格｜晴宇 Qingyu Web", "企業 Web 系統 品牌網站 Landing Page 及客製開發支援的專案起始價格與合作範圍"],
   ["/free-audit", "免費網站健檢｜手機體驗、SEO 與轉換檢查｜Qingyu Web Studio", "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑"],
-  ["/contact", "網站、SEO 與數位成長專案諮詢｜Qingyu Web Studio", "留下產業、目前網站、目標、預算與時程取得適合的做法與估價"],
+  ["/contact", "企業系統與網站專案諮詢｜晴宇 Qingyu Web", "留下需求類型 產業 參考案例 預算與時程取得系統或網站的開發建議與估價"],
   ["/ai-transformation", "中小企業 AI 數位轉型實作服務｜Qingyu Web Studio", "企業網站、LINE 接待、訂貨流程、AI 知識庫與客製後台的數位轉型實作方案"],
   ["/onepage", "一頁式網站設計與六大產業範本｜Qingyu Web Studio", "8–10 個重點區塊把品牌、服務與預約集中在同一頁瀏覽美容、牙醫、餐飲、室內工程、精密製造與 SaaS 六套完整範本", "/assets/onepage/beauty/beauty-hero.webp", "ProfessionalService"],
   ["/onepage/beauty", "美容保養一頁式網站範本｜Qingyu Web Studio", "美容工作室與保養品牌一頁式網站提案包含肌膚需求、療程、產品成分、服務流程、顧客感受與 LINE 預約", "/assets/onepage/beauty/beauty-hero.webp", "BeautySalon"],
@@ -41,6 +41,7 @@ const routes = [
   ["/works/notion-brand-landing", "個人品牌落地頁設計案例｜Qingyu Web Studio", "個人品牌服務、資源內容與 LINE 名單導流的落地頁展示"],
   ["/works/ai-audit", "AI 網站健檢工具展示｜Qingyu Web Studio", "以 AI 檢查網站 CTA、SEO、手機體驗與信任內容的互動工具"],
   ["/works/api-automation", "表單、API 與通知自動化展示｜Qingyu Web Studio", "表單送出、資料檢查、API、通知與後台追蹤的自動化流程"],
+  ["/works/ai-tech-quest", "AI Technology Quest 互動展示｜晴宇 Qingyu Web", "操作 RAG 模型分類 FAQ 助手與任務進度的 AI 產品展示"],
 ]
 
 function escapeHtml(value) {
@@ -53,7 +54,7 @@ function replaceAttribute(html, selector, value) {
   return html.replace(expression, `$1${escaped}$2`)
 }
 
-function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png?v=20260814", entityType = "") {
+function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png?v=20260820", entityType = "") {
   title = title.replaceAll("Qingyu Web Studio", brandName)
   description = description.replaceAll("Qingyu Web Studio", brandName)
   const canonical = `${siteUrl}${route}`
@@ -98,6 +99,9 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
   html = replaceAttribute(html, 'name="twitter:title"', title)
   html = replaceAttribute(html, 'name="twitter:description"', description)
   html = replaceAttribute(html, 'name="twitter:image"', image)
+  const heading = title.split("｜")[0]
+  const staticContent = `<div id="root"><main data-prerendered="true"><nav aria-label="主要導覽"><a href="/">首頁</a> <a href="/works">作品</a> <a href="/services">服務</a> <a href="/pricing">價格</a> <a href="/contact">聯絡</a></nav><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(description)}</p><p><a href="/works">查看作品</a> <a href="/contact">啟動專案</a></p></main></div>`
+  html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*<noscript>/, `${staticContent}\n    <noscript>`)
   html = html.replace("</head>", `    <script type="application/ld+json">${JSON.stringify(pageData).replaceAll("<", "\\u003c")}</script>\n  </head>`)
   return html
 }

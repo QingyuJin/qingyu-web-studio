@@ -30,6 +30,10 @@
     {
       "source": "/(admin|login|logout|buildflow|contractor-site|engineering)(.*)",
       "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+    },
+    {
+      "source": "/demo/(.*)",
+      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow, noarchive" }]
     }
   ],
   "rewrites": [
@@ -66,6 +70,7 @@
     { "source": "/works/notion-brand-landing", "destination": "/works/notion-brand-landing/index.html" },
     { "source": "/works/ai-audit", "destination": "/works/ai-audit/index.html" },
     { "source": "/works/api-automation", "destination": "/works/api-automation/index.html" },
+    { "source": "/works/ai-tech-quest", "destination": "/works/ai-tech-quest/index.html" },
     { "source": "/(.*)", "destination": "/" }
   ]
 }

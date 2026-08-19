@@ -7,7 +7,7 @@
     problem: "AI 作品如果只放 GitHub 或 notebook 非工程背景的人很難理解使用情境與產品價值",
     features: ["任務選擇", "文件問答", "模型分類", "店家 AI 助手", "產品展示室", "GitHub 入口"],
     techStack: ["React", "Vite", "Tailwind CSS", "Zustand", "FastAPI-ready"],
-    demoPath: "https://ai-tech-quest.vercel.app",
+    demoPath: "/demo/ai-tech",
     external: true,
     cta: "線上實測",
     preview: {

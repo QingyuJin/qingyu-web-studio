@@ -2532,7 +2532,7 @@ function XinjiangDemo() {
           </MiniCard>
           <div className="flex flex-wrap gap-3">
             <a
-              href="https://xinjiang-website.vercel.app/"
+              href="/demo/xinjiang"
               target="_blank"
               rel="noreferrer"
               className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white"

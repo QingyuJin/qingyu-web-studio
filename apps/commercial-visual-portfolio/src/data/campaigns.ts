@@ -22,7 +22,7 @@ export type Campaign = {
   }
 }
 
-export const campaigns: Campaign[] = [
+const campaignData: Campaign[] = [
   {
     id: "beauty",
     index: "01",
@@ -176,3 +176,15 @@ export const campaigns: Campaign[] = [
     },
   },
 ]
+
+export const campaigns: Campaign[] = campaignData.map((campaign) => ({
+  ...campaign,
+  artworks: campaign.artworks.map((artwork) => ({
+    ...artwork,
+    src: `${import.meta.env.BASE_URL}${artwork.src.replace(/^\//, "")}`,
+  })),
+  process: {
+    ...campaign.process,
+    src: `${import.meta.env.BASE_URL}${campaign.process.src.replace(/^\//, "")}`,
+  },
+}))

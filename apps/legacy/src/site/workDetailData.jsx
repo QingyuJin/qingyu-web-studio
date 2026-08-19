@@ -23,7 +23,7 @@ function Chrome({ label, tone = "light", children }) {
 function XinjiangFront() {
   const [sent, setSent] = useState(false)
   return (
-    <Chrome label="xinjiang-masonry.vercel.app">
+    <Chrome label="qingyuweb.com/demo/xinjiang">
       <div className="bg-[#0c1518] p-4 text-white">
         <div className="flex items-center justify-between border-b border-white/10 pb-2">
           <span className="text-sm font-black text-[#c49a35]">鑫匠工程</span>
@@ -253,7 +253,7 @@ export const xinjiang = {
     ],
   },
   techStack: ["React / Vite", "Tailwind CSS", "Supabase", "Serverless API", "Vercel 部署"],
-    liveUrl: "https://xinjiang-website.vercel.app/",
+    liveUrl: "/demo/xinjiang",
     testimonial: {
     quote: "以前客戶看 Pro360 和拿名片 案子進度靠 LINE 記現在有自己的官網和後台 從詢價到完工全部追得到",
     name: "鑫匠工程負責人",

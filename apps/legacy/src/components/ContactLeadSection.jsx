@@ -9,11 +9,28 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
+  inquiry_type: "企業系統",
   industry: "",
   reference: "鑫匠工程",
-  budget_range: "5,000～10,000",
+  budget_range: "3～6 萬",
   deadline: "",
   message: "",
+}
+
+const inquiryOptions = ["企業系統", "品牌網站", "Landing Page", "AI 與 RAG", "LINE 與 API", "代理商協作", "顧問協作", "其他"]
+const inquiryParamMap = {
+  system: "企業系統",
+  business: "企業系統",
+  "business-system": "企業系統",
+  website: "品牌網站",
+  landing: "Landing Page",
+  ai: "AI 與 RAG",
+  rag: "AI 與 RAG",
+  line: "LINE 與 API",
+  api: "LINE 與 API",
+  agency: "代理商協作",
+  consultant: "顧問協作",
+  other: "其他",
 }
 
 const referenceOptions = [
@@ -41,19 +58,31 @@ const referenceOptions = [
 ]
 const budgetOptions = ["1 萬內", "1～3 萬", "3～6 萬", "6 萬以上", "先討論"]
 
+function cleanQueryValue(value) {
+  if (!value || value.length > 80 || Array.from(value).some((character) => character.charCodeAt(0) < 32)) return ""
+  return value.trim()
+}
+
 function ContactLeadSection() {
   const [searchParams] = useSearchParams()
-  const caseParam = searchParams.get("case")
-  const safeReference = referenceOptions.includes(caseParam) ? caseParam : initialForm.reference
-  const [form, setForm] = useState({ ...initialForm, reference: safeReference })
+  const caseParam = cleanQueryValue(searchParams.get("case"))
+  const typeParam = cleanQueryValue(searchParams.get("type")).toLowerCase()
+  const safeReference = caseParam || initialForm.reference
+  const availableReferences = referenceOptions.includes(safeReference) ? referenceOptions : [safeReference, ...referenceOptions]
+  const [form, setForm] = useState({
+    ...initialForm,
+    reference: safeReference,
+    inquiry_type: inquiryParamMap[typeParam] || initialForm.inquiry_type,
+  })
   const [submitting, setSubmitting] = useState(false)
   const [notice, setNotice] = useState("")
 
   const mailBody = useMemo(() => {
     const lines = [
-      "你好 我想討論網站、LINE Bot、AI 工具或後台流程需求",
+      "你好 我想討論新專案",
       `姓名：${form.name}`,
       `聯絡方式：${form.contact}`,
+      `需求類型：${form.inquiry_type}`,
       `產業：${form.industry}`,
       `參考案例：${form.reference}`,
       `預算：${form.budget_range}`,
@@ -89,16 +118,17 @@ function ContactLeadSection() {
     const result = await createContactRequest({
       name: form.name,
       contact: form.contact,
-      service_type: form.reference,
+      service_type: form.inquiry_type,
       budget_range: form.budget_range,
-      message: `產業：${form.industry}\n希望完成時間：${form.deadline}\n需求：${form.message}${attributionText}`,
+      message: `參考案例：${form.reference}\n產業：${form.industry}\n希望完成時間：${form.deadline}\n需求：${form.message}${attributionText}`,
       source: "contact-page",
       status: "new",
     })
 
     setSubmitting(false)
     trackEvent("generate_lead", {
-      service_type: form.reference,
+      service_type: form.inquiry_type,
+      reference_case: form.reference,
       budget_range: form.budget_range,
       lead_delivery: result.ok ? "connected" : "fallback",
     })
@@ -110,7 +140,7 @@ function ContactLeadSection() {
   }
 
   function resetForm() {
-    setForm(initialForm)
+    setForm({ ...initialForm, reference: safeReference, inquiry_type: inquiryParamMap[typeParam] || initialForm.inquiry_type })
     setNotice("")
   }
 
@@ -148,8 +178,9 @@ function ContactLeadSection() {
           <div className="grid gap-4 sm:grid-cols-2">
             <Input label="姓名 / 稱呼" value={form.name} onChange={(value) => updateForm("name", value)} required />
             <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 電話" required />
+            <Select label="需求類型" value={form.inquiry_type} onChange={(value) => updateForm("inquiry_type", value)} options={inquiryOptions} />
             <Input label="產業" value={form.industry} onChange={(value) => updateForm("industry", value)} placeholder="例如：工程行 / 批發 / 餐飲" required />
-            <Select label="參考案例" value={form.reference} onChange={(value) => updateForm("reference", value)} options={referenceOptions} />
+            <Select label="參考案例" value={form.reference} onChange={(value) => updateForm("reference", value)} options={availableReferences} />
             <Select label="預算區間" value={form.budget_range} onChange={(value) => updateForm("budget_range", value)} options={budgetOptions} />
             <Input label="希望完成時間" value={form.deadline} onChange={(value) => updateForm("deadline", value)} placeholder="例如：兩週內 / 下個月 / 不急" />
             <label className="grid gap-2 sm:col-span-2">

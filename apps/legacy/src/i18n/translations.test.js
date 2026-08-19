@@ -44,9 +44,9 @@ describe("translateDisplayText", () => {
   })
 
   it("uses the official Chinese brand name and corrects the old mistranslation", () => {
-    expect(localizedBrandName("zh-Hant")).toBe("晴宇網路工作室")
-    expect(translateDisplayText("Qingyu Web Studio", "zh-Hant")).toBe("晴宇網路工作室")
-    expect(translateDisplayText("青雨網路工作室", "zh-Hant")).toBe("晴宇網路工作室")
+    expect(localizedBrandName("zh-Hant")).toBe("晴宇 Qingyu Web")
+    expect(translateDisplayText("Qingyu Web Studio", "zh-Hant")).toBe("晴宇 Qingyu Web")
+    expect(translateDisplayText("青雨網路工作室", "zh-Hant")).toBe("晴宇 Qingyu Web")
     expect(translateDisplayText("青雨网络工作室", "en")).toBe("Qingyu Web Studio")
   })
 })

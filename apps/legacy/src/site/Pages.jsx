@@ -5,7 +5,6 @@ import SiteLayout from "./SiteLayout"
 import WorkDemoPanel from "./WorkDemoPanels"
 import {
   contact,
-  pricing,
   pricingNote,
   projects,
   seo,
@@ -901,7 +900,7 @@ function XinjiangProjectBrief() {
               </div>
             ))}
             <div className="flex flex-wrap gap-2 pt-1">
-              <a href="https://xinjiang-website.vercel.app/" target="_blank" rel="noreferrer" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">
+              <a href="/demo/xinjiang" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">
                 打開正式網站
               </a>
               <Link to="/contact?case=鑫匠工程" className="inline-flex min-h-10 items-center rounded-lg border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
@@ -1178,7 +1177,7 @@ export function ServicesPage() {
       <section className="mx-auto max-w-6xl px-4 py-12 md:py-16">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
           {serviceOfferings.map((service) => (
-            <article key={service.id} className="rounded-lg border border-[#e3ded3] bg-white p-5">
+            <article id={service.id} key={service.id} className="scroll-mt-28 rounded-lg border border-[#e3ded3] bg-white p-5">
               <span className="inline-flex rounded-md bg-[#eef7f4] px-3 py-1 text-xs font-black text-[#0d6b62]">{service.price}</span>
               <h2 className="mt-4 text-xl font-black">{service.name}</h2>
               <p className="mt-3 min-h-16 text-sm font-bold leading-7 text-[#52605c]">{service.summary}</p>
@@ -1234,24 +1233,6 @@ export function ServicesPage() {
                   交付內容：{service.proof}
                 </p>
               </article>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section className="border-b border-[#e6e0d5] bg-[#faf8f3]">
-        <div className="mx-auto max-w-6xl px-4 py-12 md:py-16">
-          <div className="mb-7">
-            <p className="text-xs font-black text-[#0d6b62]">價格</p>
-            <h2 className="mt-3 text-3xl font-black">參考價格</h2>
-          </div>
-          <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-            {pricing.map(([name, price, text]) => (
-              <Card key={name}>
-                <h3 className="text-xl font-black">{name}</h3>
-                <p className="mt-2 text-2xl font-black text-[#0d6b62]">{price}</p>
-                <p className="mt-3 text-sm font-bold leading-7 text-[#52605c]">{text}</p>
-              </Card>
             ))}
           </div>
         </div>
@@ -1326,39 +1307,39 @@ function ServiceFact({ title, text }) {
 export function PricingPage() {
   const priceCards = [
     {
-      name: "快速網站",
-      price: "5,000 元起",
-      time: "2–5 天",
-      fit: "已有內容 只需要快速上線",
-      includes: "單頁、基本 RWD、聯絡按鈕",
-      excludes: "品牌設計、後台、複雜表單",
-      casePath: "/works/company-landing",
-    },
-    {
-      name: "品牌官網",
-      price: "12,000 元起",
-      time: "5–10 天",
-      fit: "需要正式門面與詢價入口",
-      includes: "首頁、服務、案例、聯絡、SEO",
-      excludes: "會員、訂單、客製後台",
-      casePath: "/works/biomed-brand-site",
-    },
-    {
-      name: "接單 / 後台系統",
-      price: "25,000 元起",
-      time: "10–25 天",
-      fit: "訂單、案件、出貨、月結需要管理",
-      includes: "前台表單、後台列表、狀態流程",
-      excludes: "金流、物流、ERP 深度串接",
+      name: "企業 Web 系統",
+      price: "35,000 元起",
+      time: "依流程評估",
+      fit: "需要管理後台 權限與完整工作流程",
+      includes: "需求拆解 前後台 核心流程 上線支援",
+      excludes: "金流 ERP 與大型資料移轉另估",
       casePath: "/works/wholesale-ordering",
     },
     {
-      name: "AI / 客製系統",
+      name: "企業品牌網站",
+      price: "25,000 元起",
+      time: "約 2 至 4 週",
+      fit: "需要高質感品牌入口與清楚詢價路徑",
+      includes: "網站設計 RWD 基礎 SEO 成效追蹤",
+      excludes: "會員 訂單與客製後台另估",
+      casePath: "/works/biomed-brand-site",
+    },
+    {
+      name: "Landing Page",
+      price: "12,000 元起",
+      time: "約 1 至 2 週",
+      fit: "需要聚焦服務 廣告或新品轉換",
+      includes: "單頁設計 RWD CTA 追蹤 基礎 SEO",
+      excludes: "大量內容與多語系另估",
+      casePath: "/works/company-landing",
+    },
+    {
+      name: "開發支援",
       price: "需求估價",
       time: "依需求估時",
-      fit: "需要 RAG、API、自動化或權限流程",
-      includes: "需求拆解、系統規劃、核心流程",
-      excludes: "未定義範圍、無資料規格的估價",
+      fit: "需要 API LINE AI RAG 或既有系統協作",
+      includes: "技術盤點 開發 串接 測試與交付",
+      excludes: "未定義範圍需先進行規格整理",
       casePath: "/works/rag-consultant",
     },
   ]
@@ -1366,8 +1347,8 @@ export function PricingPage() {
   return (
     <PageShell
       page={seo.pricing}
-      title="專案預算怎麼抓"
-      intro="以下是常見委託的參考區間 實際依範圍、頁數與整合深度報價"
+      title="清楚的合作起點"
+      intro="先確認商業目標與必要流程 再依範圍與整合深度報價"
     >
       <section className="mx-auto max-w-6xl px-4 py-16">
         <div className="grid gap-4 md:grid-cols-2">

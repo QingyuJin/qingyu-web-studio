@@ -37,7 +37,7 @@ const plans = [
     pain: "只有名片和口碑 客戶與補助單位搜尋不到你",
     deliverables: ["品牌形象網站", "案例 / 作品頁", "詢價入口", "手機版 RWD 與基本 SEO"],
     demos: [
-      ["看真實案例：鑫匠工程", "https://xinjiang-website.vercel.app/"],
+      ["看真實案例：鑫匠工程", "/demo/xinjiang"],
       ["看品牌網站範例", "/works/biomed-brand-site"],
     ],
   },

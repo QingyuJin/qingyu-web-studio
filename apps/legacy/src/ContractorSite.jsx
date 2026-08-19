@@ -256,7 +256,7 @@ LINE Bot：${lineBotId}`
               填寫需求
             </a>
             <a
-              href="https://xinjiang-website.vercel.app/"
+              href="/demo/xinjiang"
               target="_blank"
               rel="noreferrer"
               className="hidden rounded-md border border-white/12 px-4 py-2 text-sm font-black sm:inline-flex"
