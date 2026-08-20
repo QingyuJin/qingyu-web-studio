@@ -34,7 +34,8 @@ function AssetImage({ image, loading = "lazy" }) {
 }
 
 function PlaceholderBadge({ label = "暫代圖・待換客戶實拍" }) {
-  return <span className="lf-placeholder-badge">{label}</span>
+  void label
+  return null
 }
 
 function InnerHero({ eyebrow, title, description, image = imageAssets.hero }) {
@@ -364,7 +365,7 @@ function CasesPage() {
       />
       <section className="lf-inner-section">
         <div className="lf-shell">
-          <DataStatus title="本頁目前為案例版型示意">
+          <DataStatus title="案例內容">
             下方照片不是 LULUFACE
             真實顧客案例，沒有前後對照或療效宣稱；待品牌提供授權素材後直接替換
           </DataStatus>

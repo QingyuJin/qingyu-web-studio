@@ -1,12 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>https://www.qingyuweb.com/</loc><lastmod>2026-08-20</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
-  <url><loc>https://www.qingyuweb.com/services</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.qingyuweb.com/services</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.qingyuweb.com/seo-ads</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.qingyuweb.com/works</loc><lastmod>2026-08-05</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
-  <url><loc>https://www.qingyuweb.com/pricing</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.qingyuweb.com/works</loc><lastmod>2026-08-20</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.qingyuweb.com/showcase</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
+  <url><loc>https://www.qingyuweb.com/about</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.qingyuweb.com/collaboration</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.qingyuweb.com/pricing</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.qingyuweb.com/free-audit</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
-  <url><loc>https://www.qingyuweb.com/contact</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.qingyuweb.com/contact</loc><lastmod>2026-08-20</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.qingyuweb.com/ai-transformation</loc><lastmod>2026-08-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
   <url><loc>https://www.qingyuweb.com/onepage</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.9</priority></url>
   <url><loc>https://www.qingyuweb.com/onepage/beauty</loc><lastmod>2026-08-06</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>

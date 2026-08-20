@@ -62,7 +62,7 @@ function GrowthPage() {
             </p>
             <div className="mt-8 flex flex-col gap-3 sm:flex-row">
               <Link to="/contact?case=SEO / 廣告成長" data-track="contact" data-placement="growth_hero" className="inline-flex min-h-11 items-center justify-center rounded-full bg-[#d7c89f] px-6 text-xs font-bold text-[#17201f]">洽談成長方案</Link>
-              <Link to="/works/analytics-dashboard#demo" className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/18 px-6 text-xs font-bold text-white">查看成效後台</Link>
+              <Link to="/demo/analytics-dashboard" className="inline-flex min-h-11 items-center justify-center rounded-full border border-white/18 px-6 text-xs font-bold text-white">查看成效後台</Link>
             </div>
           </div>
 

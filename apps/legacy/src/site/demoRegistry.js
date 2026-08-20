@@ -98,7 +98,6 @@ export const demoRegistry = [
     type: "Portfolio Build",
     integration: "native",
     sourceProject: "legacy-luluface",
-    originalDeployment: "https://luluface.vercel.app/",
   },
   {
     slug: "morie",
@@ -109,7 +108,6 @@ export const demoRegistry = [
     type: "Portfolio Build",
     integration: "native-static",
     sourceProject: "morie-store",
-    originalDeployment: "https://morie-store.vercel.app/",
   },
   {
     slug: "commercial-visual",
@@ -120,7 +118,6 @@ export const demoRegistry = [
     type: "Portfolio Build",
     integration: "native-static",
     sourceProject: "commercial-visual-portfolio",
-    originalDeployment: "https://commercial-visual-portfolio.vercel.app/",
   },
   {
     slug: "xinjiang",
@@ -131,7 +128,6 @@ export const demoRegistry = [
     type: "Client Project",
     integration: "native",
     sourceProject: "legacy-contractor-site",
-    originalDeployment: "https://xinjiang-website.vercel.app/",
   },
   {
     slug: "ai-tech",
@@ -142,7 +138,6 @@ export const demoRegistry = [
     type: "Interactive Demo",
     integration: "native-static",
     sourceProject: "ai-tech-quest",
-    originalDeployment: "https://ai-tech-quest.vercel.app/",
   },
 ]
 

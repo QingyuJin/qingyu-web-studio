@@ -11,7 +11,10 @@ const brandName = "晴宇 Qingyu Web"
 const routes = [
   ["/services", "企業 Web 系統與網站開發服務｜晴宇 Qingyu Web", "企業管理系統 高質感網站 Landing Page LINE API AI RAG SEO 與成效追蹤的完整開發服務"],
   ["/seo-ads", "SEO 與 Google Ads 廣告落地頁｜Qingyu Web Studio", "整合技術 SEO、關鍵字與內容架構、Google Ads／Meta Ads 落地頁、GA4 與廣告轉換追蹤"],
-  ["/works", "企業系統與網站作品｜晴宇 Qingyu Web", "瀏覽企業管理系統 電商網站 AI 知識庫 LINE 串接與成效工具並直接操作展示"],
+  ["/works", "客戶案例與可操作產品｜晴宇 Qingyu Web", "正式客戶專案、可操作系統與概念作品，清楚標示每個案例目前的完成狀態。"],
+  ["/about", "關於晴宇｜晴宇 Qingyu Web", "認識晴宇 Qingyu Web 個人開發工作室的工作方式 合作範圍與交付原則"],
+  ["/collaboration", "技術開發協作｜晴宇 Qingyu Web", "提供代理商 顧問 設計團隊與企業內部團隊的前後端開發 API 串接 測試與交付協作"],
+  ["/showcase", "產業網站展示空間｜晴宇 Qingyu Web", "瀏覽美容 診所 餐飲 工程 製造與軟體服務的一頁式網站提案 看見清楚訊息 手機動線與轉換入口", "/assets/onepage/beauty/beauty-hero.webp", "ProfessionalService"],
   ["/pricing", "企業系統與網站開發價格｜晴宇 Qingyu Web", "企業 Web 系統 品牌網站 Landing Page 及客製開發支援的專案起始價格與合作範圍"],
   ["/free-audit", "免費網站健檢｜手機體驗、SEO 與轉換檢查｜Qingyu Web Studio", "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑"],
   ["/contact", "企業系統與網站專案諮詢｜晴宇 Qingyu Web", "留下需求類型 產業 參考案例 預算與時程取得系統或網站的開發建議與估價"],
@@ -34,7 +37,7 @@ const routes = [
   ["/works/xinjiang", "鑫匠工程網站與接案系統案例｜Qingyu Web Studio", "工程品牌官網、線上詢價與案件管理流程的完整案例"],
   ["/works/wholesale-ordering", "批發訂貨與月結系統展示｜Qingyu Web Studio", "客戶專屬價格下單、出貨狀態、月結與對帳的批發訂貨系統"],
   ["/works/restaurant-ordering", "餐飲桌邊點餐與廚房控單系統｜Qingyu Web Studio", "手機桌邊點餐、廚房即時出單、桌況與營收管理的可操作展示"],
-  ["/works/rag-consultant", "RAG 企業知識庫與文件問答展示｜Qingyu Web Studio", "附來源引用的企業文件問答、用量控管與版本管理系統展示"],
+  ["/works/rag-consultant", "AI 公司知識庫與文件問答展示｜Qingyu Web Studio", "直接詢問公司文件並查看答案 來源文件與引用段落"],
   ["/works/analytics-dashboard", "網站成效追蹤與曝光管理後台｜Qingyu Web Studio", "整合瀏覽、搜尋曝光、CTA 點擊、表單與月報的成效後台展示"],
   ["/works/assessment-system", "互動測驗與自動計分系統｜Qingyu Web Studio", "線上作答、自動計分、結果報告與填答紀錄的互動系統"],
   ["/works/line-bot", "LINE Bot 自動接待與需求整理｜Qingyu Web Studio", "LINE 自動回覆、需求追問、Webhook 與後台案件同步展示"],
@@ -100,7 +103,7 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
   html = replaceAttribute(html, 'name="twitter:description"', description)
   html = replaceAttribute(html, 'name="twitter:image"', image)
   const heading = title.split("｜")[0]
-  const staticContent = `<div id="root"><main data-prerendered="true"><nav aria-label="主要導覽"><a href="/">首頁</a> <a href="/works">作品</a> <a href="/services">服務</a> <a href="/pricing">價格</a> <a href="/contact">聯絡</a></nav><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(description)}</p><p><a href="/works">查看作品</a> <a href="/contact">啟動專案</a></p></main></div>`
+  const staticContent = `<div id="root"><main data-prerendered="true"><nav aria-label="主要導覽"><a href="/">首頁</a> <a href="/works">作品</a> <a href="/showcase">展示空間</a> <a href="/services">服務</a> <a href="/about">關於</a> <a href="/collaboration">協作</a> <a href="/pricing">價格</a> <a href="/contact">聯絡</a></nav><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(description)}</p><p><a href="/works">查看作品</a> <a href="/contact">啟動專案</a></p></main></div>`
   html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*<noscript>/, `${staticContent}\n    <noscript>`)
   html = html.replace("</head>", `    <script type="application/ld+json">${JSON.stringify(pageData).replaceAll("<", "\\u003c")}</script>\n  </head>`)
   return html

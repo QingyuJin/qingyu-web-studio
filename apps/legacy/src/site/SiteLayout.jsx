@@ -6,18 +6,16 @@ import { contact } from "./content"
 
 const navItems = [
   ["系統", "/#systems"],
-  ["網站", "/#websites"],
+  ["展示空間", "/showcase"],
   ["作品", "/works"],
   ["價格", "/pricing"],
 ]
 
 const serviceItems = [
   ["企業系統", "/services#web-systems", "管理後台與工作流程"],
-  ["品牌網站", "/services#business-website", "高質感網站與電商體驗"],
-  ["Landing Page", "/services#landing-page", "廣告與轉換頁面"],
-  ["LINE 與 API", "/services#line-api", "串接通知與資料流程"],
-  ["AI 與 RAG", "/services#ai-rag", "知識庫與流程自動化"],
-  ["SEO 與 Analytics", "/services#analytics-dashboard", "搜尋能見度與成效追蹤"],
+  ["品牌網站", "/services#business-website", "品牌內容與轉換體驗"],
+  ["技術開發協作", "/collaboration", "代理商與顧問技術交付"],
+  ["關於晴宇", "/about", "個人工作室與合作方式"],
 ]
 
 function NavItem({ label, path, onClick, className = "" }) {
@@ -66,7 +64,7 @@ function SiteLayout({ children }) {
                 <div id="service-navigation" className="absolute left-1/2 top-[calc(100%+1rem)] w-[34rem] -translate-x-1/2 rounded-2xl border border-[#d8ddd6] bg-[#fbfaf6] p-3 shadow-[0_24px_70px_rgba(20,37,34,.14)]">
                   <div className="grid grid-cols-2 gap-1">
                     {serviceItems.map(([label, path, description]) => (
-                      <Link key={path} to={path} onClick={closeMenus} className="rounded-xl px-3.5 py-3 transition hover:bg-[#eef0ea]">
+                      <Link key={path} to={path} onClick={closeMenus} className="min-h-14 rounded-xl px-3.5 py-3 transition hover:bg-[#eef0ea]">
                         <span className="block text-[11px] font-semibold text-[#14211f]">{label}</span>
                         <span className="mt-1 block text-[9px] font-medium text-[#7d8782]">{description}</span>
                       </Link>
@@ -117,10 +115,12 @@ function SiteLayout({ children }) {
             </div>
             <nav className="grid grid-cols-2 gap-x-8 gap-y-3 text-[11px] font-medium text-white/54 sm:flex sm:flex-wrap" aria-label="網站導覽">
               <Link to="/#systems" className="transition hover:text-white">系統</Link>
-              <Link to="/#websites" className="transition hover:text-white">網站</Link>
+              <Link to="/showcase" className="transition hover:text-white">展示空間</Link>
               <Link to="/works" className="transition hover:text-white">作品</Link>
               <Link to="/services" className="transition hover:text-white">服務</Link>
               <Link to="/pricing" className="transition hover:text-white">價格</Link>
+              <Link to="/about" className="transition hover:text-white">關於</Link>
+              <Link to="/collaboration" className="transition hover:text-white">協作</Link>
               <Link to="/contact" className="transition hover:text-white">聯絡</Link>
             </nav>
           </div>

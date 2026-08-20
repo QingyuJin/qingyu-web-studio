@@ -6,6 +6,7 @@ const work = (item) => {
     functions: [],
     integrations: [],
     categories: [],
+    nature: "concept",
     ...item,
     demoPath: demo?.demoPath ?? item.demoPath ?? null,
     demoType: demo?.type ?? item.demoType ?? null,
@@ -15,6 +16,7 @@ const work = (item) => {
 export const workCatalog = [
   work({
     slug: "wholesale-ordering",
+    nature: "product",
     title: "批發訂貨系統",
     section: "systems",
     categories: ["Systems", "Commerce"],
@@ -30,6 +32,7 @@ export const workCatalog = [
   }),
   work({
     slug: "buildflow",
+    nature: "product",
     title: "工程案件管理",
     section: "systems",
     categories: ["Systems", "LINE"],
@@ -45,6 +48,7 @@ export const workCatalog = [
   }),
   work({
     slug: "rag-consultant",
+    nature: "product",
     title: "AI 公司知識庫",
     section: "systems",
     categories: ["Systems", "AI"],
@@ -60,6 +64,7 @@ export const workCatalog = [
   }),
   work({
     slug: "linebot",
+    nature: "product",
     title: "LINE 詢價助手",
     section: "systems",
     categories: ["Systems", "LINE"],
@@ -74,6 +79,7 @@ export const workCatalog = [
   }),
   work({
     slug: "restaurant-ordering",
+    nature: "product",
     title: "餐飲點餐與廚房控單",
     section: "systems",
     categories: ["Systems", "Commerce"],
@@ -88,6 +94,7 @@ export const workCatalog = [
   }),
   work({
     slug: "analytics-dashboard",
+    nature: "product",
     title: "網站成效管理後台",
     section: "systems",
     categories: ["Systems", "Growth"],
@@ -102,6 +109,7 @@ export const workCatalog = [
   }),
   work({
     slug: "ai-tech-quest",
+    nature: "product",
     title: "AI 客服流程",
     section: "systems",
     categories: ["AI", "Systems"],
@@ -146,6 +154,7 @@ export const workCatalog = [
   }),
   work({
     slug: "xinjiang",
+    nature: "client",
     title: "鑫匠工程",
     section: "websites",
     categories: ["Websites", "Systems"],
@@ -203,6 +212,7 @@ export const workCatalog = [
   }),
   work({
     slug: "ai-audit",
+    nature: "product",
     title: "AI 網站健檢",
     section: "growth",
     categories: ["AI", "Growth"],
@@ -217,7 +227,8 @@ export const workCatalog = [
   }),
   work({
     slug: "api-automation",
-    title: "API 與通知自動化",
+    nature: "product",
+    title: "訂單自動同步",
     section: "growth",
     categories: ["Systems", "Growth"],
     format: "Prototype",

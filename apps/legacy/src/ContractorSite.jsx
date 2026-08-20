@@ -263,7 +263,7 @@ LINE Bot：${lineBotId}`
             >
               鑫匠官網
             </a>
-            <Link to="/buildflow" className="rounded-md border border-white/12 px-4 py-2 text-sm font-black">
+            <Link to="/demo/buildflow" className="rounded-md border border-white/12 px-4 py-2 text-sm font-black">
               BuildFlow
             </Link>
           </div>
@@ -418,7 +418,7 @@ LINE Bot：${lineBotId}`
                   <div className="rounded-md border border-white/10 bg-white/[0.06] px-4 py-3 text-sm font-bold leading-6 text-slate-200">
                     {submitMessage}
                     {submitMessage.includes("BuildFlow") ? (
-                      <Link to="/buildflow" className="ml-2 font-black text-[#f0c36a] underline underline-offset-4">
+                      <Link to="/demo/buildflow" className="ml-2 font-black text-[#f0c36a] underline underline-offset-4">
                         打開 BuildFlow 查看
                       </Link>
                     ) : null}

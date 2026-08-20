@@ -24,7 +24,7 @@
     problem: "LINE 裡的工程照片、報價、施工備註很難找 案件一多就容易漏追蹤",
     features: ["案件列表", "狀態管理", "工程照片分類", "搜尋", "時間軸", "報價紀錄"],
     techStack: ["React", "Vite", "Tailwind CSS", "Mock data", "Supabase-ready"],
-    demoPath: "/buildflow",
+    demoPath: "/demo/buildflow",
     cta: "查看案例",
     preview: {
       title: "工程案件",

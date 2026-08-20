@@ -9,23 +9,23 @@ const lineId = "mulavuc"
 const initialForm = {
   name: "",
   contact: "",
-  inquiry_type: "企業系統",
+  inquiry_type: "還不確定",
   industry: "",
-  reference: "鑫匠工程",
-  budget_range: "3～6 萬",
+  reference: "還不確定",
+  budget_range: "先討論",
   deadline: "",
   message: "",
 }
 
-const inquiryOptions = ["企業系統", "品牌網站", "Landing Page", "AI 與 RAG", "LINE 與 API", "代理商協作", "顧問協作", "其他"]
+const inquiryOptions = ["還不確定", "企業系統", "品牌網站", "Landing Page", "AI 公司知識庫", "LINE 與 API", "代理商協作", "顧問協作", "其他"]
 const inquiryParamMap = {
   system: "企業系統",
   business: "企業系統",
   "business-system": "企業系統",
   website: "品牌網站",
   landing: "Landing Page",
-  ai: "AI 與 RAG",
-  rag: "AI 與 RAG",
+  ai: "AI 公司知識庫",
+  rag: "AI 公司知識庫",
   line: "LINE 與 API",
   api: "LINE 與 API",
   agency: "代理商協作",
@@ -43,7 +43,7 @@ const referenceOptions = [
   "廣告落地頁＋追蹤",
   "成長營運方案",
   "批發訂貨系統",
-  "RAG 企業知識庫",
+  "AI 公司知識庫",
   "生醫品牌網站",
   "公司一頁式官網",
   "點餐系統",
@@ -58,6 +58,26 @@ const referenceOptions = [
 ]
 const budgetOptions = ["1 萬內", "1～3 萬", "3～6 萬", "6 萬以上", "先討論"]
 
+const referenceParamMap = {
+  "wholesale-ordering": "批發訂貨系統",
+  "restaurant-ordering": "點餐系統",
+  "rag-consultant": "AI 公司知識庫",
+  linebot: "LINE Bot",
+  buildflow: "鑫匠工程",
+  xinjiang: "鑫匠工程",
+  luluface: "LULUFACE 美容品牌電商",
+  morie: "MORIE SELECT 選品電商",
+  "commerce-platform": "MORIE SELECT 選品電商",
+  "analytics-dashboard": "SEO / 廣告成長",
+  "ai-audit": "SEO 基礎整頓",
+  "api-automation": "接單 / 後台系統",
+  "ai-tech-quest": "AI / 客製系統",
+  "business-system": "批發訂貨系統",
+  "企業 Web 系統": "批發訂貨系統",
+  "企業品牌網站": "生醫品牌網站",
+  "Landing Page": "公司一頁式官網",
+}
+
 function cleanQueryValue(value) {
   if (!value || value.length > 80 || Array.from(value).some((character) => character.charCodeAt(0) < 32)) return ""
   return value.trim()
@@ -67,8 +87,8 @@ function ContactLeadSection() {
   const [searchParams] = useSearchParams()
   const caseParam = cleanQueryValue(searchParams.get("case"))
   const typeParam = cleanQueryValue(searchParams.get("type")).toLowerCase()
-  const safeReference = caseParam || initialForm.reference
-  const availableReferences = referenceOptions.includes(safeReference) ? referenceOptions : [safeReference, ...referenceOptions]
+  const safeReference = referenceParamMap[caseParam] || (referenceOptions.includes(caseParam) ? caseParam : initialForm.reference)
+  const availableReferences = referenceOptions
   const [form, setForm] = useState({
     ...initialForm,
     reference: safeReference,
@@ -162,7 +182,10 @@ function ContactLeadSection() {
           </div>
 
           <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
-            <button type="button" data-track="contact" data-placement="contact_copy_line" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] sm:w-auto">
+            <a href={`https://line.me/R/ti/p/~${lineId}`} target="_blank" rel="noreferrer" data-track="contact" data-placement="contact_line" className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] sm:w-auto">
+              加入 LINE 洽談
+            </a>
+            <button type="button" data-track="contact" data-placement="contact_copy_line" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
               複製 LINE ID
             </button>
             <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">

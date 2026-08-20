@@ -51,6 +51,7 @@ function Seo({ page = seo.home }) {
   const { locale } = useLocale()
 
   useEffect(() => {
+    document.getElementById("qingyu-static-structured-data")?.remove()
     const baseUrl = page.useCurrentOrigin ? window.location.origin : (page.baseUrl ?? siteUrl)
     const normalizedBaseUrl = `${baseUrl.replace(/\/$/, "")}/`
     const url = new URL(page.path, normalizedBaseUrl).href

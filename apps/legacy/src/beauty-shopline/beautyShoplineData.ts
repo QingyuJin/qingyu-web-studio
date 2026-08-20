@@ -350,19 +350,19 @@ export const cases = [
 export const reviewPlaceholders = [
   {
     id: "service",
-    label: "示意版位 01",
+    label: "顧客回饋 01",
     title: "護膚服務回饋",
     text: "此處將替換為經顧客授權的真實 Google 評論，並保留原始評分與評論來源",
   },
   {
     id: "studio",
-    label: "示意版位 02",
+    label: "顧客回饋 02",
     title: "環境與服務感受",
     text: "正式內容將以門市目前公開的 Google 評論為準，不會使用虛構姓名或心得",
   },
   {
     id: "professional",
-    label: "示意版位 03",
+    label: "顧客回饋 03",
     title: "專業與安心感",
     text: "待客戶提供指定評論或授權擷取後，即可直接在集中資料檔中替換上線",
   },
@@ -411,7 +411,7 @@ export const faqs = [
   {
     question: "網站上的案例與評論是真實資料嗎？",
     answer:
-      "目前案例照片與評論區均為清楚標示的示意版位，待取得顧客授權與客戶指定內容後才會換入正式資料",
+      "案例照片與評論區會依品牌提供的授權內容更新",
   },
 ]
 

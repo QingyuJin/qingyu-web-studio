@@ -20,7 +20,7 @@ const adminProjects = [
   {
     name: "BuildFlow",
     title: "工程後台",
-    path: "/buildflow",
+    path: "/demo/buildflow",
     status: "System",
     summary: "案件、報價、發包、任務回報集中管理",
     checks: ["角色登入", "報價單", "LINE 回報"],

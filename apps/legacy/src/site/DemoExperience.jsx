@@ -5,6 +5,7 @@ import { localeOptions } from "../i18n/translations"
 import { projects } from "./content"
 import { demoContactPath, getDemo } from "./demoRegistry"
 import { DemoMission } from "./DemoMission"
+import { ENABLE_MULTILINGUAL } from "./features"
 import { getDemoMission } from "./demoMissions"
 import { trackEvent } from "./marketing"
 import Seo from "./Seo"
@@ -56,14 +57,14 @@ function DemoBar({ demo }) {
         <p className="min-w-0 flex-1 truncate text-[11px] font-semibold sm:text-xs">{demo.title}</p>
         <span className="hidden rounded-full border border-[#8cb8ad]/28 bg-[#8cb8ad]/10 px-2.5 py-1 text-[9px] font-semibold uppercase tracking-[.12em] text-[#b7d6ce] sm:inline-flex">任務體驗</span>
         <Link to={demo.caseStudyPath} data-track="cta_click" data-placement="demo_bar_case" className="hidden text-[10px] font-semibold text-white/56 hover:text-white md:inline-flex">查看案例</Link>
-        <div className="hidden sm:block"><DemoLanguageButtons /></div>
+        {ENABLE_MULTILINGUAL ? <div className="hidden sm:block"><DemoLanguageButtons /></div> : null}
         <Link to={demoContactPath(demo)} data-track="contact_from_demo" data-placement="demo_bar_contact" className="hidden min-h-8 shrink-0 items-center rounded-full bg-[#d7c89f] px-4 text-[10px] font-bold text-[#17201f] sm:inline-flex">洽談類似系統</Link>
         <details className="relative sm:hidden">
           <summary aria-label="更多操作" className="grid h-9 w-9 cursor-pointer list-none place-items-center rounded-full border border-white/15 text-base text-white/80">⋯</summary>
           <div className="absolute right-0 top-11 grid w-40 gap-1 rounded-xl border border-white/10 bg-[#111d1e] p-2 shadow-2xl">
             <Link to={demo.caseStudyPath} className="min-h-11 rounded-lg px-3 py-3 text-xs font-bold text-white/75">查看案例</Link>
             <Link to={demoContactPath(demo)} className="min-h-11 rounded-lg bg-[#d7c89f] px-3 py-3 text-xs font-bold text-[#17201f]">洽談類似系統</Link>
-            <DemoLanguageButtons />
+            {ENABLE_MULTILINGUAL ? <DemoLanguageButtons /> : null}
           </div>
         </details>
       </div>

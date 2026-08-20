@@ -2542,7 +2542,7 @@ function XinjiangDemo() {
             <Link to="/contractor-site#inquiry" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               試填詢價表單
             </Link>
-            <Link to="/buildflow" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
+            <Link to="/demo/buildflow" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               開後台收件匣
             </Link>
           </div>

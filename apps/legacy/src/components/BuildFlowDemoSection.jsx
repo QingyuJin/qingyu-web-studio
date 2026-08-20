@@ -91,7 +91,7 @@ function BuildFlowDemoSection() {
               />
             </label>
             <Link
-              to="/buildflow"
+              to="/demo/buildflow"
               className="inline-flex min-h-12 items-center justify-center self-end rounded-md bg-[#172026] px-5 text-sm font-black text-white hover:bg-[#27404a]"
             >
               查看工程管理 Demo

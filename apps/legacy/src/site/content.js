@@ -23,7 +23,7 @@ export const seo = {
     path: "/services",
     title: "企業 Web 系統與網站開發服務｜晴宇 Qingyu Web",
     description:
-      "企業管理系統 高質感網站 Landing Page LINE API AI RAG SEO 與成效追蹤的完整開發服務",
+      "企業管理系統 品牌網站 Landing Page LINE 串接 AI 公司知識庫 SEO 與成效追蹤的完整開發服務",
   },
   pricing: {
     path: "/pricing",
@@ -61,7 +61,7 @@ export const serviceCategories = [
   ["企業 Web 系統", "管理後台 權限與工作流程"],
   ["高質感網站", "品牌網站 電商與 Landing Page"],
   ["LINE 與 API", "訊息 通知與資料串接"],
-  ["AI 與 RAG", "文件知識庫與流程自動化"],
+  ["AI 公司知識庫", "文件查詢與流程自動化"],
   ["SEO 與 Analytics", "搜尋架構與成效追蹤"],
 ]
 
@@ -104,7 +104,7 @@ export const serviceOfferings = [
   },
   {
     id: "ai-rag",
-    name: "AI 與 RAG",
+    name: "AI 公司知識庫",
     label: "需求估價",
     price: "需求估價",
     summary: "企業知識庫 文件問答 與 AI 工作流程",
@@ -201,7 +201,7 @@ export const pricing = [
 ]
 
 export const pricingNote =
-  "以上為素材齊全、需求明確、修改 1～2 次內的預估實際價格會依頁數、功能、資料整理程度、修改次數與維護需求調整網域、主機、付費外掛與第三方平台費用另計"
+  "起始價格以需求與素材完整為前提 正式範圍 時程 付款與交付方式會在報價或合約確認 網域 主機 付費服務 大量內容與第三方串接另估 驗收範圍內提供錯誤修正 新增功能與後續維護另外安排"
 
 export const projects = [
   {
@@ -265,7 +265,7 @@ export const projects = [
     category: "AI 工具",
     summary: "輸入網站或需求 快速產生首頁文案、CTA、SEO 與信任感建議",
     featured: true,
-    livePath: "/works/ai-audit#demo",
+    livePath: "/demo/ai-audit",
     liveLabel: "查看成品",
     secondaryLabel: "技術拆解",
     tags: ["OpenAI API", "React", "報告介面", "Vercel Function"],
@@ -292,7 +292,7 @@ export const projects = [
     category: "LINE Bot",
     summary: "讓客戶在 LINE 裡提出需求 Bot 自動引導填寫資訊 並同步到後台追蹤",
     featured: true,
-    livePath: "/works/linebot#demo",
+    livePath: "/demo/linebot",
     liveLabel: "查看成品",
     secondaryLabel: "技術拆解",
     tags: ["LINE Messaging API", "Reply API", "Webhook", "OpenAI API", "Supabase", "後台介面"],
@@ -319,7 +319,7 @@ export const projects = [
     category: "案例：工程行接案與派工管理系統",
     summary: "需求、報價、回報與 LINE 查詢",
     featured: true,
-    livePath: "/buildflow",
+    livePath: "/demo/buildflow",
     liveLabel: "查看 BuildFlow",
     secondaryPath: "https://github.com/QingyuJin/qingyu-web-studio",
     secondaryLabel: "GitHub 原始碼",
@@ -460,7 +460,7 @@ export const projects = [
     category: "系統",
     summary: "表單、API、通知與後台串接",
     featured: true,
-    livePath: "/works/api-automation#demo",
+    livePath: "/demo/api-automation",
     liveLabel: "查看系統",
     secondaryLabel: "技術拆解",
     tags: ["React", "Tailwind", "Vercel Function", "REST API", "JSON Payload", "後台介面"],
@@ -491,7 +491,7 @@ export const projects = [
     category: "平台電商建置與視覺優化",
     summary: "協助 Shopify、MeepShop、WooCommerce、QDM 等平台電商整理首頁、商品分類、商品頁、手機版購物動線、基本 SEO 與 GA / Search Console / LINE 點擊成效追蹤",
     featured: true,
-    livePath: "/works/ecommerce-platform-redesign#demo",
+    livePath: "/demo/commerce-platform",
     liveLabel: "查看展示",
     secondaryPath: "/contact?case=平台電商 / Shopify / MeepShop 建置與視覺優化",
     secondaryLabel: "詢問平台商店改版",
@@ -549,7 +549,7 @@ export const projects = [
     category: "網站成效與曝光管理系統",
     summary: "把今日瀏覽、本月瀏覽、Google 搜尋曝光與點擊、LINE / 電話點擊、表單送出、熱門頁面、流量來源與每月報告集中在一個後台",
     featured: true,
-    livePath: "/works/analytics-dashboard#demo",
+    livePath: "/demo/analytics-dashboard",
     liveLabel: "查看後台",
     secondaryPath: "/contact?case=網站成效追蹤 / 曝光管理後台",
     secondaryLabel: "詢問追蹤後台",

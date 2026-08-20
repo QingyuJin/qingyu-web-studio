@@ -1,11 +1,13 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { useLocation } from "react-router-dom"
 import { localeOptions, localeTags } from "./translations"
+import { ENABLE_MULTILINGUAL } from "../site/features"
 
 const LocaleContext = createContext(null)
 const localeCodes = new Set(localeOptions.map(({ code }) => code))
 
 function initialLocale() {
+  if (!ENABLE_MULTILINGUAL) return "zh-Hant"
   const query = new URLSearchParams(window.location.search).get("lang")
   if (localeCodes.has(query)) return query
 
@@ -54,6 +56,7 @@ export function LocaleProvider({ children }) {
   const location = useLocation()
 
   const setLocale = useCallback((nextLocale) => {
+    if (!ENABLE_MULTILINGUAL) return
     if (!localeCodes.has(nextLocale)) return
     setLocaleState(nextLocale)
     window.localStorage.setItem("qingyu-locale", nextLocale)
@@ -66,12 +69,13 @@ export function LocaleProvider({ children }) {
 
   useEffect(() => {
     const currentUrl = new URL(window.location.href)
-    if (locale === "zh-Hant") currentUrl.searchParams.delete("lang")
+    if (!ENABLE_MULTILINGUAL || locale === "zh-Hant") currentUrl.searchParams.delete("lang")
     else currentUrl.searchParams.set("lang", locale)
     window.history.replaceState(window.history.state, "", currentUrl)
-    document.documentElement.lang = localeTags[locale]
-    document.documentElement.dataset.locale = locale
-    updateAlternateLinks()
+    document.documentElement.lang = ENABLE_MULTILINGUAL ? localeTags[locale] : "zh-Hant-TW"
+    document.documentElement.dataset.locale = ENABLE_MULTILINGUAL ? locale : "zh-Hant"
+    if (ENABLE_MULTILINGUAL) updateAlternateLinks()
+    else document.head.querySelectorAll('link[rel="alternate"][data-qingyu-locale]').forEach((link) => link.remove())
   }, [locale, location.pathname, location.search])
 
   const value = useMemo(() => ({ locale, setLocale }), [locale, setLocale])

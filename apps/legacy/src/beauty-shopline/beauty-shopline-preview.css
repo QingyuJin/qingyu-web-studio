@@ -256,6 +256,18 @@
   font-size: 9px;
 }
 
+.lf-concept-notice {
+  margin: 0;
+  padding: 9px 20px;
+  border-bottom: 1px solid var(--lf-line);
+  background: #3e3a39;
+  color: rgba(255, 255, 255, 0.78);
+  font-size: 11px;
+  font-weight: 500;
+  letter-spacing: 0.04em;
+  text-align: center;
+}
+
 .lf-header {
   position: sticky;
   top: 0;
@@ -462,6 +474,11 @@
   background: var(--lf-cream);
 }
 
+.lf-hero > [data-reveal] {
+  opacity: 1;
+  transform: none;
+}
+
 .lf-hero-copy {
   display: flex;
   max-width: 720px;
@@ -493,8 +510,8 @@
   max-width: 680px;
   margin-top: 28px;
   color: var(--lf-ink);
-  font-size: clamp(46px, 5.3vw, 78px);
-  line-height: 1.24;
+  font-size: clamp(44px, 4.6vw, 66px);
+  line-height: 1.16;
   letter-spacing: 0.01em;
 }
 

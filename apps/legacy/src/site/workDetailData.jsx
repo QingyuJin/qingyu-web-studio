@@ -304,7 +304,7 @@ export const wholesale = {
     desc: "左邊是客戶在手機上看到的商品列表與價格 右邊是你的訂單管理後台",
     Front: WholesaleFront,
     Back: WholesaleBack,
-    livePath: "/wholesale-ordering",
+    livePath: "/demo/wholesale-ordering",
   },
   flow: {
     title: "從下單到對帳 全部線上",
@@ -340,12 +340,12 @@ export const wholesale = {
 export const rag = {
   seo: {
     path: "/works/rag-consultant",
-    title: "RAG 企業知識庫案例｜文件問答引用來源用量管理｜Qingyu Web Studio",
+    title: "AI 公司知識庫案例｜文件問答與來源引用｜晴宇 Qingyu Web",
     description: "把 SOP、規章、產品文件變成可問答的知識庫 回答附來源 用量與權限完整管理",
   },
   slug: "rag-consultant",
   category: "AI / 技術實驗",
-  title: "RAG 企業知識庫",
+  title: "AI 公司知識庫",
   tagline: "文件不再只是檔案 讓員工與 AI 直接問 直接答 附來源",
   price: "需求估價",
   duration: "依資料量估時",
@@ -380,7 +380,7 @@ export const rag = {
     desc: "左邊是 AI 問答介面 右邊是文件管理後台",
     Front: RagFront,
     Back: RagBack,
-    livePath: "/rag-consultant",
+    livePath: "/demo/rag-consultant",
   },
   flow: {
     title: "從上傳文件到 AI 回答",
@@ -394,7 +394,7 @@ export const rag = {
   },
   deliverables: {
     title: "交付內容",
-    desc: "完整 RAG 系統包含前端、後端與管理功能",
+    desc: "完整公司知識庫包含查詢畫面 來源引用與管理功能",
     items: [
       { title: "問答介面", items: ["嵌入網站的對話元件", "多輪對話支援", "引用來源顯示", "相關度評分"] },
       { title: "管理後台", items: ["文件上傳與管理", "版本控制與還原", "Token 用量統計", "Rate Limit 設定"] },

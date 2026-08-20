@@ -911,7 +911,7 @@ export const products = {
     priceFrom: "20,000 元起",
     priceRange: "20,000 元起",
     duration: "7–14 天",
-    live: { path: "/buildflow", label: "看 BuildFlow 後台成品" },
+    live: { path: "/demo/buildflow", label: "看工程案件管理" },
     Front: CrmFront,
     Back: CrmBack,
     overview: [

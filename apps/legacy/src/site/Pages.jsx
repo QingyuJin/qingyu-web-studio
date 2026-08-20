@@ -535,7 +535,7 @@ export function WorkDetailPage() {
             <Link to="#demo" className="inline-flex min-h-11 items-center justify-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
               查看案例
             </Link>
-            <Link to="/works/buildflow#demo" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+            <Link to="/demo/buildflow" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               查看 BuildFlow 系統
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
@@ -1337,7 +1337,7 @@ export function PricingPage() {
       name: "開發支援",
       price: "需求估價",
       time: "依需求估時",
-      fit: "需要 API LINE AI RAG 或既有系統協作",
+      fit: "需要 API LINE AI 工具或既有系統協作",
       includes: "技術盤點 開發 串接 測試與交付",
       excludes: "未定義範圍需先進行規格整理",
       casePath: "/works/rag-consultant",
@@ -1388,7 +1388,7 @@ export function PricingPage() {
           <Link to="/contact" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
             告訴我需求 拿到報價
           </Link>
-          <Link to="/#products" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
+          <Link to="/works" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
             看成品展示
           </Link>
         </div>

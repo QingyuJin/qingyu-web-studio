@@ -11,7 +11,7 @@ const plans = [
     deliverables: ["線上詢價表單", "LINE 入口與導流", "案件後台收件匣", "一鍵轉為案件追蹤"],
     demos: [
       ["試填詢價表單", "/contractor-site#inquiry"],
-      ["開後台收件匣", "/buildflow"],
+      ["開後台收件匣", "/demo/buildflow"],
     ],
   },
   {

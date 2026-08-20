@@ -74,22 +74,15 @@ function useStructuredData(pagePath, pageKey, currentProduct, isNotFound) {
     const logoUrl = new URL(imageAssets.logo.src, normalizedBaseUrl).href
     const graph = []
     graph.push({
-      "@type": "BeautySalon",
-      "@id": `${homeUrl}#business`,
-      name: siteConfig.contact.storeName,
-      alternateName: siteConfig.brand.name,
+      "@type": "CreativeWork",
+      "@id": `${homeUrl}#concept`,
+      name: `${siteConfig.brand.name} 概念網站展示`,
+      alternateName: siteConfig.contact.storeName,
       image: imageUrl,
-      logo: logoUrl,
+      thumbnailUrl: logoUrl,
       url: homeUrl,
-      telephone: siteConfig.contact.phoneLabel,
-      address: {
-        "@type": "PostalAddress",
-        streetAddress: "上海路 235 號",
-        addressLocality: "嘉義市西區",
-        postalCode: siteConfig.contact.postalCode,
-        addressCountry: "TW",
-      },
-      sameAs: [siteConfig.links.facebook, siteConfig.links.instagram],
+      description: "概念展示 部分圖片與資料為示意內容",
+      additionalProperty: { "@type": "PropertyValue", name: "資料性質", value: "概念展示" },
     })
 
     if (pageKey !== "home") {
@@ -236,11 +229,8 @@ function SectionHeading({ eyebrow, title, description, light = false, align = "l
 }
 
 function PlaceholderBadge({ compact = false }) {
-  return (
-    <span className={`lf-placeholder-badge${compact ? " lf-placeholder-badge--compact" : ""}`}>
-      暫代圖<span aria-hidden="true">・</span>待換客戶實拍
-    </span>
-  )
+  void compact
+  return null
 }
 
 function AssetImage({ image, className = "", loading = "lazy", fetchPriority = "auto" }) {
@@ -524,6 +514,8 @@ function BeautyShoplinePreview() {
         跳到主要內容
       </a>
 
+      <p className="lf-concept-notice">概念展示，部分圖片與資料為示意內容。</p>
+
       <header className="lf-header">
         <Link className="lf-logo" to={siteConfig.route} aria-label="LULUFACE 回到首頁">
           <AssetImage image={imageAssets.logo} loading="eager" fetchPriority="high" />
@@ -788,7 +780,7 @@ function BeautyShoplinePreview() {
               <SectionHeading
                 eyebrow="SKIN STORIES"
                 title="每一次護膚，都是重新認識自己的開始"
-                description="目前尚未取得經授權的顧客案例照片，因此第一版以清楚標示的示意版位呈現；正式版不會使用未經同意的前後對比照"
+                description="案例區保留品牌提供授權內容後的完整展示位置"
               />
               <div className="lf-case-grid">
                 {cases.map((caseItem) => (
