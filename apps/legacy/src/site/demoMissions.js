@@ -42,7 +42,6 @@ export const demoMissions = {
       steps: [
         { id: "choose-message", action: "choose-message", instruction: "點一個你想問的問題" },
         { id: "answer-followup", action: "answer-followup", instruction: "選擇你的需求規模" },
-        { id: "open-lead", action: "open-lead", instruction: "查看老闆收到什麼" },
         { id: "confirm-lead", action: "confirm-lead", instruction: "確認剛才建立的詢價資料" },
       ],
       result: "這就是從 LINE 詢問到自動追問與後台建檔的完整流程",

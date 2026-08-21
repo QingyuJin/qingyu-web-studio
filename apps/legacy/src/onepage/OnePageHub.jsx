@@ -17,12 +17,12 @@ function OnePageHub() {
         <section className="op-hub-hero">
           <div className="op-hub-hero-copy">
             <p>ONE PAGE · CLEAR ACTION</p>
-            <h1>產業網站展示空間</h1>
+            <h1>六套產業網站提案</h1>
             <div className="op-hub-rule" />
-            <p className="op-hub-lead">六套完整產業提案</p>
+            <p className="op-hub-lead">從美容 醫療到製造與 SaaS 查看不同產業如何整理服務與轉換動線</p>
             <div className="op-hub-actions">
-              <a href="#templates">瀏覽六套作品</a>
-              <a href={onepageContact.lineUrl} target="_blank" rel="noreferrer">LINE 諮詢 ↗</a>
+              <a href="#templates">查看六套網站</a>
+              <Link to="/contact?type=landing">洽詢類似網站</Link>
             </div>
           </div>
           <div className="op-hub-mosaic" aria-label="六大產業範本預覽">
@@ -71,7 +71,7 @@ function OnePageHub() {
                     <p>{template.industry}</p>
                     <h3>{template.brand}</h3>
                   </div>
-                  <Link to={`/onepage/${template.slug}`}>進入完整作品 <span aria-hidden="true">↗</span></Link>
+                  <Link to={`/onepage/${template.slug}`}>查看網站 <span aria-hidden="true">↗</span></Link>
                 </div>
               </article>
             ))}

@@ -1,6 +1,6 @@
 import WorkDetailTemplate from "./WorkDetailTemplate"
-import { xinjiang } from "./workDetailData"
+import { buildflowCase } from "./compactCaseData"
 
 export default function WorkDetailPageXinjiang() {
-  return <WorkDetailTemplate work={xinjiang} />
+  return <WorkDetailTemplate work={buildflowCase} />
 }

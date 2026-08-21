@@ -81,7 +81,6 @@ export function LightboxImage({ src, alt, className = "", imageClassName = "", e
     <>
       <button type="button" className={`op-lightbox-trigger ${className}`} onClick={() => setOpen(true)} aria-label={`放大檢視：${alt}`}>
         <img src={src} alt={alt} width="1680" height="945" loading={eager ? "eager" : "lazy"} className={imageClassName} />
-        <span aria-hidden="true">檢視大圖</span>
       </button>
       {open ? (
         <div className="op-lightbox" role="dialog" aria-modal="true" aria-label={alt} onClick={() => setOpen(false)}>

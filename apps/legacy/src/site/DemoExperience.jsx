@@ -1,4 +1,4 @@
-import { useEffect } from "react"
+import { Suspense, lazy, useEffect } from "react"
 import { Link } from "react-router-dom"
 import { useLocale } from "../i18n/LocaleContext"
 import { localeOptions } from "../i18n/translations"
@@ -9,7 +9,8 @@ import { ENABLE_MULTILINGUAL } from "./features"
 import { getDemoMission } from "./demoMissions"
 import { trackEvent } from "./marketing"
 import Seo from "./Seo"
-import WorkDemoPanel from "./WorkDemoPanels"
+
+const WorkDemoPanel = lazy(() => import("./WorkDemoPanels"))
 
 export function DemoExperience({ slug, children }) {
   const demo = getDemo(slug)
@@ -42,7 +43,7 @@ export function DemoExperience({ slug, children }) {
 export function NativeWorkDemo({ projectSlug }) {
   const project = projects.find((item) => item.slug === projectSlug)
   if (!project) return null
-  return <WorkDemoPanel project={project} />
+  return <Suspense fallback={<div className="min-h-48 bg-[#f2f1ec]" aria-label="操作畫面載入中" />}><WorkDemoPanel project={project} /></Suspense>
 }
 
 function DemoBar({ demo }) {

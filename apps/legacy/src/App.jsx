@@ -5,26 +5,30 @@ import { LocaleProvider } from "./i18n/LocaleContext"
 import LocaleSwitcher from "./i18n/LocaleSwitcher"
 import ProtectedRoute from "./ProtectedRoute"
 import { ENABLE_MULTILINGUAL } from "./site/features"
+import ProjectHub from "./ProjectHub"
+import StudioHome from "./StudioHome"
+import ServicesPage from "./site/ServicesPage"
+import PricingPage from "./site/PricingPage"
+import ContactPage from "./site/ContactPage"
+import WorkDetailPageXinjiang from "./site/WorkDetailPageXinjiang"
+import WorkDetailPageWholesale from "./site/WorkDetailPageWholesale"
+import WorkDetailPageRag from "./site/WorkDetailPageRag"
+import WorkDetailPageLinebot from "./site/WorkDetailPageLinebot"
+import { DemoExperience } from "./site/DemoExperience"
+import MissionSystemDemo from "./site/MissionSystemDemos"
+import OnePageHub from "./onepage/OnePageHub"
+import { BeautyTemplate, ClinicTemplate } from "./onepage/BeautyClinicTemplates"
+import { ConstructionTemplate, RestaurantTemplate } from "./onepage/RestaurantConstructionTemplates"
+import { ManufacturingTemplate, SaasTemplate } from "./onepage/ManufacturingSaasTemplates"
 
-const ProjectHub = lazy(() => import("./ProjectHub"))
-const StudioHome = lazy(() => import("./StudioHome"))
 const WorksPage = lazy(() =>
   import("./site/Pages").then((module) => ({ default: module.WorksPage }))
 )
 const WorkDetailPage = lazy(() =>
   import("./site/Pages").then((module) => ({ default: module.WorkDetailPage }))
 )
-const ServicesPage = lazy(() =>
-  import("./site/Pages").then((module) => ({ default: module.ServicesPage }))
-)
-const PricingPage = lazy(() =>
-  import("./site/Pages").then((module) => ({ default: module.PricingPage }))
-)
 const FreeAuditPage = lazy(() =>
   import("./site/Pages").then((module) => ({ default: module.FreeAuditPage }))
-)
-const ContactPage = lazy(() =>
-  import("./site/Pages").then((module) => ({ default: module.ContactPage }))
 )
 const AboutPage = lazy(() => import("./site/StudioPages").then((module) => ({ default: module.AboutPage })))
 const CollaborationPage = lazy(() => import("./site/StudioPages").then((module) => ({ default: module.CollaborationPage })))
@@ -41,34 +45,8 @@ const NotionBrandLanding = lazy(() => import("./NotionBrandLanding"))
 const LoginPage = lazy(() => import("./LoginPage"))
 const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const ContractorSite = lazy(() => import("./ContractorSite"))
-const WorkDetailPageXinjiang = lazy(() => import("./site/WorkDetailPageXinjiang"))
-const WorkDetailPageWholesale = lazy(() => import("./site/WorkDetailPageWholesale"))
-const WorkDetailPageRag = lazy(() => import("./site/WorkDetailPageRag"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
 const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
-const DemoExperience = lazy(() =>
-  import("./site/DemoExperience").then((module) => ({ default: module.DemoExperience }))
-)
-const MissionSystemDemo = lazy(() => import("./site/MissionSystemDemos"))
-const OnePageHub = lazy(() => import("./onepage/OnePageHub"))
-const BeautyTemplate = lazy(() =>
-  import("./onepage/BeautyClinicTemplates").then((module) => ({ default: module.BeautyTemplate }))
-)
-const ClinicTemplate = lazy(() =>
-  import("./onepage/BeautyClinicTemplates").then((module) => ({ default: module.ClinicTemplate }))
-)
-const RestaurantTemplate = lazy(() =>
-  import("./onepage/RestaurantConstructionTemplates").then((module) => ({ default: module.RestaurantTemplate }))
-)
-const ConstructionTemplate = lazy(() =>
-  import("./onepage/RestaurantConstructionTemplates").then((module) => ({ default: module.ConstructionTemplate }))
-)
-const ManufacturingTemplate = lazy(() =>
-  import("./onepage/ManufacturingSaasTemplates").then((module) => ({ default: module.ManufacturingTemplate }))
-)
-const SaasTemplate = lazy(() =>
-  import("./onepage/ManufacturingSaasTemplates").then((module) => ({ default: module.SaasTemplate }))
-)
 
 function PageFallback() {
   return (
@@ -76,15 +54,9 @@ function PageFallback() {
       <header className="h-16 border-b border-[#162321]/10 bg-[#f7f5f0]">
         <div className="mx-auto flex h-full max-w-7xl items-center justify-between px-5 sm:px-7 lg:px-9">
           <div className="flex items-center gap-3"><span className="h-px w-6 bg-[#9b8e69]" /><span className="text-xs font-semibold">晴宇 Qingyu Web</span></div>
-          <span className="h-9 w-24 animate-pulse rounded-full bg-[#dfe4de]" />
         </div>
       </header>
-      <div className="mx-auto max-w-7xl px-5 py-16 sm:px-7 lg:px-9">
-        <div className="h-3 w-28 animate-pulse rounded bg-[#d9ded8]" />
-        <div className="mt-6 h-12 max-w-2xl animate-pulse rounded bg-[#d9ded8]" />
-        <div className="mt-4 h-5 max-w-xl animate-pulse rounded bg-[#e3e6e1]" />
-        <div className="mt-10 grid gap-4 md:grid-cols-2"><div className="aspect-[16/9] animate-pulse rounded-2xl bg-[#e0e4de]" /><div className="aspect-[16/9] animate-pulse rounded-2xl bg-[#e6e8e3]" /></div>
-      </div>
+      <p className="mx-auto max-w-7xl px-5 py-10 text-sm font-medium text-[#65716d] sm:px-7 lg:px-9">頁面載入中</p>
     </main>
   )
 }
@@ -134,7 +106,7 @@ function App() {
           element={<ProductPage slug="ecommerce-ordering" />}
         />
         <Route path="/works/assessment-system" element={<ProductPage slug="assessment-system" />} />
-        <Route path="/works/line-bot" element={<ProductPage slug="line-bot" />} />
+        <Route path="/works/line-bot" element={<WorkDetailPageLinebot />} />
         <Route path="/works/crm-admin" element={<ProductPage slug="crm-admin" />} />
         <Route path="/works/contractor-system" element={<ProductPage slug="contractor-system" />} />
         <Route path="/works/xinjiang" element={<WorkDetailPageXinjiang />} />

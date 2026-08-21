@@ -19,7 +19,7 @@ const systemCards = [
 
 const services = [
   { title: "企業 Web 系統", text: "把訂單 客戶 權限與內部流程集中管理", href: "/services#web-systems", cta: "查看系統服務" },
-  { title: "企業品牌網站", text: "用一頁式的清楚動線整理品牌 服務與詢價", href: "/showcase", cta: "進入展示空間" },
+  { title: "企業品牌網站", text: "整理品牌 服務與詢價動線 建立正式數位門面", href: "/showcase", cta: "進入展示空間" },
   { title: "技術開發協作", text: "支援代理商 顧問與既有團隊完成技術交付", href: "/collaboration", cta: "查看協作方式" },
 ]
 

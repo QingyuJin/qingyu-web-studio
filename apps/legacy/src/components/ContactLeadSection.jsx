@@ -1,286 +1,63 @@
-﻿import { useMemo, useState } from "react"
+import { useState } from "react"
 import { useSearchParams } from "react-router-dom"
 import { createContactRequest } from "../lib/contactRequests"
 import { getAttribution, trackEvent } from "../site/marketing"
 
 const email = "a0988874324@gmail.com"
 const lineId = "mulavuc"
-
-const initialForm = {
-  name: "",
-  contact: "",
-  inquiry_type: "還不確定",
-  industry: "",
-  reference: "還不確定",
-  budget_range: "先討論",
-  deadline: "",
-  message: "",
+const inquiryOptions = ["還不確定", "企業 Web 系統", "品牌網站", "Landing Page", "技術開發協作"]
+const budgetOptions = ["1 萬內", "1 至 3 萬", "3 至 6 萬", "6 萬以上", "先討論"]
+const caseNames = {
+  "wholesale-ordering": "批發訂貨系統", buildflow: "工程案件管理", xinjiang: "鑫匠工程", linebot: "LINE 詢價助手", "line-bot": "LINE 詢價助手", "rag-consultant": "AI 公司知識庫", beauty: "美容保養網站", clinic: "牙醫診所網站", restaurant: "精品餐飲網站", construction: "室內工程網站", manufacturing: "精密製造網站", saas: "SaaS 產品網站",
 }
+const typeNames = { system: "企業 Web 系統", business: "企業 Web 系統", website: "品牌網站", landing: "Landing Page", agency: "技術開發協作", consultant: "技術開發協作" }
 
-const inquiryOptions = ["還不確定", "企業系統", "品牌網站", "Landing Page", "AI 公司知識庫", "LINE 與 API", "代理商協作", "顧問協作", "其他"]
-const inquiryParamMap = {
-  system: "企業系統",
-  business: "企業系統",
-  "business-system": "企業系統",
-  website: "品牌網站",
-  landing: "Landing Page",
-  ai: "AI 公司知識庫",
-  rag: "AI 公司知識庫",
-  line: "LINE 與 API",
-  api: "LINE 與 API",
-  agency: "代理商協作",
-  consultant: "顧問協作",
-  other: "其他",
-}
-
-const referenceOptions = [
-  "鑫匠工程",
-  "LULUFACE 美容品牌電商",
-  "MORIE SELECT 選品電商",
-  "商業視覺與廣告 Campaign",
-  "SEO / 廣告成長",
-  "SEO 基礎整頓",
-  "廣告落地頁＋追蹤",
-  "成長營運方案",
-  "批發訂貨系統",
-  "AI 公司知識庫",
-  "生醫品牌網站",
-  "公司一頁式官網",
-  "點餐系統",
-  "互動測驗系統",
-  "Notion 個人品牌頁",
-  "LINE Bot",
-  "快速網站",
-  "品牌官網",
-  "接單 / 後台系統",
-  "AI / 客製系統",
-  "還不確定",
-]
-const budgetOptions = ["1 萬內", "1～3 萬", "3～6 萬", "6 萬以上", "先討論"]
-
-const referenceParamMap = {
-  "wholesale-ordering": "批發訂貨系統",
-  "restaurant-ordering": "點餐系統",
-  "rag-consultant": "AI 公司知識庫",
-  linebot: "LINE Bot",
-  buildflow: "鑫匠工程",
-  xinjiang: "鑫匠工程",
-  luluface: "LULUFACE 美容品牌電商",
-  morie: "MORIE SELECT 選品電商",
-  "commerce-platform": "MORIE SELECT 選品電商",
-  "analytics-dashboard": "SEO / 廣告成長",
-  "ai-audit": "SEO 基礎整頓",
-  "api-automation": "接單 / 後台系統",
-  "ai-tech-quest": "AI / 客製系統",
-  "business-system": "批發訂貨系統",
-  "企業 Web 系統": "批發訂貨系統",
-  "企業品牌網站": "生醫品牌網站",
-  "Landing Page": "公司一頁式官網",
-}
-
-function cleanQueryValue(value) {
+function clean(value) {
   if (!value || value.length > 80 || Array.from(value).some((character) => character.charCodeAt(0) < 32)) return ""
   return value.trim()
 }
 
-function ContactLeadSection() {
+export default function ContactLeadSection() {
   const [searchParams] = useSearchParams()
-  const caseParam = cleanQueryValue(searchParams.get("case"))
-  const typeParam = cleanQueryValue(searchParams.get("type")).toLowerCase()
-  const safeReference = referenceParamMap[caseParam] || (referenceOptions.includes(caseParam) ? caseParam : initialForm.reference)
-  const availableReferences = referenceOptions
-  const [form, setForm] = useState({
-    ...initialForm,
-    reference: safeReference,
-    inquiry_type: inquiryParamMap[typeParam] || initialForm.inquiry_type,
-  })
+  const incomingCase = clean(searchParams.get("case"))
+  const initialCase = caseNames[incomingCase] || incomingCase
+  const initialType = typeNames[clean(searchParams.get("type")).toLowerCase()] || "還不確定"
+  const [reference, setReference] = useState(initialCase)
+  const [form, setForm] = useState({ name: "", contact: "", inquiry_type: initialType, budget_range: "先討論", message: "" })
   const [submitting, setSubmitting] = useState(false)
   const [notice, setNotice] = useState("")
 
-  const mailBody = useMemo(() => {
-    const lines = [
-      "你好 我想討論新專案",
-      `姓名：${form.name}`,
-      `聯絡方式：${form.contact}`,
-      `需求類型：${form.inquiry_type}`,
-      `產業：${form.industry}`,
-      `參考案例：${form.reference}`,
-      `預算：${form.budget_range}`,
-      `希望完成時間：${form.deadline}`,
-      `需求：${form.message}`,
-    ]
-    return encodeURIComponent(lines.join("\n"))
-  }, [form])
-
-  function updateForm(field, value) {
+  function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }))
     setNotice("")
   }
 
-  async function copyText(text, label) {
-    try {
-      await navigator.clipboard.writeText(text)
-      setNotice(`已複製 ${label}`)
-    } catch {
-      setNotice(`無法自動複製 請手動複製：${text}`)
-    }
-  }
-
-  async function handleSubmit(event) {
+  async function submit(event) {
     event.preventDefault()
     setSubmitting(true)
-    setNotice("")
-
     const attribution = getAttribution()
-    const attributionText = Object.keys(attribution).length
-      ? `\n來源：${JSON.stringify(attribution)}`
-      : ""
-    const result = await createContactRequest({
-      name: form.name,
-      contact: form.contact,
-      service_type: form.inquiry_type,
-      budget_range: form.budget_range,
-      message: `參考案例：${form.reference}\n產業：${form.industry}\n希望完成時間：${form.deadline}\n需求：${form.message}${attributionText}`,
-      source: "contact-page",
-      status: "new",
-    })
-
+    const context = [reference ? `正在詢問：${reference}` : "", form.message, Object.keys(attribution).length ? `來源：${JSON.stringify(attribution)}` : ""].filter(Boolean).join("\n")
+    const result = await createContactRequest({ name: form.name, contact: form.contact, service_type: form.inquiry_type, budget_range: form.budget_range, message: context, source: "contact-page", status: "new" })
     setSubmitting(false)
-    trackEvent("generate_lead", {
-      service_type: form.inquiry_type,
-      reference_case: form.reference,
-      budget_range: form.budget_range,
-      lead_delivery: result.ok ? "connected" : "fallback",
-    })
-    setNotice(
-      result.ok
-        ? "已收到 我會回覆做法與估價"
-        : "已整理 請用 Email 或 LINE 傳給我"
-    )
+    trackEvent("generate_lead", { service_type: form.inquiry_type, reference_case: reference, budget_range: form.budget_range, lead_delivery: result.ok ? "connected" : "fallback" })
+    setNotice(result.ok ? "已收到 我會回覆做法與估價" : "暫時無法送出 請改用 LINE 或 Email")
   }
 
-  function resetForm() {
-    setForm({ ...initialForm, reference: safeReference, inquiry_type: inquiryParamMap[typeParam] || initialForm.inquiry_type })
-    setNotice("")
-  }
-
-  return (
-    <section id="contact" className="bg-[#172026] text-white">
-      <div className="mx-auto grid max-w-6xl gap-7 px-4 py-10 md:py-14 lg:grid-cols-[0.82fr_1.18fr] lg:items-start">
-        <div>
-          <p className="text-xs font-black text-[#83d4c8]">聯絡</p>
-          <h2 className="mt-3 text-3xl font-black md:text-4xl">
-            填需求表單
-          </h2>
-          <p className="mt-4 max-w-xl text-sm font-bold leading-7 text-[#d9e6e3]">
-            傳產業、參考案例、預算與時程
-          </p>
-
-          <div className="mt-8 grid gap-3">
-            <ContactLine label="LINE" value={lineId} />
-            <ContactLine label="Email" value="直接寄信" />
-          </div>
-
-          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
-            <a href={`https://line.me/R/ti/p/~${lineId}`} target="_blank" rel="noreferrer" data-track="contact" data-placement="contact_line" className="inline-flex min-h-11 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] sm:w-auto">
-              加入 LINE 洽談
-            </a>
-            <button type="button" data-track="contact" data-placement="contact_copy_line" onClick={() => copyText(lineId, "LINE ID")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
-              複製 LINE ID
-            </button>
-            <button type="button" onClick={() => copyText(email, "Email")} className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
-              複製 Email
-            </button>
-            <a href={`mailto:${email}?subject=${encodeURIComponent("接案需求討論")}&body=${mailBody}`} data-track="contact" data-placement="contact_email" className="inline-flex min-h-11 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white sm:w-auto">
-              Email
-            </a>
-          </div>
-        </div>
-
-        <form onSubmit={handleSubmit} className="rounded-lg border border-white/12 bg-white/[0.07] p-4 md:p-5">
-          <div className="grid gap-4 sm:grid-cols-2">
-            <Input label="姓名 / 稱呼" value={form.name} onChange={(value) => updateForm("name", value)} required />
-            <Input label="聯絡方式" value={form.contact} onChange={(value) => updateForm("contact", value)} placeholder="Email / LINE / 電話" required />
-            <Select label="需求類型" value={form.inquiry_type} onChange={(value) => updateForm("inquiry_type", value)} options={inquiryOptions} />
-            <Input label="產業" value={form.industry} onChange={(value) => updateForm("industry", value)} placeholder="例如：工程行 / 批發 / 餐飲" required />
-            <Select label="參考案例" value={form.reference} onChange={(value) => updateForm("reference", value)} options={availableReferences} />
-            <Select label="預算區間" value={form.budget_range} onChange={(value) => updateForm("budget_range", value)} options={budgetOptions} />
-            <Input label="希望完成時間" value={form.deadline} onChange={(value) => updateForm("deadline", value)} placeholder="例如：兩週內 / 下個月 / 不急" />
-            <label className="grid gap-2 sm:col-span-2">
-              <span className="text-sm font-black text-[#d9e6e3]">想解決的問題</span>
-              <textarea
-                value={form.message}
-                onChange={(event) => updateForm("message", event.target.value)}
-                required
-                placeholder="例如：想做類似鑫匠的官網與詢價系統"
-                className="min-h-28 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-sm font-bold leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
-              />
-            </label>
-          </div>
-
-          {notice ? (
-            <p className="mt-4 rounded-md border border-white/12 bg-white/[0.08] p-4 text-sm font-bold leading-6 text-[#f5e8c9]">
-              {notice}
-            </p>
-          ) : null}
-
-          <div className="mt-5 grid gap-3 sm:flex sm:flex-wrap">
-            <button
-              type="submit"
-              disabled={submitting}
-              className="inline-flex min-h-12 w-full items-center justify-center rounded-md bg-[#f0c36a] px-5 text-sm font-black text-[#172026] transition hover:bg-[#ffd785] disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
-            >
-              {submitting ? "送出中..." : "送出需求"}
-            </button>
-            <button type="button" onClick={resetForm} className="inline-flex min-h-12 w-full items-center justify-center rounded-md border border-white/16 px-5 text-sm font-black text-white transition hover:bg-white/10 sm:w-auto">
-              清空
-            </button>
-          </div>
-        </form>
-      </div>
-    </section>
-  )
-}
-
-function ContactLine({ label, value }) {
-  return (
-    <div className="rounded-lg border border-white/12 bg-white/[0.07] p-4">
-      <p className="text-xs font-black uppercase tracking-[0.18em] text-[#83d4c8]">{label}</p>
-      <p className="mt-2 text-lg font-black">{value}</p>
-    </div>
-  )
+  return <section id="contact" className="bg-[#172026] text-white"><div className="mx-auto grid max-w-6xl gap-9 px-5 py-14 sm:px-7 md:py-20 lg:grid-cols-[.8fr_1.2fr]">
+    <div><p className="text-[10px] font-semibold tracking-[.18em] text-[#83d4c8]">Contact</p><h2 className="mt-4 font-['Noto_Serif_TC',serif] text-3xl font-semibold md:text-4xl">先說明目前的問題</h2><p className="mt-4 max-w-md text-sm font-medium leading-7 text-white/65">留下五項必要資訊 就能開始確認做法</p><div className="mt-8 flex flex-wrap items-center gap-5"><a href={`https://line.me/R/ti/p/~${lineId}`} target="_blank" rel="noreferrer" data-track="contact" data-placement="contact_line" className="inline-flex min-h-12 items-center rounded-full bg-[#f0c36a] px-6 text-sm font-bold text-[#172026]">加入 LINE 洽談</a><a href={`mailto:${email}`} data-track="contact" data-placement="contact_email" className="inline-flex min-h-11 items-center text-sm font-semibold text-white/75 underline underline-offset-4">改用 Email</a></div></div>
+    <form onSubmit={submit} className="border border-white/12 bg-white/[.06] p-5 sm:p-6">
+      {reference ? <div className="mb-5 inline-flex min-h-10 items-center gap-3 rounded-full border border-white/14 bg-white/[.06] px-4 text-xs font-semibold text-[#d8e4e1]">正在詢問：{reference}<button type="button" onClick={() => setReference("")} aria-label="清除詢問案例" className="grid h-7 w-7 place-items-center rounded-full text-base text-white/55">×</button></div> : null}
+      <div className="grid gap-4 sm:grid-cols-2"><Input label="姓名稱呼" value={form.name} onChange={(value) => update("name", value)} required /><Input label="聯絡方式" value={form.contact} onChange={(value) => update("contact", value)} placeholder="Email LINE 或電話" required /><Select label="想做什麼" value={form.inquiry_type} onChange={(value) => update("inquiry_type", value)} options={inquiryOptions} /><Select label="預算區間" value={form.budget_range} onChange={(value) => update("budget_range", value)} options={budgetOptions} /><label className="grid gap-2 sm:col-span-2"><span className="text-sm font-semibold text-[#d9e6e3]">想解決的問題</span><textarea value={form.message} onChange={(event) => update("message", event.target.value)} required placeholder="例如 餐飲批發 目前用 LINE 接單 希望三個月內完成" className="min-h-32 rounded-md border border-white/14 bg-[#111d22] px-4 py-3 text-base font-medium leading-7 text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]" /></label></div>
+      {notice ? <p className="mt-4 border border-white/12 bg-white/[.06] p-4 text-sm font-semibold leading-6 text-[#f5e8c9]" role="status">{notice}</p> : null}
+      <button type="submit" disabled={submitting} className="mt-5 inline-flex min-h-12 w-full items-center justify-center rounded-full bg-[#f0c36a] px-6 text-sm font-bold text-[#172026] disabled:opacity-60 sm:w-auto">{submitting ? "送出中" : "送出需求"}</button>
+    </form>
+  </div></section>
 }
 
 function Input({ label, value, onChange, placeholder = "", required = false }) {
-  return (
-    <label className="grid gap-2">
-      <span className="text-sm font-black text-[#d9e6e3]">{label}</span>
-      <input
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        placeholder={placeholder}
-        required={required}
-        className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-sm font-bold text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]"
-      />
-    </label>
-  )
+  return <label className="grid gap-2"><span className="text-sm font-semibold text-[#d9e6e3]">{label}</span><input value={value} onChange={(event) => onChange(event.target.value)} placeholder={placeholder} required={required} className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-base font-medium text-white outline-none placeholder:text-slate-500 focus:border-[#f0c36a]" /></label>
 }
 
 function Select({ label, value, onChange, options }) {
-  return (
-    <label className="grid gap-2">
-      <span className="text-sm font-black text-[#d9e6e3]">{label}</span>
-      <select
-        value={value}
-        onChange={(event) => onChange(event.target.value)}
-        className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-sm font-bold text-white outline-none focus:border-[#f0c36a]"
-      >
-        {options.map((option) => (
-          <option key={option}>{option}</option>
-        ))}
-      </select>
-    </label>
-  )
+  return <label className="grid gap-2"><span className="text-sm font-semibold text-[#d9e6e3]">{label}</span><select value={value} onChange={(event) => onChange(event.target.value)} className="min-h-12 rounded-md border border-white/14 bg-[#111d22] px-4 text-base font-medium text-white outline-none focus:border-[#f0c36a]">{options.map((option) => <option key={option}>{option}</option>)}</select></label>
 }
-
-export default ContactLeadSection

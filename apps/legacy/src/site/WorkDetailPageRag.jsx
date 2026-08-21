@@ -1,6 +1,6 @@
 import WorkDetailTemplate from "./WorkDetailTemplate"
-import { rag } from "./workDetailData"
+import { knowledgeCase } from "./compactCaseData"
 
 export default function WorkDetailPageRag() {
-  return <WorkDetailTemplate work={rag} />
+  return <WorkDetailTemplate work={knowledgeCase} />
 }

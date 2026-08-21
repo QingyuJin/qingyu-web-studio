@@ -152,7 +152,7 @@ function LineBotDemo() {
 
   function openOwnerView() {
     setView("owner")
-    mission.completeStep("open-lead", "已切換到老闆後台")
+    mission.announce("已切換到老闆後台")
     window.setTimeout(() => {
       const target = document.querySelector('[data-demo-step="confirm-lead"]')
       target?.scrollIntoView({ behavior: "smooth", block: "center" })
@@ -210,9 +210,7 @@ function LineBotDemo() {
             <>
               <p className="ml-auto max-w-[84%] rounded-2xl rounded-br-md bg-[#173c37] px-4 py-3 text-sm font-semibold text-white">{size}</p>
               <StatusNotice>Bot 已經整理好你的需求</StatusNotice>
-              <DemoStep id="open-lead">
-                <button type="button" onClick={openOwnerView} className="min-h-12 w-full rounded-xl bg-[#173c37] px-5 text-sm font-bold text-white">查看老闆收到什麼</button>
-              </DemoStep>
+              <button type="button" onClick={openOwnerView} className="min-h-12 w-full rounded-xl bg-[#173c37] px-5 text-sm font-bold text-white">查看老闆收到什麼</button>
             </>
           ) : null}
         </div>
@@ -245,21 +243,23 @@ function KnowledgeDemo() {
   const [loading, setLoading] = useState(false)
   const [result, setResult] = useState(null)
   const [sourceOpen, setSourceOpen] = useState(false)
-  const timerRef = useRef(null)
+  const frameRef = useRef(null)
 
-  useEffect(() => () => window.clearTimeout(timerRef.current), [])
+  useEffect(() => () => window.cancelAnimationFrame(frameRef.current), [])
 
   function ask(value) {
     setQuestion(value)
     setLoading(true)
     setResult(null)
     setSourceOpen(false)
-    mission.completeStep("ask-question", "AI 正在查找公司資料")
-    timerRef.current = window.setTimeout(() => {
-      setResult(knowledgeAnswers[value])
+    const answer = knowledgeAnswers[value]
+    if (answer) mission.completeStep("ask-question", "AI 正在查找公司資料")
+    else mission.announce("目前文件找不到這個答案")
+    frameRef.current = window.requestAnimationFrame(() => {
+      setResult(answer || { notFound: true })
       setLoading(false)
-      mission.announce("來源已找到")
-    }, 720)
+      if (answer) mission.announce("來源已找到")
+    })
   }
 
   return (
@@ -270,6 +270,7 @@ function KnowledgeDemo() {
           <DemoStep id="ask-question" className="mt-4 grid gap-3">
             {Object.keys(knowledgeAnswers).map((item) => <button key={item} type="button" onClick={() => ask(item)} aria-pressed={question === item} className={`min-h-12 rounded-xl border px-4 text-left text-sm font-bold ${question === item ? "border-[#2d6d62] bg-[#eef5f2] text-[#1d6659]" : "border-[#dedbd2] bg-white text-[#273532]"}`}>{item}</button>)}
           </DemoStep>
+          <button type="button" onClick={() => ask("今年年終獎金有多少")} className="mt-3 min-h-11 text-left text-xs font-bold text-[#697570] underline underline-offset-4">測試找不到資料</button>
           <details className="mt-5 border-t border-[#e2dfd6] pt-4 text-xs text-[#697570]">
             <summary className="min-h-11 cursor-pointer font-bold">技術拆解</summary>
             <p className="mt-2 leading-6">文件切分 語意搜尋與來源引用都在背景完成</p>
@@ -284,7 +285,8 @@ function KnowledgeDemo() {
               <div className="mt-5 space-y-3"><span className="block h-3 w-4/5 animate-pulse rounded bg-white/12" /><span className="block h-3 w-full animate-pulse rounded bg-white/12" /><span className="block h-3 w-2/3 animate-pulse rounded bg-white/12" /></div>
             </div>
           ) : null}
-          {result ? (
+          {result?.notFound ? <div><p className="text-xs font-bold text-[#a8ccc3]">查詢結果</p><h2 className="mt-3 text-xl font-semibold">目前文件找不到這個答案</h2><p className="mt-4 text-sm font-medium leading-7 text-white/65">AI 不會自行補答案 請改問左側已有資料的問題</p></div> : null}
+          {result && !result.notFound ? (
             <div>
               <p className="text-xs font-bold text-[#a8ccc3]">答案</p>
               <p className="mt-3 text-lg font-semibold leading-8">{result.answer}</p>

@@ -67,6 +67,19 @@ export function DemoMission({ definition, slug, children }) {
 
   useEffect(() => () => window.clearTimeout(feedbackTimer.current), [])
 
+  useEffect(() => {
+    if (!role || !currentStep || stepIndex === 0) return undefined
+    const timer = window.setTimeout(() => {
+      const target = document.querySelector(`[data-demo-step="${currentStep.id}"]`)
+      if (!target) return
+      const box = target.getBoundingClientRect()
+      if (box.top < 80 || box.bottom > window.innerHeight - 120) target.scrollIntoView({ behavior: "smooth", block: "center" })
+      target.classList.add("demo-step-highlight")
+      window.setTimeout(() => target.classList.remove("demo-step-highlight"), 1200)
+    }, 90)
+    return () => window.clearTimeout(timer)
+  }, [role, currentStep, stepIndex])
+
   const value = {
     slug,
     definition,
@@ -130,7 +143,7 @@ export function DemoRoleSelector() {
 }
 
 export function DemoGuide() {
-  const { role, stepIndex, steps, currentStep, bringToStep, reset } = useDemoMission()
+  const { role, stepIndex, steps, currentStep, reset } = useDemoMission()
   return (
     <aside className="demo-guide fixed inset-x-0 bottom-0 z-[95] border-t border-[#d5d2c8] bg-[#fbfaf7]/[.98] p-3 shadow-[0_-16px_40px_rgba(19,32,31,.12)] backdrop-blur-xl sm:sticky sm:top-12 sm:border-b sm:border-t-0 sm:px-5 sm:py-3 sm:shadow-sm" aria-label="體驗任務">
       <div className="mx-auto flex max-w-6xl items-center gap-3 sm:gap-5">
@@ -138,15 +151,19 @@ export function DemoGuide() {
           <div className="flex items-center gap-2 text-[10px] font-bold tracking-[.08em] text-[#60706b]">
             <span className="truncate">目前角色 {role.label}</span>
             <span aria-hidden="true">·</span>
-            <span className="shrink-0">{`任務 ${stepIndex + 1} / ${steps.length}`}</span>
+            <span className="shrink-0">{`${stepIndex + 1} / ${steps.length}`}</span>
           </div>
           <p className="mt-1 truncate text-sm font-bold text-[#17211f] sm:text-[15px]">{currentStep.instruction}</p>
           <div className="mt-2 flex gap-1" aria-hidden="true">
             {steps.map((step, index) => <span key={step.id} className={`h-1 flex-1 rounded-full ${index <= stepIndex ? "bg-[#2d6d62]" : "bg-[#d8ddd9]"}`} />)}
           </div>
         </div>
-        <button type="button" onClick={bringToStep} className="min-h-11 shrink-0 rounded-full bg-[#173c37] px-3 text-[11px] font-bold text-white sm:px-5 sm:text-xs">帶我去</button>
-        <DemoReset onReset={reset} compact />
+        <details className="relative shrink-0">
+          <summary className="grid min-h-11 min-w-11 cursor-pointer list-none place-items-center rounded-full border border-[#c8cfca] bg-white text-lg font-bold text-[#44524e]" aria-label="更多操作">⋯</summary>
+          <div className="absolute bottom-14 right-0 w-36 rounded-xl border border-[#d5d2c8] bg-white p-2 shadow-xl sm:bottom-auto sm:top-12">
+            <DemoReset onReset={reset} compact />
+          </div>
+        </details>
       </div>
     </aside>
   )
@@ -179,10 +196,11 @@ function DemoCompletion() {
           {role.checklist.map((item) => <p key={item} className="flex items-center gap-3 text-sm font-semibold text-[#44524e]"><span className="text-[#1d6659]">✓</span>{item}</p>)}
         </div>
         <p className="mt-6 text-[15px] font-semibold leading-7 text-[#3f4e4a]">{definition.businessResult}</p>
-        <div className="mt-7 grid gap-3 sm:grid-cols-[1fr_auto]">
-          <Link to={demo ? demoContactPath(demo) : "/contact?type=business-system"} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#173c37] px-6 text-sm font-bold text-white">我也想做類似系統</Link>
-          <button type="button" onClick={reset} className="min-h-12 rounded-full border border-[#c8cfca] bg-white px-5 text-sm font-bold text-[#44524e]">再玩一次</button>
+        <div className="mt-7 grid gap-3 sm:grid-cols-2">
+          {demo ? <Link to={demo.caseStudyPath} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#173c37] px-6 text-sm font-bold text-white">查看案例說明</Link> : null}
+          <Link to={demo ? demoContactPath(demo) : "/contact?type=business-system"} className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#9cadA7] bg-white px-6 text-sm font-bold text-[#334440]">洽談類似系統</Link>
         </div>
+        <button type="button" onClick={reset} className="mt-3 min-h-11 w-full text-xs font-bold text-[#697570] underline underline-offset-4">再玩一次</button>
         {definition.roles.length > 1 ? <button type="button" onClick={exitMission} className="mt-4 min-h-11 w-full text-xs font-bold text-[#697570] underline underline-offset-4">切換體驗角色</button> : null}
       </section>
     </main>

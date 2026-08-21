@@ -271,7 +271,7 @@ export const wholesale = {
   category: "可操作產品",
   title: "批發訂貨系統",
   tagline: "不用 LINE 一筆一筆抄訂單 手機下單 後台出貨 月底對帳",
-  price: "25,000 元起",
+  price: "35,000 元起",
   duration: "14–25 天",
   forWho: "批發商、食材商、中盤商、想線上收單的店家",
   problem: {
@@ -329,7 +329,7 @@ export const wholesale = {
     title: "報價範圍",
     desc: "依規模與功能需求報價",
     plans: [
-      { name: "基本訂購系統", price: "25,000 元起", note: "商品、購物車、訂單後台" },
+      { name: "基本訂購系統", price: "35,000 元起", note: "商品、購物車、訂單後台" },
       { name: "B2B 批發版", price: "35,000 元起", note: "分級報價、出貨修量、月結對帳" },
       { name: "金流 / 物流串接", price: "依需求估價", note: "綠界 / 藍新 / 超商等" },
     ],
