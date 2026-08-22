@@ -1,0 +1,151 @@
+.xinjiang-site {
+  isolation: isolate;
+  overflow-x: clip;
+  background: #f7efe2;
+  color: #231b14;
+  line-height: 1.65;
+}
+
+.xinjiang-site *,
+.xinjiang-site *::before,
+.xinjiang-site *::after {
+  box-sizing: border-box;
+  min-width: 0;
+}
+
+.xinjiang-site section {
+  scroll-margin-top: 88px;
+}
+
+.xinjiang-site :is(button, a, input, select, textarea) {
+  transition:
+    background-color 160ms ease,
+    border-color 160ms ease,
+    box-shadow 160ms ease,
+    color 160ms ease,
+    transform 120ms ease,
+    opacity 160ms ease;
+}
+
+.xinjiang-site a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.xinjiang-site :is(button, a[href]) {
+  cursor: pointer;
+}
+
+.xinjiang-site :is(button, a[href]):hover {
+  filter: none;
+}
+
+.xinjiang-site :is(button, a[href]):active {
+  transform: translateY(1px);
+}
+
+.xinjiang-site :is(button, a[href], input, select, textarea):focus-visible {
+  outline: 3px solid rgba(255, 212, 90, 0.38);
+  outline-offset: 3px;
+}
+
+.xinjiang-site .font-kai {
+  font-family: "LXGW WenKai TC", "DFKai-SB", "BiauKai", "KaiTi", "STKaiti", serif;
+}
+
+.xinjiang-site .font-serif-tc {
+  font-family: "Noto Serif TC", "PMingLiU", serif;
+}
+
+.xinjiang-site .brush-title {
+  font-family: "LXGW WenKai TC", "DFKai-SB", "BiauKai", "KaiTi", "STKaiti", "Noto Serif TC", serif;
+  text-shadow:
+    0 1px 0 #fff2b5,
+    0 0 22px rgba(255, 204, 78, 0.28),
+    0 18px 54px rgba(0, 0, 0, 0.72);
+}
+
+.xinjiang-site .gold-text {
+  background: linear-gradient(160deg, #fff3c4 6%, #ffd45a 30%, #c98a1e 52%, #ffe89a 74%, #b97a12 96%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  filter: drop-shadow(0 10px 32px rgba(0, 0, 0, 0.65)) drop-shadow(0 0 18px rgba(255, 204, 78, 0.22));
+}
+
+.xinjiang-site .vertical-kai {
+  writing-mode: vertical-rl;
+  letter-spacing: 0.28em;
+}
+
+.xinjiang-site .seal {
+  display: inline-grid;
+  place-items: center;
+  background: linear-gradient(150deg, #b23a24, #8f2717);
+  color: #f3e2c2;
+  border: 2px solid rgba(243, 226, 194, 0.85);
+  outline: 3px solid #8f2717;
+  border-radius: 0.45rem;
+  box-shadow: 0 8px 26px rgba(143, 39, 23, 0.4);
+  font-family: "LXGW WenKai TC", "DFKai-SB", "KaiTi", serif;
+  line-height: 1.05;
+}
+
+.xinjiang-site .ink-wash {
+  background:
+    radial-gradient(circle at 20% 18%, rgba(255, 255, 255, 0.12), transparent 16rem),
+    radial-gradient(circle at 78% 28%, rgba(255, 204, 78, 0.13), transparent 26rem),
+    radial-gradient(circle at 58% 72%, rgba(0, 0, 0, 0.86), transparent 22rem),
+    linear-gradient(135deg, #090909 0%, #1a1916 48%, #2a241a 100%);
+}
+
+.xinjiang-site .ink-splash {
+  background:
+    radial-gradient(circle at 18% 24%, rgba(0, 0, 0, 0.92) 0 2.2rem, transparent 2.3rem),
+    radial-gradient(circle at 28% 36%, rgba(0, 0, 0, 0.74) 0 6rem, transparent 6.1rem),
+    radial-gradient(circle at 72% 25%, rgba(0, 0, 0, 0.7) 0 4.8rem, transparent 4.9rem),
+    radial-gradient(circle at 82% 72%, rgba(0, 0, 0, 0.84) 0 7rem, transparent 7.1rem),
+    radial-gradient(circle at 45% 58%, rgba(255, 255, 255, 0.08) 0 14rem, transparent 14.2rem);
+}
+
+.xinjiang-site .ink-stroke {
+  height: 0.5rem;
+  border-radius: 999px;
+  background:
+    radial-gradient(closest-side at 8% 50%, #2b2118 0 45%, transparent 78%),
+    radial-gradient(closest-side at 26% 42%, #2b2118 0 52%, transparent 82%),
+    radial-gradient(closest-side at 48% 58%, #2b2118 0 48%, transparent 80%),
+    radial-gradient(closest-side at 70% 46%, #2b2118 0 50%, transparent 82%),
+    radial-gradient(closest-side at 92% 52%, #2b2118 0 40%, transparent 76%);
+  opacity: 0.82;
+}
+
+.xinjiang-site .ink-stroke--gold {
+  background:
+    radial-gradient(closest-side at 8% 50%, #d9aa3d 0 45%, transparent 78%),
+    radial-gradient(closest-side at 26% 42%, #d9aa3d 0 52%, transparent 82%),
+    radial-gradient(closest-side at 48% 58%, #d9aa3d 0 48%, transparent 80%),
+    radial-gradient(closest-side at 70% 46%, #d9aa3d 0 50%, transparent 82%),
+    radial-gradient(closest-side at 92% 52%, #d9aa3d 0 40%, transparent 76%);
+}
+
+.xinjiang-site .photo-zoom {
+  overflow: hidden;
+}
+
+.xinjiang-site .photo-zoom img {
+  transition: transform 600ms ease;
+}
+
+.xinjiang-site .photo-zoom:hover img {
+  transform: scale(1.045);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .xinjiang-site *,
+  .xinjiang-site *::before,
+  .xinjiang-site *::after {
+    scroll-behavior: auto !important;
+    transition-duration: 0.01ms !important;
+  }
+}

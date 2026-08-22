@@ -119,7 +119,7 @@ pre:not([class*="text-"]) {
   color: #334155;
 }
 
-main :is(article, section, div)[class*="rounded-"][class*="border"] {
+main:not(.xinjiang-site) :is(article, section, div)[class*="rounded-"][class*="border"] {
   transition:
     border-color 160ms ease,
     box-shadow 160ms ease,
@@ -127,16 +127,16 @@ main :is(article, section, div)[class*="rounded-"][class*="border"] {
     background-color 160ms ease;
 }
 
-main :is(article, section, div)[class*="rounded-"][class*="border"]:hover {
+main:not(.xinjiang-site) :is(article, section, div)[class*="rounded-"][class*="border"]:hover {
   border-color: #cbd5e1;
   box-shadow: 0 12px 30px rgba(15, 23, 42, 0.08);
 }
 
-main :is(button, a[href])[class*="bg-slate-950"] {
+main:not(.xinjiang-site) :is(button, a[href])[class*="bg-slate-950"] {
   box-shadow: 0 8px 18px rgba(15, 23, 42, 0.18);
 }
 
-main :is(button, a[href])[class*="bg-slate-950"]:hover {
+main:not(.xinjiang-site) :is(button, a[href])[class*="bg-slate-950"]:hover {
   background-color: #1e293b;
   box-shadow: 0 12px 24px rgba(15, 23, 42, 0.22);
 }

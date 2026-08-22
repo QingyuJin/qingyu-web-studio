@@ -1,4 +1,5 @@
 import { useLayoutEffect } from "react"
+import { useLocation } from "react-router-dom"
 import { cleanDisplayText } from "./experienceText"
 import { useLocale } from "./i18n/LocaleContext"
 import { translateDisplayText } from "./i18n/translations"
@@ -92,6 +93,7 @@ function enhanceImages(root) {
   }
 
   images.forEach((image) => {
+    if (image.closest("[data-skip-experience-polish]")) return
     const source = image.currentSrc || image.getAttribute("src") || ""
     if (!/\.(?:avif|webp|jpe?g|png)(?:\?|$)/i.test(source)) return
     if (/(?:logo|icon|favicon|avatar)/i.test(source)) return
@@ -105,8 +107,10 @@ function enhanceImages(root) {
 
 function ExperiencePolish() {
   const { locale } = useLocale()
+  const location = useLocation()
 
   useLayoutEffect(() => {
+    if (location.pathname === "/works/xinjiang") return undefined
     document.documentElement.classList.add("qingyu-refined")
     walkText(document.documentElement, locale)
     renderAttributes(document.documentElement, locale)
@@ -142,7 +146,7 @@ function ExperiencePolish() {
       observer.disconnect()
       document.documentElement.classList.remove("qingyu-refined")
     }
-  }, [locale])
+  }, [locale, location.pathname])
 
   return null
 }

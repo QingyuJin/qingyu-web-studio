@@ -9,7 +9,7 @@ function InteractionFeedback() {
 
     function handlePointerDown(event) {
       const target = event.target.closest(INTERACTIVE_SELECTOR)
-      if (!target || target.disabled || target.getAttribute("aria-disabled") === "true") return
+      if (!target || target.closest("[data-skip-interaction-feedback]") || target.disabled || target.getAttribute("aria-disabled") === "true") return
 
       target.dataset.pressed = "true"
       window.setTimeout(() => {

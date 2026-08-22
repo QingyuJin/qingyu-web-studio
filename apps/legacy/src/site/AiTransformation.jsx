@@ -37,7 +37,7 @@ const plans = [
     pain: "只有名片和口碑 客戶與補助單位搜尋不到你",
     deliverables: ["品牌形象網站", "案例 / 作品頁", "詢價入口", "手機版 RWD 與基本 SEO"],
     demos: [
-      ["看真實案例：鑫匠工程", "/demo/xinjiang"],
+      ["開啟鑫匠完整網站", "/works/xinjiang"],
       ["看品牌網站範例", "/works/biomed-brand-site"],
     ],
   },
@@ -186,7 +186,7 @@ function AiTransformation() {
               </p>
               <div className="mt-6 flex flex-wrap gap-3">
                 <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center rounded-md bg-[#111c22] px-5 text-sm font-black text-white">
-                  看鑫匠完整案例
+                  開啟鑫匠完整網站
                 </Link>
                 <Link to="/works" className="inline-flex min-h-11 items-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
                   看所有成品

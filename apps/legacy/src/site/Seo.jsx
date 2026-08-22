@@ -56,9 +56,10 @@ function Seo({ page = seo.home }) {
     const normalizedBaseUrl = `${baseUrl.replace(/\/$/, "")}/`
     const url = new URL(page.path, normalizedBaseUrl).href
     const localizedUrl = new URL(url)
-    if (locale !== "zh-Hant") localizedUrl.searchParams.set("lang", locale)
+    if (locale !== "zh-Hant" && !page.preserveText) localizedUrl.searchParams.set("lang", locale)
     const image = new URL(page.image ?? "/og.png?v=20260814", normalizedBaseUrl).href
-    const siteName = page.siteName ? translateDisplayText(page.siteName, locale) : localizedBrandName(locale)
+    const renderCopy = (value) => page.preserveText ? value : translateDisplayText(cleanDisplayText(value), locale)
+    const siteName = page.siteName ? renderCopy(page.siteName) : localizedBrandName(locale)
     const robots = page.robots ?? "index, follow"
     const ogType = page.ogType ?? "website"
     const structuredData = page.structuredData ?? {
@@ -75,10 +76,10 @@ function Seo({ page = seo.home }) {
       },
     }
 
-    const title = translateDisplayText(cleanDisplayText(page.title), locale)
-    const description = translateDisplayText(cleanDisplayText(page.description), locale)
-    const imageAlt = translateDisplayText(cleanDisplayText(page.imageAlt ?? "Qingyu Web Studio 品牌網站與數位成長服務"), locale)
-    const localizedStructuredData = localizeStructuredData(structuredData, locale)
+    const title = renderCopy(page.title)
+    const description = renderCopy(page.description)
+    const imageAlt = renderCopy(page.imageAlt ?? "Qingyu Web Studio 品牌網站與數位成長服務")
+    const localizedStructuredData = page.preserveText ? structuredData : localizeStructuredData(structuredData, locale)
 
     document.title = title
     upsertLink('link[rel="canonical"]', { rel: "canonical", href: localizedUrl.href })

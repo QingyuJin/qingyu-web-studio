@@ -122,7 +122,7 @@ export const demoRegistry = [
   {
     slug: "xinjiang",
     title: "鑫匠工程 Business Website",
-    demoPath: "/demo/xinjiang",
+    demoPath: "/works/xinjiang",
     caseStudyPath: "/works/xinjiang",
     contactCase: "xinjiang",
     type: "Client Project",

@@ -488,7 +488,7 @@ export function WorkDetailPage() {
               查看系統
             </Link>
             <Link to="/works/xinjiang" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
-              看鑫匠案例
+              開啟鑫匠完整網站
             </Link>
             <Link to="#tech" className="inline-flex min-h-11 items-center justify-center rounded-md border border-[#cfd7d3] bg-white px-5 text-sm font-black text-[#111c22]">
               技術拆解
@@ -900,8 +900,8 @@ function XinjiangProjectBrief() {
               </div>
             ))}
             <div className="flex flex-wrap gap-2 pt-1">
-              <a href="/demo/xinjiang" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">
-                打開正式網站
+              <a href="/works/xinjiang" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">
+                開啟完整網站
               </a>
               <Link to="/contact?case=鑫匠工程" className="inline-flex min-h-10 items-center rounded-lg border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
                 詢問類似案例

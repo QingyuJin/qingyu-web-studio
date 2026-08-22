@@ -1527,7 +1527,7 @@ function BuildFlowDemo() {
             </div>
             <div className="mt-5 flex flex-wrap gap-3">
               <Link to="/works/xinjiang" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
-                查看鑫匠案例
+                開啟鑫匠完整網站
               </Link>
               <button type="button" onClick={simulateXinjiangCase} className="min-h-10 rounded-md bg-[#111c22] px-4 text-sm font-black text-white">
                 在 BuildFlow 中模擬此案例
@@ -2532,12 +2532,10 @@ function XinjiangDemo() {
           </MiniCard>
           <div className="flex flex-wrap gap-3">
             <a
-              href="/demo/xinjiang"
-              target="_blank"
-              rel="noreferrer"
+              href="/works/xinjiang"
               className="inline-flex min-h-10 items-center rounded-md bg-[#111c22] px-4 text-sm font-black text-white"
             >
-              打開鑫匠官網
+              開啟完整網站
             </a>
             <Link to="/contractor-site#inquiry" className="inline-flex min-h-10 items-center rounded-md border border-[#cfd7d3] bg-white px-4 text-sm font-black text-[#111c22]">
               試填詢價表單

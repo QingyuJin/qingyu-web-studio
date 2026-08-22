@@ -34,7 +34,22 @@ const routes = [
   ["/works/product-landing-page", "電商商品銷售頁設計案例｜Qingyu Web Studio", "商品賣點、見證、方案與 CTA 集中成交的行動版銷售頁展示"],
   ["/works/company-landing", "公司一頁式品牌官網案例｜Qingyu Web Studio", "一頁整理品牌、服務、案例、流程與聯絡 CTA 的公司網站展示"],
   ["/works/biomed-brand-site", "生醫品牌網站設計案例｜Qingyu Web Studio", "品牌故事、專業內容、案例與講座活動的生醫品牌網站展示"],
-  ["/works/xinjiang", "鑫匠工程網站與接案系統案例｜Qingyu Web Studio", "工程品牌官網、線上詢價與案件管理流程的完整案例"],
+  [
+    "/works/xinjiang",
+    "鑫匠｜屏東泥作、水泥、磁磚、油漆裝修工程",
+    "鑫匠工程提供屏東與南部地區泥作、水泥施工、磁磚安裝修補、洗石子、油漆、拆除、裝修與增建服務，40 年老師父經驗，到場評估後實在報價。",
+    "/xinjiang/project-photos/335941_0.jpg",
+    "",
+    {
+      canonical: "https://xinjiang-website.vercel.app/",
+      robots: "noindex, follow, noarchive",
+      siteName: "鑫匠工程",
+      imageWidth: 1280,
+      imageHeight: 960,
+      preserveText: true,
+      xinjiang: true,
+    },
+  ],
   ["/works/wholesale-ordering", "批發訂貨與月結系統展示｜Qingyu Web Studio", "客戶專屬價格下單、出貨狀態、月結與對帳的批發訂貨系統"],
   ["/works/restaurant-ordering", "餐飲桌邊點餐與廚房控單系統｜Qingyu Web Studio", "手機桌邊點餐、廚房即時出單、桌況與營收管理的可操作展示"],
   ["/works/rag-consultant", "AI 公司知識庫與文件問答展示｜Qingyu Web Studio", "直接詢問公司文件並查看答案 來源文件與引用段落"],
@@ -57,10 +72,15 @@ function replaceAttribute(html, selector, value) {
   return html.replace(expression, `$1${escaped}$2`)
 }
 
-function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png?v=20260820", entityType = "") {
-  title = title.replaceAll("Qingyu Web Studio", brandName)
-  description = description.replaceAll("Qingyu Web Studio", brandName)
-  const canonical = `${siteUrl}${route}`
+function buildPageHtml(route, title, description, robots = "index, follow, max-image-preview:large", imagePath = "/og.png?v=20260820", entityType = "", options = {}) {
+  if (!options.preserveText) {
+    title = title.replaceAll("Qingyu Web Studio", brandName)
+    description = description.replaceAll("Qingyu Web Studio", brandName)
+  }
+  robots = options.robots ?? robots
+  const canonical = options.canonical ?? `${siteUrl}${route}`
+  const pageSiteName = options.siteName ?? brandName
+  const canonicalOrigin = new URL(canonical).origin
   const webPage = {
     "@context": "https://schema.org",
     "@type": "WebPage",
@@ -68,7 +88,7 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
     description,
     url: canonical,
     inLanguage: "zh-Hant-TW",
-    isPartOf: { "@type": "WebSite", name: brandName, url: `${siteUrl}/` },
+    isPartOf: { "@type": "WebSite", name: pageSiteName, url: `${canonicalOrigin}/` },
   }
   const pageData = entityType
     ? {
@@ -86,7 +106,7 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
         ],
       }
     : webPage
-  const image = `${siteUrl}${imagePath}`
+  const image = /^https?:\/\//.test(imagePath) ? imagePath : `${siteUrl}${imagePath}`
 
   let html = template.replace(/<title>[\s\S]*?<\/title>/, `<title>${escapeHtml(title)}</title>`)
   html = replaceAttribute(html, 'name="description"', description)
@@ -94,25 +114,33 @@ function buildPageHtml(route, title, description, robots = "index, follow, max-i
   html = replaceAttribute(html, 'name="googlebot"', robots)
   html = html.replace(/(<link rel="canonical" href=")[^"]*(" \/>)/, `$1${canonical}$2`)
   html = html.replace(/(<link rel="alternate" hreflang="zh-Hant-TW" href=")[^"]*(" \/>)/, `$1${canonical}$2`)
+  if (options.xinjiang) {
+    html = html.replace(/(<link rel="alternate" hreflang="x-default" href=")[^"]*(" \/>)/, `$1${canonical}$2`)
+  }
   html = replaceAttribute(html, 'property="og:title"', title)
+  html = replaceAttribute(html, 'property="og:site_name"', pageSiteName)
   html = replaceAttribute(html, 'property="og:description"', description)
   html = replaceAttribute(html, 'property="og:url"', canonical)
   html = replaceAttribute(html, 'property="og:image"', image)
+  html = replaceAttribute(html, 'property="og:image:width"', String(options.imageWidth ?? 1731))
+  html = replaceAttribute(html, 'property="og:image:height"', String(options.imageHeight ?? 909))
   html = replaceAttribute(html, 'property="og:image:alt"', `${title.split("｜")[0]}預覽`)
   html = replaceAttribute(html, 'name="twitter:title"', title)
   html = replaceAttribute(html, 'name="twitter:description"', description)
   html = replaceAttribute(html, 'name="twitter:image"', image)
   const heading = title.split("｜")[0]
-  const staticContent = `<div id="root"><main data-prerendered="true"><nav aria-label="主要導覽"><a href="/">首頁</a> <a href="/works">作品</a> <a href="/showcase">展示空間</a> <a href="/services">服務</a> <a href="/about">關於</a> <a href="/collaboration">協作</a> <a href="/pricing">價格</a> <a href="/contact">聯絡</a></nav><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(description)}</p><p><a href="/works">查看作品</a> <a href="/contact">啟動專案</a></p></main></div>`
+  const staticContent = options.xinjiang
+    ? `<div id="root"><main data-prerendered="true" style="min-height:100vh;background:#11100e;color:#f3e2c2;padding:7rem 1.25rem 3rem;font-family:serif"><p style="margin:0;color:#ffd45a;font-size:3rem;font-weight:700">鑫匠</p><h1 style="margin:1rem 0 0;font-size:1.45rem;letter-spacing:.12em">瓦刀執手砌日月 匠心巧思鑄千秋</h1><p style="max-width:42rem;line-height:1.9;color:rgba(255,255,255,.72)">屏東在地泥作裝修工程 40 年老師父經驗 到場評估後實在報價</p></main></div>`
+    : `<div id="root"><main data-prerendered="true"><nav aria-label="主要導覽"><a href="/">首頁</a> <a href="/works">作品</a> <a href="/showcase">展示空間</a> <a href="/services">服務</a> <a href="/about">關於</a> <a href="/collaboration">協作</a> <a href="/pricing">價格</a> <a href="/contact">聯絡</a></nav><h1>${escapeHtml(heading)}</h1><p>${escapeHtml(description)}</p><p><a href="/works">查看作品</a> <a href="/contact">啟動專案</a></p></main></div>`
   html = html.replace(/<div id="root">[\s\S]*?<\/div>\s*<noscript>/, `${staticContent}\n    <noscript>`)
   html = html.replace("</head>", `    <script type="application/ld+json">${JSON.stringify(pageData).replaceAll("<", "\\u003c")}</script>\n  </head>`)
   return html
 }
 
-for (const [route, title, description, imagePath, entityType] of routes) {
+for (const [route, title, description, imagePath, entityType, options] of routes) {
   const destination = path.join(outputRoot, route.replace(/^\//, ""), "index.html")
   await mkdir(path.dirname(destination), { recursive: true })
-  await writeFile(destination, buildPageHtml(route, title, description, undefined, imagePath, entityType), "utf8")
+  await writeFile(destination, buildPageHtml(route, title, description, undefined, imagePath, entityType, options), "utf8")
 }
 
 await writeFile(

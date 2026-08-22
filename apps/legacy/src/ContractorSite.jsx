@@ -256,12 +256,10 @@ LINE Bot：${lineBotId}`
               填寫需求
             </a>
             <a
-              href="/demo/xinjiang"
-              target="_blank"
-              rel="noreferrer"
+              href="/works/xinjiang"
               className="hidden rounded-md border border-white/12 px-4 py-2 text-sm font-black sm:inline-flex"
             >
-              鑫匠官網
+              開啟完整網站
             </a>
             <Link to="/demo/buildflow" className="rounded-md border border-white/12 px-4 py-2 text-sm font-black">
               BuildFlow

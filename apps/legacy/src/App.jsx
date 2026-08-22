@@ -10,7 +10,6 @@ import StudioHome from "./StudioHome"
 import ServicesPage from "./site/ServicesPage"
 import PricingPage from "./site/PricingPage"
 import ContactPage from "./site/ContactPage"
-import WorkDetailPageXinjiang from "./site/WorkDetailPageXinjiang"
 import WorkDetailPageWholesale from "./site/WorkDetailPageWholesale"
 import WorkDetailPageRag from "./site/WorkDetailPageRag"
 import WorkDetailPageLinebot from "./site/WorkDetailPageLinebot"
@@ -47,6 +46,7 @@ const AdminDashboard = lazy(() => import("./AdminDashboard"))
 const ContractorSite = lazy(() => import("./ContractorSite"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
 const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
+const WorkDetailPageXinjiang = lazy(() => import("./site/WorkDetailPageXinjiang"))
 
 function PageFallback() {
   return (
@@ -61,6 +61,21 @@ function PageFallback() {
   )
 }
 
+function XinjiangFallback() {
+  return (
+    <main className="min-h-screen bg-[#11100e] px-5 pt-28 text-[#f3e2c2]" aria-label="鑫匠網站載入中" data-preserve-text>
+      <p className="font-['LXGW_WenKai_TC',serif] text-5xl font-bold text-[#ffd45a]">鑫匠</p>
+      <p className="mt-5 font-['LXGW_WenKai_TC',serif] text-xl font-bold tracking-[.12em]">瓦刀執手砌日月 匠心巧思鑄千秋</p>
+    </main>
+  )
+}
+
+function GlobalControls() {
+  const location = useLocation()
+  if (location.pathname === "/works/xinjiang" || location.pathname.startsWith("/demo/xinjiang")) return null
+  return ENABLE_MULTILINGUAL ? <LocaleSwitcher /> : null
+}
+
 function LegacyBeautyRedirect() {
   const location = useLocation()
   const suffix = location.pathname.replace(/^\/works\/beauty-shopline-preview/, "")
@@ -71,7 +86,7 @@ function App() {
   return (
     <LocaleProvider>
       <ExperiencePolish />
-      {ENABLE_MULTILINGUAL ? <LocaleSwitcher /> : null}
+      <GlobalControls />
       <Suspense fallback={<PageFallback />}>
         <Routes>
         <Route path="/" element={<StudioHome />} />
@@ -87,7 +102,7 @@ function App() {
         <Route path="/demo/restaurant-ordering/*" element={<DemoExperience slug="restaurant-ordering"><MissionSystemDemo slug="restaurant-ordering" /></DemoExperience>} />
         <Route path="/demo/rag-consultant/*" element={<DemoExperience slug="rag-consultant"><MissionSystemDemo slug="rag-consultant" /></DemoExperience>} />
         <Route path="/demo/buildflow/*" element={<DemoExperience slug="buildflow"><MissionSystemDemo slug="buildflow" /></DemoExperience>} />
-        <Route path="/demo/xinjiang/*" element={<DemoExperience slug="xinjiang"><ContractorSite /></DemoExperience>} />
+        <Route path="/demo/xinjiang/*" element={<Navigate to="/works/xinjiang" replace />} />
         <Route path="/demo/linebot/*" element={<DemoExperience slug="linebot"><MissionSystemDemo slug="linebot" /></DemoExperience>} />
         <Route path="/demo/analytics-dashboard/*" element={<DemoExperience slug="analytics-dashboard"><MissionSystemDemo slug="analytics-dashboard" /></DemoExperience>} />
         <Route path="/demo/commerce-platform/*" element={<DemoExperience slug="commerce-platform"><MissionSystemDemo slug="commerce-platform" /></DemoExperience>} />
@@ -109,7 +124,7 @@ function App() {
         <Route path="/works/line-bot" element={<WorkDetailPageLinebot />} />
         <Route path="/works/crm-admin" element={<ProductPage slug="crm-admin" />} />
         <Route path="/works/contractor-system" element={<ProductPage slug="contractor-system" />} />
-        <Route path="/works/xinjiang" element={<WorkDetailPageXinjiang />} />
+        <Route path="/works/xinjiang" element={<Suspense fallback={<XinjiangFallback />}><WorkDetailPageXinjiang /></Suspense>} />
         <Route path="/works/wholesale-ordering" element={<WorkDetailPageWholesale />} />
         <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/analytics-dashboard" element={<WorkDetailPageAnalytics />} />
