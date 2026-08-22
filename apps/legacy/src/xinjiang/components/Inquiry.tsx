@@ -70,7 +70,7 @@ export function Inquiry() {
       })
       const data = await response.json()
       if (!response.ok || !data.ok) throw new Error(data.error || "送出失敗")
-      setResult(data.stored ? "stored" : "fallback")
+      setResult(data.notified ? "stored" : "fallback")
     } catch {
       setResult("fallback")
     } finally {

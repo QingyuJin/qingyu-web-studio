@@ -40,7 +40,7 @@ export default function ContactLeadSection() {
     const result = await createContactRequest({ name: form.name, contact: form.contact, service_type: form.inquiry_type, budget_range: form.budget_range, message: context, source: "contact-page", status: "new" })
     setSubmitting(false)
     trackEvent("generate_lead", { service_type: form.inquiry_type, reference_case: reference, budget_range: form.budget_range, lead_delivery: result.ok ? "connected" : "fallback" })
-    setNotice(result.ok ? "已收到 我會回覆做法與估價" : "暫時無法送出 請改用 LINE 或 Email")
+    setNotice(result.ok ? "需求已送出 Email 通知已寄達" : result.reason || "暫時無法送出 請改用 LINE 或 Email")
   }
 
   return <section id="contact" className="bg-[#172026] text-white"><div className="mx-auto grid max-w-6xl gap-9 px-5 py-14 sm:px-7 md:py-20 lg:grid-cols-[.8fr_1.2fr]">

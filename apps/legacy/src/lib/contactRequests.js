@@ -14,19 +14,27 @@ export function getStatusLabel(status) {
 }
 
 export async function createContactRequest(payload) {
-  if (!isSupabaseConfigured) {
-    saveLocalRequest(payload)
-    return { ok: true, mode: "local" }
-  }
-
   try {
-    const { error } = await supabase.from("contact_requests").insert(payload)
-    if (error) throw new Error(error.message)
-    return { ok: true }
-  } catch {
-    // 後端暫時不可用時仍把需求留在本機 不讓表單直接失敗
+    const response = await fetch("/api/inquiry", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(payload),
+    })
+    const data = await response.json()
+    if (!response.ok || !data.ok) throw new Error(data.error || "送出失敗")
+    if (!data.notified) {
+      saveLocalRequest(payload)
+      return {
+        ok: false,
+        stored: Boolean(data.stored),
+        notified: false,
+        reason: data.warning || "需求已保存 但 Email 通知尚未寄出 請改用 LINE 或 Email",
+      }
+    }
+    return { ok: true, stored: Boolean(data.stored), notified: true, mode: data.mode }
+  } catch (error) {
     saveLocalRequest(payload)
-    return { ok: true, mode: "local" }
+    return { ok: false, mode: "local", reason: error.message || "暫時無法送出 請改用 LINE 或 Email" }
   }
 }
 
