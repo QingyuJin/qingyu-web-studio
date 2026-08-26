@@ -47,6 +47,7 @@ const ContractorSite = lazy(() => import("./ContractorSite"))
 const WorkDetailPageAnalytics = lazy(() => import("./site/WorkDetailPageAnalytics"))
 const BeautyShoplinePreview = lazy(() => import("./beauty-shopline/BeautyShoplinePreview"))
 const WorkDetailPageXinjiang = lazy(() => import("./site/WorkDetailPageXinjiang"))
+const FlowOrderWorkPage = lazy(() => import("./site/FlowOrderWorkPage"))
 
 function PageFallback() {
   return (
@@ -111,6 +112,7 @@ function App() {
         <Route path="/demo/ai-customer-support/*" element={<DemoExperience slug="ai-tech"><MissionSystemDemo slug="ai-tech" /></DemoExperience>} />
         <Route path="/demo/luluface/*" element={<DemoExperience slug="luluface"><BeautyShoplinePreview /></DemoExperience>} />
         <Route path="/works" element={<ProjectHub />} />
+        <Route path="/works/floworder" element={<FlowOrderWorkPage />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
         <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />

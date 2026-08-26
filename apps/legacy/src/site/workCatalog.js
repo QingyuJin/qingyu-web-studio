@@ -15,6 +15,22 @@ const work = (item) => {
 
 export const workCatalog = [
   work({
+    slug: "floworder",
+    nature: "product",
+    title: "FlowOrder 智慧訂單中心",
+    section: "systems",
+    categories: ["Systems", "AI", "LINE"],
+    format: "Production Platform",
+    problem: "LINE 與文字訂單需要人工抄寫 商品價格 庫存與處理進度無法同步",
+    solution: "把訊息轉成可人工確認的正式訂單 庫存交易與完整稽核流程",
+    functions: ["Message Inbox", "AI Parsing", "Orders", "Inventory", "Audit Log"],
+    integrations: ["Supabase", "OpenAI", "PDF", "RBAC"],
+    casePath: "/works/floworder",
+    demoPath: "/works/floworder",
+    image: "/demo-covers/wholesale-ordering.svg",
+    featured: true,
+  }),
+  work({
     slug: "wholesale-ordering",
     nature: "product",
     title: "批發訂貨系統",

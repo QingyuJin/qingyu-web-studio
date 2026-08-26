@@ -2,11 +2,11 @@ import { ConflictException, ForbiddenException, Injectable, NotFoundException } 
 import type { InvitationInput } from "@qingyu/validation";
 import { SupabaseService } from "../supabase/supabase.service.js";
 
-type OrganizationRole = "admin" | "manager" | "staff" | "customer";
+type OrganizationRole = "admin" | "manager" | "staff" | "sales" | "customer";
 
 export function canInviteRole(actorRole: OrganizationRole, invitedRole: OrganizationRole): boolean {
   if (actorRole === "admin") return true;
-  return actorRole === "manager" && (invitedRole === "staff" || invitedRole === "customer");
+  return actorRole === "manager" && (["staff", "sales", "customer"] as const).includes(invitedRole as "staff" | "sales" | "customer");
 }
 
 @Injectable()

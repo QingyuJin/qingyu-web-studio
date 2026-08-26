@@ -9,10 +9,16 @@ import { HealthController } from "./health/health.controller.js";
 import { HealthService } from "./health/health.service.js";
 import { InvitationsController } from "./invitations/invitations.controller.js";
 import { InvitationsService } from "./invitations/invitations.service.js";
+import { FlowOrderAccessGuard } from "./floworder/floworder-access.guard.js";
+import { FlowOrderController, FlowOrderDemoController, FlowOrderSessionController } from "./floworder/floworder.controller.js";
+import { FlowOrderRepository } from "./floworder/floworder.repository.js";
+import { FlowOrderService } from "./floworder/floworder.service.js";
+import { OpenAiOrderParser } from "./floworder/openai-order-parser.js";
+import { ORDER_PARSER } from "./floworder/order-parser.js";
 import { SupabaseService } from "./supabase/supabase.service.js";
 
 @Module({
-  controllers: [HealthController, InvitationsController],
+  controllers: [HealthController, InvitationsController, FlowOrderDemoController, FlowOrderSessionController, FlowOrderController],
   providers: [
     apiEnvironmentProvider,
     StructuredLogger,
@@ -21,6 +27,11 @@ import { SupabaseService } from "./supabase/supabase.service.js";
     SupabaseAuthGuard,
     HealthService,
     InvitationsService,
+    FlowOrderRepository,
+    FlowOrderAccessGuard,
+    FlowOrderService,
+    OpenAiOrderParser,
+    { provide: ORDER_PARSER, useExisting: OpenAiOrderParser },
     { provide: APP_PIPE, useClass: ZodValidationPipe },
   ],
 })

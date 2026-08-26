@@ -6,6 +6,7 @@ declare global {
         userId: string;
         email: string | null;
       };
+      floworderAccess?: import("../floworder/floworder.types.js").FlowOrderAccess;
     }
   }
 }

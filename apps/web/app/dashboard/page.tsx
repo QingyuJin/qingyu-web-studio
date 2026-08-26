@@ -1,4 +1,5 @@
 import type { Metadata } from "next";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 import { parseOrganizationOptions, selectOrganization } from "@/lib/organizations";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
@@ -84,6 +85,12 @@ export default async function DashboardPage({ searchParams }: DashboardPageProps
               <div><dt className="text-slate-500">Organization ID</dt><dd className="mt-1 break-all font-mono">{selected.organizationId}</dd></div>
               <div><dt className="text-slate-500">Role</dt><dd className="mt-1 font-medium">{selected.role}</dd></div>
             </dl>
+            <Link
+              className="mt-7 inline-flex min-h-11 items-center rounded-lg bg-slate-950 px-5 text-sm font-semibold text-white"
+              href={`/works/floworder/app/${selected.role === "customer" ? "customer" : selected.role === "admin" || selected.role === "manager" ? "admin" : "sales"}?organization=${encodeURIComponent(selected.organizationId)}`}
+            >
+              開啟 FlowOrder
+            </Link>
           </div>
         ) : null}
       </section>

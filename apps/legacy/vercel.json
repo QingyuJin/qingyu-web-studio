@@ -48,6 +48,7 @@
     { "source": "/services", "destination": "/services/index.html" },
     { "source": "/seo-ads", "destination": "/seo-ads/index.html" },
     { "source": "/works", "destination": "/works/index.html" },
+    { "source": "/works/floworder", "destination": "/works/floworder/index.html" },
     { "source": "/pricing", "destination": "/pricing/index.html" },
     { "source": "/free-audit", "destination": "/free-audit/index.html" },
     { "source": "/contact", "destination": "/contact/index.html" },

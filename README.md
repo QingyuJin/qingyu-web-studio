@@ -16,3 +16,6 @@ pnpm dev:api
 
 See `docs/development.md` for local Supabase setup and the full verification
 workflow.
+
+FlowOrder architecture, operations, migrations, and deployment are documented
+in `docs/floworder.md`.

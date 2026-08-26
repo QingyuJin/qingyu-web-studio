@@ -7,6 +7,6 @@ export class InvitationDto implements InvitationInput {
   @ApiProperty({ format: "email" })
   declare email: string;
 
-  @ApiProperty({ enum: ["admin", "manager", "staff", "customer"] })
+  @ApiProperty({ enum: ["admin", "manager", "staff", "sales", "customer"] })
   declare role: InvitationInput["role"];
 }

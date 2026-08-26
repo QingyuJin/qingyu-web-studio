@@ -64,8 +64,8 @@ insert into public.invitations (organization_id, email, role_id, invited_by) val
 
 select is(
   (select count(*) from public.roles where organization_id = '20000000-0000-4000-8000-000000000001'),
-  4::bigint,
-  'each organization receives exactly four platform roles'
+  5::bigint,
+  'each organization receives exactly five platform roles'
 );
 select is(
   (
@@ -74,7 +74,7 @@ select is(
     join public.roles as r on r.id = rp.role_id and r.organization_id = rp.organization_id
     where r.organization_id = '20000000-0000-4000-8000-000000000001' and r.slug = 'admin'
   ),
-  5::bigint,
+  15::bigint,
   'admin receives every platform permission'
 );
 select is(
@@ -102,9 +102,9 @@ select ok(
   exists(select 1 from public.organizations where id = '20000000-0000-4000-8000-000000000001'),
   'admin sees the correct organization'
 );
-select is((select count(*) from public.roles), 4::bigint, 'roles from other tenants are hidden');
+select is((select count(*) from public.roles), 5::bigint, 'roles from other tenants are hidden');
 select is((select count(*) from public.profiles), 2::bigint, 'shared-organization profiles are visible without cross-tenant leakage');
-select is((select count(*) from public.permissions), 5::bigint, 'authenticated members can read the permission catalog');
+select is((select count(*) from public.permissions), 15::bigint, 'authenticated members can read the permission catalog');
 select is((select count(*) from public.audit_logs), 1::bigint, 'admin can read only own-tenant audit logs');
 select is((select count(*) from public.invitations), 1::bigint, 'admin can read own-tenant invitations');
 

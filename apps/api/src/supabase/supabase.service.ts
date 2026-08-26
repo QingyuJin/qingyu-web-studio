@@ -5,7 +5,7 @@ import { z } from "zod";
 import { API_ENVIRONMENT } from "../environment.js";
 
 const membershipRoleSchema = z.object({
-  role: z.object({ slug: z.enum(["admin", "manager", "staff", "customer"]) }),
+  role: z.object({ slug: z.enum(["admin", "manager", "staff", "sales", "customer"]) }),
 });
 
 const permissionRowsSchema = z.array(

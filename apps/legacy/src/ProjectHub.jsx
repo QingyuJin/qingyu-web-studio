@@ -5,7 +5,7 @@ import { workCatalog } from "./site/workCatalog"
 import { onepageTemplates } from "./onepage/onepageData"
 
 const bySlug = (slug) => workCatalog.find((item) => item.slug === slug)
-const systems = ["wholesale-ordering", "buildflow", "linebot", "rag-consultant"].map(bySlug).filter(Boolean)
+const systems = ["floworder", "wholesale-ordering", "buildflow", "linebot", "rag-consultant"].map(bySlug).filter(Boolean)
 const websites = ["luluface", "morie", "biomed-brand-site"].map(bySlug).filter(Boolean)
 const mainSlugs = ["xinjiang", ...systems.map((entry) => entry.slug), ...websites.map((entry) => entry.slug)]
 const experiments = workCatalog.filter((item) => !mainSlugs.includes(item.slug))
