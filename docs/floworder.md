@@ -51,6 +51,10 @@ supabase test db
   parse workflows.
 - `202608260004_floworder_order_changes_and_rate_limits.sql`: atomic order
   changes and shared database rate limiting.
+- `202608260005_fix_floworder_seed_interval.sql`: PostgreSQL 17-compatible
+  interval cast for sandbox history generation.
+- `202608260006_fix_floworder_seed_order_dates.sql`: PostgreSQL 17-compatible
+  date arithmetic for seeded historical orders.
 
 ## Environment variables
 

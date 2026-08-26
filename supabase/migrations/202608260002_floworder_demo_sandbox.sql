@@ -215,8 +215,8 @@ begin
     null,
     jsonb_build_object('sourceText', message.raw_text, 'importedHistory', true),
     jsonb_build_object('reviewed', true, 'importedHistory', true),
-    620 + message.ord * 31, now() - make_interval(hours => message.ord * 12),
-    now() - make_interval(hours => message.ord * 12) + interval '4 minutes'
+    620 + message.ord * 31, now() - make_interval(hours => (message.ord * 12)::integer),
+    now() - make_interval(hours => (message.ord * 12)::integer) + interval '4 minutes'
   from parsed_messages message;
 
   with order_source as materialized (
@@ -249,15 +249,15 @@ begin
       subtotal, discount_total, total, confirmed_at, created_at
     )
     select source.id, target_organization_id,
-      'FO-' || to_char(current_date - source.ord, 'YYYYMM') || '-' || lpad((900000 + source.ord)::text, 6, '0'),
+      'FO-' || to_char(current_date - source.ord::integer, 'YYYYMM') || '-' || lpad((900000 + source.ord)::text, 6, '0'),
       source.customer_id, source.sales_account_id, source.order_status,
       case when source.ord % 4 = 0 then 'unpaid' else 'paid' end,
       case when source.order_status = 'completed' then 'fulfilled' else 'shipped' end,
-      current_date - source.ord + 2,
+      current_date - source.ord::integer + 2,
       address.city || address.district || address.address_line,
       round(source.quantity * source.standard_price, 2), 0,
       round(source.quantity * source.standard_price, 2),
-      now() - make_interval(days => source.ord), now() - make_interval(days => source.ord)
+      now() - make_interval(days => source.ord::integer), now() - make_interval(days => source.ord::integer)
     from order_source source
     join lateral (
       select * from public.floworder_customer_addresses a
