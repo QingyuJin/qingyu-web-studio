@@ -44,6 +44,14 @@
     { "source": "/demo/ai-tech", "destination": "/demo/ai-customer-support", "permanent": false }
   ],
   "rewrites": [
+    {
+      "source": "/api/floworder/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/floworder/:path*"
+    },
+    {
+      "source": "/works/floworder/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/floworder/app/:path*"
+    },
     { "source": "/api/(.*)", "destination": "/api/$1" },
     { "source": "/services", "destination": "/services/index.html" },
     { "source": "/seo-ads", "destination": "/seo-ads/index.html" },

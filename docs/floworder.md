@@ -110,11 +110,17 @@ The critical production smoke test is:
 
 ## Deployment topology
 
-- `www.qingyuweb.com`: existing legacy Vercel project.
-- `floworder.qingyuweb.com`: Next.js FlowOrder application.
-- `floworder-api.qingyuweb.com`: NestJS API.
+- `www.qingyuweb.com`: existing legacy Vercel project and the only
+  browser-visible production origin.
+- `www.qingyuweb.com/works/floworder/app/*`: externally rewritten to the
+  `qingyu-floworder-web` Next.js project.
+- `www.qingyuweb.com/api/floworder/*`: externally rewritten to the same
+  Next.js BFF, which forwards server-to-server requests to the
+  `qingyu-floworder-api` NestJS project.
+- `qingyu-floworder-web.vercel.app`: stable internal Next.js deployment alias.
+- `qingyu-floworder-api.vercel.app`: stable internal API deployment alias.
 
-Deploy API first, set the web API URL, deploy web, set the legacy application
-URL, then deploy the existing QingyuWeb project. Preview deployments and the
-critical smoke test must pass before promoting the same artifacts to
-production.
+Deploy API first, set the web API URL to its stable alias, deploy web, set the
+legacy application URL to `https://www.qingyuweb.com`, then deploy the existing
+QingyuWeb project. Preview deployments and the critical smoke test must pass
+before promoting the same artifacts to production.

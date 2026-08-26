@@ -21,7 +21,7 @@ select has_function('public', 'floworder_consume_rate_limit', 'cross-instance ra
 select is((select count(*) from public.floworder_customer_tiers where organization_id = '30000000-0000-4000-8000-000000000001'), 4::bigint, 'four customer tiers are seeded');
 select is((select count(*) from public.floworder_sales_accounts where organization_id = '30000000-0000-4000-8000-000000000001'), 6::bigint, 'six sales accounts are seeded');
 select is((select count(*) from public.floworder_customers where organization_id = '30000000-0000-4000-8000-000000000001'), 42::bigint, 'more than forty realistic customers are seeded');
-select is((select count(*) from public.floworder_products where organization_id = '30000000-0000-4000-8000-000000000001'), 84::bigint, 'more than eighty SKUs are seeded');
+select is((select count(*) from public.floworder_products where organization_id = '30000000-0000-4000-8000-000000000001'), 86::bigint, 'more than eighty SKUs are seeded');
 select is((select count(*) from public.floworder_orders where organization_id = '30000000-0000-4000-8000-000000000001'), 18::bigint, 'historical orders are seeded');
 select ok((select count(*) from public.floworder_inventory_transactions where organization_id = '30000000-0000-4000-8000-000000000001') >= 102, 'opening and historical stock transactions are seeded');
 
