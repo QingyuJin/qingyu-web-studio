@@ -31,3 +31,12 @@ export interface OrderParser {
 
 export const ORDER_PARSER = Symbol("ORDER_PARSER");
 
+export const RULE_PARSER_INFO = {
+  kind: "rules",
+  provider: "rules",
+  model: "floworder-rules-v1",
+  available: true,
+  requiresApiKey: false,
+  // Older clients must not offer the paid-AI button during a rolling deploy.
+  openaiConfigured: false,
+} as const;

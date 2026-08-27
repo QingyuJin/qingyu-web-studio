@@ -3,6 +3,7 @@ import { Inject, Injectable } from "@nestjs/common";
 import type { ApiEnvironment } from "@qingyu/config/api";
 import { createClient, type SupabaseClient } from "@supabase/supabase-js";
 import { API_ENVIRONMENT } from "../environment.js";
+import { RULE_PARSER_INFO } from "./order-parser.js";
 import type { FlowOrderAccess } from "./floworder.types.js";
 
 interface DemoSandboxRecord {
@@ -269,10 +270,7 @@ export class FlowOrderRepository {
       orderItems: itemsResult.data ?? [],
       inventoryTransactions: transactionsResult.data ?? [],
       auditLogs: auditResult.data ?? [],
-      provider: {
-        openaiConfigured: Boolean(this.environment.OPENAI_API_KEY),
-        model: this.environment.OPENAI_MODEL,
-      },
+      provider: RULE_PARSER_INFO,
       generatedAt: new Date().toISOString(),
     };
   }

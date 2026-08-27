@@ -2,6 +2,7 @@
 
 import Link from "next/link";
 import { type FormEvent, useCallback, useEffect, useMemo, useState } from "react";
+import { prepareFlowOrderReview } from "@/lib/floworder-review";
 
 type FlowOrderRole = "customer" | "sales" | "admin";
 type WorkspaceView = "inbox" | "orders" | "inventory" | "audit";
@@ -129,7 +130,7 @@ interface Snapshot {
   orders: OrderRecord[];
   orderItems: OrderItem[];
   auditLogs: AuditLog[];
-  provider: { openaiConfigured: boolean; model: string };
+  provider: { kind?: string; available?: boolean; openaiConfigured?: boolean; model: string };
   generatedAt: string;
 }
 
@@ -357,7 +358,7 @@ function CustomerWorkspace(props: {
           value={text}
         />
         <div className="mt-4 flex items-center justify-between gap-4">
-          <p className="text-xs text-[#758079]">AI 只會整理內容，正式訂單仍需業務確認。</p>
+          <p className="text-xs text-[#758079]">使用免費規則整理商品與數量；正式訂單仍需業務確認。</p>
           <button className="min-h-12 shrink-0 rounded-full bg-[#173f37] px-6 text-sm font-semibold text-white disabled:opacity-50" disabled={pendingAction === "send-message"} type="submit">
             {pendingAction === "send-message" ? "送出中…" : "送出訂單訊息"}
           </button>
@@ -504,20 +505,20 @@ function InboxView(props: {
 
           <div className="flex flex-wrap items-center justify-between gap-3">
             <div>
-              <h3 className="font-semibold">訂單解析</h3>
+              <h3 className="font-semibold">免費規則解析</h3>
               <p className="mt-1 text-sm text-[#69746d]">
-                {snapshot.provider.openaiConfigured ? `已設定 OpenAI · ${snapshot.provider.model}` : "OpenAI 尚未設定；可先人工建單"}
+                {snapshot.provider.kind === "rules" && snapshot.provider.available ? "不呼叫付費 AI；商品不明、數量或單位不符時交由人工確認。" : "規則解析尚未啟用；可先人工填寫下方表單。"}
               </p>
             </div>
             {selected.status !== "converted" ? (
-              <button className="min-h-11 rounded-full bg-[#173f37] px-5 text-sm font-semibold text-white disabled:opacity-50" disabled={pendingAction !== null || !snapshot.provider.openaiConfigured} onClick={() => void runAction(`parse-${selected.id}`, async () => {
+              <button className="min-h-11 rounded-full bg-[#173f37] px-5 text-sm font-semibold text-white disabled:opacity-50" disabled={pendingAction !== null || snapshot.provider.kind !== "rules" || !snapshot.provider.available} onClick={() => void runAction(`parse-${selected.id}`, async () => {
                 const result = await api<{ configured: boolean; status?: string }>(`organizations/${organizationId}/floworder/messages/${selected.id}/parse`, role, { method: "POST" });
-                return result.configured ? "AI 解析已完成，請確認內容" : "AI 尚未設定，未產生解析結果";
-              })} type="button">{pendingAction === `parse-${selected.id}` ? "解析中…" : "使用 AI 解析"}</button>
+                return result.configured ? "規則解析已完成，請核對原文與待確認項目" : "解析尚未啟用，請改用人工填寫";
+              })} type="button">{pendingAction === `parse-${selected.id}` ? "整理中…" : "使用規則解析（免 AI 費用）"}</button>
             ) : null}
           </div>
 
-          {parse ? <ParseSummary parse={parse} /> : null}
+          {parse ? <ParseSummary parse={parse} products={snapshot.products} /> : null}
           {selected.status !== "converted" ? (
             <OrderReviewForm
               address={address}
@@ -537,12 +538,14 @@ function InboxView(props: {
   );
 }
 
-function ParseSummary({ parse }: { parse: ParseRecord }) {
-  if (parse.status === "not_configured") return <Alert tone="warning">AI provider 尚未設定，這次沒有產生 AI 結果。</Alert>;
-  if (parse.status === "failed") return <Alert tone="error">AI 解析失敗，沒有建立訂單；請稍後重試或改用人工輸入。</Alert>;
+function ParseSummary({ parse, products }: { parse: ParseRecord; products: Product[] }) {
+  if (parse.status === "not_configured") return <Alert tone="warning">這筆歷史解析未完成設定；可重新使用規則解析或人工填寫。</Alert>;
+  if (parse.status === "failed") return <Alert tone="error">這筆解析失敗，沒有建立訂單；可重新使用規則解析或改用人工輸入。</Alert>;
+  const review = prepareFlowOrderReview(parse.structured_result?.items ?? [], products);
   return (
     <div className="mt-5 rounded-2xl border border-[#dfe4df] p-4">
-      <div className="flex justify-between gap-3"><p className="text-sm font-semibold">{parse.status === "needs_review" ? "需要人工核對" : "解析完成"}</p><p className="text-xs text-[#647069]">信心 {Math.round(Number(parse.confidence ?? 0) * 100)}%</p></div>
+      <div className="flex justify-between gap-3"><p className="text-sm font-semibold">{parse.provider === "rules" ? "規則整理完成，請人工核對" : "歷史解析結果，請人工核對"}</p><p className="text-xs text-[#647069]">已安全帶入 {review.items.length} 項</p></div>
+      {review.unresolved.length ? <div className="mt-3 rounded-xl bg-[#fff5df] p-3 text-sm text-[#845d20]"><p className="font-semibold">以下 {review.unresolved.length} 項未帶入表單，請依原文新增或修正，避免漏單：</p><ul className="mt-2 list-disc space-y-1 pl-5">{review.unresolved.map((item, index) => <li key={index}>{item.productName}：{item.issue}</li>)}</ul></div> : null}
       {parse.structured_result?.issues?.length ? <ul className="mt-3 list-disc space-y-1 pl-5 text-sm text-[#9a5d23]">{parse.structured_result.issues.map((issue) => <li key={issue}>{issue}</li>)}</ul> : null}
     </div>
   );
@@ -556,17 +559,19 @@ function OrderReviewForm(props: {
   products: Product[];
 }) {
   const { address, onConfirm, parse, pending, products } = props;
-  const initialItems = (parse?.structured_result?.items ?? [])
-    .filter((item) => item.productId && item.quantity)
-    .map((item) => ({ productId: item.productId as string, quantity: Number(item.quantity), unit: item.unit ?? "箱" }));
+  const review = prepareFlowOrderReview(parse?.structured_result?.items ?? [], products);
+  const initialItems = review.items;
   const [items, setItems] = useState(initialItems.length ? initialItems : [{ productId: "", quantity: 1, unit: "箱" }]);
   const [deliveryDate, setDeliveryDate] = useState(parse?.structured_result?.deliveryDate ?? "");
   const defaultAddress = address ? `${address.city}${address.district}${address.address_line}` : "";
   const [deliveryAddress, setDeliveryAddress] = useState(parse?.structured_result?.deliveryAddress ?? defaultAddress);
   const [notes, setNotes] = useState(parse?.structured_result?.notes ?? "");
+  const requiresReview = parse?.provider === "rules" || Boolean(parse?.structured_result?.needsReview) || review.unresolved.length > 0;
+  const [reviewed, setReviewed] = useState(false);
 
   function submit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
+    if (requiresReview && !reviewed) return;
     const validItems = items.filter((item) => item.productId && item.quantity > 0);
     if (!validItems.length || !deliveryAddress.trim()) return;
     void onConfirm({ items: validItems, deliveryDate: deliveryDate || null, deliveryAddress: deliveryAddress.trim(), notes: notes.trim() || null });
@@ -592,7 +597,8 @@ function OrderReviewForm(props: {
         <label className="text-sm font-semibold sm:col-span-2">配送地址<input className="mt-2 min-h-11 w-full rounded-lg border border-[#d7ddd7] px-3 font-normal" onChange={(event) => setDeliveryAddress(event.target.value)} required value={deliveryAddress} /></label>
         <label className="text-sm font-semibold sm:col-span-2">備註<textarea className="mt-2 min-h-20 w-full rounded-lg border border-[#d7ddd7] p-3 font-normal" onChange={(event) => setNotes(event.target.value)} value={notes} /></label>
       </div>
-      <button className="mt-5 min-h-12 w-full rounded-full bg-[#173f37] px-6 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto" disabled={pending} type="submit">{pending ? "建立中…" : "確認並建立正式訂單"}</button>
+      {requiresReview ? <label className="mt-5 flex items-start gap-3 rounded-xl bg-[#edf5f2] p-4 text-sm leading-6"><input className="mt-1 size-4 shrink-0" checked={reviewed} onChange={(event) => setReviewed(event.target.checked)} required type="checkbox" /><span>我已核對原始訊息、待確認項目、商品數量與配送資訊。確認建單後才會扣庫存。</span></label> : null}
+      <button className="mt-5 min-h-12 w-full rounded-full bg-[#173f37] px-6 text-sm font-semibold text-white disabled:opacity-50 sm:w-auto" disabled={pending || (requiresReview && !reviewed)} type="submit">{pending ? "建立中…" : "確認並建立正式訂單"}</button>
     </form>
   );
 }

@@ -16,7 +16,7 @@ import type {
   FlowOrderModificationInput,
 } from "@qingyu/validation";
 import type { OrderParser } from "./order-parser.js";
-import { ORDER_PARSER } from "./order-parser.js";
+import { ORDER_PARSER, RULE_PARSER_INFO } from "./order-parser.js";
 import { buildFlowOrderPdf } from "./floworder.pdf.js";
 import { FlowOrderRepository } from "./floworder.repository.js";
 import type { FlowOrderAccess } from "./floworder.types.js";
@@ -69,7 +69,7 @@ export class FlowOrderService {
 
   async parseMessage(access: FlowOrderAccess, messageId: string) {
     this.requireOperationalRole(access);
-    await this.enforceAccessRateLimit(access, "ai_parse", 20, 60);
+    await this.enforceAccessRateLimit(access, "message_parse", 20, 60);
     const context = await this.repository.getMessageContext(access, messageId);
     if (!context) throw this.notFound("MESSAGE_NOT_FOUND", "Message not found");
 
@@ -118,17 +118,17 @@ export class FlowOrderService {
       return { ...parserResponse, parseId: (recorded as Record<string, unknown>).parseId, status };
     } catch {
       await this.repository.recordParse(access, messageId, {
-        provider: "openai",
-        model: "configured-provider",
+        provider: RULE_PARSER_INFO.provider,
+        model: RULE_PARSER_INFO.model,
         status: "failed",
         confidence: null,
         result: null,
-        errorCode: "AI_PROVIDER_FAILURE",
+        errorCode: "ORDER_PARSER_FAILURE",
         durationMs: 0,
       });
       throw new BadGatewayException({
-        code: "AI_PROVIDER_FAILURE",
-        message: "The AI provider could not parse this message. No order was created.",
+        code: "ORDER_PARSER_FAILURE",
+        message: "規則解析暫時無法完成，請改用人工填寫。沒有建立訂單或更動庫存。",
       });
     }
   }

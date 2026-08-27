@@ -12,8 +12,8 @@ remain isolated Platform v2 services.
 - `apps/web`: Next.js application for customer, sales, and admin workflows. Its
   same-origin `/api/floworder/*` route is the browser-facing BFF and keeps the
   demo token in an HTTP-only cookie.
-- `apps/api`: NestJS API, server-side authentication/RBAC enforcement, OpenAI
-  provider abstraction, PDF generation, and repository access with the
+- `apps/api`: NestJS API, server-side authentication/RBAC enforcement, local
+  rule-based parsing, PDF generation, and repository access with the
   Supabase service role.
 - `supabase`: PostgreSQL schema, RLS, transactional business functions,
   database-backed demo tenants, and pgTAP tests.
@@ -77,8 +77,8 @@ API (server-only except the publishable key):
 - `SUPABASE_PUBLISHABLE_KEY`
 - `SUPABASE_SERVICE_ROLE_KEY`
 - `WEB_ORIGIN`
-- `OPENAI_API_KEY` (optional; the UI reports `尚未設定` when absent)
-- `OPENAI_MODEL` (defaults to `gpt-5.4-mini`)
+- `OPENAI_API_KEY` (legacy optional configuration; not used by FlowOrder rules)
+- `OPENAI_MODEL` (legacy optional configuration; not used by FlowOrder rules)
 - `FLOWORDER_DEMO_TTL_MINUTES`
 - `LOG_LEVEL`
 - `NODE_ENV`
@@ -109,7 +109,7 @@ audit records.
 The critical production smoke test is:
 
 1. Customer submits a message.
-2. Sales sees the persisted message, invokes the configured AI provider, edits
+2. Sales sees the persisted message, invokes the local rule parser, edits
    the structured result, and confirms it.
 3. Admin sees the order, inventory transactions, and audit records.
 4. Refresh all three views and confirm the records remain.
@@ -134,3 +134,26 @@ Deploy API first, set the web API URL to its stable alias, deploy web, set the
 legacy application URL to `https://www.qingyuweb.com`, then deploy the existing
 QingyuWeb project. Preview deployments and the critical smoke test must pass
 before promoting the same artifacts to production.
+
+## Default parser: rules, no paid AI
+
+FlowOrder binds `ORDER_PARSER` to `RuleBasedOrderParser`, regardless of whether
+an OpenAI key remains in the environment. No model provider is contacted and
+there is no automatic paid fallback. The original OpenAI adapter is retained
+as unused source for future explicit integration, not registered at runtime.
+
+Rules recognize exact SKUs, full catalog names and unique partial names,
+Arabic/full-width/Chinese quantities with explicit units, ISO/Chinese dates,
+current-year month/day dates, today/tomorrow, and explicitly named this/next
+week weekdays in Asia/Taipei. Invalid/past/multiple dates, bare weekdays,
+unknown/ambiguous products, duplicate items, unit mismatches and cancellation,
+correction or range statements require manual handling. No unit conversion,
+silent duplicate summing, or automatic order confirmation occurs.
+
+Results keep the existing `floworder_ai_parses` table and audit workflow for
+compatibility, with `provider=rules`, `model=floworder-rules-v1` and
+`status=needs_review`. No schema migration is needed. Rule match scores are
+not shown as AI confidence probabilities. The UI lists unresolved items,
+prefills only safe catalog-backed lines, and requires review acknowledgement
+before the existing confirmation action. Parsing only saves a result; it does
+not invoke order or inventory mutations. Hosting/database costs remain separate.

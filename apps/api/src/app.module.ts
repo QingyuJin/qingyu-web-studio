@@ -13,7 +13,7 @@ import { FlowOrderAccessGuard } from "./floworder/floworder-access.guard.js";
 import { FlowOrderController, FlowOrderDemoController, FlowOrderSessionController } from "./floworder/floworder.controller.js";
 import { FlowOrderRepository } from "./floworder/floworder.repository.js";
 import { FlowOrderService } from "./floworder/floworder.service.js";
-import { OpenAiOrderParser } from "./floworder/openai-order-parser.js";
+import { RuleBasedOrderParser } from "./floworder/rule-order-parser.js";
 import { ORDER_PARSER } from "./floworder/order-parser.js";
 import { SupabaseService } from "./supabase/supabase.service.js";
 
@@ -30,8 +30,8 @@ import { SupabaseService } from "./supabase/supabase.service.js";
     FlowOrderRepository,
     FlowOrderAccessGuard,
     FlowOrderService,
-    OpenAiOrderParser,
-    { provide: ORDER_PARSER, useExisting: OpenAiOrderParser },
+    RuleBasedOrderParser,
+    { provide: ORDER_PARSER, useExisting: RuleBasedOrderParser },
     { provide: APP_PIPE, useClass: ZodValidationPipe },
   ],
 })

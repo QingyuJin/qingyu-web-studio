@@ -4,6 +4,7 @@ import type { OrderParser } from "./order-parser.js";
 import type { FlowOrderRepository } from "./floworder.repository.js";
 import { FlowOrderService } from "./floworder.service.js";
 import type { FlowOrderAccess } from "./floworder.types.js";
+import { RuleBasedOrderParser } from "./rule-order-parser.js";
 
 const customerAccess: FlowOrderAccess = {
   kind: "demo",
@@ -38,6 +39,38 @@ function serviceWith(repository: Partial<FlowOrderRepository>, parser?: OrderPar
 }
 
 describe("FlowOrderService", () => {
+  it("persists a real rule result without invoking order or stock mutation workflows", async () => {
+    const recordParse = vi.fn().mockResolvedValue({ parseId: "rules-parse", status: "needs_review" });
+    const confirmOrder = vi.fn();
+    const modifyOrder = vi.fn();
+    const cancelOrder = vi.fn();
+    const service = serviceWith({
+      getMessageContext: vi.fn().mockResolvedValue({
+        message: { raw_text: "CHKN-001 2箱" }, customer: { name: "測試餐廳" }, addresses: [],
+        products: [{ id: "60000000-0000-4000-8000-000000000001", sku: "CHKN-001", name: "雞腿排", specification: "10kg/箱", unit: "箱" }],
+      }), recordParse, confirmOrder, modifyOrder, cancelOrder,
+    }, new RuleBasedOrderParser());
+    const result = await service.parseMessage(salesAccess, "50000000-0000-4000-8000-000000000001");
+    expect(result).toMatchObject({ configured: true, provider: "rules", parseId: "rules-parse", status: "needs_review" });
+    expect(recordParse).toHaveBeenCalledWith(salesAccess, expect.any(String), expect.objectContaining({ provider: "rules", model: "floworder-rules-v1", status: "needs_review", result: expect.objectContaining({ needsReview: true }) }));
+    expect(confirmOrder).not.toHaveBeenCalled();
+    expect(modifyOrder).not.toHaveBeenCalled();
+    expect(cancelOrder).not.toHaveBeenCalled();
+  });
+
+  it("does not allow customers to start parsing", async () => {
+    const parse = vi.fn();
+    await expect(serviceWith({}, { parse }).parseMessage(customerAccess, "message-id")).rejects.toBeInstanceOf(ForbiddenException);
+    expect(parse).not.toHaveBeenCalled();
+  });
+
+  it("records rule failures without misreporting a paid provider", async () => {
+    const recordParse = vi.fn().mockResolvedValue({ parseId: "failed-parse" });
+    const service = serviceWith({ getMessageContext: vi.fn().mockResolvedValue({ message: { raw_text: "test" }, customer: null, addresses: [], products: [] }), recordParse }, { parse: vi.fn().mockRejectedValue(new Error("test failure")) });
+    await expect(service.parseMessage(salesAccess, "message-id")).rejects.toMatchObject({ response: expect.objectContaining({ code: "ORDER_PARSER_FAILURE" }) });
+    expect(recordParse).toHaveBeenCalledWith(salesAccess, "message-id", expect.objectContaining({ provider: "rules", status: "failed", errorCode: "ORDER_PARSER_FAILURE" }));
+  });
+
   it("allows a customer to persist a message only through the repository workflow", async () => {
     const createMessage = vi.fn().mockResolvedValue({ messageId: "message-id", status: "unread" });
     const service = serviceWith({ createMessage });
