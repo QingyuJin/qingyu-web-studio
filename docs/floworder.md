@@ -64,6 +64,13 @@ Web (browser-safe):
 - `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`
 - `NEXT_PUBLIC_API_URL`
 
+Web (server-only configuration):
+
+- `FLOWORDER_PUBLIC_ORIGIN`: trusted public browser origin, set to
+  `https://www.qingyuweb.com` in production. This is the only additional
+  origin accepted for mutation requests behind the cross-project rewrite;
+  forwarded host headers are not trusted for CSRF validation.
+
 API (server-only except the publishable key):
 
 - `SUPABASE_URL`
@@ -117,6 +124,9 @@ The critical production smoke test is:
 - `www.qingyuweb.com/api/floworder/*`: externally rewritten to the same
   Next.js BFF, which forwards server-to-server requests to the
   `qingyu-floworder-api` NestJS project.
+- `www.qingyuweb.com/_next/static/*`: forwarded to the Next.js project so
+  application scripts, styles, and fonts remain same-origin. The application
+  route uses the Next.js CSP rather than the legacy Vite page's CSP.
 - `qingyu-floworder-web.vercel.app`: stable internal Next.js deployment alias.
 - `qingyu-floworder-api.vercel.app`: stable internal API deployment alias.
 

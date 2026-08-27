@@ -2,6 +2,7 @@ import { NextResponse } from "next/server";
 import type { NextRequest } from "next/server";
 import { z } from "zod";
 import { getWebEnvironment } from "@/lib/env";
+import { isAllowedFlowOrderOrigin } from "@/lib/floworder-origin";
 import { createServerSupabaseClient } from "@/lib/supabase/server";
 
 const tokenCookie = "floworder_demo_token";
@@ -9,9 +10,11 @@ const organizationCookie = "floworder_demo_organization";
 const flowOrderRoleSchema = z.enum(["customer", "sales", "admin"]);
 
 function sameOrigin(request: NextRequest): boolean {
-  const origin = request.headers.get("origin");
-  if (!origin) return true;
-  return origin === request.nextUrl.origin;
+  return isAllowedFlowOrderOrigin(
+    request.headers.get("origin"),
+    request.nextUrl.origin,
+    process.env.FLOWORDER_PUBLIC_ORIGIN,
+  );
 }
 
 async function proxyRequest(request: NextRequest, path: string[]) {
