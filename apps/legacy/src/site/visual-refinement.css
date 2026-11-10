@@ -1,0 +1,139 @@
+/* V2 refinement stays inside the studio; independent product demos retain their design. */
+.qy-studio {
+  --qy-paper: #f6f8f5;
+  --qy-cream: #edf2ee;
+  --qy-sage: #e5eeea;
+  --qy-ink: #18282b;
+  --qy-muted: #52685e;
+  --qy-accent: #287565;
+  --qy-line: #d6e2dc;
+  --qy-radius: 18px;
+}
+body:has(.qy-studio) { background: #f6f8f5; }
+.qy-studio .qy-page :is(h1, h2) { font-family: "Noto Sans TC", "Microsoft JhengHei", system-ui, sans-serif; font-weight: 700; letter-spacing: -.045em; }
+.qy-studio .qy-page h3 { font-weight: 650; }
+.qy-studio .qy-kicker { font-weight: 650; letter-spacing: .14em; }
+.qy-studio .qy-button { background: #193e36; border-color: #193e36; border-radius: 10px; min-height: 52px; font-weight: 650; }
+.qy-studio .qy-button:hover { background: #29594d; }
+.qy-header { background: rgba(246, 248, 245, .98); }
+.qy-header-inner { height: 82px; }
+.qy-work-footnote { display: flex; align-items: baseline; justify-content: space-between; flex-wrap: wrap; gap: 8px 24px; margin-top: 24px; }
+.qy-work-footnote .qy-proof-note { margin: 0; }
+.qy-filter-compact { display: none; }
+@media (max-width: 640px) {
+  .qy-page-hero .qy-filters { display: none; }
+  .qy-filter-compact { display: flex; flex-wrap: wrap; align-items: end; gap: 6px 18px; margin-top: 24px; }
+  .qy-filter-compact label { min-width: 0; flex: 1 1 130px; }
+  .qy-filter-compact label span { display: block; margin-bottom: 4px; color: var(--qy-muted); font-size: .8rem; }
+  .qy-filter-compact select { width: 100%; min-height: 44px; padding: 0 8px; color: var(--qy-ink); background: var(--qy-paper); border: 1px solid var(--qy-line); border-radius: 6px; font-size: 1rem; }
+  .qy-filter-compact .qy-text-link { min-height: 44px; align-items: center; font-size: .875rem; }
+}
+.qy-home .qy-hero { padding-top: 70px; }
+.qy-studio .qy-home .qy-hero h1 { font-size: clamp(2.15rem, 4vw, 3.6rem); line-height: 1.4; margin-block: 26px; }
+.qy-home .qy-hero-copy .qy-kicker { display: inline-block; border: 1px solid #bfd9ce; background: #eef6f0; border-radius: 999px; padding: 6px 13px; font-size: 11px; }
+.qy-home .qy-hero-copy .qy-actions { gap: 14px; }
+.qy-home .qy-hero-copy .qy-text-link { border: 1px solid #b9cec3; border-radius: 10px; padding: 12px 23px; min-height: 52px; font-weight: 600; }
+.qy-home .qy-hero-copy .qy-text-link:hover { background: #edf3ee; }
+.qy-home .qy-composition { transform: scale(.94); transform-origin: center; }
+.qy-home .qy-hero-foot { padding-block: 24px; }
+.qy-home-services { background: #fff; padding-block: 54px; margin-top: 40px; }
+.qy-solution-grid { border: 0; gap: 16px; }
+.qy-solution-card, .qy-solution-card:first-child, .qy-solution-card:nth-child(3), .qy-solution-card:nth-child(-n+2) { border: 1px solid var(--qy-line); border-radius: 18px; background: #fff; padding: 25px 22px; }
+.qy-solution-card:hover { border-color: var(--qy-accent); background: #f5f9f5; }
+.qy-solution-icon { color: var(--qy-accent); font-size: 28px; line-height: 1.3; display: inline-block; }
+.qy-solution-card h3 { margin: 22px 0 10px; }
+.qy-solution-arrow { top: auto; bottom: 21px; opacity: 0; }
+.qy-solution-card:is(:hover, :focus-visible) .qy-solution-arrow { opacity: 1; }
+.qy-studio .qy-section-intro { gap: 24px; }
+.qy-work-card { border: 1px solid var(--qy-line); border-radius: 20px; overflow: hidden; background: #fff; }
+.qy-work-image { order: -1; border-radius: 0; background: #edf2ee; }
+.qy-work-image img { transition: none; }
+.qy-work-copy { margin: 0; padding: 25px 24px 20px; }
+.qy-studio .qy-work-copy h3 { font-size: 25px; margin-block: 12px; }
+.qy-work-copy .qy-meta > span { display: none; }
+.qy-work-question { font-size: 14px; color: var(--qy-muted); }
+.qy-studio .qy-work-answer { font-size: 15px; }
+.qy-work-bottom { margin: auto 24px 0; padding: 18px 0; border-top: 1px solid var(--qy-line); gap: 14px; }
+.qy-studio .qy-proof-note { margin-top: 22px; font-size: 13px; color: var(--qy-muted); }
+.qy-package-grid { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 22px; margin-bottom: 72px; }
+.qy-package-card { display: flex; flex-direction: column; min-width: 0; padding: 28px; background: #fff; border: 1px solid var(--qy-line); border-radius: 20px; }
+.qy-package-art { display: flex; align-items: center; justify-content: center; background: #edf4ef; color: #377a66; border-radius: 12px; margin: 28px 0; padding: 20px; }
+.qy-package-art svg { display: block; width: 100%; max-width: 210px; height: 82px; }
+.qy-package-art-1 { background: #eef0e9; }
+.qy-package-art-2 { background: #eaf2f0; }
+.qy-studio .qy-package-card h3 { font-size: 24px; margin-bottom: 16px; }
+.qy-package-card > p:not(.qy-kicker) { font-size: 15px; color: var(--qy-muted); margin-bottom: 30px; }
+.qy-package-bottom { display: flex; align-items: center; flex-wrap: wrap; gap: 8px 20px; justify-content: space-between; border-top: 1px solid var(--qy-line); margin-top: auto; padding-top: 17px; font-size: 13px; }
+.qy-package-bottom .qy-text-link { font-size: 14px; border: 0; }
+.qy-page-hero > .qy-button { margin-top: 28px; }
+.qy-updates-story { background: #fff; border: 1px solid var(--qy-line); border-radius: 18px; margin-bottom: 20px; }
+.qy-estimate-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.qy-estimate-card { padding: 30px; background: #fff; border: 1px solid var(--qy-line); border-radius: 18px; }
+.qy-studio .qy-estimate-card h2 { font-size: 25px; margin: 14px 0; }
+.qy-estimate-card p { color: var(--qy-muted); }
+.qy-estimate-scope { margin-top: 25px; padding-top: 20px; border-top: 1px solid var(--qy-line); }
+.qy-studio .qy-estimate-scope h3 { font-size: 14px; margin-bottom: 8px; }
+.qy-estimate-card .qy-text-link { margin-top: 20px; }
+.qy-estimate-factors { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; list-style: none; padding: 0; margin: 30px 0; }
+.qy-estimate-factors li { background: #fff; border: 1px solid var(--qy-line); border-radius: 12px; padding: 18px; }
+.qy-estimate-rules { padding-left: 20px; line-height: 2.2; color: var(--qy-muted); }
+.qy-contact { padding-block: 70px 85px; }
+.qy-contact-grid { grid-template-columns: .9fr 1.1fr; grid-template-areas: "intro form" "other form"; grid-template-rows: auto 1fr; gap: 28px 70px; }
+.qy-contact-grid > div:first-child { grid-area: intro; }
+.qy-contact-form { grid-area: form; background: #fff; border: 1px solid var(--qy-line); border-radius: 20px; padding: 30px; display: flex; flex-direction: column; }
+.qy-contact-channels { grid-area: other; color: var(--qy-muted); }
+.qy-studio .qy-contact h1 { font-size: clamp(2.25rem, 4vw, 3.5rem); line-height: 1.35; margin: 22px 0 26px; }
+.qy-contact .qy-contact-intro { font-size: 17px; max-width: 26em; }
+.qy-studio .qy-field > span { font-size: 14px; font-weight: 600; }
+.qy-studio .qy-field :is(input, select, textarea) { border-radius: 10px; border: 1px solid #cbdad1; background: #fafcf9; font-size: 16px; min-height: 52px; }
+.qy-studio .qy-field textarea { min-height: 144px; resize: vertical; }
+.qy-inquiry-fields { order: 0; }
+.qy-contact-form > .qy-form-notice { order: 1; }
+.qy-contact-form > .qy-button { order: 2; margin-top: 22px; width: 100%; justify-content: space-between; padding-inline: 22px; }
+.qy-studio .qy-inquiry-privacy { order: 3; font-size: 12px; line-height: 1.8; margin-bottom: 0; }
+.qy-contact-optional { border-top: 1px solid var(--qy-line); margin-top: 22px; padding-top: 12px; }
+.qy-studio .qy-line-fallback { display: flex; justify-content: center; width: 100%; margin-top: 16px; background: transparent; color: #214b40; border-color: #b9cec3; }
+.qy-studio .qy-line-fallback:hover { background: #edf3ee; }
+.qy-contact-channels .qy-direct-contact { font-size: 13px; }
+.qy-service-story, .qy-updates-story { scroll-margin-top: 100px; }
+@media (min-width: 1000px) { .qy-home-work-grid .qy-work-copy { min-height: 235px; } }
+@media (max-width: 900px) {
+  .qy-package-grid { grid-template-columns: 1fr; }
+  .qy-package-card { padding: 26px; }
+  .qy-package-art { margin-block: 20px; }
+  .qy-contact-grid { grid-template-columns: 1fr; grid-template-areas: "intro" "form" "other"; grid-template-rows: auto; gap: 28px; }
+  .qy-contact-channels { text-align: center; }
+}
+@media (max-width: 560px) {
+  .qy-header-inner { height: 74px; }
+  .qy-home .qy-hero { padding-top: 40px; }
+  .qy-home .qy-hero-copy { padding-bottom: 34px; }
+  .qy-home .qy-composition, .qy-home .qy-hero-foot { display: none; }
+  .qy-studio .qy-home .qy-hero h1 { font-size: clamp(1.8rem, 7.6vw, 2.2rem); line-height: 1.45; margin-block: 25px; }
+  .qy-home .qy-hero-copy .qy-kicker { font-size: 10px; padding: 5px 10px; letter-spacing: .06em; }
+  .qy-home .qy-hero-copy .qy-lead { font-size: 16px; line-height: 1.9; }
+  .qy-home .qy-hero-copy .qy-actions { flex-wrap: nowrap; gap: 12px; margin-top: 26px; }
+  .qy-home .qy-hero-copy .qy-actions > a { flex: 1; min-width: 0; padding: 12px 13px; gap: 12px; justify-content: center; font-size: 14px; }
+  .qy-home .qy-reassurance { font-size: 12px; margin-top: 17px; }
+  .qy-home-services { margin-top: 0; padding-block: 38px; }
+  .qy-home-services .qy-section-intro { margin-bottom: 24px; }
+  .qy-studio .qy-home-services h2 { font-size: 23px; }
+  .qy-home-services .qy-section-intro > .qy-text-link { display: none; }
+  .qy-solution-grid { gap: 12px; }
+  .qy-solution-card, .qy-solution-card:first-child, .qy-solution-card:nth-child(3), .qy-solution-card:nth-child(-n+2) { padding: 21px 17px; min-height: 180px; }
+  .qy-solution-card h3 { font-size: 19px; margin: 17px 0 9px; }
+  .qy-solution-card p { font-size: 13px; line-height: 1.85; }
+  .qy-solution-icon { font-size: 25px; }
+  .qy-work-grid { gap: 28px; }
+  .qy-work-copy { padding: 22px 21px; }
+  .qy-work-bottom { margin-inline: 21px; }
+  .qy-studio .qy-work-copy h3 { font-size: 20px; line-height: 1.45; }
+  .qy-estimate-grid, .qy-estimate-factors { grid-template-columns: 1fr; }
+  .qy-estimate-card { padding: 24px; }
+  .qy-contact { padding-block: 40px 60px; }
+  .qy-studio .qy-contact h1 { font-size: 35px; margin-block: 18px 22px; }
+  .qy-contact .qy-contact-intro { font-size: 16px; }
+  .qy-contact-form { padding: 24px 20px; }
+  .qy-contact-form .qy-form-grid { gap: 22px; }
+  .qy-studio .qy-inquiry-privacy { font-size: 11px; }
+}

@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 800" role="img" aria-labelledby="title desc">
+  <title id="title">Watchtower 商業監控與異動通知</title><desc id="desc">安靜的白色工作區，以價格、庫存與公告為主的產品封面</desc>
+  <rect width="1200" height="800" fill="#e9e9e1"/><rect x="80" y="70" width="1040" height="660" rx="18" fill="#fcfcf8"/>
+  <path d="M310 70v660" stroke="#e1e3d8"/><g fill="#28382e" font-family="Arial, sans-serif"><text x="118" y="131" font-size="27" font-weight="700">Watchtower</text><text x="360" y="138" font-size="20" letter-spacing="4">BUSINESS MONITORING</text><text x="360" y="244" font-size="74" font-weight="600">今天</text></g>
+  <g font-family="Arial, sans-serif" font-size="22" fill="#697168"><text x="119" y="250">今天</text><text x="119" y="307">監控</text><text x="119" y="364">歷史</text><text x="360" y="302">不用一直看。有變化再通知你。</text></g>
+  <g stroke="#e2e5dc"><path d="M360 350h700M360 460h700M360 570h700"/></g>
+  <g font-family="Arial, sans-serif" font-size="26" fill="#253c2d"><text x="365" y="414">價格變了</text><text x="365" y="524">新東西出現</text><text x="365" y="634">歷史留著</text></g>
+  <g font-family="Arial, sans-serif" font-size="20" fill="#81877c" text-anchor="end"><text x="1050" y="414">PRICE</text><text x="1050" y="524">UPDATES</text><text x="1050" y="634">HISTORY</text></g>
+</svg>

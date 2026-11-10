@@ -27,7 +27,7 @@ export function Projects() {
             </div>
             <div className="absolute inset-x-0 bottom-0 bg-[linear-gradient(180deg,rgba(17,16,14,0),rgba(17,16,14,0.9))] p-6 pt-20 md:p-8">
               <p className="text-xs font-black tracking-[0.2em] text-[#ffd45a]">{featured.type}</p>
-              <h3 className="font-kai mt-2 text-3xl font-bold md:text-4xl">{featured.title}</h3>
+              <h3 className="font-kai mt-2 text-2xl font-bold md:text-3xl">{featured.title}</h3>
               <p className="mt-2 max-w-xl text-sm font-semibold leading-7 text-white/78">{featured.content}</p>
               <div className="mt-4 flex flex-wrap gap-2">
                 {featured.tags.map((tag) => (
@@ -56,7 +56,7 @@ export function Projects() {
           <div className="flex items-end justify-between gap-4">
             <div>
               <p className="text-xs font-black uppercase tracking-[0.24em] text-[#d7b45c]">On Site</p>
-              <h3 className="font-kai mt-2 text-3xl font-bold md:text-4xl">現場實況</h3>
+              <h3 className="font-kai mt-2 text-2xl font-bold md:text-3xl">現場實況</h3>
             </div>
             <p className="hidden max-w-sm text-sm font-semibold leading-6 text-white/55 md:block">
               好看的完工照背後，是每天現場的基本功。

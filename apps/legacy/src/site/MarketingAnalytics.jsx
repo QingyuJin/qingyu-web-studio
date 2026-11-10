@@ -32,11 +32,18 @@ function MarketingAnalytics() {
     function handleClick(event) {
       const element = event.target.closest?.("[data-track]")
       if (!element) return
+      if (element.dataset.track === "portfolio") {
+        if (hasMarketingTags) trackEvent("click_portfolio", { work_slug: element.dataset.work })
+        return
+      }
       trackEvent(element.dataset.track, {
         link_text: element.textContent?.trim().slice(0, 80),
         link_url: element.getAttribute("href") || undefined,
         placement: element.dataset.placement || undefined,
       })
+      if (hasMarketingTags && element.dataset.track === "contact") {
+        trackEvent("click_contact", { placement: element.dataset.placement || undefined })
+      }
     }
     document.addEventListener("click", handleClick)
     return () => document.removeEventListener("click", handleClick)

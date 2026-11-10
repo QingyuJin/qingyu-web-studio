@@ -1,0 +1,89 @@
+.page {
+  --ink: #172b26;
+  --muted: #68756f;
+  --line: #dce1da;
+  background: #f7f5f0;
+  color: var(--ink);
+  font-size: 14px;
+  line-height: 1.75;
+  overflow: clip;
+}
+
+.page * { min-width: 0; }
+.page :is(h1, h2, h3, p, a, li) { overflow-wrap: break-word; word-break: normal; }
+.wrap { width: 100%; max-width: 1180px; margin-inline: auto; padding-inline: 32px; }
+.hero { background: #10201d; color: #f7f5f0; }
+.back { display: inline-flex; min-height: 44px; align-items: center; color: #b8c5c0; font-size: 12px; text-decoration: none; }
+.heroGrid { display: grid; grid-template-columns: minmax(0, .9fr) minmax(320px, .7fr); align-items: center; gap: 64px; padding-block: 32px 64px; }
+.meta, .label { margin: 0; color: #7c9389; font-size: 10px; font-weight: 600; letter-spacing: .12em; }
+.meta { color: #aac0b7; }
+.meta span::before { content: "  "; white-space: pre; }
+.hero h1 { max-width: 14ch; margin: 14px 0 0; font-family: "Noto Serif TC", serif; font-size: clamp(28px, 4vw, 44px); font-weight: 500; line-height: 1.24; letter-spacing: -.04em; text-wrap: balance; }
+.lead { max-width: 34rem; margin: 18px 0 0; color: #c0ccc7; font-size: 14px; line-height: 1.9; }
+.primary, .contactAction { display: inline-flex; min-height: 46px; align-items: center; justify-content: center; border-radius: 999px; font-size: 12px; font-weight: 600; text-decoration: none; }
+.primary { margin-top: 28px; background: #d8c99f; padding: 8px 22px; color: #16251f; }
+.note { margin: 12px 0 0; color: #869a92; font-size: 11px; }
+.visual { overflow: hidden; border: 1px solid #ffffff1c; border-radius: 12px; background: #e7e9e2; }
+.visual img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; }
+.visual p { margin: 0; border-top: 1px solid #ffffff1c; background: #152925; padding: 12px 16px; color: #b8c6c0; font-size: 11px; }
+.factStrip { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid #ffffff1c; }
+.factStrip article { padding: 20px 24px 24px; }
+.factStrip article:first-child { padding-left: 0; }
+.factStrip article + article { border-left: 1px solid #ffffff1c; }
+.factStrip article > p:last-child { margin: 8px 0 0; color: #c0ccc7; font-size: 12px; line-height: 1.8; }
+.section { border-bottom: 1px solid var(--line); padding-block: 52px; }
+.split { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px; }
+.split article + article { border-left: 1px solid var(--line); padding-left: 56px; }
+.page h2 { margin: 12px 0 0; font-size: clamp(20px, 2.2vw, 27px); font-weight: 500; line-height: 1.55; letter-spacing: -.025em; text-wrap: balance; }
+.sectionHeading { max-width: 36rem; margin-bottom: 28px; }
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); margin: 0; padding: 0; border-block: 1px solid var(--line); list-style: none; }
+.steps li { min-height: 112px; padding: 20px 22px; }
+.steps li + li { border-left: 1px solid var(--line); }
+.steps span { color: #8a9791; font-size: 10px; }
+.steps p { margin: 22px 0 0; font-size: 14px; font-weight: 600; }
+.scope { display: grid; grid-template-columns: 170px minmax(0, 1fr); gap: 28px; margin-top: 38px; }
+.scope ul { display: flex; flex-wrap: wrap; gap: 8px 20px; margin: 0; padding: 0; list-style: none; }
+.scope li { color: #52645d; font-size: 13px; }
+.technical { margin-top: 30px; border-block: 1px solid var(--line); padding-block: 14px; }
+.technical summary { min-height: 44px; cursor: pointer; color: #45685c; font-size: 12px; font-weight: 600; line-height: 44px; }
+.technical p { max-width: 38rem; margin: 6px 0 16px; color: var(--muted); font-size: 12px; }
+.technical div { display: flex; flex-wrap: wrap; gap: 8px; }
+.technical code { border: 1px solid var(--line); border-radius: 999px; padding: 5px 10px; background: #fbfaf6; color: #5b6b65; font-size: 10px; }
+.related { background: #eeefe9; padding-block: 52px; }
+.relatedGrid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); column-gap: 36px; }
+.relatedGrid > a { display: flex; min-height: 112px; align-items: center; justify-content: space-between; gap: 20px; border-top: 1px solid #cfd6ce; padding-block: 18px; color: inherit; text-decoration: none; }
+.relatedGrid h3 { margin: 3px 0 0; font-size: 15px; font-weight: 600; }
+.relatedGrid p { margin: 4px 0 0; color: var(--muted); font-size: 12px; line-height: 1.7; }
+.relatedGrid span { flex: 0 0 auto; color: #45685c; font-size: 11px; }
+.relatedMeta { color: #71847b !important; font-size: 10px !important; }
+.contact { background: #10201d; color: #f7f5f0; }
+.contactInner { display: flex; align-items: center; justify-content: space-between; gap: 24px; padding-block: 42px; }
+.contact h2 { max-width: 26rem; }
+.contactAction { flex: 0 0 auto; border: 1px solid #ffffff2d; padding: 8px 22px; color: #f7f5f0; }
+
+@media (max-width: 760px) {
+  .wrap { padding-inline: 22px; }
+  .heroGrid { grid-template-columns: minmax(0, 1fr); gap: 30px; padding-block: 22px 42px; }
+  .hero h1 { max-width: 18ch; font-size: clamp(27px, 8.5vw, 32px); }
+  .visual { order: -1; }
+  .visual p { display: none; }
+  .factStrip { grid-template-columns: minmax(0, 1fr); }
+  .factStrip article { padding: 16px 0 18px; }
+  .factStrip article + article { border-top: 1px solid #ffffff1c; border-left: 0; }
+  .section, .related { padding-block: 38px; }
+  .split { grid-template-columns: minmax(0, 1fr); gap: 30px; }
+  .split article + article { border-top: 1px solid var(--line); border-left: 0; padding-top: 30px; padding-left: 0; }
+  .steps { grid-template-columns: minmax(0, 1fr); }
+  .steps li { display: grid; grid-template-columns: 34px minmax(0, 1fr); align-items: center; min-height: 72px; padding: 14px 4px; }
+  .steps li + li { border-top: 1px solid var(--line); border-left: 0; }
+  .steps p { margin: 0; }
+  .scope { grid-template-columns: minmax(0, 1fr); gap: 14px; }
+  .relatedGrid { grid-template-columns: minmax(0, 1fr); }
+  .relatedGrid > a { min-height: 100px; }
+  .contactInner { align-items: stretch; flex-direction: column; }
+  .contactAction { width: 100%; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .page *, .page *::before, .page *::after { scroll-behavior: auto; transition: none; }
+}

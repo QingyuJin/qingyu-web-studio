@@ -35,7 +35,7 @@ export const industries = [
     },
     product: {
       system: "餐飲點餐系統",
-      price: "25,000 元起",
+      price: "依需求估價",
       duration: "14–25 天",
       customerSees: "手機桌邊點餐、看菜單",
       youManage: "廚房佇列、桌況與出餐節奏",
@@ -44,7 +44,7 @@ export const industries = [
     recommend: {
       name: "餐廳內用點餐系統",
       desc: "已開發完成的可操作成品 手機點餐送廚房即時出單 適合內用型餐飲",
-      price: "25,000 元起",
+      price: "依需求估價",
       to: "/works/restaurant-ordering",
     },
   },
@@ -72,7 +72,7 @@ export const industries = [
     },
     product: {
       system: "批發訂貨 / 電商系統",
-      price: "25,000 元起",
+      price: "依需求估價",
       duration: "14–25 天",
       customerSees: "手機看商品、專屬報價、下單",
       youManage: "訂單、出貨狀態與月結對帳",
@@ -81,7 +81,7 @@ export const industries = [
     recommend: {
       name: "批發訂貨系統",
       desc: "客戶手機下單、專屬價格、後台出貨與月結對帳 適合批發／中盤商",
-      price: "25,000 元起",
+      price: "依需求估價",
       to: "/works/wholesale-ordering",
     },
   },
@@ -105,7 +105,7 @@ export const industries = [
     },
     product: {
       system: "工程接案系統",
-      price: "30,000 元起",
+      price: "依需求估價",
       duration: "14–25 天",
       customerSees: "品牌官網、服務展示、線上詢價",
       youManage: "詢價收件匣、案件看板、派工回報",
@@ -114,7 +114,7 @@ export const industries = [
     recommend: {
       name: "鑫匠工程",
       desc: "真實上線的工程行案例黑金官網 + 線上詢價 需求進 BuildFlow 後台一鍵轉案件",
-      price: "30,000 元起",
+      price: "依需求估價",
       to: "/works/xinjiang",
       tag: "真實客戶案例",
     },
@@ -139,7 +139,7 @@ export const industries = [
     },
     product: {
       system: "公司一頁式官網",
-      price: "12,000 元起",
+      price: "依需求估價",
       duration: "5–10 天",
       customerSees: "一頁看懂你是誰、做什麼",
       youManage: "聯絡收件匣、內容自行更新",
@@ -148,7 +148,7 @@ export const industries = [
     recommend: {
       name: "生醫品牌官網",
       desc: "醫療內容品牌形象站：故事、服務、案例與講座報名一頁整合",
-      price: "12,000 元起",
+      price: "依需求估價",
       to: "/works/biomed-brand-site",
       tag: "真實上線案例",
     },
@@ -177,7 +177,7 @@ export const industries = [
     },
     product: {
       system: "互動測驗 / 問卷評分系統",
-      price: "6,000 元起",
+      price: "依需求估價",
       duration: "3–8 天",
       customerSees: "線上測驗、自動計分、結果報告",
       youManage: "填答紀錄、統計與 Excel 匯出",
@@ -186,7 +186,7 @@ export const industries = [
     recommend: {
       name: "互動測驗系統",
       desc: "可操作成品：線上作答、自動計分、結果報告 適合教育訓練與顧問",
-      price: "6,000 元起",
+      price: "依需求估價",
       to: "/works/assessment-system",
     },
   },
@@ -210,7 +210,7 @@ export const industries = [
     },
     product: {
       system: "個人品牌落地頁",
-      price: "12,000 元起",
+      price: "依需求估價",
       duration: "5–10 天",
       customerSees: "深色系品牌入口、服務與資源",
       youManage: "名單、預約與 LINE 導流",
@@ -219,7 +219,7 @@ export const industries = [
     recommend: {
       name: "Notion 風格落地頁",
       desc: "深色品牌形象頁 + LINE 名單導流 適合創作者與個人品牌",
-      price: "12,000 元起",
+      price: "依需求估價",
       to: "/works/notion-brand-landing",
     },
   },

@@ -2,6 +2,32 @@
 @tailwind components;
 @tailwind utilities;
 
+.language-select { min-height: 44px; max-width: 96px; padding: 6px; background: transparent; border: 0; font-size: 12px; }
+html:lang(en) .editorial-title { font-size: clamp(34px, 4.3vw, 66px); line-height: 1.12; }
+html:lang(ja) .editorial-title, html:lang(ko) .editorial-title { font-size: clamp(30px, 4vw, 60px); line-height: 1.3; }
+html:lang(ko) h1, html:lang(ko) h2, html:lang(ko) h3, html:lang(ko) p { word-break: keep-all; overflow-wrap: anywhere; }
+.product-copy > div, .cart-row .flex-1, .product-info-inner, .footer-grid > div { min-width: 0; }
+.product-copy a, .cart-row a, .mobile-buy-bar strong { overflow-wrap: anywhere; }
+.hero-actions, .section-heading-row { flex-wrap: wrap; }
+.hero-actions a, .button-solid, .button-outline { text-align: center; line-height: 1.5; padding-block: 12px; }
+.newsletter-message { position: static !important; grid-column: 1 / -1; margin-block: 8px; font-size: 12px !important; }
+@media (max-width: 900px) {
+  .header-main { padding-inline: 16px !important; grid-template-columns: 44px auto 1fr !important; gap: 8px; }
+  .header-actions { gap: 6px !important; }
+  .header-actions .language-select { max-width: 66px; font-size: 11px; padding-inline: 0; }
+  .wordmark { font-size: 22px !important; letter-spacing: .13em !important; }
+  .announcement { height: auto !important; min-height: 30px; font-size: 11px !important; letter-spacing: 0 !important; }
+  .concept-notice { font-size: 11px !important; line-height: 1.5; }
+  .cart-thumb { width: 68px !important; }
+  .cart-row { gap: 12px !important; }
+  .cart-row .items-center { flex-wrap: wrap; gap: 12px; }
+  .size-selector > div { flex-wrap: wrap; }
+  .mobile-buy-bar { gap: 12px; }
+  .mobile-buy-bar > div { min-width: 0; }
+  .mobile-buy-bar button { flex-shrink: 0; max-width: 45%; line-height: 1.4; }
+  .button-solid, .button-outline { font-size: 13px; letter-spacing: 0; }
+}
+
 :root {
   --paper: #ece5d6;
   --parchment: #f4efe5;
@@ -36,6 +62,7 @@ a { color: inherit; text-decoration: none; }
 .section-shell { width: min(100%, 1600px); margin: 0 auto; padding-inline: clamp(20px, 4vw, 64px); }
 .editorial-title { font-family: "Iowan Old Style", "Palatino Linotype", "Noto Serif TC", serif; font-size: clamp(2.7rem, 5.4vw, 6.4rem); line-height: .98; letter-spacing: -.035em; font-weight: 400; }
 .section-title { font-family: "Iowan Old Style", "Palatino Linotype", "Noto Serif TC", serif; font-size: clamp(2.2rem, 3.5vw, 4.25rem); line-height: 1.05; letter-spacing: -.025em; font-weight: 400; }
+.concept-notice { min-height: 28px; padding: 7px 20px; display: grid; place-items: center; background: #d7c89f; color: var(--ink); font-size: 9px; font-weight: 600; letter-spacing: .08em; text-align: center; }
 
 .announcement { height: var(--announcement-h); padding: 0 clamp(20px, 4vw, 64px); display: flex; align-items: center; justify-content: center; gap: 38px; color: var(--paper); background: var(--ink); font-size: 9px; letter-spacing: .12em; position: relative; z-index: 80; }
 .announcement a { border-bottom: 1px solid currentColor; }
@@ -97,7 +124,7 @@ a { color: inherit; text-decoration: none; }
 .product-image-wrap:hover .product-image-hover { opacity: 1; transform: scale(1.025); }
 .product-badge { position: absolute; top: 13px; left: 13px; z-index: 3; padding: 7px 9px; background: var(--parchment); font-size: 9px; letter-spacing: .1em; }
 .product-copy { padding: 20px 0 24px; min-height: 170px; display: flex; align-items: flex-start; justify-content: space-between; gap: 18px; }
-.quick-add { width: 38px; height: 38px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid var(--ink); transition: .25s; }
+.quick-add { width: 44px; height: 44px; flex: 0 0 auto; display: grid; place-items: center; border: 1px solid var(--ink); transition: .25s; }
 .quick-add span { display: none; }
 .quick-add:hover { background: var(--ink); color: var(--parchment); }
 
@@ -207,7 +234,15 @@ a { color: inherit; text-decoration: none; }
   .header-main { height: 62px; grid-template-columns: 1fr auto 1fr; }
   .site-header-scrolled .header-main { height: 56px; }
   .header-actions { gap: 17px; }
-  .desktop-icon { display: none; }
+  .mobile-only, .header-actions > button, .header-actions > a,
+  .mobile-menu-head button, .drawer-header button, .search-top button {
+    min-width: 44px;
+    min-height: 44px;
+    display: inline-grid;
+    place-items: center;
+  }
+  .quantity-stepper { height: 44px; grid-template-columns: 44px 34px 44px; }
+  .header-actions > .desktop-icon { display: none; }
   .wordmark { font-size: 21px; }
   .hero { min-height: auto; grid-template-columns: 1fr; }
   .hero-copy { min-height: 570px; padding: 62px 24px 38px; order: 1; }
@@ -234,10 +269,10 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 560px) {
-  .editorial-title { font-size: clamp(3.15rem, 15vw, 5rem); }
+  .editorial-title { font-size: clamp(2.45rem, 11vw, 3.3rem); }
   .section-heading-row { align-items: flex-start; flex-direction: column; }
-  .hero-copy { min-height: 535px; }
-  .hero-visual { min-height: 57svh; }
+  .hero-copy { min-height: 460px; }
+  .hero-visual { min-height: 50svh; }
   .hero-actions { flex-direction: column; align-items: flex-start; gap: 20px; }
   .product-row { grid-auto-columns: 72vw; }
   .product-copy { min-height: 150px; }
@@ -353,11 +388,11 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 640px) {
-  .catalog-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px 12px; }
+  .catalog-grid { grid-template-columns: 1fr; gap: 40px; }
   .catalog-grid .product-card .product-copy { display: block; }
-  .catalog-grid .quick-add { width: 100%; height: 36px; margin-top: 14px; display: flex; gap: 7px; }
+  .catalog-grid .quick-add { width: 100%; height: 44px; margin-top: 14px; display: flex; gap: 7px; }
   .catalog-grid .quick-add span { display: inline; font-size: 10px; }
-  .catalog-grid .product-card h2 { font-size: 1.1rem; }
+  .catalog-grid .product-card .font-display { font-size: 1.2rem; }
   .catalog-grid .product-image-wrap { aspect-ratio: 3 / 4; }
   .gallery-main { min-height: 60svh; }
   .gallery-pair { min-height: 280px; }

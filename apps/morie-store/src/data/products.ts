@@ -221,6 +221,6 @@ export const products: Product[] = [
 ];
 
 export const formatPrice = (price: number) =>
-  new Intl.NumberFormat("zh-TW", { style: "currency", currency: "TWD", maximumFractionDigits: 0 }).format(price);
+  `NT$${new Intl.NumberFormat("en", { maximumFractionDigits: 0 }).format(price)}`;
 
 export const getProduct = (slug: string) => products.find((product) => product.slug === slug);

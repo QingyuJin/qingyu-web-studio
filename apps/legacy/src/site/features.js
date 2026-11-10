@@ -1,1 +1,1 @@
-export const ENABLE_MULTILINGUAL = false
+export const ENABLE_MULTILINGUAL = true

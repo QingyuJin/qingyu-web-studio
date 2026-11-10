@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react"
+import { useEffect, useMemo, useRef, useState } from "react"
 import { Link } from "react-router-dom"
 import { createContactRequest } from "../lib/contactRequests"
 import { onepageContact } from "./onepageData"
@@ -118,6 +118,10 @@ export function LeadForm({
   const [errors, setErrors] = useState({})
   const [submitting, setSubmitting] = useState(false)
   const [submitted, setSubmitted] = useState(false)
+  const [notified, setNotified] = useState(true)
+  const [submitError, setSubmitError] = useState("")
+  const submittingRef = useRef(false)
+  const idempotencyRef = useRef("")
 
   const mailHref = useMemo(() => {
     const body = [
@@ -133,10 +137,14 @@ export function LeadForm({
   function update(field, value) {
     setForm((current) => ({ ...current, [field]: value }))
     setErrors((current) => ({ ...current, [field]: "" }))
+    setSubmitError("")
+    idempotencyRef.current = ""
   }
 
   async function handleSubmit(event) {
     event.preventDefault()
+    if (submittingRef.current) return
+    const website = event.currentTarget.elements.website?.value || ""
     const nextErrors = {}
     if (form.name.trim().length < 2) nextErrors.name = "請填寫至少 2 個字的稱呼"
     if (form.contact.trim().length < 4) nextErrors.contact = "請填寫可聯絡的 LINE、Email 或電話"
@@ -144,7 +152,9 @@ export function LeadForm({
     setErrors(nextErrors)
     if (Object.keys(nextErrors).length) return
 
+    submittingRef.current = true
     setSubmitting(true)
+    idempotencyRef.current ||= globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
     const result = await createContactRequest({
       name: form.name.trim(),
       contact: form.contact.trim(),
@@ -153,9 +163,17 @@ export function LeadForm({
       message: form.note.trim() || "由一頁式網站產業範本送出",
       source,
       status: "new",
-    })
+      website,
+    }, { idempotencyKey: idempotencyRef.current })
+    submittingRef.current = false
     setSubmitting(false)
-    if (result.ok) setSubmitted(true)
+    if (result.ok) {
+      idempotencyRef.current = ""
+      setNotified(result.notified)
+      setSubmitted(true)
+    } else {
+      setSubmitError("目前無法送出 請改用 LINE 或 Email")
+    }
   }
 
   if (submitted) {
@@ -163,7 +181,7 @@ export function LeadForm({
       <div className={`op-form-success ${compact ? "is-compact" : ""}`} role="status">
         <span aria-hidden="true">✓</span>
         <h3>需求已送出</h3>
-        <p>我們會依聯絡方式回覆</p>
+        <p>{notified ? "需求已保存 我們會依聯絡方式回覆" : "需求已保存 通知信尚未寄出"}</p>
         <div>
           <a href={onepageContact.lineUrl} target="_blank" rel="noreferrer">加入 LINE</a>
           <button type="button" onClick={() => { setSubmitted(false); setForm({ name: "", contact: "", service: services[0], note: "" }) }}>再填一筆</button>
@@ -174,6 +192,7 @@ export function LeadForm({
 
   return (
     <form className={`op-lead-form ${compact ? "is-compact" : ""}`} onSubmit={handleSubmit} noValidate>
+      <label className="op-form-trap" aria-hidden="true">網站<input name="website" tabIndex="-1" autoComplete="off" /></label>
       <div className="op-form-heading">
         <p>CONTACT FORM</p>
         <h3>{title}</h3>
@@ -205,6 +224,7 @@ export function LeadForm({
         <button type="submit" disabled={submitting}>{submitting ? "送出中…" : submitLabel}</button>
         <a href={mailHref}>改用 Email</a>
       </div>
+      {submitError ? <p className="op-form-privacy" role="alert">{submitError}</p> : null}
       <p className="op-form-privacy">資料僅用於本次聯繫</p>
     </form>
   )

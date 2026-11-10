@@ -8,3 +8,7 @@ xinjiang-website/
 # Local build/cache output is recreated by Vercel.
 dist/
 node_modules/
+.env*
+*.local
+**/*.test.*
+**/*.spec.*

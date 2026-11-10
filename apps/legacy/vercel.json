@@ -5,10 +5,22 @@
     {
       "source": "/(.*)",
       "headers": [
-        { "key": "X-Content-Type-Options", "value": "nosniff" },
-        { "key": "X-Frame-Options", "value": "DENY" },
-        { "key": "Referrer-Policy", "value": "strict-origin-when-cross-origin" },
-        { "key": "Permissions-Policy", "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()" },
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
+        },
         {
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' https://www.googletagmanager.com https://connect.facebook.net; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com data:; img-src 'self' data: blob: https://images.unsplash.com https://www.facebook.com; connect-src 'self' https://*.supabase.co https://*.google-analytics.com https://www.google-analytics.com https://www.facebook.com; upgrade-insecure-requests"
@@ -22,38 +34,581 @@
           "key": "Content-Security-Policy",
           "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
         },
-        { "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/quoteflow/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/q/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        }
       ]
     },
     {
       "source": "/assets/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=31536000, immutable"
+        }
+      ]
     },
     {
-      "source": "/(.*).(png|jpg|jpeg|webp|svg|woff2)",
-      "headers": [{ "key": "Cache-Control", "value": "public, max-age=86400, stale-while-revalidate=604800" }]
+      "source": "/(.*).(png|jpg|jpeg|webp|avif|svg|woff2)",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=86400, stale-while-revalidate=604800"
+        }
+      ]
     },
     {
       "source": "/api/(.*)",
-      "headers": [{ "key": "Cache-Control", "value": "no-store" }]
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        }
+      ]
     },
     {
       "source": "/(admin|login|logout|buildflow|contractor-site|engineering)(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, nofollow, noarchive" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
     },
     {
       "source": "/demo/(.*)",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow, noarchive" }]
+      "headers": [
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, follow, noarchive"
+        }
+      ]
     },
     {
-      "source": "/works/xinjiang",
-      "headers": [{ "key": "X-Robots-Tag", "value": "noindex, follow, noarchive" }]
+      "source": "/demo/morie",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/demo/morie/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/works/bookcrm/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/bookcrm/login",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/quoteflow/app/login",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/works/fieldops/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(), geolocation=(self), payment=(), usb=()"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/fieldops/public/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob: https://*.supabase.co; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/fieldops/app/login",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/works/docops/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; frame-src https://*.supabase.co; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
+      "source": "/works/docops/app/login",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; frame-src https://*.supabase.co; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/works/flowdesk/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/watchtower/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        }
+      ]
+    },
+    {
+      "source": "/works/watchtower/app/login",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/works/servicedesk",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        }
+      ]
+    },
+    {
+      "source": "/works/servicedesk/app/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(), geolocation=(), payment=(), usb=()"
+        }
+      ]
+    },
+    {
+      "source": "/service/:path*",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self'; upgrade-insecure-requests"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "no-referrer"
+        },
+        {
+          "key": "Cache-Control",
+          "value": "private, no-store"
+        },
+        {
+          "key": "X-Robots-Tag",
+          "value": "noindex, nofollow, noarchive"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(self), microphone=(), geolocation=(), payment=(), usb=()"
+        }
+      ]
+    },
+    {
+      "source": "/works/servicedesk/app/login",
+      "headers": [
+        {
+          "key": "Content-Security-Policy",
+          "value": "default-src 'self'; base-uri 'self'; object-src 'none'; frame-ancestors 'none'; form-action 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'; font-src 'self' data:; img-src 'self' data: blob:; connect-src 'self' https://*.supabase.co; upgrade-insecure-requests"
+        }
+      ]
+    },
+    {
+      "source": "/og.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
+    },
+    {
+      "source": "/og-image.png",
+      "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "public, max-age=0, must-revalidate"
+        }
+      ]
     }
   ],
   "redirects": [
-    { "source": "/demo/ai-tech", "destination": "/demo/ai-customer-support", "permanent": false }
+    {
+      "source": "/works/floworder/app",
+      "destination": "/works/floworder/app/customer",
+      "permanent": false
+    },
+    {
+      "source": "/works/quoteflow/app",
+      "destination": "/works/quoteflow/app/sales",
+      "permanent": false
+    },
+    {
+      "source": "/works/bookcrm/app",
+      "destination": "/works/bookcrm/app/customer",
+      "permanent": false
+    },
+    {
+      "source": "/works/fieldops/app",
+      "destination": "/works/fieldops/app/dispatcher",
+      "permanent": false
+    },
+    {
+      "source": "/works/docops/app",
+      "destination": "/works/docops/app/employee",
+      "permanent": false
+    },
+    {
+      "source": "/works/servicedesk/app",
+      "destination": "/works/servicedesk/app/support",
+      "permanent": false
+    },
+    {
+      "source": "/demo/ai-tech",
+      "destination": "/demo/ai-customer-support",
+      "permanent": true
+    },
+    {
+      "source": "/demo/commerce-platform",
+      "destination": "/demo/morie",
+      "permanent": true
+    },
+    {
+      "source": "/demo/commerce-platform/:path*",
+      "destination": "/demo/morie",
+      "permanent": true
+    },
+    {
+      "source": "/onepage",
+      "destination": "/showcase",
+      "permanent": true
+    },
+    {
+      "source": "/works/beauty-shopline-preview",
+      "destination": "/demo/luluface",
+      "permanent": true
+    },
+    {
+      "source": "/works/beauty-shopline-preview/:path*",
+      "destination": "/demo/luluface",
+      "permanent": true
+    },
+    {
+      "source": "/works/product-landing-page",
+      "destination": "/showcase",
+      "permanent": true
+    },
+    {
+      "source": "/works/company-landing",
+      "destination": "/showcase",
+      "permanent": true
+    },
+    {
+      "source": "/works/notion-brand-landing",
+      "destination": "/showcase",
+      "permanent": true
+    },
+    {
+      "source": "/works/assessment-system",
+      "destination": "/works/ai-audit",
+      "permanent": true
+    },
+    {
+      "source": "/works/ecommerce-ordering",
+      "destination": "/works/floworder",
+      "permanent": true
+    },
+    {
+      "source": "/works/crm-admin",
+      "destination": "/works/bookcrm",
+      "permanent": true
+    },
+    {
+      "source": "/works/contractor-system",
+      "destination": "/works/fieldops",
+      "permanent": true
+    }
   ],
   "rewrites": [
+    {
+      "source": "/demo/morie",
+      "destination": "/demo/morie/index.html"
+    },
+    {
+      "source": "/demo/morie/:page(account|checkout|journal|products|stores|story)",
+      "destination": "/demo/morie/:page.html"
+    },
+    {
+      "source": "/demo/morie/:section(journal|products)/:slug",
+      "destination": "/demo/morie/:section/:slug.html"
+    },
+    {
+      "source": "/demo/commercial-visual",
+      "destination": "/demo/commercial-visual/index.html"
+    },
+    {
+      "source": "/api/servicedesk/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/servicedesk/:path*"
+    },
+    {
+      "source": "/works/servicedesk/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/servicedesk/app/:path*"
+    },
+    {
+      "source": "/service/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/service/:path*"
+    },
+    {
+      "source": "/api/watchtower/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/watchtower/:path*"
+    },
+    {
+      "source": "/works/watchtower/app",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/watchtower/app"
+    },
+    {
+      "source": "/works/watchtower/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/watchtower/app/:path*"
+    },
+    {
+      "source": "/works/watchtower",
+      "destination": "/works/watchtower/index.html"
+    },
+    {
+      "source": "/api/flowdesk/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/flowdesk/:path*"
+    },
+    {
+      "source": "/works/flowdesk/app",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/flowdesk/app"
+    },
+    {
+      "source": "/works/flowdesk/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/flowdesk/app/:path*"
+    },
+    {
+      "source": "/works/flowdesk",
+      "destination": "/works/flowdesk/index.html"
+    },
+    {
+      "source": "/api/docops/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/docops/:path*"
+    },
+    {
+      "source": "/works/docops/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/docops/app/:path*"
+    },
+    {
+      "source": "/works/docops",
+      "destination": "/works/docops/index.html"
+    },
+    {
+      "source": "/api/fieldops/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/fieldops/:path*"
+    },
+    {
+      "source": "/works/fieldops/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/fieldops/app/:path*"
+    },
+    {
+      "source": "/works/fieldops/public/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/fieldops/public/:path*"
+    },
+    {
+      "source": "/works/fieldops/sw.js",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/fieldops/sw.js"
+    },
+    {
+      "source": "/works/fieldops/manifest.webmanifest",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/fieldops/manifest.webmanifest"
+    },
+    {
+      "source": "/works/fieldops",
+      "destination": "/works/fieldops/index.html"
+    },
+    {
+      "source": "/api/bookcrm/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/bookcrm/:path*"
+    },
+    {
+      "source": "/works/bookcrm/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/bookcrm/app/:path*"
+    },
+    {
+      "source": "/works/bookcrm/login",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/bookcrm/login"
+    },
+    {
+      "source": "/works/bookcrm/logout",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/bookcrm/logout"
+    },
+    {
+      "source": "/works/bookcrm/auth/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/bookcrm/auth/:path*"
+    },
+    {
+      "source": "/works/bookcrm",
+      "destination": "/works/bookcrm/index.html"
+    },
+    {
+      "source": "/api/quoteflow/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/api/quoteflow/:path*"
+    },
+    {
+      "source": "/works/quoteflow/app/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/works/quoteflow/app/:path*"
+    },
+    {
+      "source": "/q/:path*",
+      "destination": "https://qingyu-floworder-web.vercel.app/q/:path*"
+    },
+    {
+      "source": "/works/quoteflow",
+      "destination": "/works/quoteflow/index.html"
+    },
     {
       "source": "/_next/static/:path*",
       "destination": "https://qingyu-floworder-web.vercel.app/_next/static/:path*"
@@ -66,41 +621,149 @@
       "source": "/works/floworder/app/:path*",
       "destination": "https://qingyu-floworder-web.vercel.app/works/floworder/app/:path*"
     },
-    { "source": "/api/(.*)", "destination": "/api/$1" },
-    { "source": "/services", "destination": "/services/index.html" },
-    { "source": "/seo-ads", "destination": "/seo-ads/index.html" },
-    { "source": "/works", "destination": "/works/index.html" },
-    { "source": "/works/floworder", "destination": "/works/floworder/index.html" },
-    { "source": "/pricing", "destination": "/pricing/index.html" },
-    { "source": "/free-audit", "destination": "/free-audit/index.html" },
-    { "source": "/contact", "destination": "/contact/index.html" },
-    { "source": "/ai-transformation", "destination": "/ai-transformation/index.html" },
-    { "source": "/onepage", "destination": "/onepage/index.html" },
-    { "source": "/onepage/beauty", "destination": "/onepage/beauty/index.html" },
-    { "source": "/onepage/clinic", "destination": "/onepage/clinic/index.html" },
-    { "source": "/onepage/restaurant", "destination": "/onepage/restaurant/index.html" },
-    { "source": "/onepage/construction", "destination": "/onepage/construction/index.html" },
-    { "source": "/onepage/manufacturing", "destination": "/onepage/manufacturing/index.html" },
-    { "source": "/onepage/saas", "destination": "/onepage/saas/index.html" },
-    { "source": "/tools/project-planner", "destination": "/tools/project-planner/index.html" },
-    { "source": "/tools/website-rescue", "destination": "/tools/website-rescue/index.html" },
-    { "source": "/tools/linebot-mission", "destination": "/tools/linebot-mission/index.html" },
-    { "source": "/works/beauty-shopline-preview", "destination": "/works/beauty-shopline-preview/index.html" },
-    { "source": "/works/ecommerce-platform-redesign", "destination": "/works/ecommerce-platform-redesign/index.html" },
-    { "source": "/works/product-landing-page", "destination": "/works/product-landing-page/index.html" },
-    { "source": "/works/company-landing", "destination": "/works/company-landing/index.html" },
-    { "source": "/works/biomed-brand-site", "destination": "/works/biomed-brand-site/index.html" },
-    { "source": "/works/xinjiang", "destination": "/works/xinjiang/index.html" },
-    { "source": "/works/wholesale-ordering", "destination": "/works/wholesale-ordering/index.html" },
-    { "source": "/works/restaurant-ordering", "destination": "/works/restaurant-ordering/index.html" },
-    { "source": "/works/rag-consultant", "destination": "/works/rag-consultant/index.html" },
-    { "source": "/works/analytics-dashboard", "destination": "/works/analytics-dashboard/index.html" },
-    { "source": "/works/assessment-system", "destination": "/works/assessment-system/index.html" },
-    { "source": "/works/line-bot", "destination": "/works/line-bot/index.html" },
-    { "source": "/works/notion-brand-landing", "destination": "/works/notion-brand-landing/index.html" },
-    { "source": "/works/ai-audit", "destination": "/works/ai-audit/index.html" },
-    { "source": "/works/api-automation", "destination": "/works/api-automation/index.html" },
-    { "source": "/works/ai-tech-quest", "destination": "/works/ai-tech-quest/index.html" },
-    { "source": "/(.*)", "destination": "/" }
+    {
+      "source": "/api/(.*)",
+      "destination": "/api/$1"
+    },
+    {
+      "source": "/services",
+      "destination": "/services/index.html"
+    },
+    {
+      "source": "/seo-ads",
+      "destination": "/seo-ads/index.html"
+    },
+    {
+      "source": "/works",
+      "destination": "/works/index.html"
+    },
+    {
+      "source": "/works/floworder",
+      "destination": "/works/floworder/index.html"
+    },
+    {
+      "source": "/pricing",
+      "destination": "/pricing/index.html"
+    },
+    {
+      "source": "/free-audit",
+      "destination": "/free-audit/index.html"
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact/index.html"
+    },
+    {
+      "source": "/ai-transformation",
+      "destination": "/ai-transformation/index.html"
+    },
+    {
+      "source": "/onepage/beauty",
+      "destination": "/onepage/beauty/index.html"
+    },
+    {
+      "source": "/onepage/clinic",
+      "destination": "/onepage/clinic/index.html"
+    },
+    {
+      "source": "/onepage/restaurant",
+      "destination": "/onepage/restaurant/index.html"
+    },
+    {
+      "source": "/onepage/construction",
+      "destination": "/onepage/construction/index.html"
+    },
+    {
+      "source": "/onepage/manufacturing",
+      "destination": "/onepage/manufacturing/index.html"
+    },
+    {
+      "source": "/onepage/saas",
+      "destination": "/onepage/saas/index.html"
+    },
+    {
+      "source": "/tools/project-planner",
+      "destination": "/tools/project-planner/index.html"
+    },
+    {
+      "source": "/tools/website-rescue",
+      "destination": "/tools/website-rescue/index.html"
+    },
+    {
+      "source": "/tools/linebot-mission",
+      "destination": "/tools/linebot-mission/index.html"
+    },
+    {
+      "source": "/works/ecommerce-platform-redesign",
+      "destination": "/works/ecommerce-platform-redesign/index.html"
+    },
+    {
+      "source": "/works/biomed-brand-site",
+      "destination": "/works/biomed-brand-site/index.html"
+    },
+    {
+      "source": "/works/xinjiang",
+      "destination": "/works/xinjiang/index.html"
+    },
+    {
+      "source": "/works/wholesale-ordering",
+      "destination": "/works/wholesale-ordering/index.html"
+    },
+    {
+      "source": "/works/restaurant-ordering",
+      "destination": "/works/restaurant-ordering/index.html"
+    },
+    {
+      "source": "/works/rag-consultant",
+      "destination": "/works/rag-consultant/index.html"
+    },
+    {
+      "source": "/works/analytics-dashboard",
+      "destination": "/works/analytics-dashboard/index.html"
+    },
+    {
+      "source": "/works/line-bot",
+      "destination": "/works/line-bot/index.html"
+    },
+    {
+      "source": "/works/ai-audit",
+      "destination": "/works/ai-audit/index.html"
+    },
+    {
+      "source": "/works/api-automation",
+      "destination": "/works/api-automation/index.html"
+    },
+    {
+      "source": "/works/ai-tech-quest",
+      "destination": "/works/ai-tech-quest/index.html"
+    },
+    {
+      "source": "/works/servicedesk",
+      "destination": "/works/servicedesk/index.html"
+    },
+    {
+      "source": "/works/buildflow",
+      "destination": "/works/buildflow/index.html"
+    },
+    {
+      "source": "/works/luluface",
+      "destination": "/works/luluface/index.html"
+    },
+    {
+      "source": "/works/morie",
+      "destination": "/works/morie/index.html"
+    },
+    {
+      "source": "/works/commercial-visual",
+      "destination": "/works/commercial-visual/index.html"
+    },
+    {
+      "source": "/demo/xinjiang",
+      "destination": "/demo/xinjiang/index.html"
+    },
+    {
+      "source": "/demo/biomed-brand-site",
+      "destination": "/index.html"
+    }
   ]
 }

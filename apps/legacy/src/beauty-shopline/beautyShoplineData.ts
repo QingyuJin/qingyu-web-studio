@@ -49,10 +49,7 @@ export const siteConfig = {
 
 export const navigation = [
   { label: "護膚服務", href: "#services" },
-  { label: "明星商品", href: "#products" },
   { label: "品牌特色", href: "#why-luluface" },
-  { label: "美容案例", href: "#cases" },
-  { label: "培訓與加盟", href: "#growth" },
   { label: "門市資訊", href: "#contact" },
 ]
 
@@ -60,16 +57,11 @@ export const siteNavigation = [
   { label: "首頁", path: siteConfig.route },
   { label: "品牌故事", path: `${siteConfig.route}/brand` },
   { label: "護膚服務", path: `${siteConfig.route}/services` },
-  { label: "商品選購", path: `${siteConfig.route}/products` },
-  { label: "美容案例", path: `${siteConfig.route}/cases` },
-  { label: "培訓加盟", path: `${siteConfig.route}/training` },
   { label: "聯絡我們", path: `${siteConfig.route}/contact` },
 ]
 
 export const utilityNavigation = [
-  { label: "設備與流程", path: `${siteConfig.route}/equipment` },
   { label: "常見問題", path: `${siteConfig.route}/faq` },
-  { label: "購物與隱私政策", path: `${siteConfig.route}/policies` },
 ]
 
 export const pageSeo = {

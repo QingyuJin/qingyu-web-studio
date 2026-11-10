@@ -7,7 +7,12 @@ export function generateStaticParams() { return products.map((product) => ({ slu
 
 export async function generateMetadata({ params }: { params: Promise<{ slug: string }> }): Promise<Metadata> {
   const product = getProduct((await params).slug);
-  return product ? { title: product.name, description: product.summary, openGraph: { images: [product.image] } } : {};
+  return product ? {
+    title: product.name,
+    description: product.summary,
+    openGraph: { images: [{ url: product.image, alt: product.name }] },
+    twitter: { card: "summary_large_image", images: [product.image] },
+  } : {};
 }
 
 export default async function ProductPage({ params }: { params: Promise<{ slug: string }> }) {

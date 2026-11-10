@@ -1,710 +1,125 @@
-﻿import { useEffect, useRef, useState } from "react"
+import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useLocale } from "./i18n/LocaleContext"
+import Seo from "./site/Seo"
 
-const navItems = [
-  ["top", "頂部"],
-  ["about", "關於項目"],
-  ["features", "項目特色"],
-  ["stories", "醫生故事"],
-  ["events", "公益講座"],
-  ["company", "關於我們"],
-]
-
-const features = [
-  {
-    title: "個人品牌口播短影",
-    text: "用短影音呈現醫師觀點 讓專業更容易被理解與分享",
-    icon: "video",
-  },
-  {
-    title: "個人品牌深度專訪",
-    text: "透過長訪談建立醫師個人品牌與信任感",
-    icon: "mic",
-  },
-  {
-    title: "專業知識衛教圖文",
-    text: "把艱深醫療知識整理成可閱讀、可收藏的社群內容",
-    icon: "note",
-  },
-  {
-    title: "醫療領域整合行銷",
-    text: "協助醫療人員、診所與機構建立長期內容資產",
-    icon: "network",
-  },
-]
-
-const stories = [
-  {
-    title: "急診醫師的一天",
-    text: "在高壓現場裡 看見判斷、溝通與照護的重量",
-    tag: "急診故事",
-    image: "https://images.unsplash.com/photo-1550831107-1553da8c8464?auto=format&fit=crop&w=1200&q=80",
-    author: "急診醫學科 · 林醫師",
-    readTime: "6 分鐘",
-    body: [
-      "早上七點半交班 白板上是一夜累積的三十七床急診的節奏不是快 而是「同時」：判斷、溝通、安撫與決策 常常在同一分鐘內發生",
-      "「我們最常做的不是急救 而是翻譯」把檢查數字翻譯成家屬聽得懂的語言 把焦慮翻譯成可以一起做的下一步",
-      "這一天的最後 是一位獨居長輩的回診安排醫療的重量不只在搶救瞬間 更在每一次確認有人接住他之後 才放心讓病人離開的守備範圍",
-    ],
-  },
-  {
-    title: "牙科醫師的品牌經營",
-    text: "從診間溝通到內容經營 讓專業被溫柔理解",
-    tag: "品牌專訪",
-    image: "https://images.unsplash.com/photo-1606811971618-4486d14f3f99?auto=format&fit=crop&w=1200&q=80",
-    author: "牙科 · 陳醫師",
-    readTime: "5 分鐘",
-    body: [
-      "「病人在診療椅上只有二十分鐘 但他的疑問存在三百六十五天」陳醫師開始經營衛教內容的起點 是發現同樣的問題每天要回答十次",
-      "把常見問題整理成圖文 把治療流程拍成短影音 診間溝通的起跑點就完全不同——病人帶著理解進來 而不是帶著恐懼",
-      "品牌經營對醫師而言不是行銷 是把專業翻譯成日常語言的長期練習信任感是內容累積出來的複利",
-    ],
-  },
-  {
-    title: "醫美醫師的溝通哲學",
-    text: "將美感、期待與風險 轉化成清楚可信任的對話",
-    tag: "溝通哲學",
-    image: "https://images.unsplash.com/photo-1576091160550-2173dba999ef?auto=format&fit=crop&w=1200&q=80",
-    author: "醫美 · 張醫師",
-    readTime: "5 分鐘",
-    body: [
-      "醫美診間最難的不是技術 是期待管理「我會先花一半的時間 確認我們想像的是同一件事」",
-      "張醫師堅持在療程前把風險說滿：能改善多少、恢復期多長、哪些狀況不適合做「說清楚風險不會趕走客人 只會留下對的客人」",
-      "美感是主觀的 但溝通可以是有結構的清楚的對話本身 就是一種專業",
-    ],
-  },
-]
-
-const eventSessions = [
-  { id: "online", label: "線上場", note: "Zoom 直播 + 回放", seats: 200, taken: 168 },
-  { id: "taipei", label: "台北現場", note: "信義區會議中心", seats: 80, taken: 74 },
-]
-
-const eventInfo = {
-  date: "09.18",
-  title: "醫療品牌內容經營講座",
-  place: "線上講座 / 台北同步轉播",
-  note: "從醫師故事、衛教內容到品牌信任感",
+const images = {
+  hero: "/assets/onepage/clinic/clinic-team.webp",
+  content: "/assets/onepage/clinic/clinic-consultation.webp",
+  detail: "/assets/onepage/clinic/clinic-equipment.webp",
+  space: "/assets/onepage/clinic/clinic-interior.webp",
 }
 
-const heroImage = "https://images.unsplash.com/photo-1526256262350-7da7584cf5eb?auto=format&fit=crop&w=1600&q=82"
-const aboutImage = "https://images.unsplash.com/photo-1579154204601-01588f351e67?auto=format&fit=crop&w=1400&q=82"
-const eventImage = "https://images.unsplash.com/photo-1517048676732-d65bc937f952?auto=format&fit=crop&w=1400&q=82"
-const backgroundImage = "https://images.unsplash.com/photo-1505751172876-fa1923c5c528?auto=format&fit=crop&w=2200&q=70"
-
-function setMetaTag(name, content) {
-  let tag = document.querySelector(`meta[name="${name}"]`)
-  if (!tag) {
-    tag = document.createElement("meta")
-    tag.setAttribute("name", name)
-    document.head.appendChild(tag)
-  }
-  tag.setAttribute("content", content)
+const copyByLocale = {
+  "zh-Hant": {
+    notice: "品牌概念展示 使用範例內容 不代表實際人物 活動或營運資料",
+    nav: [["內容", "#content"], ["製作", "#process"], ["活動", "#event"]],
+    back: "返回晴宇作品", eyebrow: "生醫品牌內容", title: "讓醫療專業被清楚理解", lead: "以人物觀點 衛教內容與活動入口 建立可信任的品牌閱讀體驗", view: "查看內容設計", contact: "洽詢品牌網站",
+    focusLabel: "內容方向", focusTitle: "專業清楚 人的感受也被保留", focusText: "每一種內容都先確認讀者問題 再決定適合的形式",
+    focuses: [["人物觀點", "用訪談整理專業判斷與工作日常"], ["衛教內容", "把複雜知識拆成容易查找的主題"], ["活動入口", "讓活動資訊與參與方式維持清楚"]],
+    editorialLabel: "內容示範", editorialTitle: "三種可長期累積的內容", sample: "範例編輯方向",
+    articles: [["急診溝通", "把現場判斷轉成家屬能理解的資訊"], ["初診指南", "在看診前先回答常見疑問"], ["療程期待", "清楚說明選擇 風險與下一步"]],
+    processLabel: "製作流程", processTitle: "先確認內容責任 再開始發布", steps: [["主題", "確認讀者與核心問題"], ["審閱", "由專業端確認用語與界線"], ["發布", "整理成網站與社群可用格式"]],
+    eventLabel: "互動示範", eventTitle: "活動入口不用填真實資料", eventText: "選一種參與方式 看完整的畫面回饋", online: "線上參與", onsite: "現場參與", choose: "選擇參與方式", finish: "完成展示報名", complete: "展示狀態已完成 不會保存資料或寄送通知", replay: "重新體驗",
+    closing: "需要可信任的專業品牌網站", closingText: "從內容結構 品牌介面到手機版一起完成", closingAction: "說明目前需求", footer: "生醫品牌網站概念設計",
+    seoTitle: "生醫品牌網站概念 晴宇 Qingyu Web", seoDescription: "以人物觀點 衛教內容與活動入口呈現生醫品牌網站的內容結構與手機體驗",
+  },
+  en: {
+    notice: "Brand concept using sample content with no real people events or operating data",
+    nav: [["Content", "#content"], ["Process", "#process"], ["Event", "#event"]],
+    back: "Back to Qingyu works", eyebrow: "Biomed brand content", title: "Make medical expertise clear", lead: "Build a trusted reading experience through expert views educational content and clear event paths", view: "View content design", contact: "Discuss a brand site",
+    focusLabel: "Content direction", focusTitle: "Clear expertise with a human voice", focusText: "Each format begins with the reader question before choosing the right medium",
+    focuses: [["Expert voice", "Turn interviews into clear professional judgement"], ["Education", "Break complex knowledge into searchable topics"], ["Event path", "Keep event details and participation simple"]],
+    editorialLabel: "Content example", editorialTitle: "Three formats that can grow over time", sample: "Sample editorial direction",
+    articles: [["Emergency communication", "Translate urgent decisions into clear family guidance"], ["First visit guide", "Answer common questions before the appointment"], ["Treatment expectations", "Explain choices risks and next steps"]],
+    processLabel: "Production flow", processTitle: "Confirm responsibility before publishing", steps: [["Topic", "Define the reader and core question"], ["Review", "Have experts confirm language and boundaries"], ["Publish", "Prepare formats for site and social use"]],
+    eventLabel: "Interaction example", eventTitle: "Try the event path without personal data", eventText: "Choose a participation format and see the complete interface state", online: "Join online", onsite: "Join onsite", choose: "Choose a format", finish: "Complete demo registration", complete: "Demo complete with no data saved or notification sent", replay: "Try again",
+    closing: "Need a trusted professional brand site", closingText: "Content structure brand interface and mobile delivery in one project", closingAction: "Share the current need", footer: "Biomed brand website concept",
+    seoTitle: "Biomed brand website concept Qingyu Web", seoDescription: "A concise biomed brand concept using expert views educational content and a clear event experience",
+  },
+  ja: {
+    notice: "サンプル情報を使うブランド提案 実在人物 活動 営業情報ではありません",
+    nav: [["内容", "#content"], ["制作", "#process"], ["イベント", "#event"]],
+    back: "Qingyu作品へ戻る", eyebrow: "医療ブランドコンテンツ", title: "医療の専門性を分かりやすく", lead: "専門家の視点 衛教情報 イベント導線で信頼できる読書体験を作る", view: "内容設計を見る", contact: "ブランドサイトを相談",
+    focusLabel: "内容の方向", focusTitle: "専門性を明確に 人の温度も残す", focusText: "読者の疑問を確認してから適切な表現を選びます",
+    focuses: [["専門家の視点", "取材から判断と日常を整理"], ["衛教情報", "複雑な知識を探しやすい主題へ"], ["イベント導線", "情報と参加方法を明確に"]],
+    editorialLabel: "内容例", editorialTitle: "長く積み重ねられる三つの形式", sample: "編集方向のサンプル",
+    articles: [["救急時の説明", "現場判断を家族が理解できる情報へ"], ["初診ガイド", "受診前によくある疑問へ回答"], ["治療への期待", "選択 リスク 次の一歩を説明"]],
+    processLabel: "制作の流れ", processTitle: "内容の責任を確認してから公開", steps: [["主題", "読者と中心課題を確認"], ["監修", "専門側が用語と境界を確認"], ["公開", "サイトとSNS用の形式へ整理"]],
+    eventLabel: "操作例", eventTitle: "個人情報なしで参加導線を体験", eventText: "参加方法を選んで完了画面まで確認できます", online: "オンライン", onsite: "会場参加", choose: "参加方法を選ぶ", finish: "デモ登録を完了", complete: "デモ完了 データ保存や通知送信は行いません", replay: "もう一度",
+    closing: "信頼できる専門ブランドサイトが必要なら", closingText: "内容構造 ブランド画面 モバイル対応をまとめて制作", closingAction: "現在の要望を伝える", footer: "医療ブランドサイト提案",
+    seoTitle: "医療ブランドサイト提案 Qingyu Web", seoDescription: "専門家の視点 衛教情報 イベント導線を整理した医療ブランドサイト提案",
+  },
+  ko: {
+    notice: "예시 콘텐츠를 사용한 브랜드 제안 실제 인물 행사 운영 자료가 아님",
+    nav: [["콘텐츠", "#content"], ["제작", "#process"], ["행사", "#event"]],
+    back: "Qingyu 작품으로", eyebrow: "바이오 브랜드 콘텐츠", title: "의료 전문성을 명확하게 전달", lead: "전문가 관점 교육 콘텐츠 행사 경로로 신뢰할 수 있는 읽기 경험 구성", view: "콘텐츠 설계 보기", contact: "브랜드 사이트 상담",
+    focusLabel: "콘텐츠 방향", focusTitle: "전문성은 명확하게 사람의 온도도 유지", focusText: "독자의 질문을 먼저 확인한 뒤 알맞은 형식을 선택합니다",
+    focuses: [["전문가 관점", "인터뷰로 전문 판단과 일상 정리"], ["교육 콘텐츠", "복잡한 지식을 찾기 쉬운 주제로 정리"], ["행사 경로", "행사 정보와 참여 방법을 명확하게"]],
+    editorialLabel: "콘텐츠 예시", editorialTitle: "꾸준히 쌓을 수 있는 세 가지 형식", sample: "편집 방향 예시",
+    articles: [["응급실 소통", "현장 판단을 가족이 이해할 정보로 전달"], ["첫 방문 안내", "진료 전에 자주 묻는 질문에 답변"], ["치료 기대", "선택 위험 다음 단계를 명확하게 설명"]],
+    processLabel: "제작 과정", processTitle: "콘텐츠 책임을 확인한 뒤 공개", steps: [["주제", "독자와 핵심 질문 확인"], ["검토", "전문가가 표현과 경계 확인"], ["공개", "사이트와 소셜 형식으로 정리"]],
+    eventLabel: "상호 작용 예시", eventTitle: "개인 정보 없이 행사 경로 체험", eventText: "참여 방법을 고르고 완료 화면까지 확인하세요", online: "온라인 참여", onsite: "현장 참여", choose: "참여 방법 선택", finish: "예시 등록 완료", complete: "예시 완료 자료 저장이나 알림 전송 없음", replay: "다시 체험",
+    closing: "신뢰할 수 있는 전문 브랜드 사이트가 필요하다면", closingText: "콘텐츠 구조 브랜드 화면 모바일 구현을 함께 완성", closingAction: "현재 요구 전달", footer: "바이오 브랜드 사이트 제안",
+    seoTitle: "바이오 브랜드 사이트 제안 Qingyu Web", seoDescription: "전문가 관점 교육 콘텐츠 행사 경로를 명확하게 정리한 바이오 브랜드 사이트 제안",
+  },
 }
 
-function setPropertyMeta(property, content) {
-  let tag = document.querySelector(`meta[property="${property}"]`)
-  if (!tag) {
-    tag = document.createElement("meta")
-    tag.setAttribute("property", property)
-    document.head.appendChild(tag)
-  }
-  tag.setAttribute("content", content)
+function Arrow() {
+  return <span aria-hidden="true">↗</span>
 }
 
-function FeatureIcon({ type }) {
-  const common = "h-6 w-6 stroke-current"
-  const paths = {
-    video: (
-      <>
-        <rect x="3" y="6" width="12" height="12" rx="3" />
-        <path d="M15 10.5 21 7v10l-6-3.5" />
-      </>
-    ),
-    mic: (
-      <>
-        <path d="M12 4a3 3 0 0 0-3 3v5a3 3 0 0 0 6 0V7a3 3 0 0 0-3-3Z" />
-        <path d="M5 11a7 7 0 0 0 14 0" />
-        <path d="M12 18v3" />
-      </>
-    ),
-    note: (
-      <>
-        <path d="M7 4h8l3 3v13H7z" />
-        <path d="M15 4v4h4" />
-        <path d="M10 12h6M10 16h5" />
-      </>
-    ),
-    network: (
-      <>
-        <circle cx="7" cy="8" r="3" />
-        <circle cx="17" cy="8" r="3" />
-        <circle cx="12" cy="17" r="3" />
-        <path d="m9.5 10 2 4M14.5 10l-2 4" />
-      </>
-    ),
+export default function BiomedBrandSite() {
+  const { locale } = useLocale()
+  const copy = copyByLocale[locale] ?? copyByLocale["zh-Hant"]
+  const [format, setFormat] = useState("")
+  const [complete, setComplete] = useState(false)
+
+  function reset() {
+    setFormat("")
+    setComplete(false)
   }
 
   return (
-    <svg className={common} viewBox="0 0 24 24" fill="none" strokeWidth="1.7" strokeLinecap="round" strokeLinejoin="round" aria-hidden="true">
-      {paths[type]}
-    </svg>
-  )
-}
-
-function SoftBackground() {
-  return (
-    <div className="pointer-events-none fixed inset-0 -z-10 overflow-hidden bg-[#f7f1e6]">
-      <img
-        src={backgroundImage}
-        alt=""
-        aria-hidden="true"
-        className="absolute -inset-10 h-[calc(100%+5rem)] w-[calc(100%+5rem)] scale-105 object-cover opacity-[0.14] blur-2xl saturate-[0.72]"
-      />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,252,246,0.93),rgba(243,248,243,0.88)_42%,rgba(246,239,226,0.94))]" />
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_12%_10%,rgba(255,255,255,0.9),transparent_27rem),radial-gradient(circle_at_88%_16%,rgba(196,218,206,0.56),transparent_32rem),radial-gradient(circle_at_44%_100%,rgba(226,199,151,0.36),transparent_34rem)]" />
-    </div>
-  )
-}
-
-function SectionShell({ id, children, className = "" }) {
-  const ref = useRef(null)
-  const [visible, setVisible] = useState(false)
-
-  useEffect(() => {
-    const node = ref.current
-    if (!node) return undefined
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setVisible(true)
-          observer.unobserve(node)
-        }
-      },
-      { threshold: 0.16 },
-    )
-
-    observer.observe(node)
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <section
-      id={id}
-      ref={ref}
-      className={`biomed-section mx-auto max-w-7xl px-4 py-16 transition duration-500 ease-out md:px-8 md:py-24 ${visible ? "translate-y-0 opacity-100" : "translate-y-6 opacity-0"} ${className}`}
-    >
-      {children}
-    </section>
-  )
-}
-
-function SectionTitle({ eyebrow, title, text }) {
-  return (
-    <div className="max-w-2xl">
-      <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#8d7a52]">{eyebrow}</p>
-      <h2 className="mt-3 font-serif text-[clamp(2rem,5vw,4.35rem)] font-black leading-[1] tracking-[-0.045em] text-[#243a32]">{title}</h2>
-      {text ? <p className="mt-4 max-w-xl text-sm font-semibold leading-7 text-[#66786f] md:text-[15px]">{text}</p> : null}
-    </div>
-  )
-}
-
-function BiomedHeader({ activeId }) {
-  const [open, setOpen] = useState(false)
-
-  return (
-    <header className="fixed inset-x-0 top-0 z-50 border-b border-white/55 bg-[#fbf6ec]/74 shadow-[0_10px_35px_rgba(55,58,47,0.05)] backdrop-blur-2xl">
-      <div className="mx-auto flex h-[72px] max-w-7xl items-center justify-between gap-4 px-4 md:px-8">
-        <a href="#top" className="flex items-center gap-3" onClick={() => setOpen(false)}>
-          <span className="grid h-11 w-11 place-items-center rounded-full bg-[#243a32] font-serif text-lg font-black text-[#e9cf9b]">LC</span>
-          <div>
-            <p className="font-serif text-lg font-black leading-none tracking-[-0.03em] text-[#243a32]">LightCare BioMed</p>
-            <p className="mt-1 text-[10px] font-black tracking-[0.16em] text-[#8d7a52]">醫療人文誌</p>
-          </div>
-        </a>
-
-        <nav className="hidden items-center gap-1 lg:flex">
-          {navItems.map(([id, label]) => (
-            <a
-              key={id}
-              href={`#${id}`}
-              className={`rounded-full px-4 py-2 text-xs font-black transition ${activeId === id ? "bg-[#243a32] text-white" : "text-[#5f7168] hover:bg-white/55 hover:text-[#243a32]"}`}
-            >
-              {label}
-            </a>
-          ))}
-        </nav>
-
-        <button
-          type="button"
-          className="inline-flex h-11 w-11 items-center justify-center rounded-full border border-white/70 bg-white/56 text-[#243a32] shadow-sm backdrop-blur lg:hidden"
-          aria-label="切換選單"
-          aria-expanded={open}
-          onClick={() => setOpen((current) => !current)}
-        >
-          <span className="grid gap-1.5">
-            <span className="block h-0.5 w-5 rounded-full bg-current" />
-            <span className="block h-0.5 w-5 rounded-full bg-current" />
-          </span>
-        </button>
-      </div>
-
-      {open ? (
-        <div className="border-t border-white/60 bg-[#fbf6ec]/94 px-4 py-3 backdrop-blur-2xl lg:hidden">
-          <nav className="mx-auto grid max-w-7xl gap-2">
-            {navItems.map(([id, label]) => (
-              <a
-                key={id}
-                href={`#${id}`}
-                className={`rounded-2xl px-4 py-3 text-sm font-black ${activeId === id ? "bg-[#243a32] text-white" : "bg-white/52 text-[#5f7168]"}`}
-                onClick={() => setOpen(false)}
-              >
-                {label}
-              </a>
-            ))}
-          </nav>
+    <main className="min-h-screen overflow-x-hidden bg-[#f4f0e6] text-[#243a32]" data-preserve-text data-skip-experience-polish>
+      <Seo page={{ path: "/demo/biomed-brand-site", title: copy.seoTitle, description: copy.seoDescription, image: images.hero, robots: "noindex, follow, noarchive", localizedCopy: true }} />
+      <p className="bg-[#243a32] px-4 py-2 text-center text-[10px] font-semibold leading-5 tracking-[.04em] text-[#eadcb9]">{copy.notice}</p>
+      <header className="sticky top-0 z-40 border-b border-[#243a32]/10 bg-[#f4f0e6]/90 backdrop-blur-xl">
+        <div className="mx-auto flex min-h-16 max-w-7xl items-center gap-5 px-5 sm:px-7">
+          <a href="#top" className="mr-auto font-serif text-lg font-semibold tracking-[-.02em]">LightCare BioMed</a>
+          <nav className="hidden items-center gap-5 text-[11px] font-semibold text-[#64766e] md:flex">{copy.nav.map(([label, href]) => <a key={href} href={href}>{label}</a>)}</nav>
+          <Link to="/works" className="inline-flex min-h-11 items-center text-[11px] font-semibold text-[#52685f]">{copy.back}</Link>
         </div>
-      ) : null}
-    </header>
-  )
-}
+      </header>
 
-function BiomedHero() {
-  return (
-    <section id="top" className="biomed-section mx-auto grid min-h-[100svh] max-w-7xl gap-8 px-4 pb-16 pt-28 md:px-8 lg:grid-cols-[0.95fr_1.05fr] lg:items-center">
-      <div className="relative z-10 max-w-3xl">
-        <p className="text-[10px] font-black uppercase tracking-[0.32em] text-[#8d7a52]">Medical Humanity Journal</p>
-        <h1 className="mt-5 text-balance font-serif text-[clamp(3.25rem,7vw,7.4rem)] font-black leading-[0.9] tracking-[-0.065em] text-[#243a32]">
-          屬於醫療人員的故事
-        </h1>
-        <p className="mt-6 max-w-xl text-base font-semibold leading-8 text-[#65776e] md:text-lg">
-          記錄醫療現場裡 那些溫暖、專業與被看見的時刻
-        </p>
-        <div className="mt-9 flex flex-wrap gap-3">
-          <a href="#about" className="inline-flex min-h-12 items-center rounded-full bg-[#243a32] px-6 text-sm font-black text-white shadow-xl shadow-[#243a32]/15">
-            了解項目
-          </a>
-          <a href="#stories" className="inline-flex min-h-12 items-center rounded-full border border-white/70 bg-white/58 px-6 text-sm font-black text-[#243a32] backdrop-blur">
-            觀看醫生故事
-          </a>
+      <section id="top" className="relative mx-auto grid min-h-[74svh] max-w-[1500px] items-end overflow-hidden bg-[#1c2e27] lg:grid-cols-[.86fr_1.14fr]">
+        <div className="relative z-10 order-2 p-7 text-white sm:p-10 lg:order-1 lg:p-16">
+          <p className="text-[10px] font-semibold tracking-[.18em] text-[#dfc98f]">{copy.eyebrow}</p>
+          <h1 className="mt-5 max-w-[12ch] font-serif text-[clamp(2.25rem,5vw,4.5rem)] font-semibold leading-[1.08] tracking-[-.045em]">{copy.title}</h1>
+          <p className="mt-6 max-w-lg text-sm font-medium leading-7 text-white/68">{copy.lead}</p>
+          <div className="mt-8 flex flex-wrap gap-3"><a href="#content" className="inline-flex min-h-12 items-center rounded-full bg-[#dfc98f] px-6 text-xs font-bold text-[#20342b]">{copy.view}</a><Link to="/contact?case=biomed-brand-site&type=website" className="inline-flex min-h-12 items-center rounded-full border border-white/24 px-6 text-xs font-bold text-white">{copy.contact}</Link></div>
         </div>
-      </div>
+        <div className="relative order-1 min-h-[46svh] lg:order-2 lg:h-full"><img src={images.hero} alt={`${copy.eyebrow} LightCare BioMed`} width="1680" height="945" fetchPriority="high" className="absolute inset-0 h-full w-full object-cover" /><div className="absolute inset-0 bg-[linear-gradient(180deg,transparent,rgba(28,46,39,.28))]" /></div>
+      </section>
 
-      <div className="relative">
-        <div className="absolute -inset-6 rounded-[3rem] bg-[#e7d1a4]/24 blur-3xl" />
-        <div className="relative overflow-hidden rounded-[2.4rem] border border-white/70 bg-white/45 p-4 shadow-[0_24px_90px_rgba(50,68,58,0.12)] backdrop-blur-2xl">
-          <div className="relative min-h-[32rem] overflow-hidden rounded-[2rem]">
-            <img src={heroImage} alt="醫療人員訪談形象照" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.04),rgba(27,50,42,0.46))]" />
-            <div className="absolute bottom-5 left-5 right-5 rounded-[1.5rem] border border-white/50 bg-white/64 p-5 backdrop-blur-2xl">
-              <p className="text-[10px] font-black uppercase tracking-[0.22em] text-[#8d7a52]">Current Feature</p>
-              <h2 className="mt-2 font-serif text-3xl font-black tracking-[-0.04em] text-[#243a32]">急診醫師的一天</h2>
-              <p className="mt-2 text-sm font-semibold leading-6 text-[#65776e]">從現場判斷、病人溝通到照護選擇 留下真實而克制的敘事</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  )
-}
+      <section id="content" className="mx-auto max-w-7xl px-5 py-16 sm:px-7 md:py-24">
+        <div className="grid gap-10 lg:grid-cols-[.72fr_1.28fr] lg:gap-20"><div><p className="text-[10px] font-bold tracking-[.16em] text-[#927b48]">{copy.focusLabel}</p><h2 className="mt-4 max-w-[15ch] font-serif text-[clamp(1.8rem,3.5vw,3rem)] font-semibold leading-[1.25] tracking-[-.035em]">{copy.focusTitle}</h2><p className="mt-5 max-w-md text-sm font-medium leading-7 text-[#64766e]">{copy.focusText}</p></div><div className="grid border-t border-[#243a32]/14 md:grid-cols-3">{copy.focuses.map(([title, text], index) => <article key={title} className="border-b border-[#243a32]/14 py-6 md:border-r md:px-6 md:first:pl-0 md:last:border-r-0"><span className="text-[10px] font-semibold text-[#99845a]">0{index + 1}</span><h3 className="mt-8 font-serif text-xl font-semibold">{title}</h3><p className="mt-3 text-xs font-medium leading-6 text-[#677971]">{text}</p></article>)}</div></div>
+      </section>
 
-function BiomedAbout() {
-  return (
-    <SectionShell id="about">
-      <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-        <SectionTitle
-          eyebrow="About"
-          title="醫療的本質 是對人文的關懷"
-          text="LightCare BioMed 以訪談、衛教與活動紀錄 讓醫療專業不只被理解 也被溫柔保存"
-        />
-        <div className="overflow-hidden rounded-[2.2rem] border border-white/70 bg-white/48 p-4 shadow-[0_20px_70px_rgba(50,68,58,0.09)] backdrop-blur-2xl">
-          <div className="relative min-h-[24rem] overflow-hidden rounded-[1.8rem]">
-            <img src={aboutImage} alt="醫療人員討論內容" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-            <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(255,255,255,0.78),rgba(255,255,255,0.08))]" />
-            <div className="absolute left-5 top-5 max-w-xs rounded-[1.4rem] border border-white/70 bg-white/68 p-5 backdrop-blur">
-              <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8d7a52]">Editorial Note</p>
-              <p className="mt-3 text-sm font-semibold leading-7 text-[#526b61]">我們相信 好的醫療內容應該清楚、節制 也保留人的溫度</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </SectionShell>
-  )
-}
+      <section className="bg-[#e9e3d5] px-5 py-16 sm:px-7 md:py-24">
+        <div className="mx-auto max-w-7xl"><p className="text-[10px] font-bold tracking-[.16em] text-[#927b48]">{copy.editorialLabel}</p><h2 className="mt-4 font-serif text-[clamp(1.8rem,3.5vw,3rem)] font-semibold tracking-[-.035em]">{copy.editorialTitle}</h2><div className="mt-10 grid gap-4 md:grid-cols-3">{copy.articles.map(([title, text], index) => <article key={title} className="group overflow-hidden bg-[#f8f5ed]"><div className="aspect-[4/3] overflow-hidden"><img src={[images.content, images.detail, images.space][index]} alt={title} width="1200" height="900" loading="lazy" className="h-full w-full object-cover transition duration-700 group-hover:scale-[1.03]" /></div><div className="p-6"><p className="text-[9px] font-bold tracking-[.15em] text-[#99845a]">{copy.sample}</p><h3 className="mt-4 font-serif text-xl font-semibold">{title}</h3><p className="mt-3 text-xs font-medium leading-6 text-[#66776f]">{text}</p></div></article>)}</div></div>
+      </section>
 
-function BiomedFeatures() {
-  return (
-    <SectionShell id="features">
-      <SectionTitle eyebrow="Features" title="項目特色" text="從短影音、專訪到衛教內容 建立可以長期累積的醫療品牌資產" />
-      <div className="mt-10 grid gap-4 md:grid-cols-2 lg:grid-cols-4">
-        {features.map((item) => (
-          <article
-            key={item.title}
-            className="group rounded-[1.5rem] border border-white/70 bg-white/52 p-5 shadow-[0_16px_50px_rgba(50,68,58,0.07)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:bg-white/68"
-          >
-            <div className="grid h-12 w-12 place-items-center rounded-2xl border border-[#d9cba8]/70 bg-[#f8f1df] text-[#8d6e3d]">
-              <FeatureIcon type={item.icon} />
-            </div>
-            <h3 className="mt-6 font-serif text-[1.45rem] font-black leading-tight tracking-[-0.03em] text-[#243a32]">{item.title}</h3>
-            <p className="mt-3 text-sm font-semibold leading-7 text-[#65776e]">{item.text}</p>
-          </article>
-        ))}
-      </div>
-    </SectionShell>
-  )
-}
+      <section id="process" className="mx-auto max-w-7xl px-5 py-16 sm:px-7 md:py-24">
+        <p className="text-[10px] font-bold tracking-[.16em] text-[#927b48]">{copy.processLabel}</p><h2 className="mt-4 max-w-xl font-serif text-[clamp(1.8rem,3.5vw,3rem)] font-semibold leading-[1.25] tracking-[-.035em]">{copy.processTitle}</h2><ol className="mt-10 grid border-y border-[#243a32]/14 md:grid-cols-3">{copy.steps.map(([title, text], index) => <li key={title} className="min-h-40 border-b border-[#243a32]/14 py-6 md:border-b-0 md:border-r md:px-7 md:first:pl-0 md:last:border-r-0"><span className="text-[10px] font-semibold text-[#99845a]">0{index + 1}</span><h3 className="mt-8 text-sm font-bold">{title}</h3><p className="mt-2 text-xs font-medium leading-6 text-[#66776f]">{text}</p></li>)}</ol>
+      </section>
 
-function BiomedStories() {
-  const [activeStory, setActiveStory] = useState(null)
+      <section id="event" className="bg-[#243a32] px-5 py-16 text-white sm:px-7 md:py-24">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[.8fr_1.2fr] lg:items-center"><div><p className="text-[10px] font-bold tracking-[.16em] text-[#dfc98f]">{copy.eventLabel}</p><h2 className="mt-4 max-w-[16ch] font-serif text-[clamp(1.8rem,3.5vw,3rem)] font-semibold leading-[1.25] tracking-[-.035em]">{copy.eventTitle}</h2><p className="mt-5 max-w-md text-sm font-medium leading-7 text-white/62">{copy.eventText}</p></div><div className="border border-white/14 bg-white/[.05] p-5 sm:p-7">{complete ? <div role="status"><span className="grid h-11 w-11 place-items-center rounded-full bg-[#dfc98f] font-bold text-[#243a32]">✓</span><p className="mt-5 text-sm font-semibold leading-7 text-white/82">{copy.complete}</p><button type="button" onClick={reset} className="mt-6 min-h-11 text-xs font-semibold text-[#dfc98f] underline underline-offset-4">{copy.replay}</button></div> : <><p className="text-xs font-semibold text-white/58">{copy.choose}</p><div className="mt-4 grid gap-3 sm:grid-cols-2">{[["online", copy.online], ["onsite", copy.onsite]].map(([value, label]) => <button key={value} type="button" aria-pressed={format === value} onClick={() => setFormat(value)} className={`min-h-12 border px-4 text-left text-sm font-semibold ${format === value ? "border-[#dfc98f] bg-[#dfc98f] text-[#243a32]" : "border-white/18 text-white"}`}>{label}</button>)}</div><button type="button" disabled={!format} onClick={() => setComplete(true)} className="mt-5 inline-flex min-h-12 w-full items-center justify-center bg-white px-6 text-sm font-bold text-[#243a32] disabled:opacity-35">{copy.finish}</button></>}</div></div>
+      </section>
 
-  return (
-    <SectionShell id="stories">
-      <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
-        <SectionTitle eyebrow="Stories" title="醫生故事" text="像品牌媒體一樣上架人物、觀點與專業內容點擊卡片可閱讀全文" />
-        <span className="w-fit rounded-full border border-white/70 bg-white/52 px-4 py-2 text-xs font-black text-[#61766c] backdrop-blur">Editorial Series</span>
-      </div>
-      <div className="mt-10 grid gap-5 md:grid-cols-3">
-        {stories.map((story) => (
-          <article
-            key={story.title}
-            className="cursor-pointer overflow-hidden rounded-[1.7rem] border border-white/70 bg-white/52 p-4 shadow-[0_18px_55px_rgba(50,68,58,0.08)] backdrop-blur-2xl transition duration-300 hover:-translate-y-1 hover:bg-white/68"
-            onClick={() => setActiveStory(story)}
-          >
-            <div className="relative aspect-[4/3] overflow-hidden rounded-[1.35rem]">
-              <img src={story.image} alt={story.title} loading="lazy" className="h-full w-full object-cover transition duration-500 hover:scale-105" />
-              <span className="absolute left-4 top-4 rounded-full bg-white/74 px-3 py-1 text-[10px] font-black tracking-[0.14em] text-[#61766c] backdrop-blur">{story.tag}</span>
-            </div>
-            <div className="px-2 pb-1 pt-5">
-              <h3 className="font-serif text-[1.55rem] font-black tracking-[-0.035em] text-[#243a32]">{story.title}</h3>
-              <p className="mt-2 text-sm font-semibold leading-7 text-[#65776e]">{story.text}</p>
-              <p className="mt-3 text-xs font-black text-[#8d7a52]">
-                {story.author} · {story.readTime} · 閱讀全文 →
-              </p>
-            </div>
-          </article>
-        ))}
-      </div>
-
-      {activeStory ? (
-        <div
-          className="fixed inset-0 z-[60] grid place-items-center bg-[#1b2a24]/55 p-4 backdrop-blur-sm"
-          onClick={() => setActiveStory(null)}
-        >
-          <article
-            className="max-h-[86vh] w-full max-w-2xl overflow-y-auto rounded-[2rem] border border-white/70 bg-[#fdfaf3] p-6 shadow-2xl md:p-8"
-            onClick={(event) => event.stopPropagation()}
-          >
-            <div className="flex items-start justify-between gap-3">
-              <div>
-                <span className="rounded-full bg-[#f0e7d3] px-3 py-1 text-[10px] font-black tracking-[0.14em] text-[#8d6e3d]">{activeStory.tag}</span>
-                <h3 className="mt-4 font-serif text-4xl font-black tracking-[-0.04em] text-[#243a32]">{activeStory.title}</h3>
-                <p className="mt-2 text-xs font-black text-[#8d7a52]">
-                  {activeStory.author} · {activeStory.readTime}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setActiveStory(null)}
-                aria-label="關閉全文"
-                className="grid h-10 w-10 shrink-0 place-items-center rounded-full border border-[#dcd2bd] text-[#61766c] hover:bg-[#f0e7d3]"
-              >
-                ✕
-              </button>
-            </div>
-            <div className="mt-5 overflow-hidden rounded-[1.4rem]">
-              <img src={activeStory.image} alt={activeStory.title} className="aspect-[16/8] w-full object-cover" />
-            </div>
-            <div className="mt-6 grid gap-4">
-              {activeStory.body.map((paragraph) => (
-                <p key={paragraph.slice(0, 12)} className="text-[15px] font-semibold leading-8 text-[#4e6157]">
-                  {paragraph}
-                </p>
-              ))}
-            </div>
-            <div className="mt-7 flex items-center justify-between border-t border-[#e5dcc8] pt-5">
-              <p className="text-xs font-black text-[#8d7a52]">LightCare BioMed · 醫療人文誌</p>
-              <button
-                type="button"
-                onClick={() => setActiveStory(null)}
-                className="rounded-full bg-[#243a32] px-5 py-2.5 text-xs font-black text-white"
-              >
-                回到故事列表
-              </button>
-            </div>
-          </article>
-        </div>
-      ) : null}
-    </SectionShell>
-  )
-}
-
-function BiomedEvents() {
-  const [sessions, setSessions] = useState(eventSessions)
-  const [sessionId, setSessionId] = useState(eventSessions[0].id)
-  const [name, setName] = useState("")
-  const [email, setEmail] = useState("")
-  const [error, setError] = useState("")
-  const [ticket, setTicket] = useState(null)
-
-  const selectedSession = sessions.find((session) => session.id === sessionId)
-
-  function submitRegistration(event) {
-    event.preventDefault()
-    if (!name.trim()) {
-      setError("請填寫姓名")
-      return
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setError("請填寫正確的 Email")
-      return
-    }
-    if (selectedSession.taken >= selectedSession.seats) {
-      setError("此場次已額滿 請改選其他場次")
-      return
-    }
-    setError("")
-    setSessions((current) =>
-      current.map((session) => (session.id === sessionId ? { ...session, taken: session.taken + 1 } : session))
-    )
-    setTicket({
-      code: `LC-${String(Math.floor(1000 + Math.random() * 9000))}`,
-      name: name.trim(),
-      session: selectedSession.label,
-    })
-  }
-
-  function resetRegistration() {
-    setTicket(null)
-    setName("")
-    setEmail("")
-  }
-
-  return (
-    <SectionShell id="events">
-      <div className="grid gap-8 lg:grid-cols-[0.85fr_1.15fr] lg:items-center">
-        <SectionTitle eyebrow="Events" title="公益講座" text="活動資訊、場次名額與報名流程整理在同一個入口 可直接操作" />
-        <div className="overflow-hidden rounded-[2rem] border border-white/70 bg-white/54 p-4 shadow-[0_22px_75px_rgba(50,68,58,0.1)] backdrop-blur-2xl">
-          <div className="grid gap-5 md:grid-cols-[0.92fr_1.08fr]">
-            <div className="relative min-h-[18rem] overflow-hidden rounded-[1.6rem]">
-              <img src={eventImage} alt="公益講座現場" loading="lazy" className="absolute inset-0 h-full w-full object-cover" />
-              <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(255,255,255,0.02),rgba(36,58,50,0.42))]" />
-              <span className="absolute left-4 top-4 rounded-full bg-white/74 px-3 py-1 text-[10px] font-black tracking-[0.18em] text-[#61766c] backdrop-blur">OPEN EVENT</span>
-              <div className="absolute bottom-4 left-4 right-4 rounded-[1.2rem] border border-white/50 bg-white/70 p-4 backdrop-blur">
-                <p className="font-serif text-4xl font-black tracking-[-0.05em] text-[#8d6e3d]">{eventInfo.date}</p>
-                <h3 className="mt-2 font-serif text-xl font-black leading-tight tracking-[-0.03em] text-[#243a32]">{eventInfo.title}</h3>
-                <p className="mt-1 text-xs font-black text-[#8d7a52]">{eventInfo.place}</p>
-              </div>
-            </div>
-
-            <div className="p-2 md:p-4">
-              {ticket ? (
-                <div className="flex h-full flex-col justify-between">
-                  <div className="rounded-[1.4rem] border-2 border-dashed border-[#c9b98f] bg-[#fdfaf3] p-5">
-                    <p className="text-[10px] font-black uppercase tracking-[0.24em] text-[#8d7a52]">Registration Confirmed</p>
-                    <p className="mt-3 font-serif text-4xl font-black tracking-[-0.03em] text-[#243a32]">{ticket.code}</p>
-                    <div className="mt-4 grid gap-2 text-sm font-semibold text-[#4e6157]">
-                      <p>報名人：{ticket.name}</p>
-                      <p>場次：{ticket.session}</p>
-                      <p>活動：{eventInfo.title}</p>
-                    </div>
-                    <p className="mt-4 text-xs font-bold text-[#8d7a52]">報名確認信已寄出（示範流程） 講座前三天會再提醒</p>
-                  </div>
-                  <button
-                    type="button"
-                    onClick={resetRegistration}
-                    className="mt-4 inline-flex min-h-11 w-fit items-center rounded-full border border-[#c9b98f] px-5 text-xs font-black text-[#243a32] hover:bg-white"
-                  >
-                    再報名一位
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={submitRegistration} className="grid gap-3">
-                  <p className="text-sm font-semibold leading-7 text-[#65776e]">{eventInfo.note}</p>
-                  <div className="grid gap-2 sm:grid-cols-2">
-                    {sessions.map((session) => {
-                      const remaining = session.seats - session.taken
-                      const active = sessionId === session.id
-                      return (
-                        <button
-                          key={session.id}
-                          type="button"
-                          onClick={() => setSessionId(session.id)}
-                          className={`rounded-2xl border p-3 text-left transition ${
-                            active ? "border-[#243a32] bg-[#243a32] text-white" : "border-[#d8cfba] bg-white/70 text-[#243a32] hover:border-[#8d7a52]"
-                          }`}
-                        >
-                          <p className="text-sm font-black">{session.label}</p>
-                          <p className={`mt-1 text-xs font-bold ${active ? "text-white/70" : "text-[#65776e]"}`}>{session.note}</p>
-                          <p className={`mt-2 text-xs font-black ${remaining <= 10 ? (active ? "text-[#e9cf9b]" : "text-[#b3562e]") : active ? "text-[#e9cf9b]" : "text-[#8d7a52]"}`}>
-                            剩餘 {remaining} 位
-                          </p>
-                        </button>
-                      )
-                    })}
-                  </div>
-                  <input
-                    value={name}
-                    onChange={(event) => setName(event.target.value)}
-                    placeholder="姓名"
-                    className="min-h-12 rounded-2xl border border-[#d8cfba] bg-white px-4 text-sm font-semibold text-[#243a32] outline-none placeholder:text-[#a4b0a4] focus:border-[#243a32]"
-                  />
-                  <input
-                    value={email}
-                    onChange={(event) => setEmail(event.target.value)}
-                    placeholder="Email（寄送報名確認）"
-                    className="min-h-12 rounded-2xl border border-[#d8cfba] bg-white px-4 text-sm font-semibold text-[#243a32] outline-none placeholder:text-[#a4b0a4] focus:border-[#243a32]"
-                  />
-                  {error ? <p className="text-xs font-black text-[#b3562e]">{error}</p> : null}
-                  <button
-                    type="submit"
-                    className="inline-flex min-h-12 w-fit items-center rounded-full bg-[#243a32] px-6 text-sm font-black text-white shadow-lg shadow-[#243a32]/14"
-                  >
-                    確認報名{selectedSession ? `（${selectedSession.label}）` : ""}
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </div>
-    </SectionShell>
-  )
-}
-
-function BiomedSubscribe() {
-  const [email, setEmail] = useState("")
-  const [sent, setSent] = useState(false)
-
-  const [subscribeError, setSubscribeError] = useState("")
-
-  function submitSubscribe(event) {
-    event.preventDefault()
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email.trim())) {
-      setSubscribeError("請輸入正確的 Email 格式")
-      setSent(false)
-      return
-    }
-    setSubscribeError("")
-    setSent(true)
-  }
-
-  return (
-    <SectionShell id="subscribe" className="py-10 md:py-16">
-      <div className="rounded-[2rem] border border-white/70 bg-[#243a32] p-6 text-white shadow-[0_24px_80px_rgba(36,58,50,0.16)] md:p-10">
-        <div className="grid gap-6 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div>
-            <p className="text-[10px] font-black uppercase tracking-[0.28em] text-[#e9cf9b]">Subscribe</p>
-            <h2 className="mt-3 font-serif text-[clamp(2rem,5vw,4rem)] font-black leading-none tracking-[-0.045em]">訂閱我們</h2>
-            <p className="mt-4 text-sm font-semibold leading-7 text-white/72">追蹤最新醫療故事與健康內容</p>
-          </div>
-          <form onSubmit={submitSubscribe} className="flex flex-col gap-3 rounded-[1.3rem] border border-white/12 bg-white/8 p-3 backdrop-blur md:flex-row">
-            <input
-              type="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              placeholder="your@email.com"
-              className="min-h-12 flex-1 rounded-full border border-white/12 bg-white px-5 text-sm font-semibold text-[#243a32] outline-none placeholder:text-[#8aa096]"
-            />
-            <button type="submit" className="min-h-12 rounded-full bg-[#e9cf9b] px-6 text-sm font-black text-[#243a32]">
-              訂閱
-            </button>
-          </form>
-        </div>
-        {subscribeError ? <p className="mt-4 text-sm font-black text-[#f0b3a0]">{subscribeError}</p> : null}
-        {sent ? <p className="mt-4 text-sm font-black text-[#e9cf9b]">感謝訂閱 之後的醫療故事會寄到 {email.trim()}</p> : null}
-      </div>
-    </SectionShell>
-  )
-}
-
-function BiomedFooter() {
-  return (
-    <footer id="company" className="biomed-section mx-auto max-w-7xl px-4 pb-10 pt-14 md:px-8">
-      <div className="rounded-[2rem] border border-white/70 bg-white/50 p-6 shadow-[0_18px_55px_rgba(50,68,58,0.08)] backdrop-blur-2xl md:p-8">
-        <div className="grid gap-8 md:grid-cols-[1fr_auto] md:items-start">
-          <div>
-            <p className="font-serif text-2xl font-black tracking-[-0.03em] text-[#243a32]">LightCare BioMed</p>
-            <p className="mt-3 max-w-xl text-sm font-semibold leading-7 text-[#65776e]">
-              以醫療故事、健康內容與公益活動 建立可信任的醫療內容品牌
-            </p>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {["Facebook", "Instagram", "YouTube"].map((item) => (
-              <span key={item} className="rounded-full border border-white/70 bg-white/58 px-4 py-2 text-xs font-black text-[#61766c]">
-                {item}
-              </span>
-            ))}
-          </div>
-        </div>
-        <div className="mt-8 flex flex-col gap-3 border-t border-white/70 pt-5 text-xs font-black tracking-[0.12em] text-[#87988f] md:flex-row md:items-center md:justify-between">
-          <span>© 2026 LightCare BioMed. Privacy Policy.</span>
-          <div className="flex flex-wrap gap-3">
-            <Link to="/" className="text-[#61766c]">返回作品集</Link>
-            <span>Demo by Qingyu Web Studio</span>
-          </div>
-        </div>
-      </div>
-    </footer>
-  )
-}
-
-function BiomedBrandSite() {
-  const [activeId, setActiveId] = useState("top")
-
-  useEffect(() => {
-    const title = "醫療人文誌｜屬於醫療人員的故事"
-    const description = "記錄醫療人員的專業、溫度與健康知識 打造可信任的醫療內容品牌"
-
-    document.title = title
-    setMetaTag("description", description)
-    setPropertyMeta("og:title", title)
-    setPropertyMeta("og:description", description)
-    setPropertyMeta("og:type", "website")
-  }, [])
-
-  useEffect(() => {
-    const sections = navItems
-      .map(([id]) => document.getElementById(id))
-      .filter(Boolean)
-
-    const observer = new IntersectionObserver(
-      (entries) => {
-        const visible = entries
-          .filter((entry) => entry.isIntersecting)
-          .sort((a, b) => b.intersectionRatio - a.intersectionRatio)[0]
-
-        if (visible?.target?.id) {
-          setActiveId(visible.target.id)
-        }
-      },
-      {
-        rootMargin: "-25% 0px -55% 0px",
-        threshold: [0.16, 0.32, 0.56],
-      },
-    )
-
-    sections.forEach((section) => observer.observe(section))
-    return () => observer.disconnect()
-  }, [])
-
-  return (
-    <main className="relative min-h-screen overflow-hidden text-[#243a32]">
-      <style>{`
-        html { scroll-behavior: smooth; }
-        .biomed-section { scroll-margin-top: 96px; }
-      `}</style>
-      <SoftBackground />
-      <BiomedHeader activeId={activeId} />
-      <BiomedHero />
-      <BiomedAbout />
-      <BiomedFeatures />
-      <BiomedStories />
-      <BiomedEvents />
-      <BiomedSubscribe />
-      <BiomedFooter />
+      <section className="mx-auto flex max-w-7xl flex-col gap-7 px-5 py-16 sm:px-7 md:flex-row md:items-end md:justify-between md:py-24"><div><p className="text-[10px] font-bold tracking-[.16em] text-[#927b48]">QINGYU WEB</p><h2 className="mt-4 max-w-xl font-serif text-[clamp(1.8rem,3.5vw,3rem)] font-semibold leading-[1.25] tracking-[-.035em]">{copy.closing}</h2><p className="mt-4 text-sm font-medium text-[#66776f]">{copy.closingText}</p></div><Link to="/contact?case=biomed-brand-site&type=website" className="inline-flex min-h-12 shrink-0 items-center justify-between gap-8 rounded-full bg-[#243a32] px-6 text-xs font-bold text-white">{copy.closingAction}<Arrow /></Link></section>
+      <footer className="border-t border-[#243a32]/12 px-5 py-6 text-[10px] font-semibold text-[#77857f] sm:px-7"><div className="mx-auto flex max-w-7xl flex-wrap items-center justify-between gap-4"><span>LightCare BioMed {copy.footer}</span><Link to="/works">Qingyu Web</Link></div></footer>
     </main>
   )
 }
-
-export default BiomedBrandSite

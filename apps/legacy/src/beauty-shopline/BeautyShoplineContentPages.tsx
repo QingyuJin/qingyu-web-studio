@@ -33,9 +33,8 @@ function AssetImage({ image, loading = "lazy" }) {
   )
 }
 
-function PlaceholderBadge({ label = "暫代圖・待換客戶實拍" }) {
-  void label
-  return null
+function PlaceholderBadge({ label = "提案示意圖" }) {
+  return <span className="lf-placeholder-badge">{label}</span>
 }
 
 function InnerHero({ eyebrow, title, description, image = imageAssets.hero }) {

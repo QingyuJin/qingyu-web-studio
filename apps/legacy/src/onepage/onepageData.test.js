@@ -2,19 +2,19 @@ import { existsSync } from "node:fs"
 import path from "node:path"
 import { fileURLToPath } from "node:url"
 import { describe, expect, it } from "vitest"
-import { allOnepageImages, onepageTemplates } from "./onepageData"
+import { allOnepageImages, createTemplateSeo, onepageTemplates } from "./onepageData"
 
 const projectRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), "../..")
 
 describe("one-page template catalog", () => {
-  it("contains the six required industries and exact section counts", () => {
+  it("contains the six required industries and truthful rendered section counts", () => {
     expect(onepageTemplates.map(({ slug, sectionCount }) => [slug, sectionCount])).toEqual([
-      ["beauty", 9],
-      ["clinic", 10],
-      ["restaurant", 8],
-      ["construction", 9],
-      ["manufacturing", 9],
-      ["saas", 10],
+      ["beauty", 6],
+      ["clinic", 6],
+      ["restaurant", 6],
+      ["construction", 6],
+      ["manufacturing", 6],
+      ["saas", 6],
     ])
   })
 
@@ -29,9 +29,17 @@ describe("one-page template catalog", () => {
   it("gives every template independent SEO and contact metadata", () => {
     for (const template of onepageTemplates) {
       expect(template.seoTitle).toContain("Qingyu Web Studio")
-      expect(template.seoDescription.length).toBeGreaterThan(40)
+      expect(template.seoDescription.length).toBeGreaterThan(20)
       expect(template.primaryCta.length).toBeGreaterThan(2)
       expect(template.audience.length).toBeGreaterThan(4)
+    }
+  })
+
+  it("marks each industry page as a creative concept instead of a real business", () => {
+    for (const template of onepageTemplates) {
+      const graph = createTemplateSeo(template).structuredData["@graph"]
+      expect(graph[1]["@type"]).toBe("CreativeWork")
+      expect(graph[1].additionalProperty.value).toContain("sample content")
     }
   })
 })

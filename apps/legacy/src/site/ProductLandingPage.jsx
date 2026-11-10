@@ -297,7 +297,7 @@ function ProductLandingPage() {
         <div className="mx-auto flex max-w-5xl flex-col items-center gap-3 px-4 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
           <p className="text-sm font-bold text-[#66716d]">
             這一頁是<span className="font-black text-[#111c22]">銷售頁示範</span>（虛構商品）想幫你的商品做一頁？
-            <span className="font-black text-[#0d6b62]"> 12,000 元起・5–10 天</span>
+            <span className="font-black text-[#0d6b62]"> 依需求與預算討論</span>
           </p>
           <div className="flex gap-2">
             <Link to="/contact" className="inline-flex min-h-10 items-center rounded-lg bg-[#111c22] px-4 text-sm font-black text-white">

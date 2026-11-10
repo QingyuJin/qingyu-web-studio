@@ -1,61 +1,4 @@
-﻿export const siteUrl = "https://www.qingyuweb.com"
-
-export const contact = {
-  email: "a0988874324@gmail.com",
-  lineId: "mulavuc",
-  line: "傳產業、需求、預算、時程即可",
-  github: "https://github.com/QingyuJin/qingyu-web-studio",
-}
-
-export const seo = {
-  home: {
-    path: "/",
-    title: "企業 Web 系統與高質感網站開發｜晴宇 Qingyu Web",
-    description:
-      "晴宇 Qingyu Web 為台灣企業打造管理後台 Web App 電商網站 AI 知識庫 LINE 與 API 串接及高質感品牌網站",
-  },
-  works: {
-    path: "/works",
-    title: "企業系統與網站作品｜晴宇 Qingyu Web",
-    description: "瀏覽企業管理系統 電商網站 AI 知識庫 LINE 串接與成效工具並直接操作展示",
-  },
-  services: {
-    path: "/services",
-    title: "企業 Web 系統與網站開發服務｜晴宇 Qingyu Web",
-    description:
-      "企業管理系統 品牌網站 Landing Page LINE 串接 AI 公司知識庫 SEO 與成效追蹤的完整開發服務",
-  },
-  pricing: {
-    path: "/pricing",
-    title: "企業系統與網站開發價格｜晴宇 Qingyu Web",
-    description: "企業 Web 系統 品牌網站 Landing Page 及客製開發支援的專案起始價格與合作範圍",
-  },
-  audit: {
-    path: "/free-audit",
-    title: "免費網站健檢｜手機體驗、SEO 與轉換檢查｜Qingyu Web Studio",
-    description: "檢查網站手機版、速度、CTA、SEO、內容信任感與廣告承接路徑，整理下一步優化方向",
-  },
-  contact: {
-    path: "/contact",
-    title: "企業系統與網站專案諮詢｜晴宇 Qingyu Web",
-    description: "留下需求類型 產業 參考案例 預算與時程取得系統或網站的開發建議與估價",
-  },
-  planner: {
-    path: "/tools/project-planner",
-    title: "網站需求診斷工具｜Qingyu Web Studio",
-    description: "快速判斷適合的方向",
-  },
-  websiteRescue: {
-    path: "/tools/website-rescue",
-    title: "網站救援互動成品｜網站健檢與優化展示｜Qingyu Web Studio",
-    description: "點選改善項目 看網站狀態變化",
-  },
-  lineBotMission: {
-    path: "/tools/linebot-mission",
-    title: "LINE Bot 接待模擬｜互動式 LINE Bot 成品｜Qingyu Web Studio",
-    description: "體驗 LINE Bot 接待與後台同步",
-  },
-}
+export { siteUrl, contact, seo } from "./siteConfig"
 
 export const serviceCategories = [
   ["企業 Web 系統", "管理後台 權限與工作流程"],
@@ -69,8 +12,8 @@ export const serviceOfferings = [
   {
     id: "web-systems",
     name: "企業 Web 系統",
-    label: "35,000 元起",
-    price: "35,000 元起",
+    label: "依需求估價",
+    price: "依需求估價",
     summary: "管理後台 角色權限 與核心工作流程",
     targetUsers: "需要整合訂單 客戶 案件 會員或內部流程的企業",
     problem: "資料與工作散在 LINE Excel 紙本與多個工具",
@@ -81,8 +24,8 @@ export const serviceOfferings = [
   {
     id: "business-website",
     name: "企業品牌網站",
-    label: "25,000 元起",
-    price: "25,000 元起",
+    label: "依需求估價",
+    price: "依需求估價",
     summary: "高質感品牌體驗 清楚內容與詢價路徑",
     targetUsers: "需要建立正式數位門面與品牌價值的公司",
     problem: "網站看起來像套版 也無法清楚承接服務與詢問",
@@ -93,8 +36,8 @@ export const serviceOfferings = [
   {
     id: "landing-page",
     name: "Landing Page",
-    label: "12,000 元起",
-    price: "12,000 元起",
+    label: "依需求估價",
+    price: "依需求估價",
     summary: "聚焦單一服務 活動或廣告轉換",
     targetUsers: "需要驗證服務 新品或廣告訴求的品牌",
     problem: "流量進入首頁後找不到對應訊息與明確下一步",
@@ -141,8 +84,8 @@ export const serviceOfferings = [
   {
     id: "analytics-dashboard",
     name: "SEO 與 Analytics",
-    label: "15,000 元起",
-    price: "15,000 元起",
+    label: "依需求估價",
+    price: "依需求估價",
     summary: "搜尋架構 技術 SEO 事件追蹤與成效報表",
     targetUsers: "有官網、品牌頁、投廣告或靠 Google 搜尋接案的店家",
     problem: "網站上線後不知道訪客從哪來、哪些頁面有效、哪些按鈕真的帶來詢問",
@@ -184,24 +127,24 @@ export const processSteps = [
 export const audience = ["個人品牌", "店家", "工作室", "工程服務業", "新創團隊", "成長型服務"]
 
 export const pricing = [
-  ["網站快速頁", "5,000 元起", "2–5 天"],
-  ["公司一頁式官網", "12,000–20,000 元", "5–10 天"],
-  ["互動測驗頁", "6,000 元起", "3–5 天"],
-  ["Google Sheet 題庫測驗", "10,000 元起", "5–8 天"],
-  ["LINE 自動回覆 / FAQ", "8,000 元起", "3–7 天"],
-  ["SEO 基礎整頓", "15,000 元起", "7–14 天"],
-  ["廣告落地頁＋追蹤", "18,000 元起", "7–14 天"],
-  ["小型後台 / 表單管理", "20,000 元起", "7–14 天"],
-  ["查件系統 MVP", "25,000 元起", "10–18 天"],
-  ["工程行接案系統", "30,000 元起", "14–25 天"],
-  ["會員專區系統", "30,000 元起", "14–25 天"],
+  ["網站快速頁", "依需求估價", "2–5 天"],
+  ["公司一頁式官網", "依需求估價", "5–10 天"],
+  ["互動測驗頁", "依需求估價", "3–5 天"],
+  ["Google Sheet 題庫測驗", "依需求估價", "5–8 天"],
+  ["LINE 自動回覆 / FAQ", "依需求估價", "3–7 天"],
+  ["SEO 基礎整頓", "依需求估價", "7–14 天"],
+  ["廣告落地頁＋追蹤", "依需求估價", "7–14 天"],
+  ["小型後台 / 表單管理", "依需求估價", "7–14 天"],
+  ["查件系統 MVP", "依需求估價", "10–18 天"],
+  ["工程行接案系統", "依需求估價", "14–25 天"],
+  ["會員專區系統", "依需求估價", "14–25 天"],
   ["客製 Web App / 系統", "依需求估價", "依需求估時"],
-  ["小型網站月維護", "800 元起 / 月", "每月 1–2 小時內"],
-  ["系統類月維護", "2,000 元起 / 月", "每月 2–5 小時內"],
+  ["小型網站月維護", "依需求估價", "每月 1–2 小時內"],
+  ["系統類月維護", "依需求估價", "每月 2–5 小時內"],
 ]
 
 export const pricingNote =
-  "起始價格以需求與素材完整為前提 正式範圍 時程 付款與交付方式會在報價或合約確認 網域 主機 付費服務 大量內容與第三方串接另估 驗收範圍內提供錯誤修正 新增功能與後續維護另外安排"
+  "依需求、素材與預算提供個別估價 正式範圍 時程 付款與交付方式會在報價或合約確認 網域 主機 付費服務 大量內容與第三方串接另估 驗收範圍內提供錯誤修正 新增功能與後續維護另外安排"
 
 export const projects = [
   {
@@ -351,7 +294,7 @@ export const projects = [
     category: "教育訓練與測驗題庫網頁",
     summary: "教育訓練與活動測驗成品 可交付題目、選項、答案解析、結果頁與題庫維護方式",
     featured: true,
-    livePath: "/works/interactive-quiz#demo",
+    livePath: "/demo/ai-audit",
     liveLabel: "開始測驗",
     secondaryPath: "/contact",
     secondaryLabel: "討論測驗頁",

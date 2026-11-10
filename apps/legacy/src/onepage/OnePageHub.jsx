@@ -1,77 +1,81 @@
 import { useState } from "react"
 import { Link } from "react-router-dom"
+import { useLocale } from "../i18n/LocaleContext"
 import Seo from "../site/Seo"
 import SiteLayout from "../site/SiteLayout"
-import { onepageContact, onepageHubSeo, onepageTemplates } from "./onepageData"
+import { onepageContact, onepageTemplates } from "./onepageData"
+import { getOnepageHubCopy, localizeOnepageTemplate } from "./onepageI18n"
+import { getTemplateEntryCopy } from "./templateEntry"
 import useResetScroll from "./useResetScroll"
 import "./onepage.css"
 
 function OnePageHub() {
   useResetScroll()
+  const { locale } = useLocale()
+  const copy = getOnepageHubCopy(locale)
+  const entry = getTemplateEntryCopy(locale)
+  const templates = onepageTemplates.map((template) => localizeOnepageTemplate(template, locale))
   const [previewMode, setPreviewMode] = useState("desktop")
 
   return (
     <SiteLayout>
-      <Seo page={{ ...onepageHubSeo, path: "/showcase", title: "產業網站展示空間｜晴宇 Qingyu Web", description: "瀏覽美容 診所 餐飲 工程 製造與軟體服務的一頁式網站提案 看見清楚訊息 手機動線與轉換入口" }} />
-      <div className="onepage-hub">
+      <Seo page={{ path: "/showcase", title: copy.seoTitle, description: copy.seoDescription, image: templates[0].hero, localizedCopy: true }} />
+      <div className="onepage-hub" data-preserve-text data-skip-experience-polish>
         <section className="op-hub-hero">
           <div className="op-hub-hero-copy">
-            <p>ONE PAGE · CLEAR ACTION</p>
-            <h1>六套產業網站提案</h1>
+            <p>{entry.label}</p>
+            <h1>{entry.title}</h1>
             <div className="op-hub-rule" />
-            <p className="op-hub-lead">從美容 醫療到製造與 SaaS 查看不同產業如何整理服務與轉換動線</p>
+            <p className="op-hub-lead">{copy.lead}</p>
             <div className="op-hub-actions">
-              <a href="#templates">查看六套網站</a>
-              <Link to="/contact?type=landing">洽詢類似網站</Link>
+              <a href="#templates">{copy.view}</a>
+              <Link to={`/contact?type=landing&lang=${locale}`}>{copy.contact}</Link>
             </div>
           </div>
-          <div className="op-hub-mosaic" aria-label="六大產業範本預覽">
-            {onepageTemplates.map((template, index) => (
-              <Link to={`/onepage/${template.slug}`} key={template.slug} className={`tile-${index + 1}`} aria-label={`查看${template.industry}範本`}>
-                <img src={template.hero} alt={`${template.industry}一頁式網站範本`} width="1680" height="945" loading={index < 2 ? "eager" : "lazy"} />
+          <div className="op-hub-mosaic" aria-label={copy.mosaic}>
+            {templates.map((template, index) => (
+              <Link to={`/onepage/${template.slug}?lang=${locale}`} key={template.slug} className={`tile-${index + 1}`} aria-label={`${copy.tile} ${template.industry}`}>
+                <img src={template.hero} alt={`${template.industry} ${copy.tile}`} width="1680" height="945" loading={index < 2 ? "eager" : "lazy"} />
                 <span>{template.industry}</span>
               </Link>
             ))}
           </div>
         </section>
 
-        <section className="op-spec-strip" aria-label="一頁式網站的優點">
-          <div><b>ONE</b><span>訊息集中</span></div>
-          <div><b>RWD</b><span>手機好讀</span></div>
-          <div><b>SEO</b><span>搜尋架構</span></div>
-          <div><b>CTA</b><span>行動明確</span></div>
+        <section className="op-spec-strip" aria-label={copy.eyebrow}>
+          {copy.benefits.map(([label, value]) => <div key={label}><b>{label}</b><span>{value}</span></div>)}
         </section>
 
         <section className="op-template-catalog" id="templates">
           <div className="op-catalog-head">
             <div>
-              <p>SIX LIVE CONCEPTS</p>
-              <h2>六套產業作品</h2>
-              <span>訊息 動態 表單 手機</span>
+              <p>{copy.catalog}</p>
+              <h2>{copy.catalogTitle}</h2>
+              <span>{entry.note}</span>
             </div>
-            <div className="op-preview-switch" aria-label="預覽尺寸切換">
-              <button type="button" aria-pressed={previewMode === "desktop"} onClick={() => setPreviewMode("desktop")}>桌機</button>
-              <button type="button" aria-pressed={previewMode === "mobile"} onClick={() => setPreviewMode("mobile")}>手機</button>
+            <div className="op-preview-switch" aria-label={copy.preview}>
+              <button type="button" aria-pressed={previewMode === "desktop"} onClick={() => setPreviewMode("desktop")}>{copy.desktop}</button>
+              <button type="button" aria-pressed={previewMode === "mobile"} onClick={() => setPreviewMode("mobile")}>{copy.mobile}</button>
             </div>
           </div>
 
           <div className={`op-catalog-grid preview-${previewMode}`}>
-            {onepageTemplates.map((template, index) => (
+            {templates.map((template, index) => (
               <article className="op-catalog-card" key={template.slug}>
-                <div className="op-catalog-preview">
+                <Link to={`/onepage/${template.slug}?lang=${locale}`} className="op-catalog-preview" aria-label={`${copy.open} ${template.industry}`}>
                   <div className="op-browser-bar"><i /><i /><i /><span>qingyuweb.com/onepage/{template.slug}</span></div>
                   <div className="op-preview-canvas">
-                    <img src={template.hero} alt={`${template.industry}範本${previewMode === "desktop" ? "桌機" : "手機"}預覽`} width="1680" height="945" loading={index > 1 ? "lazy" : "eager"} />
+                    <img src={template.hero} alt={`${template.industry} ${previewMode === "desktop" ? copy.desktop : copy.mobile}`} width="1680" height="945" loading={index > 1 ? "lazy" : "eager"} />
                     <div className="op-preview-copy"><small>{template.eyebrow}</small><b>{template.brand}</b><span>{template.title}</span></div>
                   </div>
-                </div>
+                </Link>
                 <div className="op-catalog-content">
                   <div className="op-card-index">0{index + 1}</div>
                   <div>
                     <p>{template.industry}</p>
                     <h3>{template.brand}</h3>
                   </div>
-                  <Link to={`/onepage/${template.slug}`}>查看網站 <span aria-hidden="true">↗</span></Link>
+                  <Link to={`/onepage/${template.slug}?lang=${locale}`}>{copy.open}</Link>
                 </div>
               </article>
             ))}
@@ -79,11 +83,11 @@ function OnePageHub() {
         </section>
 
         <section className="op-hub-contact">
-          <p>START WITH ONE CLEAR PAGE</p>
-          <h2>從一頁開始<br />讓品牌被看懂</h2>
+          <p>{copy.closing}</p>
+          <h2>{copy.closingTitle[0]}<br />{copy.closingTitle[1]}</h2>
           <div>
-            <a href={onepageContact.lineUrl} target="_blank" rel="noreferrer">LINE 免費諮詢</a>
-            <a href={`mailto:${onepageContact.email}`}>Email</a>
+            <a href={onepageContact.lineUrl} target="_blank" rel="noreferrer">{copy.line}</a>
+            <a href={`mailto:${onepageContact.email}`}>{copy.email}</a>
           </div>
         </section>
       </div>

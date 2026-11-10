@@ -5,6 +5,7 @@ import { useLocale } from "./i18n/LocaleContext"
 import { translateDisplayText } from "./i18n/translations"
 
 const protectedSelector = [
+  "head",
   "script",
   "style",
   "pre",
@@ -51,6 +52,7 @@ function renderAttributes(root, locale) {
   }
 
   elements.forEach((element) => {
+    if (element.closest("head")) return
     if (element.closest("[data-i18n-control]")) return
     const names = ["placeholder", "title", "aria-label", "alt"]
     if (element.matches('meta[name="description"],meta[property="og:title"],meta[property="og:description"],meta[property="og:image:alt"],meta[name="twitter:title"],meta[name="twitter:description"]')) names.push("content")

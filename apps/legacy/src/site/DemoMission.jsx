@@ -136,28 +136,30 @@ export function DemoRoleSelector() {
             </button>
           ))}
         </div>
-        <p className="mt-5 text-xs font-semibold text-[#7b8581]">{definition.duration} 不需要帳號 資料可一鍵重設</p>
+        <p className="mt-5 text-xs font-semibold leading-6 text-[#7b8581]">{definition.duration} 不需要帳號 資料可一鍵重設</p>
+        <p className="mt-2 text-[11px] font-medium leading-5 text-[#87918d]">展示使用獨立資料 不會寫入正式系統或對外傳送</p>
       </section>
     </main>
   )
 }
 
 export function DemoGuide() {
-  const { role, stepIndex, steps, currentStep, reset } = useDemoMission()
+  const { role, stepIndex, steps, currentStep, reset, bringToStep } = useDemoMission()
   return (
     <aside className="demo-guide fixed inset-x-0 bottom-0 z-[95] border-t border-[#d5d2c8] bg-[#fbfaf7]/[.98] p-3 shadow-[0_-16px_40px_rgba(19,32,31,.12)] backdrop-blur-xl sm:sticky sm:top-12 sm:border-b sm:border-t-0 sm:px-5 sm:py-3 sm:shadow-sm" aria-label="體驗任務">
       <div className="mx-auto flex max-w-6xl items-center gap-3 sm:gap-5">
         <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2 text-[10px] font-bold tracking-[.08em] text-[#60706b]">
-            <span className="truncate">目前角色 {role.label}</span>
+            <span className="min-w-0">目前角色 {role.label}</span>
             <span aria-hidden="true">·</span>
             <span className="shrink-0">{`${stepIndex + 1} / ${steps.length}`}</span>
           </div>
-          <p className="mt-1 truncate text-sm font-bold text-[#17211f] sm:text-[15px]">{currentStep.instruction}</p>
+          <p className="mt-1 line-clamp-2 text-sm font-bold leading-5 text-[#17211f] sm:text-[15px]">{currentStep.instruction}</p>
           <div className="mt-2 flex gap-1" aria-hidden="true">
             {steps.map((step, index) => <span key={step.id} className={`h-1 flex-1 rounded-full ${index <= stepIndex ? "bg-[#2d6d62]" : "bg-[#d8ddd9]"}`} />)}
           </div>
         </div>
+        <button type="button" onClick={bringToStep} className="inline-flex min-h-11 shrink-0 items-center rounded-full bg-[#173c37] px-4 text-xs font-bold text-white">帶我去</button>
         <details className="relative shrink-0">
           <summary className="grid min-h-11 min-w-11 cursor-pointer list-none place-items-center rounded-full border border-[#c8cfca] bg-white text-lg font-bold text-[#44524e]" aria-label="更多操作">⋯</summary>
           <div className="absolute bottom-14 right-0 w-36 rounded-xl border border-[#d5d2c8] bg-white p-2 shadow-xl sm:bottom-auto sm:top-12">
@@ -186,6 +188,7 @@ export function DemoReset({ onReset, compact = false }) {
 function DemoCompletion() {
   const { definition, role, reset, exitMission, slug } = useDemoMission()
   const demo = getDemo(slug)
+  const primaryLabel = demo?.contactType === "website" ? "我也想做類似網站" : "我也想做類似系統"
   return (
     <main className="grid min-h-[calc(100svh-3rem)] place-items-center px-4 py-8 sm:px-6">
       <section className="w-full max-w-2xl rounded-[1.5rem] border border-[#d8d4ca] bg-[#fbfaf7] p-6 shadow-[0_28px_80px_rgba(16,28,28,.12)] sm:p-9">
@@ -197,8 +200,8 @@ function DemoCompletion() {
         </div>
         <p className="mt-6 text-[15px] font-semibold leading-7 text-[#3f4e4a]">{definition.businessResult}</p>
         <div className="mt-7 grid gap-3 sm:grid-cols-2">
-          {demo ? <Link to={demo.caseStudyPath} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#173c37] px-6 text-sm font-bold text-white">查看案例說明</Link> : null}
-          <Link to={demo ? demoContactPath(demo) : "/contact?type=business-system"} className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#9cadA7] bg-white px-6 text-sm font-bold text-[#334440]">洽談類似系統</Link>
+          <Link to={demo ? demoContactPath(demo) : "/contact?type=business-system"} className="inline-flex min-h-12 items-center justify-center rounded-full bg-[#173c37] px-6 text-sm font-bold text-white">{primaryLabel}</Link>
+          {demo?.caseStudyPath && demo.caseStudyPath !== demo.demoPath ? <Link to={demo.caseStudyPath} className="inline-flex min-h-12 items-center justify-center rounded-full border border-[#9cadA7] bg-white px-6 text-sm font-bold text-[#334440]">查看案例</Link> : null}
         </div>
         <button type="button" onClick={reset} className="mt-3 min-h-11 w-full text-xs font-bold text-[#697570] underline underline-offset-4">再玩一次</button>
         {definition.roles.length > 1 ? <button type="button" onClick={exitMission} className="mt-4 min-h-11 w-full text-xs font-bold text-[#697570] underline underline-offset-4">切換體驗角色</button> : null}

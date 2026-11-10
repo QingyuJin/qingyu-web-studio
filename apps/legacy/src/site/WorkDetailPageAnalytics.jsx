@@ -11,7 +11,7 @@ const data = {
   },
   title: "網站成效追蹤 / 曝光管理後台",
   tagline: "把今日瀏覽 Google 搜尋曝光 LINE 電話點擊 表單送出與每月報告集中在一個後台",
-  price: "15,000 元起",
+  price: "依需求估價",
   duration: "7–14 天",
   forWho: "有官網、品牌頁、投廣告或靠 Google 搜尋接案的店家",
   problem: {
@@ -63,8 +63,8 @@ const data = {
     title: "報價範圍",
     desc: "依資料來源數量與報表需求報價",
     plans: [
-      { name: "基礎成效後台", price: "15,000 元起", note: "瀏覽儀表板 事件追蹤 月報" },
-      { name: "含 GA4 / Search Console 串接", price: "25,000 元起", note: "自動拉取 Google 數據" },
+      { name: "基礎成效後台", price: "依需求估價", note: "瀏覽儀表板 事件追蹤 月報" },
+      { name: "含 GA4 / Search Console 串接", price: "依需求估價", note: "自動拉取 Google 數據" },
       { name: "多站管理版", price: "依需求估價", note: "多網站同時追蹤 自訂報表" },
     ],
   },

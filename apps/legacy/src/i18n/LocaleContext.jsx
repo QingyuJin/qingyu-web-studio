@@ -1,6 +1,6 @@
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react"
 import { useLocation } from "react-router-dom"
-import { localeOptions, localeTags } from "./translations"
+import { localeOptions, localeTags } from "./locales"
 import { ENABLE_MULTILINGUAL } from "../site/features"
 
 const LocaleContext = createContext(null)
@@ -11,7 +11,8 @@ function initialLocale() {
   const query = new URLSearchParams(window.location.search).get("lang")
   if (localeCodes.has(query)) return query
 
-  const saved = window.localStorage.getItem("qingyu-locale")
+  let saved
+  try { saved = window.localStorage.getItem("qingyu-locale") } catch { /* Optional storage */ }
   if (localeCodes.has(saved)) return saved
 
   const browser = navigator.language.toLowerCase()
@@ -59,17 +60,17 @@ export function LocaleProvider({ children }) {
     if (!ENABLE_MULTILINGUAL) return
     if (!localeCodes.has(nextLocale)) return
     setLocaleState(nextLocale)
-    window.localStorage.setItem("qingyu-locale", nextLocale)
+    try { window.localStorage.setItem("qingyu-locale", nextLocale) } catch { /* Optional storage */ }
 
     const url = new URL(window.location.href)
-    if (nextLocale === "zh-Hant") url.searchParams.delete("lang")
-    else url.searchParams.set("lang", nextLocale)
+    url.searchParams.set("lang", nextLocale)
     window.history.replaceState(window.history.state, "", url)
   }, [])
 
   useEffect(() => {
+    try { window.localStorage.setItem("qingyu-locale", locale) } catch { /* Optional storage */ }
     const currentUrl = new URL(window.location.href)
-    if (!ENABLE_MULTILINGUAL || locale === "zh-Hant") currentUrl.searchParams.delete("lang")
+    if (!ENABLE_MULTILINGUAL) currentUrl.searchParams.delete("lang")
     else currentUrl.searchParams.set("lang", locale)
     window.history.replaceState(window.history.state, "", currentUrl)
     document.documentElement.lang = ENABLE_MULTILINGUAL ? localeTags[locale] : "zh-Hant-TW"

@@ -1,6 +1,6 @@
 export const wholesaleCase = {
   seo: { path: "/works/wholesale-ordering", title: "批發訂貨系統｜晴宇 Qingyu Web", description: "客戶手機下單 後台收單 出貨與月結在同一套流程" },
-  category: "批發訂貨系統", title: "批發訂貨系統", tagline: "客戶手機下單 後台收單 出貨與月結都在同一套流程", price: "35,000 元起",
+  category: "批發訂貨系統", title: "批發訂貨系統", tagline: "客戶手機下單 後台收單 出貨與月結都在同一套流程", price: "依需求估價",
   problem: { desc: "把容易漏掉的人工接單改成可追蹤流程", signs: ["LINE 與電話訂單容易漏", "不同客戶價格難管理", "出貨狀態不好追", "月底對帳耗時間"] },
   flow: { steps: [{ title: "客戶下單", text: "查看專屬價格並送出訂單" }, { title: "後台收單", text: "訂單進入同一個管理畫面" }, { title: "更新出貨", text: "店家確認數量與出貨狀態" }, { title: "完成月結", text: "系統彙整月結與對帳資料" }] },
   deliverables: { items: [{ title: "客戶端", items: ["商品與分類", "專屬價格", "購物車", "訂單紀錄"] }, { title: "管理端", items: ["訂單管理", "客戶管理", "商品價格", "出貨狀態"] }, { title: "帳務", items: ["月結彙總", "對帳明細", "帳款狀態"] }] },
@@ -9,7 +9,7 @@ export const wholesaleCase = {
 
 export const buildflowCase = {
   seo: { path: "/works/xinjiang", title: "鑫匠工程網站與案件系統｜晴宇 Qingyu Web", description: "品牌官網 線上詢價與工程案件管理案例" },
-  category: "正式客戶案例", title: "鑫匠工程", tagline: "品牌官網 線上詢價與案件後台 將客戶入口與內部流程接在一起", price: "30,000 元起",
+  category: "正式客戶案例", title: "鑫匠工程", tagline: "品牌官網 線上詢價與案件後台 將客戶入口與內部流程接在一起", price: "依需求估價",
   problem: { desc: "讓詢價 案件與施工回報不再散落", signs: ["客戶入口不清楚", "詢價內容格式不一致", "案件進度散在訊息裡", "客戶回報容易漏掉"] },
   flow: { steps: [{ title: "收到詢價", text: "網站整理客戶需求" }, { title: "建立案件", text: "後台集中案件與待辦" }, { title: "更新進度", text: "現場回報目前施工狀態" }, { title: "同步通知", text: "客戶收到最新進度" }] },
   deliverables: { items: [{ title: "網站", items: ["品牌與服務", "案例內容", "線上詢價"] }, { title: "案件後台", items: ["案件列表", "進度狀態", "待辦更新"] }, { title: "通知", items: ["客戶資料", "狀態紀錄", "進度通知"] }] },

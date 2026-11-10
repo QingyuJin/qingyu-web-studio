@@ -15,7 +15,7 @@ export function Hero() {
           <p className="text-xs font-black uppercase tracking-[0.28em] text-[#d7b45c]">Pingtung Masonry Works</p>
 
           <div className="mt-6 flex items-end gap-5 md:gap-7">
-            <h1 className="brush-title gold-text text-[5.6rem] font-black leading-[0.82] tracking-[-0.06em] md:text-[9.5rem]">
+            <h1 className="brush-title gold-text text-[clamp(3rem,12vw,4.25rem)] font-black leading-[0.88] tracking-[-0.05em] md:text-[clamp(4.8rem,9vw,7rem)]">
               鑫匠
             </h1>
             <div className="mb-2 flex flex-col items-center gap-2 md:mb-4">

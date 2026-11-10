@@ -33,7 +33,7 @@ export const demoRegistry = [
     slug: "buildflow",
     title: "工程案件管理",
     demoPath: "/demo/buildflow",
-    caseStudyPath: "/works/xinjiang",
+    caseStudyPath: "/works/buildflow",
     contactCase: "buildflow",
     type: "Interactive Demo",
     integration: "native",
@@ -64,10 +64,10 @@ export const demoRegistry = [
     title: "品牌購物系統",
     demoPath: "/demo/commerce-platform",
     caseStudyPath: "/works/ecommerce-platform-redesign",
-    contactCase: "ecommerce-platform-redesign",
-    type: "Interactive Demo",
-    integration: "native",
-    sourceProject: "legacy-commerce-platform",
+    contactCase: "commerce-platform",
+    type: "Portfolio Build",
+    integration: "native-static",
+    sourceProject: "morie-store",
   },
   {
     slug: "ai-audit",
@@ -91,10 +91,11 @@ export const demoRegistry = [
   },
   {
     slug: "luluface",
-    title: "LULUFACE Brand Commerce",
+    title: "LULUFACE 護膚網站",
     demoPath: "/demo/luluface",
-    caseStudyPath: "/works/beauty-shopline-preview",
+    caseStudyPath: "/demo/luluface",
     contactCase: "luluface",
+    contactType: "website",
     type: "Portfolio Build",
     integration: "native",
     sourceProject: "legacy-luluface",
@@ -103,7 +104,7 @@ export const demoRegistry = [
     slug: "morie",
     title: "MORIÉ Commerce Experience",
     demoPath: "/demo/morie",
-    caseStudyPath: "/works/ecommerce-platform-redesign",
+    caseStudyPath: "/demo/morie",
     contactCase: "morie",
     type: "Portfolio Build",
     integration: "native-static",
@@ -113,7 +114,7 @@ export const demoRegistry = [
     slug: "commercial-visual",
     title: "Commercial Visual Portfolio",
     demoPath: "/demo/commercial-visual",
-    caseStudyPath: "/works",
+    caseStudyPath: "/works/commercial-visual",
     contactCase: "commercial-visual",
     type: "Portfolio Build",
     integration: "native-static",
@@ -131,7 +132,7 @@ export const demoRegistry = [
   },
   {
     slug: "ai-tech",
-    title: "AI 客服流程",
+    title: "AI 客服技術實驗",
     demoPath: "/demo/ai-customer-support",
     caseStudyPath: "/works/ai-tech-quest",
     contactCase: "ai-tech-quest",
@@ -152,5 +153,5 @@ export function getDemoByPath(pathname) {
 }
 
 export function demoContactPath(demo) {
-  return `/contact?case=${encodeURIComponent(demo.contactCase)}&type=business-system`
+  return `/contact?case=${encodeURIComponent(demo.contactCase)}&type=${demo.contactType ?? "business-system"}`
 }

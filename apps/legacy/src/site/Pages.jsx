@@ -867,7 +867,7 @@ function XinjiangProjectBrief() {
     ["產業", "泥作 / 工程服務"],
     ["內容", "品牌官網 + 詢價 + 案件後台"],
     ["工期", "約 3–4 週"],
-    ["預算", "類似系統 30,000 元起"],
+    ["預算", "類似系統 依需求估價"],
     ["狀態", "正式營運"],
   ]
   const beforeAfter = [
@@ -1215,7 +1215,7 @@ export function ServicesPage() {
 
                 <div className="mt-5 grid gap-3 md:grid-cols-2">
                   <ServiceFact title="適合" text={service.targetUsers} />
-                  <ServiceFact title="參考價格" text={service.price} />
+                  <ServiceFact title="估價方式" text={service.price} />
                 </div>
 
                 <div className="mt-5">
@@ -1308,7 +1308,7 @@ export function PricingPage() {
   const priceCards = [
     {
       name: "企業 Web 系統",
-      price: "35,000 元起",
+      price: "依需求估價",
       time: "依流程評估",
       fit: "需要管理後台 權限與完整工作流程",
       includes: "需求拆解 前後台 核心流程 上線支援",
@@ -1317,7 +1317,7 @@ export function PricingPage() {
     },
     {
       name: "企業品牌網站",
-      price: "25,000 元起",
+      price: "依需求估價",
       time: "約 2 至 4 週",
       fit: "需要高質感品牌入口與清楚詢價路徑",
       includes: "網站設計 RWD 基礎 SEO 成效追蹤",
@@ -1326,7 +1326,7 @@ export function PricingPage() {
     },
     {
       name: "Landing Page",
-      price: "12,000 元起",
+      price: "依需求估價",
       time: "約 1 至 2 週",
       fit: "需要聚焦服務 廣告或新品轉換",
       includes: "單頁設計 RWD CTA 追蹤 基礎 SEO",

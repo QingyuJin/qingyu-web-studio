@@ -23,6 +23,109 @@
   line-height: 1.8;
 }
 
+/* Public portfolio edition */
+.lf-refined-preview {
+  width: 100%;
+  min-width: 0;
+  overflow-x: clip;
+  font-size: 15px;
+}
+
+.lf-refined-preview .lf-header {
+  top: 48px;
+}
+
+.lf-refined-preview .lf-section {
+  padding-block: 96px;
+}
+
+.lf-refined-preview .lf-section-heading h2 {
+  font-size: clamp(30px, 3.3vw, 48px);
+}
+
+.lf-refined-preview .lf-hero h1 {
+  font-size: clamp(38px, 4vw, 58px);
+}
+
+.lf-refined-preview .lf-header-line {
+  min-height: 44px;
+  cursor: pointer;
+}
+
+.lf-refined-preview .lf-service-list article > button {
+  display: inline-flex;
+  min-height: 44px;
+  align-items: center;
+  gap: 10px;
+  margin-top: 2px;
+  padding: 8px 2px;
+  border-bottom: 1px solid var(--lf-coffee-soft);
+  cursor: pointer;
+  font-size: 11px;
+  font-weight: 600;
+}
+
+.lf-refined-preview .lf-service-list article.is-selected {
+  background: rgba(210, 185, 179, 0.16);
+}
+
+.lf-refined-preview .lf-care-journey ol {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+.lf-refined-preview .lf-why-copy > .demo-step-target {
+  margin-top: 36px;
+}
+
+.lf-refined-preview .lf-button--light {
+  border-color: rgba(255, 255, 255, 0.32);
+  color: var(--lf-white) !important;
+}
+
+@media (max-width: 767px) {
+  .lf-refined-preview .lf-header {
+    top: 48px;
+  }
+
+  .lf-refined-preview .lf-mobile-menu {
+    inset: 120px 0 0;
+  }
+
+  .lf-refined-preview .lf-section {
+    padding-block: 72px;
+  }
+
+  .lf-refined-preview .lf-section-heading h2 {
+    font-size: clamp(28px, 8.5vw, 36px);
+  }
+
+  .lf-refined-preview .lf-hero h1 {
+    font-size: clamp(34px, 10vw, 44px);
+  }
+
+  .lf-refined-preview .lf-hero-actions {
+    grid-template-columns: 1fr;
+  }
+
+  .lf-refined-preview .lf-service-list article > button {
+    grid-column: 2;
+    width: fit-content;
+  }
+
+  .lf-refined-preview .lf-care-journey ol {
+    grid-template-columns: 1fr;
+  }
+
+  .lf-refined-preview .lf-care-journey li {
+    min-height: 0;
+    padding-block: 18px 24px;
+  }
+
+  .lf-refined-preview .lf-care-journey h4 {
+    margin-top: 18px;
+  }
+}
+
 .luluface-site *,
 .luluface-site *::before,
 .luluface-site *::after {
@@ -266,6 +369,12 @@
   font-weight: 500;
   letter-spacing: 0.04em;
   text-align: center;
+}
+
+/* Review only sections stay out of the public portfolio path */
+.lf-reviews,
+.lf-growth {
+  display: none;
 }
 
 .lf-header {

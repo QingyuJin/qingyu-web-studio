@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { useRef, useState } from "react"
 import { contactInfo, services } from "../data/siteData"
 import { SectionTitle } from "./SectionTitle"
 
@@ -17,9 +17,11 @@ type FormState = typeof initialForm
 export function Inquiry() {
   const [form, setForm] = useState<FormState>(initialForm)
   const [submitting, setSubmitting] = useState(false)
-  const [result, setResult] = useState<"" | "stored" | "fallback">("")
+  const [result, setResult] = useState<"" | "stored" | "stored-only" | "notified-only" | "fallback">("")
   const [error, setError] = useState("")
   const [copied, setCopied] = useState(false)
+  const submittingRef = useRef(false)
+  const idempotencyRef = useRef("")
 
   const inquiryText = [
     "【鑫匠工程 線上詢價】",
@@ -33,6 +35,7 @@ export function Inquiry() {
   function updateForm<Key extends keyof FormState>(field: Key, value: FormState[Key]) {
     setForm((current) => ({ ...current, [field]: value }))
     setError("")
+    idempotencyRef.current = ""
   }
 
   async function copyInquiry() {
@@ -47,18 +50,22 @@ export function Inquiry() {
 
   async function submitInquiry(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault()
+    if (submittingRef.current) return
     if (!form.name.trim() || !form.contact.trim()) {
       setError("請填寫姓名與聯絡方式，方便我們回覆。")
       return
     }
 
+    submittingRef.current = true
     setSubmitting(true)
     setError("")
 
     try {
+      idempotencyRef.current ||= globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
+      const website = new FormData(event.currentTarget).get("website")
       const response = await fetch(INQUIRY_ENDPOINT, {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "application/json", "Idempotency-Key": idempotencyRef.current },
         body: JSON.stringify({
           name: form.name,
           contact: form.contact,
@@ -66,14 +73,20 @@ export function Inquiry() {
           area: form.area,
           message: inquiryText,
           source: "xinjiang-website",
+          website,
         }),
       })
       const data = await response.json()
-      if (!response.ok || !data.ok) throw new Error(data.error || "送出失敗")
-      setResult(data.notified ? "stored" : "fallback")
+      if (!response.ok || !data.ok) {
+        setResult(data.notified ? "notified-only" : "fallback")
+        return
+      }
+      setResult(data.notified ? "stored" : "stored-only")
+      idempotencyRef.current = ""
     } catch {
       setResult("fallback")
     } finally {
+      submittingRef.current = false
       setSubmitting(false)
     }
   }
@@ -82,6 +95,7 @@ export function Inquiry() {
     setForm(initialForm)
     setResult("")
     setError("")
+    idempotencyRef.current = ""
   }
 
   return (
@@ -114,18 +128,22 @@ export function Inquiry() {
           {result ? (
             <div>
               <p className="text-xs font-black uppercase tracking-[0.24em] text-[#a05c2e]">
-                {result === "stored" ? "Received" : "Almost done"}
+                {result === "stored" ? "Received" : "Please confirm"}
               </p>
               <h3 className="mt-3 text-3xl font-black text-[#2b2118]">
-                {result === "stored" ? "需求已送出" : "還差一步"}
+                {result === "stored" ? "需求已送出" : result === "stored-only" ? "需求已保存" : result === "notified-only" ? "通知已寄出" : "還差一步"}
               </h3>
               <p className="mt-4 text-sm font-semibold leading-7 text-[#766858]">
                 {result === "stored"
-                  ? `${form.name}，我們已收到你的需求，會在服務時間內（${contactInfo.hours}）主動與你聯絡。`
-                  : "線上收件暫時無法使用。你的需求已整理好，請用下面任一方式直接傳給我們，內容不會消失。"}
+                  ? `${form.name} 我們已保存需求並寄出通知 會在服務時間內主動聯絡`
+                  : result === "stored-only"
+                    ? "需求已保存但通知信未寄出 急件請直接來電確認"
+                    : result === "notified-only"
+                      ? "通知信已寄出但資料未完成保存 我們會以通知內容聯絡你"
+                      : "線上收件暫時無法使用 請用下面任一方式直接傳送需求"}
               </p>
 
-              {result === "fallback" ? (
+              {result === "fallback" || result === "stored-only" ? (
                 <div className="mt-5 grid gap-3">
                   <pre className="max-h-48 overflow-y-auto whitespace-pre-wrap rounded-[1.2rem] bg-[#f7efe2] p-4 font-sans text-sm font-semibold leading-6 text-[#5c4d3c]">
                     {inquiryText}
@@ -164,6 +182,7 @@ export function Inquiry() {
             </div>
           ) : (
             <form onSubmit={submitInquiry}>
+              <label className="absolute left-[-9999px]" aria-hidden="true">網站<input name="website" tabIndex={-1} autoComplete="off" /></label>
               <p className="text-xs font-black uppercase tracking-[0.24em] text-[#a05c2e]">Inquiry Form</p>
               <h3 className="mt-3 text-3xl font-black text-[#2b2118]">工程需求表</h3>
               <div className="mt-6 grid gap-4 sm:grid-cols-2">

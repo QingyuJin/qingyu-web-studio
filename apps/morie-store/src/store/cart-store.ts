@@ -69,6 +69,7 @@ export const useCartStore = create<CartState>()(
     }),
     {
       name: "morie-cart",
+      skipHydration: true,
       partialize: (state) => ({ items: state.items }),
       onRehydrateStorage: () => (state) => state?.setHydrated(true),
     },

@@ -298,9 +298,18 @@
 
 .op-lead-form,
 .op-form-success {
+  position: relative;
   border: 1px solid currentColor;
   background: rgba(255, 255, 255, 0.05);
   padding: clamp(22px, 3.5vw, 40px);
+}
+
+.op-form-trap {
+  position: absolute !important;
+  left: -10000px !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
 }
 
 .op-form-heading > p {
@@ -2436,6 +2445,27 @@ html[data-locale]:not([data-locale="zh-Hant"]) .op-template :is(article, li, dd,
   }
 }
 
+/* Keep the template collection compact and readable in every language */
+.onepage-hub .op-hub-hero-copy h1 {
+  font-size: clamp(30px, 3.2vw, 46px);
+  line-height: 1.45;
+  font-weight: 500;
+  text-wrap: balance;
+}
+.onepage-hub .op-hub-actions a,
+.onepage-hub .op-preview-switch button,
+.onepage-hub .op-catalog-content > a {
+  min-height: 44px;
+  font-size: 13px;
+  line-height: 1.6;
+}
+.onepage-hub .op-hub-hero-copy > .op-hub-lead {
+  font-size: 14px;
+}
+@media (max-width: 640px) {
+  .onepage-hub .op-hub-hero-copy { min-height: 420px; }
+}
+
 /* Concise industry proposals */
 .opx-page {
   --opx-bg: #f3efe6;
@@ -2512,6 +2542,10 @@ html[data-locale]:not([data-locale="zh-Hant"]) .op-template :is(article, li, dd,
 .opx-card-grid article { min-height: 180px; border: 1px solid var(--opx-line); background: var(--opx-paper); padding: 28px; }
 .opx-card-grid h3 { margin: 0; font-family: "Noto Serif TC", serif; font-size: 21px; font-weight: 600; }
 .opx-card-grid p { margin: 15px 0 0; color: var(--opx-muted); font-size: 13px; font-weight: 500; line-height: 1.8; }
+.opx-details { border-bottom: 1px solid var(--opx-line); }
+.opx-detail-grid article { min-height: 148px; }
+.opx-detail-grid h3 { font-family: inherit; font-size: 9px; font-weight: 750; letter-spacing: .16em; }
+.opx-detail-grid p { max-width: 28ch; color: var(--opx-text); font-family: "Noto Serif TC", serif; font-size: 16px; line-height: 1.65; }
 
 .opx-process { border-top: 1px solid var(--opx-line); border-bottom: 1px solid var(--opx-line); }
 .opx-process ol { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1px; margin: 40px 0 0; padding: 0; background: var(--opx-line); list-style: none; }

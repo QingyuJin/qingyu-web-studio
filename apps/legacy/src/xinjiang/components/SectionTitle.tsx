@@ -10,7 +10,7 @@ export function SectionTitle({ eyebrow, title, text, light = false }: SectionTit
     <div className="max-w-2xl">
       <p className={`text-xs font-black uppercase tracking-[0.24em] ${light ? "text-[#d7b45c]" : "text-[#a05c2e]"}`}>{eyebrow}</p>
       <h2
-        className={`font-kai mt-3 text-4xl font-bold leading-tight tracking-[0.04em] md:text-6xl ${
+        className={`font-kai mt-3 text-3xl font-bold leading-tight tracking-[0.04em] md:text-5xl ${
           light ? "text-white" : "text-[#2b2118]"
         }`}
       >

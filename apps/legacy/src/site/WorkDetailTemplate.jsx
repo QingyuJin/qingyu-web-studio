@@ -17,7 +17,7 @@ const wholesaleDeliverables = [
 
 function WorkDetailTemplate({ work }) {
   const isWholesale = work.title === "批發訂貨系統"
-  const price = isWholesale ? "35,000 元起" : work.price
+  const price = isWholesale ? "依需求估價" : work.price
   const tagline = isWholesale ? "客戶手機下單 後台收單 出貨與月結都在同一套流程" : work.tagline
   const problems = isWholesale ? wholesaleProblems : work.problem.signs.slice(0, 4)
   const flow = isWholesale ? wholesaleFlow : work.flow.steps.slice(0, 4)

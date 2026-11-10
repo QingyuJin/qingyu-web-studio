@@ -1,12 +1,71 @@
 import nodemailer from "nodemailer"
+import { isValidInquiryContact } from "../src/lib/inquiryValidation.js"
 
 const DEFAULT_NOTIFICATION_EMAIL = "a0988874324@gmail.com"
+const RATE_WINDOW_MS = 10 * 60 * 1000
+const RATE_LIMIT = 5
+const rateBuckets = new Map()
+const recentResponses = new Map()
 
-function setHeaders(res) {
+function setHeaders(req, res) {
   res.setHeader("Content-Type", "application/json; charset=utf-8")
-  res.setHeader("Access-Control-Allow-Origin", "*")
+  const headers = req.headers ?? {}
+  const origin = headers.origin
+  const host = headers.host
+  if (origin && isAllowedOrigin(origin, host)) {
+    res.setHeader("Access-Control-Allow-Origin", origin)
+    res.setHeader("Vary", "Origin")
+  }
   res.setHeader("Access-Control-Allow-Methods", "POST, OPTIONS")
-  res.setHeader("Access-Control-Allow-Headers", "Content-Type")
+  res.setHeader("Access-Control-Allow-Headers", "Content-Type, Idempotency-Key")
+  res.setHeader("Cache-Control", "no-store")
+}
+
+function isAllowedOrigin(origin, host) {
+  try {
+    const url = new URL(origin)
+    const official = url.hostname === "qingyuweb.com" || url.hostname === "www.qingyuweb.com"
+    const local = url.hostname === "localhost" || url.hostname === "127.0.0.1"
+    return (url.protocol === "https:" && (official || url.host === host)) || (local && url.host === host)
+  } catch {
+    return false
+  }
+}
+
+function getClientIp(req) {
+  const headers = req.headers ?? {}
+  const forwarded = headers["x-forwarded-for"]
+  return String(Array.isArray(forwarded) ? forwarded[0] : forwarded || headers["x-real-ip"] || "unknown").split(",")[0].trim()
+}
+
+function isRateLimited(req, now = Date.now()) {
+  if (rateBuckets.size > 1000) {
+    for (const [key, bucket] of rateBuckets) {
+      if (now - bucket.startedAt >= RATE_WINDOW_MS) rateBuckets.delete(key)
+    }
+  }
+  const key = getClientIp(req)
+  const current = rateBuckets.get(key)
+  if (!current || now - current.startedAt >= RATE_WINDOW_MS) {
+    rateBuckets.set(key, { startedAt: now, count: 1 })
+    return false
+  }
+  current.count += 1
+  return current.count > RATE_LIMIT
+}
+
+function getIdempotencyKey(req) {
+  return cleanText(req.headers?.["idempotency-key"], 120)
+}
+
+function readRecentResponse(key, now = Date.now()) {
+  if (!key) return null
+  const cached = recentResponses.get(key)
+  if (!cached || now - cached.createdAt >= RATE_WINDOW_MS) {
+    recentResponses.delete(key)
+    return null
+  }
+  return cached.payload
 }
 
 function readBody(req) {
@@ -82,10 +141,7 @@ export function buildInquiryEmail(payload, submittedAt = new Date()) {
 
 async function storeInquiry(payload) {
   const supabaseUrl = process.env.SUPABASE_URL || process.env.VITE_SUPABASE_URL
-  const supabaseKey =
-    process.env.SUPABASE_SERVICE_ROLE_KEY ||
-    process.env.SUPABASE_ANON_KEY ||
-    process.env.VITE_SUPABASE_ANON_KEY
+  const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY
 
   if (!supabaseUrl || !supabaseKey) return { stored: false, configured: false }
 
@@ -133,14 +189,30 @@ async function sendGmailNotification(payload) {
 }
 
 export default async function handler(req, res) {
-  setHeaders(res)
+  setHeaders(req, res)
 
   if (req.method === "OPTIONS") return res.status(204).end()
   if (req.method !== "POST") return res.status(405).json({ ok: false, error: "Method not allowed" })
 
+  const origin = req.headers?.origin
+  if (origin && !isAllowedOrigin(origin, req.headers?.host)) {
+    return res.status(403).json({ ok: false, error: "不接受此外部來源" })
+  }
+  const idempotencyKey = getIdempotencyKey(req)
+  const cached = readRecentResponse(idempotencyKey)
+  if (cached) return res.status(200).json(cached)
+
+  if (isRateLimited(req)) {
+    res.setHeader("Retry-After", String(Math.ceil(RATE_WINDOW_MS / 1000)))
+    return res.status(429).json({ ok: false, error: "送出次數過多 請稍後再試" })
+  }
+
   const body = readBody(req)
+  if (cleanText(body.website, 100)) {
+    return res.status(400).json({ ok: false, error: "無法送出此需求" })
+  }
   const payload = {
-    name: cleanText(body.name, 100),
+    name: cleanText(body.name, 100) || "未提供稱呼",
     contact: cleanText(body.contact, 200),
     company: cleanText(body.area || body.company, 200),
     service_type: cleanText(body.service_type || body.service, 100) || "網站需求",
@@ -150,8 +222,8 @@ export default async function handler(req, res) {
     status: "new",
   }
 
-  if (!payload.name || !payload.contact) {
-    return res.status(400).json({ ok: false, error: "請填寫姓名與聯絡方式" })
+  if (!isValidInquiryContact(payload.contact) || payload.message.length < 4) {
+    return res.status(400).json({ ok: false, error: "請填寫想解決的問題與有效的聯絡方式" })
   }
 
   let storage = { stored: false, configured: false }
@@ -159,18 +231,11 @@ export default async function handler(req, res) {
 
   try {
     storage = await storeInquiry(payload)
-  } catch (error) {
-    console.error("inquiry insert failed", error.message)
+  } catch {
+    console.error("inquiry insert failed")
   }
 
-  try {
-    notification = await sendGmailNotification(payload)
-  } catch (error) {
-    console.error("inquiry notification failed", error.message)
-  }
-
-  const accepted = storage.stored || notification.notified
-  if (!accepted) {
+  if (!storage.stored) {
     return res.status(503).json({
       ok: false,
       stored: false,
@@ -179,12 +244,20 @@ export default async function handler(req, res) {
     })
   }
 
-  return res.status(200).json({
+  try {
+    notification = await sendGmailNotification(payload)
+  } catch {
+    console.error("inquiry notification failed")
+  }
+
+  const response = {
     ok: true,
     stored: storage.stored,
     notified: notification.notified,
     notificationConfigured: notification.configured,
-    mode: storage.stored && notification.notified ? "stored-and-notified" : notification.notified ? "email-only" : "stored-only",
+    mode: notification.notified ? "stored-and-notified" : "stored-only",
     warning: notification.notified ? "" : "需求已保存 但 Email 通知尚未寄出",
-  })
+  }
+  if (idempotencyKey) recentResponses.set(idempotencyKey, { createdAt: Date.now(), payload: response })
+  return res.status(200).json(response)
 }

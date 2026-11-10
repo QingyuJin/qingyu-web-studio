@@ -189,7 +189,7 @@ export const xinjiang = {
   category: "真實客戶案例",
   title: "鑫匠工程",
   tagline: "40 年老師父經驗的泥作工程行 從品牌官網到詢價後台全部串起來",
-  price: "30,000 元起",
+  price: "依需求估價",
   duration: "約 3–4 週",
   forWho: "工程行、服務業、到府安裝型店家",
   problem: {
@@ -247,8 +247,8 @@ export const xinjiang = {
     title: "報價範圍",
     desc: "官網＋詢價＋後台的完整方案實際依範圍調整",
     plans: [
-      { name: "品牌官網 + 詢價", price: "18,000 元起", note: "官網設計、詢價表單、基本 SEO" },
-      { name: "含案件後台", price: "30,000 元起", note: "收件匣、案件看板、狀態管理" },
+      { name: "品牌官網 + 詢價", price: "依需求估價", note: "官網設計、詢價表單、基本 SEO" },
+      { name: "含案件後台", price: "依需求估價", note: "收件匣、案件看板、狀態管理" },
       { name: "完整營運版", price: "依需求估價", note: "報價單、派工、通知、多角色權限" },
     ],
   },
@@ -271,7 +271,7 @@ export const wholesale = {
   category: "可操作產品",
   title: "批發訂貨系統",
   tagline: "不用 LINE 一筆一筆抄訂單 手機下單 後台出貨 月底對帳",
-  price: "35,000 元起",
+  price: "依需求估價",
   duration: "14–25 天",
   forWho: "批發商、食材商、中盤商、想線上收單的店家",
   problem: {
@@ -329,8 +329,8 @@ export const wholesale = {
     title: "報價範圍",
     desc: "依規模與功能需求報價",
     plans: [
-      { name: "基本訂購系統", price: "35,000 元起", note: "商品、購物車、訂單後台" },
-      { name: "B2B 批發版", price: "35,000 元起", note: "分級報價、出貨修量、月結對帳" },
+      { name: "基本訂購系統", price: "依需求估價", note: "商品、購物車、訂單後台" },
+      { name: "B2B 批發版", price: "依需求估價", note: "分級報價、出貨修量、月結對帳" },
       { name: "金流 / 物流串接", price: "依需求估價", note: "綠界 / 藍新 / 超商等" },
     ],
   },
@@ -405,8 +405,8 @@ export const rag = {
     title: "報價範圍",
     desc: "依資料量與功能需求報價",
     plans: [
-      { name: "基礎知識庫", price: "20,000 元起", note: "文件問答、引用來源、單一租戶" },
-      { name: "企業版", price: "50,000 元起", note: "多租戶、權限管理、用量統計" },
+      { name: "基礎知識庫", price: "依需求估價", note: "文件問答、引用來源、單一租戶" },
+      { name: "企業版", price: "依需求估價", note: "多租戶、權限管理、用量統計" },
       { name: "客製整合", price: "依需求估價", note: "現有系統串接、自訂流程、私有部署" },
     ],
   },

@@ -1,9 +1,10 @@
 "use client";
-
+import { useCopy } from "@/i18n";
 import { FormEvent, useState } from "react";
-import { ArrowRight, Check } from "lucide-react";
+import { ArrowRight } from "lucide-react";
 
 export function Newsletter({ inverse = false }: { inverse?: boolean }) {
+  const t = useCopy();
   const [email, setEmail] = useState("");
   const [message, setMessage] = useState("");
 
@@ -13,24 +14,22 @@ export function Newsletter({ inverse = false }: { inverse?: boolean }) {
       setMessage("請輸入有效的電子郵件地址。");
       return;
     }
-    setMessage("謝謝你。我們會在下一封山林來信與你相見。");
-    setEmail("");
+    setMessage("展示模式 不會送出或儲存資料");
   }
 
-  const success = message.startsWith("謝謝");
   return (
     <form onSubmit={submit} className={`newsletter ${inverse ? "newsletter-inverse" : ""}`} noValidate>
-      <label htmlFor={`newsletter-email-${inverse}`} className="sr-only">電子郵件</label>
+      <label htmlFor={`newsletter-email-${inverse}`} className="sr-only">{t("電子郵件")}</label>
       <input
         id={`newsletter-email-${inverse}`}
         type="email"
         value={email}
         onChange={(event) => setEmail(event.target.value)}
-        placeholder="電子郵件地址"
+        placeholder={t("電子郵件地址")}
         aria-describedby={`newsletter-message-${inverse}`}
       />
-      <button type="submit" aria-label="訂閱電子報">{success ? <Check size={19} /> : <ArrowRight size={19} />}</button>
-      <p id={`newsletter-message-${inverse}`} className="newsletter-message" aria-live="polite">{message}</p>
+      <button type="submit" aria-label={t("查看展示說明")}><ArrowRight size={19} /></button>
+      <p id={`newsletter-message-${inverse}`} className="newsletter-message" aria-live="polite">{t(message)}</p>
     </form>
   );
 }

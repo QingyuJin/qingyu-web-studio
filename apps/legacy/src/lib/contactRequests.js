@@ -1,6 +1,21 @@
-﻿import { isSupabaseConfigured, supabase } from "./supabaseClient"
+const DEMO_STORAGE_KEY = "qingyu_buildflow_demo_leads"
 
-const LOCAL_STORAGE_KEY = "qingyu_contact_requests"
+const seedRequests = [
+  {
+    id: "demo-lead-wang",
+    name: "王小姐",
+    contact: "LINE 展示帳號",
+    company: "住家翻修",
+    service_type: "工程案件管理",
+    budget_range: "先討論",
+    message: "希望先確認浴室翻修與防水工程",
+    source: "展示資料",
+    status: "new",
+    admin_note: "",
+    created_at: "2026-09-09T01:00:00.000Z",
+    updated_at: "2026-09-09T01:00:00.000Z",
+  },
+]
 
 export const contactRequestStatuses = [
   { value: "new", label: "新需求" },
@@ -13,102 +28,61 @@ export function getStatusLabel(status) {
   return contactRequestStatuses.find((item) => item.value === status)?.label || status
 }
 
-export async function createContactRequest(payload) {
+export async function createContactRequest(payload, options = {}) {
   try {
+    const idempotencyKey = options.idempotencyKey || globalThis.crypto?.randomUUID?.() || `${Date.now()}-${Math.random()}`
     const response = await fetch("/api/inquiry", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      signal: globalThis.AbortSignal?.timeout?.(15000),
+      headers: {
+        "Content-Type": "application/json",
+        "Idempotency-Key": idempotencyKey,
+      },
       body: JSON.stringify(payload),
     })
     const data = await response.json()
     if (!response.ok || !data.ok) throw new Error(data.error || "送出失敗")
-    if (!data.notified) {
-      saveLocalRequest(payload)
-      return {
-        ok: false,
-        stored: Boolean(data.stored),
-        notified: false,
-        reason: data.warning || "需求已保存 但 Email 通知尚未寄出 請改用 LINE 或 Email",
-      }
+    return {
+      ok: true,
+      stored: Boolean(data.stored),
+      notified: Boolean(data.notified),
+      warning: data.warning || "",
+      mode: data.mode,
     }
-    return { ok: true, stored: Boolean(data.stored), notified: true, mode: data.mode }
   } catch (error) {
-    saveLocalRequest(payload)
-    return { ok: false, mode: "local", reason: error.message || "暫時無法送出 請改用 LINE 或 Email" }
+    return { ok: false, mode: "failed", reason: error.message || "暫時無法送出 請改用 LINE 或 Email" }
   }
 }
 
+// BuildFlow is public demo content and never reads production inquiries.
 export async function listContactRequests() {
-  if (!isSupabaseConfigured) {
-    return {
-      ok: true,
-      mode: "local",
-      reason: "目前使用本機暫存資料部署後設定 Supabase 環境變數即可改讀後端",
-      data: readLocalRequests(),
-    }
-  }
-
-  try {
-    const { data, error } = await supabase
-      .from("contact_requests")
-      .select("*")
-      .order("created_at", { ascending: false })
-
-    if (error) throw new Error(error.message)
-    return { ok: true, data: data || [] }
-  } catch (error) {
-    return {
-      ok: true,
-      mode: "local",
-      reason: `後端暫時無法讀取（${error.message}） 改用本機資料`,
-      data: readLocalRequests(),
-    }
+  return {
+    ok: true,
+    mode: "demo",
+    reason: "展示使用獨立資料 不會讀取正式詢問",
+    data: readDemoRequests(),
   }
 }
 
 export async function updateContactRequest(requestId, values) {
-  if (!isSupabaseConfigured) {
-    updateLocalRequest(requestId, values)
-    return { ok: true, mode: "local" }
-  }
+  updateDemoRequest(requestId, values)
+  return { ok: true, mode: "demo" }
+}
 
+function readDemoRequests() {
   try {
-    const { error } = await supabase.from("contact_requests").update(values).eq("id", requestId)
-    if (error) throw new Error(error.message)
-    return { ok: true }
+    const stored = window.localStorage.getItem(DEMO_STORAGE_KEY)
+    return stored ? JSON.parse(stored) : seedRequests
   } catch {
-    updateLocalRequest(requestId, values)
-    return { ok: true, mode: "local" }
+    return seedRequests
   }
 }
 
-function saveLocalRequest(payload) {
-  const now = new Date().toISOString()
-  const request = {
-    id: `local-${Date.now()}`,
-    status: "new",
-    admin_note: "",
-    created_at: now,
-    updated_at: now,
-    ...payload,
-  }
-
-  window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify([request, ...readLocalRequests()]))
-}
-
-function readLocalRequests() {
-  try {
-    return JSON.parse(window.localStorage.getItem(LOCAL_STORAGE_KEY) || "[]")
-  } catch {
-    return []
-  }
-}
-
-function updateLocalRequest(requestId, values) {
-  const nextRequests = readLocalRequests().map((request) =>
+function updateDemoRequest(requestId, values) {
+  const nextRequests = readDemoRequests().map((request) =>
     request.id === requestId
       ? { ...request, ...values, updated_at: new Date().toISOString() }
-      : request
+      : request,
   )
-  window.localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(nextRequests))
+  window.localStorage.setItem(DEMO_STORAGE_KEY, JSON.stringify(nextRequests))
 }
