@@ -5,7 +5,7 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "vite build",
+    "build": "node scripts/generate-studio-og.mjs && vite build",
     "lint": "eslint .",
     "format": "prettier . --write",
     "format:check": "prettier . --check",
