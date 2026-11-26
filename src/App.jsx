@@ -3,7 +3,7 @@ import { Navigate, Route, Routes } from "react-router-dom"
 import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
-const StudioHome = lazy(() => import("./StudioHome"))
+const StudioHome = lazy(() => import("./StudioRebrand"))
 const MaStudio = lazy(() => import("./site/InteriorFlagship"))
 const IndustryDemo = lazy(() => import("./site/IndustryShowcase"))
 const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
@@ -45,8 +45,9 @@ function App() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
-        <Route path="/" element={<MaStudio />} />
+        <Route path="/" element={<StudioHome />} />
         <Route path="/studio-home" element={<StudioHome />} />
+        <Route path="/works/industry/interior" element={<MaStudio />} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
