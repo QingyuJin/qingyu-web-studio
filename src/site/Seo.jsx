@@ -22,6 +22,7 @@ function upsertLink(selector, attributes) {
 function Seo({ page = seo.home }) {
   useEffect(() => {
     const url = `${siteUrl}${page.path}`
+    const imageUrl = `${window.location.origin}/og-studio-2026.png`
     document.title = page.title
     upsertLink('link[rel="canonical"]', { rel: "canonical", href: url })
     upsertMeta('meta[name="description"]', { name: "description", content: page.description })
@@ -30,11 +31,11 @@ function Seo({ page = seo.home }) {
     upsertMeta('meta[property="og:title"]', { property: "og:title", content: page.title })
     upsertMeta('meta[property="og:description"]', { property: "og:description", content: page.description })
     upsertMeta('meta[property="og:url"]', { property: "og:url", content: url })
-    upsertMeta('meta[property="og:image"]', { property: "og:image", content: `${siteUrl}/og-image.png` })
+    upsertMeta('meta[property="og:image"]', { property: "og:image", content: imageUrl })
     upsertMeta('meta[name="twitter:card"]', { name: "twitter:card", content: "summary_large_image" })
     upsertMeta('meta[name="twitter:title"]', { name: "twitter:title", content: page.title })
     upsertMeta('meta[name="twitter:description"]', { name: "twitter:description", content: page.description })
-    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: `${siteUrl}/og-image.png` })
+    upsertMeta('meta[name="twitter:image"]', { name: "twitter:image", content: imageUrl })
   }, [page])
 
   return null
