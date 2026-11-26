@@ -3,6 +3,7 @@ import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
 import { contact, seo } from "./site/content"
+import { IndustryGallery } from "./site/IndustryShowcase"
 import { LiveIndustryDemo, industries } from "./site/homeIndustries"
 
 function StudioHome() {
@@ -10,6 +11,7 @@ function StudioHome() {
     <SiteLayout>
       <Seo page={seo.home} />
       <HeroPicker />
+      <IndustryGallery />
       <ShowcaseSection />
       <PriceListSection />
       <LabStrip />
@@ -29,9 +31,11 @@ function HeroPicker() {
       <div className="mx-auto max-w-6xl px-4 pb-14 pt-12 md:pt-20">
         <p className="text-xs font-black uppercase tracking-[0.24em] text-[#0d6b62]">Qingyu Web Studio</p>
         <h1 className="mt-5 font-['Noto_Serif_TC',serif] text-[clamp(2rem,5.6vw,3.6rem)] font-black leading-[1.15] tracking-tight text-[#111c22]">
-          選你的行業 看它動起來
+          讓你的網站，不只是好看
         </h1>
 
+        <p className="mt-4 max-w-2xl text-base font-bold leading-7 text-[#52605c]">品牌官網、電商、預約、LINE 自動客服與管理後台。從你的生意出發，先看能操作的成品，再討論適合的做法。</p>
+        <div className="mt-5 flex flex-wrap gap-3"><Link to="/works" className="rounded-xl bg-[#111c22] px-5 py-3 text-sm font-black text-white">看各行業作品 →</Link><Link to="/contact" className="rounded-xl border border-[#cfd7d3] bg-white px-5 py-3 text-sm font-black text-[#111c22]">聊聊我的需求</Link></div>
         {/* 行業選擇 */}
         <div className="mt-8 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-6">
           {industries.map((item, i) => {
