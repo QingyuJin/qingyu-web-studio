@@ -2,6 +2,7 @@ import { useState } from "react"
 import { Link, useParams } from "react-router-dom"
 import SiteLayout from "./SiteLayout"
 import Seo from "./Seo"
+import InteriorFlagship, { InteriorFeature } from "./InteriorFlagship"
 
 const examples = [
   { id:"interior", name:"間序 · 空間設計", label:"室內設計 / 裝修", en:"MA / SPACE STUDIO", headline:"讓生活，留一點空間。", desc:"用清楚的作品分類、服務流程與預算試算，讓屋主知道如何開始。", theme:"bg-[#e8e0d2] text-[#332c26]", accent:"bg-[#332c26] text-white", offerings:[["局部改造",80000],["老屋翻新",350000],["全室規劃",600000]], features:["作品分類","預算試算","設計諮詢"], question:"預算試算（示意）", unit:"坪", base:1 },
@@ -16,7 +17,7 @@ function Art({id}) {
 }
 
 export function IndustryGallery() {
-  return <section className="border-b border-[#e6e0d5] bg-white"><div className="mx-auto max-w-6xl px-4 py-14"><p className="text-xs font-black tracking-widest text-[#0d6b62]">WEBSITE COLLECTION / 原創概念作品</p><h2 className="mt-3 text-3xl font-black text-[#111c22]">看看你的店，可以長什麼樣</h2><p className="mt-3 text-sm leading-7 text-[#52605c]">依照不同產業設計的示範網站，可直接操作。非客戶委託案例。</p><div className="mt-7 grid gap-4 md:grid-cols-3">{examples.map(item=><Link key={item.id} to={"/works/industry/"+item.id} className="group overflow-hidden rounded-2xl border border-[#e3ded3] transition hover:-translate-y-1 hover:shadow-lg"><div className={item.theme+" p-4"}><p className="text-xs font-black tracking-widest">{item.en}</p><div className="mt-3 overflow-hidden rounded-lg"><Art id={item.id}/></div><p className="mt-3 text-xl font-black">{item.headline}</p></div><div className="p-5"><p className="text-xs font-bold text-[#0d6b62]">{item.label} · 概念作品</p><h3 className="mt-2 text-lg font-black text-[#111c22]">{item.name}</h3><p className="mt-2 text-sm text-[#52605c]">{item.features.join("・")}</p><p className="mt-4 text-sm font-black text-[#0d6b62]">打開網站體驗 →</p></div></Link>)}</div></div></section>
+  return <section className="border-b border-[#e6e0d5] bg-white"><div className="mx-auto max-w-6xl px-4 py-14"><p className="text-xs font-black tracking-widest text-[#0d6b62]">WEBSITE COLLECTION / 原創概念作品</p><h2 className="mt-3 text-3xl font-black text-[#111c22]">看看你的店，可以長什麼樣</h2><p className="mt-3 text-sm leading-7 text-[#52605c]">依照不同產業設計的示範網站，可直接操作。非客戶委託案例。</p><div className="mt-7 grid gap-4 md:grid-cols-2"><InteriorFeature/>{examples.filter(item=>item.id!=="interior").map(item=><Link key={item.id} to={"/works/industry/"+item.id} className="group overflow-hidden rounded-2xl border border-[#e3ded3] transition hover:-translate-y-1 hover:shadow-lg"><div className={item.theme+" p-4"}><p className="text-xs font-black tracking-widest">{item.en}</p><div className="mt-3 overflow-hidden rounded-lg"><Art id={item.id}/></div><p className="mt-3 text-xl font-black">{item.headline}</p></div><div className="p-5"><p className="text-xs font-bold text-[#0d6b62]">{item.label} · 概念作品</p><h3 className="mt-2 text-lg font-black text-[#111c22]">{item.name}</h3><p className="mt-2 text-sm text-[#52605c]">{item.features.join("・")}</p><p className="mt-4 text-sm font-black text-[#0d6b62]">打開網站體驗 →</p></div></Link>)}</div></div></section>
 }
 
 function DemoBody({item}) {
@@ -30,6 +31,7 @@ function DemoBody({item}) {
 export default function IndustryDemo() {
   const {id}=useParams()
   const item=examples.find(x=>x.id===id)
+  if(id==="interior") return <InteriorFlagship/>
   if(!item) return <SiteLayout><div className="mx-auto max-w-6xl p-8"><Link to="/works">返回作品集</Link></div></SiteLayout>
   return <SiteLayout><Seo page={{path:"/works/industry/"+id,title:item.name+"｜Qingyu Web 原創概念作品",description:item.desc}}/><div className="border-b bg-white px-5 py-3 text-center text-xs font-bold text-[#52605c]">原創概念網站・虛構品牌・非客戶案例　<Link to="/works" className="underline">返回作品集</Link></div><DemoBody key={id} item={item}/></SiteLayout>
 }
