@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
 const StudioHome = lazy(() => import("./StudioHome"))
+const MaStudio = lazy(() => import("./site/InteriorFlagship"))
 const IndustryDemo = lazy(() => import("./site/IndustryShowcase"))
 const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
 const WorkDetailPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorkDetailPage })))
@@ -44,7 +45,8 @@ function App() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
-        <Route path="/" element={<StudioHome />} />
+        <Route path="/" element={<MaStudio />} />
+        <Route path="/studio-home" element={<StudioHome />} />
         <Route path="/works" element={<ProjectHub />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
