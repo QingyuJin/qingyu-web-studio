@@ -1,4 +1,4 @@
-import { Suspense, lazy } from "react"
+import { Suspense, lazy, useEffect } from "react"
 import { Navigate, Route, Routes } from "react-router-dom"
 import ProtectedRoute from "./ProtectedRoute"
 
@@ -42,11 +42,16 @@ function PageFallback() {
   )
 }
 
+function FinalReviewEntry() {
+  useEffect(() => { window.location.replace("/studio-final.html") }, [])
+  return <main className="grid min-h-screen place-items-center"><a href="/studio-final.html">開啟最終視覺驗收版</a></main>
+}
+
 function App() {
   return (
     <Suspense fallback={<PageFallback />}>
       <Routes>
-        <Route path="/" element={<StudioHome />} />
+        <Route path="/" element={<FinalReviewEntry />} />
         <Route path="/studio-home" element={<StudioHome />} />
         <Route path="/works/industry/interior" element={<MaStudio />} />
         <Route path="/works" element={<ProjectHub />} />
