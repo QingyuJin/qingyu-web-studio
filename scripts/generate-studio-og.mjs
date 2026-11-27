@@ -1,7 +1,7 @@
 import { mkdirSync, writeFileSync } from "node:fs"
 import { deflateSync } from "node:zlib"
 const W=1200,H=630,pix=Buffer.alloc(W*H*3)
-const ink=[17,19,16], lime=[213,255,84], paper=[244,243,237], soft=[157,170,140]
+const ink=[23,26,22], lime=[214,239,157], paper=[246,245,239], soft=[157,170,140]
 function dot(x,y,c,a=1){x=Math.round(x);y=Math.round(y);if(x<0||x>=W||y<0||y>=H)return;let i=(y*W+x)*3;for(let k=0;k<3;k++)pix[i+k]=Math.round(pix[i+k]*(1-a)+c[k]*a)}
 for(let y=0;y<H;y++)for(let x=0;x<W;x++){let i=(y*W+x)*3,g=Math.max(0,1-Math.hypot((x-940)/460,(y-315)/410));pix[i]=ink[0]+Math.round(17*g);pix[i+1]=ink[1]+Math.round(24*g);pix[i+2]=ink[2]+Math.round(7*g)}
 function line(x1,y1,x2,y2,c,width=1,a=1){let dx=x2-x1,dy=y2-y1,n=Math.max(1,Math.ceil(Math.hypot(dx,dy)*1.3)),r=width/2;for(let i=0;i<=n;i++){let x=x1+dx*i/n,y=y1+dy*i/n;for(let yy=Math.floor(y-r-1);yy<=Math.ceil(y+r+1);yy++)for(let xx=Math.floor(x-r-1);xx<=Math.ceil(x+r+1);xx++){let q=Math.max(0,Math.min(1,r+.6-Math.hypot(xx-x,yy-y)));if(q)dot(xx,yy,c,q*a)}}}
@@ -18,7 +18,7 @@ function text(s,x,y,h,c,weight=2,gap=.35){for(let ch of s){if(ch===" "){x+=h*.47
 text("INDEPENDENT DIGITAL STUDIO",72,65,13,soft,1.5,.26)
 text("QINGYU",72,190,91,paper,13,.24)
 text("STUDIO",72,310,91,lime,13,.24)
-text("DESIGN / DEVELOPMENT / AI",75,448,18,paper,2,.28)
+text("DESIGN   DEVELOPMENT   AI",75,448,18,paper,2,.28)
 line(72,519,620,519,soft,1,.38)
 text("QINGYUWEB.COM",72,548,15,soft,1.8,.28)
 line(72,115,128,115,lime,4,1)
