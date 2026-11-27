@@ -2,7 +2,7 @@
 import { Link } from "react-router-dom"
 import Seo from "./site/Seo"
 import SiteLayout from "./site/SiteLayout"
-import { IndustryGallery } from "./site/IndustryShowcase"
+import { FlagshipGallery } from "./site/PortfolioFlagships"
 
 const works = [
   {
@@ -288,7 +288,7 @@ function ProjectHub() {
         </div>
       </section>
 
-      <IndustryGallery />
+      <FlagshipGallery />
       <section className="sticky top-0 z-20 border-b border-[#e6e0d5] bg-white/92 backdrop-blur-md">
         <div className="mx-auto max-w-6xl px-4 py-4">
           <div className="flex flex-wrap items-center gap-4">
