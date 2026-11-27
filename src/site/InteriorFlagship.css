@@ -225,3 +225,26 @@
 .ma-faq{padding-top:55px;padding-bottom:55px}.ma-dialog-photo{aspect-ratio:4/3}
 }
 @media(prefers-reduced-motion:reduce){.ma-hero-copy h1 span{animation:none}}
+
+/* MA editorial refinement */
+.ma-site{--ma-paper:#f4f0e8;--ma-ink:#342e25;--ma-serif:"Noto Serif TC","Songti TC",serif;letter-spacing:.035em}
+.ma-photo>svg{display:block;width:100%;height:100%;position:absolute;inset:0;object-fit:cover}
+.ma-hero-image .ma-photo>svg{transform:scale(1.025);transform-origin:center;animation:ma-art-enter 1.4s cubic-bezier(.2,.75,.2,1) both}
+@keyframes ma-art-enter{from{transform:scale(1.07);opacity:.65}to{transform:scale(1.025);opacity:1}}
+.ma-hero-copy h1{font-weight:500;letter-spacing:.05em;line-height:1.35;font-size:clamp(57px,8vw,116px)}
+.ma-hero-copy p{font-weight:400;letter-spacing:.16em}
+.ma-section-heading h2,.ma-intro h2,.ma-manifesto h2,.ma-faq h2,.ma-footer h2,.ma-dialog-copy h2{font-weight:500;letter-spacing:.045em;line-height:1.45}
+.ma-section-heading p,.ma-intro p,.ma-manifesto p,.ma-project p,.ma-faq p,.ma-dialog-copy p{font-weight:400;line-height:2.05;letter-spacing:.055em}
+.ma-section-heading{gap:45px;margin-bottom:clamp(36px,5vw,75px)}
+.ma-project h3{font-weight:500;letter-spacing:.06em}
+.ma-project-open{overflow:hidden}.ma-project-open svg{transition:transform .8s cubic-bezier(.2,.75,.2,1)}
+.ma-project-open:hover svg{transform:scale(1.04)}
+.ma-credit{font-weight:400;letter-spacing:.065em}
+.ma-nav-cta{border-radius:40px!important;font-weight:500}
+.ma-strip{font-weight:400;letter-spacing:2.5px}
+.ma-primary{border-radius:3px;font-weight:500;letter-spacing:.07em}
+.ma-estimate .ma-calculator{gap:28px}
+.ma-hero-shade{background:linear-gradient(90deg,#181810b5 0%,#211e1760 45%,#24201705 85%),linear-gradient(0deg,#18181080,transparent 50%)}
+.ma-feature-title{letter-spacing:.04em}
+@media(max-width:720px){.ma-hero-copy h1{font-size:clamp(45px,12vw,77px);line-height:1.4}.ma-section-heading{gap:20px}.ma-hero-shade{background:linear-gradient(90deg,#242017a8,#24201736),linear-gradient(0deg,#18181070,transparent 60%)}}
+@media(prefers-reduced-motion:reduce){.ma-site *{animation:none!important;transition:none!important}}
