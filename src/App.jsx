@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
 const StudioHome = lazy(() => import("./StudioRebrand"))
+const PortfolioFlagship = lazy(() => import("./site/PortfolioFlagships"))
 const MaStudio = lazy(() => import("./site/InteriorFlagship"))
 const IndustryDemo = lazy(() => import("./site/IndustryShowcase"))
 const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
@@ -49,6 +50,8 @@ function App() {
         <Route path="/studio-home" element={<StudioHome />} />
         <Route path="/works/industry/interior" element={<MaStudio />} />
         <Route path="/works" element={<ProjectHub />} />
+        <Route path="/showcase/:id" element={<PortfolioFlagship />} />
+        <Route path="/works/industry/auto" element={<Navigate to="/showcase/gloss" replace />} />
         <Route path="/works/restaurant-ordering" element={<RestaurantOrdering />} />
         <Route path="/works/biomed-brand-site" element={<BiomedBrandSite />} />
         <Route path="/works/notion-brand-landing" element={<NotionBrandLanding />} />
