@@ -5,12 +5,6 @@ import { contact } from "./site/content"
 import "./StudioRebrand.css"
 import {FlagshipGallery} from "./site/PortfolioFlagships"
 
-const works = [
-  {id:"01",title:"間序 MA SPACE STUDIO",type:"品牌概念作品",desc:"以自然光與材質建立空間品牌的數位體驗",to:"/works/industry/interior",kind:"ma",tags:"品牌網站　互動體驗"},
-  {id:"02",title:"鑫匠工程",type:"真實上線案例",desc:"從品牌形象到詢價與案件管理的一站式服務",to:"/works/xinjiang",kind:"xin",tags:"品牌官網　詢價流程"},
-  {id:"03",title:"企業 AI 知識庫",type:"互動技術作品",desc:"讓企業文件成為可搜尋且附來源的知識工具",to:"/works/rag-consultant",kind:"ai",tags:"人工智慧　知識管理"},
-  {id:"04",title:"批發訂貨系統",type:"可操作系統",desc:"將訂貨出貨與對帳整合成清楚的工作流程",to:"/works/wholesale-ordering",kind:"sys",tags:"企業系統　流程整合"}
-]
 const services = [
   ["01","品牌網站與電商","Brand and commerce","讓品牌留下印象並讓購物與詢問更自然","/services"],
   ["02","企業系統與流程","Business systems","整合訂單預約與客戶資料減少重複工作","/works/wholesale-ordering"],
@@ -62,12 +56,6 @@ function Orbit(){
   return()=>{cancelAnimationFrame(frame);ro.disconnect();io.disconnect();reduce.removeEventListener("change",motion)}
  },[])
  return <div className="sr-orbit" aria-hidden="true"><div className="sr-orbit-halo"/><canvas ref={canvas}/><span className="sr-orbit-index">FORM IN MOTION</span><span className="sr-orbit-caption">A STUDY IN DIGITAL CRAFT</span></div>
-}
-function WorkVisual({kind}){
- if(kind==="ma")return <div className="sr-cover sr-ma"><div className="sr-ma-scene"><div className="sr-ma-window"/><div className="sr-ma-wall"/><div className="sr-ma-bench"/><div className="sr-ma-table"/></div><img className="sr-ma-photo" src="https://images.unsplash.com/photo-1771371097061-3befd4b71b59?auto=format&fit=crop&w=1800&q=82" alt="" loading="lazy" onError={e=>{e.currentTarget.style.display="none"}}/><div className="sr-ma-type"><small>MA SPACE STUDIO</small><strong>讓光<br/>成為空間</strong><span>DESIGN FOR EVERYDAY LIFE</span></div><span className="sr-visual-label">概念攝影 GoodLifeConstruction</span></div>
- if(kind==="xin")return <div className="sr-cover sr-xin"><span className="sr-visual-label">案例視覺示意</span><div className="sr-architecture"><i/><i/><i/><i/><i/></div><img className="sr-xin-photo" src="/project-photos/335941_0.jpg" alt="" loading="lazy"/><div className="sr-xin-type"><small>XINJIANG CONSTRUCTION</small><strong>鑫匠<span>工程</span></strong><p>用專業築起每一份信任</p></div></div>
- if(kind==="ai")return <div className="sr-cover sr-ai"><span className="sr-visual-label">介面概念</span><div className="sr-mock"><div className="sr-mock-top"><span>✳ KNOWLEDGE</span><i>AI WORKSPACE</i></div><div className="sr-chat"><span>企業文件智慧問答</span><b>查詢公司內部流程</b><div className="sr-chat-answer"><i/>依據知識庫文件整理相關資訊與來源</div><div className="sr-sources"><span>▤ 文件來源 01</span><span>▤ 文件來源 02</span></div></div></div></div>
- return <div className="sr-cover sr-system"><span className="sr-visual-label">介面概念</span><div className="sr-mock"><div className="sr-mock-top"><span>◈ ORDER SYSTEM</span><i>BUSINESS OPERATIONS</i></div><div className="sr-board"><div><small>訂單管理</small><b>Orders</b><span>▤ 待處理　　→</span><span>▤ 已確認　　→</span><span>▤ 出貨中　　→</span></div><div className="sr-bars">{[36,63,48,82,66,95,76].map((h,i)=><i key={i} style={{height:h+"%"}}/>)}</div></div></div></div>
 }
 export default function StudioRebrand(){
  const [menu,setMenu]=useState(false)
