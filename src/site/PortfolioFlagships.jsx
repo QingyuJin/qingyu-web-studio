@@ -26,7 +26,35 @@ function saveFile(name,content,type="text/plain"){
 }
 const csvCell=x=>'"'+String(x??"").replaceAll('"','""')+'"'
 function exportRows(name,rows){saveFile(name,"\ufeff"+rows.map(row=>row.map(csvCell).join(",")).join("\n"),"text/csv")}
-function Car({clean=true}){const gradient=useId();return <svg viewBox="0 0 800 390" className="pf-car" aria-label={clean?"光澤車體原創插圖":"暗淡車體原創插圖"} role="img"><defs><linearGradient id={gradient} x2="0" y2="1"><stop stopColor={clean?"#b2d3e7":"#65727b"}/><stop offset=".47" stopColor={clean?"#3a566b":"#424c53"}/><stop offset=".54" stopColor={clean?"#d2e7ef":"#73787b"}/><stop offset="1" stopColor="#16212b"/></linearGradient></defs><ellipse cx="400" cy="322" rx="340" ry="37" fill="#05090d"/><path d="M75 260 L100 220 212 198 294 110 Q400 80 524 116 L620 205 711 229 740 270 728 309 75 309Z" fill={"url(#"+gradient+")"} stroke="#7b92a2" strokeWidth="2"/><path d="M239 199 L311 129 Q397 108 512 132 L590 199Z" fill="#111e29" stroke="#7a9bad" strokeWidth="2"/><path d="M400 120V199M112 242L688 242M300 203L291 275M548 204L565 277" fill="none" stroke="#a0b6c5" strokeOpacity={clean?.48:.18}/><path d="M87 249h80m467 0h79" stroke={clean?"#d9f6ff":"#8c9399"} strokeWidth="8"/>{[190,616].map(x=><g key={x}><circle cx={x} cy="306" r="58" fill="#11171d" stroke="#52616c" strokeWidth="5"/><circle cx={x} cy="306" r="35" fill="#344653" stroke="#b3c3ce" strokeWidth="5"/>{[0,60,120].map(a=><path key={a} d={"M"+(x-29)+" 306h58"} transform={"rotate("+a+" "+x+" 306)"} stroke="#bccbd5" strokeWidth="5"/>)}<circle cx={x} cy="306" r="9" fill="#1b252d"/></g>)}{!clean&&Array.from({length:25},(_,i)=><path key={i} d={"M"+(110+i*21)+" "+(250+(i%4)*8)+"l38 -12"} stroke="#b8bab7" strokeOpacity=".35" strokeWidth="1"/>)}</svg>}
+function Car({clean=true}){
+ const id=useId()
+ const metal=clean?["#e6f1f8","#91acbf","#354b5e","#b7cfda","#263b4b"]:["#8b979c","#69747a","#424b52","#82898c","#30383d"]
+ return <svg viewBox="0 0 960 480" className="pf-car" role="img" aria-label={clean?"光澤車體原創插畫":"養護前車體原創插畫"}><defs>
+ <linearGradient id={id+"body"} x2="0" y2="1"><stop stopColor={metal[0]}/><stop offset=".22" stopColor={metal[1]}/><stop offset=".47" stopColor={metal[2]}/><stop offset=".53" stopColor={metal[3]}/><stop offset=".85" stopColor={metal[4]}/><stop offset="1" stopColor="#131b23"/></linearGradient>
+ <linearGradient id={id+"glass"} x2=".3" y2="1"><stop stopColor="#9aaeba"/><stop offset=".28" stopColor="#38536b"/><stop offset="1" stopColor="#101b25"/></linearGradient>
+ <radialGradient id={id+"rim"}><stop stopColor="#d2dbe0"/><stop offset=".42" stopColor="#566471"/><stop offset=".78" stopColor="#26343e"/><stop offset=".84" stopColor="#d1d9dd"/><stop offset="1" stopColor="#697a85"/></radialGradient>
+ <linearGradient id={id+"light"}><stop stopColor="#a8d8ee"/><stop offset=".5" stopColor="#f5fbff"/><stop offset="1" stopColor="#82bfd6"/></linearGradient>
+ <filter id={id+"blur"}><feGaussianBlur stdDeviation="13"/></filter>
+ </defs>
+ <ellipse cx="478" cy="399" rx="405" ry="45" fill="#060a0e" opacity=".75" filter={"url(#"+id+"blur)"}/><ellipse cx="480" cy="410" rx="380" ry="17" fill="#9ec9e2" opacity={clean?.13:.04}/>
+ <path d="M53 325Q61 290 91 276L225 236Q273 222 314 184L378 127Q406 105 456 105L548 105Q589 105 628 128L718 199Q745 218 791 234L870 265Q902 278 909 321L896 367 62 367Z" fill={"url(#"+id+"body)"} stroke={clean?"#9fb6c6":"#66757e"} strokeWidth="1.8"/>
+ <path d="M278 222L395 135Q421 121 458 121H548Q579 121 608 140L690 212Z" fill={"url(#"+id+"glass)"} stroke="#9cadba" strokeWidth="2"/>
+ <path d="M479 122L465 217M596 134L624 214M298 211L686 211" fill="none" stroke="#18232e" strokeWidth="8"/>
+ <path d="M319 202L402 142Q425 130 451 130H548Q584 129 608 148L656 188" fill="none" stroke="#c9e0eb" strokeWidth="1.7" opacity=".54"/>
+ <path d="M89 276Q214 247 292 242L710 235Q810 243 871 271" fill="none" stroke={metal[0]} strokeWidth="3.8" opacity={clean?.9:.24}/>
+ <path d="M89 290Q217 270 347 277T682 265L870 286" fill="none" stroke="#e9f5fc" strokeWidth="1.8" opacity={clean?.5:.12}/>
+ <path d="M318 227L302 273 315 337H658L686 270 666 218M482 226V337" fill="none" stroke="#172630" strokeWidth="2.6" opacity=".9"/>
+ <path d="M401 248h42M572 246h40" stroke="#dce8ef" strokeOpacity={clean?.75:.3} strokeWidth="4" strokeLinecap="round"/>
+ <path d="M280 228L316 220 332 230 316 244H286Z" fill={metal[1]} stroke="#17242d"/>
+ <path d="M674 222L711 221 732 231 711 240 676 234Z" fill={metal[2]}/>
+ <path d="M75 301L133 287 180 288 164 307 77 318Z" fill="#101b24"/><path d="M78 302L137 289H170" fill="none" stroke={"url(#"+id+"light)"} strokeWidth={clean?6:3} opacity={clean?1:.55}/>
+ <path d="M813 270L872 281 895 296 831 291Z" fill="#451e23"/><path d="M819 273L870 284 889 294" fill="none" stroke="#df8584" strokeWidth="4" opacity=".85"/>
+ <path d="M62 346H157L169 362H59ZM802 343H900L896 363H796Z" fill="#111b23"/>
+ <path d="M263 354Q471 369 690 353L682 368H270Z" fill="#18242d"/><path d="M281 349H679" stroke="#a2b8c7" strokeWidth="2" opacity={clean?.75:.22}/>
+ {[210,747].map((x)=><g key={x}><path d={"M"+(x-77)+" 361 A77 77 0 0 1 "+(x+77)+" 361V369H"+(x-77)+"Z"} fill="#111923" stroke="#3b4b58" strokeWidth="2"/><circle cx={x} cy="365" r="68" fill="#151b20" stroke="#26333d" strokeWidth="5"/><circle cx={x} cy="365" r="55" fill="#070c10" stroke="#6b7c89" strokeWidth="2"/><circle cx={x} cy="365" r="48" fill={"url(#"+id+"rim)"}/><circle cx={x} cy="365" r="38" fill="#283743"/>{Array.from({length:10},(_,i)=><path key={i} d={"M"+(x-4)+" 355L"+(x-8)+" 322H"+(x+4)+"L"+(x+7)+" 353Z"} transform={"rotate("+(i*36)+" "+x+" 365)"} fill={clean?"#b4c4d0":"#77848d"} stroke="#35444f" strokeWidth="1"/>)}<circle cx={x} cy="365" r="13" fill="#536572" stroke="#c1ccd3" strokeWidth="3"/><circle cx={x} cy="365" r="5" fill="#243541"/></g>)}
+ {!clean&&Array.from({length:35},(_,i)=><path key={i} d={"M"+(100+(i*71)%750)+" "+(285+(i*19)%51)+"l"+(12+i%5*5)+" -8"} stroke="#b7b9b5" strokeOpacity=".24" strokeWidth=".9"/>)}
+ </svg>
+}
 function Cover({item,hero=false}){
  return <div className={"pf-cover pf-cover-"+item.tone+(hero?" pf-cover-hero":"")}><div className="pf-cover-art">
  {item.id==="ma"?<SpaceIllustration/>:item.id==="gloss"?<><div className="pv-car-halo"/><div className="pv-car-lines"/><Car/></>:item.id==="qingyu-ai"?<ProductScreen type="ai"/>:item.id==="floworder"?<ProductScreen type="flow"/>:item.id==="tableflow"?<DiningArt/>:<img src={item.image} alt="" loading={hero?"eager":"lazy"} decoding="async"/>}</div>
