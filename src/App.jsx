@@ -4,6 +4,7 @@ import ProtectedRoute from "./ProtectedRoute"
 
 const ProjectHub = lazy(() => import("./ProjectHub"))
 const StudioHome = lazy(() => import("./StudioHome"))
+const IndustryDemo = lazy(() => import("./site/IndustryShowcase"))
 const WorksPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorksPage })))
 const WorkDetailPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.WorkDetailPage })))
 const ServicesPage = lazy(() => import("./site/Pages").then((module) => ({ default: module.ServicesPage })))
@@ -60,6 +61,7 @@ function App() {
         <Route path="/works/rag-consultant" element={<WorkDetailPageRag />} />
         <Route path="/works/analytics-dashboard" element={<WorkDetailPageAnalytics />} />
         <Route path="/works/beauty-shopline-preview" element={<BeautyShoplinePreview />} />
+        <Route path="/works/industry/:id" element={<IndustryDemo />} />
         <Route path="/works/:slug" element={<WorkDetailPage />} />
         <Route path="/lab" element={<WorksPage />} />
         <Route path="/services" element={<ServicesPage />} />
